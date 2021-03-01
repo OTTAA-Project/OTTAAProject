@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <PreferenceCategory
+        android:title="@string/pref_editar"
+        android:key="category_7">
+
+        <SwitchPreference
+            android:key="@string/str_editar_picto"
+            android:title="@string/pref_editar"
+            android:summary="@string/pref_summary_editar"
+            android:defaultValue="true" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/pref_agenda"
+        android:key="category_4">
+
+        <SwitchPreference
+            android:key="@string/bool_calendario"
+            android:title="@string/pref_text_agenda"
+            android:summary="@string/pref_summary_agenda"
+            android:defaultValue="false" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/pref_ubicacion"
+        android:key="category_5">
+
+        <SwitchPreference
+            android:key="bool_ubicacion"
+            android:title="@string/pref_ubicacion"
+            android:summary="@string/pref_summary_ubicacion"
+            android:defaultValue="false" />
+
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:title="@string/pref_barrido"
+        android:key="category_6">
+
+        <SwitchPreference
+            android:key="bool_barrido"
+            android:title="@string/pref_barrido"
+            android:summary="@string/pref_summary_barrido"
+            android:defaultValue="false" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/pref_header_tts"
+        android:key="category_2">
+
+        <SwitchPreference
+            android:key="@string/bool_TTS"
+            android:title="@string/pref_text_tts"
+            android:summary="@string/pref_example_presentacion"
+            android:defaultValue="false" />
+
+        <com.stonefacesoft.ottaa.NumberPickerPreference
+            android:dependency="@string/bool_TTS"
+            android:key="velocidad_tts"
+            android:title="@string/pref_option1_tts"
+            android:defaultValue="1" />
+
+        <com.stonefacesoft.ottaa.NumberPickerPreference
+            android:dependency="@string/bool_TTS"
+            android:key="pitch_tts"
+            android:title="@string/pref_option2_tts"
+            android:defaultValue="2"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/pref_header_subtitulo"
+        android:key="category_3">
+
+        <SwitchPreference
+            android:key="@string/bool_subtitulo"
+            android:title="@string/pref_text_subtitulo"
+            android:summary="@string/pref_summary_subtitulo"
+            android:defaultValue="false" />
+
+        <ListPreference
+            android:dependency="@string/bool_subtitulo"
+            android:key="subtitulo_tamanio"
+            android:title="@string/pref_subtitulo_tamanio"
+            android:entries="@array/pref_subtitulos_tamanio_nombres"
+            android:entryValues="@array/pref_subtitulos_tamanio_valores"
+            android:defaultValue="25"
+            android:negativeButtonText="@null"
+            android:positiveButtonText="@null"/>
+
+        <SwitchPreference
+            android:dependency="@string/bool_subtitulo"
+            android:key="@string/bool_subtitulo_mayuscula"
+            android:title="@string/pref_subtitulo_mayuscula"
+            android:summary="@string/pref_subtitulo_mayuscula_summary"
+            android:defaultValue="false" />
+    </PreferenceCategory>
+
+
+    <PreferenceCategory
+        android:title="@string/pref_idioma"
+        android:key="category_8">
+
+        <ListPreference
+            android:dependency="@string/str_idioma"
+            android:key="idioma"
+            android:title="@string/pref_idioma"
+            android:entries="@array/pref_idiomas"
+            android:entryValues="@array/pref_idiomas_valores"
+            android:defaultValue="en"
+            android:negativeButtonText="@null"
+            android:positiveButtonText="@null"/>
+
+            <SwitchPreference
+                android:key="@string/mBoolModoExperimental"
+                android:title="@string/pref_experimental"
+                android:summary="@string/pref_summary_experimental"
+                android:defaultValue="false" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/pref_header_presentacion"
+        android:key="category_1">
+
+        <SwitchPreference
+            android:key="@string/bool_presentacion"
+            android:title="@string/pref_text_presentacion"
+            android:hint="HOLI"
+            android:defaultValue="false" />
+
+        <EditTextPreference
+            android:dependency="@string/bool_presentacion"
+            android:key="@string/str_presentacion"
+            android:title="@string/pref_title_presentacion"
+            android:defaultValue="@string/pref_example_presentacion" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/generar_infor">
+        <Preference
+            android:title="@string/generar_infor"
+            android:key="@string/generar_infor">
+        </Preference>
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/pref_header_tutorial">
+        <Preference
+            android:title="@string/pref_title_tutorial"
+            android:summary="@string/pref_summary_tutorial"
+            android:key="@string/pref_header_tutorial">
+        </Preference>
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/pref_header_cerrar_sesion2">
+
+        <Preference
+            android:title="@string/pref_header_cerrar_sesion"
+            android:key="@string/pref_header_cerrar_sesion">
+        </Preference>
+    </PreferenceCategory>
+
+</PreferenceScreen>

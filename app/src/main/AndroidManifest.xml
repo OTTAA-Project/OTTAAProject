@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.stonefacesoft.ottaa">
+
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true" />
+
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!-- <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" /> -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="28" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_CALENDAR" />
+    <uses-permission android:name="android.permission.WRITE_CALENDAR" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.USE_CREDENTIALS" /> <!-- To auto-complete the email text field in the login form with the user's emails -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.READ_PROFILE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+
+    <application
+        android:name=".AnalyticsApplication"
+        android:allowBackup="true"
+        android:configChanges="orientation|keyboardHidden|screenSize"
+        android:fullBackupContent="@xml/backup_descriptor"
+        android:hardwareAccelerated="false"
+        android:icon="@drawable/ic_launcher"
+        android:installLocation="auto"
+        android:label="@string/app_name"
+        android:largeHeap="true"
+        android:requestLegacyExternalStorage="true"
+        android:screenOrientation="sensorLandscape"
+        android:supportsRtl="true"
+        android:theme="@style/CustomActionBarTheme"
+        android:usesCleartextTraffic="true">
+        <activity
+            android:name=".ActivityInformes"
+            android:label="@string/title_activity_informes"
+            android:theme="@style/CustomActionBarTheme.NoActionBar" />
+
+        <uses-library android:name="android.test.runner"
+            android:required="false" />
+        <uses-library android:name="android.test.base"
+            android:required="false" />
+        <uses-library android:name="android.test.mock"
+            android:required="false" />
+
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
+        <meta-data
+            android:name="com.facebook.sdk.AutoLogAppEventsEnabled"
+            android:value="false" />
+        <meta-data
+            android:name="com.facebook.sdk.CodelessDebugLogEnabled"
+            android:value="true" />
+
+        <activity
+            android:name="com.facebook.FacebookActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:label="@string/app_name" />
+        <activity
+            android:name=".MainJuegos"
+            android:label="@string/title_activity_main_juegos"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@style/CustomActionBarTheme.NoActionBar" />
+        <activity
+            android:name=".welcome.SplashActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="sensorLandscape">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!--
+     Set custom default icon. This is used when no icon is set for incoming notification messages.
+     See README(https://goo.gl/l4GJaQ) for more.
+        -->
+        <!-- <meta-data -->
+        <!-- android:name="com.google.firebase.messaging.default_notification_icon" -->
+        <!-- android:resource="@drawable/icono_blanco"/> -->
+        <!--
+             Set color used with incoming notification messages. This is used when no color is set for the incoming
+             notification message. See README(https://goo.gl/6BKBk7) for more.
+        -->
+        <activity
+            android:name=".Principal"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:icon="@drawable/ic_launcher"
+            android:label="@string/app_name"
+            android:screenOrientation="sensorLandscape" />
+        <!--
+             Set color used with incoming notification messages. This is used when no color is set for the incoming
+             notification message. See README(https://goo.gl/6BKBk7) for more.
+        -->
+        <activity
+            android:name=".prefs"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_configuracion"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@android:style/Theme.Holo.Light" />
+        <activity
+            android:name=".LoginActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_login"
+            android:screenOrientation="sensorLandscape" />
+        <activity
+            android:name=".GaleriaArasaac"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_galeria_pictos"
+            android:screenOrientation="sensorLandscape" />
+        <activity
+            android:name=".Viewpagers.Viewpager_tutorial"
+            android:label="@string/activity_calendario"
+            android:screenOrientation="sensorLandscape" /> <!-- Referencias de campañas de MKT -->
+        <!-- Used for Google Play Store Campaign Measurement -->
+        <!-- <service -->
+        <!-- android:name="com.google.android.gms.analytics.CampaignTrackingService" -->
+        <!-- android:enabled="true" -->
+        <!-- android:exported="false"/> -->
+        <activity
+            android:name=".Edit_Picto_Visual"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_editar"
+            android:screenOrientation="sensorLandscape" /> <!-- GEOFE -->
+        <activity
+            android:name=".LicenciaExpirada"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_licencia_expirada"
+            android:screenOrientation="sensorLandscape" />
+        <activity
+            android:name=".Games.WhichIsThePicto"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_licencia_expirada"
+            android:screenOrientation="sensorLandscape" />
+
+        <activity
+            android:name=".GaleriaGrupos2"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_galeria_grupos2"
+            android:screenOrientation="sensorLandscape" />
+        <activity
+            android:name=".GaleriaPictos3"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="fullSensor" />
+        <activity
+            android:name=".utils.AboutOttaa"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_about_ottaa"
+            android:screenOrientation="sensorLandscape" />
+        <activity
+            android:name=".Games.MatchPictograms"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="sensorLandscape" />
+        <activity
+            android:name=".Games.GameSelector"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="sensorLandscape" />
+        <activity
+            android:name=".Games.DescribirPictograma"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="sensorLandscape" />
+        <activity
+            android:name=".Games.ArmarFrases"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="sensorLandscape" />
+        <activity
+            android:name=".VincularFrases"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="sensorLandscape"
+            />
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_icon"
+            android:resource="@drawable/logo_ottaa_dev" /> <!-- GEOFE -->
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_color"
+            android:resource="@color/NaranjaOTTAA" />
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_channel_id"
+            android:value="@string/channel_notification_id" />
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/places_api_key" />
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="@string/fabric_api_key" />
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.example.android.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
+        <service android:name=".utils.Firebase.MyFirebaseMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+        <service
+            android:name=".LocationService"
+            android:enabled="true"
+            android:exported="false" />
+
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
+    </application>
+
+</manifest>

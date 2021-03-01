@@ -1,0 +1,122 @@
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="500dp"
+    android:layout_height="250dp"
+    android:background="@color/White"
+    android:orientation="vertical"
+    app:cardCornerRadius="25dp">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorTransparent"
+        android:orientation="vertical">
+
+
+        <TextView
+            android:id="@+id/titulo"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/botones"
+            app:layout_constraintVertical_weight="2"
+            android:background="@drawable/dialog_shape_text"
+            android:text="@string/action_share"
+            android:textColor="@color/White"
+            android:textAlignment="center"
+            android:gravity="center"
+            android:textSize="@dimen/textSizeTitulo" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/titulo"
+            app:layout_constraintVertical_weight="8"
+            android:layout_marginBottom="@dimen/seleccion_margin"
+            android:id="@+id/botones">
+
+            <ImageButton
+                android:id="@+id/Camara"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@color/colorTransparent"
+                android:scaleType="centerInside"
+                android:src="@drawable/share_audio"
+                android:tint="@color/NaranjaOTTAA"
+                app:layout_constraintBottom_toTopOf="@id/textAudio"
+                app:layout_constraintEnd_toStartOf="@id/Galeria"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textAudio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/audio_compartir"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/Camara"
+                app:layout_constraintTop_toBottomOf="@id/Camara"
+                app:layout_constraintStart_toStartOf="@id/Camara" />
+
+            <ImageButton
+                android:id="@+id/Galeria"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@color/colorTransparent"
+                android:scaleType="centerInside"
+                android:src="@drawable/share_image"
+                app:layout_constraintBottom_toTopOf="@id/textImagen"
+                app:layout_constraintEnd_toStartOf="@id/Texto"
+                app:layout_constraintStart_toEndOf="@id/Camara"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textImagen"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/compartir_imagen"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/Galeria"
+                app:layout_constraintTop_toBottomOf="@id/Galeria"
+                app:layout_constraintStart_toStartOf="@id/Galeria" />
+
+            <ImageButton
+                android:id="@+id/Texto"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@color/colorTransparent"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_text_format_black_24dp"
+                app:layout_constraintBottom_toTopOf="@id/textoCompartir"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/Galeria"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textoCompartir"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Texto"
+                android:gravity="center"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/Texto"
+                app:layout_constraintStart_toStartOf="@id/Texto"
+                app:layout_constraintTop_toBottomOf="@id/Texto" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.cardview.widget.CardView>

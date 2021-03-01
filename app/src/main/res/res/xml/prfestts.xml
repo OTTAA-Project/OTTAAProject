@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <SwitchPreference
+        android:key="tts_checkbox"
+        android:title="Habilitar TTS personalizado"
+        android:summary="Permite obtener una voz personalizada por usuario."
+        android:defaultValue="false" />
+
+    <EditTextPreference
+        android:dependency="tts_checkbox"
+        android:key="velocidad_tts"
+        android:title="Velocidad de voz (0..10)"
+        android:defaultValue="1"
+        android:selectAllOnFocus="true"
+        android:inputType="numberDecimal"
+        android:singleLine="true" />
+
+    <EditTextPreference
+        android:dependency="tts_checkbox"
+        android:key="pitch_tts"
+        android:title="Tono de la voz (0..4)"
+        android:defaultValue="1"
+        android:selectAllOnFocus="true"
+        android:inputType="numberDecimal"
+        android:singleLine="true" />
+
+</PreferenceScreen>

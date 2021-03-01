@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/notiGameConstraintLayout"
+    android:background="@color/FondoApp">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/NaranjaOTTAA"
+        android:titleTextAppearance="@color/White"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintSeleccion"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <TextView
+            android:id="@+id/SeleccioneEste"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:text="@string/whichpictogram"
+            android:textColor="@color/White"
+            android:textSize="25sp"
+            android:gravity="center"
+            app:layout_constraintBottom_toBottomOf="@id/Seleccion1"
+            app:layout_constraintEnd_toStartOf="@id/ttsJuego"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <ImageButton
+            android:id="@+id/ttsJuego"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_toEndOf="@+id/SeleccioneEste"
+            android:background="@color/colorTransparent"
+            android:contentDescription="Touch to read outloud"
+            android:scaleType="fitCenter"
+            android:src="@drawable/icono_ottaa"
+            android:layout_margin="@dimen/small_margin"
+            app:layout_constraintBottom_toBottomOf="@id/Seleccion1"
+            app:layout_constraintDimensionRatio="h,1:1"
+            app:layout_constraintEnd_toStartOf="@+id/Seleccion1"
+            app:layout_constraintStart_toEndOf="@id/SeleccioneEste"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <com.stonefacesoft.ottaa.Custom_Picto
+            android:id="@+id/Seleccion1"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:longClickable="true"
+            android:padding="2dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/amistad"
+            android:layout_margin="@dimen/small_margin"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/Option1"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintHorizontal_bias="0.60"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_weight="2" />
+
+
+
+
+
+
+
+
+        <com.stonefacesoft.ottaa.Custom_Picto
+            android:id="@+id/Option1"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:padding="5dp"
+            custom:Imagen="2"
+            custom:Texto="Hola"
+            android:layout_marginTop="@dimen/activity_horizontal_margin"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:layout_marginEnd="@dimen/interpicto_margin"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/Option2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/Seleccion1"
+            app:layout_constraintVertical_weight="4">
+        </com.stonefacesoft.ottaa.Custom_Picto>
+
+        <com.stonefacesoft.ottaa.Custom_Picto
+            android:id="@+id/Option2"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:padding="5dp"
+            custom:Imagen="2"
+            custom:Texto="Hola"
+            android:layout_marginStart="@dimen/interpicto_margin"
+            android:layout_marginEnd="@dimen/interpicto_margin"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/Option3"
+            app:layout_constraintStart_toEndOf="@id/Option1"
+            app:layout_constraintTop_toTopOf="@id/Option1">
+        </com.stonefacesoft.ottaa.Custom_Picto>
+
+        <com.stonefacesoft.ottaa.Custom_Picto
+            android:id="@+id/Option3"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:padding="5dp"
+            custom:Imagen="2"
+            custom:Texto="Hola"
+            android:layout_marginStart="@dimen/interpicto_margin"
+            android:layout_marginEnd="@dimen/interpicto_margin"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/Option4"
+            app:layout_constraintStart_toEndOf="@id/Option2"
+            app:layout_constraintTop_toTopOf="@id/Option1">
+        </com.stonefacesoft.ottaa.Custom_Picto>
+
+        <com.stonefacesoft.ottaa.Custom_Picto
+            android:id="@+id/Option4"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:padding="5dp"
+            custom:Imagen="2"
+            custom:Texto="Hola"
+            android:layout_marginStart="@dimen/interpicto_margin"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin"
+            custom:layout_constraintBottom_toBottomOf="parent"
+            custom:layout_constraintEnd_toEndOf="parent"
+            custom:layout_constraintStart_toEndOf="@id/Option3"
+            custom:layout_constraintTop_toTopOf="@id/Option1">
+        </com.stonefacesoft.ottaa.Custom_Picto>
+
+        <ImageView
+            android:id="@+id/ganarImagen"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:src="@drawable/checkjuego"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/Option1"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <Button
+        android:id="@+id/btnBarrido"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@android:color/transparent"
+        android:visibility="gone"
+        custom:layout_constraintBottom_toBottomOf="parent"
+        custom:layout_constraintEnd_toEndOf="parent"
+        custom:layout_constraintStart_toStartOf="parent"
+        custom:layout_constraintTop_toBottomOf="@id/toolbar" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:layout_width="@dimen/sizeScreenScanningFloattingButtonIconMax"
+        android:layout_height="@dimen/sizeScreenScanningFloattingButtonIconMax"
+        android:visibility="gone"
+        android:id="@+id/floatting_button"
+        android:src="@drawable/ic_touch_app_black_24dp"
+        app:maxImageSize="@dimen/sizeFloattingButtonIconMax"
+        android:backgroundTint="@color/color_blue_transparent"
+        app:backgroundTint="@color/Black"
+        app:borderWidth="2dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

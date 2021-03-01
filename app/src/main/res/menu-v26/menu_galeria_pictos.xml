@@ -1,0 +1,51 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:mContext="com.stonefacesoft.ottaa.GaleriaPictos">
+    <item android:id="@+id/action_settings" android:title="@string/action_settings"
+        android:orderInCategory="100" app:showAsAction="never" />
+
+
+    <!--TODO GONZA extraer el resource y traducirTexto-->
+    <item
+        android:id="@+id/order_items"
+        android:icon="@drawable/ic_baseline_reorder_white_24"
+        android:title="cambiar vista"
+        android:actionViewClass="android.widget.ImageButton"
+        app:showAsAction="always"
+        />
+    <item
+        android:id="@+id/tipe_view"
+        android:icon="@drawable/ic_baseline_apps_white_24"
+        android:title="cambiar vista"
+        android:actionViewClass="android.widget.ImageButton"
+        app:showAsAction="always"
+        />
+    <item android:id="@+id/nuevo"
+          android:icon="@drawable/zic_add_circle_outline_white_24dp"
+          android:title="Agregar Nuevo"
+          android:actionViewClass="android.widget.ImageButton"
+          app:showAsAction="always"/>
+    <item android:id="@+id/bajarFotos"
+        android:icon="@drawable/ic_cloud_download_black_48dp"
+        android:title="Bajar Foto"
+        android:iconTint="@color/White"
+        android:actionViewClass="android.widget.ImageButton"
+        app:showAsAction="always"/>
+    <item android:id="@+id/vincular"
+          android:icon="@drawable/ic_queue"
+          android:title="Vincular"
+          app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/action_search"
+        android:title="Search"
+        android:icon="@drawable/ic_search"
+        android:iconifiedByDefault="true"
+        app:showAsAction="always"
+        app:actionViewClass="androidx.appcompat.widget.SearchView" />
+
+
+
+
+</menu>

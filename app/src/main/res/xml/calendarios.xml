@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <CheckBoxPreference
+        android:key="calendario_checkbox"
+        android:title="Habilitar acceso al calendario"
+        android:summary="Brinda una personalización de los Pictos ofrecidos según la agenda diaria."
+        android:defaultValue="false" />
+
+    <ListPreference
+        android:dependency="calendario_checkbox"
+        android:key="calendario"
+        android:title="@string/pref_subtitulo_tamanio"
+        android:entries="@array/pref_subtitulos_tamanio_nombres"
+        android:entryValues="@array/pref_subtitulos_tamanio_valores"
+        android:defaultValue="2"
+        android:negativeButtonText="@null"
+        android:positiveButtonText="@null"/>
+
+</PreferenceScreen>

@@ -1,0 +1,15 @@
+<preference-headers xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <header
+        android:fragment="com.stonefacesoftware.ottaa.prefs$PresentacionFragment"
+        android:title="@string/pref_header_presentacion" />
+
+    <header
+        android:fragment="com.stonefacesoftware.pruebasettings.SettingsActivity$NotificationPreferenceFragment"
+        android:title="@string/pref_header_tts" />
+
+    <header
+        android:fragment="com.stonefacesoftware.pruebasettings.SettingsActivity$DataSyncPreferenceFragment"
+        android:title="@string/pref_header_subtitulo" />
+
+</preference-headers>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:yourapp="http://schemas.android.com/apk/res-auto" >
+
+        <!-- Search, should appear as action button -->
+    <item
+        android:id="@+id/ubic"
+        android:icon="@drawable/ic_location_on_white_24dp"
+        android:title="@string/location"
+        android:visible="true"
+        yourapp:showAsAction="always|withText" />
+        <item android:id="@+id/action_parar"
+            android:icon="@drawable/ic_volume_off_white_24dp"
+            android:title="@string/action_parar"
+            yourapp:showAsAction="always"/>
+
+        <item android:id="@+id/action_settings"
+            android:icon="@drawable/ic_settings_black_24dp"
+            android:title=" Settings"
+            yourapp:showAsAction="always" />
+
+</menu>

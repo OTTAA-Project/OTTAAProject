@@ -1,0 +1,41 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/FondoApp">
+
+
+    <TextView
+        android:id="@+id/txtViewCantUsuarios"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:textSize="20sp"
+        android:text="Usuario activos:"/>
+
+
+    <SearchView
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/txtViewCantUsuarios"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="15dp"
+        android:elevation="15dp"
+        android:id="@+id/SearchViewUsuario"
+        android:queryHint="Busque un usuario"/>
+
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/listViewUsuarios"
+        android:layout_below="@+id/SearchViewUsuario"
+        android:layout_marginTop="15dp">
+
+    </ListView>
+</RelativeLayout>

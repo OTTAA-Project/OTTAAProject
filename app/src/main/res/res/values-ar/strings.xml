@@ -1,0 +1,317 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="hello_world">مرحبا بالعالم!</string>
+    <string name="action_share">شارك</string>
+    <string name="pref_login">الاشتراك عن طريق النقر على زر تسجيل الدخول. شكرا لك على الاختيار\n         مشروع أوتا.</string>
+    <string name="pref_login_tu_sub">انتهى اشتراكك</string>
+    <string name="pref_login_tu_sub_2">لتجديد الترخيص الخاص بك يرجى الاتصال بنا.</string>
+    <string name="pref_login_autentificando">جار المصادقة ...</string>
+    <string name="pref_login_semana">لقد بدأت الفترة التجريبية للتو. شكرا لاختيارك مشروع أوتا.</string>
+    <string name="pref_login_lo_sentimos">آسف، لأول استخدام تحتاج إلى أن تكون متصلا بالإنترنت. نتأسف لهذا الإزعاج.</string>
+    <string name="pref_cargando_DB">جار تحميل قاعدة البيانات ...</string>
+    <string name="pref_cargando_presentacion">تحميل العرض الشخصي</string>
+    <string name="pref_header_presentacion">تقديم شخصي</string>
+    <string name="pref_example_presentacion">مرحبا أنا محمد، لدي مشاكل في التواصل وأستخدم هذا النظام، أحتاجك إلى الانتظار بالنسبة لي.</string>
+    <string name="pref_agenda">تقويم مخصص</string>
+    <string name="pref_summary_barrido">يسمح لك لاستخدام التطبيق من خلال تجتاح الشاشة.</string>
+    <string name="pref_editar">تحرير الصور التوضيحية</string>
+    <string name="pref_open_editar">فتح محرر الرسوم التوضيحية.</string>
+    <string name="pref_confirmar_alert">تؤكد</string>
+    <string name="pref_enviar">ارسل إلى</string>
+    <string name="pref_error_112">خطأ: 112. الدالة غير متوفرة في جهازك.</string>
+    <string name="pref_error_312">خطأ: 312. خدمات غوغل بلاي أبك ليست محدثة الرجاء تثبيت أحدث إصدار.</string>
+    <string name="pref_error_222">خطأ: 222. نواجه مشكلات في الاتصال بالخادم، الرجاء إعادة المحاولة لاحقا.</string>
+    <string name="pref_step1_tuto">الآن، ونحن في طريقنا لتوجيه لكم لإنشاء جملة مع صوت باستخدام مشروع أوتا.</string>
+    <string name="pref_title5_tuto">لا تجد\n  ما تحتاج؟</string>
+    <string name="pref_step5_tuto">المس الدوار إلى\n  العثور على أكثر بيكتوس ذات الصلة.</string>
+    <string name="tuto_step1_galeriaPictos">يمكنك اختيار بيكتو تريد من خلال النقر عليه.\n\n                                             اضغط مع الاستمرار لتعديل بيكتو\n  أو حذفها.</string>
+    <string name="tuto_step2_galeriaPictos">الضغط على \"زائد\" يمكنك\n  إنشاء بيكتو الخاص بك</string>
+    <string name="tuto_step1_galeriaGrupos">سوف تجد بيكتو تريد من قبل\n  والضغط على واحدة من الفئات.\n\n  اضغط مع الاستمرار على الفئة المحددة\n  لتعديله من حذفه.</string>
+    <string name="tuto_step2_galeriaGrupos">الضغط على زر \"زائد\" يمكنك\n  إنشاء الفئة الخاصة بك</string>
+    <string name="tuto_step2_editPicto">تحرير النص حتى بيكتو\n  سوف أقول كل ما تريد.</string>
+    <string name="tuto_step3_editPicto">اضغط على شعار أوتا ل\n  تلعب نص بيكتو.</string>
+    <string name="tuto_step_vincularCalendar">يمكنك ربط هذه المجموعة بحدث معين\n  حتى في ذلك الوقت والتاريخ، وهذا بيكتوس المنبثقة.</string>
+    <string name="tuto_step_vincularGPS">ربط هذه المجموعة من الصور التوضيحية مع موقع غس معين.\n  لذلك عندما تكون بالقرب من هذا الموقع بيكتوس سوف المنبثقة\n  لا ننسى لتعيين الموقع المطلوب في الإعدادات.</string>
+    <string name="edit_grupo">اختر الصور التوضيحية للمجموعة</string>
+    <string name="edit_grupo_seguro">هل تريد بالتأكيد إغلاق إديتو بيكتو؟</string>
+    <string name="edit_grupo_cambios">هل تريد حفظه؟</string>
+    <string name="edit_picto_visual_complete">يرجى كتابة اسم الرسم التوضيحي</string>
+    <string name="guardar">حفظ</string>
+    <string name="descartar">تجاهل</string>
+    <string name="ayuda1_Titulo">بيكتس ذات الصلة</string>
+    <string name="ayuda1_Texto">وفيما يلي الخيارات الموصى بها، مرتبة بحسب الأولوية.</string>
+    <string name="pref_descargode">باستخدام تطبيقات الهاتف المتحرك أوتا، الآن وفي المستقبل، أنت\n                وفقا للشروط والأحكام التالية:\n\n                - على الرغم من أن الرعاية الخاصة قد اتخذت لضمان\n                العملية الصحيحة والجودة وأهمية المحتويات المقدمة\n                من قبل أوتا المعلومات والإمكانيات\n                الاتصالات التي تقدمها أوتا لا يكون لها طابع\n                عقد برنامج ستونيفاس، أعضاء إيتس أو\n                الشركات التابعة، لماذا لا تحتوي على أي\n                المسؤولية.\n\n                - ستونيفاس البرمجيات لا يضمن أن التطبيق أو الخوادم التي هي\n                وجعل المتاحة لهذا التطبيق خالية من الفيروسات أو أي\n                عنصر ضار آخر. تحتفظ ستونيفاس البرمجيات الحق في جعل\n                التغييرات و / أو التحديثات فيما يتعلق بالمعلومات الواردة في\n                التطبيق في أي وقت، دون سابق إنذار.\n\n                - أوتا يمكن أن توفر وصلات إلى صفحات ويب أخرى، والتطبيقات أو\n\n                المحتويات التي ليست تحت سيطرة ستونيفيس البرمجيات. Stoneface\n                البرمجيات لن تكون مسؤولة بأي شكل من الأشكال عن هذه المحتويات.\n\n                - المعلومات المقدمة في التطبيق يمكن استخدامها فقط، نسخها أو\n                موزعة دون تعديلات ولأغراض المعلومات الشخصية.\n\n                - ستونيفاس البرمجيات يسلم تطبيق لاختبار مود\n                التشغيل والتحقق، وبالتالي قد تكون هناك أخطاء\n                العملية، والإغلاق غير متوقع، من بين غيرها من المشاكل المحتملة، إل\n                المستخدم يلتزم بإخطار هذه الأخطاء أ\n                ستونيفاس البرمجيات.\n\n                - ستونيفاس البرمجيات ليست مسؤولة أو ضمانات\n                الوصول إلى الإنترنت من جهاز الناقل التطبيق، كما هو عليه\n                خدمة خارجية للتطبيق وسوف تستفيد من هذا كلما\n                تكون متاحة</string>
+
+    <string-array name="pref_subtitulos_tamanio_nombres">
+        <item>Small</item>
+        <item>Medium</item>
+        <item>Large</item>
+        <item>Extra Large</item>
+    </string-array>
+    <string-array name="pref_subtitulos_tamanio_valores">
+        <item>15</item>
+        <item>18</item>
+        <item>25</item>
+        <item>35</item>
+    </string-array>
+
+
+    <string-array name="pref_idiomas">
+        <item>Español</item>
+        <item>English</item>
+    </string-array>
+    <string-array name="pref_idiomas_valores">
+        <item>esp</item>
+        <item>ingles</item>
+    </string-array>
+
+    <string name="title_activity_editar">محرر الصور</string>
+
+    <string name="title_section1">Section 1</string>
+    <string name="title_section2">Section 2</string>
+    <string name="title_section3">Section 3</string>
+
+
+    <string name="button_set_location">الربط مع هذا الموقع</string>
+    <string name="no_location">لا يوجد عنوان لهذا الموقع</string>
+
+
+    <string name="geofences_removed">تم إلغاء تنشيط الموقع الجغرافي</string>
+    <string name="geofences_added">تم تنشيط الموقع الجغرافي</string>
+    <string name="not_connected">غوغلابيكلينت لم يتم توصيله بعد. حاول ثانية.</string>
+    <string name="geofence_not_available">خدمة جيوفانس غير متوفرة الآن</string>
+    <string name="geofence_too_many_geofences">لقد سجل تطبيقك عدد كبير جدا من جوفنسس</string>
+    <string name="geofence_too_many_pending_intents">
+        You have provided too many PendingIntents to the addGeofences() call
+    </string>
+    <string name="unknown_geofence_error">
+        Unknown error: the Geofence service is not available now
+    </string>
+    <string name="bool_EstoyCasa">mBoolEstoyEnCasa</string>
+    <string name="bool_EstoyEscuela">mBoolEstoyEnEscuela</string>
+    <string name="ElijaPictoExistente">اختر بيكتو موجود</string>
+    <string name="EditCurrentPicto">تحرير بيكتو الحالي</string>
+    <string name="PruebaNuevoPicto">محاولة بيكتو الجديد الخاص بك!</string>
+
+
+    <string name="title_activity_edit__content">Edit_Content</string>
+
+    <string name="hello_blank_fragment">مرحبا جزء فارغ</string>
+    <string name="title_activity_edit_picto__container">EditPicto_Container</string>
+    <string name="Activity_Ubicacion">إعدادات الموقع المخصصة</string>
+    <string name="NamePicto">أدخل النص لتسمية بيكتو</string>
+    <string name="PickAColor">اختيار لون للإطار</string>
+    <string name="title_activity_editar_grupo">تحرير مجموعة بيكتو</string>
+    <string name="hora_de_fin">وقت النهاية</string>
+    
+    <string name="activity_calendario">إعداد التقويم</string>
+    <string name="HintSearch">اكتب ما تبحث عنه ...</string>
+    <string name="allow_ottaa_app_the_following_permissions">السماح أوتا التطبيق الأذونات التالية؟</string>
+    <string name="location">موقعك</string>
+
+    <string-array name="image_ids">
+        <item>@drawable/ic_responder</item>
+        <item>@drawable/ic_familia</item>
+        <item>@drawable/ic_hola</item>
+        <item>@drawable/ic_abuelo</item>
+        <item>@drawable/ic_acompanar</item>
+        <item>@drawable/ic_actividad</item>
+        <item>@drawable/ic_buenos_dias</item>
+        <item>@drawable/ic_album_fotografico</item>
+        <item>@drawable/ic_buenos_dias</item>
+        <item>@drawable/ic_cartuchera</item>
+        <item>@drawable/ic_aburrido</item>
+        <item>@drawable/ic_cuarto</item>
+        <item>@drawable/ic_espejo</item>
+        <item>@drawable/ic_maestra</item>
+        <item>@drawable/ic_mama</item>
+        <item>@drawable/ic_feliz</item>
+        <item>@drawable/ic_emocion</item>
+    </string-array>
+    <string name="cancel">إلغاء</string>
+    <string name="loading">جار التحميل...</string>
+    <string name="BotonFinish">فعله</string>
+    <string name="Disfruta_picto">\"استمتع بيكتوس جديدة على أساس الموقع الخاص بك.\"</string>
+    <string name="ElijaImagenPicto">اختر صورة بيكتو الجديدة</string>
+    <string name="ElijaTextoPicto">كتابة نص مخصص ل بيكتو</string>
+    <string name="EscribaAqui">اكتب هنا…</string>
+    <string name="FemaleUser">إناثا</string>
+    <string name="MaleUser">الذكر</string>
+    <string name="NuevoPictoGrupo">إنشاء مجموعة بيكتو جديدة</string>
+    <string name="OldUser">بالغ</string>
+    <string name="TextOutloud">أدخل النص ليقوله بصوت عال</string>
+    <string name="YoungUser">نينو</string>
+    <string name="action_borrar">حذف</string>
+    <string name="action_done">فعله</string>
+    <string name="action_parar">كتم الصوت</string>
+    <string name="action_reiniciar">إعادة تعيين</string>
+    <string name="action_settings">ترتيب</string>
+    <string name="agregar_picto">أد بيكتو</string>
+    <string name="action_sign_in_short">تسجيل الدخول</string>
+    <string name="action_sign_in">تسجيل الدخول أو التسجيل</string>
+    <string name="please_make_sure_you_access_all_the_permission_to_access_the_application_contents_smoothly">يرجى التأكد من الوصول إلى جميع الإذن للوصول إلى محتويات التطبيق بسلاسة.</string>
+    <string name="pref_OK">حسنا</string>
+    <string name="pref_activado">مفعل</string>
+    <string name="pref_barrido">مسح الشاشة</string>
+    <string name="pref_calendario_elija">اختر تقويما</string>
+    <string name="pref_cancelar_alert">إلغاء</string>
+    <string name="pref_desactivado">إبطال مفعولها</string>
+    <string name="pref_elija">إختر خيار</string>
+    <string name="pref_error_editar">عذرا، لا يمكن تعديل هذه الصور التوضيحية.</string>
+    <string name="pref_final_tuto">بوسكا لا أوبسيون بارا كومبارتير y أسيدر a كونفيغوراسيونيس إن لا بارا سوبيريور.</string>
+    <string name="pref_header_subtitulo">عنوان فرعي</string>
+    <string name="pref_header_tts">تحويل النص إلى كلام المحرك</string>
+    <string name="pref_idioma">لغة</string>
+    <string name="pref_important_alert">مهم</string>
+    <string name="pref_listo_tuto">فعله</string>
+    <string name="pref_login_contact">اتصل بنا</string>
+    <string name="pref_login_gracias">شكرا لاختيارك مشروع أوتا.</string>
+    <string name="pref_no_alert">لا</string>
+    <string name="pref_opcion_editar">الصور التوضيحية ذات الصلة</string>
+    <string name="pref_open_settings">فتح الإعدادات.</string>
+    <string name="pref_option1_tts">تقييم الخطاب</string>
+    <string name="pref_option2_tts">صوت الملعب</string>
+    <string name="pref_select_camara">الة تصوير</string>
+    <string name="pref_select_galeria">صور عائدة</string>
+    <string name="pref_select_pictos">تحميل من أراساك</string>
+    <string name="pref_step2_tuto">حدد الرسم التوضيحي الذي تريده بالنقر عليه.</string>
+    <string name="pref_step3_tuto">نحن جاهزون! المس شعار أوتا لبدء الحديث.</string>
+    <string name="pref_step4_tuto">المس رمز إعادة الضبط، أو اضغط على مفتاح الرجوع، لإنشاء جملة جديدة.</string>
+    <string name="pref_step6_tuto">هنا سوف تجد كل بيكتوس مرتبة حسب الفئات.</string>
+    <string name="pref_subtitulo_mayuscula">الأحرف الكبيرة</string>
+    <string name="pref_subtitulo_mayuscula_summary">فإنه يسمح ترجمات كبيرة.</string>
+    <string name="pref_subtitulo_tamanio">بحجم</string>
+    <string name="pref_summary_agenda">اختر التقويم مع روتينك اليومي.</string>
+    <string name="pref_summary_editar">السماح بتعطيل الوظيفة تحرير الصور التوضيحية.</string>
+    <string name="pref_summary_subtitulo">عرض التسميات التوضيحية المخصصة.</string>
+    <string name="pref_summary_tts">فإنه يمكن تخصيص صوت.</string>
+    <string name="pref_summary_ubicacion">يحسن التنبؤ من خلال وضع العلامات الجغرافية.</string>
+    <string name="pref_text1_alert">هل تريد ان تحفظ التغييرات ؟</string>
+    <string name="pref_text2_alert">هل تريد استعادة إعدادات المصنع؟</string>
+    <string name="pref_text3_alert">هل تريد إنشاء رسم بيكتوغرامي جديد؟</string>
+    <string name="pref_text4_alert">هل تريد حذف الرسم التوضيحي المحدد؟</string>
+    <string name="pref_text5_alert">هل تريد حذف المجموعة المحددة؟</string>
+    <string name="pref_text_agenda">التقويم المحدد</string>
+    <string name="pref_text_editar">نص بيكتوغرام</string>
+    <string name="pref_text_presentacion">يستخدم العرض الشخصي</string>
+    <string name="pref_text_subtitulo">تخصيص الترجمة</string>
+    <string name="pref_text_tts">تمكين تس مخصص</string>
+    <string name="pref_title2_tuto">إنشاء جملة</string>
+    <string name="pref_title3_tuto">إبدأ بالكلام</string>
+    <string name="pref_title4_tuto">إعادة تعيين</string>
+    <string name="pref_title6_tuto">تحتاج المزيد من الخيارات؟</string>
+    <string name="pref_title_presentacion">نص العرض التقديمي</string>
+    <string name="pref_ubicacion">موقعك</string>
+    <string name="pref_ubicacion_alert">هل تريد إعادة تعيين الموقع؟</string>
+    <string name="pref_yes_alert">نعم فعلا</string>
+    <string name="problema_inet">نحن آسفون تحتاج الإنترنت لاستخدام هذه الميزة.</string>
+    <string name="prompt_email">البريد الإلكتروني</string>
+    <string name="prompt_password">كلمة المرور (اختياري)</string>
+    <string name="repetir_semanalmente">كرر أسبوعيا</string>
+    <string name="spl_name">OTTAA Project</string>
+    <string name="storage">تخزين</string>
+    <string name="string_ubicacion_casa">منزلي</string>
+    <string name="string_ubicacion_escuela">مدرستي</string>
+    <string name="this_lets_ottaa_app_to_access_the_location">وهذا يتيح التطبيق أوتا للوصول إلى الموقع</string>
+    <string name="this_lets_ottaa_app_to_store_and_access_information_from_your_device">وهذا يتيح التطبيق أوتا لتخزين والوصول إلى المعلومات من جهازك.</string>
+    <string name="title_activity_configuracion">إعدادات</string>
+    <string name="title_activity_galeria_pictos">معرض الصور</string>
+    <string name="title_activity_login">تسجيل الدخول</string>
+    <string name="title_activity_tuto">Tuto</string>
+    <string name="title_activity_tutorial">الدورة التعليمية</string>
+    <string name="toca_la_lupa_para_buscar_en_arasaac">المس زر البحث لتحميل بيكتو من أراساك</string>
+    <string name="tuto_step1_editPicto">الضغط داخل الدائرة يمكنك تغيير صورة بيكتوس.</string>
+    <string name="tuto_title1_editPicto">تغيير الصورة</string>
+    <string name="tuto_title1_galeriaGrupos">اختر إحدى الفئات</string>
+    <string name="tuto_title1_galeriaPictos">اختر بيكتو</string>
+    <string name="tuto_title2_editPicto">ماذا تريد أن تقول؟</string>
+    <string name="tuto_title2_galeriaGrupos">إنشاء الفئة الخاصة بك</string>
+    <string name="tuto_title2_galeriaPictos">إنشاء بيكتو الخاصة بك</string>
+    <string name="tuto_title3_editPicto">جعله يتكلم!</string>
+    <string name="tuto_title3_galeriaPictos">إضافة المزيد من بيكتوس إلى هذا المعرض</string>
+    <string name="tuto_title4_editPicto">إعطائها بعض الألوان</string>
+    <string name="tuto_title5_editPicto">ربط المجموعة</string>
+    <string name="tuto_title_vincularCalendar">ربط هذه المجموعة بإدخال التقويم</string>
+    <string name="tuto_title_vincularGPS">ربط مع غس الموقع</string>
+    <string name="vincular">حدد الصور التوضيحية التي تريد ربطها بالمجموعة</string>
+    <string name="tuto_step3_galeriaPictos">بريسيوناندو إل بوتون \"لينك\" بيدس أغريغا ماس بيكتوس a إستا غاليريا.</string>
+    <string name="tuto_step4_editPicto">تصنيف بيكتو استنادا إلى\n  رمز اللون أراساك.\n  الأخضر: الإجراءات الأصفر: الناس الأزرق: الصفات\n  البرتقال: الأسماء الأرجواني: ميسلانيا.</string>
+    <string name="tuto_step5_editPicto">يمكنك ربط هذه الفئة ب\n  التقويم أو مع موقع غس.</string>
+    <string name="vincular_con_calendario">الربط مع التقويم</string>
+    <string name="vincular_con_ubicacion">رابط مع الموقع</string>
+    <string name="pref_header_cerrar_sesion">خروج</string>
+    <string name="pref_header_cerrar_sesion2">سجل الخروج لتغيير المستخدم</string>
+    <string name="my_own_title">Rate OTTAA Project</string>
+    <string name="my_own_rate">Yes</string>
+    <string name="my_own_thanks">لا شكرا</string>
+    <string name="my_own_cancel">Later</string>
+    <string name="youAreNotUpdatedMessage">يتوفر إصدار جديد من أوتاوا. يرجى تحديث إلى أحدث إصدار للحصول على كل الميزات الرائعة الجديدة.</string>
+    <string name="youAreNotUpdatedMessage1">Now</string>
+    <string name="update">Update</string>
+    <string name="my_own_message">إذا كنت تتمتع باستخدام أوتا يرجى معدل لنا، من شأنها أن تساعدنا على تحسين.</string>
+    <string name="youAreNotUpdatedTitle">Update available</string>
+    <string name="bienvenido">Great to have you here!</string>
+    <string name="cuerpo_bienvenida">Welcome to OTTAA Project, your trial period has just started! Do not hesitate to contact us if you have any inquiry or if you want to know more about OTTAA Project!</string>
+    <string name="licencia_expirada1">نشكرك على استخدام مشروع أوتا، انتهت الفترة التجريبية</string>
+    <string name="btn_renovar_licencia">اشتراك الشراء</string>
+    <string name="cambiar_cuenta">تغيير الحسابات</string>
+    <string name="title_activity_licencia_expirada">انتهت الفترة التجريبية</string>
+    <string name="problema_sign_in">" حدثت مشكلة أثناء تسجيل الدخول، أعد المحاولة."</string>
+    <string name="editar_group">تحرير المجموعة</string>
+    <string name="editar_pictogram">تحرير الصور التوضيحية</string>
+    <string name="add_pictograma">إضافة رسم بيكتوغرام</string>
+    <string name="add_grupo">إضافة مجموعة</string>
+    <string name="geofence_transition_invalid_type">خطأ انتقال جيوفانس: نوع النقل غير صالح٪ 1 $ d</string>
+    <string name="licencia_expirada2">لشراء اشتراك يرجى النقر على الاشتراك شراء</string>
+    <string name="btn_volver_ingresar">تسجيل الدخول</string>
+    <string name="generar_infor">إنشاء تقرير</string>
+    <string name="frases_year">عدد الأحكام الصادرة خلال السنة</string>
+    <string name="frases_mes">عدد الأحكام الصادرة خلال الشهر</string>
+    <string name="frases_musadas">المزيد من فريسس</string>
+    <string name="frases_aleatorias">عبارات أخرى</string>
+    <string name="porc_uso">النسبة المئوية لاستخدام</string>
+    <string name="day_hour">وخلال اليوم وساعة</string>
+    <string name="dlunes">الاثنين</string>
+    <string name="dSaturday">السبت</string>
+    <string name="dmartes">الثلاثاء</string>
+    <string name="dnoche">ليلة</string>
+    <string name="dtarde">وقت متأخر</string>
+    <string name="dmanana">صباح</string>
+    <string name="dmiercoles">الأربعاء</string>
+    <string name="djueves">الخميس</string>
+    <string name="dviernes">الجمعة</string>
+    <string name="ddomingo">الأحد</string>
+    <string name="lanzar_juego_menu_grupo">إطلاق اللعبة</string>
+    <string name="pref_cual_es">ما هو بيكتو</string>
+    <string name="cont_ctanos">اتصل بنا</string>
+    <string name="cu_l_es_el_picto">وهو بيكتو</string>
+    <string name="delete_menu_grupo">حذف</string>
+    <string name="edit_menu_grupo">تصحيح</string>
+    <string name="FamiliarUser">أسرة</string>
+    <string name="ingrese_nombre">يرجى التحقق مما إذا كنت قد أضفت الصورة التخطيطية واسمها</string>
+    <string name="hora_de_inicio">وقت البدء</string>
+    <string name="no_hay_pictos">ليس هناك بيكتوس لتحديد</string>
+    <string name="precisi_n">دقة</string>
+    <string name="pref_login_wait">الرجاء الانتظار ...</string>
+    <string name="pref_summary_experimental">استخدام الذكاء الاصطناعي لتوليد جملة أكثر ثراء. تحتاج إلى اتصال بالإنترنت مستقرة.</string>
+    <string name="pref_summary_tutorial">خذ البرنامج التعليمي مرة أخرى وتعلم بعض النصائح حول كيفية استخدام أوتاوا</string>
+    <string name="pref_title_tutorial">إعادة تشغيل البرنامج التعليمي</string>
+    <string name="pref_volver_editor">الرجوع إلى المحرر</string>
+    <string name="ProfesionalUser">محترف</string>
+    <string name="dont_delete_group">لا يمكنك حذف هذه المجموعة</string>
+    <string name="warning_del">Ups!</string>
+    <string name="audio_compartir">سمعي</string>
+    <string name="compartir_imagen">صورة</string>
+    <string name="useforGame">دقة اللعبة في مجموعة</string>
+    <string name="strTutorialGame3">ما هو الفائز في الصورة</string>
+    <string name="strTutorialGame4">هذا هو الصورة الفائزة</string>
+    <string name="strTutorialGame5">هذه هي النتيجة</string>
+    <string name="strOthers">الآخرين</string>
+    <string name="strAciertos">نجاحات</string>
+    <string name="strErrores">أخطاء</string>
+    <string name="strUsoDrDia">استخدم خلال النهار</string>
+    <string name="strFrasesMasUsadas">معظم العبارات المستخدمة</string>
+    <string name="image_error_cargar">يرجى اختيار رسم توضيحي واحد على الأقل عندما تريد المشاركة في إحدى الشبكات الاجتماعية</string>
+
+</resources>

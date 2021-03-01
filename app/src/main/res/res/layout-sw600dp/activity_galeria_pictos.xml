@@ -1,0 +1,73 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@color/FondoApp"
+    tools:mContext="com.stonefacesoft.ottaa.GaleriaPictos">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@drawable/ic_fondomaterial"
+        android:titleTextAppearance="@color/White"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_margin="100dp"
+            android:id="@+id/ImageArasaac"
+            android:src="@drawable/arasaac"
+            android:visibility="invisible"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/toca_la_lupa_para_buscar_en_arasaac"
+            android:textSize="20sp"
+            android:visibility="invisible"
+            android:id="@+id/TextoArasaac"
+            android:layout_alignBottom="@+id/ImageArasaac"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="-5dp"/>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.stonefacesoft.ottaa.stickygridview.StickyGridHeadersGridView xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:id="@+id/gridView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="5dp"
+                android:clipToPadding="false"
+                android:columnWidth="150dip"
+                android:drawSelectorOnTop="true"
+                android:gravity="center"
+                android:numColumns="auto_fit"
+                android:stretchMode="columnWidth"
+                android:verticalSpacing="10dp"
+                android:focusable="true"
+                android:clickable="true"
+                tools:mContext=".ItemListFragment" />
+
+            <TextView
+                android:id="@+id/tv_invisible"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_marginTop="80dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginBottom="20dp"/>
+
+        </FrameLayout>
+
+    </RelativeLayout>
+</LinearLayout>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginBottom="0dp"
+    android:layout_marginEnd="15dp"
+    android:layout_marginStart="15dp"
+    android:layout_marginTop="15dp"
+    android:background="@drawable/tag_horario_white"
+    android:minHeight="150dp">
+
+    <ImageView
+        android:layout_width="0dp"
+        android:id="@+id/grid_image"
+        android:layout_height="0dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintBottom_toTopOf="@id/grid_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_weight="8"/>
+
+    <TextView
+        android:layout_width="0dp"
+        android:id="@+id/grid_text"
+        android:layout_height="0dp"
+        android:gravity="center"
+        android:lines="2"
+        android:layout_gravity="center"
+        android:text="Tags"
+        android:textAllCaps="true"
+        android:textColor="@color/Black"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/grid_image"
+        app:layout_constraintVertical_weight="2"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

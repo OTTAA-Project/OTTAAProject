@@ -1,0 +1,138 @@
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="@dimen/sizeDialogWidth"
+    android:layout_height="@dimen/sizeDialogHeigth"
+    android:background="@color/colorWhite"
+    app:cardCornerRadius="25dp"
+    >
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorTransparent"
+
+        >
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:id="@+id/container"
+            app:layout_constraintBottom_toTopOf="@id/recyclerViewFrases"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_weight="2"
+            android:background="@drawable/dialog_shape_text"
+            >
+            <ImageButton
+                android:id="@+id/addButton"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/textTiulo"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:background="@android:color/transparent"
+                android:src="@drawable/ic_edit_white_24dp"
+                app:layout_constraintHorizontal_weight="1"
+                android:visibility="gone"
+                />
+            <TextView
+                android:id="@+id/textTiulo"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:gravity="center"
+                android:textSize="@dimen/textSizeTitulo"
+                android:background="@drawable/dialog_shape_text"
+                android:text="@string/frases_musadas"
+                android:textColor="@color/White"
+                app:layout_constraintStart_toEndOf="@id/addButton"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/actionButton"
+                app:layout_constraintHorizontal_weight="4"
+                />
+            <ImageButton
+                android:id="@+id/actionButton"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintStart_toEndOf="@id/textTiulo"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:background="@android:color/transparent"
+                android:src="@drawable/ic_sort_phrases"
+                app:layout_constraintHorizontal_weight="1"
+                />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+            <TextView
+                android:id="@+id/no_data"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:gravity="center"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/container"
+                app:layout_constraintVertical_weight="8"
+                android:text="Genere una frase para poder visualizar las mas usadas."
+                android:visibility="gone" />
+
+            <ProgressBar
+                android:id="@+id/progressBar"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_centerInParent="true"
+                android:layout_margin="@dimen/button_radius"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/container"
+                app:layout_constraintVertical_weight="8"
+                android:visibility="gone" />
+
+
+        <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_margin="@dimen/seleccion_margin"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/container"
+                android:id="@+id/recyclerViewFrases"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/frase_anterior"
+                app:layout_constraintEnd_toStartOf="@id/frase_siguiente"
+                app:layout_constraintVertical_weight="8"
+                app:layout_constraintHorizontal_weight="8"
+            >
+
+        </androidx.recyclerview.widget.RecyclerView>
+        <ImageButton
+            android:id="@+id/frase_anterior"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@color/colorTransparent"
+            android:src="@drawable/ic_skip_previous_black_24dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/recyclerViewFrases"
+            app:layout_constraintBottom_toBottomOf="@id/recyclerViewFrases"
+            app:layout_constraintEnd_toStartOf="@id/recyclerViewFrases"
+            app:layout_constraintStart_toEndOf="@id/frase_siguiente"
+            app:layout_constraintHorizontal_weight="1"
+            />
+        <ImageButton
+            android:id="@+id/frase_siguiente"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@color/colorTransparent"
+            android:src="@drawable/ic_skip_next_black_24dp"
+            app:layout_constraintTop_toTopOf="@id/recyclerViewFrases"
+            app:layout_constraintBottom_toBottomOf="@id/recyclerViewFrases"
+            app:layout_constraintStart_toEndOf="@id/recyclerViewFrases"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_weight="1"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.cardview.widget.CardView>

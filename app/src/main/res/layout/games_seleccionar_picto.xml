@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/FondoApp">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="match_parent"
+        android:background="@color/NaranjaOTTAA"
+        android:layout_height="?attr/actionBarSize"
+        android:titleTextAppearance="@color/White"
+        android:visibility="visible"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:layout_constraintTop_toBottomOf="@id/constraintPictos"
+        />
+
+
+    <com.stonefacesoft.ottaa.Games.MatchPicto
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/match1"/>
+
+    <com.stonefacesoft.ottaa.Games.MatchPicto
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/match2"/>
+
+    <com.stonefacesoft.ottaa.Games.MatchPicto
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/match3"/>
+
+    <com.stonefacesoft.ottaa.Games.MatchPicto
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/match4"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintPictos"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:layout_constraintVertical_weight="7.5">
+
+        <com.stonefacesoft.ottaa.Custom_Picto
+            android:id="@+id/Guess1"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:layout_marginEnd="@dimen/interpicto_margin"
+            android:padding="5dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/Guess2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/placeHolderHorizontal"
+            app:layout_constraintVertical_weight="5"
+            app:layout_constraintDimensionRatio="1:1"
+            custom:Imagen="1"
+            custom:Texto="Hola">
+
+        </com.stonefacesoft.ottaa.Custom_Picto>
+
+        <com.stonefacesoft.ottaa.Custom_Picto
+            android:id="@+id/Guess2"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginEnd="@dimen/interpicto_margin"
+            android:padding="5dp"
+            app:layout_constraintBottom_toBottomOf="@id/Guess1"
+            android:layout_marginStart="@dimen/interpicto_margin"
+            app:layout_constraintEnd_toStartOf="@id/Guess3"
+            app:layout_constraintStart_toEndOf="@id/Guess1"
+            app:layout_constraintTop_toTopOf="@id/Guess1"
+            custom:Imagen="1"
+            app:layout_constraintDimensionRatio="1:1"
+            custom:Texto="Hola">
+
+        </com.stonefacesoft.ottaa.Custom_Picto>
+
+        <com.stonefacesoft.ottaa.Custom_Picto
+            android:id="@+id/Guess3"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:padding="5dp"
+            custom:Imagen="1"
+            custom:Texto="Hola"
+            android:layout_marginStart="@dimen/interpicto_margin"
+            android:layout_marginEnd="@dimen/interpicto_margin"
+            app:layout_constraintBottom_toBottomOf="@id/Guess1"
+            app:layout_constraintEnd_toStartOf="@id/Guess4"
+            app:layout_constraintStart_toEndOf="@id/Guess2"
+            app:layout_constraintTop_toTopOf="@id/Guess1"
+            app:layout_constraintDimensionRatio="1:1"
+            >
+
+        </com.stonefacesoft.ottaa.Custom_Picto>
+
+        <com.stonefacesoft.ottaa.Custom_Picto
+            android:id="@+id/Guess4"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:padding="5dp"
+            android:layout_marginStart="@dimen/interpicto_margin"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin"
+            app:layout_constraintBottom_toBottomOf="@id/Guess1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/Guess3"
+            app:layout_constraintTop_toTopOf="@id/Guess1"
+            custom:Imagen="1"
+            app:layout_constraintDimensionRatio="1:1"
+            custom:Texto="Hola">
+
+        </com.stonefacesoft.ottaa.Custom_Picto>
+
+        <androidx.constraintlayout.widget.Placeholder
+            android:id="@+id/placeHolderHorizontal"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toTopOf="@id/Guess1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/Option1"
+            app:layout_constraintVertical_weight="0" />
+
+        <com.stonefacesoft.ottaa.Custom_Picto
+            android:id="@+id/Option1"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            custom:Texto="Hola"
+            android:layout_marginEnd="@dimen/interpicto_margin"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:padding="5dp"
+            app:layout_constraintBottom_toTopOf="@id/placeHolderHorizontal"
+            app:layout_constraintEnd_toStartOf="@id/Option2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_weight="5"
+            custom:Imagen="1"
+            app:layout_constraintDimensionRatio="1:1"
+            >
+
+        </com.stonefacesoft.ottaa.Custom_Picto>
+
+        <com.stonefacesoft.ottaa.Custom_Picto
+            android:id="@+id/Option2"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:padding="5dp"
+            custom:Imagen="2"
+            custom:Texto="Hola"
+            android:layout_marginStart="@dimen/interpicto_margin"
+            android:layout_marginEnd="@dimen/interpicto_margin"
+            app:layout_constraintBottom_toBottomOf="@id/Option1"
+            app:layout_constraintEnd_toStartOf="@id/Option3"
+            app:layout_constraintStart_toEndOf="@id/Option1"
+            app:layout_constraintDimensionRatio="1:1"
+
+            app:layout_constraintTop_toTopOf="@id/Option1">
+
+        </com.stonefacesoft.ottaa.Custom_Picto>
+
+        <com.stonefacesoft.ottaa.Custom_Picto
+            android:id="@+id/Option3"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="@dimen/interpicto_margin"
+            android:layout_marginEnd="@dimen/interpicto_margin"
+            android:padding="5dp"
+            app:layout_constraintBottom_toBottomOf="@id/Option1"
+            app:layout_constraintEnd_toStartOf="@id/Option4"
+            app:layout_constraintStart_toEndOf="@id/Option2"
+            app:layout_constraintTop_toTopOf="@id/Option1"
+            app:layout_constraintDimensionRatio="1:1"
+
+            custom:Imagen="2"
+            custom:Texto="Hola">
+
+        </com.stonefacesoft.ottaa.Custom_Picto>
+
+        <com.stonefacesoft.ottaa.Custom_Picto
+            android:id="@+id/Option4"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:padding="5dp"
+            custom:Imagen="2"
+            custom:Texto="Hola"
+            android:layout_marginStart="@dimen/interpicto_margin"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin"
+            app:layout_constraintBottom_toBottomOf="@id/Option1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/Option3"
+            app:layout_constraintTop_toTopOf="@id/Option1"
+            app:layout_constraintDimensionRatio="1:1">
+
+        </com.stonefacesoft.ottaa.Custom_Picto>
+
+        <ImageView
+            android:id="@+id/ganarImagen"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <Button
+        android:id="@+id/btnBarrido"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@android:color/transparent"
+        android:visibility="gone"
+        custom:layout_constraintBottom_toBottomOf="parent"
+        custom:layout_constraintEnd_toEndOf="parent"
+        custom:layout_constraintStart_toStartOf="parent"
+        custom:layout_constraintTop_toBottomOf="@id/toolbar" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:layout_width="@dimen/sizeFloattingButtonMed"
+        android:layout_height="@dimen/sizeFloattingButtonMed"
+        android:visibility="gone"
+        android:id="@+id/floatting_button"
+        android:src="@drawable/ic_touch_app_black_24dp"
+        custom:maxImageSize="@dimen/sizeFloattingButtonIconMed"
+        android:backgroundTint="@color/color_blue_transparent"
+        custom:backgroundTint="@color/Black"
+        custom:borderWidth="2dp"
+        custom:layout_constraintStart_toStartOf="parent"
+        custom:layout_constraintEnd_toEndOf="parent"
+        custom:layout_constraintTop_toTopOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

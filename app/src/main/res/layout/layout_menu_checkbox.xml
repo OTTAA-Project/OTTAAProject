@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ActionMenuView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="?attr/actionBarSize">
+<CheckBox
+    android:id="@+id/CheckPistas"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:text="@string/repetir_juegos"
+    android:textColor="@color/White"
+    />
+</ActionMenuView>

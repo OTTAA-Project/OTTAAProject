@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#121558</color>
+    <color name="colorSecondary">#11478D</color>
+    <color name="colorDarkGray">#757575</color>
+    <color name="colorHint">#9E9E9E</color>
+    <color name="colorLightOrange">#f99f1c</color>
+    <color name="colorFacebook">#3B5999</color>
+    <color name="colorEventDate">#5A5967</color>
+    <color name="colorEventDateText">#BBBBBB</color>
+    <color name="colorDescriptionText">#5A5969</color>
+    <color name="colorButtonGray">#7B7C80</color>
+    <color name="colorLightWhite">#fafbfc</color>
+    <color name="colordashboardwhite">#FAFBFD</color>
+    <color name="header">#ff33b5e5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="colorWhite">#ffffff</color>
+    <color name="colorBlack">#000000</color>
+    <color name="colorBlackTrasnparent">#D9000000</color>
+    <color name="colorGreen">#76B101</color>
+    <color name="colorBlueTransparent">#80ffffff</color>
+    <color name="colorDarkBlue">#11478D</color>
+    <color name="colorTransparent">@android:color/transparent</color>
+    <color name="colorLightGray">#E0E0E0</color>
+    <color name="colorGrayTransparent">#80EEEEEE</color>
+    <color name="colorRed">#EF5350</color>
+    <color name="colorDarkRed">#E53935</color>
+    <color name="colorProfileBorderBlue">#6FA8EB</color>
+    <color name="colorOrange">#E65100</color>
+    <color name="colorAudioBgBlue">#1A52A8</color>
+    <color name="colorYellow">#EEFF41</color>
+    <color name="colorLightGreen">#76FF03</color>
+    <color name="colorDarkPink">#E91E63</color>
+
+</resources>

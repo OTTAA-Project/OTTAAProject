@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="hello_world">Bonjour le monde!</string>
+    <string name="action_settings">Configuration</string>
+    <string name="pref_open_settings">Paramètres d\'ouverture</string>
+    <string name="spl_name">OTTAA Project</string>
+    <string name="action_reiniciar">Réinitialiser</string>
+    <string name="action_borrar">Effacer</string>
+    <string name="action_parar">Muet</string>
+    <string name="action_share">Partager</string>
+    <string name="action_done">Terminé</string>
+    <string name="pref_login_tu_sub_2">Pour renouveler votre licence s\'il vous plaît contactez-nous.</string>
+    <string name="pref_login_contact">Contactez nous</string>
+    <string name="pref_login_autentificando">Authentification ...</string>
+    <string name="pref_OK">D\'accord</string>
+    <string name="pref_cargando_DB">Chargement de la base de données</string>
+    <string name="pref_cargando_presentacion">Chargement de la présentation personnelle</string>
+    <string name="pref_header_presentacion">Présentation personnelle</string>
+    <string name="pref_example_presentacion">Bonjour je suis Jean, j\'ai des problèmes de communication et j\'utilise ce système, j\'ai besoin que tu m\'attendes..</string>
+    <string name="pref_text_tts">Activer TTS personnalisé</string>
+    <string name="pref_summary_tts">Cela permet une voix personnalisée.</string>
+    <string name="pref_option1_tts">Débit de parole</string>
+    <string name="pref_option2_tts">Hauteur de la voix</string>
+    <string name="pref_header_subtitulo">Sous-titre</string>
+    <string name="pref_text_subtitulo">Sous-titre personnalisé</string>
+    <string name="pref_summary_subtitulo">Afficher les légendes personnalisées</string>
+    <string name="pref_subtitulo_tamanio">Taille</string>
+    <string name="pref_subtitulo_mayuscula">Majuscule</string>
+    <string name="pref_idioma">La langue</string>
+    <string name="pref_agenda">Calendrier personnalisé</string>
+    <string name="pref_text_agenda">Calendrier sélectionné</string>
+    <string name="pref_summary_agenda">Choisissez le calendrier avec votre routine quotidienne.</string>
+    <string name="pref_ubicacion">Emplacement</string>
+    <string name="pref_summary_ubicacion">Améliore la prédiction par le géo-tagging.</string>
+    <string name="pref_barrido">Numérisation d\'écran</string>
+    <string name="pref_summary_barrido">It allows to use the application by scanning <screen class="" /></string>
+    <string name="pref_editar">Modifier les pictogrammes</string>
+    <string name="pref_text_editar">Texte de pictogramme</string>
+    <string name="pref_opcion_editar">Related pictograms</string>
+    <string name="pref_select_camara">Caméra</string>
+    <string name="pref_select_galeria">Galerie</string>
+    <string name="pref_select_pictos">Download from ARASAAC</string>
+    <string name="pref_important_alert">Important</string>
+    <string name="pref_confirmar_alert">Confirmer</string>
+    <string name="pref_cancelar_alert">Annuler</string>
+    <string name="pref_yes_alert">Oui</string>
+    <string name="pref_no_alert">Non</string>
+    <string name="pref_enviar">Envoyer à</string>
+    <string name="pref_error_112">ERREUR: 112. La fonction n\'est pas disponible sur votre appareil.</string>
+    <string name="pref_error_312">Erreur: 312. L\'APK des services Google Play n\'est pas à jour, veuillez installer la dernière version.</string>
+    <string name="pref_error_222">ERREUR: 222. Nous avons des problèmes pour nous connecter au serveur, veuillez réessayer plus tard.</string>
+    <string name="pref_elija">Choisis une option</string>
+    <string name="pref_text1_alert">Voulez-vous enregistrer les modifications?</string>
+    <string name="pref_text2_alert">Voulez-vous restaurer les paramètres d\'usine?</string>
+    <string name="pref_text3_alert">Voulez-vous créer un nouveau pictogramme??</string>
+    <string name="pref_text4_alert">Voulez-vous supprimer le pictogramme sélectionné?</string>
+    <string name="pref_final_tuto">Trouvez des options de partage et de configuration dans la barre supérieure.</string>
+    <string name="pref_title2_tuto">Créer une phrase</string>
+    <string name="pref_title3_tuto">Commence à parler</string>
+    <string name="pref_step3_tuto">Nous sommes prêts! Touchez le logo OTTAA pour commencer à parler.</string>
+    <string name="pref_title4_tuto">Réinitialiser</string>
+    <string name="pref_title5_tuto">Ne pas trouver\n  De quoi as-tu besoin?</string>
+    <string name="pref_step5_tuto">Touchez la roulette pour\n  trouver plus de pictogrammes connexes.</string>
+    <string name="pref_step6_tuto">Ici vous trouverez tous les pictos classés par catégories.</string>
+    <string name="tuto_title1_galeriaPictos">Choisissez un picto</string>
+    <string name="tuto_title2_galeriaPictos">Créez votre propre picto</string>
+    <string name="tuto_step2_galeriaPictos">En appuyant sur le plus vous pouvez\n  créez votre propre picto.</string>
+    <string name="tuto_title3_galeriaPictos">Ajoutez plus de pictos à cette galerie</string>
+    <string name="tuto_step3_galeriaPictos">En appuyant sur le bouton de lien, vous pouvez\n  ajoutez plus de pictos à cette galerie.</string>
+    <string name="tuto_step1_galeriaGrupos">Vous trouverez le picto que vous voulez par\n  en appuyant sur l\'une des catégories.\n  Appuyez et maintenez la catégorie sélectionnée\n  pour l\'éditer de le supprimer.</string>
+    <string name="tuto_title2_galeriaGrupos">Create your own category</string>
+    <string name="tuto_step2_galeriaGrupos">En appuyant sur le bouton plus vous pouvez\n  créez votre propre catégorie.</string>
+    <string name="tuto_title1_editPicto">Changer l\'image</string>
+    <string name="tuto_step2_editPicto">Editez le texte pour que le picto\n  dira tout ce que tu veux.</string>
+    <string name="tuto_step3_editPicto">Appuyez sur le logo OTTAA pour\n  joue le texte du picto.</string>
+    <string name="tuto_title4_editPicto">Donnez-lui de la couleur</string>
+    <string name="tuto_step4_editPicto">Catégoriser le picto en fonction de la\n  Code couleur ARASAAC.\n  Vert: Actions Jaune: Personnes Bleu: Adjectifs\n  Orange: Noms Magenta: Miscellanea.</string>
+    <string name="tuto_title5_editPicto">Lier le groupe</string>
+    <string name="tuto_step5_editPicto">Vous pouvez lier cette catégorie avec\n  le calendrier ou avec un emplacement GPS.</string>
+    <string name="tuto_step_vincularCalendar">Vous pouvez lier ce groupe avec certains événements\n  donc à cette heure et cette date, ce pictos apparaîtra.</string>
+    <string name="tuto_title_vincularGPS">Lien avec la localisation GPS</string>
+    <string name="tuto_step_vincularGPS">Associez cet ensemble de pictogrammes à certains emplacements GPS.\n  donc quand sont près de cet endroit les pictos apparaîtront\n  N\'oubliez pas de définir l\'emplacement souhaité dans les paramètres.</string>
+    <string name="pref_listo_tuto">Terminé</string>
+    <string name="guardar">sauvegarder</string>
+    <string name="descartar">Jeter</string>
+    <string name="pref_activado">Activé</string>
+    <string name="pref_desactivado">Désactivé</string>
+    <string name="pref_calendario_elija">Choisissez un calendrier</string>
+    <string name="agregar_picto">AJOUTER PICTO</string>
+    <string name="ayuda1_Titulo">Photos connexes</string>
+    <string name="ayuda1_Texto">Voici les options recommandées, triées par priorité.</string>
+    <string name="pref_descargode">En utilisant le ottaa d\'applications mobiles maintenant et dans l\'avenir, vous acceptez les conditions suivantes:\n - Bien qu\'il ait pris des précautions particulières pour assurer une bonne performance, la qualité et la pertinence des contenus fournis par ottaa INFORMATIONS ET POSSIBILITES communicationnelle ottaa FOURNIE non contractuel POUR LOGICIEL stoneface, SES MEMBRES OU FILIALES, SO QUI NE CONTIENT AUCUNE RESPONSABILITÉ.\n - Stoneface Software ne garantit pas que l\'application ou les serveurs qui sont mis à disposition pour cette application sont exempts de virus ou d\'autres éléments nocifs. Stoneface Software se réserve le droit d\'apporter des modifications et / ou mises à jour en ce qui concerne les informations contenues dans la demande à tout moment sans préavis.\n - OTTAA peut fournir des liens vers d\'autres pages Web, applications ou\n contenus qui ne sont pas sous le contrôle de Stoneface Software. Stoneface Software ne sera en aucun cas responsable de ces contenus.\n - Les informations fournies dans l\'application ne peuvent être utilisées, copiées ou distribuées sans modifications et à des fins d\'information personnelle.\n - Stoneface Application logicielle offre une EXPLOITATION ET VALIDATION procès peut donc être dysfonctionnements, les arrêts, entre autres problèmes, VOUS ACCEPTEZ D\'INFORMER DE CES ERREURS à Stoneface Software.\n - Logiciel Stoneface EST PAS RESPONSABLE D\'ACCÈS GARANTISSENT L\'application de dispositif de support INTERNET comme il est une application de service externe et utilisera cette chaque fois qu\'il sera disponible.</string>
+
+    <string-array name="pref_subtitulos_tamanio_nombres">
+        <item>Small</item>
+        <item>Medium</item>
+        <item>Large</item>
+        <item>Extra Large</item>
+    </string-array>
+    <string-array name="pref_subtitulos_tamanio_valores">
+        <item>15</item>
+        <item>18</item>
+        <item>25</item>
+        <item>35</item>
+    </string-array>
+
+
+    <string-array name="pref_idiomas">
+        <item>Español</item>
+        <item>English</item>
+    </string-array>
+    <string-array name="pref_idiomas_valores">
+        <item>esp</item>
+        <item>ingles</item>
+    </string-array>
+
+    <string name="title_activity_tuto">Tuto</string>
+    <string name="title_activity_tutorial">Tutoriel</string>
+    <string name="title_activity_configuracion">Paramètres</string>
+    <string name="title_activity_editar">Éditeur de pictogrammes</string>
+
+    <string name="title_section1">Section 1</string>
+    <string name="title_section2">Section 2</string>
+    <string name="title_section3">Section 3</string>
+
+
+    <string name="title_activity_galeria_pictos">Galleria Pictos</string>
+
+
+    <string name="string_ubicacion_casa">Ma maison</string>
+    <string name="string_ubicacion_escuela">My school</string>
+    <string name="button_set_location">Lien avec cet emplacement</string>
+    <string name="no_location">Aucune adresse pour cet endroit</string>
+
+
+    <string name="geofences_removed">GeoLocation désactivée</string>
+    <string name="geofences_added">GeoLocation activé</string>
+    <string name="geofence_too_many_geofences">La tua app ha registrato troppe aree geografiche</string>
+    <string name="geofence_too_many_pending_intents">Vous avez fourni trop de PendingIntents à l\'appel addGeofences ()</string>
+    <string name="geofence_transition_invalid_type">Erreur de transition Geofence: type de transition non valide% 1 $ d</string>
+    <string name="bool_EstoyCasa">mBoolEstoyEnCasa</string>
+    <string name="bool_EstoyEscuela">mBoolEstoyEnEscuela</string>
+    <string name="Disfruta_picto">Profitez de vos nouveaux pictos en fonction de votre emplacement.</string>
+    <string name="BotonFinish">Terminé</string>
+    <string name="ElijaPictoExistente">Choisissez un Picto existant</string>
+    <string name="NuevoPictoGrupo">Créer un nouveau groupe Picto</string>
+    <string name="EditCurrentPicto">Modifier le picto actuel</string>
+    <string name="ElijaTextoPicto">Écrivez votre texte personnalisé pour le Picto</string>
+    <string name="EscribaAqui">Ecrire ici…</string>
+    <string name="PruebaNuevoPicto">Essayez votre nouveau Picto!</string>
+    <string name="ElijaImagenPicto">Choisissez l\'image pour le nouveau Picto</string>
+
+
+    <string name="title_activity_edit__content">Edit_Content</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_edit_picto__container">EditPicto_Container</string>
+    <string name="Activity_Ubicacion">Paramètres de localisation personnalisés</string>
+    <string name="TextOutloud">Entrez le texte pour le dire fort</string>
+    <string name="NamePicto">Entrez le texte pour nommer le Picto</string>
+    <string name="PickAColor">Choisissez une couleur pour le cadre</string>
+    <string name="title_activity_editar_grupo">Modifier le groupe Picto</string>
+    <string name="hora_de_fin">Heure de fin</string>
+    <string name="hora_de_inicio">Heure de début</string>
+    <string name="repetir_semanalmente">Répéter chaque semaine</string>
+    <string name="activity_calendario">Configuration du calendrier</string>
+    <string name="HintSearch">Tapez ce que vous cherchez ...</string>
+    <string name="toca_la_lupa_para_buscar_en_arasaac">Appuyez sur le bouton de recherche pour télécharger un picto de ARASAAC</string>
+    <string name="MaleUser">Mâle</string>
+    <string name="FemaleUser">Femelle</string>
+    <string name="YoungUser">Enfant</string>
+    <string name="OldUser">Adulte</string>
+    <string name="storage">Espace de rangement</string>
+    <string name="location">Emplacement</string>
+    <string name="this_lets_ottaa_app_to_access_the_location">Cela permet à l\'application OTTAA d\'accéder à l\'emplacement</string>
+
+    <string-array name="image_ids">
+        <item>@drawable/ic_responder</item>
+        <item>@drawable/ic_familia</item>
+        <item>@drawable/ic_hola</item>
+        <item>@drawable/ic_abuelo</item>
+        <item>@drawable/ic_acompanar</item>
+        <item>@drawable/ic_actividad</item>
+        <item>@drawable/ic_buenos_dias</item>
+        <item>@drawable/ic_album_fotografico</item>
+        <item>@drawable/ic_buenos_dias</item>
+        <item>@drawable/ic_cartuchera</item>
+        <item>@drawable/ic_aburrido</item>
+        <item>@drawable/ic_cuarto</item>
+        <item>@drawable/ic_espejo</item>
+        <item>@drawable/ic_maestra</item>
+        <item>@drawable/ic_mama</item>
+        <item>@drawable/ic_feliz</item>
+        <item>@drawable/ic_emocion</item>
+    </string-array>
+    <string name="cancel">Annuler</string>
+    <string name="loading">Chargement...</string>
+    <string name="pref_header_cerrar_sesion">Déconnexion</string>
+    <string name="pref_header_cerrar_sesion2">Se déconnecter pour changer d\'utilisateur</string>
+    <string name="my_own_title">Noter le projet OTTAA</string>
+    <string name="my_own_rate">Oui</string>
+    <string name="my_own_thanks">Non merci</string>
+    <string name="my_own_cancel">Plus tard</string>
+    <string name="youAreNotUpdatedMessage1">À présent</string>
+    <string name="update">Mettre à jour</string>
+    <string name="vincular_con_calendario">Lien avec le calendrier</string>
+    <string name="vincular_con_ubicacion">Lien avec le lieu</string>
+    <string name="youAreNotUpdatedTitle">Mise à jour disponible</string>
+    <string name="bienvenido">C\'est super de vous avoir ici!</string>
+    <string name="btn_volver_ingresar">S\'identifier</string>
+    <string name="cambiar_cuenta">Changer de compte</string>
+    <string name="editar_group">Modifier le Groupe</string>
+    <string name="error_invalid_email">Cette adresse e-mail est invalide</string>
+    <string name="pref_login">Inscrivez-vous en cliquant sur le bouton Connexion. Merci d\'avoir choisi le projet OTTAA.</string>
+    <string name="pref_login_tu_sub">Votre abonnement a pris fin</string>
+    <string name="pref_login_gracias">Merci d\'avoir choisi le projet OTTAA.</string>
+    <string name="pref_login_semana">Votre période d\'essai vient de commencer. Merci d\'avoir choisi le projet OTTAA.</string>
+    <string name="pref_login_lo_sentimos">Désolé, pour la première utilisation, vous devez être connecté à Internet. Désolé pour ce désagrément.</string>
+    <string name="pref_text_presentacion">Utilise la présentation personnelle</string>
+    <string name="pref_title_presentacion">Texte de présentation</string>
+    <string name="pref_header_tts">Moteur de synthèse vocale</string>
+    <string name="youAreNotUpdatedMessage">Une nouvelle version d\'OTTAWA est disponible. S\'il vous plaît mettre à jour à la dernière version pour obtenir toutes les nouvelles fonctionnalités intéressantes.</string>
+    <string name="pref_subtitulo_mayuscula_summary">Il permet les sous-titres majuscules.</string>
+    <string name="pref_summary_editar">Permet de désactiver la fonction Modifier les pictogrammes.</string>
+    <string name="pref_open_editar">Éditeur de pictogrammes d\'ouverture.</string>
+    <string name="pref_error_editar">Désolé, ces pictogrammes ne peuvent pas être modifiés.</string>
+    <string name="pref_text5_alert">Voulez-vous supprimer le groupe sélectionné?</string>
+    <string name="pref_step1_tuto">Maintenant, nous allons vous guider pour créer une phrase avec la voix en utilisant OTTAA Project.</string>
+    <string name="pref_step2_tuto">Sélectionnez le pictogramme que vous souhaitez en cliquant dessus.</string>
+    <string name="pref_step4_tuto">Appuyez sur l\'icône de réinitialisation ou appuyez sur la touche de retour pour créer une nouvelle phrase.</string>
+    <string name="pref_title6_tuto">Besoin de plus d\'options?</string>
+    <string name="tuto_step1_galeriaPictos">Vous pouvez choisir le picto que vous voulez en cliquant dessus. Maintenez la touche enfoncée pour modifier un picto ou supprimez-le.</string>
+    <string name="tuto_title1_galeriaGrupos">Choisissez l\'une des catégories</string>
+    <string name="tuto_step1_editPicto">En appuyant à l\'intérieur du cercle, vous pouvez changer l\'image des pictos.</string>
+    <string name="tuto_title2_editPicto">Qu\'est-ce que tu veux dire?</string>
+    <string name="tuto_title3_editPicto">Faites le parler!</string>
+    <string name="tuto_title_vincularCalendar">Associer ce groupe à une entrée de l\'agenda</string>
+    <string name="edit_grupo">Choisissez les pictogrammes pour le groupe</string>
+    <string name="edit_grupo_seguro">Êtes-vous sûr de vouloir fermer Modifier Picto?</string>
+    <string name="edit_grupo_cambios">Voulez-vous le sauvegarder?</string>
+    <string name="edit_picto_visual_complete">S\'il vous plaît écrire le nom du pictogramme</string>
+    <string name="pref_ubicacion_alert">Réinitialiser l\'emplacement?</string>
+    <string name="vincular">Sélectionnez les pictogrammes que vous souhaitez lier avec le groupe</string>
+    <string name="problema_inet">Nous sommes désolés que vous ayez besoin d\'internet pour utiliser cette fonctionnalité.</string>
+    <string name="not_connected">GoogleApiClient non è ancora connesso. Riprova.</string>
+    <string name="geofence_not_available">Il servizio Geofence non è disponibile ora</string>
+    <string name="unknown_geofence_error">Erreur inconnue: le service Geofence n\'est pas disponible maintenant</string>
+    <string name="allow_ottaa_app_the_following_permissions">Autoriser OTTAA App les autorisations suivantes?</string>
+    <string name="this_lets_ottaa_app_to_store_and_access_information_from_your_device">Cela permet à l\'application OTTAA de stocker et d\'accéder aux informations de votre appareil.</string>
+    <string name="please_make_sure_you_access_all_the_permission_to_access_the_application_contents_smoothly">Veuillez vous assurer que vous avez accès à toutes les permissions pour accéder au contenu de l\'application en douceur.</string>
+    <string name="my_own_message">Si vous aimez utiliser OTTAA, veuillez nous évaluer, cela nous aidera à nous améliorer.</string>
+    <string name="cuerpo_bienvenida">Bienvenue au projet OTTAA, votre période d\'essai vient de commencer! N\'hésitez pas à nous contacter si vous avez des questions ou si vous voulez en savoir plus sur OTTAA Project!</string>
+    <string name="licencia_expirada1">Merci d\'utiliser OTTAA Project, votre période d\'essai s\'est terminée le</string>
+    <string name="licencia_expirada2">Pour acheter un abonnement, cliquez sur Achat Abonnement</string>
+    <string name="btn_renovar_licencia">Abonnement d\'achat</string>
+    <string name="problema_sign_in">Un problème est survenu lors de la connexion. Veuillez réessayer.</string>
+    <string name="title_activity_licencia_expirada">Période d\'essai terminée</string>
+    <string name="add_pictograma">Ajouter un Pictogramme</string>
+    <string name="editar_pictogram">Modifier le pictogramme</string>
+    <string name="add_grupo">Ajouter un groupe</string>
+    <string name="generar_infor">Générer un rapport</string>
+    <string name="frases_year">NOMBRE DE PHRASES AU COURS DE L’ANNÉE</string>
+    <string name="frases_mes">NOMBRE DE PHRASES AU COURS DU MOIS</string>
+    <string name="frases_musadas">PLUS DE PHRASES UTILISÉES</string>
+    <string name="frases_aleatorias">D’AUTRES EXPRESSIONS</string>
+    <string name="porc_uso">POURCENTAGE D’UTILISATION</string>
+    <string name="day_hour">PENDANT LE JOUR ET L’HEURE</string>
+    <string name="dlunes">LUNDI</string>
+    <string name="dSaturday">SAMEDI</string>
+    <string name="dmartes">MARDI</string>
+    <string name="dnoche">NUIT</string>
+    <string name="dtarde">VERS LA FIN</string>
+    <string name="dmanana">MATIN</string>
+    <string name="dmiercoles">MERCREDI</string>
+    <string name="djueves">JEUDI</string>
+    <string name="dviernes">VENDREDI</string>
+    <string name="ddomingo">DIMANCHE</string>
+    <string name="lanzar_juego_menu_grupo">Jeu De Lancement</string>
+    <string name="pref_cual_es">Quel est le picto</string>
+    <string name="cont_ctanos">Contactez nous</string>
+    <string name="cu_l_es_el_picto">Quel est le picto</string>
+    <string name="delete_menu_grupo">Effacer</string>
+    <string name="edit_menu_grupo">"modifier "</string>
+    <string name="FamiliarUser">Famille</string>
+    <string name="ingrese_nombre">Veuillez vérifier si vous avez ajouté l\'image du pictogramme et son nom</string>
+    <string name="no_hay_pictos">Il n\'y a pas d\'icône à sélectionner</string>
+    <string name="precisi_n">Précision</string>
+    <string name="pref_login_wait">Veuillez patienter ...</string>
+    <string name="pref_summary_experimental">Utilisez l\'intelligence artificielle pour générer une phrase plus riche. Vous avez besoin d\'une connexion Internet stable.</string>
+    <string name="pref_summary_tutorial">Suivez à nouveau le didacticiel et apprenez quelques astuces supplémentaires sur l\'utilisation d\'OTTAA</string>
+    <string name="pref_title_tutorial">Redémarrage du tutoriel</string>
+    <string name="pref_volver_editor">Retour à l\'éditeur</string>
+    <string name="ProfesionalUser">Professionnel</string>
+    <string name="dont_delete_group">Vous ne pouvez pas supprimer ce groupe</string>
+    <string name="warning_del">Ups!</string>
+    <string name="audio_compartir">l\'audio</string>
+    <string name="compartir_imagen">Image</string>
+    <string name="useforGame">la précision du jeu dans un groupe</string>
+    <string name="strTutorialGame3">Quel est le picto gagnant</string>
+    <string name="strTutorialGame4">C\'est le picto gagnant</string>
+    <string name="strTutorialGame5">C\'est le score</string>
+    <string name="strOthers">Autres</string>
+    <string name="strAciertos">coups</string>
+    <string name="strErrores">Erreurs</string>
+    <string name="strUsoDrDia">Utiliser pendant la journée</string>
+    <string name="strFrasesMasUsadas">Phrases les plus utilisées</string>
+    <string name="image_error_cargar">veuillez sélectionner au moins un pictogramme lorsque vous souhaitez partager un média social</string>
+
+</resources>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/score"
+        android:enabled="true"
+        android:icon="@drawable/ic_sentiment_very_satisfied_white_24dp"
+        android:title="@string/str_puntaje"
+        android:visible="true"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/check"
+        android:visible="true"
+        android:enabled="true"
+        android:icon="@drawable/ic_unhelp"
+        android:title="Usar ayudas"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/repeat"
+        android:visible="true"
+        android:enabled="true"
+        android:icon="@drawable/ic_unrepeat_ic_2"
+        android:title="Usar ayudas"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/action_parar"
+        android:icon="@drawable/ic_volume_up_white_24dp"
+        android:title="@string/action_parar"
+        app:showAsAction="always"/>
+</menu>

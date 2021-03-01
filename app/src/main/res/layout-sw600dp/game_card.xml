@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/picto_shape">
+
+    <!--    TODO Arreglar el layout-->
+    <FrameLayout
+        android:id="@+id/imageFrame"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        custom:layout_constraintBottom_toTopOf="@+id/gamecard_title"
+        custom:layout_constraintEnd_toEndOf="parent"
+        custom:layout_constraintStart_toStartOf="parent"
+        custom:layout_constraintTop_toTopOf="parent"
+        custom:layout_constraintVertical_weight="5">
+
+        <ImageView
+            android:id="@+id/imgJuego"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/small_margin"
+            android:layout_marginTop="@dimen/small_margin"
+            android:layout_marginEnd="@dimen/small_margin"
+            android:scaleType="centerCrop"
+            android:src="@drawable/match_picto" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/shape_card_game" />
+
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/gamecard_title"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/small_margin"
+        android:text="Titulo"
+        android:gravity="center"
+        android:textSize="@dimen/textSizeTitulo"
+        android:textColor="#555"
+        android:textStyle="bold"
+        custom:layout_constraintBottom_toTopOf="@id/gamecard_description"
+        custom:layout_constraintEnd_toEndOf="parent"
+        custom:layout_constraintStart_toStartOf="parent"
+        custom:layout_constraintTop_toBottomOf="@id/imageFrame"
+        custom:layout_constraintVertical_weight="1" />
+
+    <TextView
+        android:id="@+id/gamecard_description"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginHorizontal="@dimen/small_margin"
+        android:textColor="#555"
+        android:text="Dummy description"
+        android:gravity="center|top"
+        custom:layout_constraintBottom_toTopOf="@id/btnPuntaje"
+        custom:layout_constraintEnd_toEndOf="parent"
+        custom:layout_constraintStart_toStartOf="parent"
+        custom:layout_constraintTop_toBottomOf="@+id/gamecard_title"
+        custom:layout_constraintVertical_weight="1" />
+
+
+    <Button
+        android:id="@+id/btnPuntaje"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="@string/str_puntaje"
+        android:textColor="@color/colorPrimary"
+        android:layout_marginBottom="@dimen/small_margin"
+        custom:layout_constraintBottom_toBottomOf="parent"
+        custom:layout_constraintEnd_toStartOf="@id/btnJugar"
+        custom:layout_constraintStart_toStartOf="parent"
+        custom:layout_constraintTop_toBottomOf="@id/gamecard_description"
+        custom:layout_constraintHorizontal_weight="2"
+        custom:layout_constraintVertical_weight="2" />
+
+    <Button
+        android:id="@+id/btnJugar"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="@string/str_jugar"
+        android:gravity="center"
+        android:textAlignment="center"
+        android:textColor="@color/colorPrimary"
+        custom:layout_constraintBottom_toBottomOf="@id/btnPuntaje"
+        custom:layout_constraintEnd_toEndOf="parent"
+        custom:layout_constraintStart_toEndOf="@id/btnPuntaje"
+        custom:layout_constraintHorizontal_weight="2"
+        custom:layout_constraintTop_toTopOf="@id/btnPuntaje" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

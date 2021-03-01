@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/White">
+
+    <ImageView
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/Texto_Picto"
+        android:scaleType="fitXY"
+        android:src="@drawable/ic_agregar_nuevo"
+        android:layout_marginRight="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="5dp"
+        android:padding="5dp"
+        android:background="@color/Black"
+        android:id="@+id/Imagen_Picto"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:text="Picto"
+        android:textAllCaps="true"
+        android:textColor="@color/Black"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:lines="2"
+        android:id="@+id/Texto_Picto"
+        android:layout_centerHorizontal="true">
+    </TextView>
+</RelativeLayout>

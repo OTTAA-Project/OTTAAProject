@@ -1,0 +1,15 @@
+<resources>
+    <string name="title_activity_login">Ingia</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">e-post</string>
+    <string name="prompt_password">Neno la siri (hiari)</string>
+    <string name="action_sign_in">Ingia au usajili</string>
+    <string name="action_sign_in_short">Ingia</string>
+    <string name="plus_sign_out">Badilisha akaunti ya Google+</string>
+    <string name="plus_disconnect">Futa Google+</string>
+    <string name="error_invalid_email">Anwani hii ya barua pepe ni batili</string>
+    <string name="error_invalid_password">Nenosiri hili ni fupi mno</string>
+    <string name="error_incorrect_password">Nenosiri hili si sahihi</string>
+    <string name="error_field_required">Shamba hili ni la lazima</string>
+</resources>

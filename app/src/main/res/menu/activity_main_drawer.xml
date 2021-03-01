@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+     <group
+         android:id="@+id/activity"
+         >
+    <item
+        android:id="@+id/ubic"
+        android:icon="@drawable/ic_location_on_white_24dp"
+        android:title="@string/location"
+        android:visible="true"
+        />
+    <item android:id="@+id/action_parar"
+        android:icon="@drawable/ic_volume_up_white_24dp"
+        android:title="@string/action_parar"
+        />
+     </group>
+    <group android:id="@+id/general">
+        <item android:id="@+id/about"
+            android:icon="@drawable/ic_info_outline_black_24dp"
+            android:title="@string/title_activity_about_ottaa"
+            />
+        <item android:id="@+id/report"
+            android:title="@string/generar_infor"
+            android:icon="@drawable/ic_dashboard_black_24dp"
+            />
+
+        <item android:id="@+id/action_settings"
+            android:icon="@drawable/ic_settings_black_24dp"
+            android:title="@string/action_settings"
+         />
+        <item android:id="@+id/tutorial"
+            android:icon="@drawable/ic_info_outline_black_24dp"
+            android:title="@string/title_activity_tutorial"
+            />
+    </group>
+    <group android:id="@+id/out">
+        <item android:id="@+id/exit"
+            android:icon="@drawable/ic_cancel_black_24dp"
+            android:title="@string/system_exit"
+            />
+        <item android:id="@+id/logout"
+            android:icon="@drawable/ic_exit_to_app_black_24dp"
+            android:title="@string/pref_header_cerrar_sesion"
+            />
+    </group>
+
+</menu>

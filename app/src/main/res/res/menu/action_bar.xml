@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:yourapp="http://schemas.android.com/apk/res-auto" >
+
+        <!-- Search, should appear as action button -->
+
+        <item android:id="@+id/action_reiniciar"
+            android:icon="@drawable/ic_refresh_white_24dp"
+            android:title="@string/action_reiniciar"
+            yourapp:showAsAction="always"/>
+        <item android:id="@+id/action_ayuda"
+            android:icon="@drawable/ic_help_outline_white_24dp"
+            android:title="@string/action_reiniciar"
+            yourapp:showAsAction="always"/>
+        <item android:id="@+id/action_parar"
+            android:icon="@drawable/ic_volume_off_white_24dp"
+            android:title="@string/action_parar"
+            yourapp:showAsAction="always"/>
+        <!--<item android:id="@+id/action_borrar"-->
+            <!--android:icon="@drawable/ic_delete_white_24dp"-->
+            <!--android:title="@string/action_reiniciar"-->
+            <!--yourapp:showAsAction="ifRoom"/>-->
+        <item android:id="@+id/action_share"
+            android:icon="@drawable/ic_share_white_24dp"
+            android:title="@string/action_share"
+            yourapp:showAsAction="always"/>
+        <!-- Settings, should always be in the overflow -->
+        <item android:id="@+id/action_settings"
+            android:icon="@drawable/ic_more_vert_white_24dp"
+            android:title=" "
+            yourapp:showAsAction="always" />
+
+</menu>

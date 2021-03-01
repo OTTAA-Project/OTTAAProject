@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<full-backup-content>
+
+    <!-- Exclude the shared preferences file that contains the GCM registrationId -->
+    <exclude
+        domain="sharedpref"
+        path="ICALL4HELP_PREFERENCES.xml"/>
+    <exclude
+        domain="sharedpref"
+        path="contarFrase.xml"/>
+    <exclude
+        domain="sharedpref"
+        path="tiempo.xml"/>
+</full-backup-content>

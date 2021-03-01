@@ -1,0 +1,136 @@
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="@dimen/sizeDialogWidth"
+    android:layout_height="@dimen/sizeDialogHeigth"
+    android:background="@color/White"
+    app:cardCornerRadius="25dp">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorTransparent"
+        android:orientation="vertical">
+
+
+        <TextView
+            android:id="@+id/titulo"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/dialog_shape_text"
+            android:gravity="center"
+            android:text="Seleccione la fuente de la imagen"
+            android:textAlignment="center"
+            android:textColor="@color/White"
+            android:textSize="@dimen/textSizeTitulo"
+            app:layout_constraintBottom_toTopOf="@+id/botones"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_weight="2" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/botones"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="@dimen/seleccion_margin"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/titulo"
+            android:layout_margin="4dp"
+            app:layout_constraintVertical_weight="8">
+
+            <ImageButton
+                android:id="@+id/w1"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@color/colorTransparent"
+                android:scaleType="centerInside"
+                android:src="@drawable/clickerv1"
+                android:contentDescription="@string/pref_select_camara"
+                app:layout_constraintBottom_toTopOf="@id/text1"
+                app:layout_constraintEnd_toStartOf="@id/w2"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_weight="8" />
+
+            <TextView
+                android:id="@+id/text1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/interpicto_margin"
+                android:gravity="center"
+                android:text="@string/str_avanzar_aceptar"
+                android:textSize="@dimen/textSizeTitulo"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/text2"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/w1"
+                app:layout_constraintVertical_weight="2" />
+
+            <ImageButton
+                android:id="@+id/w2"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@color/colorTransparent"
+                android:scaleType="centerInside"
+                android:contentDescription="@string/pref_select_galeria"
+                android:src="@drawable/scroll"
+                app:layout_constraintBottom_toTopOf="@id/text2"
+                app:layout_constraintEnd_toStartOf="@id/w3"
+                app:layout_constraintStart_toEndOf="@id/w1"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_weight="8" />
+
+            <TextView
+                android:id="@+id/text2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/interpicto_margin"
+                android:gravity="center"
+                android:text="@string/str_use_scroll"
+                android:textSize="@dimen/textSizeTitulo"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/text3"
+                app:layout_constraintStart_toEndOf="@id/text1"
+                app:layout_constraintTop_toBottomOf="@id/w2"
+                app:layout_constraintVertical_weight="2" />
+
+            <ImageButton
+                android:id="@+id/w3"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@color/colorTransparent"
+                android:scaleType="centerInside"
+                android:contentDescription="@string/pref_select_galeria"
+                android:src="@drawable/sippandpuff"
+                app:layout_constraintBottom_toTopOf="@id/text3"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/w2"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_weight="8"
+                />
+
+            <TextView
+                android:id="@+id/text3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/interpicto_margin"
+                android:gravity="center"
+                android:text="Sip &amp; puff"
+                android:textSize="@dimen/textSizeTitulo"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/text2"
+                app:layout_constraintTop_toBottomOf="@id/w3"
+                app:layout_constraintVertical_weight="2"
+               />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.cardview.widget.CardView>

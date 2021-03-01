@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:title="Presentación personal">
+    <EditTextPreference
+        android:key="presentacion_text"
+        android:title="Texto de presentación"
+        android:defaultValue=" soy Juan Perez y tengo..."
+        android:selectAllOnFocus="true"
+        android:inputType="textMultiLine"
+        android:singleLine="true"
+        android:maxLines="3" />
+    </PreferenceCategory>
+
+</PreferenceScreen>

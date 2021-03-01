@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="FondoActionBar" >#FA0</color> />
+    <color name="FondoApp" >#ededcd</color> />
+    <color name="FondoBoton" >#FFF</color>
+    <color name="FondoBotonArriba" >#f9f9f9</color> />
+    <color name="NaranjaOTTAA">#FF7C00</color>
+    <color name="button">#00B2EB</color>
+    <color name="button_pressed">#0277BD</color>
+    <color name="button_disabled">#CCCCCC</color>
+    <color name="examples_green">#5bcc55</color>
+    <color name="black">#000000</color>
+    <color name="white">#FFFFFF</color>
+</resources>

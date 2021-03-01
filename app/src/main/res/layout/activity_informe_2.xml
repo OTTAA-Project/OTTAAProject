@@ -1,0 +1,488 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/WhiteSmoke">
+
+    <ImageView
+        android:id="@+id/imageViewNoInternet"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/big_fat_margin"
+        android:src="@drawable/internet"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:clipToPadding="true"
+        android:fillViewport="true"
+        android:fitsSystemWindows="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardViewScore"
+                android:layout_width="0dp"
+                android:layout_height="200dp"
+                android:layout_margin="@dimen/medium_margin"
+                android:elevation="@dimen/small_margin"
+                app:cardBackgroundColor="@color/White"
+                app:cardCornerRadius="5dp"
+                app:layout_constraintBottom_toTopOf="@+id/cardViewUsoGrupos"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:visibility="visible">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="@dimen/small_margin">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="OTTAA Score"
+                        android:textColor="@color/Black"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/imageViewProfilePic"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:padding="13dp"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/ic_hola"
+                        app:layout_constraintBottom_toBottomOf="@id/progressBar"
+                        app:layout_constraintDimensionRatio="1:1"
+                        app:layout_constraintEnd_toEndOf="@id/progressBar"
+                        app:layout_constraintStart_toStartOf="@id/progressBar"
+                        app:layout_constraintTop_toTopOf="@id/progressBar" />
+
+                    <!--            Glide.with(context)-->
+                    <!--            .load(url)-->
+                    <!--            .circleCrop()-->
+                    <!--            .into(imageView);-->
+
+                    <com.stonefacesoft.ottaa.utils.CircularProgressBar
+                        android:id="@+id/progressBar"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_margin="@dimen/small_margin"
+                        app:layout_constraintBottom_toTopOf="@id/textViewNivel"
+                        app:layout_constraintDimensionRatio="1:1"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_weight="4"
+                        app:progress="0"
+                        app:progressBarThickness="15dp"
+                        app:progressbarColor="@color/NaranjaOTTAA" />
+
+                    <TextView
+                        android:id="@+id/textViewNivel"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:gravity="center"
+                        android:text="Nivel 2"
+                        android:textColor="@color/NaranjaOTTAA"
+                        android:textSize="20sp"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/progressBar"
+                        app:layout_constraintVertical_weight="1" />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardViewUsoGrupos"
+                android:layout_width="0dp"
+                android:layout_height="200dp"
+                android:layout_marginStart="@dimen/medium_margin"
+                android:layout_marginEnd="@dimen/medium_margin"
+                android:elevation="@dimen/small_margin"
+                app:cardBackgroundColor="@color/White"
+                app:cardCornerRadius="5dp"
+                app:layout_constraintBottom_toTopOf="@id/cardViewActividad"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cardViewScore"
+                tools:visibility="visible">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <TextView
+                        android:id="@+id/TituloVocabulario"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Vocabulario"
+                        android:layout_marginStart="@dimen/small_margin"
+                        android:layout_marginTop="@dimen/small_margin"
+                        android:textColor="@color/Black"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <com.stonefacesoft.ottaa.utils.CircularProgressBar
+                        android:id="@+id/progressBar1"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_margin="8dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintDimensionRatio="1:1"
+                        app:layout_constraintEnd_toStartOf="@id/constraintListVocabulario"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/TituloVocabulario"
+                        app:progress="35"
+                        app:progressBarThickness="6dp"
+                        app:progressbarColor="#EB6C6C" />
+
+                    <com.stonefacesoft.ottaa.utils.CircularProgressBar
+                        android:id="@+id/progressBar2"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_margin="10dp"
+                        app:layout_constraintBottom_toBottomOf="@id/progressBar1"
+                        app:layout_constraintDimensionRatio="1:1"
+                        app:layout_constraintEnd_toEndOf="@id/progressBar1"
+                        app:layout_constraintStart_toStartOf="@id/progressBar1"
+                        app:layout_constraintTop_toTopOf="@id/progressBar1"
+                        app:progress="65"
+                        app:progressBarThickness="6dp"
+                        app:progressbarColor="#F3AB20" />
+
+                    <com.stonefacesoft.ottaa.utils.CircularProgressBar
+                        android:id="@+id/progressBar3"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_margin="10dp"
+                        app:layout_constraintBottom_toBottomOf="@id/progressBar2"
+                        app:layout_constraintDimensionRatio="1:1"
+                        app:layout_constraintEnd_toEndOf="@id/progressBar2"
+                        app:layout_constraintStart_toStartOf="@id/progressBar2"
+                        app:layout_constraintTop_toTopOf="@id/progressBar2"
+                        app:progress="15"
+                        app:progressBarThickness="6dp"
+                        app:progressbarColor="#328BE2" />
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/constraintListVocabulario"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        app:layout_constraintBottom_toBottomOf="@id/progressBar1"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/progressBar1"
+                        app:layout_constraintTop_toTopOf="@id/progressBar1">
+
+                        <TextView
+                            android:id="@+id/textViewTituloConstraint"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:text="Grupo de pictogramas"
+                            app:layout_constraintBottom_toTopOf="@id/textViewVocabulario1"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintVertical_weight="1" />
+
+
+                        <TextView
+                            android:id="@+id/textViewVocabulario1"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/small_margin"
+                            android:gravity="center_vertical"
+                            android:text="@string/pref_cargando_DB"
+                            app:layout_constraintBottom_toTopOf="@id/textViewVocabulario2"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_weight="8"
+                            app:layout_constraintStart_toEndOf="@id/dot1"
+                            app:layout_constraintTop_toBottomOf="@id/textViewTituloConstraint"
+                            app:layout_constraintVertical_weight="2" />
+
+                        <ImageView
+                            android:id="@+id/dot1"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:src="@drawable/fizgerald_shape"
+                            app:layout_constraintBottom_toBottomOf="@id/textViewVocabulario1"
+                            app:layout_constraintDimensionRatio="1:1"
+                            app:layout_constraintEnd_toStartOf="@id/textViewVocabulario1"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="@id/textViewVocabulario1"
+                            app:tint="#EB6C6C" />
+
+
+                        <TextView
+                            android:id="@+id/textViewVocabulario2"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/small_margin"
+                            android:gravity="center_vertical"
+                            android:inputType="textCapWords"
+                            android:text="@string/pref_cargando_DB"
+                            app:layout_constraintBottom_toTopOf="@id/textViewVocabulario3"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_weight="8"
+                            app:layout_constraintStart_toEndOf="@id/dot2"
+                            app:layout_constraintTop_toBottomOf="@id/textViewVocabulario1"
+                            app:layout_constraintVertical_weight="2" />
+
+                        <ImageView
+                            android:id="@+id/dot2"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:src="@drawable/fizgerald_shape"
+                            app:layout_constraintBottom_toBottomOf="@id/textViewVocabulario2"
+                            app:layout_constraintDimensionRatio="1:1"
+                            app:layout_constraintEnd_toStartOf="@id/textViewVocabulario2"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="@id/textViewVocabulario2"
+                            app:tint="#F3AB20" />
+
+                        <TextView
+                            android:id="@+id/textViewVocabulario3"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/small_margin"
+                            android:gravity="center_vertical"
+                            android:text="@string/pref_cargando_DB"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintHorizontal_weight="8"
+                            app:layout_constraintStart_toEndOf="@id/dot3"
+                            app:layout_constraintTop_toBottomOf="@id/textViewVocabulario2"
+                            app:layout_constraintVertical_weight="2" />
+
+                        <ImageView
+                            android:id="@+id/dot3"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:src="@drawable/fizgerald_shape"
+                            app:layout_constraintBottom_toBottomOf="@id/textViewVocabulario3"
+                            app:layout_constraintDimensionRatio="1:1"
+                            app:layout_constraintEnd_toStartOf="@id/textViewVocabulario3"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="@id/textViewVocabulario3"
+                            app:tint="#328BE2" />
+
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardViewActividad"
+                android:layout_width="0dp"
+                android:layout_height="200dp"
+                android:layout_margin="@dimen/medium_margin"
+                android:elevation="@dimen/small_margin"
+                app:cardBackgroundColor="@color/White"
+                app:cardCornerRadius="5dp"
+                app:layout_constraintBottom_toTopOf="@id/cardViewUltimo7dias"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cardViewUsoGrupos"
+                tools:visibility="visible">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="@dimen/small_margin">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Actividad"
+                        android:textColor="@color/Black"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <com.github.mikephil.charting.charts.LineChart
+                        android:id="@+id/lineChartUsoFrases"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_marginTop="16dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_weight="90">
+
+                    </com.github.mikephil.charting.charts.LineChart>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardViewUltimo7dias"
+                android:layout_width="0dp"
+                android:layout_height="150dp"
+                android:layout_marginStart="@dimen/medium_margin"
+                android:elevation="@dimen/small_margin"
+                app:cardBackgroundColor="@color/NaranjaOTTAA"
+                app:cardCornerRadius="5dp"
+                app:layout_constraintBottom_toTopOf="@id/cardViewFrasesMasUsadas"
+                app:layout_constraintEnd_toStartOf="@id/cardViewPromedioFrase"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cardViewActividad"
+                tools:visibility="visible">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="@dimen/small_margin">
+
+                    <TextView
+                        android:id="@+id/textViewFrasesUltimos7Dias"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="XX"
+                        android:textColor="@color/White"
+                        android:textSize="80sp"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:text="Frases creadas en los ultimos 7 dias"
+                        android:textColor="@color/White"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/textViewFrasesUltimos7Dias" />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardViewPromedioFrase"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="@dimen/medium_margin"
+                android:layout_marginEnd="@dimen/medium_margin"
+                android:elevation="@dimen/small_margin"
+                app:cardBackgroundColor="@color/White"
+                app:cardCornerRadius="5dp"
+                app:layout_constraintBottom_toBottomOf="@id/cardViewUltimo7dias"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/cardViewUltimo7dias"
+                app:layout_constraintTop_toTopOf="@id/cardViewUltimo7dias"
+                tools:visibility="visible">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="@dimen/small_margin">
+
+                    <TextView
+                        android:id="@+id/textViewPromedioPictoPorFrase"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="XX"
+                        android:textColor="@color/NaranjaOTTAA"
+                        android:textSize="80sp"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_horizontal"
+                        android:text="Pictogramas por frase en promedio"
+                        android:textColor="@color/NaranjaOTTAA"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/textViewPromedioPictoPorFrase" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardViewFrasesMasUsadas"
+                android:layout_width="0dp"
+                android:layout_height="200dp"
+                android:layout_margin="@dimen/medium_margin"
+                android:elevation="@dimen/small_margin"
+                app:cardBackgroundColor="@color/White"
+                app:cardCornerRadius="5dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cardViewUltimo7dias"
+                tools:visibility="visible">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="@dimen/small_margin">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Frases mas usadas"
+                        android:textColor="@color/Black"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                    <ImageView
+                        android:id="@+id/frasesMasUsadas"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_marginStart="@dimen/small_margin"
+                        android:layout_marginTop="@dimen/medium_margin"
+                        android:layout_marginEnd="@dimen/small_margin"
+                        android:layout_marginBottom="@dimen/small_margin"
+                        android:src="@drawable/image_placeholder"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

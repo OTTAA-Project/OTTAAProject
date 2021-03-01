@@ -1,0 +1,47 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="regular_margin">8dp</dimen>
+    <dimen name="big_fat_margin">70dp</dimen>
+    <dimen name="button_radius">48dp</dimen>
+
+    <dimen name="small_margin">4dp</dimen>
+    <dimen name="medium_margin">32dp</dimen>
+    <dimen name="large_margin">54dp</dimen>
+
+    <dimen name="interpicto_margin">4dp</dimen>
+    <dimen name="interpicto_marginBarrido">10dp</dimen>
+
+    <dimen name="seleccion_margin">4dp</dimen>
+
+    <dimen name="textSizeTitulo">15sp</dimen>
+    <dimen name="textSizeChico">12sp</dimen>
+
+
+    <dimen name="sizeDialogHeigth">250dp</dimen>
+    <dimen name="sizeDialogHeigthMax">350dp</dimen>
+    <dimen name="sizeDialogWidth">500dp</dimen>
+
+    <dimen name="pictoSize">150dp</dimen>
+    <dimen name="ultra_big_fat_margin">170dp</dimen>
+
+    <dimen name="sizeFloattingButtonMin">50dp</dimen>
+    <dimen name="sizeFloattingButtonMed">70dp</dimen>
+    <dimen name="sizeFloattingButtonMax">100dp</dimen>
+
+    <dimen name="sizeFloattingButtonIconMin">40dp</dimen>
+    <dimen name="sizeFloattingButtonIconMed">60dp</dimen>
+    <dimen name="sizeFloattingButtonIconMax">80dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="nav_header_vertical_spacing">8dp</dimen>
+    <dimen name="nav_header_height">176dp</dimen>
+
+    <dimen name="sizeScreenScanningFloattingButtonMin">50dp</dimen>
+    <dimen name="sizeScreenScanningFloattingButtonMed">70dp</dimen>
+    <dimen name="sizeScreenScanningFloattingButtonMax">100dp</dimen>
+
+    <dimen name="sizeScreenScanningFloattingButtonIconMin">40dp</dimen>
+    <dimen name="sizeScreenScanningFloattingButtonIconMed">60dp</dimen>
+    <dimen name="sizeScreenScanningFloattingButtonIconMax">80dp</dimen>
+</resources>

@@ -1,0 +1,9 @@
+<resources>
+<!--    TODO elimianr estos attr-->
+    <declare-styleable name="MatchPicto">
+        <attr name="exampleString1" format="string" />
+        <attr name="exampleDimension1" format="dimension" />
+        <attr name="exampleColor1" format="color" />
+        <attr name="exampleDrawable1" format="color|reference" />
+    </declare-styleable>
+</resources>

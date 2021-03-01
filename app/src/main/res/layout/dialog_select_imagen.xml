@@ -1,0 +1,135 @@
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="@dimen/sizeDialogWidth"
+    android:layout_height="@dimen/sizeDialogHeigth"
+    android:background="@color/White"
+    app:cardCornerRadius="25dp">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorTransparent"
+        android:orientation="vertical">
+
+
+        <TextView
+            android:id="@+id/titulo"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/dialog_shape_text"
+            android:gravity="center"
+            android:text="Seleccione la fuente de la imagen"
+            android:textAlignment="center"
+            android:textColor="@color/White"
+            android:textSize="@dimen/textSizeTitulo"
+            app:layout_constraintBottom_toTopOf="@+id/botones"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_weight="2" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/botones"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="@dimen/seleccion_margin"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/titulo"
+            android:layout_margin="4dp"
+            app:layout_constraintVertical_weight="8">
+
+            <ImageButton
+                android:id="@+id/Camara"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@color/colorTransparent"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_hacer_fotos"
+                android:contentDescription="@string/pref_select_camara"
+                app:layout_constraintBottom_toTopOf="@id/textAudio"
+                app:layout_constraintEnd_toStartOf="@id/Galeria"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_weight="8" />
+
+            <TextView
+                android:id="@+id/textAudio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/interpicto_margin"
+                android:gravity="center"
+                android:text="@string/pref_select_camara"
+                android:textSize="@dimen/textSizeTitulo"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/textImagen"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/Camara"
+                app:layout_constraintVertical_weight="2" />
+
+            <ImageButton
+                android:id="@+id/Galeria"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@color/colorTransparent"
+                android:scaleType="centerInside"
+                android:contentDescription="@string/pref_select_galeria"
+                android:src="@drawable/ic_album_fotografico"
+                app:layout_constraintBottom_toTopOf="@id/textImagen"
+                app:layout_constraintEnd_toStartOf="@id/Arasaac"
+                app:layout_constraintStart_toEndOf="@id/Camara"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_weight="8" />
+
+            <TextView
+                android:id="@+id/textImagen"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/interpicto_margin"
+                android:gravity="center"
+                android:text="@string/pref_select_galeria"
+                android:textSize="@dimen/textSizeTitulo"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/textArasaac"
+                app:layout_constraintStart_toEndOf="@id/textAudio"
+                app:layout_constraintTop_toBottomOf="@id/Galeria"
+                app:layout_constraintVertical_weight="2" />
+
+            <ImageButton
+                android:id="@+id/Arasaac"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@color/colorTransparent"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_pictogramas"
+                android:contentDescription="@string/pref_select_pictos"
+                app:layout_constraintBottom_toTopOf="@id/textImagen"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/Galeria"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_weight="8" />
+
+            <TextView
+                android:id="@+id/textArasaac"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/interpicto_margin"
+                android:layout_marginEnd="@dimen/interpicto_margin"
+                android:textAlignment="center"
+                android:gravity="center"
+                android:text="@string/pref_select_pictos"
+                android:textSize="@dimen/textSizeTitulo"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/Galeria"
+                app:layout_constraintTop_toBottomOf="@id/Arasaac"
+                app:layout_constraintVertical_weight="4" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.cardview.widget.CardView>

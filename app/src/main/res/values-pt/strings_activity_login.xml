@@ -1,0 +1,15 @@
+<resources>
+    <string name="title_activity_login">assinar em</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">O email</string>
+    <string name="prompt_password">Passord (valgfritt)</string>
+    <string name="action_sign_in">Entrar ou Registrar</string>
+    <string name="action_sign_in_short">assinar em</string>
+    <string name="plus_sign_out">Alterar a conta do Google+</string>
+    <string name="plus_disconnect">Desconecte do Google+</string>
+    <string name="error_invalid_email">Este endereço de e-mail é inválido</string>
+    <string name="error_invalid_password">Esta senha é muito curta</string>
+    <string name="error_incorrect_password">Esta senha está incorreta</string>
+    <string name="error_field_required">Este campo é obrigatório</string>
+</resources>

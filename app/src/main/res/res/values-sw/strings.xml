@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="hello_world">Hello dunia!</string>
+    <string name="action_settings">Utekelezaji</string>
+    <string name="pref_open_settings">Mipangilio ya kufungua.</string>
+    <string name="spl_name">OTTAA Project</string>
+    <string name="action_reiniciar">Weka upya</string>
+    <string name="action_borrar">Futa</string>
+    <string name="action_parar">Simama</string>
+    <string name="action_share">Shiriki</string>
+    <string name="action_done">Imefanywa</string>
+    <string name="pref_login">Ingia kwa kubonyeza kitufe cha Ingia. Asante kwa kuchagua Mradi wa OTTAA.</string>
+    <string name="pref_login_tu_sub">Usajili wako umekoma</string>
+    <string name="pref_login_tu_sub_2">Ili upya leseni yako tafadhali wasiliana nasi.</string>
+    <string name="pref_login_gracias">Asante kwa kuchagua Mradi wa OTTAA.</string>
+    <string name="pref_login_contact">Wasiliana nasi</string>
+    <string name="pref_login_autentificando">Inathibitisha ...</string>
+    <string name="pref_login_semana">Kipindi chako cha majaribio kimeanza. Asante kwa kuchagua Mradi wa OTTAA.</string>
+    <string name="pref_login_lo_sentimos">Samahani, kwa matumizi ya kwanza unahitaji kushikamana na intaneti. Samahani kwa usumbufu huu.</string>
+    <string name="pref_OK">sawa</string>
+    <string name="pref_cargando_DB">Inapakia Database ...</string>
+    <string name="pref_cargando_presentacion">Inapakia uwasilishaji binafsi</string>
+    <string name="pref_header_presentacion">Uwasilishaji wa kibinafsi</string>
+    <string name="pref_text_presentacion">Inatumia uwasilishaji wa kibinafsi</string>
+    <string name="pref_title_presentacion">Nakala ya maonyesho</string>
+    <string name="pref_example_presentacion">Sawa Mimi ni Juan, nina matatizo ya mawasiliano na mimi hutumia mfumo huu, ninahitaji unisubiri.</string>
+    <string name="pref_header_tts">Nakala ya kuongea kwa injini</string>
+    <string name="pref_text_tts">Wezesha TTS ya desturi</string>
+    <string name="pref_summary_tts">Inaruhusu sauti iliyoboreshwa.</string>
+    <string name="pref_option1_tts">Kiwango cha hotuba</string>
+    <string name="pref_option2_tts">Sauti ya sauti</string>
+    <string name="pref_header_subtitulo">Mada</string>
+    <string name="pref_text_subtitulo">Kitambulisho cha usanifu</string>
+    <string name="pref_summary_subtitulo">Onyesha maelezo ya kibinafsi.</string>
+    <string name="pref_subtitulo_tamanio">Ukubwa</string>
+    <string name="pref_subtitulo_mayuscula">Uzoefu</string>
+    <string name="pref_subtitulo_mayuscula_summary">Inaruhusu vichwa vyenye nguvu.</string>
+    <string name="pref_idioma">Lugha</string>
+    <string name="pref_agenda">Kalenda maalum</string>
+    <string name="pref_text_agenda">Kalenda iliyochaguliwa</string>
+    <string name="pref_summary_agenda">Chagua kalenda na utaratibu wako wa kila siku.</string>
+    <string name="pref_ubicacion">Eneo</string>
+    <string name="pref_summary_ubicacion">Inaboresha utabiri kwa tagging geo.</string>
+    <string name="pref_barrido">Skanning ya skrini</string>
+    <string name="pref_summary_barrido">Inaruhusu kutumia programu kwa skanning <screen class="" /></string>
+    <string name="pref_editar">Badilisha Pictograms</string>
+    <string name="pref_summary_editar">Ruhusu kuzima kazi Hariri Pictograms.</string>
+    <string name="pref_open_editar">Kufungua mhariri wa pictogram.</string>
+    <string name="pref_error_editar">Samahani, pictogram hizi haziwezi kubadilishwa.</string>
+    <string name="pref_text_editar">Nakala ya Pictogram</string>
+    <string name="pref_opcion_editar">Pictograms zinazohusiana</string>
+    <string name="pref_select_camara">Kamera</string>
+    <string name="pref_select_galeria">Galery</string>
+    <string name="pref_select_pictos">Pakua kutoka kwa ARASAAC</string>
+    <string name="pref_important_alert">Muhimu</string>
+    <string name="pref_confirmar_alert">Thibitisha</string>
+    <string name="pref_cancelar_alert">Futa</string>
+    <string name="pref_yes_alert">Ndiyo</string>
+    <string name="pref_no_alert">Hapana</string>
+    <string name="pref_enviar">Tuma kwa</string>
+    <string name="pref_error_112">ERROR: 112. Kazi haipatikani kwenye kifaa chako.</string>
+    <string name="pref_error_312">ERROR: 312. APK ya huduma za Google Play sio ya upasuaji tafadhali ingiza toleo la hivi karibuni.</string>
+    <string name="pref_error_222">ERROR: 222. Tuna shida kuunganisha kwenye seva, tafadhali jaribu tena baadaye.</string>
+    <string name="pref_elija">Chagua chaguo</string>
+    <string name="pref_text1_alert">Unataka kuokoa mabadiliko?</string>
+    <string name="pref_text2_alert">Unataka kurejesha mipangilio ya kiwanda?</string>
+    <string name="pref_text3_alert">Unataka kuunda Pictogram mpya?</string>
+    <string name="pref_text4_alert">Unataka kufuta Pictogram iliyochaguliwa?</string>
+    <string name="pref_text5_alert">Do you want to delete the selected Group ?</string>
+    <string name="pref_step1_tuto">Sasa, tutakuongoza kukuunda sentensi kwa sauti ukitumia Mradi wa OTTAA.</string>
+    <string name="pref_final_tuto">Pata chaguo na usanidi wa chaguo kwenye bar ya juu.</string>
+    <string name="pref_title2_tuto">Unda sentensi</string>
+    <string name="pref_step2_tuto">Chagua pictogram unayotaka kwa kubofya.</string>
+    <string name="pref_title3_tuto">Anza kuzungumza</string>
+    <string name="pref_step3_tuto">Tuko tayari! Gusa alama ya OTTAA ili kuanza kuzungumza.</string>
+    <string name="pref_title4_tuto">Weka upya</string>
+    <string name="pref_step4_tuto">Gusa icon ya upya, au bonyeza kitufe cha nyuma, ili upe jitihada mpya.</string>
+    <string name="pref_title5_tuto">Si kutafuta\n  unachohitaji?</string>
+    <string name="pref_step5_tuto">Gusa spinner\n  Pata picha zaidi zinazohusiana.</string>
+    <string name="pref_title6_tuto">Unahitaji chaguzi zaidi?</string>
+    <string name="pref_step6_tuto">Hapa utapata picha zote zilizopangwa na makundi.</string>
+    <string name="tuto_title1_galeriaPictos">Chagua picha</string>
+    <string name="tuto_step1_galeriaPictos">Unaweza kuchagua picha unayotaka kwa kubonyeza.\n  Bonyeza na ushikilie kuhariri picto\n  au uifute.</string>
+    <string name="tuto_title2_galeriaPictos">Unda picto yako mwenyewe</string>
+    <string name="tuto_step2_galeriaPictos">Kusisitiza zaidi ya unaweza\n  fanya picto yako mwenyewe.</string>
+    <string name="tuto_title3_galeriaPictos">Ongeza pictos zaidi kwenye nyumba hii ya sanaa</string>
+    <string name="tuto_step3_galeriaPictos">Kushinda kifungo kiungo unaweza\n  Ongeza pictos zaidi kwenye nyumba hii ya sanaa.</string>
+    <string name="tuto_title1_galeriaGrupos">Chagua moja ya makundi</string>
+    <string name="tuto_title2_galeriaGrupos">Unda kikundi chako mwenyewe</string>
+    <string name="tuto_step2_galeriaGrupos">Kushinda kifungo zaidi ambacho unaweza\n  kuunda kikundi chako mwenyewe.</string>
+    <string name="tuto_title1_editPicto">Badilisha picha</string>
+    <string name="tuto_step1_editPicto">Kuingilia ndani ya mzunguko unaweza kubadilisha picha ya pictos.</string>
+    <string name="tuto_title2_editPicto">Unataka kusema nini?</string>
+    <string name="tuto_step2_editPicto">Badilisha maandishi hivyo picha\n  utasema chochote unachotaka.</string>
+    <string name="tuto_title3_editPicto">Fanya kuongea!</string>
+    <string name="tuto_step3_editPicto">Bonyeza alama ya OTTAA\n  kucheza maandishi ya picha.</string>
+    <string name="tuto_title4_editPicto">Fanya rangi</string>
+    <string name="tuto_step4_editPicto">Panga picha ya msingi\n  Nambari ya rangi ya ARASAAC.\n  Kijani: Vitendo vya Njano: Watu Bluu: Maelekezo\n  Orange: Nakala Magenta: Miscellanea.</string>
+    <string name="tuto_title5_editPicto">Unganisha kikundi</string>
+    <string name="tuto_step5_editPicto">Unaweza kuunganisha kiwanja hiki na\n  kalenda au mahali GPS.</string>
+    <string name="tuto_step_vincularCalendar">Unaweza kuunganisha kikundi hiki na tukio fulani\n  hivyo wakati huo na tarehe, pictos hii itatokea.</string>
+    <string name="tuto_title_vincularGPS">Unganisha na eneo la GPS</string>
+    <string name="tuto_step_vincularGPS">Unganisha seti hii ya pictogram na eneo fulani la GPS. \\ n hivyo wakati wapi picha za pictos zitatokea\n  Usahau kuweka mahali unayotaka katika mipangilio.</string>
+    <string name="pref_listo_tuto">Imefanywa</string>
+    <string name="edit_grupo">Chagua pictogram kwa kikundi</string>
+    <string name="edit_grupo_seguro">Una uhakika unataka kufuta Hariri Picto?</string>
+    <string name="edit_grupo_cambios">Je! Unataka kuihifadhi?</string>
+    <string name="edit_picto_visual_complete">Tafadhali weka jina la Pictogram</string>
+    <string name="pref_ubicacion_alert">Weka upya mahali?</string>
+    <string name="guardar">Hifadhi</string>
+    <string name="descartar">Lazima</string>
+    <string name="pref_activado">Imeamilishwa</string>
+    <string name="pref_desactivado">Imezimwa</string>
+    <string name="pref_calendario_elija">Chagua kalenda</string>
+    <string name="vincular">Chagua pictograms unayounganisha na kikundi</string>
+    <string name="problema_inet">Samahani unahitaji internet kutumia kipengele hiki.</string>
+    <string name="agregar_picto">Tumia PICTO</string>
+    <string name="ayuda1_Titulo">Vipande vinavyohusiana</string>
+    <string name="ayuda1_Texto">Hapa kuna chaguo zilizopendekezwa, zilizopangwa na kipaumbele.</string>
+    <string name="pref_descargode">Kwa kutumia kipengee cha OTTAA, ni wakati unaofuata, usted está de\n                Acuerdo con los siguientes términos y condiciones:\n\n                - Msaada wa kufanya hivyo ni muhimu zaidi kwa ajili ya kuwasilisha\n                correcto funcionamiento, calidad na maelezo zaidi ya brindados\n                kwa OTTAA la INFORMACIóN Y LAS POSIBILIDADES\n                COMUNICACIONALES NINI BRINDA OTTAA NO TIENEN CARÁCTER\n                SOFTWARE YA PARA STONEFACE, SUS MIEMBROS O\n                AFILIADOS, POR LO KUSA NO CONLLEVA NINGUNA\n                RESPONSABILIDAD.\n\n                - Stoneface Software hakuna uhakika kwamba ni maombi na huduma tu\n                Kujiunga na uharibifu wa tovuti hii ni huru ya virusi au mara nyingi\n                otro elemento dañino. Stoneface Programu ni hifadhi ya faragha\n                Cambios na actualizaciones con respecto la información contenida en la\n                Aplicación kwa mara mbili wakati, sin previo aviso.\n\n                - OTTAA inaweza kuharibu mtandao wa mtandao wa mtandao, aplicaciones o\n\n                ni kwamba hakuna mpango wa Stoneface Software. Stoneface\n                Programu haijatumiwa kuwa na uwezo wa kuzingatia.\n\n                - Ufafanuzi wa habari hii inaweza kuwa rahisi, nakala ya nakala\n                kugawisha dhambi na mabadiliko ya kibinafsi binafsi.\n\n                - Stoneface Software inakuja programu hii MODO DE PRUEBA DE\n                FUNCIONAMIENTO Y VALIDACIóN, kwa hivyo unaweza kufanya kazi zaidi ya\n                funcionamiento, miezi michache, kati ya matatizo mengine, EL\n                UTANGULIZI WA MAFUNZO A NOTIFICAR DE ESTOS ANAFUTA a\n                Stoneface Software.\n\n                - Stoneface Software HAPA KUHUSA NI GARANTIZA EL\n                Pata maelezo ya mtandao wa maelezo ya programu, ya kwamba\n                unahitajika nje ya maombi na sio ya kiwango cha juu tu\n                esté inapatikana.</string>
+
+    <string-array name="pref_subtitulos_tamanio_nombres">
+        <item>Small</item>
+        <item>Medium</item>
+        <item>Large</item>
+        <item>Extra Large</item>
+    </string-array>
+    <string-array name="pref_subtitulos_tamanio_valores">
+        <item>15</item>
+        <item>18</item>
+        <item>25</item>
+        <item>35</item>
+    </string-array>
+
+
+    <string-array name="pref_idiomas">
+        <item>Español</item>
+        <item>English</item>
+    </string-array>
+    <string-array name="pref_idiomas_valores">
+        <item>esp</item>
+        <item>ingles</item>
+    </string-array>
+
+    <string name="title_activity_tuto">Tuto</string>
+    <string name="title_activity_tutorial">Mafunzo</string>
+    <string name="title_activity_configuracion">Mipangilio</string>
+    <string name="title_activity_editar">Mhariri wa Pictogram</string>
+
+    <string name="title_section1">Section 1</string>
+    <string name="title_section2">Section 2</string>
+    <string name="title_section3">Section 3</string>
+
+
+    <string name="title_activity_galeria_pictos">Picha Nyumba ya sanaa</string>
+
+
+    <string name="string_ubicacion_casa">Nyumba yangu</string>
+    <string name="string_ubicacion_escuela">Shule yangu</string>
+    <string name="button_set_location">Unganisha na eneo hili</string>
+    <string name="no_location">Hakuna anwani ya eneo hili</string>
+
+
+    <string name="geofences_removed">GeoLocation imefungwa</string>
+    <string name="geofences_added">GeoLocation imeanzishwa</string>
+    <string name="not_connected">GoogleApiClient hapana bado imeunganishwa. Jaribu tena.</string>
+    <string name="geofence_not_available">Huduma ya uendeshaji haipatikani sasa</string>
+    <string name="geofence_too_many_geofences">Programu yako imesajiliwa zaidi ya geofences</string>
+    <string name="geofence_too_many_pending_intents">Umetoa PendingIntents nyingi sana kwenye simu ya addGeofences ()</string>
+    <string name="unknown_geofence_error">Hitilafu isiyojulikana: huduma ya Geofence haipatikani sasa</string>
+    <string name="geofence_transition_invalid_type">Hitilafu ya mabadiliko ya geofence: aina ya mabadiliko ya batili% 1 $ d</string>
+    <string name="bool_EstoyCasa">mBoolEstoyEnCasa</string>
+    <string name="bool_EstoyEscuela">mBoolEstoyEnEscuela</string>
+    <string name="Disfruta_picto">Furahia pictos zako mpya kulingana na eneo lako.</string>
+    <string name="BotonFinish">Imefanywa</string>
+    <string name="ElijaPictoExistente">Chagua Picto iliyopo</string>
+    <string name="NuevoPictoGrupo">Unda Kikundi kipya cha Picto</string>
+    <string name="EditCurrentPicto">Badilisha Picto ya sasa</string>
+    <string name="ElijaTextoPicto">Andika maandishi yako ya desturi kwa Picto</string>
+    <string name="EscribaAqui">Andika hapa ...</string>
+    <string name="PruebaNuevoPicto">Jaribu Picto yako mpya!</string>
+    <string name="ElijaImagenPicto">Chagua picha kwa Picto mpya</string>
+
+
+    <string name="title_activity_edit__content">Edit_Content</string>
+
+    <string name="hello_blank_fragment">Sawa kipande kipande</string>
+    <string name="title_activity_edit_picto__container">EditPicto_Container</string>
+    <string name="Activity_Ubicacion">Mipangilio ya eneo maalum</string>
+    <string name="TextOutloud">Ingiza maandishi ili kusema kwa sauti</string>
+    <string name="NamePicto">Ingiza maandishi kwa jina la Picto</string>
+    <string name="PickAColor">Chagua rangi kwa sura</string>
+    <string name="title_activity_editar_grupo">Badilisha kikundi cha Picto</string>
+    <string name="hora_de_fin">Muda wa Mwisho</string>
+    <string name="hora_de_inicio">Anza Muda</string>
+    <string name="repetir_semanalmente">Kurudia kila wiki</string>
+    <string name="activity_calendario">Kuanzisha kalenda</string>
+    <string name="HintSearch">Weka unachotafuta ...</string>
+    <string name="toca_la_lupa_para_buscar_en_arasaac">Gusa kifungo cha utafutaji ili kupakua picto kutoka kwa ARASAAC</string>
+    <string name="MaleUser">Kiume</string>
+    <string name="FemaleUser">Kike</string>
+    <string name="YoungUser">Mtoto</string>
+    <string name="OldUser">Watu wazima</string>
+    <string name="allow_ottaa_app_the_following_permissions">Ruhusu OTTAA App vibali zifuatazo?</string>
+    <string name="storage">Uhifadhi</string>
+    <string name="this_lets_ottaa_app_to_store_and_access_information_from_your_device">Hii inakuwezesha programu ya OTTAA kuhifadhi na kufikia maelezo kutoka kwenye kifaa chako.</string>
+    <string name="location">Eneo</string>
+    <string name="this_lets_ottaa_app_to_access_the_location">Hii inaruhusu programu ya OTTAA kufikia eneo</string>
+    <string name="please_make_sure_you_access_all_the_permission_to_access_the_application_contents_smoothly">Tafadhali hakikisha kufikia ruhusa zote kufikia maudhui ya programu vizuri.</string>
+
+    <string-array name="image_ids">
+        <item>@drawable/ic_responder</item>
+        <item>@drawable/ic_familia</item>
+        <item>@drawable/ic_hola</item>
+        <item>@drawable/ic_abuelo</item>
+        <item>@drawable/ic_acompanar</item>
+        <item>@drawable/ic_actividad</item>
+        <item>@drawable/ic_buenos_dias</item>
+        <item>@drawable/ic_album_fotografico</item>
+        <item>@drawable/ic_buenos_dias</item>
+        <item>@drawable/ic_cartuchera</item>
+        <item>@drawable/ic_aburrido</item>
+        <item>@drawable/ic_cuarto</item>
+        <item>@drawable/ic_espejo</item>
+        <item>@drawable/ic_maestra</item>
+        <item>@drawable/ic_mama</item>
+        <item>@drawable/ic_feliz</item>
+        <item>@drawable/ic_emocion</item>
+    </string-array>
+    <string name="cancel">Futa</string>
+    <string name="loading">Inapakia ...</string>
+    <string name="vincular_con_calendario">Unganisha na Kalenda</string>
+    <string name="pref_header_cerrar_sesion">Toka</string>
+    <string name="pref_header_cerrar_sesion2">Ingia ili kubadilisha mtumiaji</string>
+    <string name="my_own_title">Tathmini Mradi wa OTTAA</string>
+    <string name="my_own_rate">Ndiyo</string>
+    <string name="my_own_thanks">La, shukrani</string>
+    <string name="my_own_cancel">Baadae</string>
+    <string name="youAreNotUpdatedMessage">Toleo jipya la OTTAWA linapatikana. Tafadhali sasisha hadi toleo la karibuni ili kupata vipengele vyote vipya vya baridi.</string>
+    <string name="youAreNotUpdatedMessage1">Sasa</string>
+    <string name="update">Sasisha</string>
+    <string name="vincular_con_ubicacion">Unganisha na Eneo</string>
+    <string name="my_own_message">Ikiwa unapenda kutumia OTTAA tafadhali tupate kiwango, hiyo itatusaidia kuboresha.</string>
+    <string name="youAreNotUpdatedTitle">Sasisha inapatikana</string>
+    <string name="bienvenido">Kubwa kuwa nawe hapa!</string>
+    <string name="cuerpo_bienvenida">Karibu kwenye Mradi wa OTTAA, kipindi chako cha majaribio kinaanza! Usisite kuwasiliana na sisi ikiwa una uchunguzi wowote au unataka kujua zaidi kuhusu Mradi wa OTTAA!</string>
+    <string name="licencia_expirada1">Asante kwa kutumia Mradi wa OTTAA, kipindi chako cha majaribio kilimalizika</string>
+    <string name="licencia_expirada2">Ili kununua usajili tafadhali bofya kwenye Ununuzi wa Usajili</string>
+    <string name="btn_renovar_licencia">Ununuzi wa Usajili</string>
+    <string name="btn_volver_ingresar">Ingia</string>
+    <string name="cambiar_cuenta">Change accounts</string>
+    <string name="title_activity_licencia_expirada">Kipindi cha majaribio kilimalizika</string>
+    <string name="problema_sign_in">Kulikuwa na tatizo Kuingia, jaribu tena.</string>
+    <string name="editar_group">hariri kikundi</string>
+    <string name="tuto_step1_galeriaGrupos">Utapata picha unayotaka\n kuendeleza moja ya makundi.\n Bonyeza na ushikilie jamii iliyochaguliwa\n kuhariri ya kufuta.</string>
+    <string name="tuto_title_vincularCalendar">Unganisha kikundi hiki na kuingia kwa Kalenda</string>
+    <string name="editar_pictogram">Hariri Pictogram</string>
+    <string name="add_pictograma">Ongeza Pictogram</string>
+    <string name="add_grupo">Ongeza Kikundi</string>
+    <string name="generar_infor">Tengeneza Ripoti</string>
+    <string name="frases_mes">KIASI YA HUKUMU WAKATI WA MWEZI</string>
+    <string name="frases_year">KIASI YA HUKUMU WAKATI WA MWAKA</string>
+    <string name="frases_musadas">MAFARASHA YA KUHUSUWA zaidi</string>
+    <string name="frases_aleatorias">NYIMBO Zingine</string>
+    <string name="porc_uso">ASILIMIA YA MATUMIZI</string>
+    <string name="day_hour">KATIKA SIKU NA HOUR</string>
+    <string name="dlunes">Jumatatu</string>
+    <string name="dSaturday">SIKU</string>
+    <string name="dmartes">Jumamosi</string>
+    <string name="dnoche">NIGHT</string>
+    <string name="dtarde">KATIKA</string>
+    <string name="dmanana">MORNING</string>
+    <string name="dmiercoles">Jumapili</string>
+    <string name="djueves">Siku ya tatu</string>
+    <string name="dviernes">IJUMAA</string>
+    <string name="ddomingo">JUMA</string>
+    <string name="lanzar_juego_menu_grupo">Sha Game</string>
+    <string name="pref_cual_es">nini ni picto</string>
+    <string name="cont_ctanos">"Wasiliana nasi "</string>
+    <string name="cu_l_es_el_picto">Ambayo ni picto</string>
+    <string name="delete_menu_grupo">Futa</string>
+    <string name="edit_menu_grupo">Badilisha</string>
+    <string name="FamiliarUser">familia</string>
+    <string name="ingrese_nombre">Tafadhali angalia kama umeongeza picha ya pictogram na jina hilo</string>
+    <string name="no_hay_pictos">Hakuna pictos ya kuchagua</string>
+    <string name="precisi_n">Usahihi</string>
+    <string name="pref_login_wait">Tafadhali subiri ...</string>
+    <string name="pref_summary_experimental">Tumia akili ya bandia ili kuzalisha hukumu ya tajiri. Unahitaji usambazaji wa mtandao imara.</string>
+    <string name="pref_summary_tutorial">Chukua mafunzo tena na pata vidokezo vingine vingine kuhusu jinsi ya kutumia OTTAA</string>
+    <string name="pref_title_tutorial">Fungua mafunzo</string>
+    <string name="pref_volver_editor">Rudi kwenye mhariri</string>
+    <string name="ProfesionalUser">Mtaalamu</string>
+    <string name="dont_delete_group">Huwezi kufuta kikundi hiki</string>
+    <string name="warning_del">Ups!</string>
+    <string name="audio_compartir">Sauti</string>
+    <string name="compartir_imagen">Picha</string>
+    <string name="useforGame">usahihi wa mchezo katika kundi</string>
+    <string name="strTutorialGame3">Mshindi wa picto ni nani?</string>
+    <string name="strTutorialGame4">Hii ni picto ya kushinda</string>
+    <string name="strTutorialGame5">Hii ni alama</string>
+    <string name="strOthers">Wengine</string>
+    <string name="strAciertos">Hits</string>
+    <string name="strErrores">si sawa</string>
+    <string name="strUsoDrDia">Tumia wakati wa mchana</string>
+    <string name="strFrasesMasUsadas">Maneno mengi ya kutumika</string>
+    <string name="image_error_cargar">tafadhali chagua pictogram moja ya chini wakati unataka kugawanywa katika vyombo vya habari vya kijamii</string>
+
+</resources>

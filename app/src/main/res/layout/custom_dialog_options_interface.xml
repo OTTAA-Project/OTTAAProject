@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="@dimen/sizeDialogWidth"
+    android:layout_height="@dimen/sizeDialogHeigth"
+    android:layout_margin="@dimen/activity_vertical_margin"
+    android:background="@color/White"
+    app:cardCornerRadius="25dp"
+    >
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="10dp"
+        >
+
+        <TextView
+            android:id="@+id/titulo"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/dialog_shape_text"
+            android:gravity="center"
+            android:text="@string/str_Settings"
+            android:textAlignment="center"
+            android:textColor="@color/White"
+            android:textSize="@dimen/textSizeTitulo"
+            app:layout_constraintBottom_toTopOf="@+id/text_descripcion"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_weight="4"
+
+            />
+
+
+        <TextView
+            android:id="@+id/text_descripcion"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="@dimen/regular_margin"
+            android:gravity="fill_vertical"
+            android:text="Texto de Prueba"
+            android:textColor="@color/Black"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toTopOf="@id/text_name1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/titulo"
+            app:layout_constraintVertical_weight="5" />
+
+        <TextView
+            android:id="@+id/text_name1"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="@dimen/regular_margin"
+            android:gravity="center"
+            android:text="Texto de Prueba"
+            android:textColor="@color/Black"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toTopOf="@id/age_preference"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text_descripcion"
+            app:layout_constraintVertical_weight="3" />
+
+        <RadioGroup
+            android:id="@+id/age_preference"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@color/White"
+            android:orientation="horizontal"
+            android:paddingLeft="30dp"
+            app:layout_constraintBottom_toTopOf="@id/text_name2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text_name1"
+            app:layout_constraintVertical_weight="3">
+
+            <RadioButton
+                android:id="@+id/radioButtonNino1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="@string/ChildUser" />
+
+            <RadioButton
+                android:id="@+id/radioButtonJoven1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="@string/YoungUser" />
+
+            <RadioButton
+                android:id="@+id/radioButtonAdulto1"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:text="@string/OldUser" />
+        </RadioGroup>
+
+        <TextView
+            android:id="@+id/text_name2"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="@dimen/regular_margin"
+            android:gravity="center"
+            android:text="Texto de Prueba"
+            android:textColor="@color/Black"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toTopOf="@id/sex_preference"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/age_preference"
+            app:layout_constraintVertical_weight="3" />
+
+        <RadioGroup
+            android:id="@+id/sex_preference"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@color/White"
+            android:orientation="horizontal"
+            android:paddingLeft="100dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/btn_dialog"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/text_name2"
+            app:layout_constraintVertical_weight="3">
+
+            <RadioButton
+                android:id="@+id/radioFemale"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+
+                android:text="@string/FemaleUser" />
+
+            <RadioButton
+                android:id="@+id/radioButtonMale"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/MaleUser" />
+        </RadioGroup>
+
+        <Button
+            android:id="@+id/btn_dialog"
+            android:layout_width="100dp"
+            android:layout_height="0dp"
+            android:background="@drawable/button_selector"
+            android:text="OK"
+            android:textColor="@color/White"
+            android:layout_marginEnd="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/sex_preference"
+            app:layout_constraintVertical_weight="3" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>

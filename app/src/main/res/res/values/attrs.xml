@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="Custom_Picto">
+        <attr name="Texto" format="string" />
+        <attr name="Imagen" format="integer"/>
+        <attr name="Color" format="integer"/>
+    </declare-styleable>
+</resources>

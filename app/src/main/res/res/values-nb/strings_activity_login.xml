@@ -1,0 +1,15 @@
+<resources>
+    <string name="title_activity_login">Logg inn</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">e-post</string>
+    <string name="prompt_password">Passord (valgfritt)</string>
+    <string name="action_sign_in">Logg inn eller registrer deg</string>
+    <string name="action_sign_in_short">Logg inn</string>
+    <string name="plus_sign_out">Bytt Google+ konto</string>
+    <string name="plus_disconnect">Koble fra Google+</string>
+    <string name="error_invalid_email">Denne e-postadressen er ugyldig</string>
+    <string name="error_invalid_password">Dette passordet er for kort</string>
+    <string name="error_incorrect_password">Dette passordet er feil</string>
+    <string name="error_field_required">Dette feltet er obligatorisk</string>
+</resources>

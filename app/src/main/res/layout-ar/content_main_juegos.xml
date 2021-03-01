@@ -1,0 +1,349 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/FondoApp">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="0dp"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/NaranjaOTTAA"
+        android:visibility="gone"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        android:titleTextAppearance="@color/White"
+        custom:layout_constraintEnd_toEndOf="parent"
+        custom:layout_constraintStart_toStartOf="parent"
+        custom:layout_constraintTop_toTopOf="parent"
+        custom:popupTheme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+
+    <ImageView
+        android:id="@+id/personaJuegos"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="@dimen/activity_horizontal_margin"
+        android:contentDescription="Persona que nos muestra los juegos disponibles"
+        android:src="@drawable/person_games"
+        custom:layout_constraintBottom_toBottomOf="parent"
+        custom:layout_constraintEnd_toStartOf="@+id/constraint_gamecard"
+        custom:layout_constraintStart_toStartOf="parent"
+        custom:layout_constraintTop_toBottomOf="@id/toolbar"
+
+        />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:id="@+id/constraint_gamecard"
+        custom:layout_constraintStart_toEndOf="@id/personaJuegos"
+        custom:layout_constraintEnd_toEndOf="parent"
+        custom:layout_constraintTop_toTopOf="parent"
+        custom:layout_constraintBottom_toBottomOf="parent"
+        >
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/viewpager"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            custom:layout_constraintStart_toEndOf="@id/constraintLeftButtons"
+            custom:layout_constraintEnd_toStartOf="@id/constraintRightButtons"
+            custom:layout_constraintTop_toTopOf="parent"
+            custom:layout_constraintBottom_toTopOf="@id/containerBottomMasPictos"
+            custom:layout_constraintVertical_weight="8"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="@dimen/big_fat_margin"
+            />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLeftButtons"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="200dp"
+            android:background="@drawable/ic_shape_right_orange"
+            custom:layout_constraintBottom_toBottomOf="parent"
+            custom:layout_constraintEnd_toStartOf="@id/containerBottomMasPictos"
+            custom:layout_constraintHorizontal_weight="1"
+            custom:layout_constraintStart_toStartOf="parent"
+            custom:layout_constraintTop_toTopOf="parent">
+
+            <ImageButton
+                android:id="@+id/up_button"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@drawable/ic_skip_next_black_24dp"
+                android:rotation="180"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_skip_next_black_24dp"
+                android:tint="@color/White"
+                custom:layout_constraintBottom_toBottomOf="@id/constraintLeftButtons"
+                custom:layout_constraintDimensionRatio="1:1"
+                custom:layout_constraintEnd_toEndOf="@id/constraintLeftButtons"
+                custom:layout_constraintStart_toStartOf="@id/constraintLeftButtons"
+                custom:layout_constraintTop_toTopOf="@id/constraintLeftButtons" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintRightButtons"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="200dp"
+            android:background="@drawable/ic_shape_left_orange"
+            custom:layout_constraintBottom_toBottomOf="parent"
+            custom:layout_constraintEnd_toEndOf="parent"
+            custom:layout_constraintHorizontal_weight="1"
+            custom:layout_constraintStart_toEndOf="@id/containerBottomMasPictos"
+            custom:layout_constraintTop_toTopOf="parent">
+
+            <ImageButton
+                android:id="@+id/down_button"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@android:color/transparent"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_skip_next_black_24dp"
+                android:tint="@color/White"
+                custom:layout_constraintBottom_toBottomOf="@id/constraintRightButtons"
+                custom:layout_constraintEnd_toEndOf="@id/constraintRightButtons"
+                custom:layout_constraintHorizontal_bias="0.0"
+                custom:layout_constraintStart_toStartOf="@id/constraintRightButtons"
+                custom:layout_constraintTop_toTopOf="@id/constraintRightButtons"
+                custom:layout_constraintVertical_bias="0.0" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:id="@+id/containerBottomMasPictos"
+            android:background="@drawable/ic_shape_bottom_orange"
+            custom:layout_constraintBottom_toBottomOf="parent"
+            custom:layout_constraintEnd_toStartOf="@id/constraintRightButtons"
+            custom:layout_constraintHorizontal_weight="6"
+            custom:layout_constraintStart_toEndOf="@id/constraintLeftButtons"
+            custom:layout_constraintTop_toBottomOf="@id/viewpager"
+            custom:layout_constraintVertical_weight="1">
+
+            <!--            <ImageButton-->
+            <!--                android:id="@+id/back_button"-->
+            <!--                android:layout_width="0dp"-->
+            <!--                android:layout_height="0dp"-->
+            <!--                android:background="@android:color/transparent"-->
+            <!--                android:scaleType="fitCenter"-->
+            <!--                android:src="@drawable/ic_cancel_black_24dp"-->
+            <!--                android:tint="@color/White"-->
+            <!--                custom:layout_constraintBottom_toBottomOf="@id/containerBottomMasPictos"-->
+            <!--                custom:layout_constraintEnd_toStartOf="@id/edit_button"-->
+            <!--                custom:layout_constraintStart_toStartOf="@id/containerBottomMasPictos"-->
+            <!--                custom:layout_constraintTop_toTopOf="@id/containerBottomMasPictos" />-->
+
+            <!--            <ImageButton-->
+            <!--                android:id="@+id/edit_button"-->
+            <!--                android:layout_width="0dp"-->
+            <!--                android:layout_height="0dp"-->
+            <!--                android:background="@android:color/transparent"-->
+            <!--                android:scaleType="fitCenter"-->
+            <!--                android:src="@drawable/ic_edit_white_24dp"-->
+            <!--                android:tint="@color/White"-->
+            <!--                custom:layout_constraintBottom_toBottomOf="@id/containerBottomMasPictos"-->
+            <!--                custom:layout_constraintEnd_toEndOf="@id/containerBottomMasPictos"-->
+            <!--                custom:layout_constraintStart_toEndOf="@id/back_button"-->
+            <!--                custom:layout_constraintTop_toTopOf="@id/containerBottomMasPictos" />-->
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <ImageView
+            android:id="@+id/cornerImageViewLeft"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:tint="@color/NaranjaOTTAA"
+            android:layout_marginStart="12dp"
+            android:layout_marginBottom="12dp"
+            android:rotation="90"
+            android:scaleX="3"
+            android:scaleY="3"
+            android:src="@drawable/ic_corner"
+            custom:layout_constraintBottom_toTopOf="@id/containerBottomMasPictos"
+            custom:layout_constraintStart_toEndOf="@id/constraintLeftButtons" />
+
+        <ImageView
+            android:id="@+id/cornerImageViewRight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="12dp"
+            android:rotation="180"
+            android:scaleX="3"
+            android:scaleY="3"
+            android:src="@drawable/ic_corner"
+            android:tint="@color/NaranjaOTTAA"
+            custom:layout_constraintBottom_toTopOf="@id/containerBottomMasPictos"
+            custom:layout_constraintEnd_toStartOf="@id/constraintRightButtons" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="25dp"
+            android:clickable="false"
+            android:elevation="0dp"
+            custom:backgroundTint="@color/FondoApp"
+            custom:fabCustomSize="80dp"
+            custom:layout_constraintBottom_toBottomOf="parent"
+            custom:layout_constraintEnd_toEndOf="parent"
+            custom:layout_constraintStart_toStartOf="parent"
+            custom:layout_constraintTop_toTopOf="@id/containerBottomMasPictos">
+
+        </com.google.android.material.floatingactionbutton.FloatingActionButton>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/btnTalk"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="25dp"
+            android:elevation="25dp"
+            android:src="@drawable/icono_ottaa"
+            android:tint="@color/White"
+            custom:backgroundTint="@color/NaranjaOTTAA"
+            custom:fabCustomSize="70dp"
+            custom:layout_constraintBottom_toBottomOf="parent"
+            custom:layout_constraintEnd_toEndOf="parent"
+            custom:layout_constraintStart_toStartOf="parent"
+            custom:layout_constraintTop_toTopOf="@id/containerBottomMasPictos"
+            custom:maxImageSize="70dp">
+
+        </com.google.android.material.floatingactionbutton.FloatingActionButton>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_juego1"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        android:layout_margin="@dimen/activity_horizontal_margin"
+        custom:cardCornerRadius="@dimen/fab_margin"
+        custom:layout_constraintBottom_toTopOf="@+id/card_juego3"
+        custom:layout_constraintEnd_toStartOf="@+id/card_juego2"
+        custom:layout_constraintStart_toEndOf="@id/personaJuegos"
+        custom:layout_constraintTop_toTopOf="@id/personaJuegos">
+
+
+        <com.stonefacesoft.ottaa.Games.GameCard
+            android:id="@+id/card1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_juego2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:layout_marginEnd="@dimen/activity_horizontal_margin"
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
+        custom:cardCornerRadius="@dimen/fab_margin"
+        custom:layout_constraintBottom_toTopOf="@id/card_juego4"
+        custom:layout_constraintEnd_toEndOf="parent"
+        custom:layout_constraintStart_toEndOf="@id/card_juego1"
+        custom:layout_constraintTop_toTopOf="@id/personaJuegos">
+
+        <com.stonefacesoft.ottaa.Games.GameCard
+            android:id="@+id/card2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_juego3"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:layout_marginEnd="@dimen/activity_horizontal_margin"
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
+        custom:cardCornerRadius="@dimen/fab_margin"
+        custom:layout_constraintBottom_toBottomOf="parent"
+        custom:layout_constraintEnd_toStartOf="@id/card_juego4"
+        custom:layout_constraintStart_toStartOf="@id/card_juego1"
+        custom:layout_constraintTop_toBottomOf="@id/card_juego1">
+
+        <com.stonefacesoft.ottaa.Games.GameCard
+            android:id="@+id/card3"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_juego4"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:visibility="gone"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:layout_marginEnd="@dimen/activity_horizontal_margin"
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
+        custom:cardCornerRadius="@dimen/fab_margin"
+        custom:layout_constraintBottom_toBottomOf="parent"
+        custom:layout_constraintEnd_toEndOf="parent"
+        custom:layout_constraintStart_toEndOf="@id/card_juego3"
+        custom:layout_constraintTop_toBottomOf="@id/card_juego2">
+
+        <com.stonefacesoft.ottaa.Games.GameCard
+            android:id="@+id/card4"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </androidx.cardview.widget.CardView>
+
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/back_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        custom:layout_constraintBottom_toBottomOf="parent"
+        custom:layout_constraintStart_toStartOf="parent"
+        android:tint="@color/White"
+        custom:borderWidth="0dp"
+        custom:fabCustomSize="@dimen/sizeFloattingButtonMax"
+        custom:maxImageSize="@dimen/sizeFloattingButtonMax"
+        android:backgroundTint="@color/NaranjaOTTAA"
+        android:src="@drawable/ic_cancel_black_24dp"
+        />
+    <Button
+        android:id="@+id/btnBarrido"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@android:color/transparent"
+        android:visibility="gone"
+        custom:layout_constraintBottom_toBottomOf="parent"
+        custom:layout_constraintEnd_toEndOf="parent"
+        custom:layout_constraintStart_toStartOf="parent"
+        custom:layout_constraintTop_toTopOf="parent"
+         />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:layout_width="@dimen/sizeFloattingButtonMed"
+        android:layout_height="@dimen/sizeFloattingButtonMed"
+        android:visibility="gone"
+        android:id="@+id/floatting_button"
+        android:src="@drawable/ic_touch_app_black_24dp"
+        custom:maxImageSize="@dimen/sizeFloattingButtonIconMed"
+        android:backgroundTint="@color/color_blue_transparent"
+        custom:backgroundTint="@color/Black"
+        custom:borderWidth="2dp"
+        custom:layout_constraintStart_toStartOf="parent"
+        custom:layout_constraintEnd_toEndOf="parent"
+        custom:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

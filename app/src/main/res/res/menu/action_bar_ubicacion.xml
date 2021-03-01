@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:yourapp="http://schemas.android.com/apk/res-auto" >
+            <item android:id="@+id/action_reiniciar"
+                android:icon="@drawable/ic_refresh_white_24dp"
+                android:title="@string/action_reiniciar"
+                yourapp:showAsAction="always"/>
+            <!--<item android:id="@+id/action_help"-->
+                <!--android:icon="@drawable/ic_help_outline_white_24dp"-->
+                <!--android:title="@string/action_parar"-->
+                <!--yourapp:showAsAction="ifRoom"/>-->
+            <!--<item android:id="@+id/action_done"-->
+                <!--android:icon="@drawable/ic_done_white_24dp"-->
+                <!--android:title="@string/action_done"-->
+                <!--yourapp:showAsAction="ifRoom"/>-->
+        <!--&lt;!&ndash;Settings, should always be in the overflow&ndash;&gt;-->
+        <!--<item android:id="@+id/action_settings"-->
+            <!--android:icon="@drawable/ic_help_outline_white_24dp"-->
+            <!--android:title=" "-->
+            <!--yourapp:showAsAction="always" />-->
+</menu>

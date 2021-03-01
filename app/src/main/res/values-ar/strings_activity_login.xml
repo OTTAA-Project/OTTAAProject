@@ -1,0 +1,10 @@
+<resources>
+
+    <!-- Strings related to login -->
+    <string name="plus_sign_out">تبديل حساب + غوغل</string>
+    <string name="plus_disconnect">إلغاء الربط من + غوغل</string>
+    <string name="error_invalid_email">عنوان البريد الإلكتروني هذا غير صالح</string>
+    <string name="error_invalid_password">كلمة المرور هذه قصيرة جدا</string>
+    <string name="error_incorrect_password">كلمة المرور هذه غير صحيحة</string>
+    <string name="error_field_required">هذه الخانة مطلوبه</string>
+</resources>

@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="hello_world">Hei Verden!</string>
+    <string name="action_settings">konfigurasjon</string>
+    <string name="pref_open_settings">Åpningsinnstillinger.</string>
+    <string name="spl_name">OTTAA Project</string>
+    <string name="action_reiniciar">tilbakestille</string>
+    <string name="action_borrar">Slett</string>
+    <string name="action_parar">Stum</string>
+    <string name="action_share">Dele</string>
+    <string name="action_done">Ferdig</string>
+    <string name="pref_login">Registrer deg ved å klikke på Logg inn-knappen. Takk for at du valgte OTTAA-prosjektet.</string>
+    <string name="pref_login_tu_sub">Ditt abonnement avsluttet</string>
+    <string name="pref_login_tu_sub_2">For å fornye lisensen vennligst kontakt oss.</string>
+    <string name="pref_login_gracias">Takk for at du valgte OTTAA-prosjektet.</string>
+    <string name="pref_login_contact">Kontakt oss</string>
+    <string name="pref_login_autentificando">Godkjenning ...</string>
+    <string name="pref_login_semana">Din prøveperiode har nettopp begynt. Takk for at du valgte OTTAA-prosjektet.</string>
+    <string name="pref_login_lo_sentimos">Beklager, for første gang må du være koblet til internett. Beklager denne ubeleiligheten.</string>
+    <string name="pref_OK">OK</string>
+    <string name="pref_cargando_DB">Laster inn database ...</string>
+    <string name="pref_cargando_presentacion">Laster personlig presentasjon</string>
+    <string name="pref_header_presentacion">Personlig presentasjon</string>
+    <string name="pref_text_presentacion">Bruker den personlige presentasjonen</string>
+    <string name="pref_title_presentacion">Presentasjonstekst</string>
+    <string name="pref_example_presentacion">Hei jeg er Juan, jeg har kommunikasjonsproblemer og jeg bruker dette systemet, jeg trenger deg til å vente på meg.</string>
+    <string name="pref_header_tts">Tekst-til-tale-motor</string>
+    <string name="pref_text_tts">Aktiver egendefinert TTS</string>
+    <string name="pref_summary_tts">Det gjør det mulig å tilpasse stemmen.</string>
+    <string name="pref_option1_tts">Stemmehastighet</string>
+    <string name="pref_option2_tts">Talehøyde</string>
+    <string name="pref_header_subtitulo">undertittel</string>
+    <string name="pref_text_subtitulo">Tilpasset undertekst</string>
+    <string name="pref_summary_subtitulo">Vis tilpassede bildetekster.</string>
+    <string name="pref_subtitulo_tamanio">Størrelse</string>
+    <string name="pref_subtitulo_mayuscula">Stor bokstav</string>
+    <string name="pref_subtitulo_mayuscula_summary">Det tillater store undertekster.</string>
+    <string name="pref_idioma">Språk</string>
+    <string name="pref_summary_agenda">Velg kalenderen med din daglige rutine.</string>
+    <string name="pref_ubicacion">plassering</string>
+    <string name="pref_summary_ubicacion">Forbedrer prediksjon ved geo tagging.</string>
+    <string name="pref_barrido">Skjerm skanning</string>
+    <string name="pref_summary_barrido">Det tillater å bruke programmet ved å skanne <screen class="" /></string>
+    <string name="pref_editar">Rediger piktogrammer</string>
+    <string name="pref_summary_editar">Tillat å deaktivere funksjonen Rediger piktogrammer.</string>
+    <string name="pref_open_editar">Åpning av piktogramredigerer.</string>
+    <string name="pref_error_editar">Beklager, disse piktogrammer kan ikke redigeres.</string>
+    <string name="pref_text_editar">Piktogram tekst</string>
+    <string name="pref_opcion_editar">Relaterte piktogrammer</string>
+    <string name="pref_select_camara">Kamera</string>
+    <string name="pref_select_galeria">galleri</string>
+    <string name="pref_select_pictos">Last ned fra ARASAAC</string>
+    <string name="pref_important_alert">Viktig</string>
+    <string name="pref_confirmar_alert">Bekrefte</string>
+    <string name="pref_cancelar_alert">Avbryt</string>
+    <string name="pref_yes_alert">Ja</string>
+    <string name="pref_no_alert">ikke</string>
+    <string name="pref_enviar">Send til</string>
+    <string name="pref_error_112">FEIL: 112. Funksjonen er ikke tilgjengelig på enheten.</string>
+    <string name="pref_error_222">FEIL: 222. Vi har problemer med å koble til serveren, prøv igjen senere.</string>
+    <string name="pref_elija">Velg et alternativ</string>
+    <string name="pref_text1_alert">Vil du lagre endringer?</string>
+    <string name="pref_text2_alert">Vil du gjenopprette fabrikkinnstillingene?</string>
+    <string name="pref_text3_alert">Vil du opprette et nytt piktogram?</string>
+    <string name="pref_text4_alert">Vil du slette det valgte piktogrammet?</string>
+    <string name="pref_text5_alert">Vil du slette den valgte gruppen?</string>
+    <string name="pref_step1_tuto">Nå skal vi veilede deg for å lage en setning med stemme ved hjelp av OTTAA-prosjektet.</string>
+    <string name="pref_final_tuto">Finn del konfigurasjonsalternativer på topplinjen.</string>
+    <string name="pref_title2_tuto">Lag en setning</string>
+    <string name="pref_step2_tuto">Velg piktogrammet du vil ha ved å klikke på det.</string>
+    <string name="pref_title3_tuto">Begynn å snakke</string>
+    <string name="pref_title4_tuto">tilbakestille</string>
+    <string name="pref_step4_tuto">Trykk på tilbakestillingsikonet, eller trykk på tilbaketasten for å opprette en ny setning.</string>
+    <string name="pref_title5_tuto">Ikke funnet\n  hva trenger du?</string>
+    <string name="pref_step5_tuto">Trykk på spinneren til\n  finn mer relaterte piktogrammer.</string>
+    <string name="pref_title6_tuto">Trenger du flere alternativer?</string>
+    <string name="tuto_title1_galeriaPictos">Velg en picto</string>
+    <string name="tuto_step1_galeriaPictos">Du kan velge picto du vil ha ved å klikke på den.\n  Trykk og hold for å redigere en picto\n  eller slett den.</string>
+    <string name="tuto_title2_galeriaPictos">Lag din egen picto</string>
+    <string name="tuto_step2_galeriaPictos">Trykk på pluss du kan\n  lag din egen picto.</string>
+    <string name="tuto_title3_galeriaPictos">Legg til flere pictos til dette galleriet</string>
+    <string name="tuto_step3_galeriaPictos">Trykk på koblingsknappen du kan\n  legg til flere pictos til dette galleriet.</string>
+    <string name="tuto_title1_galeriaGrupos">Velg en av kategoriene</string>
+    <string name="tuto_step1_galeriaGrupos">Du finner bildet du vil ha av\n  trykke på en av kategoriene.\n  Trykk og hold den valgte kategorien\n  å redigere den for å slette den.</string>
+    <string name="tuto_title2_galeriaGrupos">Lag din egen kategori</string>
+    <string name="tuto_step2_galeriaGrupos">Trykk på pluss-knappen du kan\n  lag din egen kategori.</string>
+    <string name="tuto_title1_editPicto">Endre bildet</string>
+    <string name="tuto_step1_editPicto">Ved å trykke inne i sirkelen kan du endre piktogrammet.</string>
+    <string name="tuto_title2_editPicto">Hva vil du si?</string>
+    <string name="tuto_step2_editPicto">Rediger teksten så picto\n  vil si hva du vil.</string>
+    <string name="tuto_title3_editPicto">Gjør det snakk!</string>
+    <string name="tuto_step3_editPicto">Trykk på OTTAA-logoen til\n  spille teksten i picto.</string>
+    <string name="tuto_title4_editPicto">Gi den litt farge</string>
+    <string name="tuto_step4_editPicto">Kategoriser picto basert på\n  ARASAAC-fargekode.\n  Grønn: Handlinger Gul: Mennesker Blå: Adjektiver\n  Oransje: Nouns Magenta: Miscellanea.</string>
+    <string name="tuto_title5_editPicto">Koble gruppen</string>
+    <string name="tuto_step5_editPicto">Du kan lenke denne kategorien med\n  kalenderen eller med en GPS-plassering.</string>
+    <string name="tuto_title_vincularCalendar">Koble denne gruppen med en kalenderoppføring</string>
+    <string name="tuto_step_vincularCalendar">Du kan koble denne gruppen til en bestemt begivenhet så på den tiden og datoen, vil denne piktogrammet popup.</string>
+    <string name="tuto_title_vincularGPS">Koble til GPS-posisjon</string>
+    <string name="tuto_step_vincularGPS">Koble dette settet med piktogrammer med bestemt GPS-plassering.\n  så når er nær det stedet vil pictos popup\n  Ikke glem å sette ønsket sted i innstillinger.</string>
+    <string name="pref_listo_tuto">Ferdig</string>
+    <string name="edit_grupo">Velg piktogrammer for gruppen</string>
+    <string name="edit_grupo_seguro">Er du sikker på at du vil lukke Rediger Picto?</string>
+    <string name="edit_grupo_cambios">Vil du lagre det?</string>
+    <string name="edit_picto_visual_complete">Vennligst skriv navnet på piktogrammet</string>
+    <string name="pref_ubicacion_alert">Tilbakestill plasseringen?</string>
+    <string name="guardar">Lagre</string>
+    <string name="descartar">kast</string>
+    <string name="pref_activado">aktivert</string>
+    <string name="pref_desactivado">deaktivert</string>
+    <string name="pref_calendario_elija">Velg en kalender</string>
+    <string name="vincular">Velg piktogrammet du vil koble til gruppen</string>
+    <string name="agregar_picto">Legg til PICTO</string>
+    <string name="ayuda1_Titulo">Beslektede bilder</string>
+    <string name="ayuda1_Texto">Her er de anbefalte alternativene, sortert etter prioritet.</string>
+    <string name="pref_descargode">Ved å bruke OTTAA-mobilprogrammet, nå og i fremtiden, godtar du følgende vilkår og betingelser:\n - Selv om det har tatt spesielt vare for å sikre riktig ytelse, kvalitet og relevans av innhold levert av ottaa INFORMASJON OG FUNKSJONER kommunikasjons LEVERT ottaa ikke kontrakts FOR Stoneface SOFTWARE, medlemmene eller SAMARBEIDSPARTNERE, SO DET INGJER IKKE ANSVAR.\n - Stoneface programvare garanterer ikke at programmet eller servere som er gjort tilgjengelig for dette programmet er fri for virus eller andre skadelige elementer. Stoneface Programvare forbeholder seg retten til å gjøre endringer og / eller oppdateringer med hensyn til opplysningene i søknaden når som helst uten varsel.\n - OTTAA kan gi koblinger til andre websider, programmer eller\n innhold som ikke er under kontroll av Stoneface Software. Stoneface Software vil ikke på noen måte være ansvarlig for innholdet.\n - Informasjonen gitt i søknaden kan bare brukes, kopieres og distribueres uten modifisering og for personlig informasjon.\n - Stoneface program leverer en prøveDRIFTS og validering kan derfor være feil, driftsstans, blant andre problemer, GODTAR DU Å VARSLE av disse feilene til Stoneface Software.\n - Stoneface Programvare ER IKKE ANSVARLIG ELLER GARANTERER tilgang til internett carrier programmet på enheten som det er en ekstern tjeneste søknad og er kommer til å bruke denne når den blir tilgjengelig.</string>
+
+    <string-array name="pref_subtitulos_tamanio_nombres">
+        <item>Small</item>
+        <item>Medium</item>
+        <item>Large</item>
+        <item>Extra Large</item>
+    </string-array>
+    <string-array name="pref_subtitulos_tamanio_valores">
+        <item>15</item>
+        <item>18</item>
+        <item>25</item>
+        <item>35</item>
+    </string-array>
+
+
+    <string-array name="pref_idiomas">
+        <item>Español</item>
+        <item>English</item>
+    </string-array>
+    <string-array name="pref_idiomas_valores">
+        <item>esp</item>
+        <item>ingles</item>
+    </string-array>
+
+    <string name="title_activity_tuto">Tuto</string>
+    <string name="title_activity_tutorial">Tutorial</string>
+    <string name="title_activity_configuracion">innstillinger</string>
+    <string name="title_activity_editar">Pictogram editor</string>
+
+    <string name="title_section1">Section 1</string>
+    <string name="title_section2">Section 2</string>
+    <string name="title_section3">Section 3</string>
+
+
+    <string name="title_activity_galeria_pictos">Pictos Galery</string>
+
+
+    <string name="string_ubicacion_casa">Mitt hjem</string>
+    <string name="string_ubicacion_escuela">Skolen min</string>
+    <string name="button_set_location">Link med denne plasseringen</string>
+    <string name="no_location">Ingen adresse for denne plasseringen</string>
+
+
+    <string name="geofences_removed">GeoLocation deaktivert</string>
+    <string name="geofences_added">GeoLocation aktivert</string>
+    <string name="not_connected">GoogleApiClient er ikke tilkoblet ennå. Prøv igjen.</string>
+    <string name="geofence_not_available">Geofence-tjenesten er ikke tilgjengelig nå</string>
+    <string name="geofence_too_many_geofences">Appen din har registrert for mange geofences</string>
+    <string name="geofence_too_many_pending_intents">Du har gitt for mange PendingIntents til addGeofences () -samtalen</string>
+    <string name="unknown_geofence_error">Ukjent feil: Geofence-tjenesten er ikke tilgjengelig nå</string>
+    <string name="bool_EstoyCasa">mBoolEstoyEnCasa</string>
+    <string name="bool_EstoyEscuela">mBoolEstoyEnEscuela</string>
+    <string name="Disfruta_picto">Nyt dine nye piktogrammer basert på din plassering.</string>
+    <string name="BotonFinish">Done</string>
+    <string name="ElijaPictoExistente">Velg en eksisterende Picto</string>
+    <string name="NuevoPictoGrupo">Opprett ny Picto-gruppe</string>
+    <string name="EditCurrentPicto">Rediger gjeldende Picto</string>
+    <string name="ElijaTextoPicto">Skriv din egendefinerte tekst for Picto</string>
+    <string name="EscribaAqui">Skriv her…</string>
+    <string name="PruebaNuevoPicto">Prøv din nye Picto!</string>
+    <string name="ElijaImagenPicto">Velg bildet for den nye Picto</string>
+
+
+    <string name="title_activity_edit__content">Edit_Content</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_edit_picto__container">EditPicto_Container</string>
+    <string name="Activity_Ubicacion">Customized location settings</string>
+    <string name="TextOutloud">Skriv inn teksten for å si det høyt</string>
+    <string name="NamePicto">Skriv inn teksten for å navngi Picto</string>
+    <string name="PickAColor">Velg en farge for rammen</string>
+    <string name="title_activity_editar_grupo">Rediger gruppe Picto</string>
+    <string name="hora_de_fin">Sluttid</string>
+    <string name="hora_de_inicio">Start Time</string>
+    <string name="repetir_semanalmente">Gjenta hver uke</string>
+    <string name="activity_calendario">Calendar setup</string>
+    <string name="HintSearch">Type what you are looking for...</string>
+    <string name="toca_la_lupa_para_buscar_en_arasaac">Touch the search button to download a picto from ARASAAC</string>
+    <string name="MaleUser">mann</string>
+    <string name="FemaleUser">Hunn</string>
+    <string name="YoungUser">Barn</string>
+    <string name="OldUser">voksen</string>
+    <string name="allow_ottaa_app_the_following_permissions">Tillat OTTAA App følgende tillatelser?</string>
+    <string name="storage">Oppbevaring</string>
+    <string name="this_lets_ottaa_app_to_store_and_access_information_from_your_device">Dette lar OTTAA app å lagre og få tilgang til informasjon fra enheten din.</string>
+    <string name="location">plassering</string>
+    <string name="this_lets_ottaa_app_to_access_the_location">Dette lar OTTAA app å få tilgang til stedet</string>
+    <string name="please_make_sure_you_access_all_the_permission_to_access_the_application_contents_smoothly">Pass på at du får tilgang til all tillatelse for å få tilgang til programinnholdet jevnt.</string>
+
+    <string-array name="image_ids">
+        <item>@drawable/ic_responder</item>
+        <item>@drawable/ic_familia</item>
+        <item>@drawable/ic_hola</item>
+        <item>@drawable/ic_abuelo</item>
+        <item>@drawable/ic_acompanar</item>
+        <item>@drawable/ic_actividad</item>
+        <item>@drawable/ic_buenos_dias</item>
+        <item>@drawable/ic_album_fotografico</item>
+        <item>@drawable/ic_buenos_dias</item>
+        <item>@drawable/ic_cartuchera</item>
+        <item>@drawable/ic_aburrido</item>
+        <item>@drawable/ic_cuarto</item>
+        <item>@drawable/ic_espejo</item>
+        <item>@drawable/ic_maestra</item>
+        <item>@drawable/ic_mama</item>
+        <item>@drawable/ic_feliz</item>
+        <item>@drawable/ic_emocion</item>
+    </string-array>
+    <string name="cancel">Avbryt</string>
+    <string name="loading">Laster ...</string>
+    <string name="pref_header_cerrar_sesion">Logg ut</string>
+    <string name="pref_header_cerrar_sesion2">Logg deg ut for å endre bruker</string>
+    <string name="my_own_title">Vurder OTTAA-prosjektet</string>
+    <string name="my_own_rate">Ja</string>
+    <string name="my_own_thanks">Nei takk</string>
+    <string name="my_own_cancel">Seinere</string>
+    <string name="youAreNotUpdatedMessage">En ny versjon av OTTAWA er tilgjengelig. Vennligst oppdater til den nyeste versjonen for å få alle de nye, kule funksjonene.</string>
+    <string name="youAreNotUpdatedMessage1">Nå</string>
+    <string name="update">Oppdater</string>
+    <string name="vincular_con_calendario">Link med kalender</string>
+    <string name="vincular_con_ubicacion">Lenk med sted</string>
+    <string name="youAreNotUpdatedTitle">Oppdatering tilgjengelig</string>
+    <string name="bienvenido">Flott å ha deg her!</string>
+    <string name="licencia_expirada1">Takk for at du brukte OTTAA Project, din prøveperiode avsluttet på</string>
+    <string name="btn_renovar_licencia">Kjøpsabonnement</string>
+    <string name="cambiar_cuenta">Endre kontoer</string>
+    <string name="title_activity_licencia_expirada">Prøveperioden avsluttet</string>
+    <string name="problema_sign_in">Det oppsto et problem. Logg på, prøv igjen.</string>
+    <string name="editar_group">rediger gruppe</string>
+    <string name="pref_agenda">Personlig kalender</string>
+    <string name="pref_text_agenda">Utvalgt kalender</string>
+    <string name="my_own_message">Hvis du liker å bruke OTTAA, vær så snill å vurdere oss, som vil hjelpe oss med å forbedre.</string>
+    <string name="pref_error_312">FEIL: 312. APK for Google Play-tjenester er ikke oppdatert, vennligst installer den nyeste versjonen.</string>
+    <string name="pref_step3_tuto">Vi er klare! Trykk på OTTAA-logoen for å begynne å snakke.</string>
+    <string name="pref_step6_tuto">Her finner du alle piktogrammer sortert etter kategorier.</string>
+    <string name="problema_inet">Vi beklager at du trenger Internett for å bruke denne funksjonen.</string>
+    <string name="add_grupo">Legg til gruppe</string>
+    <string name="add_pictograma">legg til piktogram</string>
+    <string name="editar_pictogram">Rediger piktogram</string>
+    <string name="geofence_transition_invalid_type">Geofence overgangsfeil: ugyldig overgangstype% 1 $ d</string>
+    <string name="generar_infor">Generer rapport</string>
+    <string name="licencia_expirada2">For å kjøpe et abonnement, vennligst klikk på kjøp abonnement</string>
+    <string name="cuerpo_bienvenida">Velkommen til OTTAA Project, din prøveperiode har nettopp startet! Ikke nøl med å kontakte oss hvis du har noen forespørsel eller hvis du vil vite mer om OTTAA-prosjektet!</string>
+    <string name="btn_volver_ingresar">Logg Inn</string>
+    <string name="frases_year">ANTALL SETNINGER I LØPET AV ÅRET</string>
+    <string name="frases_mes">ANTALL SETNINGER I LØPET AV MÅNEDEN</string>
+    <string name="frases_musadas">MER BRUKTE FRASER</string>
+    <string name="frases_aleatorias">ANDRE SETNINGER</string>
+    <string name="porc_uso">PROSENTANDEL AV BRUK</string>
+    <string name="day_hour">OM DAGEN OG TIMEN</string>
+    <string name="dlunes">MANDAG</string>
+    <string name="dSaturday">LØRDAG</string>
+    <string name="dmartes">TIRSDAG</string>
+    <string name="dnoche">NATT</string>
+    <string name="dtarde">SENT</string>
+    <string name="dmanana">MORGEN</string>
+    <string name="dmiercoles">ONSDAG</string>
+    <string name="djueves">TORSDAG</string>
+    <string name="dviernes">FREDAG</string>
+    <string name="ddomingo">SØNDAG</string>
+    <string name="lanzar_juego_menu_grupo">LØP SPILL</string>
+    <string name="pref_cual_es">hva er picto</string>
+    <string name="cont_ctanos">Kontakt oss</string>
+    <string name="cu_l_es_el_picto">Hvilken er picto</string>
+    <string name="delete_menu_grupo">Slett</string>
+    <string name="edit_menu_grupo">"Redigere "</string>
+    <string name="FamiliarUser">Familie</string>
+    <string name="ingrese_nombre">Vennligst sjekk om du har lagt til piktogrambildet og det er navnet</string>
+    <string name="no_hay_pictos">Der er ingen billeder at vælge</string>
+    <string name="precisi_n">nøjagtighed</string>
+    <string name="pref_login_wait">Vennligst vent ...</string>
+    <string name="pref_summary_experimental">Bruk kunstig intelligens for å generere en rikere setning. Du trenger en stabil internettforbindelse.</string>
+    <string name="pref_summary_tutorial">Ta opplæringen igjen og lær noen få tips om hvordan du bruker OTTAA</string>
+    <string name="pref_title_tutorial">Start på nytt opplæringen</string>
+    <string name="pref_volver_editor">Tilbake til redaktøren</string>
+    <string name="ProfesionalUser">profesjonell</string>
+    <string name="dont_delete_group">Du kan ikke slette denne gruppen</string>
+    <string name="warning_del">Ups!</string>
+    <string name="audio_compartir">Audio</string>
+    <string name="compartir_imagen">Bilde</string>
+    <string name="useforGame">spill presisjon i en gruppe</string>
+    <string name="strTutorialGame3">Hva er picto-vinneren</string>
+    <string name="strTutorialGame4">Dette er den vinnende picto</string>
+    <string name="strTutorialGame5">Dette er poengsummen</string>
+    <string name="strOthers">andre</string>
+    <string name="strAciertos">suksesser</string>
+    <string name="strErrores">feil</string>
+    <string name="strUsoDrDia">Bruk i løpet av dagen</string>
+    <string name="strFrasesMasUsadas">Mest brukte setninger</string>
+    <string name="image_error_cargar">Vennligst velg minst ett piktogram når du vil dele i et sosialt medie</string>
+
+</resources>

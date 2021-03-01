@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="5dp"
+    android:background="@drawable/picto_shape">
+
+
+    <ImageView
+        android:id="@+id/Imagen_Picto"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:padding="5dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/ic_agregar_nuevo"
+        app:layout_constraintBottom_toTopOf="@id/grid_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_weight="85" />
+
+    <ImageView
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/grid_text"
+        android:id="@+id/color_Picto"
+        app:layout_constraintVertical_weight="85"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:src="@drawable/fizgerald_shape"/>
+
+    <TextView
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintVertical_weight="15"
+        app:layout_constraintTop_toBottomOf="@id/Imagen_Picto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Pictogramas largos"
+        android:textAllCaps="true"
+        android:textColor="@color/Black"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:lines="2"
+        android:id="@+id/grid_text"
+        android:layout_margin="5dp">
+    </TextView>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,92 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+
+    </style>
+    <style name="form_label">
+        <item name="android:textSize">@dimen/mpsdk_regular_text</item>
+        <item name="android:textColor">#333333</item>
+    </style>
+    <style name="big_label">
+        <item name="android:textSize">@dimen/mpsdk_big_text</item>
+        <item name="android:textColor">#333333</item>
+    </style>
+    <style name="list_label">
+        <item name="android:textSize">@dimen/mpsdk_regular_text</item>
+        <item name="android:textColor">#666666</item>
+    </style>
+
+    <style name="PauseDialog" parent="@android:style/Theme.Holo.Light.Dialog">
+        <item name="android:windowAnimationStyle">@style/PauseDialogAnimation</item>
+    </style>
+
+    <style name="PauseDialogAnimation">
+        <item name="android:windowEnterAnimation">@android:anim/fade_in</item>
+        <item name="android:windowExitAnimation">@android:anim/fade_out</item>
+    </style>
+
+<style name="CompatDarkActionBarTheme" parent="android:Theme.Holo.Light" />
+
+<!--<style name="CustomShowcaseTheme" parent="ShowcaseView.Light">-->
+    <!--<item name="sv_backgroundColor">#BBFF6600</item>-->
+    <!--<item name="sv_showcaseColor">#FFAA00</item>-->
+    <!--<item name="sv_buttonText">@string/pref_listo_tuto</item>-->
+    <!--<item name="sv_buttonBackgroundColor">#00AA99</item>-->
+    <!--<item name="sv_buttonForegroundColor">#00AA99</item>-->
+    <!--<item name="sv_tintButtonColor">true</item>-->
+    <!--<item name="sv_titleTextAppearance">@style/CustomTitle</item>-->
+<!--</style>-->
+
+<!--<style name="CustomShowcaseTheme2" parent="ShowcaseView.Light">-->
+    <!--<item name="sv_backgroundColor">#663d4353</item>-->
+    <!--<item name="sv_showcaseColor">#25467A</item>-->
+    <!--<item name="sv_buttonText">Close</item>-->
+    <!--<item name="sv_titleTextAppearance">@style/CustomTitle2</item>-->
+<!--</style>-->
+
+<!--<style name="CustomShowcaseTheme3" parent="ShowcaseView">-->
+    <!--<item name="sv_backgroundColor">#330066FF</item>-->
+    <!--<item name="sv_showcaseColor">#00801A</item>-->
+    <!--<item name="sv_buttonText">Close</item>-->
+    <!--<item name="sv_titleTextAppearance">@style/CustomTitle</item>-->
+<!--</style>-->
+
+    <!--<style name="TextAppearance.ShowcaseView.Detail" parent="android:style/TextAppearance">-->
+        <!--<item name="android:textColor">#000</item>-->
+        <!--<item name="android:textSize">18dp</item>-->
+        <!--<item name="android:textStyle">bold</item>-->
+    <!--</style>-->
+
+
+<!--<style name="SampleTheme" parent="Theme.AppCompat.Light">-->
+    <!--<item name="showcaseViewStyle">@style/CustomShowcaseTheme</item>-->
+<!--</style>-->
+
+<!--<style name="SampleTheme2" parent="Theme.AppCompat.Light.DarkActionBar">-->
+    <!--<item name="showcaseViewStyle">@style/CustomShowcaseTheme2</item>-->
+<!--</style>-->
+
+<!--<style name="CustomTitle" parent="TextAppearance.ShowcaseView.Title">-->
+    <!--<item name="android:textColor">#00001A</item>-->
+<!--</style>-->
+
+<!--<style name="CustomTitle2" parent="TextAppearance.ShowcaseView.Title">-->
+    <!--<item name="android:textColor">#25467A</item>-->
+<!--</style>-->
+
+<!--<style name="ListItemBigtext">-->
+    <!--<item name="android:textColor">#25467A</item>-->
+    <!--&lt;!&ndash;<item name="android:textAppearance">?android:attr/textAppearanceLarge</item>&ndash;&gt;-->
+    <!--<item name="android:textAppearance">@style/TextAppearance.ShowcaseView.Detail</item>-->
+    <!--<item name="android:fontFamily">sans-serif-light</item>-->
+    <!--<item name="android:textStyle">italic</item>-->
+<!--</style>-->
+
+<!--<style name="ListItemSubtext">-->
+    <!--<item name="android:textAppearance">?android:attr/textAppearanceSmall</item>-->
+    <!--<item name="android:textColor">?android:attr/textColorSecondary</item>-->
+<!--</style>-->
+
+</resources>

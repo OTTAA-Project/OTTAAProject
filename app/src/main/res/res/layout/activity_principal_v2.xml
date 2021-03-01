@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/FondoApp"
+    android:orientation="vertical">
+
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/NaranjaOTTAA"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        android:titleTextAppearance="@color/White"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/Selecciones"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="15dp"
+        android:layout_weight="2">
+
+        <HorizontalScrollView
+            android:id="@+id/horizontalScrollView2"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            custom:layout_constraintBottom_toBottomOf="parent"
+            custom:layout_constraintEnd_toStartOf="@+id/btn_borrar"
+            custom:layout_constraintStart_toStartOf="parent"
+            custom:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <ImageButton
+                    android:id="@+id/Seleccion1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_margin="5dp"
+                    android:layout_weight="5"
+                    android:adjustViewBounds="true"
+                    android:background="@color/FondoBotonArriba"
+                    android:longClickable="true"
+                    android:padding="10dp"
+                    android:scaleType="fitXY" />
+
+                <ImageButton
+                    android:id="@+id/Seleccion2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_margin="5dp"
+                    android:layout_weight="5"
+                    android:adjustViewBounds="true"
+                    android:background="@color/FondoBotonArriba"
+                    android:longClickable="true"
+                    android:padding="10dp"
+                    android:scaleType="fitXY" />
+
+                <ImageButton
+                    android:id="@+id/Seleccion3"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_margin="5dp"
+                    android:layout_weight="5"
+                    android:adjustViewBounds="true"
+                    android:background="@color/FondoBotonArriba"
+                    android:longClickable="true"
+                    android:padding="10dp"
+                    android:scaleType="fitXY" />
+
+                <ImageButton
+                    android:id="@+id/Seleccion4"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_margin="5dp"
+                    android:layout_weight="5"
+                    android:adjustViewBounds="true"
+                    android:background="@color/FondoBotonArriba"
+                    android:longClickable="true"
+                    android:padding="10dp"
+                    android:scaleType="fitXY" />
+
+                <ImageButton
+                    android:id="@+id/Seleccion5"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_margin="5dp"
+                    android:layout_weight="5"
+                    android:adjustViewBounds="true"
+                    android:background="@color/FondoBotonArriba"
+                    android:longClickable="true"
+                    android:padding="10dp"
+                    android:scaleType="fitXY" />
+
+                <ImageButton
+                    android:id="@+id/Seleccion6"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_margin="5dp"
+                    android:layout_weight="5"
+                    android:adjustViewBounds="true"
+                    android:background="@color/FondoBotonArriba"
+                    android:longClickable="true"
+                    android:padding="10dp"
+                    android:scaleType="fitXY" />
+
+                <ImageButton
+                    android:id="@+id/Seleccion7"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_margin="5dp"
+                    android:layout_weight="5"
+                    android:adjustViewBounds="true"
+                    android:background="@color/FondoBotonArriba"
+                    android:longClickable="true"
+                    android:padding="10dp"
+                    android:scaleType="fitXY" />
+
+                <ImageButton
+                    android:id="@+id/Seleccion8"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_margin="5dp"
+                    android:layout_weight="5"
+                    android:adjustViewBounds="true"
+                    android:background="@color/FondoBotonArriba"
+                    android:longClickable="true"
+                    android:padding="10dp"
+                    android:scaleType="fitXY" />
+            </LinearLayout>
+        </HorizontalScrollView>
+
+        <ImageButton
+            android:id="@+id/btn_borrar"
+            android:layout_width="90dp"
+            android:layout_height="0dp"
+            android:layout_margin="5dp"
+            android:adjustViewBounds="true"
+            android:background="@android:color/transparent"
+            android:padding="5dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_backspace_black_24dp"
+            android:tint="@color/NaranjaOTTAA"
+            app:layout_constraintDimensionRatio="h,1:1"
+            custom:layout_constraintBottom_toBottomOf="parent"
+            custom:layout_constraintEnd_toEndOf="parent"
+            custom:layout_constraintTop_toTopOf="parent" />
+    </android.support.constraint.ConstraintLayout>
+    <!--<ImageButton-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="0dp"-->
+    <!--android:layout_weight="1"-->
+    <!--android:id="@+id/btnPredictor"-->
+    <!--android:scaleType="fitCenter"-->
+    <!--android:background="@android:color/transparent"-->
+    <!--android:src="@drawable/predictor"/>-->
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="4"
+        android:orientation="horizontal">
+
+        <com.stonefacesoft.ottaa.Custom_Picto
+            android:id="@+id/Opcion1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:padding="5dp"
+            custom:Imagen="2"
+            custom:Texto="Hola"
+            custom:layout_constraintBottom_toBottomOf="parent"
+            custom:layout_constraintEnd_toStartOf="@id/Opcion2"
+            custom:layout_constraintStart_toStartOf="parent"
+            custom:layout_constraintTop_toTopOf="parent"></com.stonefacesoft.ottaa.Custom_Picto>
+
+        <com.stonefacesoft.ottaa.Custom_Picto
+            android:id="@+id/Opcion2"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:padding="5dp"
+            custom:Imagen="2"
+            custom:Texto="Hola"
+            custom:layout_constraintBottom_toBottomOf="parent"
+            custom:layout_constraintEnd_toStartOf="@id/Opcion3"
+            custom:layout_constraintStart_toEndOf="@id/Opcion1"
+            custom:layout_constraintTop_toTopOf="parent"></com.stonefacesoft.ottaa.Custom_Picto>
+
+        <com.stonefacesoft.ottaa.Custom_Picto
+            android:id="@+id/Opcion3"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:padding="5dp"
+            custom:Imagen="2"
+            custom:Texto="Hola"
+            custom:layout_constraintBottom_toBottomOf="parent"
+            custom:layout_constraintEnd_toStartOf="@id/Opcion4"
+            custom:layout_constraintStart_toEndOf="@id/Opcion2"
+            custom:layout_constraintTop_toTopOf="parent"></com.stonefacesoft.ottaa.Custom_Picto>
+
+        <com.stonefacesoft.ottaa.Custom_Picto
+            android:id="@+id/Opcion4"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:padding="5dp"
+            custom:Imagen="2"
+            custom:Texto="Hola"
+            custom:layout_constraintBottom_toBottomOf="parent"
+            custom:layout_constraintEnd_toStartOf="@id/btnMasPictos"
+            custom:layout_constraintStart_toEndOf="@id/Opcion3"
+            custom:layout_constraintTop_toTopOf="parent"
+            custom:layout_constraintVertical_bias="0.5"></com.stonefacesoft.ottaa.Custom_Picto>
+
+
+        <ImageButton
+            android:id="@+id/btnMasPictos"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@android:color/transparent"
+            android:padding="5dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/btn_mas_pictos"
+            custom:layout_constraintBottom_toTopOf="@id/btnTodosLosPictos"
+            custom:layout_constraintEnd_toEndOf="parent"
+            custom:layout_constraintStart_toEndOf="@id/Opcion4"
+            custom:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:id="@+id/btnTodosLosPictos"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@android:color/transparent"
+            android:padding="5dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/btn_galeria"
+            custom:layout_constraintBottom_toBottomOf="parent"
+            custom:layout_constraintEnd_toEndOf="parent"
+            custom:layout_constraintStart_toEndOf="@id/Opcion4"
+            custom:layout_constraintTop_toBottomOf="@id/btnMasPictos" />
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/lottieAnimationView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:visibility="invisible"
+            app:lottie_fileName="circle_loader.json"
+            custom:layout_constraintBottom_toBottomOf="parent"
+            custom:layout_constraintEnd_toEndOf="parent"
+            custom:layout_constraintStart_toStartOf="parent"
+            custom:layout_constraintTop_toTopOf="@id/btnTodosLosPictos"
+            custom:lottie_colorFilter="@color/NaranjaOTTAA" />
+
+    </android.support.constraint.ConstraintLayout>
+
+
+</LinearLayout>

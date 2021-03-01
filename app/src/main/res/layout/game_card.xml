@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/picto_shape">
+
+    <FrameLayout
+        android:id="@+id/imageFrame"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        custom:layout_constraintBottom_toTopOf="@+id/gamecard_title"
+        custom:layout_constraintEnd_toEndOf="parent"
+        custom:layout_constraintStart_toStartOf="parent"
+        custom:layout_constraintTop_toTopOf="parent"
+        custom:layout_constraintVertical_weight="4">
+
+        <ImageView
+            android:id="@+id/imgJuego"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/default_gap"
+            android:layout_marginTop="@dimen/default_gap"
+            android:layout_marginEnd="@dimen/default_gap"
+            android:scaleType="centerCrop"
+            android:src="@drawable/match_picto" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/shape_card_game" />
+
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/gamecard_title"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:gravity="center"
+        android:text="Dummy title"
+        android:textColor="#555"
+        android:textSize="@dimen/textSizeTitulo"
+        android:textStyle="bold"
+        custom:layout_constraintBottom_toTopOf="@id/gamecard_description"
+        custom:layout_constraintEnd_toEndOf="parent"
+        custom:layout_constraintStart_toStartOf="parent"
+        custom:layout_constraintTop_toBottomOf="@id/imageFrame"
+        custom:layout_constraintVertical_weight="1" />
+
+    <TextView
+        android:id="@+id/gamecard_description"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:gravity="center|top"
+        android:textColor="#555"
+        android:text="Dummy description"
+        custom:layout_constraintBottom_toTopOf="@id/btnPuntaje"
+        custom:layout_constraintEnd_toEndOf="parent"
+        custom:layout_constraintStart_toStartOf="parent"
+        custom:layout_constraintTop_toBottomOf="@+id/gamecard_title"
+        custom:layout_constraintVertical_weight="2" />
+
+
+    <Button
+        android:id="@+id/btnPuntaje"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="@string/str_puntaje"
+        android:textAlignment="center"
+        android:gravity="center"
+        android:layout_marginBottom="@dimen/small_margin"
+        android:textColor="@color/colorPrimary"
+        custom:layout_constraintBottom_toBottomOf="parent"
+        custom:layout_constraintEnd_toStartOf="@id/btnJugar"
+        custom:layout_constraintStart_toStartOf="parent"
+        custom:layout_constraintTop_toBottomOf="@id/gamecard_description"
+        custom:layout_constraintHorizontal_weight="2"
+        custom:layout_constraintVertical_weight="2" />
+
+    <Button
+        android:id="@+id/btnJugar"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="@string/str_jugar"
+        android:textColor="@color/colorPrimary"
+        custom:layout_constraintBottom_toBottomOf="@id/btnPuntaje"
+        custom:layout_constraintEnd_toEndOf="parent"
+        custom:layout_constraintStart_toEndOf="@id/btnPuntaje"
+        custom:layout_constraintHorizontal_weight="2"
+        custom:layout_constraintTop_toTopOf="@id/btnPuntaje" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

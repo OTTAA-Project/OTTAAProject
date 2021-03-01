@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<defaultsMap>
+    <entry>
+        <key>christmas_ottaa_mode</key>
+        <value>false</value>
+    </entry>
+
+    <entry>
+        <key>christmas_color</key>
+        <value>#E53935</value>
+    </entry>
+
+</defaultsMap>

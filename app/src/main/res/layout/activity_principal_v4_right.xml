@@ -1,0 +1,472 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/FondoApp"
+    android:orientation="vertical"
+    tools:openDrawer="start">
+
+
+    <HorizontalScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:id="@+id/horizontalScrollView2"
+        custom:layout_constraintStart_toStartOf="parent"
+        custom:layout_constraintEnd_toEndOf="parent"
+        custom:layout_constraintTop_toTopOf="parent"
+        custom:layout_constraintBottom_toTopOf="@id/constraintPictos"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:layout_marginEnd="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
+        custom:layout_constraintVertical_weight="3">
+
+        <LinearLayout
+            android:id="@+id/linearLayoutv2"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/Seleccion1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/seleccion_margin"
+                android:layout_weight="5"
+                android:adjustViewBounds="true"
+                android:background="@drawable/picto_shape"
+                android:contentDescription="Talk"
+                android:longClickable="true"
+                android:padding="10dp"
+                android:scaleType="fitXY" />
+
+            <ImageButton
+                android:id="@+id/Seleccion2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/seleccion_margin"
+                android:layout_weight="5"
+                android:adjustViewBounds="true"
+                android:background="@drawable/picto_shape"
+                android:contentDescription="Talk"
+                android:longClickable="true"
+                android:padding="10dp"
+                android:scaleType="fitXY" />
+
+            <ImageButton
+                android:id="@+id/Seleccion3"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/seleccion_margin"
+                android:layout_weight="5"
+                android:adjustViewBounds="true"
+                android:background="@drawable/picto_shape"
+                android:contentDescription="Talk"
+                android:longClickable="true"
+                android:padding="10dp"
+                android:scaleType="fitXY" />
+
+            <ImageButton
+                android:id="@+id/Seleccion4"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/seleccion_margin"
+                android:layout_weight="5"
+                android:adjustViewBounds="true"
+                android:background="@drawable/picto_shape"
+                android:contentDescription="Talk"
+                android:longClickable="true"
+                android:padding="10dp"
+                android:scaleType="fitXY" />
+
+            <ImageButton
+                android:id="@+id/Seleccion5"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/seleccion_margin"
+                android:layout_weight="5"
+                android:adjustViewBounds="true"
+                android:background="@drawable/picto_shape"
+                android:contentDescription="Talk"
+                android:longClickable="true"
+                android:padding="10dp"
+                android:scaleType="fitXY" />
+
+            <ImageButton
+                android:id="@+id/Seleccion6"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/seleccion_margin"
+                android:layout_weight="5"
+                android:adjustViewBounds="true"
+                android:background="@drawable/picto_shape"
+                android:contentDescription="Talk"
+                android:longClickable="true"
+                android:padding="10dp"
+                android:scaleType="fitXY" />
+
+            <ImageButton
+                android:id="@+id/Seleccion7"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/seleccion_margin"
+                android:layout_weight="5"
+                android:adjustViewBounds="true"
+                android:background="@drawable/picto_shape"
+                android:contentDescription="Talk"
+                android:longClickable="true"
+                android:padding="10dp"
+                android:scaleType="fitXY" />
+
+            <ImageButton
+                android:id="@+id/Seleccion8"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/seleccion_margin"
+                android:layout_weight="5"
+                android:adjustViewBounds="true"
+                android:background="@drawable/picto_shape"
+                android:contentDescription="Talk"
+                android:longClickable="true"
+                android:padding="10dp"
+                android:scaleType="fitXY" />
+            <ImageButton
+                android:id="@+id/Seleccion9"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/seleccion_margin"
+                android:layout_weight="5"
+                android:adjustViewBounds="true"
+                android:background="@drawable/picto_shape"
+                android:contentDescription="Talk"
+                android:longClickable="true"
+                android:padding="10dp"
+                android:scaleType="fitXY" />
+            <ImageButton
+                android:id="@+id/Seleccion10"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/seleccion_margin"
+                android:layout_weight="5"
+                android:adjustViewBounds="true"
+                android:background="@drawable/picto_shape"
+                android:contentDescription="Talk"
+                android:longClickable="true"
+                android:padding="10dp"
+                android:scaleType="fitXY" />
+        </LinearLayout>
+    </HorizontalScrollView>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+
+        custom:layout_constraintBottom_toTopOf="@id/containerBottomMasPictos"
+        custom:layout_constraintEnd_toStartOf="@id/constraintRightButtons"
+        custom:layout_constraintTop_toBottomOf="@id/horizontalScrollView2"
+        custom:layout_constraintStart_toEndOf="@id/constraintLeftButtons"
+        custom:layout_constraintBottom_toBottomOf="parent"
+        custom:layout_constraintVertical_weight="7"
+        custom:layout_constraintHorizontal_weight="90"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:layout_marginEnd="@dimen/activity_horizontal_margin"
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:id="@+id/constraintPictos">
+
+        <com.stonefacesoft.pictogramslibrary.view.PictoView
+            android:id="@+id/Option1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginEnd="@dimen/interpicto_margin"
+            custom:Imagen="2"
+            custom:Texto="Hola"
+            android:contentDescription="Picto"
+            custom:layout_constraintBottom_toBottomOf="parent"
+            custom:layout_constraintEnd_toStartOf="@id/Option2"
+            custom:layout_constraintStart_toStartOf="parent"
+            custom:layout_constraintTop_toTopOf="parent" />
+
+        <com.stonefacesoft.pictogramslibrary.view.PictoView
+            android:id="@+id/Option2"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/interpicto_margin"
+            android:layout_marginEnd="@dimen/interpicto_margin"
+            custom:Imagen="2"
+            custom:Texto="Hola"
+            android:contentDescription="Picto"
+            custom:layout_constraintBottom_toBottomOf="parent"
+            custom:layout_constraintEnd_toStartOf="@id/Option3"
+            custom:layout_constraintStart_toEndOf="@id/Option1"
+            custom:layout_constraintTop_toTopOf="parent" />
+
+        <com.stonefacesoft.pictogramslibrary.view.PictoView
+            android:id="@+id/Option3"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            custom:Imagen="2"
+            custom:Texto="Hola"
+            android:layout_marginStart="@dimen/interpicto_margin"
+            custom:layout_constraintBottom_toBottomOf="parent"
+            custom:layout_constraintEnd_toStartOf="@id/Option4"
+            custom:layout_constraintStart_toEndOf="@id/Option2"
+            custom:layout_constraintTop_toTopOf="parent"
+            android:layout_marginEnd="@dimen/interpicto_margin"
+            android:contentDescription="Picto" />
+
+        <com.stonefacesoft.pictogramslibrary.view.PictoView
+            android:id="@+id/Option4"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/interpicto_margin"
+            custom:Imagen="2"
+            custom:Texto="Hola"
+            android:contentDescription="Picto"
+            custom:layout_constraintBottom_toBottomOf="parent"
+            custom:layout_constraintEnd_toEndOf="parent"
+            custom:layout_constraintStart_toEndOf="@id/Option3"
+            custom:layout_constraintTop_toTopOf="parent"
+            custom:layout_constraintVertical_bias="0.5" />
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/lottieAnimationView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:visibility="invisible"
+            custom:lottie_colorFilter="@color/NaranjaOTTAA"
+            custom:layout_constraintStart_toStartOf="parent"
+            custom:layout_constraintEnd_toEndOf="parent"
+            custom:layout_constraintTop_toTopOf="parent"
+            custom:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginTop="100dp"
+            app:lottie_fileName="circle_loader.json"/>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintRightButtons"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/ic_shape_right_orange"
+        custom:layout_constraintEnd_toEndOf="parent"
+        custom:layout_constraintHorizontal_weight="1"
+        custom:layout_constraintBottom_toBottomOf="parent"
+        custom:layout_constraintStart_toEndOf="@id/containerBottomMasPictos"
+        android:layout_marginTop="20dp"
+        custom:layout_constraintTop_toTopOf="@id/constraintPictos">
+        <ImageButton
+            android:id="@+id/action_reiniciar"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="More pictograms"
+            android:scaleType="fitCenter"
+            android:layout_margin="@dimen/small_margin"
+            android:src="@drawable/ic_videogame_asset_black_24dp"
+            android:tint="@color/White"
+            custom:layout_constraintBottom_toTopOf="@id/btnTodosLosPictos"
+            custom:layout_constraintEnd_toEndOf="parent"
+            custom:layout_constraintStart_toStartOf="parent"
+            custom:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:id="@+id/btnTodosLosPictos"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="@dimen/small_margin"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Here you find the gallery with all the pictograms"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_photo_library_black_24dp"
+            custom:layout_constraintBottom_toBottomOf="parent"
+            custom:layout_constraintEnd_toEndOf="parent"
+            custom:layout_constraintStart_toStartOf="parent"
+            custom:layout_constraintTop_toBottomOf="@id/action_reiniciar" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLeftButtons"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/ic_shape_left_orange"
+        custom:layout_constraintStart_toStartOf="parent"
+        custom:layout_constraintBottom_toBottomOf="parent"
+        custom:layout_constraintTop_toTopOf="@id/constraintPictos"
+        custom:layout_constraintEnd_toStartOf="@id/containerBottomMasPictos"
+        android:layout_marginTop="20dp"
+        custom:layout_constraintHorizontal_weight="1">
+        <ImageButton
+            android:id="@+id/action_share"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="@dimen/small_margin"
+            custom:layout_constraintTop_toTopOf="parent"
+            custom:layout_constraintBottom_toTopOf="@id/btnFavoritos"
+            custom:layout_constraintStart_toStartOf="parent"
+            custom:layout_constraintEnd_toEndOf="parent"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_share_black_24dp"
+            android:contentDescription="Delete one picto, press and hold to delete everything" />
+
+
+        <ImageButton
+            android:id="@+id/btnFavoritos"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="@dimen/small_margin"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Favorites"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_favorite_black_24dp"
+            custom:layout_constraintBottom_toBottomOf="parent"
+            custom:layout_constraintEnd_toEndOf="parent"
+            custom:layout_constraintStart_toStartOf="parent"
+            custom:layout_constraintTop_toBottomOf="@id/action_share" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:id="@+id/containerBottomMasPictos"
+        android:background="@drawable/ic_shape_bottom_orange"
+        custom:layout_constraintEnd_toStartOf="@id/constraintRightButtons"
+        custom:layout_constraintBottom_toBottomOf="parent"
+        custom:layout_constraintTop_toBottomOf="@id/constraintPictos"
+        custom:layout_constraintHorizontal_weight="6"
+        custom:layout_constraintStart_toEndOf="@id/constraintLeftButtons"
+        custom:layout_constraintVertical_weight="3">
+
+        <ImageButton
+            android:id="@+id/btnMasPictos"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_view_day_black_24dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            custom:layout_constraintBottom_toBottomOf="parent"
+            custom:layout_constraintEnd_toEndOf="parent"
+            custom:layout_constraintStart_toEndOf="@id/btn_borrar"
+            custom:layout_constraintTop_toTopOf="parent"
+           />
+
+
+        <ImageButton
+            android:id="@+id/btn_borrar"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_backspace_black_24dp"
+            android:tint="@color/White"
+            custom:layout_constraintStart_toStartOf="parent"
+            custom:layout_constraintBottom_toBottomOf="parent"
+            custom:layout_constraintTop_toTopOf="parent"
+            custom:layout_constraintEnd_toStartOf="@id/btnMasPictos"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <Button
+        android:id="@+id/btnBarrido"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@android:color/transparent"
+        android:visibility="gone"
+        custom:layout_constraintBottom_toBottomOf="parent"
+        custom:layout_constraintEnd_toEndOf="parent"
+        custom:layout_constraintStart_toStartOf="parent"
+        custom:layout_constraintTop_toBottomOf="@id/horizontalScrollView2" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_corner"
+        android:tint="@color/NaranjaOTTAA"
+        android:id="@+id/cornerImageViewLeft"
+        android:layout_marginStart="12dp"
+        android:layout_marginBottom="12dp"
+        android:rotation="180"
+        android:scaleX="3"
+        android:scaleY="3"
+        custom:layout_constraintBottom_toTopOf="@id/containerBottomMasPictos"
+        custom:layout_constraintStart_toEndOf="@id/constraintLeftButtons" />
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_corner"
+        android:tint="@color/NaranjaOTTAA"
+        android:id="@+id/cornerImageViewRight"
+        android:rotation="90"
+        android:layout_margin="12dp"
+        android:scaleX="3"
+        android:scaleY="3"
+        custom:layout_constraintBottom_toTopOf="@id/containerBottomMasPictos"
+        custom:layout_constraintEnd_toStartOf="@id/constraintRightButtons" />
+
+      <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="25dp"
+        android:clickable="false"
+        android:elevation="0dp"
+        custom:backgroundTint="@color/FondoApp"
+        custom:fabCustomSize="90dp"
+        custom:layout_constraintBottom_toBottomOf="parent"
+        custom:layout_constraintEnd_toEndOf="parent"
+        custom:layout_constraintStart_toStartOf="parent"
+        custom:layout_constraintTop_toTopOf="@id/containerBottomMasPictos">
+
+    </com.google.android.material.floatingactionbutton.FloatingActionButton>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btnTalk"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="25dp"
+        android:elevation="20dp"
+        android:src="@drawable/icono_ottaa"
+        android:tint="@color/White"
+        custom:backgroundTint="@color/NaranjaOTTAA"
+        custom:fabCustomSize="80dp"
+        custom:layout_constraintBottom_toBottomOf="parent"
+        custom:layout_constraintEnd_toEndOf="parent"
+        custom:layout_constraintStart_toStartOf="parent"
+        custom:layout_constraintTop_toTopOf="@id/containerBottomMasPictos"
+        custom:maxImageSize="70dp">
+
+    </com.google.android.material.floatingactionbutton.FloatingActionButton>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:layout_width="@dimen/sizeFloattingButtonMed"
+        android:layout_height="@dimen/sizeFloattingButtonMed"
+        android:visibility="gone"
+        android:id="@+id/floatting_button"
+        android:src="@drawable/ic_touch_app_black_24dp"
+        custom:maxImageSize="@dimen/sizeFloattingButtonIconMed"
+        android:backgroundTint="@color/color_blue_transparent"
+        custom:backgroundTint="@color/Black"
+        custom:borderWidth="2dp"
+        custom:layout_constraintStart_toStartOf="parent"
+        custom:layout_constraintEnd_toEndOf="parent"
+        custom:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

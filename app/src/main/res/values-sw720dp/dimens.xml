@@ -1,0 +1,23 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">32dp</dimen>
+    <dimen name="activity_vertical_margin">32dp</dimen>
+    <dimen name="small_margin">8dp</dimen>
+    <dimen name="regular_margin">16dp</dimen>
+    <dimen name="medium_margin">32dp</dimen>
+    <dimen name="large_margin">64dp</dimen>
+    <dimen name="big_fat_margin">120dp</dimen>
+    <dimen name="button_radius">80dp</dimen>
+
+    <dimen name="interpicto_margin">12dp</dimen>
+    <dimen name="interpicto_marginBarrido">20dp</dimen>
+
+    <dimen name="seleccion_margin">8dp</dimen>
+
+    <dimen name="textSizeTitulo">18sp</dimen>
+
+    <dimen name="sizeDialogHeigth">350sp</dimen>
+    <dimen name="sizeDialogHeigthMax">450dp</dimen>
+    <dimen name="sizeDialogWidth">650sp</dimen>
+    <dimen name="ultra_big_fat_margin">250sp</dimen>
+</resources>
