@@ -18,6 +18,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.recyclerview.widget.RecyclerView;
 
+
 import com.bumptech.glide.ListPreloader;
 import com.bumptech.glide.RequestBuilder;
 import com.stonefacesoft.ottaa.JSONutils.Json;
@@ -33,6 +34,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import com.stonefacesoft.pictogramslibrary.utils.GlideAttatcher;
 
 public class VincularPictosAdapter extends RecyclerView.Adapter<VincularPictosAdapter.VincularViewHolder> implements ListPreloader.PreloadModelProvider {
 
