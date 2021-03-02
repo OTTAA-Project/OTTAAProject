@@ -47,15 +47,31 @@ jobs:
       - store_test_results:
           path: app/build/test-results
       - run:
-          name: Save test results
-          command: |
-            mkdir -p ~/test-results/junit/
-            find . -type f -regex ".*/build/test-results/.*xml" -exec cp {} ~/test-results/junit/ \;
-          when: always
-      - store_test_results:
-          path: ~/test-results
+          name: Run UnitTest
+          command: ./gradlew testDemoDebugUnitTest
+      - run:
+           name: Setup emulator
+           command: sdkmanager "system-images;android-16;default;armeabi-v7a" && echo "no" | avdmanager create avd -n test -k "system-images;android-16;default;armeabi-v7a"
+      - run:
+          name: Launch emulator
+          command: export LD_LIBRARY_PATH=${ANDROID_HOME}/emulator/lib64:${ANDROID_HOME}/emulator/lib64/qt/lib && emulator64-arm -avd test -noaudio -no-boot-anim -no-window -accel auto -verbose
+          background: true
+      - run:
+          name: Wait emulator
+           command: |
+          # wait for it to have booted
+                circle-android wait-for-boot
+                        # unlock the emulator screen
+                sleep 30
+                adb shell input keyevent 82
+      - run:
+          name: Run EspressoTests
+          command: ./gradlew connectedDemoDebugAndroidTest
       - store_artifacts:
-          path: ~/test-results/junit
+                path: app/build/reports
+                destination: reports
+      - store_test_results:
+                path: app/build/test-results
 workflows:
   version: 2.1
   workflow:
