@@ -15,7 +15,6 @@ jobs:
       - run:
           name: Chmod permissions
           command: sudo chmod +x ./gradlew
-                     - run:
             # Export base64 encoded google-services.json
             # into local bash variables
       - run :
