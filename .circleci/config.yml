@@ -30,7 +30,7 @@ jobs:
           command: echo 'export api_keys="$api_keys_circleci"' >> $BASH_ENV
       - run:              # Decode the base64 string
           name: Decode Google Services Json
-          command: echo $api_keys_circleci | base64 -di > app/src/res/values/api_keys.xml
+          command: echo $api_keys_circleci | base64 -di > app/src/main/res/values/api_keys.xml
       - run:
           name: Download Dependencies
           command: ./gradlew androidDependencies
