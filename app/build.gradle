@@ -47,6 +47,9 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             zipAlignEnabled true
         }
+        lintOptions {
+                abortOnError false
+        }
 
 
     }
