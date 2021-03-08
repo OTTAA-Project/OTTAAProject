@@ -434,4 +434,6 @@
     <string name="suggested_pictograms">Foreslåtte piktogrammer</string>
     <string name="screen_scanning_mode">skjermskannemodus</string>
     <string name="favorite_phrases">Favorittuttrykk</string>
+    <string name="memory_game">Memory Game</string>
+    <string name="memory_game_string">Test minnet ditt</string>
 </resources>

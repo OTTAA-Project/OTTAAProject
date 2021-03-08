@@ -17,9 +17,12 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.stonefacesoft.ottaa.Games.GameCard;
 import com.stonefacesoft.ottaa.Games.GameSelector;
+import com.stonefacesoft.ottaa.Games.MemoryGame;
 import com.stonefacesoft.ottaa.JSONutils.Json;
+import com.stonefacesoft.ottaa.MainJuegos;
 import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.utils.IntentCode;
+import com.stonefacesoft.ottaa.utils.ReturnPositionItem;
 
 import org.json.JSONObject;
 
@@ -36,6 +39,7 @@ public class viewpager_galeria_juegos {
     private static Json json;
     private final ViewPager2 viewPager;
     private JSONObject gameData;
+    private ReturnPositionItem positionItem;
 
 
     public viewpager_galeria_juegos(AppCompatActivity mActivity) {
@@ -59,7 +63,7 @@ public class viewpager_galeria_juegos {
 
         @Override
         public int getItemCount() {
-                return 2;
+                return 3;
         }
     }
 
@@ -115,10 +119,10 @@ public class viewpager_galeria_juegos {
                     card.prepareCardView( R.string.join_pictograms, R.string.join_pictograms_description, R.drawable.match_picto, createOnClickListener(mActivity, GameSelector.class, "seleccionar_palabras"));
                     card.setmTxtScore(json.devolverCantidadGruposUsados(1)+"/"+json.getmJSONArrayTodosLosGrupos().length());//todo in recycler fill with the position
                     break;
-//                case 2:
-//                    card.prepareCardView( R.string.join_pictograms, R.string.join_pictograms_description, R.drawable.descripcion, createOnClickListener(mActivity, DescribirPictograma.class, "descripciones"));
-//                  //  card.setmTxtScore(json.devolverCantidadGruposUsados(2)+"/"+json.getmJSONArrayTodosLosGrupos().length());//todo in recycler fill with the position
-//                    break;
+                case 2:
+                    card.prepareCardView(R.string.memory_game, R.string.memory_game_string, R.drawable.descripcion, createOnClickListener(mActivity, GameSelector.class, "descripciones"));
+                    card.setmTxtScore(json.devolverCantidadGruposUsados(2)+"/"+json.getmJSONArrayTodosLosGrupos().length());//todo in recycler fill with the position
+                    break;
             }
         }
         private View.OnClickListener createOnClickListener(Context context,Class clase,String value){
@@ -133,17 +137,19 @@ public class viewpager_galeria_juegos {
         }
     }
 
-    public void scrollPosition(boolean add){
-        int position=viewPager.getCurrentItem();
-        if (add)
-            position++;
-        else
-            position--;
 
-        if(position>2)
-            position=0;
-        else if(position<0)
-            position=2;
+
+    public void setUpPositionItem(int size){
+        positionItem=new ReturnPositionItem(size);
+    }
+
+    public void scrollPosition(boolean add){
+        int position=0;
+        if(add){
+            position=positionItem.add();
+        }
+        else
+           position=positionItem.subtract();
         viewPager.setCurrentItem(position);
     }
 
@@ -163,10 +169,10 @@ public class viewpager_galeria_juegos {
                  intent=new Intent(mActivity,GameSelector.class);
                  intent.putExtra("name_game","seleccionar_palabras");
                  break;
-//             case 2:
-//                 intent=new Intent(mActivity,DescribirPictograma.class);
-//                 intent.putExtra("name_game","descripciones");
-//                 break;
+             case 2:
+                 intent=new Intent(mActivity, GameSelector.class);
+                 intent.putExtra("name_game","descripciones");
+                break;
              default:
                  intent=new Intent(mActivity,GameSelector.class);
                  intent.putExtra("name_game","notigames");

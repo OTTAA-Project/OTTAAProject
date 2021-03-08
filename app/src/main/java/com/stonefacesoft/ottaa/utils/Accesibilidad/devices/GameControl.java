@@ -1,11 +1,9 @@
 package com.stonefacesoft.ottaa.utils.Accesibilidad.devices;
 
-import android.content.Context;
 import android.util.Log;
 import android.view.InputDevice;
 import android.view.MotionEvent;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.MotionEventCompat;
 
 import com.stonefacesoft.ottaa.Games.GameSelector;
@@ -13,12 +11,14 @@ import com.stonefacesoft.ottaa.Games.MatchPictograms;
 import com.stonefacesoft.ottaa.Games.WhichIsThePicto;
 import com.stonefacesoft.ottaa.MainJuegos;
 import com.stonefacesoft.ottaa.utils.Accesibilidad.BarridoPantalla;
+import com.stonefacesoft.ottaa.Views.Games.GameViewSelectPictograms;
 
 public class GameControl extends Controls{
     private MainJuegos mainJuegos;
     private WhichIsThePicto whichIsThePicto ;
     private MatchPictograms matchPictograms;
     private GameSelector gameSelector;
+    private GameViewSelectPictograms gameViewSelectPictograms;
     private String TAG="GameControl";
 
 
@@ -37,6 +37,11 @@ public class GameControl extends Controls{
     public GameControl(GameSelector gameSelector){
         super(gameSelector);
         this.gameSelector=gameSelector;
+    }
+
+    public GameControl(GameViewSelectPictograms gameSelector){
+        super(gameSelector);
+        this.gameViewSelectPictograms=gameSelector;
     }
 
     @Override
@@ -117,6 +122,8 @@ public class GameControl extends Controls{
             return matchPictograms.getBarridoPantalla();
         else if(gameSelector!=null)
             return gameSelector.getBarridoPantalla();
+        else if(gameViewSelectPictograms!=null)
+            return gameViewSelectPictograms.getBarridoPantalla();
         return null;
     }
 
@@ -129,6 +136,8 @@ public class GameControl extends Controls{
              matchPictograms.OnClickBarrido();
         else if(gameSelector!=null)
              gameSelector.OnClickBarrido();
+        else if(gameViewSelectPictograms!=null)
+             gameViewSelectPictograms.OnClickBarrido();
     }
     private void selectSippAndPuff(){
         if(mainJuegos!=null)
@@ -139,6 +148,8 @@ public class GameControl extends Controls{
             matchPictograms.OnClickBarrido();
         else if(gameSelector!=null)
             gameSelector.OnClickBarrido();
+        else if(gameViewSelectPictograms!=null)
+            gameViewSelectPictograms.OnClickBarrido();
     }
     private void  makeOnClick(){
         if(mainJuegos!=null)
@@ -149,6 +160,8 @@ public class GameControl extends Controls{
             matchPictograms.onClick(getBarridoPantalla().getmListadoVistas().get(getBarridoPantalla().getPosicionBarrido()));
         else if(gameSelector!=null)
             gameSelector.onClick(getBarridoPantalla().getmListadoVistas().get(getBarridoPantalla().getPosicionBarrido()));
+        else if(gameViewSelectPictograms!=null)
+            gameViewSelectPictograms.onClick(getBarridoPantalla().getmListadoVistas().get(getBarridoPantalla().getPosicionBarrido()));
 
     }
 
