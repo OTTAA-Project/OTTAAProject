@@ -479,5 +479,7 @@
     <string name="speed_summary">Personaliza la velocidad del barrido de pantalla o el tiempo entre clicks</string>
     <string name="select_device_version">Pictogramas sugeridos</string>
     <string name="favorite_phrases">Frases Favoritas</string>
+    <string name="memory_game">Juego de memoria</string>
+    <string name="memory_game_string">Prueba tu memoria</string>
 
 </resources>

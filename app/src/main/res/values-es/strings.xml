@@ -492,5 +492,7 @@
     <string name="suggested_pictograms">Pictogramas sugeridos</string>
     <string name="screen_scanning_mode">Modo del barrido en pantalla</string>
     <string name="favorite_phrases">Frases Favoritas</string>
+    <string name="memory_game">Juego De Memoria</string>
+    <string name="memory_game_string">Prueba tu memoria</string>
 
 </resources>

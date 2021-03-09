@@ -433,4 +433,6 @@
     <string name="suggested_pictograms">Pittogrammi suggeriti</string>
     <string name="screen_scanning_mode">modalità di scansione dello schermo</string>
     <string name="favorite_phrases">Frasi preferite</string>
+    <string name="memory_game">Gioco di memoria</string>
+    <string name="memory_game_string">Metti alla prova la tua memoria</string>
 </resources>

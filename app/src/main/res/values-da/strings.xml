@@ -435,5 +435,7 @@
     <string name="suggested_pictograms">Foreslåede piktogrammer</string>
     <string name="screen_scanning_mode">skærm-scanningstilstand</string>
     <string name="favorite_phrases">Favoritsætninger</string>
+    <string name="memory_game">Hukommelsesspil</string>
+    <string name="memory_game_string">Test din hukommelse</string>
 
 </resources>

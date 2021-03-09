@@ -433,6 +433,8 @@
     <string name="suggested_pictograms">Pictograms zilizopendekezwa</string>
     <string name="screen_scanning_mode">hali ya skanning ya skrini</string>
     <string name="favorite_phrases">Maneno Unayopenda</string>
+    <string name="memory_game">Mchezo wa Kumbukumbu</string>
+    <string name="memory_game_string">Jaribu Kumbukumbu Yako</string>
 
 
 </resources>

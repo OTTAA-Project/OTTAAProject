@@ -286,9 +286,9 @@ public class GameSelector extends AppCompatActivity implements View.OnClickListe
                             case "seleccionar_palabras":
                                 intent = new Intent(GameSelector.this, MatchPictograms.class);
                                 break;
-//                            case "descripciones":
-//                                intent=new Intent(GameSelector.this,DescribirPictograma.class);
-//                                break;
+                            case "descripciones":
+                                intent=new Intent(GameSelector.this,MemoryGame.class);
+                                break;
                         }
 
                         try {
@@ -328,6 +328,8 @@ public class GameSelector extends AppCompatActivity implements View.OnClickListe
 
             case "seleccionar_palabras":
                 return 1;
+            case "descripciones":
+                return 2;
         }
         return 0;
     }

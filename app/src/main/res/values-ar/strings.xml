@@ -453,5 +453,7 @@
     <string name="suggested_pictograms">واقترح الصور التوضيحية</string>
     <string name="screen_scanning_mode">وضع مسح الشاشة</string>
     <string name="favorite_phrases">العبارات المفضلة</string>
+    <string name="memory_game">لعبة الذاكرة</string>
+    <string name="memory_game_string">جرب ذاكرتك</string>
 
 </resources>

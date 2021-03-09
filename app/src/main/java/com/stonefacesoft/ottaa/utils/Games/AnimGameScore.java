@@ -14,6 +14,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.stonefacesoft.ottaa.Custom_Picto;
 import com.stonefacesoft.ottaa.R;
+import com.stonefacesoft.pictogramslibrary.view.PictoView;
 
 //Esta es una clase q se encarga de
 public class AnimGameScore {
@@ -39,6 +40,64 @@ public class AnimGameScore {
     }*/
 
     public void animateCorrect(Custom_Picto picto, int smiley) {
+        animationSprite.setVisibility(View.VISIBLE);
+
+        animationSprite.setImageDrawable(getTintedSmiley(smiley));
+
+        ConstraintLayout.LayoutParams params = (ConstraintLayout.LayoutParams) animationSprite.getLayoutParams();
+        params.startToStart = picto.getId();
+        params.endToEnd = picto.getId();
+        params.topToTop = picto.getId();
+        params.bottomToBottom = picto.getId();
+        animationSprite.setLayoutParams(params);
+        animationSprite.requestLayout();
+
+
+        AnimationSet set = new AnimationSet(true);
+
+        Animation scaleAnimation = new ScaleAnimation(.7f, 1.3f, .7f, 1.3f,
+                Animation.RELATIVE_TO_SELF, .5f,
+                Animation.RELATIVE_TO_SELF, .5f);
+        Animation alphaAnimation = new AlphaAnimation(0.0f, 1f);
+
+        set.addAnimation(scaleAnimation);
+        set.addAnimation(alphaAnimation);
+        set.setDuration(800);
+        set.setRepeatMode(Animation.ABSOLUTE);
+        set.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                AnimationSet set = new AnimationSet(true);
+                Animation scaleAnimation = new ScaleAnimation(1.3f, 0f, 1.3f, 0f,
+                        Animation.RELATIVE_TO_SELF, .5f,
+                        Animation.RELATIVE_TO_SELF, .5f);
+                Animation alphaAnimation = new AlphaAnimation(1f, 0f);
+                set.addAnimation(scaleAnimation);
+                set.addAnimation(alphaAnimation);
+                set.setDuration(800);
+                set.setRepeatMode(Animation.ABSOLUTE);
+                set.setInterpolator(new AccelerateDecelerateInterpolator());
+                set.setFillAfter(true);
+                animationSprite.startAnimation(set);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        set.setInterpolator(new AccelerateDecelerateInterpolator());
+        set.setFillAfter(true);
+        animationSprite.startAnimation(set);
+
+    }
+
+    public void animateCorrect(PictoView picto, int smiley) {
         animationSprite.setVisibility(View.VISIBLE);
 
         animationSprite.setImageDrawable(getTintedSmiley(smiley));

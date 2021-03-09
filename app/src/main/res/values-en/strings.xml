@@ -450,4 +450,6 @@
     <string name="suggested_pictograms">Suggested Pictograms</string>
     <string name="screen_scanning_mode">screen-scanning mode</string>
     <string name="favorite_phrases">Favorite Phrases</string>
+    <string name="memory_game">Memory Game</string>
+    <string name="memory_game_string">Test Your Memory</string>
 </resources>

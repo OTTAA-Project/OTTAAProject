@@ -478,7 +478,6 @@ public class ArmarFrases extends AppCompatActivity implements View.OnClickListen
     }
 
 
-
-
-
+    public static class memoryGame {
+    }
 }

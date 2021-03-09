@@ -465,5 +465,7 @@
     <string name="suggested_pictograms">Pictogrames suggerits</string>
     <string name="screen_scanning_mode">mode d’escaneig de pantalla</string>
     <string name="favorite_phrases">Frases preferides</string>
+    <string name="memory_game">Joc de memòria</string>
+    <string name="memory_game_string">Posa a prova la teva memòria</string>
 
 </resources>
