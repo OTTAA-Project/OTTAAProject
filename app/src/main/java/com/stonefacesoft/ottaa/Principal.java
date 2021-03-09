@@ -138,8 +138,8 @@ import java.util.Objects;
 import static com.facebook.FacebookSdk.setAutoLogAppEventsEnabled;
 
 /**
- * Main Activity Class
- * VERSION 82
+ *
+ * VERSION 83 first push to Github
  */
 public class Principal extends AppCompatActivity implements View
         .OnClickListener,
