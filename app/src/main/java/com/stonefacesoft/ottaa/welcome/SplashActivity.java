@@ -56,9 +56,6 @@ public class SplashActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        Fabric.with(this, new Crashlytics());
-
-        //setAutoLogAppEventsEnabled(true);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.spl_screen_nuevo);
         initComponents();
@@ -371,6 +368,7 @@ public class SplashActivity extends Activity {
         //seteamos el texview
         txtCargando = findViewById(R.id.txtCargando);
         beat = AnimationUtils.loadAnimation(SplashActivity.this, R.anim.heartbeat);
+
 
     }
 
