@@ -63,8 +63,6 @@ public class SplashActivity extends Activity {
         changeName=new ChangeText();
         new sharedPreferencesLoad(this).execute();
 
-
-
     }
 
 
@@ -294,7 +292,7 @@ public class SplashActivity extends Activity {
                 Json.getInstance().initJsonArrays();
             } catch (JSONException | FiveMbException e) {
                 Log.e(TAG, "borrarPictosViejos: Error" + e.getMessage());
-            } //TODO este es el mas importante para hacer el weekly
+            }
 
             return null;
         }
@@ -378,7 +376,8 @@ public class SplashActivity extends Activity {
             if(super.hasMessages(value))
                 super.removeMessages(value);
         }
-        private void removeAllMessages(){
+        private void removeAllMessages()
+        {
             removeCreatedMessages(position);
         }
         @Override
