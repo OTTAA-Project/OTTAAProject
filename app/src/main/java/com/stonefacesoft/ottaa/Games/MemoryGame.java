@@ -1,34 +1,26 @@
 package com.stonefacesoft.ottaa.Games;
 
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.AccelerateDecelerateInterpolator;
-import android.view.animation.Animation;
-import android.view.animation.TranslateAnimation;
 
 import androidx.annotation.Nullable;
 
-import com.stonefacesoft.ottaa.Custom_Picto;
 import com.stonefacesoft.ottaa.Dialogos.DialogGameProgressInform;
 import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.Views.Games.GameViewSelectPictograms;
-import com.stonefacesoft.ottaa.utils.Games.Juego;
 import com.stonefacesoft.pictogramslibrary.view.PictoView;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 public class MemoryGame extends GameViewSelectPictograms {
 
-    private int customPicto[][]= new int[2][4];
-    private int values[]=new int[4];
+    private int matrixIdPictogram[][]= new int[2][4];
+    private int controlIndexSelect[]=new int[4];// se utiliza para indicar que pictogramas fueron seleccionados dos veces
     private Handler resetOption=new Handler();
     private int correct=0;
     private String history[]=new String[4];
@@ -45,9 +37,8 @@ public class MemoryGame extends GameViewSelectPictograms {
     }
 
     @Override
-    protected void seleccionarPictogramas(int pos) {
+    protected void selectRandomPictogram(int pos) {
         int value=(int)Math.round((Math.random()*hijos.length()-1)+0);
-
         if(!numeros.contains(value)) {
             numeros.add(value);
             try {
@@ -55,19 +46,19 @@ public class MemoryGame extends GameViewSelectPictograms {
                 pictogramas[pos] = hijos.getJSONObject(value);
             } catch (JSONException e) {
                 e.printStackTrace();
-                seleccionarPictogramas(pos);
+                selectRandomPictogram(pos);
             }
         }else{
-            seleccionarPictogramas(pos);
+            selectRandomPictogram(pos);
         }
     }
 
     @Override
-    protected void selectOptions() {
-        seleccionarPictogramas(0);
-        seleccionarPictogramas(1);
-        seleccionarPictogramas(2);
-        seleccionarPictogramas(3);
+    protected void selectRandomOptions() {
+        selectRandomPictogram(0);
+        selectRandomPictogram(1);
+        selectRandomPictogram(2);
+        selectRandomPictogram(3);
     }
 
         protected void cargarOpcion(int pos){
@@ -231,14 +222,14 @@ public class MemoryGame extends GameViewSelectPictograms {
     public void resetMatrix(){
         for (int i = 0; i < 2 ; i++) {
             for (int j = 0; j < 4; j++) {
-                customPicto[i][j]=-1;
+                matrixIdPictogram[i][j]=-1;
             }
         }
     }
 
     public void resetValue(){
         for (int i = 0; i <4 ; i++) {
-            values[i]=0;
+            controlIndexSelect[i]=0;
         }
     }
 
@@ -247,17 +238,19 @@ public class MemoryGame extends GameViewSelectPictograms {
             history[i]="";
         }
     }
-
-    public void addPos(){
-        for (int i = 0; i < 2 ; i++) {
-            for (int j = 0; j < 4; j++) {
-                if(customPicto[i][j]==-1){
-                    int index=(int)(Math.random()*4)+0;
-                    if(values[index]<2){
-                        customPicto[i][j]=index;
-                        values[index]++;
+/**
+ *
+ * */
+    public void addRandomIndex(){
+        for (int i = 0; i < matrixIdPictogram.length ; i++) {// recorro la filas
+            for (int j = 0; j < matrixIdPictogram[i].length; j++) { //recorro las columnas
+                if(matrixIdPictogram[i][j]==-1){
+                    int index=(int)(Math.random()*4)+0; // picto a seleccionar
+                    if(controlIndexSelect[index]<2){ //pregunto cuantas veces fue seleccionado el valor
+                        matrixIdPictogram[i][j]=index;
+                        controlIndexSelect[index]++; //le indico que ese valor fue seleccionado
                     }else{
-                        addPos();
+                        addRandomIndex(); //
                     }
 
                 }
@@ -266,19 +259,15 @@ public class MemoryGame extends GameViewSelectPictograms {
     }
 
     public void setOption(PictoView option,int row,int column){
-        //try {
-            //option.setId(json.getId(pictogramas[customPicto[row][column]]));
-            Log.d("TAG", "setOption: "+pictogramas[customPicto[row][column]].toString());
-        try {
-            option.setCustom_Texto(pictogramas[customPicto[row][column]].getJSONObject("texto").getString(json.getIdioma()));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+
+        Log.d("TAG", "setOption: "+pictogramas[matrixIdPictogram[row][column]].toString());
+            try {
+                option.setCustom_Texto(pictogramas[matrixIdPictogram[row][column]].getJSONObject("texto").getString(json.getIdioma()));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         option.setVisibleText();
-      //  } catch (JSONException e) {
-        //    e.printStackTrace();
-            option.setCustom_Img(json.getIcono(pictogramas[customPicto[row][column]]));
-        //}
+        option.setCustom_Img(json.getIcono(pictogramas[matrixIdPictogram[row][column]]));
     }
 
     private void asignateOnClickItem(PictoView view){
@@ -338,8 +327,8 @@ public class MemoryGame extends GameViewSelectPictograms {
         resetMatrix();
         resetValue();
         resetHistory();
-        selectOptions();
-        addPos();
+        selectRandomOptions();
+        addRandomIndex();
         setGuessDrawable(guess1);
         setGuessDrawable(guess2);
         setGuessDrawable(guess3);
@@ -356,8 +345,6 @@ public class MemoryGame extends GameViewSelectPictograms {
         setInvisibleText(opcion2);
         setInvisibleText(opcion3);
         setInvisibleText(opcion4);
-
-
     }
 
     @Override
