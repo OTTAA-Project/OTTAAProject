@@ -3,6 +3,7 @@ package com.stonefacesoft.ottaa;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -29,6 +30,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
+import android.view.MotionEvent.PointerCoords;
 import android.view.VelocityTracker;
 import android.view.View;
 import android.view.Window;
@@ -97,6 +99,9 @@ import com.stonefacesoft.ottaa.utils.Accesibilidad.BarridoPantalla;
 import com.stonefacesoft.ottaa.utils.Accesibilidad.Gesture;
 import com.stonefacesoft.ottaa.utils.Accesibilidad.devices.PrincipalControls;
 import com.stonefacesoft.ottaa.utils.Accesibilidad.scrollActions.ScrollFunctionMainActivity;
+import com.stonefacesoft.ottaa.utils.Bluetooth.BtConnector;
+import com.stonefacesoft.ottaa.utils.Bluetooth.BtMouseControl;
+import com.stonefacesoft.ottaa.utils.Bluetooth.BtReceiver;
 import com.stonefacesoft.ottaa.utils.ConnectionDetector;
 import com.stonefacesoft.ottaa.utils.Constants;
 import com.stonefacesoft.ottaa.utils.Firebase.AnalyticsFirebase;
@@ -145,7 +150,7 @@ public class Principal extends AppCompatActivity implements View
         .OnClickListener,
         View.OnLongClickListener,
         OnMenuItemClickListener,
-        FirebaseSuccessListener, NavigationView.OnNavigationItemSelectedListener,   PlaceSuccessListener, GoogleApiClient.ConnectionCallbacks, translateInterface, View.OnTouchListener, Make_Click_At_Time  {
+        FirebaseSuccessListener, NavigationView.OnNavigationItemSelectedListener,   PlaceSuccessListener, GoogleApiClient.ConnectionCallbacks, translateInterface, View.OnTouchListener, Make_Click_At_Time {
 
     private static final String TAG = "Principal";
     public Uri bajarGrupos;
@@ -324,6 +329,10 @@ public class Principal extends AppCompatActivity implements View
     private ImageButton btn_share;
 
     private InmersiveMode inmersiveMode;
+
+    //Bluetooth
+        private BtConnector bluetoothConnector;
+
     //Handler para animar el Hablar cuando pasa cierto tiempo
     private final Runnable animarHablar = new Runnable() {
         @Override
@@ -817,6 +826,10 @@ public class Principal extends AppCompatActivity implements View
             startActivity(new Intent(this,Viewpager_tutorial.class));
         }
         navigationControls=new PrincipalControls(this);
+
+        new BtReceiver(this);
+        bluetoothConnector = new BtConnector(this);
+        bluetoothConnector.conectarDispositivo(BluetoothAdapter.getDefaultAdapter());
 
     }
 
@@ -1988,6 +2001,7 @@ public class Principal extends AppCompatActivity implements View
 
     @Override
     public void onClick(View v) {
+        v.requestPointerCapture();
         View vista=findViewById(v.getId());
         Log.d(TAG, "onClick: " + vista.getId());
 
@@ -2498,14 +2512,58 @@ public class Principal extends AppCompatActivity implements View
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        return super.onTouchEvent(event);
+        Log.d(TAG, "onTouchEvent: "+event );
+        int index = event.getActionIndex();
+        int action = event.getActionMasked();
+        int pointerId = event.getPointerId(index);
+
+        switch(action) {
+            case MotionEvent.ACTION_DOWN:
+                if(mVelocityTracker == null) {
+                    // Retrieve a new VelocityTracker object to watch the
+                    // velocity of a motion.
+                    mVelocityTracker = VelocityTracker.obtain();
+                }
+                else {
+                    // Reset the velocity tracker back to its initial state.
+                    mVelocityTracker.clear();
+                }
+                // Add a user's movement to the tracker.
+                mVelocityTracker.addMovement(event);
+                break;
+            case MotionEvent.ACTION_MOVE:
+                mVelocityTracker.addMovement(event);
+                // When you want to determine the velocity, call
+                // computeCurrentVelocity(). Then call getXVelocity()
+                // and getYVelocity() to retrieve the velocity for each pointer ID.
+                mVelocityTracker.computeCurrentVelocity(1000);
+                // Log velocity of pixels per second
+                // Best practice to use VelocityTrackerCompat where possible.
+                Log.d("", "X velocity: " + mVelocityTracker.getXVelocity(pointerId));
+                Log.d("", "Y velocity: " + mVelocityTracker.getYVelocity(pointerId));
+                break;
+            case MotionEvent.ACTION_UP:
+            case MotionEvent.ACTION_CANCEL:
+                // Return a VelocityTracker object back to be re-used by others.
+                mVelocityTracker.recycle();
+                break;
+        }
+        return true;
     }
+
+
 
     @Override
     public boolean onGenericMotionEvent(MotionEvent event) {
-
+        Log.d(TAG, "onGenericMotionEvent: "+event );
         if (0 != (event.getSource() & InputDevice.SOURCE_CLASS_POINTER)) {
             switch (event.getAction()) {
+                case MotionEvent.ACTION_POINTER_DOWN:
+                    Log.d(TAG, "onGenericMotionEvent: pointer down" );
+                    break;
+                case MotionEvent.ACTION_POINTER_UP:
+                    Log.d(TAG, "onGenericMotionEvent: pointer up" );
+                    break;
                 case MotionEvent.ACTION_SCROLL:
 
                     if(barridoPantalla.isScrollMode()||barridoPantalla.isScrollModeClicker()){
@@ -2741,6 +2799,8 @@ public class Principal extends AppCompatActivity implements View
 
     }
 
+
+
     private void function_clickOption(JSONObject pictoPadre,timer_pictogram_clicker pictogram_clicker){
         if(!pictogram_clicker.isClicked()){
             pictogram_clicker.disableClick();
@@ -2878,6 +2938,11 @@ public class Principal extends AppCompatActivity implements View
             else
                 attatcher.loadCircleDrawable(Uri.parse(pictogram.getUrl()),imageView);
         }
+    }
+
+    @Override
+    public void onPointerCaptureChanged(boolean hasCapture) {
+
     }
 }
 
