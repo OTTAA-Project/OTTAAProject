@@ -295,10 +295,10 @@ public class MemoryGame extends GameViewSelectPictograms {
         }
 
         if(lastButton!=null&&lastPictogram!=null){
-            lockOptions();
+            //lockOptions();
             if(lastPictogram.getCustom_Texto().toString().contentEquals(lastButton.getCustom_Texto().toString())){
                 game.incrementCorrect();
-                unlockOptions();
+             //   unlockOptions();
                 history[correct]=lastButton.getCustom_Texto();
                 lastPictogram=null;
                 lastButton=null;
@@ -321,7 +321,7 @@ public class MemoryGame extends GameViewSelectPictograms {
                         lastButton.setCustom_Img(getDrawable(R.drawable.ic_help_outline_black_24dp));
                         lastPictogram.setInvisibleCustomTexto();
                         lastButton.setInvisibleCustomTexto();
-                        unlockOptions();
+              //          unlockOptions();
                         lastPictogram=null;
                         lastButton=null;
                         game.incrementWrong();

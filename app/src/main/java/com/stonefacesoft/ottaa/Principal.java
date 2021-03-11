@@ -827,9 +827,9 @@ public class Principal extends AppCompatActivity implements View
         }
         navigationControls=new PrincipalControls(this);
 
-        new BtReceiver(this);
-        bluetoothConnector = new BtConnector(this);
-        bluetoothConnector.conectarDispositivo(BluetoothAdapter.getDefaultAdapter());
+    //    new BtReceiver(this);
+  //      bluetoothConnector = new BtConnector(this);
+//        bluetoothConnector.conectarDispositivo(BluetoothAdapter.getDefaultAdapter());
 
     }
 
