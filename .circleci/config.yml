@@ -1,6 +1,7 @@
 version: 2.1
 orbs:
   gradle: circleci/gradle@2.1.0
+  android: circleci/androide@1.0
 jobs:
   build:
     working_directory: ~/src
@@ -76,8 +77,8 @@ jobs:
           destination: reports
       - store_test_results:
           path: app/build/test-results
-workflows:
-  version: 2.1
   workflow:
-    jobs:
-      - build
+    test:
+      jobs:
+        - android/run-ui-tests:
+            system-image: system-images;android-29;default;x86
