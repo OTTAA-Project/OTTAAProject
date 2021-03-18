@@ -77,8 +77,8 @@ jobs:
           destination: reports
       - store_test_results:
           path: app/build/test-results
-  workflow:
-    test:
-      jobs:
-        - android/run-ui-tests:
+    workflow:
+      test:
+        jobs:
+          - android/run-ui-tests:
             system-image: system-images;android-29;default;x86
