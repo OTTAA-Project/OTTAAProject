@@ -707,5 +707,8 @@
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="memory_game">Memory Game</string>
     <string name="memory_game_string">Test Your Memory</string>
+    <string name="search_devices">Search Devices</string>
+    <string name="dispositivos_apareados">Paired Devices</string>
+    <string name="otros_dispositivos">Other Devices</string>
 
 </resources>

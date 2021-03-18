@@ -7,7 +7,6 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.view.Window;
@@ -34,6 +33,7 @@ import com.stonefacesoft.ottaa.FirebaseRequests.BajarJsonFirebase;
 import com.stonefacesoft.ottaa.Interfaces.FirebaseSuccessListener;
 import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.VincularFrases;
+import com.stonefacesoft.ottaa.utils.Bluetooth.BtClass;
 import com.stonefacesoft.ottaa.utils.DatosDeUso;
 import com.stonefacesoft.ottaa.utils.IntentCode;
 import com.stonefacesoft.ottaa.utils.ReturnPositionItem;
@@ -203,6 +203,7 @@ public class NewDialogsOTTAA implements FirebaseSuccessListener {
                 break;
         }
     }
+
 
     //Mostramos las frases mas usadas por el usuario, las primeras 5
     // uses them to show the five favorites phrases from the user

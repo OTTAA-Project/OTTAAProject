@@ -2,8 +2,8 @@ package com.stonefacesoft.ottaa;
 
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.AlertDialog;
-import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -30,7 +30,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
-import android.view.MotionEvent.PointerCoords;
 import android.view.VelocityTracker;
 import android.view.View;
 import android.view.Window;
@@ -99,9 +98,8 @@ import com.stonefacesoft.ottaa.utils.Accesibilidad.BarridoPantalla;
 import com.stonefacesoft.ottaa.utils.Accesibilidad.Gesture;
 import com.stonefacesoft.ottaa.utils.Accesibilidad.devices.PrincipalControls;
 import com.stonefacesoft.ottaa.utils.Accesibilidad.scrollActions.ScrollFunctionMainActivity;
-import com.stonefacesoft.ottaa.utils.Bluetooth.BtConnector;
-import com.stonefacesoft.ottaa.utils.Bluetooth.BtMouseControl;
-import com.stonefacesoft.ottaa.utils.Bluetooth.BtReceiver;
+import com.stonefacesoft.ottaa.utils.Bluetooth.BluetoothUtils.BluetoothService;
+import com.stonefacesoft.ottaa.utils.Bluetooth.BtClass;
 import com.stonefacesoft.ottaa.utils.ConnectionDetector;
 import com.stonefacesoft.ottaa.utils.Constants;
 import com.stonefacesoft.ottaa.utils.Firebase.AnalyticsFirebase;
@@ -330,8 +328,10 @@ public class Principal extends AppCompatActivity implements View
 
     private InmersiveMode inmersiveMode;
 
+    private BtClass btClass;
+
     //Bluetooth
-        private BtConnector bluetoothConnector;
+
 
     //Handler para animar el Hablar cuando pasa cierto tiempo
     private final Runnable animarHablar = new Runnable() {
@@ -826,10 +826,10 @@ public class Principal extends AppCompatActivity implements View
             startActivity(new Intent(this,Viewpager_tutorial.class));
         }
         navigationControls=new PrincipalControls(this);
+         btClass = BtClass.getInstance();
+         btClass.setupActivity(this).setUpBluetooth();
+         btClass.enableBluetooth();
 
-    //    new BtReceiver(this);
-  //      bluetoothConnector = new BtConnector(this);
-//        bluetoothConnector.conectarDispositivo(BluetoothAdapter.getDefaultAdapter());
 
     }
 
@@ -1192,7 +1192,13 @@ public class Principal extends AppCompatActivity implements View
         if(placesImplementation!=null){
            placesImplementation.locationRequest();
         }
-
+        if (btClass != null) {
+            // Only if the state is STATE_NONE, do we know that we haven't started already
+            if (btClass.getService().getState() == BluetoothService.STATE_NONE) {
+                // Start the Bluetooth chat services
+                btClass.getService().start();
+            }
+        }
     }
 
     @Override
@@ -1235,7 +1241,8 @@ public class Principal extends AppCompatActivity implements View
         if(firebaseDialog !=null){
             firebaseDialog.destruirDialogo();
         }
-
+        if(btClass.getService()!=null)
+            btClass.getService().stop();
         super.onDestroy();
 
     }
@@ -2001,7 +2008,7 @@ public class Principal extends AppCompatActivity implements View
 
     @Override
     public void onClick(View v) {
-        v.requestPointerCapture();
+
         View vista=findViewById(v.getId());
         Log.d(TAG, "onClick: " + vista.getId());
 
@@ -2328,6 +2335,21 @@ public class Principal extends AppCompatActivity implements View
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode){
+            case Constants.REQUEST_CONNECT_DEVICE_SECURE:
+                // When DeviceListActivity returns with a device to connect
+                if (resultCode == Activity.RESULT_OK) {
+
+                    btClass.connectDevice(data, true);
+                }
+                break;
+            case Constants.REQUEST_CONNECT_DEVICE_INSECURE:
+                // When DeviceListActivity returns with a device to connect
+                if (resultCode == Activity.RESULT_OK) {
+                   btClass.connectDevice(data,false);
+                }
+                break;
+        }
 
         if (requestCode == IntentCode.GALERIA_GRUPOS.getCode()) {
             if (data != null) {
@@ -2437,6 +2459,9 @@ public class Principal extends AppCompatActivity implements View
         if(requestCode==IntentCode.CUSTOMPHRASES.getCode()){
             NewDialogsOTTAA newDialogsOTTAA=new NewDialogsOTTAA(this);
             newDialogsOTTAA.initCustomFavoritePhrase(false);
+        }
+        else if(requestCode==IntentCode.REQUEST_ENABLE_BT.getCode()){
+            btClass.InitInsecureScan();
         }
 
     }

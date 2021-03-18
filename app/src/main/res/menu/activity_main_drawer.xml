@@ -16,6 +16,10 @@
         android:icon="@drawable/ic_volume_up_white_24dp"
         android:title="@string/action_parar"
         />
+    <item android:id="@+id/bluetoothItem"
+        android:icon="@android:drawable/stat_sys_data_bluetooth"
+        android:title="Bluetooth"
+        />
      </group>
     <group android:id="@+id/general">
         <item android:id="@+id/about"

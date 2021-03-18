@@ -178,5 +178,28 @@ public final class Constants {
 
     //Salud,Recreacion,Transporte,Tienda,Establecimiento,Colegio,Juegos,Restaurant,Carniceria,Verduleria,Estadio,Cine,Ma&nacuteana,Mediodia,Tarde,Noche
 
+    public static final int STATE_NONE = 0;       // we're doing nothing
+    public static final int STATE_LISTEN = 1;     // now listening for incoming connections
+    public static final int STATE_CONNECTING = 2; // now initiating an outgoing connection
+    public static final int STATE_CONNECTED = 3;  // now connected to a remote device
+
+    public static final int MESSAGE_STATE_CHANGE = 11;
+    public static final int MESSAGE_READ = 12;
+    public static final int MESSAGE_WRITE = 13;
+    public static final int MESSAGE_DEVICE_NAME = 14;
+    public static final int MESSAGE_TOAST = 15;
+    public static final int REQUEST_CONNECT_DEVICE_SECURE = 16;
+    public static final int REQUEST_CONNECT_DEVICE_INSECURE = 17;
+
+    public static final String NAME_SECURE = "BluetoothChatSecure";
+    public static final String NAME_INSECURE = "BluetoothChatInsecure";
+    public static final String DEVICE_NAME = "device_name";
+    public static final String EXTRA_DEVICE_ADDRESS = "device_address";
+    public static final String TOAST = "toast";
+    public static final String BT_MESSAGE_NAME = "bluetooth_message";
+    public static final String BT_MESSAGE = "mensaje";
+
+
+
 
 }
