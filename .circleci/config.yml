@@ -1,9 +1,8 @@
 version: 2.1
 orbs:
   gradle: circleci/gradle@2.1.0
-  android: circleci/android@1.0.3
 jobs:
-  test:
+  build:
     working_directory: ~/src
     docker:
       - image: circleci/android:api-29
@@ -75,19 +74,13 @@ jobs:
       - store_artifacts:
           path: app/build/reports
           destination: reports
-  jobs:
-    unit-test:
-      executor:
-        name: android/android-machine
-        resource-class: xlarge
-      steps:
-        - checkout
-        - android/restore-gradle-cache
-        - android/restore-build-cache
-        - android/run-tests:
-            test-command: ./gradlew testDebug
-        - android/save-gradle-cache
-        - android/save-build-cache
-        - store_artifacts:
-                  path: ~/test-results/junit
+      - store_test_results:
+          path: app/build/test-results
+workflows:
+  version: 2.1
+  workflow:
+    jobs:
+      - build
+filters:
+  only: "^debug"
 
