@@ -56,17 +56,12 @@ public class SplashActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        Fabric.with(this, new Crashlytics());
-
-        //setAutoLogAppEventsEnabled(true);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.spl_screen_nuevo);
         initComponents();
         txtCargando.setText(getApplicationContext().getText(R.string.starting_software));
         changeName=new ChangeText();
         new sharedPreferencesLoad(this).execute();
-
-
 
     }
 
@@ -297,7 +292,7 @@ public class SplashActivity extends Activity {
                 Json.getInstance().initJsonArrays();
             } catch (JSONException | FiveMbException e) {
                 Log.e(TAG, "borrarPictosViejos: Error" + e.getMessage());
-            } //TODO este es el mas importante para hacer el weekly
+            }
 
             return null;
         }
@@ -372,6 +367,7 @@ public class SplashActivity extends Activity {
         txtCargando = findViewById(R.id.txtCargando);
         beat = AnimationUtils.loadAnimation(SplashActivity.this, R.anim.heartbeat);
 
+
     }
 
     class ChangeText extends Handler{
@@ -380,7 +376,8 @@ public class SplashActivity extends Activity {
             if(super.hasMessages(value))
                 super.removeMessages(value);
         }
-        private void removeAllMessages(){
+        private void removeAllMessages()
+        {
             removeCreatedMessages(position);
         }
         @Override
