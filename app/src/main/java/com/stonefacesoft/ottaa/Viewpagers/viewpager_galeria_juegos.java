@@ -110,6 +110,7 @@ public class viewpager_galeria_juegos {
         public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
             super.onViewCreated(view, savedInstanceState);
             GameCard card=view.findViewById(R.id.card1);
+            //TODO Gonzalo esto esta creando de nuevo lo que se creo en MainJuegos
             switch (position) {
                 case 0:
                     card.prepareCardView( R.string.whichpictogram, R.string.which_description_name, R.drawable.whats_picto, createOnClickListener(mActivity, GameSelector.class, "notigames"));
@@ -120,7 +121,7 @@ public class viewpager_galeria_juegos {
                     card.setmTxtScore(json.devolverCantidadGruposUsados(1)+"/"+json.getmJSONArrayTodosLosGrupos().length());//todo in recycler fill with the position
                     break;
                 case 2:
-                    card.prepareCardView(R.string.memory_game, R.string.memory_game_string, R.drawable.descripcion, createOnClickListener(mActivity, GameSelector.class, "descripciones"));
+                    card.prepareCardView(R.string.memory_game, R.string.memory_game_string, R.drawable.match_picto, createOnClickListener(mActivity, GameSelector.class, "descripciones"));
                     card.setmTxtScore(json.devolverCantidadGruposUsados(2)+"/"+json.getmJSONArrayTodosLosGrupos().length());//todo in recycler fill with the position
                     break;
             }

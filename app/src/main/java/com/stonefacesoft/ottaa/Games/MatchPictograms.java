@@ -247,7 +247,7 @@ public class MatchPictograms extends GameViewSelectPictograms {
 
                 if (lastPictogram.getCustom_Texto().equals(lastButton.getCustom_Texto())) {
                     game.incrementCorrect();
-                    selectRandomSoundWin();
+                    playCorrectSound();
                     lastPictogram.setVisibleText();
                     if (!useHappySound) {
                         useHappySound = true;

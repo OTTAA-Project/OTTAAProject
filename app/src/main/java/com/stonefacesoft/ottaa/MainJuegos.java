@@ -160,9 +160,10 @@ public class MainJuegos extends AppCompatActivity implements View.OnClickListene
         card1=findViewById(R.id.card1);
         card2=findViewById(R.id.card2);
         card3=findViewById(R.id.card3);
+        //TODO Gonza esto esta creando de nuevo lo que se crea en viewpagergaleriagrupos
         card1.prepareCardView( R.string.whichpictogram, R.string.which_description_name, R.drawable.whats_picto, createOnClickListener(this, GameSelector.class, "notigames"));
         card2.prepareCardView( R.string.join_pictograms, R.string.join_pictograms_description, R.drawable.match_picto, createOnClickListener(this, GameSelector.class, "seleccionar_palabras"));
-        card3.prepareCardView( R.string.memory_game, R.string.memory_game_string, R.drawable.match_picto, createOnClickListener(this, GameSelector.class, "descripciones"));
+        card3.prepareCardView( R.string.memory_game, R.string.memory_game_string, R.drawable.whats_picto, createOnClickListener(this, GameSelector.class, "descripciones"));
         card1.setmTxtScore(json.devolverCantidadGruposUsados(0)+"/"+json.getmJSONArrayTodosLosGrupos().length());
         card2.setmTxtScore(json.devolverCantidadGruposUsados(1)+"/"+json.getmJSONArrayTodosLosGrupos().length());//todo in recycler fill with the position
         card3.setmTxtScore(json.devolverCantidadGruposUsados(1)+"/"+json.getmJSONArrayTodosLosGrupos().length());//todo in recycler fill with the position

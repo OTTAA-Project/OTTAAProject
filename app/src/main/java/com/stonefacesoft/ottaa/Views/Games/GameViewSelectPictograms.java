@@ -57,6 +57,7 @@ public class GameViewSelectPictograms extends AppCompatActivity implements View.
     protected PictoView opcion3;
     protected PictoView opcion4;
     protected PictoView lastPictogram;
+
     protected final String TAG="GameViewSelectPictogram";
 
 
@@ -328,7 +329,7 @@ public class GameViewSelectPictograms extends AppCompatActivity implements View.
 
                 if (lastPictogram.getCustom_Texto().equals(lastButton.getCustom_Texto())) {
                     game.incrementCorrect();
-                    selectRandomSoundWin();
+                    playCorrectSound();
                     lastPictogram.setVisibleText();
                     if (!useHappySound) {
                         useHappySound = true;
@@ -522,8 +523,6 @@ public class GameViewSelectPictograms extends AppCompatActivity implements View.
         super.onBackPressed();
 
         //la variable temporal galeria grupos se la usa para modificar puntaje
-
-
 
         player.stop();
         music.stop();
@@ -761,5 +760,21 @@ public class GameViewSelectPictograms extends AppCompatActivity implements View.
         super.onLowMemory();
         this.onTrimMemory(TRIM_MEMORY_RUNNING_LOW);
         Log.d(TAG, "onLowMemory: Trimming Memory");
+    }
+
+    public void playCorrectSound(){
+        int i = (int) (Math.random() * 3);
+        Log.d(TAG, "playCorrectSound: "+i);
+        switch (i){
+            case 0:
+                player.playYesSound();
+                break;
+            case 1:
+                player.playYupi1Sound();
+                break;
+            case 2:
+                player.playYupi2Sound();
+                break;
+        }
     }
 }
