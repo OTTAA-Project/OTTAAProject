@@ -3,7 +3,7 @@ orbs:
   gradle: circleci/gradle@2.1.0
   android: circleci/android@1.0.3
 jobs:
-  build:
+  test:
     working_directory: ~/src
     docker:
       - image: circleci/android:api-29
@@ -77,7 +77,4 @@ jobs:
           destination: reports
       - store_test_results:
           path: app/build/test-results
-test:
-  jobs:
-    - android/run-ui-tests:
-      system-image: system-images;android-29;default;x86
+
