@@ -20,7 +20,6 @@ import com.stonefacesoft.pictogramslibrary.view.PictoView;
 public class AnimGameScore {
     private Context context;
     private ImageView animationSprite;
-   // private Menu mMenu;
     final private String TAG = "AnimGameScore";
 
     public AnimGameScore(Context context, ImageView animationSprite) {
@@ -51,7 +50,6 @@ public class AnimGameScore {
         params.bottomToBottom = picto.getId();
         animationSprite.setLayoutParams(params);
         animationSprite.requestLayout();
-
 
         AnimationSet set = new AnimationSet(true);
 

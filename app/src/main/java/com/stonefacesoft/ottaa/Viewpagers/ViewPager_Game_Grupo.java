@@ -178,9 +178,9 @@ public class ViewPager_Game_Grupo {
                 case 1:
                     intent = new Intent(mActivity, MatchPictograms.class);
                     break;
-//                     case 2:
-//                         intent=new Intent(mActivity, DescribirPictograma.class);
-//                         break;
+                case 2:
+                    intent = new Intent(mActivity, MemoryGame.class);
+                    break;
             }
 
             try {

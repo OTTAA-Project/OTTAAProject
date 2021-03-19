@@ -54,6 +54,7 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.facebook.BuildConfig;
 import com.facebook.FacebookSdk;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationRequest;
@@ -358,14 +359,11 @@ public class Principal extends AppCompatActivity implements View
                 firebaseDialog.destruirDialogo();
             try {
                 json.setmJSONArrayPictosSugeridos(json.readJSONArrayFromFile(Constants.ARCHIVO_PICTOS_DATABASE));
-            } catch (JSONException e) {
+            } catch (JSONException | FiveMbException e) {
                 e.printStackTrace();
-            } catch (FiveMbException e) {
-                e.printStackTrace();
-                /*
+            } /*
                 WeeklyBackup wb = new WeeklyBackup(this);
                 wb.weeklyBackupDialog(false, R.string.pref_summary_backup_principal, false);*/
-            }
 
         }
     }
@@ -408,13 +406,11 @@ public class Principal extends AppCompatActivity implements View
                     }
                     mBajarJsonFirebase.descargarGruposyPictosNuevos();
                 }
-            } catch (JSONException e) {
+            } catch (JSONException | FiveMbException e) {
                 e.printStackTrace();
-            } catch (FiveMbException e) {
-                e.printStackTrace();/*
+            } /*
                 WeeklyBackup wb = new WeeklyBackup(this);
                 wb.weeklyBackupDialog(false, R.string.pref_summary_backup_principal, false);*/
-            }
         } else {
             Log.e(TAG, "onDatosEncontrados: No existen datos");
         }
