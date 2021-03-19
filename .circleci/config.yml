@@ -2,8 +2,7 @@ version: 2.1
 orbs:
   gradle: circleci/gradle@2.1.0
 docs:
-  run:
-    - ./.circleci/deploy.yml
+  - run: ./.circleci/deploy.yml
 #jobs:
 #  build:
 #    working_directory: ~/src
