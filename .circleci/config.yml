@@ -3,7 +3,7 @@ orbs:
   gradle: circleci/gradle@2.1.0
 jobs:
   run:
-    - deploy.yml
+    - ./.circleci/deploy.yml
 #jobs:
 #  build:
 #    working_directory: ~/src
