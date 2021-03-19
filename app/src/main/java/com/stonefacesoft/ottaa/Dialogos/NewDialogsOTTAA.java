@@ -271,17 +271,19 @@ public class NewDialogsOTTAA implements FirebaseSuccessListener {
         foward.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                position=positionItemAdapter.subtract();
-                mRecyclerViewFrases.smoothScrollToPosition(position);
-
+               if(positionItemAdapter!=null) {
+                   position = positionItemAdapter.subtract();
+                    mRecyclerViewFrases.smoothScrollToPosition(position);
+               }
             }
         });
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                position=positionItemAdapter.add();
-                mRecyclerViewFrases.smoothScrollToPosition(position);
-
+               if(positionItemAdapter!=null) {
+                   position = positionItemAdapter.add();
+                   mRecyclerViewFrases.smoothScrollToPosition(position);
+               }
             }
         });
         sort.setOnClickListener(new View.OnClickListener() {
