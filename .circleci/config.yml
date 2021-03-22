@@ -18,17 +18,22 @@ workflows:
 #          requires:
 #            - prerequirements
 #            - lint
+defaults: &defaults
+  working_directory: ~/src
+  docker:
+    - image: circleci/android:api-29
 jobs:
   prerequirements:
-    working_directory: ~/src
-    docker:
-      - image: circleci/android:api-29
+    <<: *defaults
     environment:
       JVM_OPTS: -Xmx3200m
     steps:
       - checkout
       - restore_cache:
           key: jars-{{ checksum "build.gradle" }}-{{ checksum "app/build.gradle" }}
+      - run:
+          name: create dir
+          command: mkdir /src/public
       - run:
           name : Chmod permissions
           command: sudo chmod +x ./gradlew
@@ -51,17 +56,16 @@ jobs:
           paths:
             - ~/.gradle
           key: jars-{{ checksum "build.gradle" }}-{{ checksum "app/build.gradle" }}
+      - persist_to_workspace:
+          root: /root/project
+          paths: /src/public
   lint:
-    docker:
-      - image: circleci/android:api-29
-    working_directory: ~/src
+    <<: *defaults
     steps:
-      - run:
-          name: prereq
-          command: prerequirements
-      - run:
-          name: Chmod permissions
-          command: sudo chmod +x ./gradlew
+      - attach_workspace:
+          at: /root/project
+      - restore_cache:
+          key: jars-{{ checksum "build.grandle" }}-{{ checksum "app/build.grandle" }}
       - run:
           name: Run Tests
           command: ./gradlew lint test
