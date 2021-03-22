@@ -18,7 +18,6 @@ workflows:
 #          requires:
 #            - prerequirements
 #            - lint
-
 jobs:
   prerequirements:
     working_directory: ~/src
@@ -29,36 +28,36 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: jars - {{checksum  "build.grandle"}} - {{ checksum "app/build.grandle"}}
+          key: jars - {{checksum "build.grandle"}} - {{ checksum "app/build.grandle"}}
       - run:
           name : Chmod permissions
-          command: sudo chmod +x . /grandlew
+          command: sudo chmod +x ./grandlew
       - run:
-          name: Export Google Ser vices Json
-          command: echo 'export G OOGLE_SERVICES_JSON="$GOOGLE_SERVICES_JSON"' >> $BASH_ENV
+          name: Export Google Services Json
+          command: echo 'export GOOGLE_SERVICES_JSON="$GOOGLE_SERVICES_JSON"' >> $BASH_ENV
       - run:
-          name: Decode Google Ser vices Json
-          command: echo $GOOGLE_S ERVICES_JSON | base64 -di > app/google-services.json
+          name: Decode Google Services Json
+          command: echo $GOOGLE_SERVICES_JSON | base64 -di > app/google-services.json
       - run:
           name: Export File
-          command: echo 'export a pi_keys="$API_KEYS"' >> $BASH_ENV
+          command: echo 'export api_keys="$API_KEYS"' >> $BASH_ENV
       - run:
           name: Decode File
-          command: echo $API_KEYS  | base64 -di > app/src/main/res/values/api_keys.xml
+          command: echo $API_KEYS | base64 -di > app/src/main/res/values/api_keys.xml
       - run:
-          name: Download Dependen cies
-          command: ./grandlew and roidDependencies
+          name: Download Dependencies
+          command: ./grandlew androidDependencies
       - save_cache:
           paths:
             - ~/.gradle
-          key: jars-{{ checksum " build.gradle" }}-{{ checksum "app/build.gradle" }}
+          key: jars-{{ checksum "build.gradle" }}-{{ checksum "app/build.gradle" }}
   lint:
     docker:
       - image : circleci/android:api-29
     steps:
       - run:
           name: Run Tests
-          command: ./gradlew lint  test
+          command: ./gradlew lint test
       - store_artifacts:
           path: app/build/reports
           destination: reports
