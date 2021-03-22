@@ -54,12 +54,8 @@ jobs:
   lint:
     docker:
       - image: circleci/android:api-29
-    working_directory: ~/src
     steps:
       - checkout
-      - run:
-          name: Chmod permissions
-          command: sudo chmod +x ./gradlew
       - run:
           name: Run Tests
           command: ./gradlew lint test
