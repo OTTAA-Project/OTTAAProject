@@ -22,18 +22,27 @@ defaults: &defaults
   working_directory: ~/project
   docker:
     - image: circleci/android:api-29
+  enviroments:
+    JVM_OPTS: -Xmx3200m
+  steps:
+    - restore_cache:
+        key: jars-{{ checksum "build.grandle" }}-{{ checksum "app/build.grandle" }}
+    - run:
+        name: Chmod permissions
+        command: sudo chmod +x ./gradlew
+    - run:
+        name: Download Dependencies
+        command: ./gradlew androidDependencies
+    - save_cache:
+        paths:
+          - ~/.grandle
+          key: jars-{{ checksum "build.grandle" }}-{{ checksum "app/build.grandle"}}
+
 jobs:
   prerequirements:
     <<: *defaults
-    environment:
-      JVM_OPTS: -Xmx3200m
     steps:
       - checkout
-      - restore_cache:
-          key: jars-{{ checksum "build.gradle" }}-{{ checksum "app/build.gradle" }}
-      - run:
-          name : Chmod permissions
-          command: sudo chmod +x ./gradlew
       - run:
           name: Export Google Services Json
           command: echo 'export GOOGLE_SERVICES_JSON="$GOOGLE_SERVICES_JSON"' >> $BASH_ENV
@@ -46,17 +55,6 @@ jobs:
       - run:
           name: Decode File
           command: echo $API_KEYS | base64 -di > app/src/main/res/values/api_keys.xml
-      - run:
-          name: Download Dependencies
-          command: ./gradlew androidDependencies
-      - save_cache:
-          paths:
-            - ~/.gradle
-          key: jars-{{ checksum "build.gradle" }}-{{ checksum "app/build.gradle" }}
-      - persist_to_workspace:
-          root: /root/project/
-          paths:
-            - src/public/
   lint:
     <<: *defaults
     steps:
