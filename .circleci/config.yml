@@ -31,7 +31,7 @@ jobs:
           key: jars-{{ checksum "build.gradle" }}-{{ checksum "app/build.gradle" }}
       - run:
           name : Chmod permissions
-          command: sudo chmod +x ./grandlew
+          command: sudo chmod +x ./gradlew
       - run:
           name: Export Google Services Json
           command: echo 'export GOOGLE_SERVICES_JSON="$GOOGLE_SERVICES_JSON"' >> $BASH_ENV
