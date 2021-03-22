@@ -32,9 +32,6 @@ jobs:
       - restore_cache:
           key: jars-{{ checksum "build.gradle" }}-{{ checksum "app/build.gradle" }}
       - run:
-          name: create dir
-          command: mkdir /src/public
-      - run:
           name : Chmod permissions
           command: sudo chmod +x ./gradlew
       - run:
@@ -58,7 +55,8 @@ jobs:
           key: jars-{{ checksum "build.gradle" }}-{{ checksum "app/build.gradle" }}
       - persist_to_workspace:
           root: /root/project
-          paths: /src/public
+          paths:
+            - /src/public
   lint:
     <<: *defaults
     steps:
