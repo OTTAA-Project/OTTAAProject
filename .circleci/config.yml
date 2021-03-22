@@ -54,14 +54,14 @@ jobs:
             - ~/.gradle
           key: jars-{{ checksum "build.gradle" }}-{{ checksum "app/build.gradle" }}
       - persist_to_workspace:
-          root: /root/project
+          root: /tmp/dir
           paths:
             - DATA
   lint:
     <<: *defaults
     steps:
       - attach_workspace:
-          at: /root/project
+          at: /tmp/dir
       - restore_cache:
           key: jars-{{ checksum "build.grandle" }}-{{ checksum "app/build.grandle" }}
       - run:
