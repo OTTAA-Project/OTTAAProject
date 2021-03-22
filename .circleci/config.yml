@@ -58,7 +58,8 @@ jobs:
           command: cd /tmp
       - run:
           name: create persistence dir
-          command: mkdir src
+          command: |
+            mkdir /tmp/src;
       - persist_to_workspace:
           root: /tmp/src
           paths:
