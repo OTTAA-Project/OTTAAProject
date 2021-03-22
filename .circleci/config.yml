@@ -1,62 +1,57 @@
 version: 2.1
 orbs:
   gradle: circleci/gradle@2.1.0
+  android: circleci/android@1.0
 workflows:
   main:
     jobs:
-      - prerequirements
-      - lint:
-          requires:
-            - prerequirements
-#      - deploy:
-#          filters:
-#            branches:
-#              only:
-#                - master
-#                - dev
-#                - setupCircleci
-#          requires:
-#            - prerequirements
-#            - lint
-defaults: &defaults
-  working_directory: ~/project
-  docker:
-    - image: circleci/android:api-29
-  enviroments:
-    JVM_OPTS: -Xmx3200m
-  steps:
-    - restore_cache:
-        key: jars-{{ checksum "build.grandle" }}-{{ checksum "app/build.grandle" }}
-    - run:
-        name: Chmod permissions
-        command: sudo chmod +x ./gradlew
-    - run:
-        name: Download Dependencies
-        command: ./gradlew androidDependencies
-    - save_cache:
-        paths:
-          - ~/.grandle
-          key: jars-{{ checksum "build.grandle" }}-{{ checksum "app/build.grandle"}}
+      - deploy:
+          filters:
+            branches:
+              only:
+                - setupCircleci
+
+  #defaults: &defaults
+  # working_directory: ~/project
+      #docker:
+    #- image: circleci/android:api-29
+    #enviroments:
+    #JVM_OPTS: -Xmx3200m
+      #steps:
+        #- restore_cache:
+        #key: jars-{{ checksum "build.grandle" }}-{{ checksum "app/build.grandle" }}
+        #- run:
+        #name: Chmod permissions
+        #command: sudo chmod +x ./gradlew
+        #- run:
+        #name: Download Dependencies
+        #command: ./gradlew androidDependencies
+        #- save_cache:
+            #paths:
+          #- ~/.grandle
+          #key: jars-{{ checksum "build.grandle" }}-{{ checksum "app/build.grandle"}}
 
 jobs:
-  prerequirements:
-    <<: *defaults
+  deploy:
+    - working_directory: ~/project
+    - environment:
+        JVM_OPTS: -Xmx3200m
     steps:
       - checkout
+      - restore_cache:
+        key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
       - run:
-          name: Export Google Services Json
-          command: echo 'export GOOGLE_SERVICES_JSON="$GOOGLE_SERVICES_JSON"' >> $BASH_ENV
+          name: Download Dependencies
+          command: ./gradlew androidDependencies
+      - save_cache:
+          paths:
+            - ~/.gradle
+          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
       - run:
-          name: Decode Google Services Json
-          command: echo $GOOGLE_SERVICES_JSON | base64 -di > app/google-services.json
-      - run:
-          name: Export File
-          command: echo 'export api_keys="$API_KEYS"' >> $BASH_ENV
-      - run:
-          name: Decode File
-          command: echo $API_KEYS | base64 -di > app/src/main/res/values/api_keys.xml
+          name: Run Tests
+          command: ./gradlew :app:assembleDebugAndroidTest
+
   lint:
-    <<: *defaults
     steps:
       - attach_workspace:
           at: /root/project/
