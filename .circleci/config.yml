@@ -44,19 +44,19 @@ jobs:
       - run:
           name: Decode File
           command: echo $API_KEYS | base64 -di > app/src/main/res/values/api_keys.xml
-      - run:
-          name: Download Dependencies
-          command: ./gradlew androidDependencies
-      - save_cache:
-          paths:
-            - ~/.gradle
-          key: jars-{{ checksum "build.gradle" }}-{{ checksum "app/build.gradle" }}
+
   lint:
     docker:
-      - image : circleci/android:api-29
+      - jobs:
+          - prerequirements
     steps:
-      - restore_cache:
-          key: jars-{{ checksum "build.gradle" }}-{{ checksum "app/build.gradle" }}
+      - run:
+        name: Download Dependencies
+        command: ./gradlew androidDependencies
+      - save_cache:
+        paths:
+                - ~/.gradle
+        key: jars-{{ checksum "build.gradle" }}-{{ checksum "app/build.gradle" }}
       - run:
           name: Run Tests
           command: ./gradlew lint test
