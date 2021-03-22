@@ -19,7 +19,7 @@ workflows:
 #            - prerequirements
 #            - lint
 defaults: &defaults
-  working_directory: ~/src
+  working_directory: ~/project
   docker:
     - image: circleci/android:api-29
 jobs:
@@ -54,14 +54,14 @@ jobs:
             - ~/.gradle
           key: jars-{{ checksum "build.gradle" }}-{{ checksum "app/build.gradle" }}
       - persist_to_workspace:
-          root: /tmp/dir
+          root: /root/project/
           paths:
-            - DATA
+            - src/public/
   lint:
     <<: *defaults
     steps:
       - attach_workspace:
-          at: /tmp/dir
+          at: /root/project/
       - restore_cache:
           key: jars-{{ checksum "build.grandle" }}-{{ checksum "app/build.grandle" }}
       - run:
