@@ -53,6 +53,8 @@ jobs:
       - run:
           name: Run Tests
           command: ./gradlew :app:assembleDebugAndroidTest
+      - store_test_results: # for display in Test Summary: https://circleci.com/docs/2.0/collect-test-data/
+          path: app/build/test-results
 #jobs:
 #  build:
 #    working_directory: ~/src
