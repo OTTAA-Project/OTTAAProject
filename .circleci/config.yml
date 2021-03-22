@@ -52,9 +52,11 @@ jobs:
             - ~/.gradle
           key: jars-{{ checksum "build.gradle" }}-{{ checksum "app/build.gradle" }}
   lint:
-    working_directory: ~/src
     docker:
       - image: circleci/android:api-29
+    working_directory: ~/src
+    environment:
+      JVM_OPTS: -Xmx3200m
     steps:
       - run:
           name: Run Tests
