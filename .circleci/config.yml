@@ -53,17 +53,10 @@ jobs:
           paths:
             - ~/.gradle
           key: jars-{{ checksum "build.gradle" }}-{{ checksum "app/build.gradle" }}
-      - run:
-          name: create persistence dir
-          command: cd /tmp
-      - run:
-          name: create persistence dir
-          command: |
-            mkdir /tmp/src;
       - persist_to_workspace:
-          root: /tmp/src
+          root: /root/project
           paths:
-            - user
+            - DATA
   lint:
     <<: *defaults
     steps:
