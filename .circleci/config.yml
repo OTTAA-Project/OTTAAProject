@@ -53,8 +53,18 @@ jobs:
       - run:
           name: Run Tests
           command: ./gradlew :app:assembleDebugAndroidTest
-      - store_test_results: # for display in Test Summary: https://circleci.com/docs/2.0/collect-test-data/
-          path: app/build/test-results
+      - run:
+          name: Save test results
+          command: |
+            mkdir -p ~/test-results/junit/
+            find . -type f -regex ".*/build/test-results/.*xml" -exec cp {} ~/test-results/junit/ \;
+          when: always
+      - store_test_results:
+          path: ~/test-results
+      - store_artifacts:
+          path: ~/test-results/junit
+
+
 #jobs:
 #  build:
 #    working_directory: ~/src
