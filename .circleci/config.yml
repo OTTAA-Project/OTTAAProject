@@ -46,7 +46,7 @@ jobs:
           command: echo $API_KEYS | base64 -di > app/src/main/res/values/api_keys.xml
       - run:
           name: Download Dependencies
-          command: ./grandlew androidDependencies
+          command: ./gradlew androidDependencies
       - save_cache:
           paths:
             - ~/.gradle
