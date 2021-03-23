@@ -1,4 +1,4 @@
-package com.stonefacesoft.ottaa.welcome.unitTesting;
+package com.stonefacesoft.ottaa.test.unitTesting;
 
 import android.content.Context;
 import android.content.SharedPreferences;

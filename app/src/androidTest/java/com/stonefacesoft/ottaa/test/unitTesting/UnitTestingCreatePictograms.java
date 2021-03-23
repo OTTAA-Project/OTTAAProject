@@ -1,4 +1,4 @@
-package com.stonefacesoft.ottaa.welcome.unitTesting;
+package com.stonefacesoft.ottaa.test.unitTesting;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -6,21 +6,16 @@ import android.util.Log;
 
 import androidx.preference.PreferenceManager;
 import androidx.test.core.app.ApplicationProvider;
-import androidx.test.rule.ActivityTestRule;
 import androidx.test.runner.AndroidJUnit4;
 
 import com.stonefacesoft.ottaa.JSONutils.Json;
-import com.stonefacesoft.ottaa.LoginActivity;
-import com.stonefacesoft.ottaa.Principal;
 import com.stonefacesoft.ottaa.R;
-import com.stonefacesoft.ottaa.utils.exceptions.FiveMbException;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -72,7 +67,7 @@ public class UnitTestingCreatePictograms {
                 e.printStackTrace();
             }
             json.crearGrupo(mJsonArrayAllGroups,"casa","house","Ic_mama",0,"","");
-            System.out.println(mJsonArrayAllGroups.toString());
+            Log.d( "addGroup: ",mJsonArrayAllGroups.toString());
             json.setmJSONArrayTodosLosGrupos(mJsonArrayAllGroups);
         } catch (JSONException e) {
 

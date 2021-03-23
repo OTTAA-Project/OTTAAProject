@@ -1,11 +1,10 @@
-package com.stonefacesoft.ottaa.welcome.unitTesting;
+package com.stonefacesoft.ottaa.test.unitTesting;
 
 import android.content.Context;
 
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.runner.AndroidJUnit4;
 
-import com.google.android.gms.tasks.OnFailureListener;
 import com.stonefacesoft.ottaa.utils.ConnectionDetector;
 
 import org.junit.Assert;
@@ -25,5 +24,6 @@ public class UnitTestingConnectionDetector {
         Assert.assertTrue(detector.isConnectedToInternet());
         else
          Assert.assertTrue(!detector.isConnectedToInternet());
+
     }
 }

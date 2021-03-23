@@ -1,4 +1,4 @@
-package com.stonefacesoft.ottaa.welcome.unitTesting;
+package com.stonefacesoft.ottaa.test.unitTesting;
 
 import android.content.Context;
 import android.util.Log;
@@ -9,9 +9,7 @@ import androidx.test.runner.AndroidJUnit4;
 
 import com.stonefacesoft.ottaa.Custom_Picto;
 import com.stonefacesoft.ottaa.JSONutils.Json;
-import com.stonefacesoft.ottaa.Picto;
-import com.stonefacesoft.ottaa.utils.exceptions.FiveMbException;
-import com.stonefacesoft.ottaa.welcome.Components.Pictograms;
+import com.stonefacesoft.ottaa.test.Components.Pictograms;
 
 import org.json.JSONArray;
 import org.json.JSONException;

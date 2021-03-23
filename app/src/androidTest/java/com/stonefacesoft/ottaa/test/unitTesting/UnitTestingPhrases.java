@@ -1,4 +1,4 @@
-package com.stonefacesoft.ottaa.welcome.unitTesting;
+package com.stonefacesoft.ottaa.test.unitTesting;
 
 import android.content.Context;
 import android.test.suitebuilder.annotation.LargeTest;
@@ -10,7 +10,7 @@ import androidx.test.runner.AndroidJUnit4;
 import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.NLG;
 import com.stonefacesoft.ottaa.utils.TalkActions.Historial;
-import com.stonefacesoft.ottaa.welcome.Components.Pictograms;
+import com.stonefacesoft.ottaa.test.Components.Pictograms;
 
 import org.json.JSONException;
 import org.json.JSONObject;

@@ -1,21 +1,16 @@
-package com.stonefacesoft.ottaa.welcome.unitTesting;
+package com.stonefacesoft.ottaa.test.unitTesting;
 
-import android.app.Application;
 import android.content.Context;
-import android.content.SharedPreferences;
 
-import androidx.preference.PreferenceManager;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.runner.AndroidJUnit4;
 
-import com.google.firebase.auth.FirebaseAuth;
 import com.stonefacesoft.ottaa.FirebaseRequests.FirebaseUtils;
 import com.stonefacesoft.ottaa.LicenciaUsuario;
-import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.utils.Accesibilidad.BarridoPantalla;
 import com.stonefacesoft.ottaa.utils.Constants;
 import com.stonefacesoft.ottaa.utils.preferences.User;
-import com.stonefacesoft.ottaa.welcome.Components.Preferences;
+import com.stonefacesoft.ottaa.test.Components.Preferences;
 
 import org.junit.Assert;
 import org.junit.Before;

@@ -29,6 +29,7 @@ android {
         testHandleProfiling true
         testFunctionalTest true
 
+
     }
     dexOptions {
         preDexLibraries = false
@@ -43,6 +44,7 @@ android {
             zipAlignEnabled true
         }
         sourceSets.debug.resources.srcDirs = ['src/debug/res']
+
         release {
             minifyEnabled true
             shrinkResources true
@@ -82,9 +84,13 @@ android {
     testOptions {
         reportDir="$rootDir/test-reports"
         unitTests {
+            unitTests.includeAndroidResources = true
             returnDefaultValues true
             all{
                 jvmArgs '-XX:MaxPermSize=256m'
+                if (it.name == 'UnitTesting') {
+                    systemProperty 'debug', 'true'
+                }
 
             }
         }

@@ -1,33 +1,24 @@
-package com.stonefacesoft.ottaa.welcome.unitTesting;
+package com.stonefacesoft.ottaa.test.unitTesting;
 
-import android.app.Dialog;
 import android.content.Context;
-import android.util.Log;
 
 import androidx.test.core.app.ApplicationProvider;
-import androidx.test.rule.ActivityTestRule;
 import androidx.test.runner.AndroidJUnit4;
 
 import com.stonefacesoft.ottaa.AsignTags;
-import com.stonefacesoft.ottaa.Dialogos.NewDialogsOTTAA;
 import com.stonefacesoft.ottaa.JSONutils.Json;
-import com.stonefacesoft.ottaa.LoginActivity;
 import com.stonefacesoft.ottaa.Prediction.Edad;
 import com.stonefacesoft.ottaa.Prediction.Horario;
 import com.stonefacesoft.ottaa.Prediction.Posicion;
-import com.stonefacesoft.ottaa.Principal;
-import com.stonefacesoft.ottaa.utils.Constants;
-import com.stonefacesoft.ottaa.welcome.Components.Groups;
-import com.stonefacesoft.ottaa.welcome.Components.Pictograms;
+import com.stonefacesoft.ottaa.test.Components.Groups;
+import com.stonefacesoft.ottaa.test.Components.Pictograms;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Assert;
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.TestRule;
 import org.junit.runner.RunWith;
 
 

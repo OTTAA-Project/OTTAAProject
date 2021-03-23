@@ -1,4 +1,4 @@
-package com.stonefacesoft.ottaa.welcome.unitTesting;
+package com.stonefacesoft.ottaa.test.unitTesting;
 
 import android.content.Context;
 
@@ -12,7 +12,6 @@ import com.stonefacesoft.ottaa.utils.Games.Juego;
 
 import junit.framework.Assert;
 
-import org.json.JSONArray;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

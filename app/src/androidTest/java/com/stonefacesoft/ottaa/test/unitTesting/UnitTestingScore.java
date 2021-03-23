@@ -1,25 +1,18 @@
-package com.stonefacesoft.ottaa.welcome.unitTesting;
+package com.stonefacesoft.ottaa.test.unitTesting;
 
 import android.content.Context;
 import android.util.Log;
 
-import androidx.test.core.app.ActivityScenario;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.filters.LargeTest;
-import androidx.test.rule.ActivityTestRule;
 import androidx.test.runner.AndroidJUnit4;
 
 import com.stonefacesoft.ottaa.utils.Games.CalculaPuntos;
-import com.stonefacesoft.ottaa.utils.Games.Juego;
-import com.stonefacesoft.ottaa.welcome.SplashActivity;
-
-import junit.framework.Assert;
 
 import org.junit.Before;
-import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
+
 /**
  * @author Gonzalo Juarez
  * @version 0.1
@@ -28,7 +21,7 @@ import org.junit.runners.Suite;
  * */
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class TestingScore {
+public class UnitTestingScore {
     private Context context = ApplicationProvider.getApplicationContext();
     private CalculaPuntos score;
     /**

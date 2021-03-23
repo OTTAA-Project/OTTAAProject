@@ -1,4 +1,4 @@
-package com.stonefacesoft.ottaa.welcome.unitTesting;
+package com.stonefacesoft.ottaa.test.unitTesting;
 
 import android.content.Context;
 import android.util.Log;
@@ -6,8 +6,8 @@ import android.util.Log;
 import androidx.test.core.app.ApplicationProvider;
 
 import com.stonefacesoft.ottaa.JSONutils.Json;
-import com.stonefacesoft.ottaa.welcome.Components.Groups;
-import com.stonefacesoft.ottaa.welcome.Components.Pictograms;
+import com.stonefacesoft.ottaa.test.Components.Groups;
+import com.stonefacesoft.ottaa.test.Components.Pictograms;
 
 import org.json.JSONException;
 import org.json.JSONObject;

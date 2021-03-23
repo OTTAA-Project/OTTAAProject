@@ -1,4 +1,4 @@
-package com.stonefacesoft.ottaa.welcome.Components;
+package com.stonefacesoft.ottaa.test.Components;
 
 import android.content.Context;
 import android.content.SharedPreferences;
