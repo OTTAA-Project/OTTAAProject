@@ -88,6 +88,7 @@ android {
             returnDefaultValues true
             all{
                 jvmArgs '-XX:MaxPermSize=256m'
+                maxHeapSize = "1024m"
                 if (it.name == 'UnitTesting') {
                     systemProperty 'debug', 'true'
                 }
@@ -187,6 +188,9 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-web:3.3.0'
     androidTestImplementation 'androidx.test.espresso.idling:idling-concurrent:3.3.0'
     androidTestImplementation "androidx.navigation:navigation-testing:2.3.3"
+    //junit Test
+    androidTestImplementation 'com.android.support:support-annotations:24.0.0'
+    androidTestImplementation 'com.android.support.test:runner:0.5'
 
     // The following Espresso dependency can be either "implementation"
     // or "androidTestImplementation", depending on whether you want the
