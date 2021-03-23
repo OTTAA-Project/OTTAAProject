@@ -80,7 +80,7 @@ android {
 //            exclude 'META-INF/NOTICE.txt'
 //        }
     testOptions {
-        reportDir "$rootDir/test-reports"
+        reportDir="$rootDir/test-reports"
         unitTests {
             returnDefaultValues true
             all{
@@ -88,7 +88,7 @@ android {
 
             }
         }
-        resultsDir "$rootDir/test-results"
+        resultsDir="$rootDir/test-results"
     }
     compileOptions {
         targetCompatibility 1.8
