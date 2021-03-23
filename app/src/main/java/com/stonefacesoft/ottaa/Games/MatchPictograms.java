@@ -1,54 +1,31 @@
 package com.stonefacesoft.ottaa.Games;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
-import android.preference.PreferenceManager;
-import android.speech.tts.TextToSpeech;
 import android.util.Log;
-import android.view.InputDevice;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
-import android.widget.ImageView;
 
 import com.stonefacesoft.ottaa.Custom_Picto;
 import com.stonefacesoft.ottaa.Dialogos.DialogGameProgressInform;
-import com.stonefacesoft.ottaa.Interfaces.Make_Click_At_Time;
 import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.Views.Games.GameViewSelectPictograms;
-import com.stonefacesoft.ottaa.utils.Accesibilidad.BarridoPantalla;
-import com.stonefacesoft.ottaa.utils.Accesibilidad.devices.GameControl;
-import com.stonefacesoft.ottaa.utils.Accesibilidad.scrollActions.ScrollFuntionGames;
-import com.stonefacesoft.ottaa.utils.Audio.MediaPlayerAudio;
-import com.stonefacesoft.ottaa.utils.CustomToast;
-import com.stonefacesoft.ottaa.utils.Firebase.AnalyticsFirebase;
 import com.stonefacesoft.ottaa.utils.Games.AnimGameScore;
 import com.stonefacesoft.ottaa.utils.Games.Juego;
-import com.stonefacesoft.ottaa.utils.Ttsutils.UtilsTTS;
 import com.stonefacesoft.pictogramslibrary.view.PictoView;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
 public class MatchPictograms extends GameViewSelectPictograms {
 
@@ -70,7 +47,7 @@ public class MatchPictograms extends GameViewSelectPictograms {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setUpGame(1);
-        selectOptions();
+        selectRandomOptions();
         numeros.clear();
         cargarValores(0);
         cargarValores(1);
@@ -159,7 +136,7 @@ public class MatchPictograms extends GameViewSelectPictograms {
     }
 
 
-    protected void seleccionarPictogramas(int pos) {
+    protected void selectRandomPictogram(int pos) {
         int value=(int)Math.round((Math.random()*hijos.length()-1)+0);
 
         if(!numeros.contains(value)) {
@@ -170,15 +147,17 @@ public class MatchPictograms extends GameViewSelectPictograms {
                 if(!json.getNombre(pictogramas[pos]).toLowerCase().equals("error"))
                 cargarOpcion(pos);
                 else
-                    seleccionarPictogramas(pos);
+                    selectRandomPictogram(pos);
             } catch (JSONException e) {
                 e.printStackTrace();
-                seleccionarPictogramas(pos);
+                selectRandomPictogram(pos);
             }
         }else{
-            seleccionarPictogramas(pos);
+            selectRandomPictogram(pos);
         }
     }
+
+
 
     protected void cargarOpcion(int pos){
         switch (pos){
@@ -329,10 +308,10 @@ public class MatchPictograms extends GameViewSelectPictograms {
             habilitarPictoGrama(opcion2,true);
             habilitarPictoGrama(opcion3,true);
             habilitarPictoGrama(opcion4,true);
-            seleccionarPictogramas(0);
-            seleccionarPictogramas(1);
-            seleccionarPictogramas(2);
-            seleccionarPictogramas(3);
+            selectRandomPictogram(0);
+            selectRandomPictogram(1);
+            selectRandomPictogram(2);
+            selectRandomPictogram(3);
             numeros.clear();
             cargarValores(0);
             cargarValores(1);

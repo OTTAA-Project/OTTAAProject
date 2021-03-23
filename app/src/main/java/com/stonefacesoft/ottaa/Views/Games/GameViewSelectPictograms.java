@@ -16,8 +16,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.animation.AccelerateDecelerateInterpolator;
-import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
@@ -27,12 +25,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import com.stonefacesoft.ottaa.Custom_Picto;
-import com.stonefacesoft.ottaa.Dialogos.DialogGameProgressInform;
 import com.stonefacesoft.ottaa.Interfaces.Make_Click_At_Time;
 import com.stonefacesoft.ottaa.JSONutils.Json;
-import com.stonefacesoft.ottaa.Picto;
-import com.stonefacesoft.ottaa.Principal;
 import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.utils.Accesibilidad.BarridoPantalla;
 import com.stonefacesoft.ottaa.utils.Accesibilidad.devices.GameControl;
@@ -159,11 +153,11 @@ public class GameViewSelectPictograms extends AppCompatActivity implements View.
     /**
      *  This method selects the pictograms when the game starts
      * */
-    protected void selectOptions(){
-        seleccionarPictogramas(0);
-        seleccionarPictogramas(1);
-        seleccionarPictogramas(2);
-        seleccionarPictogramas(3);
+    protected void selectRandomOptions(){
+        selectRandomPictogram(0);
+        selectRandomPictogram(1);
+        selectRandomPictogram(2);
+        selectRandomPictogram(3);
         numeros.clear();
     }
 
@@ -264,7 +258,10 @@ public class GameViewSelectPictograms extends AppCompatActivity implements View.
         gameControl=new GameControl(this);
     }
 
-    protected void seleccionarPictogramas(int pos) {
+    /**
+     * This method select a random pictogram
+     * */
+    protected void selectRandomPictogram(int pos) {
         int value=(int)Math.round((Math.random()*hijos.length()-1)+0);
 
         if(!numeros.contains(value)) {
@@ -275,13 +272,13 @@ public class GameViewSelectPictograms extends AppCompatActivity implements View.
                 if(!json.getNombre(pictogramas[pos]).toLowerCase().equals("error"))
                     cargarOpcion(pos);
                 else
-                    seleccionarPictogramas(pos);
+                    selectRandomPictogram(pos);
             } catch (JSONException e) {
                 e.printStackTrace();
-                seleccionarPictogramas(pos);
+                selectRandomPictogram(pos);
             }
         }else{
-            seleccionarPictogramas(pos);
+            selectRandomPictogram(pos);
         }
     }
 
@@ -412,10 +409,10 @@ public class GameViewSelectPictograms extends AppCompatActivity implements View.
             habilitarPictoGrama(opcion2,true);
             habilitarPictoGrama(opcion3,true);
             habilitarPictoGrama(opcion4,true);
-            seleccionarPictogramas(0);
-            seleccionarPictogramas(1);
-            seleccionarPictogramas(2);
-            seleccionarPictogramas(3);
+            selectRandomPictogram(0);
+            selectRandomPictogram(1);
+            selectRandomPictogram(2);
+            selectRandomPictogram(3);
             numeros.clear();
             cargarValores(0);
             cargarValores(1);
