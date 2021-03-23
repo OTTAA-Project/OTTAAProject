@@ -26,6 +26,8 @@ android {
         multiDexEnabled = true
         resConfigs "ar,ca,da,en,es,fr,it,nb,pt,sw"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"//
+        testHandleProfiling true
+        testFunctionalTest true
 
     }
     dexOptions {
@@ -48,7 +50,7 @@ android {
             zipAlignEnabled true
         }
         lintOptions {
-                abortOnError false
+            abortOnError false
         }
 
 
@@ -77,6 +79,17 @@ android {
 //            exclude 'META-INF/LICENSE.txt'
 //            exclude 'META-INF/NOTICE.txt'
 //        }
+    testOptions {
+        reportDir "$rootDir/test-reports"
+        unitTests {
+            returnDefaultValues true
+            all{
+                jvmArgs '-XX:MaxPermSize=256m'
+
+            }
+        }
+        resultsDir "$rootDir/test-results"
+    }
     compileOptions {
         targetCompatibility 1.8
         sourceCompatibility 1.8
@@ -109,7 +122,7 @@ dependencies {
     // Required -- JUnit 4 framework
     implementation files('libs/SimpleNLG-4.4.8.jar')
     implementation('com.google.dagger:dagger:2.27') {
-       // exclude group: 'com.google.guava'
+        // exclude group: 'com.google.guava'
     }
 
 
@@ -212,9 +225,7 @@ dependencies {
     implementation 'com.github.OTTAA-Project:PictogramsLibrary:0.1.4'
 
 
-
 }
-
 
 
 configurations {
