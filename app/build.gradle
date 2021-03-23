@@ -94,7 +94,7 @@ android {
 
             }
         }
-        resultsDir="$rootDir/test-results"
+        resultsDir="$rootDir/test-results/junit"
     }
     compileOptions {
         targetCompatibility 1.8
