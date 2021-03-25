@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:id="@+id/constraint_orange_2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/cardViewLogin2"
+        app:layout_constraintHorizontal_weight="1">
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:id="@+id/orangeBanner2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_ola_naranja_rot"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:id="@+id/textLoginBig"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/textLoginSmall"
+            app:layout_constraintVertical_weight="1"
+            android:layout_marginStart="@dimen/medium_margin"
+            android:layout_marginTop="@dimen/medium_margin"
+            android:text="Hola, \nNos conozcamos un poco"
+            android:gravity="bottom"
+            android:textColor="@color/White"
+            android:textSize="25sp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:id="@+id/textLoginSmall"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textLoginBig"
+            app:layout_constraintBottom_toTopOf="@id/imagen3personas"
+            app:layout_constraintVertical_weight="2"
+            android:layout_marginStart="@dimen/medium_margin"
+            android:layout_marginTop="@dimen/small_margin"
+            android:text="Vamos a pedirte cierta información para \nmejorar tu experiencia con OTTAA"
+            android:textColor="@color/White"
+            android:textSize="15sp"/>
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:id="@+id/imagen3personas"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textLoginSmall"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintVertical_weight="4"
+            android:src="@drawable/ic_3_people"/>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:id="@+id/cardViewLogin2"
+        app:layout_constraintStart_toEndOf="@id/constraint_orange_2"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_weight="1"
+        app:cardCornerRadius="@dimen/fab_margin"
+        android:layout_margin="@dimen/big_fat_margin">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="@dimen/small_margin">
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:id="@+id/logoLogin"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/textViewLogin2"
+                app:layout_constraintVertical_weight="1"
+                android:src="@drawable/logo_ottaa"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:id="@+id/textViewLogin2"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/logoLogin"
+                app:layout_constraintBottom_toTopOf="@id/editTextName"
+                app:layout_constraintVertical_weight="1"
+                android:textAlignment="center"
+                android:gravity="center"
+                android:text="Check if the info is correct,\nif not change it as you wish."/>
+
+            <EditText
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:id="@+id/editTextName"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textViewLogin2"
+                app:layout_constraintBottom_toTopOf="@+id/selectorGender"
+                app:layout_constraintVertical_weight="1"
+                android:hint="Your Name"
+                android:inputType="text" />
+
+            <Spinner
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:id="@+id/selectorGender"
+                android:dropDownSelector="@android:drawable/arrow_down_float"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/editTextName"
+                app:layout_constraintBottom_toTopOf="@+id/constraintBirthDate"
+                app:layout_constraintVertical_weight="1"/>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:id="@+id/constraintBirthDate"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/selectorGender"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintVertical_weight="1">
+
+                <Spinner
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:id="@+id/birthDayPicker"
+                    android:dropDownSelector="@android:drawable/arrow_down_float"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/birthMonthPicker"/>
+
+                <Spinner
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:id="@+id/birthMonthPicker"
+                    android:dropDownSelector="@android:drawable/arrow_down_float"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/birthDayPicker"
+                    app:layout_constraintEnd_toStartOf="@id/birthYearPicker"/>
+
+                <Spinner
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:id="@+id/birthYearPicker"
+                    android:dropDownSelector="@android:drawable/arrow_down_float"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/birthMonthPicker"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:id="@+id/constraintButtonsLogin"
+        app:layout_constraintStart_toStartOf="@id/cardViewLogin2"
+        app:layout_constraintEnd_toEndOf="@id/cardViewLogin2"
+        app:layout_constraintTop_toBottomOf="@id/cardViewLogin2"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_margin="@dimen/activity_vertical_margin">
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:id="@+id/backButton"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/nextButton"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginEnd="@dimen/medium_margin"
+            android:text="Back"
+            android:textColor="@color/Gray"
+            android:background="@drawable/dialog_round_shape_orange"
+            android:backgroundTint="@color/quantum_grey200"/>
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:id="@+id/nextButton"
+            app:layout_constraintStart_toEndOf="@id/backButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginStart="@dimen/medium_margin"
+            android:text="Next"
+            android:textColor="@color/White"
+            android:background="@drawable/dialog_round_shape_orange"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
