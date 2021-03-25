@@ -46,6 +46,7 @@ public class MatchPictograms extends GameViewSelectPictograms {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        showDescription(getString(R.string.join_pictograms));
         setUpGame(1);
         selectRandomOptions();
         numeros.clear();
@@ -250,6 +251,7 @@ public class MatchPictograms extends GameViewSelectPictograms {
                     player.playOhOhSound();
                     valoresCorrectos[lastPosicion] = 0;
                     game.incrementWrong();
+                    setMenuScoreIcon();
                     animGameScore.animateCorrect(lastButton,game.getSmiley(Juego.DISSATISFIED));
                     if(esPicto)
                         lastPictogram=null;

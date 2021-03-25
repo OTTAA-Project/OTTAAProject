@@ -102,6 +102,7 @@ public class GameViewSelectPictograms extends AppCompatActivity implements View.
 
     protected AnimGameScore animGameScore;
     protected ImageView mAnimationWin;
+    protected ImageView mAnimationWin2;
 
     protected Handler handlerHablar;
     protected AnalyticsFirebase analyticsFirebase;
@@ -109,6 +110,8 @@ public class GameViewSelectPictograms extends AppCompatActivity implements View.
     protected Button btnBarrido;
     protected GameControl gameControl;
     protected Intent intent;
+    protected MenuItem scoreItem;
+
 
 
     protected final Runnable animarHablar = new Runnable() {
@@ -243,19 +246,21 @@ public class GameViewSelectPictograms extends AppCompatActivity implements View.
         music.setMuted(mute);
         music.playMusic();
 
-        mAnimationWin = findViewById(R.id.ganarImagen);
-        mAnimationWin.setImageAlpha(230);
-        mAnimationWin.setVisibility(View.INVISIBLE);
+        mAnimationWin=setUpAnimationWin(R.id.ganarImagen);
+        mAnimationWin2=setUpAnimationWin(R.id.ganarImagen2);
+        iniciarBarrido();
+        function_scroll=new ScrollFuntionGames(this);
+        gameControl=new GameControl(this);
+    }
+
+    protected void showDescription(String description){
         Handler handler=new Handler();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                mUtilsTTS.hablarConDialogo(getString(R.string.joining_pictograms));
+                mUtilsTTS.hablarConDialogo(description);
             }
         },800);
-        iniciarBarrido();
-        function_scroll=new ScrollFuntionGames(this);
-        gameControl=new GameControl(this);
     }
 
     /**
@@ -267,7 +272,6 @@ public class GameViewSelectPictograms extends AppCompatActivity implements View.
         if(!numeros.contains(value)) {
             numeros.add(value);
             try {
-                JSONObject object=hijos.getJSONObject(value);
                 pictogramas[pos] = hijos.getJSONObject(value);
                 if(!json.getNombre(pictogramas[pos]).toLowerCase().equals("error"))
                     cargarOpcion(pos);
@@ -316,6 +320,18 @@ public class GameViewSelectPictograms extends AppCompatActivity implements View.
     }
 
     protected void cargarTextoBoton(double valor,int pos){
+
+    }
+
+    protected void isCorrect(PictoView view){
+
+    }
+
+    protected void WrongAction(){
+
+    }
+
+    protected void CorrectAction(){
 
     }
 
@@ -561,12 +577,8 @@ public class GameViewSelectPictograms extends AppCompatActivity implements View.
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.action_bar_game, menu);
         mMenu=menu;
-        Drawable drawable=game.devolverCarita();
-        if(game.getScore()==0)
-            drawable=getResources().getDrawable(R.drawable.ic_sentiment_very_satisfied_white_24dp);
-        drawable.setTint(getResources().getColor(R.color.colorWhite));
-        mMenu.getItem(0).setIcon(drawable);
-        mMenu.getItem(0).setVisible(true);
+        scoreItem=menu.findItem(R.id.score);
+        setMenuScoreIcon();
         menu.getItem(2).setOnMenuItemClickListener(this);
         menu.getItem(0).setVisible(true);
         menu.getItem(1).setOnMenuItemClickListener(this);
@@ -774,4 +786,23 @@ public class GameViewSelectPictograms extends AppCompatActivity implements View.
                 break;
         }
     }
+
+    protected void setMenuScoreIcon(){
+        Drawable drawable=null;
+        if (game != null)
+            drawable=game.devolverCarita();
+        if (game.getScore() == 0) {
+            drawable = getResources().getDrawable(R.drawable.ic_sentiment_very_satisfied_white_24dp);
+        }
+        drawable.setTint(this.getResources().getColor(R.color.colorWhite));
+        scoreItem.setIcon(drawable);
+    }
+
+    private ImageView setUpAnimationWin(int imageViewId){
+        ImageView imageView = findViewById(imageViewId);
+        imageView.setImageAlpha(230);
+        imageView.setVisibility(View.INVISIBLE);
+        return imageView;
+    }
+
 }

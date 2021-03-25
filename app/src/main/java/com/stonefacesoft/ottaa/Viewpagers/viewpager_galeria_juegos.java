@@ -121,7 +121,7 @@ public class viewpager_galeria_juegos {
                     card.setmTxtScore(json.devolverCantidadGruposUsados(1)+"/"+json.getmJSONArrayTodosLosGrupos().length());//todo in recycler fill with the position
                     break;
                 case 2:
-                    card.prepareCardView(R.string.memory_game, R.string.memory_game_string, R.drawable.match_picto, createOnClickListener(mActivity, GameSelector.class, "descripciones"));
+                    card.prepareCardView(R.string.memory_game, R.string.memory_game_string, R.drawable.memory_game, createOnClickListener(mActivity, GameSelector.class, "descripciones"));
                     card.setmTxtScore(json.devolverCantidadGruposUsados(2)+"/"+json.getmJSONArrayTodosLosGrupos().length());//todo in recycler fill with the position
                     break;
             }

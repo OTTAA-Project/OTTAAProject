@@ -89,6 +89,7 @@ public class GameSelector extends AppCompatActivity implements View.OnClickListe
     private FloatingActionButton btnSelector;
 
 
+
     @SuppressLint("ResourceType")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -134,11 +135,6 @@ public class GameSelector extends AppCompatActivity implements View.OnClickListe
 
     }
 
-
-
-
-
-
     @Override
     public void onBackPressed() {
         super.onBackPressed();
@@ -147,6 +143,14 @@ public class GameSelector extends AppCompatActivity implements View.OnClickListe
         databack.putExtra("Boton", boton);
         setResult(3, databack);
         finish();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        textToSpeech mytts=new textToSpeech(this);
+        grupo_viewPager.updateData();
+        grupo_viewPager.refreshView();
     }
 
 
@@ -393,6 +397,7 @@ public class GameSelector extends AppCompatActivity implements View.OnClickListe
     public BarridoPantalla getBarridoPantalla() {
         return barridoPantalla;
     }
+
 }
 
 

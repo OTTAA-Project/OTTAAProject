@@ -60,6 +60,7 @@ public class ViewPager_Game_Grupo {
     private static int id;
     private final FloatingActionButton actionButton;
     private final ImageView editPicto;
+    private static int positionItem;
 
 
     public ViewPager_Game_Grupo(AppCompatActivity mActivity, textToSpeech myTTS, int id) {
@@ -196,8 +197,9 @@ public class ViewPager_Game_Grupo {
 
     }
 
-    public void moveToLastPosition() {
-
+    public void refreshView() {
+        viewPager.refreshDrawableState();
+        viewPager.setCurrentItem(positionItem);
     }
 
     public static class fragmentGrupo extends Fragment {
@@ -264,6 +266,7 @@ public class ViewPager_Game_Grupo {
                         public void onClick(View view) {
                             Intent intent=null;
                            // intent.putExtra("Boton", position);
+                            positionItem=position;
                             try {
                                 myTTS.hablarSinMostrarFrase(json.getNombre(array.getJSONObject(position)));
                                 switch (id){
