@@ -62,7 +62,6 @@ public class MainJuegos extends AppCompatActivity implements View.OnClickListene
     private FloatingActionButton backpress_button;
     private ScrollFuntionGames function_scroll;
 
-
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle toggle;
     private NavigationView navigationView;
@@ -72,8 +71,6 @@ public class MainJuegos extends AppCompatActivity implements View.OnClickListene
     private BarridoPantalla barridoPantalla;
     private Button btnBarrido;
     private GameControl gameControl;
-
-
 
     private static final String TAG = "MainJuegos";
 
