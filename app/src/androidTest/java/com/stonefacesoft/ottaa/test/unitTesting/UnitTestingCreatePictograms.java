@@ -54,6 +54,7 @@ public class UnitTestingCreatePictograms extends TestCase {
               text=getNombre(json.getmJSONArrayTodosLosPictos().getJSONObject(0),"en");
               Assert.assertTrue("English locale",text!=null);
               Assert.assertTrue("Group has child?",json.getHijosGrupo2(0).length()>0);
+
         } catch (JSONException e) {
             e.printStackTrace();
             Assert.fail("Json object exception in the class addPictogram");

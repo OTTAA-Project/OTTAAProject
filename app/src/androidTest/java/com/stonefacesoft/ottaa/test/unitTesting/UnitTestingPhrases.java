@@ -9,6 +9,7 @@ import androidx.test.runner.AndroidJUnit4;
 
 import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.NLG;
+import com.stonefacesoft.ottaa.test.utils.UnitTestinTestResultUtils;
 import com.stonefacesoft.ottaa.utils.TalkActions.Historial;
 import com.stonefacesoft.ottaa.test.Components.Pictograms;
 
@@ -18,6 +19,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.JUnitCore;
+import org.junit.runner.Result;
 import org.junit.runner.RunWith;
 
 import static junit.framework.Assert.assertEquals;

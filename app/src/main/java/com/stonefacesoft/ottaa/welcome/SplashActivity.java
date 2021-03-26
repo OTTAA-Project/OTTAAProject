@@ -1,4 +1,4 @@
-package com.stonefacesoft.ottaa.test;
+package com.stonefacesoft.ottaa.welcome;
 
 import android.app.Activity;
 import android.content.Context;

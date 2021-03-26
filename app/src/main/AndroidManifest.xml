@@ -70,7 +70,7 @@
             android:screenOrientation="sensorLandscape"
             android:theme="@style/CustomActionBarTheme.NoActionBar" />
         <activity
-            android:name=".test.SplashActivity"
+            android:name=".welcome.SplashActivity"
             android:label="@string/app_name"
             android:screenOrientation="sensorLandscape">
             <intent-filter>
