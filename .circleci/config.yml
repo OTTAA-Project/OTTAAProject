@@ -52,7 +52,8 @@ jobs:
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
       - run:
           name: Run Tests
-          command: asadmansr/android-test-report-action@master
+          run: ./gradlew testDebugUnitTest
+          continue-on-error: true # IMPORTANT: allow pipeline to continue to Android Test Report step
       - run:
           name: Save test results
           command: |
