@@ -12,6 +12,9 @@ import com.stonefacesoft.ottaa.Prediction.Horario;
 import com.stonefacesoft.ottaa.Prediction.Posicion;
 import com.stonefacesoft.ottaa.test.Components.Groups;
 import com.stonefacesoft.ottaa.test.Components.Pictograms;
+import com.stonefacesoft.ottaa.test.utils.UnitTestinTestResultUtils;
+
+import junit.framework.TestResult;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -39,11 +42,9 @@ public class UnitTestingTags {
         group=new Groups(json);
         pictograms=new Pictograms(mContext,json);
         tags=new AsignTags(mContext);
-
     }
 
     @Test public void runTagsTesting(){
-
         picto0=pictograms.createPictograms(0,"es","yo","I",1);
         picto1=pictograms.createPictograms(1,"es","Quiero","Want",3);
         picto2=pictograms.createPictograms(2,"es","Jugar con","play with",3);
@@ -79,5 +80,11 @@ public class UnitTestingTags {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
+
     }
+
+
+
+
 }
