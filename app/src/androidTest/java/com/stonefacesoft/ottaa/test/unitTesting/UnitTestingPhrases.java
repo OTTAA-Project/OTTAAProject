@@ -12,6 +12,8 @@ import com.stonefacesoft.ottaa.NLG;
 import com.stonefacesoft.ottaa.utils.TalkActions.Historial;
 import com.stonefacesoft.ottaa.test.Components.Pictograms;
 
+import junit.framework.TestCase;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Before;
@@ -32,7 +34,7 @@ import static junit.framework.TestCase.assertTrue;
  * */
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class UnitTestingPhrases {
+public class UnitTestingPhrases extends TestCase {
     private Context context = ApplicationProvider.getApplicationContext();
     private Historial historial;
     private NLG nlg;

@@ -12,6 +12,8 @@ import com.stonefacesoft.ottaa.utils.TalkActions.Historial;
 import com.stonefacesoft.ottaa.utils.exceptions.FiveMbException;
 import com.stonefacesoft.ottaa.test.Components.Pictograms;
 
+import junit.framework.TestCase;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Before;
@@ -32,7 +34,7 @@ import org.junit.runner.RunWith;
  * */
 
 @RunWith(AndroidJUnit4.class)
-public class UnitTestingFavoritePhrases {
+public class UnitTestingFavoritePhrases extends TestCase {
     private Context mContext= ApplicationProvider.getApplicationContext();
     private Json json;
     private JSONObject picto0,picto1,picto2,picto3,picto4,picto5,picto6,picto7,picto8,picto9;

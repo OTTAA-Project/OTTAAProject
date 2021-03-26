@@ -11,6 +11,8 @@ import androidx.test.runner.AndroidJUnit4;
 import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.R;
 
+import junit.framework.TestCase;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -20,7 +22,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 @RunWith(AndroidJUnit4.class)
-public class UnitTestingCreatePictograms {
+public class UnitTestingCreatePictograms extends TestCase {
     private Context mContext= ApplicationProvider.getApplicationContext();
     private Json json;
     private JSONArray mJsonArrayAllGroups,mJsonArrayAllPictograms;

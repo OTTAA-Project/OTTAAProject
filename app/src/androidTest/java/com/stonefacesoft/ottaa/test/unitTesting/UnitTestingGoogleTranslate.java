@@ -15,8 +15,10 @@ import androidx.preference.PreferenceManager;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.runner.AndroidJUnit4;
 
+import junit.framework.TestCase;
+
 @RunWith(AndroidJUnit4.class)
-public class UnitTestingGoogleTranslate implements translateInterface {
+public class UnitTestingGoogleTranslate extends TestCase implements translateInterface {
     private Context mContext= ApplicationProvider.getApplicationContext();
     private traducirTexto translateText;
     private SharedPreferences preferences;

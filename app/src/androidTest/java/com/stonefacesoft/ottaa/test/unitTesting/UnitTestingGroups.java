@@ -9,12 +9,14 @@ import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.test.Components.Groups;
 import com.stonefacesoft.ottaa.test.Components.Pictograms;
 
+import junit.framework.TestCase;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 
-public class UnitTestingGroups {
+public class UnitTestingGroups extends TestCase {
     private Context mContext= ApplicationProvider.getApplicationContext();
     private Groups groups;
     private Pictograms pictograms;

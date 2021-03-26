@@ -12,6 +12,8 @@ import com.stonefacesoft.ottaa.utils.Constants;
 import com.stonefacesoft.ottaa.utils.preferences.User;
 import com.stonefacesoft.ottaa.test.Components.Preferences;
 
+import junit.framework.TestCase;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,7 +21,7 @@ import org.junit.runner.RunWith;
 
 
 @RunWith(AndroidJUnit4.class)
-public class UnitTestingPremiumUser {
+public class UnitTestingPremiumUser extends TestCase {
     private Context mContext= ApplicationProvider.getApplicationContext();
     private FirebaseUtils firebaseUtils;
     private User user;

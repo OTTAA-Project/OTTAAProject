@@ -9,6 +9,8 @@ import androidx.test.runner.AndroidJUnit4;
 
 import com.stonefacesoft.ottaa.utils.Games.CalculaPuntos;
 
+import junit.framework.TestCase;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,7 +23,7 @@ import org.junit.runner.RunWith;
  * */
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class UnitTestingScore {
+public class UnitTestingScore extends TestCase {
     private Context context = ApplicationProvider.getApplicationContext();
     private CalculaPuntos score;
     /**

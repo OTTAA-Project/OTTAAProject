@@ -7,12 +7,14 @@ import androidx.test.runner.AndroidJUnit4;
 
 import com.stonefacesoft.ottaa.utils.ConnectionDetector;
 
+import junit.framework.TestCase;
+
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 @RunWith(AndroidJUnit4.class)
-public class UnitTestingConnectionDetector {
+public class UnitTestingConnectionDetector extends TestCase {
     //
     private Context mContext= ApplicationProvider.getApplicationContext();
     private ConnectionDetector detector;

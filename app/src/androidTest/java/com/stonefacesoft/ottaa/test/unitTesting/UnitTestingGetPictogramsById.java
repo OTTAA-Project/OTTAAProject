@@ -11,6 +11,8 @@ import com.stonefacesoft.ottaa.Custom_Picto;
 import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.test.Components.Pictograms;
 
+import junit.framework.TestCase;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -24,7 +26,7 @@ import org.junit.runner.RunWith;
  * */
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class UnitTestingGetPictogramsById {
+public class UnitTestingGetPictogramsById extends TestCase {
     private Context context = ApplicationProvider.getApplicationContext();
     private JSONObject picto1,picto2,picto3,picto4;
     private JSONArray getOpciones;

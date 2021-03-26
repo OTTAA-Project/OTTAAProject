@@ -11,13 +11,14 @@ import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.utils.Games.Juego;
 
 import junit.framework.Assert;
+import junit.framework.TestCase;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class UnitTestingGame {
+public class UnitTestingGame extends TestCase {
     private Context mContext= ApplicationProvider.getApplicationContext();
     private FirebaseAuth mAuth;
     private Json json;

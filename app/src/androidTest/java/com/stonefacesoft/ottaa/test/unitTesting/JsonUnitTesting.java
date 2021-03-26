@@ -9,13 +9,15 @@ import androidx.test.runner.AndroidJUnit4;
 import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.utils.exceptions.FiveMbException;
 
+import junit.framework.TestCase;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 @RunWith(AndroidJUnit4.class)
-public class JsonUnitTesting {
+public class JsonUnitTesting extends TestCase {
     Context context= ApplicationProvider.getApplicationContext();
     private Json json;
     private JSONArray pictos,Grupos;

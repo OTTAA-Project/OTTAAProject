@@ -11,13 +11,15 @@ import androidx.test.runner.AndroidJUnit4;
 import com.google.firebase.auth.FirebaseAuth;
 import com.stonefacesoft.ottaa.Principal;
 
+import junit.framework.TestCase;
+
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 @RunWith(AndroidJUnit4.class)
-public class UnitTestingScreenScanning {
+public class UnitTestingScreenScanning extends TestCase {
     private FirebaseAuth mAuth;
     private Context mContext= ApplicationProvider.getApplicationContext();
     private SharedPreferences preferences;

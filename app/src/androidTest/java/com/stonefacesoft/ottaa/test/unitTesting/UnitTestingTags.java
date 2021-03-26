@@ -14,6 +14,7 @@ import com.stonefacesoft.ottaa.test.Components.Groups;
 import com.stonefacesoft.ottaa.test.Components.Pictograms;
 import com.stonefacesoft.ottaa.test.utils.UnitTestinTestResultUtils;
 
+import junit.framework.TestCase;
 import junit.framework.TestResult;
 
 import org.json.JSONArray;
@@ -26,7 +27,7 @@ import org.junit.runner.RunWith;
 
 
 @RunWith(AndroidJUnit4.class)
-public class UnitTestingTags {
+public class UnitTestingTags extends TestCase {
     private Context mContext= ApplicationProvider.getApplicationContext();
     private Groups group;
     private Pictograms pictograms;

@@ -12,6 +12,8 @@ import androidx.test.runner.AndroidJUnit4;
 import com.stonefacesoft.ottaa.GaleriaArasaac;
 import com.stonefacesoft.ottaa.R;
 
+import junit.framework.TestCase;
+
 import org.hamcrest.Matcher;
 import org.junit.Rule;
 import org.junit.Test;
@@ -34,7 +36,7 @@ import static org.hamcrest.Matchers.is;
  * <p> this class was created in order to available the functions about the galeriaAraasac with a searchView</p>
  * */
 @RunWith(AndroidJUnit4.class)
-public class UnitTestingGaleriaAraasac {
+public class UnitTestingGaleriaAraasac extends TestCase {
     @Rule
     public ActivityTestRule<GaleriaArasaac> activityTestRule=new ActivityTestRule<>(GaleriaArasaac.class);
 
