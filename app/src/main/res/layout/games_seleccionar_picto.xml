@@ -53,7 +53,7 @@
         app:layout_constraintTop_toBottomOf="@id/toolbar"
         app:layout_constraintVertical_weight="7.5">
 
-        <com.stonefacesoft.ottaa.Custom_Picto
+        <com.stonefacesoft.pictogramslibrary.view.PictoView
             android:id="@+id/Guess1"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -69,9 +69,9 @@
             custom:Imagen="1"
             custom:Texto="Hola">
 
-        </com.stonefacesoft.ottaa.Custom_Picto>
+        </com.stonefacesoft.pictogramslibrary.view.PictoView>
 
-        <com.stonefacesoft.ottaa.Custom_Picto
+        <com.stonefacesoft.pictogramslibrary.view.PictoView
             android:id="@+id/Guess2"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -86,9 +86,9 @@
             app:layout_constraintDimensionRatio="1:1"
             custom:Texto="Hola">
 
-        </com.stonefacesoft.ottaa.Custom_Picto>
+        </com.stonefacesoft.pictogramslibrary.view.PictoView>
 
-        <com.stonefacesoft.ottaa.Custom_Picto
+        <com.stonefacesoft.pictogramslibrary.view.PictoView
             android:id="@+id/Guess3"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -104,9 +104,9 @@
             app:layout_constraintDimensionRatio="1:1"
             >
 
-        </com.stonefacesoft.ottaa.Custom_Picto>
+        </com.stonefacesoft.pictogramslibrary.view.PictoView>
 
-        <com.stonefacesoft.ottaa.Custom_Picto
+        <com.stonefacesoft.pictogramslibrary.view.PictoView
             android:id="@+id/Guess4"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -121,7 +121,7 @@
             app:layout_constraintDimensionRatio="1:1"
             custom:Texto="Hola">
 
-        </com.stonefacesoft.ottaa.Custom_Picto>
+        </com.stonefacesoft.pictogramslibrary.view.PictoView>
 
         <androidx.constraintlayout.widget.Placeholder
             android:id="@+id/placeHolderHorizontal"
@@ -133,7 +133,7 @@
             app:layout_constraintTop_toBottomOf="@id/Option1"
             app:layout_constraintVertical_weight="0" />
 
-        <com.stonefacesoft.ottaa.Custom_Picto
+        <com.stonefacesoft.pictogramslibrary.view.PictoView
             android:id="@+id/Option1"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -152,9 +152,9 @@
             app:layout_constraintDimensionRatio="1:1"
             >
 
-        </com.stonefacesoft.ottaa.Custom_Picto>
+        </com.stonefacesoft.pictogramslibrary.view.PictoView>
 
-        <com.stonefacesoft.ottaa.Custom_Picto
+        <com.stonefacesoft.pictogramslibrary.view.PictoView
             android:id="@+id/Option2"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -170,9 +170,9 @@
 
             app:layout_constraintTop_toTopOf="@id/Option1">
 
-        </com.stonefacesoft.ottaa.Custom_Picto>
+        </com.stonefacesoft.pictogramslibrary.view.PictoView>
 
-        <com.stonefacesoft.ottaa.Custom_Picto
+        <com.stonefacesoft.pictogramslibrary.view.PictoView
             android:id="@+id/Option3"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -188,9 +188,9 @@
             custom:Imagen="2"
             custom:Texto="Hola">
 
-        </com.stonefacesoft.ottaa.Custom_Picto>
+        </com.stonefacesoft.pictogramslibrary.view.PictoView>
 
-        <com.stonefacesoft.ottaa.Custom_Picto
+        <com.stonefacesoft.pictogramslibrary.view.PictoView
             android:id="@+id/Option4"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -205,7 +205,7 @@
             app:layout_constraintTop_toTopOf="@id/Option1"
             app:layout_constraintDimensionRatio="1:1">
 
-        </com.stonefacesoft.ottaa.Custom_Picto>
+        </com.stonefacesoft.pictogramslibrary.view.PictoView>
 
         <ImageView
             android:id="@+id/ganarImagen"
