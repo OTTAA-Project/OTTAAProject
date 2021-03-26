@@ -21,4 +21,7 @@ public class UtilsGamesTTS extends UtilsTTS  {
             lockUnlockedPictograms.lockPictogram(mTTS.isSpeaking());
         lockUnlockedPictograms.lockPictogram(mTTS.isSpeaking());
     }
+    public void stop(){
+        mTTS.shutdown();
+    }
 }

@@ -9,6 +9,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Display;
 import android.view.InputDevice;
 import android.view.MotionEvent;
@@ -65,6 +66,7 @@ import java.util.ArrayList;
  * */
 public class GameSelector extends AppCompatActivity implements View.OnClickListener , Make_Click_At_Time,View.OnTouchListener {
 
+    private static final String TAG = "GameSelector";
     private Json json;
     private int boton;
     private JSONArray mJsonArrayTodosLosGrupos;
@@ -85,6 +87,7 @@ public class GameSelector extends AppCompatActivity implements View.OnClickListe
     private ScrollFuntionGames function_scroll;
     private GameControl gameControl;
     private FloatingActionButton btnSelector;
+
 
 
     @SuppressLint("ResourceType")
@@ -132,11 +135,6 @@ public class GameSelector extends AppCompatActivity implements View.OnClickListe
 
     }
 
-
-
-
-
-
     @Override
     public void onBackPressed() {
         super.onBackPressed();
@@ -145,6 +143,14 @@ public class GameSelector extends AppCompatActivity implements View.OnClickListe
         databack.putExtra("Boton", boton);
         setResult(3, databack);
         finish();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        textToSpeech mytts=new textToSpeech(this);
+        grupo_viewPager.updateData();
+        grupo_viewPager.refreshView();
     }
 
 
@@ -229,14 +235,10 @@ public class GameSelector extends AppCompatActivity implements View.OnClickListe
 
             try {
                 mJsonArrayTodosLosGrupos = json.readJSONArrayFromFile(Constants.ARCHIVO_GRUPOS);
-            } catch (JSONException e) {
+            } catch (JSONException | FiveMbException e) {
                 e.printStackTrace();
-            } catch (FiveMbException e) {
-                e.printStackTrace();
-
-//                WeeklyBackup wb = new WeeklyBackup(mContext);
-//                wb.weeklyBackupDialog(false, R.string.pref_summary_backup_principal, false);
-            }
+            } //                WeeklyBackup wb = new WeeklyBackup(mContext);
+            //                wb.weeklyBackupDialog(false, R.string.pref_summary_backup_principal, false);
 
 
             return null;
@@ -295,10 +297,8 @@ public class GameSelector extends AppCompatActivity implements View.OnClickListe
                             intent.putExtra("PictoID", mJsonArrayTodosLosGrupos.getJSONObject(position).getInt("id"));
                             intent.putExtra("PositionPadre", position);
                             startActivityForResult(intent, IntentCode.NOTIGAMES.getCode());
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }catch (Exception ex){
-
+                        } catch (Exception e) {
+                            Log.e(TAG, "onItemClick: "+e.getMessage() );
                         }
 
 
@@ -325,7 +325,6 @@ public class GameSelector extends AppCompatActivity implements View.OnClickListe
         switch (title){
             case "notigames":
                 return 0;
-
             case "seleccionar_palabras":
                 return 1;
             case "descripciones":
@@ -398,6 +397,7 @@ public class GameSelector extends AppCompatActivity implements View.OnClickListe
     public BarridoPantalla getBarridoPantalla() {
         return barridoPantalla;
     }
+
 }
 
 
