@@ -57,8 +57,15 @@ jobs:
           command: ./gradlew testDebugUnitTest
           # IMPORTANT: allow pipeline to continue to Android Test Report step
       - run:
-          name: Run Test 2
-          command: ./gradlew connectedAndroidTest
+          name: Setup Emulator
+          command: sdkmanager "system-images;android-22;default;armeabi-v7a" && echo "no" | avdmanager create avd -n test -k "system-images;android-22;default;armeabi-v7a"
+      - run:
+          name: Launch Emulator
+          command: export LD_LIBRARY_PATH=${ANDROID_HOME}/emulator/lib64:${ANDROID_HOME}/emulator/lib64/qt/lib && emulator64-arm -avd test -noaudio -no-boot-anim -no-window -accel on
+          background: true
+      - run:
+          name: Run Test
+          command: ./gradlew :demo:connectedAndroidTest
       - run:
           name: Save test results
           command: |
