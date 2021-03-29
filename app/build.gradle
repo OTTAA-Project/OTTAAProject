@@ -87,6 +87,10 @@ android {
         unitTests {
             unitTests.includeAndroidResources = true
             returnDefaultValues true
+            reports {
+                junitXml.enabled=true
+                html.enabled=false
+            }
             all{
                 jvmArgs '-XX:MaxPermSize=256m'
                 maxHeapSize = "1024m"
