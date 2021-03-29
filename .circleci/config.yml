@@ -55,10 +55,6 @@ jobs:
             - ~/.gradle
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
       - run:
-          name: Install emulator
-          command: (yes | sdkmanager "platform-tools" "platforms;android-26" "extras;intel;Hardware_Accelerated_Execution_Manager" "build-tools;26.0.0" "system-images;android-26;default;x86" "emulator" --verbose) || true
-
-      - run:
           name: Run Tests
           command:
       - store_artifacts:
