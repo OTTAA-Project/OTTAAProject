@@ -86,15 +86,11 @@ android {
         reportDir = "$rootDir/test-reports"
         unitTests {
             unitTests.includeAndroidResources = true
-            returnDefaultValues true
+            unitTests.returnDefaultValues true
 
-            all{
+            unitTests.all{
                 jvmArgs '-XX:MaxPermSize=256m'
                 maxHeapSize = "1024m"
-                if (it.name == 'UnitTesting') {
-                    systemProperty 'debug', 'true'
-                }
-
             }
         }
         resultsDir="$rootDir/test-results/junit"
