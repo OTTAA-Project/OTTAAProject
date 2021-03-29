@@ -3,7 +3,6 @@ package com.stonefacesoft.ottaa.test.unitTesting;
 import android.content.Context;
 
 import androidx.test.core.app.ApplicationProvider;
-import androidx.test.runner.AndroidJUnit4;
 
 import com.stonefacesoft.ottaa.AsignTags;
 import com.stonefacesoft.ottaa.JSONutils.Json;
@@ -12,10 +11,8 @@ import com.stonefacesoft.ottaa.Prediction.Horario;
 import com.stonefacesoft.ottaa.Prediction.Posicion;
 import com.stonefacesoft.ottaa.test.Components.Groups;
 import com.stonefacesoft.ottaa.test.Components.Pictograms;
-import com.stonefacesoft.ottaa.test.utils.UnitTestinTestResultUtils;
 
 import junit.framework.TestCase;
-import junit.framework.TestResult;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -24,9 +21,9 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
-
-@RunWith(AndroidJUnit4.class)
+@RunWith(JUnit4.class)
 public class UnitTestingTags extends TestCase {
     private Context mContext= ApplicationProvider.getApplicationContext();
     private Groups group;

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import androidx.test.core.app.ApplicationProvider;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 
 import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.test.Components.Groups;
@@ -15,6 +16,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+
+@RunWith(AndroidJUnit4.class)
 
 public class UnitTestingGroups extends TestCase {
     private Context mContext= ApplicationProvider.getApplicationContext();
