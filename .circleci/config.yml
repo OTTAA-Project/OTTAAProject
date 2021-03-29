@@ -57,17 +57,13 @@ jobs:
           command: |
             ./gradlew test
             ./gradlew lint test
-          # IMPORTANT: allow pipeline to continue to Android Test Report step
-      - run:
-          name: Save test results
-          command: |
-            mkdir -p ~/test-results/junit/
-            find . -type f -regex ".*/build/reports/test-results/.*xml" -exec cp {} ~/test-results/junit/ \;
-          when: always
-      - store_test_results:
-          path: ~/test-results
       - store_artifacts:
-          path: ~/test-results/junit
+          path: app/build/reports
+          destination: reports
+      - store_test_results:
+          path: app/build/reports
+          destination: reports
+
 
 #jobs:
 #  build:
