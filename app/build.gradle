@@ -83,8 +83,7 @@ android {
 //            exclude 'META-INF/NOTICE.txt'
 //        }
     testOptions {
-        reportDir="$rootDir/test-reports"
-
+        reportDir = "$rootDir/test-reports"
         unitTests {
             unitTests.includeAndroidResources = true
             returnDefaultValues true
