@@ -53,9 +53,6 @@ jobs:
       - run:
           name: Run Tests
           command: ./gradlew testDebugUnitTest
-      - run:
-          name: Android Test Report
-          command: asadmansr/android-test-report-action@v1.2.0
           # IMPORTANT: allow pipeline to continue to Android Test Report step
       - run:
           name: Save test results
