@@ -83,7 +83,7 @@ android {
 //            exclude 'META-INF/NOTICE.txt'
 //        }
     testOptions {
-        reportDir = "$rootDir/test-reports"
+        reportDir ="$rootDir/test-results"
         unitTests {
             unitTests.includeAndroidResources = true
             unitTests.returnDefaultValues true
@@ -185,7 +185,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-accessibility:3.3.0'
     androidTestImplementation 'androidx.test.espresso:espresso-web:3.3.0'
     androidTestImplementation 'androidx.test.espresso.idling:idling-concurrent:3.3.0'
-    androidTestImplementation "androidx.navigation:navigation-testing:2.3.3"
+    androidTestImplementation "androidx.navigation:navigation-testing:2.3.4"
     //junit Test
     androidTestImplementation 'com.android.support:support-annotations:24.0.0'
     androidTestImplementation 'com.android.support.test:runner:0.5'
