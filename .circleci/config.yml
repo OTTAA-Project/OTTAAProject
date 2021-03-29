@@ -61,8 +61,7 @@ jobs:
           path: app/build/reports
           destination: reports
       - store_test_results:
-          path: app/build/test
-          destination: test
+          path: test
 
 
 #jobs:
