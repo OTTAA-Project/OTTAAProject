@@ -17,7 +17,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 @RunWith(AndroidJUnit4.class)
-public class JsonUnitTesting extends TestCase {
+public class UnitTestingJson extends TestCase {
     Context context= ApplicationProvider.getApplicationContext();
     private Json json;
     private JSONArray pictos,Grupos;
