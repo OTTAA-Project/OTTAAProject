@@ -8,6 +8,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import com.stonefacesoft.ottaa.utils.ConnectionDetector;
 
 import junit.framework.TestCase;
+import junit.framework.TestResult;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -26,7 +27,15 @@ public class UnitTestingConnectionDetector extends TestCase {
         Assert.assertTrue(detector.isConnectedToInternet());
         else
          Assert.assertTrue(!detector.isConnectedToInternet());
+    }
 
+    @Override
+    protected TestResult createResult() {
+        return super.createResult();
+    }
 
+    @Override
+    public TestResult run() {
+        return super.run();
     }
 }

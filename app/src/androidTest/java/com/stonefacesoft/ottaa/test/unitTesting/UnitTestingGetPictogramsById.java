@@ -12,6 +12,7 @@ import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.test.Components.Pictograms;
 
 import junit.framework.TestCase;
+import junit.framework.TestResult;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -78,5 +79,15 @@ public class UnitTestingGetPictogramsById extends TestCase {
 
 //                    Log.e("TAG", "createRelationShip: "+getOpciones.toString() );
 
+    }
+
+    @Override
+    protected TestResult createResult() {
+        return super.createResult();
+    }
+
+    @Override
+    public TestResult run() {
+        return super.run();
     }
 }

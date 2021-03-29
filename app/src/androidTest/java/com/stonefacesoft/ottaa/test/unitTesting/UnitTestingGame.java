@@ -12,6 +12,7 @@ import com.stonefacesoft.ottaa.utils.Games.Juego;
 
 import junit.framework.Assert;
 import junit.framework.TestCase;
+import junit.framework.TestResult;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -44,5 +45,15 @@ public class UnitTestingGame extends TestCase {
         else
             Assert.fail("The score is empty");
         game.guardarObjetoJson();
+    }
+
+    @Override
+    protected TestResult createResult() {
+        return super.createResult();
+    }
+
+    @Override
+    public TestResult run() {
+        return super.run();
     }
 }

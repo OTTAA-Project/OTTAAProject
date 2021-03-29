@@ -13,6 +13,7 @@ import com.stonefacesoft.ottaa.utils.preferences.User;
 import com.stonefacesoft.ottaa.test.Components.Preferences;
 
 import junit.framework.TestCase;
+import junit.framework.TestResult;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -68,5 +69,14 @@ public class UnitTestingPremiumUser extends TestCase {
     public void inhabilitarUsuario(){
         preferences.editInteger(Constants.PREMIUM,0);
         runUnitTestingPremiunUser();
+    }
+    @Override
+    protected TestResult createResult() {
+        return super.createResult();
+    }
+
+    @Override
+    public TestResult run() {
+        return super.run();
     }
 }

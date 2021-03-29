@@ -10,10 +10,14 @@ import androidx.test.filters.LargeTest;
 import com.stonefacesoft.ottaa.utils.Games.CalculaPuntos;
 
 import junit.framework.TestCase;
+import junit.framework.TestResult;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
 
 /**
  * @author Gonzalo Juarez
@@ -38,17 +42,29 @@ public class UnitTestingScore extends TestCase {
      * */
     @Test
     public void UnitTestingPhrases(){
-        score.sumarCantidadVecesCorrectas();
-        score.sumarCantidVecesIncorretas();
-        score.sumarCantidVecesIncorretas();
-        score.sumarCantidadVecesCorrectas();
+        score.sumarCantidadVecesCorrectas();//1
+        score.sumarCantidVecesIncorretas();//01
+        score.sumarCantidVecesIncorretas();//02
+        score.sumarCantidadVecesCorrectas();//2
         Log.e("TAG", "UnitTestingPhrases: "+score.calcularValor() );
-        score.sumarCantidadVecesCorrectas();
-        score.sumarCantidadVecesCorrectas();
-        score.sumarCantidadVecesCorrectas();
+        score.sumarCantidadVecesCorrectas();//3
+        score.sumarCantidadVecesCorrectas();//4
+        score.sumarCantidadVecesCorrectas();//5
         Log.e("TAG", "UnitTestingPhrases: "+score.calcularValor() );
         System.out.println(" This is the score"+score.calcularValor());
+        String text=score.getAciertos()+"";
+        assertThat(score.getAciertos(),is(5));
+        assertThat(score.getDesaciertos(),is(2));
+        ;
+    }
 
+    @Override
+    protected TestResult createResult() {
+        return super.createResult();
+    }
 
+    @Override
+    public TestResult run() {
+        return super.run();
     }
 }

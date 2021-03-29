@@ -13,6 +13,7 @@ import com.stonefacesoft.ottaa.GaleriaArasaac;
 import com.stonefacesoft.ottaa.R;
 
 import junit.framework.TestCase;
+import junit.framework.TestResult;
 
 import org.hamcrest.Matcher;
 import org.junit.Rule;
@@ -27,6 +28,8 @@ import static androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static org.hamcrest.Matchers.allOf;
+
+
 /**
  * @author Gonzalo Juarez
  * @version 1.0
@@ -79,5 +82,15 @@ public class UnitTestingGaleriaAraasac extends TestCase {
             }
 
         };
+    }
+
+    @Override
+    protected TestResult createResult() {
+        return super.createResult();
+    }
+
+    @Override
+    public TestResult run() {
+        return super.run();
     }
 }

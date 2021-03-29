@@ -12,6 +12,7 @@ import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.R;
 
 import junit.framework.TestCase;
+import junit.framework.TestResult;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -91,5 +92,15 @@ public class UnitTestingCreatePictograms extends TestCase {
             Log.e("Error_Json_getNombre", "2 :" + e.toString());
         }
         return null;
+    }
+
+    @Override
+    protected TestResult createResult() {
+        return super.createResult();
+    }
+
+    @Override
+    public TestResult run() {
+        return super.run();
     }
 }

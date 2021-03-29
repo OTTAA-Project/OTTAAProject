@@ -12,6 +12,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.stonefacesoft.ottaa.Principal;
 
 import junit.framework.TestCase;
+import junit.framework.TestResult;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -37,5 +38,15 @@ public class UnitTestingScreenScanning extends TestCase {
     @Test
     public void screenScanning(){
 
+    }
+
+    @Override
+    protected TestResult createResult() {
+        return super.createResult();
+    }
+
+    @Override
+    public TestResult run() {
+        return super.run();
     }
 }

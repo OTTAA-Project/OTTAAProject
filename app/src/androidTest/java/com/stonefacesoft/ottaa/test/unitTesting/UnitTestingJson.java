@@ -10,6 +10,7 @@ import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.utils.exceptions.FiveMbException;
 
 import junit.framework.TestCase;
+import junit.framework.TestResult;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -40,6 +41,16 @@ public class UnitTestingJson extends TestCase {
         } catch (FiveMbException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    protected TestResult createResult() {
+        return super.createResult();
+    }
+
+    @Override
+    public TestResult run() {
+        return super.run();
     }
 
 

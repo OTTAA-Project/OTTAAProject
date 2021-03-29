@@ -11,6 +11,7 @@ import com.stonefacesoft.ottaa.Interfaces.translateInterface;
 import com.stonefacesoft.ottaa.utils.traducirTexto;
 
 import junit.framework.TestCase;
+import junit.framework.TestResult;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -50,5 +51,15 @@ public class UnitTestingGoogleTranslate extends TestCase implements translateInt
     @Override
     public void onTextoTraducido(boolean traduccion) {
         Assert.assertTrue(translateText.getTexto().equals(result));
+    }
+
+    @Override
+    protected TestResult createResult() {
+        return super.createResult();
+    }
+
+    @Override
+    public TestResult run() {
+        return super.run();
     }
 }

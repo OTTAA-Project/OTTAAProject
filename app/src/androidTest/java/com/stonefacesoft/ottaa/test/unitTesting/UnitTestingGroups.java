@@ -11,6 +11,7 @@ import com.stonefacesoft.ottaa.test.Components.Groups;
 import com.stonefacesoft.ottaa.test.Components.Pictograms;
 
 import junit.framework.TestCase;
+import junit.framework.TestResult;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -79,6 +80,16 @@ public class UnitTestingGroups extends TestCase {
         json.getmJSONArrayTodosLosPictos().put(picto3);
 
 
+    }
+
+    @Override
+    protected TestResult createResult() {
+        return super.createResult();
+    }
+
+    @Override
+    public TestResult run() {
+        return super.run();
     }
 
 }

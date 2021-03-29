@@ -13,6 +13,7 @@ import com.stonefacesoft.ottaa.test.Components.Pictograms;
 import com.stonefacesoft.ottaa.utils.TalkActions.Historial;
 
 import junit.framework.TestCase;
+import junit.framework.TestResult;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -124,6 +125,15 @@ public class UnitTestingPhrases extends TestCase {
         Phrase=nlg.ArmarFrase();
         Log.e("Historial", "talkWithtNLG: "+ Phrase );
         return Phrase;
+    }
+    @Override
+    protected TestResult createResult() {
+        return super.createResult();
+    }
+
+    @Override
+    public TestResult run() {
+        return super.run();
     }
 
 }

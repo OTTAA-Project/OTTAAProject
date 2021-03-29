@@ -13,6 +13,7 @@ import com.stonefacesoft.ottaa.utils.exceptions.FiveMbException;
 import com.stonefacesoft.ottaa.test.Components.Pictograms;
 
 import junit.framework.TestCase;
+import junit.framework.TestResult;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -131,7 +132,15 @@ public class UnitTestingFavoritePhrases extends TestCase {
         }
     }
 
+    @Override
+    protected TestResult createResult() {
+        return super.createResult();
+    }
 
+    @Override
+    public TestResult run() {
+        return super.run();
+    }
 
 }
 

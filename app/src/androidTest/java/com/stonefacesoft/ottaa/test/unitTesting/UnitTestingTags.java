@@ -13,15 +13,20 @@ import com.stonefacesoft.ottaa.test.Components.Groups;
 import com.stonefacesoft.ottaa.test.Components.Pictograms;
 
 import junit.framework.TestCase;
+import junit.framework.TestResult;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
+
+
 
 @RunWith(JUnit4.class)
 public class UnitTestingTags extends TestCase {
@@ -69,7 +74,7 @@ public class UnitTestingTags extends TestCase {
         JSONArray array=pictograms.ordenarObjetos(picto1);
         System.out.println(pictograms.ordenarObjetos(picto1));
         try {
-            Assert.assertTrue(json.getId(array.getJSONObject(0))==0);
+            assertThat(json.getId(array.getJSONObject(0)),is(0));
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -82,7 +87,14 @@ public class UnitTestingTags extends TestCase {
 
     }
 
+    @Override
+    protected TestResult createResult() {
+        return super.createResult();
+    }
 
-
+    @Override
+    public TestResult run() {
+        return super.run();
+    }
 
 }
