@@ -57,7 +57,7 @@ jobs:
       - run:
           name: Run Tests
           command: |
-            ./gradlew test
+            ./gradlew testDemoDebugUnitTest
             ./gradlew lint test
       - store_artifacts:
           path: app/build/reports
