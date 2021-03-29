@@ -10,7 +10,7 @@ workflows:
             branches:
               only:
                 - setupCircleci
-      - test
+
 
 #
 #
@@ -57,6 +57,9 @@ jobs:
           command: ./gradlew testDebugUnitTest
           # IMPORTANT: allow pipeline to continue to Android Test Report step
       - run:
+          name: Run Test 2
+          command: ./gradlew connectedAndroidTest
+      - run:
           name: Save test results
           command: |
             mkdir -p ~/test-results/junit/
@@ -66,16 +69,6 @@ jobs:
           path: ~/test-results
       - store_artifacts:
           path: ~/test-results/junit
-test:
-  pre:
-    - emulator -avd circleci-android28 -noaudio -nowindows:
-        background: true
-        parallel : true
-    - circle-android wait-for-boot
-    - sleep 30
-    - adb shell input keyevent 82
-  override:
-    - ./gradlew connectedAndroidTest -PdisablePreDex
 
 #jobs:
 #  build:
