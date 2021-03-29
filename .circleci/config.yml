@@ -11,8 +11,6 @@ reference:
   ## Configurations
   android_config: &android_config
     working_directory: *workspace
-    macos:
-      xcode: "9.4.0"
     shell: /bin/bash --login -eo pipefail
     environment:
       TERM: dumb
