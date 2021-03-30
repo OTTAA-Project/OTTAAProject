@@ -25,7 +25,7 @@ references:
 
   #workspace
   workspace: &workspace
-               ~/workspace
+               ~/project
   mobile_path: &mobile_build_path
     - mobile/build/
   mobile_output: &mobile_build_path_output
@@ -61,7 +61,7 @@ references:
   android_config: &android_config
     working_directory: workspace
     docker:
-      - image: circleci/android:api-30-alpha
+      - image: circleci/android:api-29
         auth:
           username: $DOCKER_USER
           password: $DOCKER_PASSWORD
