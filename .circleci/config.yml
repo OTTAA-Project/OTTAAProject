@@ -45,10 +45,10 @@ references:
     root: *workspace
     paths:
       - *mobile_build_path
-      - "*mobile_build_path_output/androidTest-results"
-      - "*mobile_build_path_output /apk"
-      - "*mobile_build_path_output /code-coverage"
-      - "*mobile_build_path /test-results"
+      - mobile/build/outputs/androidTest-results
+      - mobile/build/outputs/apk
+      - mobile/build/outputs/code-coverage
+      - mobile/build/outputs/test-results
   attach_firebase_workspace: &attach_firebase_workspace
     attach_workspace:
       at: *workspace
@@ -67,7 +67,6 @@ references:
           password: $DOCKER_PASSWORD
     environment:
       JVM_OPTS: -Xmx3200m
-      GRADLE_OPTS: '-Dorg.gradle.jvmargs="-Xmx2048m"'
 
   gcloud_config: &gcloud_config
     working_directory: *workspace
