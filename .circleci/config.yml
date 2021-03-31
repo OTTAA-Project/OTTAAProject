@@ -41,7 +41,7 @@ references:
       root: *workspace
       paths:
         - *mobile_build_path
-  persist_debug_workspace:
+  persist_debug_workspace: &persist_debug_workspace
     root: *workspace
     paths:
       - *mobile_build_path
@@ -118,12 +118,14 @@ jobs:
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
       - run:
           name: Run Tests
-          command: ./gradlew test
+          command: ./gradlew -PciBuild=true :mobile:testDebugUnitTest
+      - *persist_debug_workspace
       - store_artifacts:
-          path: app/build/reports
+          path: mobile/build/reports
           destination: reports
       - store_test_results:
-          path: test-results
+          path: mobile/build/test-results
+          destination: test-results
 
 #
 #
