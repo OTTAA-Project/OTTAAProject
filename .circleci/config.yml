@@ -88,28 +88,30 @@ references:
     run:
       name: decode File
       command: echo $API_KEYS | base64 -di > app/src/main/res/values/api_keys.xml
-  auth: &authUser
-    username: $DOCKER_USER
-    password: $DOCKER_PASSWORD
-  docker: &docker_file
-    - image: circleci/android:api-29
-    - *authUser
+  run_testing: &run_testing
+    run:
+      name: run test
+      command: ./gradlew test
+
+
 
 
 jobs:
   deploy:
     <<: *android_config
-
+    docker:
+      - image: circleci/android:api-29
+        auth:
+          username: $DOCKER_USER
+          password: $DOCKER_PASSWORD
     steps:
       - checkout
-      - *cache_key
       - *restore_cache
-      - run:
-          name: setup gradle
-          command: sudo chmod +x ./gradlew
-      - android/start-emulator-and-run-tests:
-          system-image: system-images;android-29;default;x86
-
+      - *export_google_services_json
+      - *get_google_services_json
+      - *prepare_file
+      - *decode_file
+      - *run_testing
 
 #
 #
