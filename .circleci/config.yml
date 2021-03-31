@@ -59,12 +59,7 @@ default:
       - firebase
 
   android_config: &android_config
-    working_directory: workspace
-    docker:
-      - image: circleci/android:api-29
-        auth:
-          username: $DOCKER_USER
-          password: $DOCKER_PASSWORD
+    working_directory: *workspace_debug
     environment:
       JVM_OPTS: -Xmx3200m
 
@@ -96,6 +91,11 @@ default:
 jobs:
   deploy:
     <<: *android_config
+    docker:
+      - image: circleci/android:api-29
+        auth:
+          username: $DOCKER_USER
+          password: $DOCKER_PASSWORD
     steps:
       - checkout
       - run:
