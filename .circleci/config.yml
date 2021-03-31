@@ -1,7 +1,7 @@
 version: 2.1
 orbs:
   gradle: circleci/gradle@2.1.0
-  android: "1.0.3"
+  android: circleci/android@1.0.3
 
 workflows:
   main:
@@ -92,16 +92,13 @@ references:
 jobs:
   deploy:
     executor:
-      name: android-machine
-      resource-class: xlarge
-    steps:
-      - checkout
-      - android/restore-gradle-cache
-      - android/restore-build-cache
-      - android/run-tests:
-          test-command: ./gradlew testDebug
-      - android/save-gradle-cache
-      - android/save-build-cache
+      name: android/android-machine
+      resource-class: large
+      steps:
+        - checkout
+        - android/start-emulator-and-run-tests:
+            system-image: system-images;android-29;default;x86
+
 
 #
 #
