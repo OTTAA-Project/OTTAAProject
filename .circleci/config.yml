@@ -96,8 +96,10 @@ jobs:
       resource-class: large
     steps:
       - checkout
-      - *restore_cache
-      - sudo chmod +x ./gradlew
+      - *cache_key
+      - run:
+          name: setup gradle
+          command: sudo chmod +x ./gradlew
       - android/start-emulator-and-run-tests:
           system-image: system-images;android-29;default;x86
 
