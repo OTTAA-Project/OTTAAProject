@@ -1,7 +1,7 @@
 version: 2.1
 orbs:
   gradle: circleci/gradle@2.1.0
-  android: circleci/android@1.0
+  android: circleci/android@1.0.3
 
 workflows:
   main:
@@ -91,42 +91,17 @@ references:
 
 jobs:
   deploy:
-    <<: *android_config
-    docker:
-      - image: circleci/android:api-29
-        auth:
-          username: $DOCKER_USER
-          password: $DOCKER_PASSWORD
+    executor:
+      name: android-machine
+      resource-class: xlarge
     steps:
       - checkout
-      - run:
-          name: Chmod permissions #if permission for Gradlew Dependencies fail, use this.
-          command: sudo chmod +x ./gradlew
-      - *export_google_services_json
-      - *get_google_services_json
-      - *prepare_file
-      - *decode_file
-
-      # - run :
-      #       name : decode api keys
-      #       command: *decode_file
-      - run:
-          name: Download Dependencies
-          command: ./gradlew androidDependencies
-      - save_cache:
-          paths:
-            - ~/.gradle
-          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
-      - run:
-          name: Run Tests
-          command: ./gradlew -PciBuild=true :app:testDebugUnitTest
-      - *persist_debug_workspace
-      - store_artifacts:
-          path: mobile/build/reports
-          destination: reports
-      - store_test_results:
-          path: mobile/build/test-results
-          destination: test-results
+      - android/restore-gradle-cache
+      - android/restore-build-cache
+      - android/run-tests:
+          test-command: ./gradlew testDebug
+      - android/save-gradle-cache
+      - android/save-build-cache
 
 #
 #
