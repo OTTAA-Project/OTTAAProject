@@ -2,19 +2,22 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/WhiteSmoke">
 
     <androidx.cardview.widget.CardView
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:id="@+id/cardViewLogin"
         app:cardCornerRadius="@dimen/fab_margin"
+        android:background="@color/White"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         android:layout_marginVertical="@dimen/big_fat_margin"
         app:layout_constraintDimensionRatio="1:1"
+        app:cardUseCompatPadding="true"
         android:elevation="12dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -38,9 +41,9 @@
                 android:layout_height="0dp"
                 android:id="@+id/textViewSignIn"
                 app:layout_constraintTop_toBottomOf="@id/logoLogin"
-                app:layout_constraintStart_toStartOf="@id/googleSignIn"
-                app:layout_constraintEnd_toEndOf="@id/googleSignIn"
-                app:layout_constraintBottom_toTopOf="@+id/googleSignIn"
+                app:layout_constraintStart_toStartOf="@id/googleSignInButton"
+                app:layout_constraintEnd_toEndOf="@id/googleSignInButton"
+                app:layout_constraintBottom_toTopOf="@+id/googleSignInButton"
                 android:textAlignment="center"
                 android:gravity="center"
                 android:text="Hello! \nPlease register to continue"/>
@@ -48,7 +51,7 @@
             <com.google.android.gms.common.SignInButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/googleSignIn"
+                android:id="@+id/googleSignInButton"
                 app:buttonSize="wide"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -111,7 +114,7 @@
             android:layout_height="0dp"
             android:id="@+id/textLoginSmall"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/imageBubas"
+            app:layout_constraintEnd_toStartOf="@id/placeholderBubas"
             app:layout_constraintTop_toBottomOf="@id/textLoginBig"
             app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginStart="@dimen/medium_margin"
@@ -120,15 +123,16 @@
             android:textColor="@color/White"
             android:textSize="15sp"/>
 
-        <ImageView
+        <androidx.constraintlayout.widget.Placeholder
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:id="@+id/imageBubas"
+            android:id="@+id/placeholderBubas"
             app:layout_constraintStart_toEndOf="@id/textLoginSmall"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:src=""/>
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

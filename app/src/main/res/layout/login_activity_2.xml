@@ -2,7 +2,8 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/WhiteSmoke">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="0dp"
@@ -111,7 +112,7 @@
                 app:layout_constraintVertical_weight="1"
                 android:textAlignment="center"
                 android:gravity="center"
-                android:text="Check if the info is correct,\nif not change it as you wish."/>
+                android:text="Check if the info is correct,\nif not, change it as you wish. This will help us to personalize the app for you."/>
 
             <EditText
                 android:layout_width="0dp"
@@ -123,7 +124,8 @@
                 app:layout_constraintBottom_toTopOf="@+id/selectorGender"
                 app:layout_constraintVertical_weight="1"
                 android:hint="Your Name"
-                android:inputType="text" />
+                android:inputType="text"
+                android:autofillHints="Your name" />
 
             <Spinner
                 android:layout_width="0dp"
@@ -134,7 +136,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/editTextName"
                 app:layout_constraintBottom_toTopOf="@+id/constraintBirthDate"
-                app:layout_constraintVertical_weight="1"/>
+                app:layout_constraintVertical_weight="1"
+                android:entries="@array/Sexo"/>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="0dp"
@@ -154,7 +157,8 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toStartOf="@id/birthMonthPicker"/>
+                    app:layout_constraintEnd_toStartOf="@id/birthMonthPicker"
+                    android:entries="@array/DayOfMonth"/>
 
                 <Spinner
                     android:layout_width="0dp"
@@ -164,7 +168,8 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@id/birthDayPicker"
-                    app:layout_constraintEnd_toStartOf="@id/birthYearPicker"/>
+                    app:layout_constraintEnd_toStartOf="@id/birthYearPicker"
+                    android:entries="@array/MonthOfYear"/>
 
                 <Spinner
                     android:layout_width="0dp"

@@ -54,6 +54,8 @@ public final class Constants {
         BAY_AREA_LANDMARKS.put("Casa", new LatLng(25.2171093, 55.2794741));
     }
 
+    //Constants FOR RESULT
+    public static final int RC_SIGN_IN = 400;
 
     //2 mins
 //    public static final long UN_MES = 120;

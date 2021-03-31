@@ -2028,8 +2028,8 @@ public class Principal extends AppCompatActivity implements View
                     break;
                 case 8:
                     analitycsFirebase.customEvents("Accessibility","Principal","Games");
-                     intent2 = new Intent(Principal.this, MainJuegos.class);
-                     startActivity(intent2);
+                    intent2 = new Intent(Principal.this, MainJuegos.class);
+                    startActivity(intent2);
                     break;
 
             }
@@ -2849,7 +2849,8 @@ public class Principal extends AppCompatActivity implements View
             case R.id.about:
                 //todo firebase analitycs
                 analitycsFirebase.customEvents("Touch","Principal","About that");
-                Intent intent = new Intent(getApplicationContext(), AboutOttaa.class);
+                //Intent intent = new Intent(getApplicationContext(), AboutOttaa.class);
+                Intent intent = new Intent(Principal.this, LoginActivity2.class);
                 startActivity(intent);
                 break;
         }

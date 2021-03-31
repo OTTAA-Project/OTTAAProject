@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/WhiteSmoke"
     xmlns:grid="http://schemas.android.com/tools">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -90,17 +91,17 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/imgAvatar"
+            app:layout_constraintBottom_toTopOf="@+id/circularConstraint"
             app:layout_constraintVertical_weight="1"
             android:text="Choose your avatar"
             android:layout_marginEnd="@dimen/medium_margin"
             android:textAlignment="center"
             android:gravity="center"/>
 
-        <ImageView
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:id="@+id/imgAvatar"
+            android:id="@+id/circularConstraint"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/textViewChooseAvatar"
@@ -108,191 +109,237 @@
             app:layout_constraintVertical_weight="3"
             android:layout_marginBottom="@dimen/small_margin"
             android:layout_marginEnd="@dimen/medium_margin"
-            android:src="@drawable/circulo"
-            app:layout_constraintDimensionRatio="1:1"
-            app:tint="@color/quantum_grey200" />
+            app:layout_constraintCircleRadius="@dimen/big_fat_margin">
 
-        <androidx.gridlayout.widget.GridLayout
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:id="@+id/imgAvatar"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:src="@drawable/circulo"
+                app:layout_constraintDimensionRatio="1:1"
+                app:tint="@color/quantum_grey200"
+                app:layout_constraintCircleAngle="45"/>
+
+            <ImageButton
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:id="@+id/gridAvatar"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/imgAvatar"
+            app:layout_constraintTop_toBottomOf="@id/circularConstraint"
             app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginEnd="@dimen/medium_margin"
-            app:layout_constraintVertical_weight="6"
-            app:columnCount="5"
-            app:rowCount="3">
+            app:layout_constraintVertical_weight="6">
 
             <ImageButton
                 android:layout_width="0dp"
                 android:layout_height="0dp"
+                android:id="@+id/avatar11"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/avatar12"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/avatar21"
                 android:src="@drawable/ic_avatar11"
                 android:scaleType="centerInside"
                 android:background="@color/colorTransparent"
-                app:layout_constraintDimensionRatio="1:1"
-                android:layout_margin="@dimen/small_margin"
-                grid:layout_columnWeight="1"
-                grid:layout_rowWeight="1" />
+                app:layout_constraintDimensionRatio="1:1"/>
 
             <ImageButton
                 android:layout_width="0dp"
                 android:layout_height="0dp"
+                android:id="@+id/avatar12"
+                app:layout_constraintStart_toEndOf="@id/avatar11"
+                app:layout_constraintEnd_toStartOf="@id/avatar13"
+                app:layout_constraintTop_toTopOf="@id/avatar11"
+                app:layout_constraintBottom_toBottomOf="@id/avatar11"
                 android:src="@drawable/ic_avatar12"
                 android:scaleType="centerInside"
                 android:background="@color/colorTransparent"
-                app:layout_constraintDimensionRatio="1:1"
-                android:layout_margin="@dimen/small_margin"
-                grid:layout_columnWeight="1"
-                grid:layout_rowWeight="1" />
+                app:layout_constraintDimensionRatio="1:1" />
 
             <ImageButton
                 android:layout_width="0dp"
                 android:layout_height="0dp"
+                android:id="@+id/avatar13"
+                app:layout_constraintStart_toEndOf="@id/avatar12"
+                app:layout_constraintEnd_toStartOf="@id/avatar14"
+                app:layout_constraintTop_toTopOf="@id/avatar11"
+                app:layout_constraintBottom_toBottomOf="@id/avatar11"
                 android:src="@drawable/ic_avatar13"
                 android:scaleType="centerInside"
                 android:background="@color/colorTransparent"
-                app:layout_constraintDimensionRatio="1:1"
-                android:layout_margin="@dimen/small_margin"
-                grid:layout_columnWeight="1"
-                grid:layout_rowWeight="1" />
+                app:layout_constraintDimensionRatio="1:1" />
 
             <ImageButton
                 android:layout_width="0dp"
                 android:layout_height="0dp"
+                android:id="@+id/avatar14"
+                app:layout_constraintStart_toEndOf="@id/avatar13"
+                app:layout_constraintEnd_toStartOf="@id/avatar15"
+                app:layout_constraintTop_toTopOf="@id/avatar11"
+                app:layout_constraintBottom_toBottomOf="@id/avatar11"
                 android:src="@drawable/ic_avatar14"
                 android:scaleType="centerInside"
                 android:background="@color/colorTransparent"
-                app:layout_constraintDimensionRatio="1:1"
-                android:layout_margin="@dimen/small_margin"
-                grid:layout_columnWeight="1"
-                grid:layout_rowWeight="1" />
+                app:layout_constraintDimensionRatio="1:1" />
 
             <ImageButton
                 android:layout_width="0dp"
                 android:layout_height="0dp"
+                android:id="@+id/avatar15"
+                app:layout_constraintStart_toEndOf="@id/avatar14"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/avatar11"
+                app:layout_constraintBottom_toBottomOf="@id/avatar11"
                 android:src="@drawable/ic_avatar15"
                 android:scaleType="centerInside"
                 android:background="@color/colorTransparent"
-                app:layout_constraintDimensionRatio="1:1"
-                android:layout_margin="@dimen/small_margin"
-                grid:layout_columnWeight="1"
-                grid:layout_rowWeight="1" />
+                app:layout_constraintDimensionRatio="1:1"/>
 
             <ImageButton
                 android:layout_width="0dp"
                 android:layout_height="0dp"
+                android:id="@+id/avatar21"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/avatar22"
+                app:layout_constraintTop_toBottomOf="@id/avatar11"
+                app:layout_constraintBottom_toTopOf="@+id/avatar31"
                 android:src="@drawable/ic_avatar21"
                 android:scaleType="centerInside"
                 android:background="@color/colorTransparent"
-                app:layout_constraintDimensionRatio="1:1"
-                android:layout_margin="@dimen/small_margin"
-                grid:layout_columnWeight="1"
-                grid:layout_rowWeight="1" />
+                app:layout_constraintDimensionRatio="1:1" />
 
             <ImageButton
                 android:layout_width="0dp"
                 android:layout_height="0dp"
+                android:id="@+id/avatar22"
+                app:layout_constraintStart_toEndOf="@id/avatar21"
+                app:layout_constraintEnd_toStartOf="@id/avatar23"
+                app:layout_constraintTop_toTopOf="@id/avatar21"
+                app:layout_constraintBottom_toBottomOf="@id/avatar21"
                 android:src="@drawable/ic_avatar22"
                 android:scaleType="centerInside"
                 android:background="@color/colorTransparent"
-                app:layout_constraintDimensionRatio="1:1"
-                android:layout_margin="@dimen/small_margin"
-                grid:layout_columnWeight="1"
-                grid:layout_rowWeight="1" />
+                app:layout_constraintDimensionRatio="1:1" />
 
             <ImageButton
                 android:layout_width="0dp"
                 android:layout_height="0dp"
+                android:id="@+id/avatar23"
+                app:layout_constraintStart_toEndOf="@id/avatar22"
+                app:layout_constraintEnd_toStartOf="@id/avatar24"
+                app:layout_constraintTop_toTopOf="@id/avatar21"
+                app:layout_constraintBottom_toBottomOf="@id/avatar21"
                 android:src="@drawable/ic_avatar23"
                 android:scaleType="centerInside"
                 android:background="@color/colorTransparent"
-                app:layout_constraintDimensionRatio="1:1"
-                android:layout_margin="@dimen/small_margin"
-                grid:layout_columnWeight="1"
-                grid:layout_rowWeight="1" />
+                app:layout_constraintDimensionRatio="1:1"/>
 
             <ImageButton
                 android:layout_width="0dp"
                 android:layout_height="0dp"
+                android:id="@+id/avatar24"
+                app:layout_constraintStart_toEndOf="@id/avatar23"
+                app:layout_constraintEnd_toStartOf="@id/avatar25"
+                app:layout_constraintTop_toTopOf="@id/avatar21"
+                app:layout_constraintBottom_toBottomOf="@id/avatar21"
                 android:src="@drawable/ic_avatar24"
                 android:scaleType="centerInside"
                 android:background="@color/colorTransparent"
-                app:layout_constraintDimensionRatio="1:1"
-                android:layout_margin="@dimen/small_margin"
-                grid:layout_columnWeight="1"
-                grid:layout_rowWeight="1" />
+                app:layout_constraintDimensionRatio="1:1" />
 
             <ImageButton
                 android:layout_width="0dp"
                 android:layout_height="0dp"
+                android:id="@+id/avatar25"
+                app:layout_constraintStart_toEndOf="@id/avatar24"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/avatar21"
+                app:layout_constraintBottom_toBottomOf="@id/avatar21"
                 android:src="@drawable/ic_avatar25"
                 android:scaleType="centerInside"
                 android:background="@color/colorTransparent"
-                app:layout_constraintDimensionRatio="1:1"
-                android:layout_margin="@dimen/small_margin"
-                grid:layout_columnWeight="1"
-                grid:layout_rowWeight="1" />
+                app:layout_constraintDimensionRatio="1:1"/>
 
             <ImageButton
                 android:layout_width="0dp"
                 android:layout_height="0dp"
+                android:id="@+id/avatar31"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/avatar32"
+                app:layout_constraintTop_toBottomOf="@id/avatar21"
+                app:layout_constraintBottom_toBottomOf="parent"
                 android:src="@drawable/ic_avatar31"
                 android:scaleType="centerInside"
                 android:background="@color/colorTransparent"
-                app:layout_constraintDimensionRatio="1:1"
-                android:layout_margin="@dimen/small_margin"
-                grid:layout_columnWeight="1"
-                grid:layout_rowWeight="1" />
+                app:layout_constraintDimensionRatio="1:1" />
 
             <ImageButton
                 android:layout_width="0dp"
                 android:layout_height="0dp"
+                android:id="@+id/avatar32"
+                app:layout_constraintStart_toEndOf="@id/avatar31"
+                app:layout_constraintEnd_toStartOf="@id/avatar33"
+                app:layout_constraintTop_toTopOf="@id/avatar31"
+                app:layout_constraintBottom_toBottomOf="@id/avatar31"
                 android:src="@drawable/ic_avatar32"
                 android:scaleType="centerInside"
                 android:background="@color/colorTransparent"
-                app:layout_constraintDimensionRatio="1:1"
-                android:layout_margin="@dimen/small_margin"
-                grid:layout_columnWeight="1"
-                grid:layout_rowWeight="1" />
+                app:layout_constraintDimensionRatio="1:1"/>
 
             <ImageButton
                 android:layout_width="0dp"
                 android:layout_height="0dp"
+                android:id="@+id/avatar33"
+                app:layout_constraintStart_toEndOf="@id/avatar32"
+                app:layout_constraintEnd_toStartOf="@id/avatar34"
+                app:layout_constraintTop_toTopOf="@id/avatar31"
+                app:layout_constraintBottom_toBottomOf="@id/avatar31"
                 android:src="@drawable/ic_avatar33"
                 android:scaleType="centerInside"
                 android:background="@color/colorTransparent"
-                app:layout_constraintDimensionRatio="1:1"
-                android:layout_margin="@dimen/small_margin"
-                grid:layout_columnWeight="1"
-                grid:layout_rowWeight="1" />
+                app:layout_constraintDimensionRatio="1:1"/>
 
             <ImageButton
                 android:layout_width="0dp"
                 android:layout_height="0dp"
+                android:id="@+id/avatar34"
+                app:layout_constraintStart_toEndOf="@id/avatar33"
+                app:layout_constraintEnd_toStartOf="@id/avatar35"
+                app:layout_constraintTop_toTopOf="@id/avatar31"
+                app:layout_constraintBottom_toBottomOf="@id/avatar31"
                 android:src="@drawable/ic_avatar34"
                 android:scaleType="centerInside"
                 android:background="@color/colorTransparent"
-                app:layout_constraintDimensionRatio="1:1"
-                android:layout_margin="@dimen/small_margin"
-                grid:layout_columnWeight="1"
-                grid:layout_rowWeight="1" />
+                app:layout_constraintDimensionRatio="1:1" />
 
             <ImageButton
                 android:layout_width="0dp"
                 android:layout_height="0dp"
+                android:id="@+id/avatar35"
+                app:layout_constraintStart_toEndOf="@id/avatar34"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/avatar31"
+                app:layout_constraintBottom_toBottomOf="@id/avatar31"
                 android:src="@drawable/ic_avatar35"
                 android:scaleType="centerInside"
                 android:background="@color/colorTransparent"
-                app:layout_constraintDimensionRatio="1:1"
-                android:layout_margin="@dimen/small_margin"
-                grid:layout_columnWeight="1"
-                grid:layout_rowWeight="1" />
+                app:layout_constraintDimensionRatio="1:1" />
 
-
-
-        </androidx.gridlayout.widget.GridLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -443,16 +443,12 @@ public class LoginActivity extends AppCompatActivity implements View
         if (result == ConnectionResult.SUCCESS) {
             Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
             startActivityForResult(signInIntent, RC_SIGN_IN);
-
         } else {
             if (googleAPI.isUserResolvableError(result)) {
                 googleAPI.getErrorDialog(this, result,
                         IntentCode.PLAY_SERVICES_RESOLUTION_REQUEST.getCode()).show();
-
-
             } else {
                 AlertCheckPlayService();
-
             }
         }
 
@@ -623,8 +619,6 @@ public class LoginActivity extends AppCompatActivity implements View
 
 
     private void firebaseAuthWithGoogle(final GoogleSignInAccount acct) {
-
-
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
