@@ -11,7 +11,7 @@ workflows:
             branches:
               only:
                 - setupCircleci
-default:
+references:
 
   # cache
   cache_key: &cache_key
@@ -118,7 +118,7 @@ jobs:
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
       - run:
           name: Run Tests
-          command: ./grandlew test
+          command: ./gradlew test
       - store_artifacts:
           path: app/build/reports
           destination: reports
