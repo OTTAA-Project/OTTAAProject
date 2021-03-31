@@ -17,11 +17,10 @@ references:
   cache_key: &cache_key
     key: cache-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}-{{ checksum "build.gradle" }}-{{ checksum "mobile/build.gradle" }}
   restore_cache: &restore_cache
-    restore_cache:
-      <<: *cache_key
-      paths:
-        - ~/ .gradle
-        - ~/ .m2
+    <<: *cache_key
+    paths:
+      - ~/ .gradle
+      - ~/ .m2
 
   #workspace
   workspace: &workspace
