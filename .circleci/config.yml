@@ -11,7 +11,7 @@ workflows:
             branches:
               only:
                 - setupCircleci
-references:
+default:
 
   # cache
   cache_key: &cache_key
