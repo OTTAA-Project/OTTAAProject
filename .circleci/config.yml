@@ -91,6 +91,7 @@ references:
 
 jobs:
   deploy:
+    <<: *android_config
     executor:
       name: android/android-machine
       resource-class: large
