@@ -59,7 +59,7 @@ default:
       - firebase
 
   android_config: &android_config
-    working_directory: *workspace_debug
+    working_directory: *workspace
     environment:
       JVM_OPTS: -Xmx3200m
 
