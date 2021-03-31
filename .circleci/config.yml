@@ -88,13 +88,18 @@ references:
     run:
       name: decode File
       command: echo $API_KEYS | base64 -di > app/src/main/res/values/api_keys.xml
+  auth: &authUser
+    username: $DOCKER_USER
+    password: $DOCKER_PASSWORD
+  docker: &docker_file
+    - image: circleci/android:api-29
+    - *authUser
+
 
 jobs:
   deploy:
     <<: *android_config
-    executor:
-      name: android/android-machine
-      resource-class: large
+
     steps:
       - checkout
       - *cache_key
