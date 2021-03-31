@@ -94,10 +94,10 @@ jobs:
     executor:
       name: android/android-machine
       resource-class: large
-      steps:
-        - checkout
-        - android/start-emulator-and-run-tests:
-            system-image: system-images;android-29;default;x86
+    steps:
+      - checkout
+      - android/start-emulator-and-run-tests:
+          system-image: system-images;android-29;default;x86
 
 
 #
