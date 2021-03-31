@@ -25,7 +25,7 @@ references:
 
   #workspace
   workspace: &workspace
-               ~/project
+               ~/mobile
   mobile_path: &mobile_build_path
     - mobile/build/
   mobile_output: &mobile_build_path_output
@@ -42,13 +42,14 @@ references:
       paths:
         - *mobile_build_path
   persist_debug_workspace: &persist_debug_workspace
-    root: *workspace
-    paths:
-      - *mobile_build_path
-      - mobile/build/outputs/androidTest-results
-      - mobile/build/outputs/apk
-      - mobile/build/outputs/code-coverage
-      - mobile/build/outputs/test-results
+    persist_to_workspace:
+      root: *workspace
+      paths:
+        - mobile/build
+        - mobile/build/outputs/androidTest-results
+        - mobile/build/outputs/apk
+        - mobile/build/outputs/code-coverage
+        - mobile/build/outputs/test-results
   attach_firebase_workspace: &attach_firebase_workspace
     attach_workspace:
       at: *workspace
