@@ -119,7 +119,7 @@ jobs:
           key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
       - run:
           name: Run Tests
-          command: ./gradlew -PciBuild=true :mobile:testDebugUnitTest
+          command: ./gradlew -PciBuild=true :app:testDebugUnitTest
       - *persist_debug_workspace
       - store_artifacts:
           path: mobile/build/reports
