@@ -97,6 +97,7 @@ jobs:
     steps:
       - checkout
       - *cache_key
+      - *restore_cache
       - run:
           name: setup gradle
           command: sudo chmod +x ./gradlew
