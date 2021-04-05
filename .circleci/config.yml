@@ -91,10 +91,10 @@ references:
     run:
       name: run test
       command: ./gradlew test
-
-
-
-
+  run_lint_testing: &run_lint_test
+    run:
+      name: run test
+      command: ./gradlew test
 jobs:
   deploy:
     <<: *android_config
@@ -111,6 +111,12 @@ jobs:
       - *prepare_file
       - *decode_file
       - *run_testing
+      - *run_lint_test
+      - store_artifacts:
+          path: app/build/reports
+          destination: reports
+      - store_test_results:
+          path: app/build/test-results      -
 
 #
 #
