@@ -12,23 +12,17 @@ workflows:
               only:
                 - setupCircleci
 references:
-
   # cache
   cache_key: &cache_key
-    key: cache-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}-{{ checksum "build.gradle" }}-{{ checksum "mobile/build.gradle" }}
-  restore_cache: &restore_cache
-    <<: *cache_key
-    paths:
-      - ~/ .gradle
-      - ~/ .m2
+               cache-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}-{{ checksum "build.gradle" }}-{{ checksum "mobile/build.gradle" }}
+
 
   #workspace
-  workspace: &workspace
-               ~/mobile
+  workspace: &workspace ~/src
   mobile_path: &mobile_build_path
-    - mobile/build/
+    - src/build/
   mobile_output: &mobile_build_path_output
-    - mobile/build/outputs
+    - src/build/outputs
   workspace_production: &workspace_production
     attach_workspace:
       at: *workspace
@@ -44,11 +38,11 @@ references:
     persist_to_workspace:
       root: *workspace
       paths:
-        - mobile/build
-        - mobile/build/outputs/androidTest-results
-        - mobile/build/outputs/apk
-        - mobile/build/outputs/code-coverage
-        - mobile/build/outputs/test-results
+        - src/build
+        - src/build/outputs/androidTest-results
+        - src/build/outputs/apk
+        - src/build/outputs/code-coverage
+        - src/build/outputs/test-results
   attach_firebase_workspace: &attach_firebase_workspace
     attach_workspace:
       at: *workspace
@@ -105,7 +99,8 @@ jobs:
           password: $DOCKER_PASSWORD
     steps:
       - checkout
-      - *restore_cache
+      - restore_cache:
+          key: *cache_key
       - *export_google_services_json
       - *get_google_services_json
       - *prepare_file
@@ -116,8 +111,7 @@ jobs:
           path: app/build/reports
           destination: reports
       - store_test_results:
-          path: app/build/test-results      -
-
+          path: app/build/test-results
 #
 #
 #jobs:
