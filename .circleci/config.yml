@@ -98,7 +98,7 @@ references:
   run_instrumentation_test: &run_integration_test
     run:
       name: instrumentation test
-      command: .gradlew /connectedAndroidTest
+      command: ./gradlew /connectedAndroidTest
 jobs:
   deploy:
     <<: *android_config
