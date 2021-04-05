@@ -780,9 +780,9 @@ public class WhichIsThePicto extends AppCompatActivity implements View
     }
 
     private void setMenuScoreIcon() {
-        Drawable drawable=null;
+        Drawable drawable = null;
         if (game != null)
-            drawable=game.devolverCarita();
+            drawable = game.devolverCarita();
         if (game.getScore() == 0) {
             drawable = getResources().getDrawable(R.drawable.ic_sentiment_very_satisfied_white_24dp);
         }

@@ -15,7 +15,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class UnitTestingGroups {
-    private Context mContext= ApplicationProvider.getApplicationContext();
+    private final Context mContext= ApplicationProvider.getApplicationContext();
     private Groups groups;
     private Pictograms pictograms;
     private Json json;

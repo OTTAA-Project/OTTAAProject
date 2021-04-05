@@ -17,7 +17,7 @@ import androidx.test.runner.AndroidJUnit4;
 
 @RunWith(AndroidJUnit4.class)
 public class UnitTestingGoogleTranslate implements translateInterface {
-    private Context mContext= ApplicationProvider.getApplicationContext();
+    private final Context mContext= ApplicationProvider.getApplicationContext();
     private traducirTexto translateText;
     private SharedPreferences preferences;
     private String result;

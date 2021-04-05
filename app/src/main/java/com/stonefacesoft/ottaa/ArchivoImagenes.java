@@ -20,7 +20,6 @@ import java.util.Date;
 
 /**
  * Created by Hector on 09/03/2016.
- *
  */
 public class ArchivoImagenes {
 
@@ -89,7 +88,7 @@ public class ArchivoImagenes {
         //AI_Foto:ArchivoImagenes_Foto
         File pictureFile = getOutputMediaFile(c);
         if (pictureFile == null) {
-            Log.d(TAG,"AI_FOTO : "+"Error creating media file, check storage permissions: ");// e.getMessage());
+            Log.d(TAG, "AI_FOTO : " + "Error creating media file, check storage permissions: ");// e.getMessage());
             return;
         }
         try {
@@ -98,15 +97,17 @@ public class ArchivoImagenes {
             image.compress(Bitmap.CompressFormat.PNG, 100, fos);
             fos.close();
         } catch (FileNotFoundException e) {
-            Log.e(TAG,"AI_FOTO : "+"File not found: " + e.getMessage());
+            Log.e(TAG, "AI_FOTO : " + "File not found: " + e.getMessage());
         } catch (IOException e) {
-            Log.e(TAG,"AI_FOTO : "+"Error accessing file: " + e.getMessage());
+            Log.e(TAG, "AI_FOTO : " + "Error accessing file: " + e.getMessage());
         }
-        Log.d(TAG,"AI_FOTO : "+ "PATH>> " + mCurrentPhotoPath);
+        Log.d(TAG, "AI_FOTO : " + "PATH>> " + mCurrentPhotoPath);
     }
 
-    /** Create a File for saving an image or video */
-    private  File getOutputMediaFile(Context c) {
+    /**
+     * Create a File for saving an image or video
+     */
+    private File getOutputMediaFile(Context c) {
         // To be safe, you should check that the SDCard is mounted
         // using Environment.getExternalStorageState() before doing this.
         File mediaStorageDir = new File(Environment.getExternalStorageDirectory()

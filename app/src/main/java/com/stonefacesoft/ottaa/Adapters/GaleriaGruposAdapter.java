@@ -36,14 +36,14 @@ import java.io.File;
 
 public class GaleriaGruposAdapter extends RecyclerView.Adapter<GaleriaGruposAdapter.GruposViewHolder> implements ItemTouchHelperAdapter {
 
-    private Context mContext;
-    private int layoutID;
+    private final Context mContext;
+    private final int layoutID;
     private JSONArray mArrayGrupos;
     private Json json;
-    private SubirArchivosFirebase uploadFirebaseFile;
-    private FirebaseAuth mAuth;
+    private final SubirArchivosFirebase uploadFirebaseFile;
+    private final FirebaseAuth mAuth;
     private static final String TAG = "GaleriaGruposAdapter";
-    private GlideAttatcher glideAttatcher; // esto se encarga de adjuntar el glide
+    private final GlideAttatcher glideAttatcher; // esto se encarga de adjuntar el glide
 
 
     public GaleriaGruposAdapter(Context mContext, int layoutID, JSONArray mArrayGrupos, FirebaseAuth mAuth) {

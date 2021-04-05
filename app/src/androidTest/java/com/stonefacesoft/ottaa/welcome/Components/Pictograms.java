@@ -11,8 +11,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class Pictograms {
-    private Context mContext;
-    private Json json;
+    private final Context mContext;
+    private final Json json;
     private Custom_Picto picto;
 
     public Pictograms(Context mContext,Json json){

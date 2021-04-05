@@ -10,91 +10,95 @@ import java.io.File;
 
 public class MediaPlayerAudio {
     private MediaPlayer player;
-    private Context mContext;
-    private float audioLevel=0.5f;
+    private final Context mContext;
+    private float audioLevel = 0.5f;
     private boolean muted;
-     public MediaPlayerAudio(Context mContext){
-         this.mContext=mContext;
 
-     }
+    public MediaPlayerAudio(Context mContext) {
+        this.mContext = mContext;
 
-     private void playSound(boolean completo){
-         setPlayerSound();
-         player.start();
-         if(!completo)
-         player.seekTo(1100);
-         player.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-             @Override
-             public void onCompletion(MediaPlayer mediaPlayer) {
-                 if(!player.isLooping())
-                 mediaPlayer.reset();
-
-             }
-         });
-     }
-
-     public void playYesSound(){
-         player=MediaPlayer.create(mContext, R.raw.yay);
-         playSound(false);
-     }
-
-     public void playYupi1Sound(){
-         player=MediaPlayer.create(mContext,R.raw.yupi_1);
-         playSound(true);
-     }
-     public void playYupi2Sound(){
-         player=MediaPlayer.create(mContext,R.raw.yupi_2);
-         playSound(true);
-     }
-
-     public void playYouWin(){
-         player=MediaPlayer.create(mContext,R.raw.you_win);
-         playSound(true);
-     }
-
-     public void playTadaSound(){
-         player=MediaPlayer.create(mContext,R.raw.tada);
-         playSound(true);
-     }
-
-
-    public void playNoSound(){
-        player=MediaPlayer.create(mContext, R.raw.wrong);
-           playSound(true);
     }
 
-    public void playOhOhSound(){
-        player=MediaPlayer.create(mContext, R.raw.ohoh);
-           playSound(true);
-    }
-    public void stop(){
-         if(player!=null)
-         player.stop();
+    private void playSound(boolean completo) {
+        setPlayerSound();
+        player.start();
+        if (!completo)
+            player.seekTo(1100);
+        player.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mediaPlayer) {
+                if (!player.isLooping())
+                    mediaPlayer.reset();
+
+            }
+        });
     }
 
-    public  void playMusic(){
-         player=MediaPlayer.create(mContext,R.raw.funckygroove);
+    public void playYesSound() {
+        player = MediaPlayer.create(mContext, R.raw.yay);
+        playSound(false);
+    }
+
+    public void playYupi1Sound() {
+        player = MediaPlayer.create(mContext, R.raw.yupi_1);
+        playSound(true);
+    }
+
+    public void playYupi2Sound() {
+        player = MediaPlayer.create(mContext, R.raw.yupi_2);
+        playSound(true);
+    }
+
+    public void playYouWin() {
+        player = MediaPlayer.create(mContext, R.raw.you_win);
+        playSound(true);
+    }
+
+    public void playTadaSound() {
+        player = MediaPlayer.create(mContext, R.raw.tada);
+        playSound(true);
+    }
+
+
+    public void playNoSound() {
+        player = MediaPlayer.create(mContext, R.raw.wrong);
+        playSound(true);
+    }
+
+    public void playOhOhSound() {
+        player = MediaPlayer.create(mContext, R.raw.ohoh);
+        playSound(true);
+    }
+
+    public void stop() {
+        if (player != null)
+            player.stop();
+    }
+
+    public void playMusic() {
+        player = MediaPlayer.create(mContext, R.raw.funckygroove);
         playSound(true);
         player.setLooping(true);
     }
 
-    public void  setVolumenAudio(float value){
-         audioLevel=value;
+    public void setVolumenAudio(float value) {
+        audioLevel = value;
     }
 
-    public void resumeAudio(){
+    public void resumeAudio() {
     }
 
 
-    public void pauseAudio(){
-        if(player!=null&&player.isPlaying())
-         player.stop();
+    public void pauseAudio() {
+        if (player != null && player.isPlaying())
+            player.stop();
     }
-    private void setPlayerSound(){
-         if(muted)
-             player.setVolume(0f,0f);
-         else
-             player.setVolume(audioLevel,audioLevel);
+
+    private void setPlayerSound() {
+        if (muted)
+            player.setVolume(0f, 0f);
+        else
+            player.setVolume(audioLevel, audioLevel);
     }
 
     public boolean isMuted() {
@@ -103,12 +107,12 @@ public class MediaPlayerAudio {
 
     public void setMuted(boolean muted) {
         this.muted = muted;
-        if(player!=null)
+        if (player != null)
             setPlayerSound();
     }
 
-    public void playedCustomFile(File f){
-         player=MediaPlayer.create(mContext, Uri.fromFile(f));
+    public void playedCustomFile(File f) {
+        player = MediaPlayer.create(mContext, Uri.fromFile(f));
         playSound(true);
         player.setLooping(false);
     }

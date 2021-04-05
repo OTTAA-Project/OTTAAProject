@@ -26,23 +26,22 @@ import java.util.HashMap;
 //TODO VER POR QUE ESTO EXTIENDE DE APPCOMPAT SI NO ES UNA ACTIVITY , Y POR QUE USA ONDESTROY Y METODOS DE ACTIVITY SI NO INFLA NINGUNA.
 public class textToSpeech {
     private TextToSpeech hablar;
-    private CustomToast alerta;
-    private SharedPreferences sharedPrefsDefault;
-    private Context context;
+    private final CustomToast alerta;
+    private final SharedPreferences sharedPrefsDefault;
+    private final Context context;
     private boolean esprincipal;
     private String oracion;
     private File file;
     private String outputFile;
-    private UtilsTTS prepare;
+    private final UtilsTTS prepare;
 
     public textToSpeech(Context context) {
         this.context = context;
         alerta = new CustomToast(context);
         this.sharedPrefsDefault = PreferenceManager.getDefaultSharedPreferences(context);
-        prepare=new UtilsTTS(this.context,hablar,alerta,sharedPrefsDefault);
-        hablar=prepare.getmTTS();
+        prepare = new UtilsTTS(this.context, hablar, alerta, sharedPrefsDefault);
+        hablar = prepare.getmTTS();
     }
-
 
 
     public void hablar(String frase) {
@@ -82,12 +81,12 @@ public class textToSpeech {
             }
             HashMap<String, String> myHashRender = new HashMap();
             String wakeUpText = oracion;
-            String destFileName =file.getAbsolutePath();
+            String destFileName = file.getAbsolutePath();
             myHashRender.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, wakeUpText);
 
 
             hablar.synthesizeToFile(wakeUpText, myHashRender, file.getAbsolutePath());
-          //file=new File(mContext.getCacheDir(),"audio.wav");
+            //file=new File(mContext.getCacheDir(),"audio.wav");
             Log.e("texToSpeech_grabar_size", file.getTotalSpace() + "");
             Log.e("texToSpeech_grabar_path", file.getAbsolutePath() + "");
 
@@ -173,8 +172,6 @@ public class textToSpeech {
         alerta.mostrarFrase(mensaje, mTracker);
 
     }
-
-
 
 
 }

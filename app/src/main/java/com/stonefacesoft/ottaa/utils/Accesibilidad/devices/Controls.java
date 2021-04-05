@@ -10,23 +10,25 @@ public class Controls {
     protected SharedPreferences preferences;
     protected Context mContext;
 
-    public Controls(Context mContext){
-        this.mContext=mContext;
-        preferences= PreferenceManager.getDefaultSharedPreferences(this.mContext);
+    public Controls(Context mContext) {
+        this.mContext = mContext;
+        preferences = PreferenceManager.getDefaultSharedPreferences(this.mContext);
     }
+
     //this function allowed the click
-    public boolean makeClick(MotionEvent event){
+    public boolean makeClick(MotionEvent event) {
         return false;
     }
 
-    public boolean makePrimaryClick(MotionEvent event){
+    public boolean makePrimaryClick(MotionEvent event) {
         return false;
     }
 
-    public boolean makeSecondaryClick(MotionEvent event){
+    public boolean makeSecondaryClick(MotionEvent event) {
         return false;
     }
-    public boolean makeTertiaryClick(MotionEvent event){
+
+    public boolean makeTertiaryClick(MotionEvent event) {
         return false;
     }
 }

@@ -17,9 +17,7 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.stonefacesoft.ottaa.Games.GameCard;
 import com.stonefacesoft.ottaa.Games.GameSelector;
-import com.stonefacesoft.ottaa.Games.MemoryGame;
 import com.stonefacesoft.ottaa.JSONutils.Json;
-import com.stonefacesoft.ottaa.MainJuegos;
 import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.utils.IntentCode;
 import com.stonefacesoft.ottaa.utils.ReturnPositionItem;
@@ -63,7 +61,7 @@ public class viewpager_galeria_juegos {
 
         @Override
         public int getItemCount() {
-                return 3;
+            return 3;
         }
     }
 
@@ -96,7 +94,7 @@ public class viewpager_galeria_juegos {
         @Override
         public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
             super.onActivityResult(requestCode, resultCode, data);
-            mActivity.setResult(resultCode,data);
+            mActivity.setResult(resultCode, data);
         }
 
         @Override
@@ -109,76 +107,74 @@ public class viewpager_galeria_juegos {
         @Override
         public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
             super.onViewCreated(view, savedInstanceState);
-            GameCard card=view.findViewById(R.id.card1);
+            GameCard card = view.findViewById(R.id.card1);
             //TODO Gonzalo esto esta creando de nuevo lo que se creo en MainJuegos
             switch (position) {
                 case 0:
-                    card.prepareCardView( R.string.whichpictogram, R.string.which_description_name, R.drawable.whats_picto, createOnClickListener(mActivity, GameSelector.class, "notigames"));
-                    card.setmTxtScore(json.devolverCantidadGruposUsados(0)+"/"+json.getmJSONArrayTodosLosGrupos().length());
-                break;
+                    card.prepareCardView(R.string.whichpictogram, R.string.which_description_name, R.drawable.whats_picto, createOnClickListener(mActivity, GameSelector.class, "notigames"));
+                    card.setmTxtScore(json.devolverCantidadGruposUsados(0) + "/" + json.getmJSONArrayTodosLosGrupos().length());
+                    break;
                 case 1:
-                    card.prepareCardView( R.string.join_pictograms, R.string.join_pictograms_description, R.drawable.match_picto, createOnClickListener(mActivity, GameSelector.class, "seleccionar_palabras"));
-                    card.setmTxtScore(json.devolverCantidadGruposUsados(1)+"/"+json.getmJSONArrayTodosLosGrupos().length());//todo in recycler fill with the position
+                    card.prepareCardView(R.string.join_pictograms, R.string.join_pictograms_description, R.drawable.match_picto, createOnClickListener(mActivity, GameSelector.class, "seleccionar_palabras"));
+                    card.setmTxtScore(json.devolverCantidadGruposUsados(1) + "/" + json.getmJSONArrayTodosLosGrupos().length());//todo in recycler fill with the position
                     break;
                 case 2:
                     card.prepareCardView(R.string.memory_game, R.string.memory_game_string, R.drawable.memory_game, createOnClickListener(mActivity, GameSelector.class, "descripciones"));
-                    card.setmTxtScore(json.devolverCantidadGruposUsados(2)+"/"+json.getmJSONArrayTodosLosGrupos().length());//todo in recycler fill with the position
+                    card.setmTxtScore(json.devolverCantidadGruposUsados(2) + "/" + json.getmJSONArrayTodosLosGrupos().length());//todo in recycler fill with the position
                     break;
             }
         }
-        private View.OnClickListener createOnClickListener(Context context,Class clase,String value){
+
+        private View.OnClickListener createOnClickListener(Context context, Class clase, String value) {
             return new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent=new Intent(context,clase);
-                    intent.putExtra("name_game",value);
-                   mActivity.startActivityForResult(intent, IntentCode.NOTIGAMES.getCode());
+                    Intent intent = new Intent(context, clase);
+                    intent.putExtra("name_game", value);
+                    mActivity.startActivityForResult(intent, IntentCode.NOTIGAMES.getCode());
                 }
             };
         }
     }
 
 
-
-    public void setUpPositionItem(int size){
-        positionItem=new ReturnPositionItem(size);
+    public void setUpPositionItem(int size) {
+        positionItem = new ReturnPositionItem(size);
     }
 
-    public void scrollPosition(boolean add){
-        int position=0;
-        if(add){
-            position=positionItem.add();
-        }
-        else
-           position=positionItem.subtract();
+    public void scrollPosition(boolean add) {
+        int position = 0;
+        if (add) {
+            position = positionItem.add();
+        } else
+            position = positionItem.subtract();
         viewPager.setCurrentItem(position);
     }
 
-    public void updateAdapter(){
+    public void updateAdapter() {
         viewPager.invalidate();
     }
 
-    public void actionClick(){
-        Intent intent=null;
-         switch (viewPager.getCurrentItem())
-         {
-             case 0:
-                 intent=new Intent(mActivity,GameSelector.class);
-                 intent.putExtra("name_game","notigames");
-                 break;
-             case 1:
-                 intent=new Intent(mActivity,GameSelector.class);
-                 intent.putExtra("name_game","seleccionar_palabras");
-                 break;
-             case 2:
-                 intent=new Intent(mActivity, GameSelector.class);
-                 intent.putExtra("name_game","descripciones");
+    public void actionClick() {
+        Intent intent = null;
+        switch (viewPager.getCurrentItem()) {
+            case 0:
+                intent = new Intent(mActivity, GameSelector.class);
+                intent.putExtra("name_game", "notigames");
                 break;
-             default:
-                 intent=new Intent(mActivity,GameSelector.class);
-                 intent.putExtra("name_game","notigames");
-                 break;
-         }
+            case 1:
+                intent = new Intent(mActivity, GameSelector.class);
+                intent.putExtra("name_game", "seleccionar_palabras");
+                break;
+            case 2:
+                intent = new Intent(mActivity, GameSelector.class);
+                intent.putExtra("name_game", "descripciones");
+                break;
+            default:
+                intent = new Intent(mActivity, GameSelector.class);
+                intent.putExtra("name_game", "notigames");
+                break;
+        }
 
 
         mActivity.startActivityForResult(intent, IntentCode.NOTIGAMES.getCode());

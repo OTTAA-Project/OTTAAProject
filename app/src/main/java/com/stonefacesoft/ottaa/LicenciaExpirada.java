@@ -11,6 +11,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager.widget.ViewPager;
+
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInApi;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -30,17 +34,13 @@ import com.stonefacesoft.ottaa.utils.preferences.User;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.viewpager.widget.ViewPager;
 /**
  * @author Hector Costa
- *
- * */
+ */
 
 public class LicenciaExpirada extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
 
-    private TextView mEndDateTxtView,mSignOutButton;
+    private TextView mEndDateTxtView, mSignOutButton;
     private GoogleApiClient mGoogleApiClient;
     public GoogleSignInApi mGoogleSignInClient;
     private TextView mFrasesTxt;
@@ -50,12 +50,12 @@ public class LicenciaExpirada extends AppCompatActivity implements SharedPrefere
     private User loginGoogle;
 
     ViewPager viewPager;
-    int images[] =new int[]{R.drawable.licencia_accesibilidad, R.drawable.licencia_games, R.drawable.licencia_informe, R
+    int[] images = new int[]{R.drawable.licencia_accesibilidad, R.drawable.licencia_games, R.drawable.licencia_informe, R
             .drawable.licencia_ubicacion};
-    int textos[] = new int[]{R.string.obtain_ottaa_project,
+    int[] textos = new int[]{R.string.obtain_ottaa_project,
             R.string.test_game_vocabulary,
             R.string.premium_report_description
-            ,R.string.location_text};
+            , R.string.location_text};
 
     LicenciaExpiradaAdapter licenciaExpiradaAdapter;
     int funcion = 0;
@@ -72,7 +72,7 @@ public class LicenciaExpirada extends AppCompatActivity implements SharedPrefere
 
         viewPager = findViewById(R.id.viewPagerLicenciaExpirada);
 
-        licenciaExpiradaAdapter = new LicenciaExpiradaAdapter (LicenciaExpirada.this, images, textos);
+        licenciaExpiradaAdapter = new LicenciaExpiradaAdapter(LicenciaExpirada.this, images, textos);
         viewPager.setAdapter(licenciaExpiradaAdapter);
 
         pageSwitcher(5);
@@ -82,7 +82,7 @@ public class LicenciaExpirada extends AppCompatActivity implements SharedPrefere
         Button mLicenciaBtn = findViewById(R.id.btnLicencia);
         Button mLoginActivityBtn = findViewById(R.id.btnLoginActivity);
 
-        mSignOutButton= findViewById(R.id.mSignOutBtn);
+        mSignOutButton = findViewById(R.id.mSignOutBtn);
         mSignOutButton.setClickable(true);
         mSignOutButton.setEnabled(false);
         mSignOutButton.setOnClickListener(new View.OnClickListener() {
@@ -111,7 +111,7 @@ public class LicenciaExpirada extends AppCompatActivity implements SharedPrefere
                 .build();
 
         mGoogleApiClient = new GoogleApiClient.Builder(getApplicationContext())
-                .addApi(Auth.GOOGLE_SIGN_IN_API,gso)
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
 
 
@@ -125,7 +125,6 @@ public class LicenciaExpirada extends AppCompatActivity implements SharedPrefere
                 finish();
 
 
-
             }
         });
         mLicenciaBtn.setOnClickListener(new View.OnClickListener() {
@@ -133,15 +132,15 @@ public class LicenciaExpirada extends AppCompatActivity implements SharedPrefere
             public void onClick(View v) {
                 // Intent mainIntent = new Intent().setClass(LicenciaExpirada.this, CheckoutExampleActivity.class);
                 //startActivity(mainIntent);
-               try{
-                   String url = "https://www.mercadopago.com/mla/checkout/start?pref_id=15410477-026f44d9-c8e5-4d28-9e30-d34e375b470b";
-                   Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-                   intent.putExtra(Browser.EXTRA_APPLICATION_ID, getApplicationContext().getPackageName());
-                   getApplicationContext().startActivity(intent);
-               }catch (Exception ex){
-                   CustomToast toast=new CustomToast(getApplicationContext());
-                   toast.mostrarFrase("Por favor habilite un navegador");
-               }
+                try {
+                    String url = "https://www.mercadopago.com/mla/checkout/start?pref_id=15410477-026f44d9-c8e5-4d28-9e30-d34e375b470b";
+                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                    intent.putExtra(Browser.EXTRA_APPLICATION_ID, getApplicationContext().getPackageName());
+                    getApplicationContext().startActivity(intent);
+                } catch (Exception ex) {
+                    CustomToast toast = new CustomToast(getApplicationContext());
+                    toast.mostrarFrase("Por favor habilite un navegador");
+                }
             }
         });
 
@@ -192,9 +191,9 @@ public class LicenciaExpirada extends AppCompatActivity implements SharedPrefere
     @Override
     public void onSharedPreferenceChanged(SharedPreferences prefs, String s) {
 
-        if (STR_LOGOUT.equals(s)){
-         //   Log.e("BotonSignOutLicencia","pref else if: "+ prefs.getBoolean(s,false));
-            mSignOutButton.setEnabled(prefs.getBoolean(s,false));
+        if (STR_LOGOUT.equals(s)) {
+            //   Log.e("BotonSignOutLicencia","pref else if: "+ prefs.getBoolean(s,false));
+            mSignOutButton.setEnabled(prefs.getBoolean(s, false));
         }
 
     }

@@ -13,16 +13,18 @@ import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.utils.Constants;
 
 public class Grupo_Recycler_View_Sort extends Custom_recyclerView {
-    private static final String TAG ="Grupo_R_V_sort" ;
+    private static final String TAG = "Grupo_R_V_sort";
     private GaleriaGruposAdapter mGaleriaGruposAdapter;
     private final int mPosition = -1;
+
     public Grupo_Recycler_View_Sort(AppCompatActivity mActivity, FirebaseAuth mAuth) {
         super(mActivity, mAuth);
-        array=json.getmJSONArrayTodosLosGrupos();
-        arrayAux=json.getmJSONArrayTodosLosGrupos();
+        array = json.getmJSONArrayTodosLosGrupos();
+        arrayAux = json.getmJSONArrayTodosLosGrupos();
         createRecyclerLayoutManager();
     }
-    public void cargarGrupo(){
+
+    public void cargarGrupo() {
 
         mGaleriaGruposAdapter = new GaleriaGruposAdapter(mActivity, R.layout.grid_group_layout_2, mAuth);
         DefaultItemAnimator itemAnimator = new DefaultItemAnimator();

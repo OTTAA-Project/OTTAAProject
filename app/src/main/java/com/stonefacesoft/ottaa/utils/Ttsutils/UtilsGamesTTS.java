@@ -7,11 +7,12 @@ import android.speech.tts.TextToSpeech;
 import com.stonefacesoft.ottaa.Interfaces.Lock_Unlocked_Pictograms;
 import com.stonefacesoft.ottaa.utils.CustomToast;
 
-public class UtilsGamesTTS extends UtilsTTS  {
+public class UtilsGamesTTS extends UtilsTTS {
     public Lock_Unlocked_Pictograms lockUnlockedPictograms;
-    public UtilsGamesTTS(Context mContext, TextToSpeech mTTS, CustomToast alerta, SharedPreferences sharedPrefsDefault,Lock_Unlocked_Pictograms lock_unlocked_pictograms) {
+
+    public UtilsGamesTTS(Context mContext, TextToSpeech mTTS, CustomToast alerta, SharedPreferences sharedPrefsDefault, Lock_Unlocked_Pictograms lock_unlocked_pictograms) {
         super(mContext, mTTS, alerta, sharedPrefsDefault);
-        this.lockUnlockedPictograms=lock_unlocked_pictograms;
+        this.lockUnlockedPictograms = lock_unlocked_pictograms;
     }
 
     @Override
@@ -21,7 +22,8 @@ public class UtilsGamesTTS extends UtilsTTS  {
             lockUnlockedPictograms.lockPictogram(mTTS.isSpeaking());
         lockUnlockedPictograms.lockPictogram(mTTS.isSpeaking());
     }
-    public void stop(){
+
+    public void stop() {
         mTTS.shutdown();
     }
 }

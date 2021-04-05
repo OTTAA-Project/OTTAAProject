@@ -10,9 +10,9 @@ import com.stonefacesoft.ottaa.Games.WhichIsThePicto;
 import com.stonefacesoft.ottaa.MainJuegos;
 import com.stonefacesoft.ottaa.Views.Games.GameViewSelectPictograms;
 
-public class ScrollFuntionGames extends ScrollFunction{
+public class ScrollFuntionGames extends ScrollFunction {
     private MainJuegos mainJuegos;
-    private WhichIsThePicto whichIsThePicto ;
+    private WhichIsThePicto whichIsThePicto;
     private MatchPictograms matchPictograms;
     private GameSelector gameSelector;
     private GameViewSelectPictograms gameViewSelectPictograms;
@@ -20,45 +20,50 @@ public class ScrollFuntionGames extends ScrollFunction{
 
     public ScrollFuntionGames(MainJuegos mainJuegos) {
         super(mainJuegos);
-        this.mainJuegos=mainJuegos;
+        this.mainJuegos = mainJuegos;
     }
+
     public ScrollFuntionGames(GameSelector mainJuegos) {
         super(mainJuegos);
-        this.gameSelector=mainJuegos;
+        this.gameSelector = mainJuegos;
     }
+
     public ScrollFuntionGames(WhichIsThePicto mainJuegos) {
         super(mainJuegos);
-        this.whichIsThePicto=mainJuegos;
+        this.whichIsThePicto = mainJuegos;
     }
+
     public ScrollFuntionGames(MatchPictograms mainJuegos) {
         super(mainJuegos);
-        this.matchPictograms=mainJuegos;
+        this.matchPictograms = mainJuegos;
     }
+
     public ScrollFuntionGames(GameViewSelectPictograms mainJuegos) {
         super(mainJuegos);
-        this.gameViewSelectPictograms=mainJuegos;
+        this.gameViewSelectPictograms = mainJuegos;
     }
+
     @Override
     public void handleMessage(@NonNull Message msg) {
-        switch (msg.what){
+        switch (msg.what) {
             case HACER_CLICK:
-                    makeClickBarrido();
+                makeClickBarrido();
                 break;
             default:
                 super.handleMessage(msg);
         }
     }
 
-    public void makeClickBarrido(){
-        if(mainJuegos!=null)
+    public void makeClickBarrido() {
+        if (mainJuegos != null)
             mainJuegos.OnClickBarrido();
-        else if(gameSelector!=null)
+        else if (gameSelector != null)
             gameSelector.OnClickBarrido();
-        else if(whichIsThePicto!=null)
+        else if (whichIsThePicto != null)
             whichIsThePicto.OnClickBarrido();
-        else if(matchPictograms!=null)
+        else if (matchPictograms != null)
             matchPictograms.OnClickBarrido();
-        else if(gameViewSelectPictograms!=null)
+        else if (gameViewSelectPictograms != null)
             gameViewSelectPictograms.OnClickBarrido();
     }
 }

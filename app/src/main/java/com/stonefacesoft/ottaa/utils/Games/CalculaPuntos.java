@@ -20,25 +20,24 @@ public class CalculaPuntos {
 
     }
 
-    public void sumarCantidadVecesCorrectas(){
+    public void sumarCantidadVecesCorrectas() {
         this.aciertos++;
     }
 
-    public void sumarCantidVecesIncorretas(){
+    public void sumarCantidVecesIncorretas() {
         this.desaciertos++;
     }
 
-    private int calcularTotal(){
-        return total= aciertos + desaciertos;
+    private int calcularTotal() {
+        return total = aciertos + desaciertos;
     }
 
-    public float calcularValor(){
-        score=0;
-        if(calcularTotal()==0) {
+    public float calcularValor() {
+        score = 0;
+        if (calcularTotal() == 0) {
             return 0;
-        }
-        else
-            score=(aciertos/(float) calcularTotal()*100);
+        } else
+            score = (aciertos / (float) calcularTotal() * 100);
         return score;
     }
 
@@ -54,7 +53,8 @@ public class CalculaPuntos {
     public void setIntentos(int total) {
         this.total = total;
     }
-    public int getIntentos(){
+
+    public int getIntentos() {
         calcularTotal();
         return total;
     }
@@ -71,13 +71,13 @@ public class CalculaPuntos {
         return desaciertos;
     }
 
-    public JSONObject getPuntaje(){
-        JSONObject object=new JSONObject();
+    public JSONObject getPuntaje() {
+        JSONObject object = new JSONObject();
         try {
-            object.put("aciertos",aciertos);
-            object.put("desaciertos",desaciertos);
-            object.put("score",calcularValor());
-            object.put("intentos",getIntentos());
+            object.put("aciertos", aciertos);
+            object.put("desaciertos", desaciertos);
+            object.put("score", calcularValor());
+            object.put("intentos", getIntentos());
         } catch (JSONException e) {
             Log.e(TAG, "getPuntaje: " + e.getMessage());
         }

@@ -19,6 +19,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -44,8 +46,6 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.TimeZone;
 
-import androidx.annotation.NonNull;
-
 public class WeeklyBackup implements FirebaseSuccessListener {
 
     private String mBackupDates, mLocalBackupDates, mHumanDate, mSelectedBackupDate, mSelectedLocalBackupDate, mPictosBackupUrl, mFrasesBackupUrl, mGruposBackupUrl, mFotosBackupUrl;
@@ -54,16 +54,22 @@ public class WeeklyBackup implements FirebaseSuccessListener {
     private List<String> lstBackupsLocal;
     private ArrayList<String> lstBackupsLocalMilis;
     private ArrayList<String> lstBackupsMilis;
-    private SharedPreferences sharedPrefsDefault;
-    private Context mContext;
-    private BajarJsonFirebase bajarJsonFirebase;
-    private DatabaseReference mDatabase, mPictosDatabaseRefBackup, mFrasesDatabaseRefBackup, mGruposDatabaseRefBackup;
-    private FirebaseAuth mAuth;
-    private StorageReference mStorageRef, mStorageRefGruposBackup, mStorageRefPictosBackup, mStorageRefFrasesBackup;
+    private final SharedPreferences sharedPrefsDefault;
+    private final Context mContext;
+    private final BajarJsonFirebase bajarJsonFirebase;
+    private final DatabaseReference mDatabase;
+    private DatabaseReference mPictosDatabaseRefBackup;
+    private DatabaseReference mFrasesDatabaseRefBackup;
+    private DatabaseReference mGruposDatabaseRefBackup;
+    private final FirebaseAuth mAuth;
+    private final StorageReference mStorageRef;
+    private StorageReference mStorageRefGruposBackup;
+    private StorageReference mStorageRefPictosBackup;
+    private StorageReference mStorageRefFrasesBackup;
     private int mCheckDescarga;
-    private ProgressDialog dialog;
+    private final ProgressDialog dialog;
     ConnectionDetector cd;
-    private FirebaseAnalytics mFirebaseAnalytics;
+    private final FirebaseAnalytics mFirebaseAnalytics;
 
 
     public WeeklyBackup(Context context) {
@@ -114,7 +120,7 @@ public class WeeklyBackup implements FirebaseSuccessListener {
                     if (inFile.isDirectory()) {
 
                         String mLocalBackupDates = inFile.getName();
-                        lstBackupsLocalMilis.add(String.valueOf(inFile.getName()));
+                        lstBackupsLocalMilis.add(inFile.getName());
                         Log.d("weeklyBackupDialog: ", "" + inFile.getName());
                         try {
                             long serverDate = Long.parseLong(mLocalBackupDates);
@@ -135,7 +141,6 @@ public class WeeklyBackup implements FirebaseSuccessListener {
             final ArrayAdapter<String> backupAdapter = new ArrayAdapter<String>(mContext, android.R.layout.simple_spinner_item, lstBackupsLocal);
             backupAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             fechasBackupUsuario.setAdapter(backupAdapter);
-
 
 
             fechasBackupUsuario.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -167,7 +172,7 @@ public class WeeklyBackup implements FirebaseSuccessListener {
                         mBackupDates = snapshot.getKey();
                         if (!mBackupDates.contains("UltimoBackup")) {
                             long serverDate = Long.parseLong(mBackupDates);
-                            String humanDate = convertTimeWithTimeZome(serverDate * 1000)+" "+mContext.getString(R.string.datos_online_backup);
+                            String humanDate = convertTimeWithTimeZome(serverDate * 1000) + " " + mContext.getString(R.string.datos_online_backup);
                             Log.d("FirebaseBackup", "HumanDate: " + humanDate + " \\n ServerDate: " + mBackupDates);
                             lstBackups.add(humanDate);
                             lstBackupsMilis.add(mBackupDates);
@@ -277,7 +282,7 @@ public class WeeklyBackup implements FirebaseSuccessListener {
                         final File gruposSourcePath = new File(sourcePath, Constants.ARCHIVO_GRUPOS);
                         final File frasesSourcePath = new File(sourcePath, Constants.ARCHIVO_FRASES);
                         final File fotosSourcePath = new File(sourcePath, Constants.ARCHIVO_FOTO_BACKUP);
-                        Log.e( "onClick: ",""+mSelectedLocalBackupDate );
+                        Log.e("onClick: ", "" + mSelectedLocalBackupDate);
                         String destinationPath = Environment.getExternalStorageDirectory().toString();
                         File backupDir = new File(destinationPath + "/GcHgMf/" + mSelectedLocalBackupDate);
                         File[] files = backupDir.listFiles();
@@ -295,7 +300,7 @@ public class WeeklyBackup implements FirebaseSuccessListener {
                                     if (FilesUtils.copyFile(pictosUsuarioBackupFile, pictosSourcePath) &&
                                             FilesUtils.copyFile(gruposUsuarioBackupFile, gruposSourcePath) &&
                                             FilesUtils.copyFile(frasesUsuarioBackupFile, frasesSourcePath)) {
-                                        if(dialog.isShowing()) {
+                                        if (dialog.isShowing()) {
                                             dialog.dismiss();
                                             Intent intent = new Intent(mContext, Principal.class);
                                             mContext.startActivity(intent);
@@ -371,9 +376,9 @@ public class WeeklyBackup implements FirebaseSuccessListener {
 
             dialog.dismiss();
             mCheckDescarga = 0;
-            Intent intent = new Intent(mContext,Principal.class);
+            Intent intent = new Intent(mContext, Principal.class);
             mContext.startActivity(intent);
-            ((Activity)mContext).finish();
+            ((Activity) mContext).finish();
 
         }
 

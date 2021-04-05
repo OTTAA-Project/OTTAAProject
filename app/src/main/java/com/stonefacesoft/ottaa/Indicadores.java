@@ -41,8 +41,8 @@ public class Indicadores {
     private JSONArray mJSONArrayTodasLasFrases;
     private int cantidadFrases, tam = 2;
 
-    private Calendar SystemTime = Calendar.getInstance();
-    private String ultimaFrase = "";
+    private final Calendar SystemTime = Calendar.getInstance();
+    private final String ultimaFrase = "";
 
 
     public Indicadores(Context context) throws FiveMbException {

@@ -18,7 +18,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.recyclerview.widget.RecyclerView;
 
-
 import com.bumptech.glide.ListPreloader;
 import com.bumptech.glide.RequestBuilder;
 import com.stonefacesoft.ottaa.JSONutils.Json;
@@ -35,19 +34,17 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import com.stonefacesoft.pictogramslibrary.utils.GlideAttatcher;
-
 public class VincularPictosAdapter extends RecyclerView.Adapter<VincularPictosAdapter.VincularViewHolder> implements ListPreloader.PreloadModelProvider {
 
     //private Context mContext;
-    private int layoutID;
+    private final int layoutID;
     private JSONArray mVincularArray;
-    private JSONArray mSelectedPictos;
+    private final JSONArray mSelectedPictos;
     private boolean esFiltrado;
-    private Json json;
-    private ArrayList<Integer> listadoIdPictos;
-    private GlideAttatcher glideAttatcher;
-    private Context mContext;
+    private final Json json;
+    private final ArrayList<Integer> listadoIdPictos;
+    private final GlideAttatcher glideAttatcher;
+    private final Context mContext;
 
     public VincularPictosAdapter(Context mContext, int layoutID, JSONArray mVincularArray, boolean filtro) {
         this.mContext = mContext;
@@ -58,8 +55,7 @@ public class VincularPictosAdapter extends RecyclerView.Adapter<VincularPictosAd
         this.esFiltrado = filtro;
         this.mSelectedPictos = new JSONArray();
         this.listadoIdPictos = new ArrayList<>();
-        this.glideAttatcher=new GlideAttatcher(this.mContext);
-
+        this.glideAttatcher = new GlideAttatcher(this.mContext);
 
     }
 
@@ -220,28 +216,28 @@ public class VincularPictosAdapter extends RecyclerView.Adapter<VincularPictosAd
                 }
             } catch (Exception e) {
                 e.printStackTrace();
-                Log.e("TAG", "onClick: error al filtrar pictograma" );
+                Log.e("TAG", "onClick: error al filtrar pictograma");
             }
         }
 
-        public int isSelected(int position){
-            int posSelected=-1;
-            if(!isEsFiltrado()){
+        public int isSelected(int position) {
+            int posSelected = -1;
+            if (!isEsFiltrado()) {
                 try {
-                   posSelected= json.getPosPicto(mSelectedPictos,mVincularArray.getJSONObject(position).getInt("id"));
+                    posSelected = json.getPosPicto(mSelectedPictos, mVincularArray.getJSONObject(position).getInt("id"));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-            }else{
+            } else {
                 try {
-                    posSelected= json.getPosPicto(mSelectedPictos,mVincularArray.getJSONObject(position).getInt("id"));
+                    posSelected = json.getPosPicto(mSelectedPictos, mVincularArray.getJSONObject(position).getInt("id"));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
-            if(posSelected!=-1)
-            isSelected=true;
-           return posSelected;
+            if (posSelected != -1)
+                isSelected = true;
+            return posSelected;
         }
 
 
@@ -251,12 +247,10 @@ public class VincularPictosAdapter extends RecyclerView.Adapter<VincularPictosAd
 
         private String mStringTexto;
         private Drawable mDrawableIcono;
-        private VincularViewHolder mHolder;
-        private int mPosition;
+        private final VincularViewHolder mHolder;
+        private final int mPosition;
         private JSONObject picto;
-        private Handler handler = new Handler();
-
-
+        private final Handler handler = new Handler();
 
 
         public VincularAsync(VincularViewHolder mHolder, int mPosition) {
@@ -290,11 +284,11 @@ public class VincularPictosAdapter extends RecyclerView.Adapter<VincularPictosAd
             if (picto != null) {
                 try {
                     mHolder.mTextoPicto.setText(mStringTexto);
-                    Pictogram pictogram=new Pictogram(mVincularArray.getJSONObject(mPosition),json.getIdioma());
-                    loadDrawable(glideAttatcher,pictogram,mHolder.mPictoImageView);
+                    Pictogram pictogram = new Pictogram(mVincularArray.getJSONObject(mPosition), json.getIdioma());
+                    loadDrawable(glideAttatcher, pictogram, mHolder.mPictoImageView);
                     try {
                         mHolder.mPictoImageColor.setColorFilter(cargarColor(json.getTipo(mVincularArray.getJSONObject(mPosition))));
-                        if(mHolder.isSelected(mPosition)!=-1)
+                        if (mHolder.isSelected(mPosition) != -1)
                             mHolder.itemView.setBackground(mContext.getResources().getDrawable(R.drawable.picto_shape_select));
                         else
                             mHolder.itemView.setBackground(mContext.getResources().getDrawable(R.drawable.picto_shape));
@@ -309,19 +303,20 @@ public class VincularPictosAdapter extends RecyclerView.Adapter<VincularPictosAd
 
         }
     }
-    public  void loadDrawable(GlideAttatcher attatcher, Pictogram pictogram, ImageView imageView){
-        if(pictogram.getEditedPictogram().isEmpty()){
-            Drawable drawable=json.getIcono(pictogram.toJsonObject());
-            if(drawable!=null)
-                attatcher.loadCircleDrawable(drawable,imageView);
+
+    public void loadDrawable(GlideAttatcher attatcher, Pictogram pictogram, ImageView imageView) {
+        if (pictogram.getEditedPictogram().isEmpty()) {
+            Drawable drawable = json.getIcono(pictogram.toJsonObject());
+            if (drawable != null)
+                attatcher.loadCircleDrawable(drawable, imageView);
             else
-                attatcher.loadCircleDrawable(mContext.getResources().getDrawable(R.drawable.ic_cloud_download_orange),imageView);
-        }else{
-            File picto=new File(pictogram.getEditedPictogram());
-            if(picto.exists())
-                attatcher.loadCircleDrawable(picto,imageView);
+                attatcher.loadCircleDrawable(mContext.getResources().getDrawable(R.drawable.ic_cloud_download_orange), imageView);
+        } else {
+            File picto = new File(pictogram.getEditedPictogram());
+            if (picto.exists())
+                attatcher.loadCircleDrawable(picto, imageView);
             else
-                attatcher.loadCircleDrawable(Uri.parse(pictogram.getUrl()),imageView);
+                attatcher.loadCircleDrawable(Uri.parse(pictogram.getUrl()), imageView);
         }
     }
 

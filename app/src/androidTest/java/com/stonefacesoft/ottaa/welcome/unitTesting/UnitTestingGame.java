@@ -19,7 +19,7 @@ import org.junit.runner.RunWith;
 @LargeTest
 @RunWith(AndroidJUnit4.class)
 public class UnitTestingGame {
-    private Context mContext= ApplicationProvider.getApplicationContext();
+    private final Context mContext= ApplicationProvider.getApplicationContext();
     private FirebaseAuth mAuth;
     private Json json;
     private Juego game;

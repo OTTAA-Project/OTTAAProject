@@ -1,6 +1,5 @@
 package com.stonefacesoft.ottaa.Dialogos;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.view.View;
 
@@ -22,8 +21,8 @@ public class Yes_noDialogs extends DialogUtils {
 
     @Override
     protected void ocultarElementos() {
-        changeVisibilityView(R.id.progressBar2,View.GONE);
-        changeVisibilityView(R.id.unknow_Button,View.GONE);
+        changeVisibilityView(R.id.progressBar2, View.GONE);
+        changeVisibilityView(R.id.unknow_Button, View.GONE);
     }
 
 }

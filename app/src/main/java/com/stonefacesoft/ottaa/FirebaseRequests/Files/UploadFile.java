@@ -14,17 +14,23 @@ public class UploadFile {
     protected FileInputStream fis;
     protected DatabaseReference mDatabase;
     protected StorageReference mStorageReference;
-    protected String TAG="";
+    protected String TAG = "";
     protected Context mContext;
 
-    public UploadFile(Context mContext,DatabaseReference mDatabase,StorageReference mStorageReference){
-        this.mContext=mContext;
-        this.mDatabase=mDatabase;
-        this.mStorageReference=mStorageReference;
+    public UploadFile(Context mContext, DatabaseReference mDatabase, StorageReference mStorageReference) {
+        this.mContext = mContext;
+        this.mDatabase = mDatabase;
+        this.mStorageReference = mStorageReference;
     }
-    public void openFile(){}
-    public void closeFile(){}
-    public void uploadFile(){}
+
+    public void openFile() {
+    }
+
+    public void closeFile() {
+    }
+
+    public void uploadFile() {
+    }
 
     public UploadFile setTAG(String TAG) {
         this.TAG = TAG;

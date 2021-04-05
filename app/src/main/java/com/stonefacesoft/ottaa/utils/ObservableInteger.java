@@ -1,8 +1,9 @@
 package com.stonefacesoft.ottaa.utils;
+
 /*
-* Use this class to download an number of specifics files from firebase
-* this files likes phrases, pictograms or groups from firebase
-* */
+ * Use this class to download an number of specifics files from firebase
+ * this files likes phrases, pictograms or groups from firebase
+ * */
 public class ObservableInteger {
 
     private OnIntegerChangeListener listener;

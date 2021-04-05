@@ -36,7 +36,7 @@ import java.util.ArrayList;
  * Created by gonzalo on 1/29/18.
  */
 
-public class GestionarBitmap  {
+public class GestionarBitmap {
     private Picto pictograma;
     private ArrayList<Bitmap> imagenes;//Arreglo para obtener todos los bitmaps
     private ArrayList<JSONObject> idjson;//arreglo para obtener el json
@@ -44,21 +44,21 @@ public class GestionarBitmap  {
     private File imgs;//archivo que se crea
     private final Context mContext;//contexto de la aplicacion
     private String mCurrentPhotoPath;//direccion donde se guarda el archivo
-    private  String nombre;//nombre de la imagen
-    private  String texto;
+    private String nombre;//nombre de la imagen
+    private String texto;
     private SharedPreferences sharedPrefs;//me va a permitir obtener el idioma del texto
     private boolean noTemp;//bandera que permite saber si el archivo es temporal o no
     private boolean escribirTexto;
     private final Json json;
-    private int color=R.color.FondoApp;
-    private final String TAG="GestionarBitmap";
+    private int color = R.color.FondoApp;
+    private final String TAG = "GestionarBitmap";
 
 
     public GestionarBitmap(Context context) {
 
-        mContext =context;
-        imagenes=new ArrayList<>();
-        idjson=new ArrayList<>();
+        mContext = context;
+        imagenes = new ArrayList<>();
+        idjson = new ArrayList<>();
         Json.getInstance().setmContext(mContext);
         json = Json.getInstance();
 
@@ -67,7 +67,7 @@ public class GestionarBitmap  {
 
 
     public void setTexto(String texto) {
-        this.texto=texto;
+        this.texto = texto;
     }
 
     public String getNombre() {
@@ -92,31 +92,28 @@ public class GestionarBitmap  {
 
     public void setImagenes() {
 
-        this.imagenes =new ArrayList<>();
+        this.imagenes = new ArrayList<>();
         //this.imagenes=imagenes;
     }
+
     //metodo para almacenar archivo
-    private void storeImage(Bitmap image)
-    {
+    private void storeImage(Bitmap image) {
         //GB_StoreImage_Foto : GestionarBitmap_StoreImageFoto
         imgs = getOutputMediaFile();
 
-        try
-        {
+        try {
             FileOutputStream fos = new FileOutputStream(imgs);
-            int width=0;
-            int height=0;
-            if(image==null)
-            {
-                width=200;
-                height=200;
-            }else
-            {
-                width=image.getWidth();
-                height=image.getHeight();
+            int width = 0;
+            int height = 0;
+            if (image == null) {
+                width = 200;
+                height = 200;
+            } else {
+                width = image.getWidth();
+                height = image.getHeight();
             }
             image = Bitmap.createScaledBitmap(image, width, height, false);
-            image.compress(Bitmap.CompressFormat.PNG,100, fos);
+            image.compress(Bitmap.CompressFormat.PNG, 100, fos);
             fos.close();
         } catch (FileNotFoundException e) {
             Log.e("errorGB_StoreImage_Foto", "File not found: " + e.getMessage());
@@ -125,9 +122,9 @@ public class GestionarBitmap  {
         }
         Log.d("GB_StoreImage_Foto", "PATH>> " + mCurrentPhotoPath);
     }
+
     //metodo para obtener la imagen
-    public File getOutputMediaFile()
-    {
+    public File getOutputMediaFile() {
         //direccion del archivo
         File mediaStorageDir = new File(Environment.getExternalStorageDirectory()
                 + "/Android/data/"
@@ -135,23 +132,19 @@ public class GestionarBitmap  {
                 + "/Files");
         //direccionn real donde se va a ubicar el archivo
         mCurrentPhotoPath = (mediaStorageDir.getPath() + File.separator + nombre);
-        if(!noTemp)
-        {
+        if (!noTemp) {
             try {
                 //si es temporal creo un archivo en la cache
                 imgs = File.createTempFile(nombre, ".jpg", mContext.getExternalCacheDir());
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }else
-        {//si no lo es lo genero en una direccion real para poder compartirlo
+        } else {//si no lo es lo genero en una direccion real para poder compartirlo
             imgs = new File(mediaStorageDir.getPath() + File.separator + nombre);
         }
 
-        if (! mediaStorageDir.exists())
-        {
-            if (! mediaStorageDir.mkdirs())
-            {
+        if (!mediaStorageDir.exists()) {
+            if (!mediaStorageDir.mkdirs()) {
                 return null;
             }
         }
@@ -180,7 +173,7 @@ public class GestionarBitmap  {
     }
 
     //metodo para combinar imagenes
-    public Bitmap combineImages(int mDeltax,int mDeltay) {
+    public Bitmap combineImages(int mDeltax, int mDeltay) {
         Bitmap mImagenFinal = null;
 
         int mImagenFinalWidth, mImagenFinalHeight = 0;
@@ -188,53 +181,54 @@ public class GestionarBitmap  {
         if (imagenes.size() > 0 && imagenes.get(0) != null) {
 
             Bitmap mBufferPictos = Bitmap.createScaledBitmap(imagenes.get(0), 250, 250, false);
-            Bitmap logo=drawableToBitmap(mContext.getResources().getDrawable(R.drawable.logo_ottaa));
-            logo=redimensionarImagenMaximo(logo,mBufferPictos.getWidth(),mBufferPictos.getHeight()/4);
-            mImagenFinalWidth = (mBufferPictos.getWidth()+mDeltax) * imagenes.size()+mDeltax;
-            mImagenFinalHeight = 3*mDeltay+mBufferPictos.getHeight()+logo.getHeight();
+            Bitmap logo = drawableToBitmap(mContext.getResources().getDrawable(R.drawable.logo_ottaa));
+            logo = redimensionarImagenMaximo(logo, mBufferPictos.getWidth(), mBufferPictos.getHeight() / 4);
+            mImagenFinalWidth = (mBufferPictos.getWidth() + mDeltax) * imagenes.size() + mDeltax;
+            mImagenFinalHeight = 3 * mDeltay + mBufferPictos.getHeight() + logo.getHeight();
             //tamano = 0;
             mImagenFinal = Bitmap.createBitmap(mImagenFinalWidth, mImagenFinalHeight, Bitmap.Config.ARGB_8888);
 
 
             Canvas comboImage = new Canvas(mImagenFinal);
-            Paint pintura=new Paint();
+            Paint pintura = new Paint();
             pintura.setColor(mContext.getResources().getColor(color));
             pintura.setStrokeWidth(20);
 
 
-            comboImage.drawRect(0,0,mImagenFinal.getWidth(),mImagenFinal.getHeight(),pintura);
+            comboImage.drawRect(0, 0, mImagenFinal.getWidth(), mImagenFinal.getHeight(), pintura);
 
             for (int j = 0; j < imagenes.size(); j++) {
 
-                int despx =j*((mDeltax)+mBufferPictos.getWidth())+mDeltax;
+                int despx = j * ((mDeltax) + mBufferPictos.getWidth()) + mDeltax;
                 //Bitmap imgRedimensionada=redimensionarImagenMaximo(imagenes.get(j),mBufferPictos.getWidth(), mBufferPictos.getHeight());
                 //comboImage.drawLine(despx,0,despx,mImagenFinal.getHeight(),pintura);
                 comboImage.drawBitmap(redimensionarImagenMaximo(imagenes.get(j), mBufferPictos.getWidth(), mBufferPictos.getHeight()), despx, mDeltay, null);
                 //    tamano += imagenes.get(0 ).getWidth();
 
             }
-            Paint pinturas=new Paint();
+            Paint pinturas = new Paint();
             pinturas.setAlpha(200);
-            pinturas.setARGB(200,255,255,255);
+            pinturas.setARGB(200, 255, 255, 255);
 
 
-            int mPosicionLogoX,mPosicionLogoY;
+            int mPosicionLogoX, mPosicionLogoY;
 
-            mPosicionLogoX = mImagenFinalWidth-mDeltax-logo.getWidth();
-            mPosicionLogoY = mImagenFinalHeight-mDeltay-logo.getHeight();
-            comboImage.drawBitmap(logo,mPosicionLogoX,mPosicionLogoY,pinturas);
+            mPosicionLogoX = mImagenFinalWidth - mDeltax - logo.getWidth();
+            mPosicionLogoY = mImagenFinalHeight - mDeltay - logo.getHeight();
+            comboImage.drawBitmap(logo, mPosicionLogoX, mPosicionLogoY, pinturas);
 
         }
 
         return mImagenFinal;
     }
+
     //metodo para convertir un drawable en bitmap
-    public Bitmap drawableToBitmap (Drawable drawable) {
+    public Bitmap drawableToBitmap(Drawable drawable) {
         Bitmap bitmap = null;
 
         if (drawable instanceof BitmapDrawable) {
             BitmapDrawable bitmapDrawable = (BitmapDrawable) drawable;
-            if(bitmapDrawable.getBitmap() != null) {
+            if (bitmapDrawable.getBitmap() != null) {
                 return bitmapDrawable.getBitmap();
             }
         }
@@ -254,7 +248,7 @@ public class GestionarBitmap  {
 
 
     //metodo para redimensionar los bitmaps
-    public Bitmap redimensionarImagenMaximo(Bitmap mBitmap, float newWidth, float newHeigth){
+    public Bitmap redimensionarImagenMaximo(Bitmap mBitmap, float newWidth, float newHeigth) {
         //Redimensionamos
         int width = mBitmap.getWidth();
         int height = mBitmap.getHeight();
@@ -270,44 +264,41 @@ public class GestionarBitmap  {
 
     //metodo para armar las imagenes
     public void generarImagenesMasUsadas() {
-        storeImage(combineImages(25,25));
+        storeImage(combineImages(25, 25));
     }
 
 
-
     public File getImgs() {
-        imgs=getOutputMediaFile();
+        imgs = getOutputMediaFile();
         return imgs;
     }
 
     public void setImgs(File imgs) {
         imgs = imgs;
     }
-    public void resetearImagen()
-    {
-        imagenes=new ArrayList<>();
+
+    public void resetearImagen() {
+        imagenes = new ArrayList<>();
     }
 
-    private Integer cargarColor (int tipo)
-    {
-        switch (tipo){
+    private Integer cargarColor(int tipo) {
+        switch (tipo) {
             case 1:
-                return  mContext.getResources().getColor(R.color.Yellow);
+                return mContext.getResources().getColor(R.color.Yellow);
             case 2:
-                return  mContext.getResources().getColor(R.color.Orange);
+                return mContext.getResources().getColor(R.color.Orange);
             case 3:
-                return  mContext.getResources().getColor(R.color.YellowGreen);
+                return mContext.getResources().getColor(R.color.YellowGreen);
             case 4:
-                return  mContext.getResources().getColor(R.color.DodgerBlue);
+                return mContext.getResources().getColor(R.color.DodgerBlue);
             case 5:
-                return  mContext.getResources().getColor(R.color.Magenta);
+                return mContext.getResources().getColor(R.color.Magenta);
             case 6:
-                return  mContext.getResources().getColor(R.color.Black);
+                return mContext.getResources().getColor(R.color.Black);
             default:
-                return  mContext.getResources().getColor(R.color.White);
+                return mContext.getResources().getColor(R.color.White);
         }
     }
-
 
 
     public ArrayList<JSONObject> getIdjson() {
@@ -320,113 +311,109 @@ public class GestionarBitmap  {
 
     //metodo para armar un grafico de barra simple
 
-    private Bitmap generarGraficoBarra(int heigth,int width,ArrayList<Integer[]> listado,ArrayList<String> texto,String titulo)
-    {
-        Bitmap logo=redimensionarImagenMaximo(drawableToBitmap(mContext.getResources().getDrawable(R.drawable.logo_ottaa)),100,25);
-        float deltaX = (width/(2*listado.size()+4));
-        float alto = (0.8f)*heigth;
-        float deltaY = (heigth-alto)/6;
-        float x0= 2*deltaX;
-        float y0= 3*deltaY+alto;
-        float y2= 2*deltaY;
+    private Bitmap generarGraficoBarra(int heigth, int width, ArrayList<Integer[]> listado, ArrayList<String> texto, String titulo) {
+        Bitmap logo = redimensionarImagenMaximo(drawableToBitmap(mContext.getResources().getDrawable(R.drawable.logo_ottaa)), 100, 25);
+        float deltaX = (width / (2 * listado.size() + 4));
+        float alto = (0.8f) * heigth;
+        float deltaY = (heigth - alto) / 6;
+        float x0 = 2 * deltaX;
+        float y0 = 3 * deltaY + alto;
+        float y2 = 2 * deltaY;
         //int mayor=calcularMayor(listado);
-        Bitmap bitmap=Bitmap.createBitmap(width,heigth,Bitmap.Config.ARGB_8888);
-        Canvas canvas=new Canvas(bitmap);
-        Paint pintura=new Paint();
+        Bitmap bitmap = Bitmap.createBitmap(width, heigth, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
+        Paint pintura = new Paint();
         pintura.setColor(Color.WHITE);
         //preparo el titulo,el fondo y las lineas del eje de las x e y junto con la dimension de la letra
-        canvas.drawRect(0,0,bitmap.getWidth(),bitmap.getHeight(),pintura);
+        canvas.drawRect(0, 0, bitmap.getWidth(), bitmap.getHeight(), pintura);
         pintura.setColor(Color.GRAY);
         pintura.setAntiAlias(true);
-        canvas.drawLine(x0,y0,width-x0,y0,pintura);
-        canvas.drawLine(x0,y0,x0,y2,pintura);
+        canvas.drawLine(x0, y0, width - x0, y0, pintura);
+        canvas.drawLine(x0, y0, x0, y2, pintura);
         pintura.setTextSize(12);
-        Log.d(TAG,"listadosize: " +listado.size()+"");
-        Log.d(TAG,"alto: "+alto+"");
+        Log.d(TAG, "listadosize: " + listado.size() + "");
+        Log.d(TAG, "alto: " + alto + "");
 
 
-        for(int i=0;i<listado.size();i++)
-        {
-            float nnx=i*deltaX+(i-1)*deltaX+2*x0;
-            float nny=y0;
-            float total=0;
+        for (int i = 0; i < listado.size(); i++) {
+            float nnx = i * deltaX + (i - 1) * deltaX + 2 * x0;
+            float nny = y0;
+            float total = 0;
 
 
-            for(int j=0;j<listado.get(i).length;j++) {
-                total+=listado.get(i)[j];
-                Log.d(TAG,"matriz [i;j] "+listado.get(i)[j]+"");
+            for (int j = 0; j < listado.get(i).length; j++) {
+                total += listado.get(i)[j];
+                Log.d(TAG, "matriz [i;j] " + listado.get(i)[j] + "");
             }
-            float mmy1=0;
-            if(total>0) {
-                mmy1=nny;
-                for(int j=0;j<listado.get(i).length;j++) {
-
+            float mmy1 = 0;
+            if (total > 0) {
+                mmy1 = nny;
+                for (int j = 0; j < listado.get(i).length; j++) {
 
 
                     pintura.setStrokeWidth(deltaX);
                     pintura.setColor(devolverColor(j));
-                    float mmy=((alto*listado.get(i)[j])/total);
-                    canvas.drawLine(nnx,mmy1,nnx,mmy,pintura);
+                    float mmy = ((alto * listado.get(i)[j]) / total);
+                    canvas.drawLine(nnx, mmy1, nnx, mmy, pintura);
                     pintura.setColor(devolverColor(4));
 
 
-                    Log.d(TAG,"listado :"+ Float.toString(listado.get(i)[j]));
-                    Log.d(TAG,"yo  mmy1 : "+ "yo " + y0 + " mmy1 " + mmy1);
+                    Log.d(TAG, "listado :" + listado.get(i)[j]);
+                    Log.d(TAG, "yo  mmy1 : " + "yo " + y0 + " mmy1 " + mmy1);
                     mmy1 = mmy;
                 }
 
             }
-            canvas.drawText(texto.get(i).substring(0,2),nnx-(deltaX/2),nny+deltaY,pintura);
-            Log.d(TAG,"matriz[i;j] eje i:" +i+"");
+            canvas.drawText(texto.get(i).substring(0, 2), nnx - (deltaX / 2), nny + deltaY, pintura);
+            Log.d(TAG, "matriz[i;j] eje i:" + i + "");
         }
 
         return bitmap;
     }
 
-    private int calcularMayor(ArrayList<Integer> listado)
-    {
-        int mayor=0;
-        for(int i=0;i<listado.size();i++)
-        {
-            if(mayor<listado.get(i))
-                mayor=listado.get(i);
+    private int calcularMayor(ArrayList<Integer> listado) {
+        int mayor = 0;
+        for (int i = 0; i < listado.size(); i++) {
+            if (mayor < listado.get(i))
+                mayor = listado.get(i);
         }
-        Log.d(TAG,"valor mayor"+mayor+"");
+        Log.d(TAG, "valor mayor" + mayor + "");
         return mayor;
     }
-    private int devolverColor(int n) {   switch(n)
-    {
-        case 0:
-            return Color.rgb(125, 205, 192);
-        case 1:
-            return Color.rgb(244, 119, 55);
-        case 2:
-            return Color.rgb(179, 144, 104);
-        case 3:
-            return Color.rgb(108, 144, 104);
-        case 4:
-            return Color.rgb(114, 148, 154);
-        case 5:
-            return Color.rgb(82, 169, 199);
-        case 6:
-            return Color.rgb(179, 144, 104);
-        case 7:
-            return Color.rgb(70, 190, 159);
-        case 8:
-            return Color.rgb(125, 205, 192);
-        case 9:
-            return Color.rgb(133, 190, 144);
-        case 10:
-            return Color.rgb(219, 188, 65);
-        case 11:
-            return Color.rgb(178, 151, 139);
+
+    private int devolverColor(int n) {
+        switch (n) {
+            case 0:
+                return Color.rgb(125, 205, 192);
+            case 1:
+                return Color.rgb(244, 119, 55);
+            case 2:
+                return Color.rgb(179, 144, 104);
+            case 3:
+                return Color.rgb(108, 144, 104);
+            case 4:
+                return Color.rgb(114, 148, 154);
+            case 5:
+                return Color.rgb(82, 169, 199);
+            case 6:
+                return Color.rgb(179, 144, 104);
+            case 7:
+                return Color.rgb(70, 190, 159);
+            case 8:
+                return Color.rgb(125, 205, 192);
+            case 9:
+                return Color.rgb(133, 190, 144);
+            case 10:
+                return Color.rgb(219, 188, 65);
+            case 11:
+                return Color.rgb(178, 151, 139);
 
 
+        }
+        return Color.rgb((int) (Math.random() * 255), (int) (Math.random() * 255), (int) (Math.random() * 255));
     }
-        return Color.rgb((int) (Math.random()*255),(int)(Math.random()*255),(int)( Math.random()*255));
-    }
-    private Bitmap Grafico()
-    {
+
+    private Bitmap Grafico() {
       /*  LineChartView chart = new LineChartView(mContext);
         ArrayList<PointValue> values = new ArrayList<PointValue>();
         values.add(new PointValue(0, 2));
@@ -443,7 +430,7 @@ public class GestionarBitmap  {
     //Devolvemos un bitmap con todos los pictos componentes de una frase
     public Bitmap getBitmapDeFrase(JSONObject frase) {
         try {
-            if (frase.has("complejidad")&&frase.getJSONObject("complejidad") != null) {
+            if (frase.has("complejidad") && frase.getJSONObject("complejidad") != null) {
                 imagenes = new ArrayList<>();
                 for (int i = 0; i < frase.getJSONObject("complejidad").getJSONArray("pictos componentes").length(); i++) {
                     JSONObject picto = json.getPictoFromId2(frase.getJSONObject("complejidad")
@@ -477,7 +464,7 @@ public class GestionarBitmap  {
             e.printStackTrace();
         }
         if (combineImages(20, 20) != null)
-        return getRoundedCornerBitmap(combineImages(20, 20), 20);
+            return getRoundedCornerBitmap(combineImages(20, 20), 20);
         else
             return null;
     }
@@ -489,11 +476,12 @@ public class GestionarBitmap  {
     public void setEscribirTexto(boolean escribirTexto) {
         this.escribirTexto = escribirTexto;
     }
-    public Drawable bitmapToDrawable(Bitmap bitmap)
-    {
+
+    public Drawable bitmapToDrawable(Bitmap bitmap) {
         return new BitmapDrawable(bitmap);
     }
-    public void setColor(int color){
-        this.color=color;
+
+    public void setColor(int color) {
+        this.color = color;
     }
 }

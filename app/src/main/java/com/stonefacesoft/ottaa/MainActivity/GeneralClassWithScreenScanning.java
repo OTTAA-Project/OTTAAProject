@@ -7,6 +7,9 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.idioma.ConfigurarIdioma;
@@ -15,9 +18,6 @@ import com.stonefacesoft.ottaa.utils.Accesibilidad.BarridoPantalla;
 import com.stonefacesoft.ottaa.utils.PreferencesManager;
 
 import java.util.ArrayList;
-
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 
 public class GeneralClassWithScreenScanning extends AppCompatActivity {
     private PreferencesManager sharedPrefsDefault;
@@ -42,6 +42,7 @@ public class GeneralClassWithScreenScanning extends AppCompatActivity {
         //adjunto el contexto base de la aplicacion
         super.attachBaseContext(myContextWrapper.wrap(newBase, preferences.getString(newBase.getString(R.string.str_idioma), "en")));
     }
+
     private void iniciarBarrido(ArrayList<View> list) {
         barridoPantalla = new BarridoPantalla(this, list, this);
         if (barridoPantalla.isBarridoActivado() && barridoPantalla.devolverpago()) {
@@ -53,7 +54,7 @@ public class GeneralClassWithScreenScanning extends AppCompatActivity {
                     btnBarrido.setVisibility(View.VISIBLE);
                 }
             });
-        }else{
+        } else {
             btnBarrido.setVisibility(View.GONE);
         }
 

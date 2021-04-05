@@ -7,22 +7,22 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.stonefacesoft.ottaa.R;
-
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.viewpager.widget.PagerAdapter;
+
+import com.stonefacesoft.ottaa.R;
 
 /**
  * Created by Hector on 30/8/2018.
  */
 public class LicenciaExpiradaAdapter extends PagerAdapter {
-    int images[];
-    int textos[];
+    int[] images;
+    int[] textos;
     LayoutInflater layoutInflater;
     Context context;
 
 
-    public LicenciaExpiradaAdapter(Context context, int images[], int textos[]) {
+    public LicenciaExpiradaAdapter(Context context, int[] images, int[] textos) {
         this.context = context;
         this.images = images;
         this.textos = textos;

@@ -128,7 +128,7 @@ public class LicenciaUsuario {
                                 });
 
 
-                            } else if(dataSnapshot.hasChild(Constants.FECHAVENCIMIENTO)){
+                            } else if (dataSnapshot.hasChild(Constants.FECHAVENCIMIENTO)) {
 
                                 Long tiempoPago = Long.parseLong(dataSnapshot.child(Constants.FECHAVENCIMIENTO).getValue().toString());
                                 dataSnapshot.getRef().addValueEventListener(new ValueEventListener() {
@@ -150,7 +150,7 @@ public class LicenciaUsuario {
                                     }
                                 });
 
-                            }else if(dataSnapshot.hasChild(Constants.FECHAPAGO)) {
+                            } else if (dataSnapshot.hasChild(Constants.FECHAPAGO)) {
 
                                 Long tiempoPago = Long.parseLong(dataSnapshot.child(Constants.FECHAPAGO).getValue().toString());
                                 dataSnapshot.getRef().addValueEventListener(new ValueEventListener() {

@@ -13,40 +13,38 @@ public class FirebaseUtils {
 
 
     public static FirebaseUtils getInstance() {
-        if(myFirebaseUtils==null)
-            myFirebaseUtils=new FirebaseUtils();
+        if (myFirebaseUtils == null)
+            myFirebaseUtils = new FirebaseUtils();
         return myFirebaseUtils;
     }
 
-    public void setmContext(Context mContext){
-        this.mContext=mContext;
+    public void setmContext(Context mContext) {
+        this.mContext = mContext;
     }
 
     private FirebaseUtils() {
-        mDatabase= FirebaseDatabase.getInstance().getReference();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
     }
 
-    public DatabaseReference getmDatabase(){
+    public DatabaseReference getmDatabase() {
         return mDatabase;
     }
 
-    public void setUpFirebaseDatabase(){
-        if(mContext!=null&&!mContext.getResources().getString(R.string.firebase_name_database).isEmpty())
-            mDatabase=FirebaseDatabase.getInstance(mContext.getResources().getString(R.string.firebase_name_database)).getReference();
-        else if(mContext==null||mContext.getResources().getString(R.string.firebase_name_database).isEmpty())
-            mDatabase=FirebaseDatabase.getInstance().getReference();
+    public void setUpFirebaseDatabase() {
+        if (mContext != null && !mContext.getResources().getString(R.string.firebase_name_database).isEmpty())
+            mDatabase = FirebaseDatabase.getInstance(mContext.getResources().getString(R.string.firebase_name_database)).getReference();
+        else if (mContext == null || mContext.getResources().getString(R.string.firebase_name_database).isEmpty())
+            mDatabase = FirebaseDatabase.getInstance().getReference();
     }
 
-    public void setUpFirebaseDatabase(String path){
-        mDatabase=FirebaseDatabase.getInstance(path).getReference();
+    public void setUpFirebaseDatabase(String path) {
+        mDatabase = FirebaseDatabase.getInstance(path).getReference();
     }
 
-    public DatabaseReference checkFirebaseNetworkConnection(){
+    public DatabaseReference checkFirebaseNetworkConnection() {
         DatabaseReference connectedRef = FirebaseDatabase.getInstance().getReference(".info/connected");
         return connectedRef;
     }
-
-
 
 
 }

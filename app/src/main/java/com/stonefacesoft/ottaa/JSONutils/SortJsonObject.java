@@ -7,30 +7,31 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class SortJsonObject {
-   private JSONArray Array;
-   private static boolean isSorted;
+    private JSONArray Array;
+    private static boolean isSorted;
     private static final String TAG = "SortJsonObj";
 
-    public SortJsonObject SortArray(JSONArray Array,Json json){
-      //  cargarDatos(Array,json);
-        this.Array=new JSONArray();
-        this.Array=Array;
+    public SortJsonObject SortArray(JSONArray Array, Json json) {
+        //  cargarDatos(Array,json);
+        this.Array = new JSONArray();
+        this.Array = Array;
         //sort(this.Array,0,this.Array.length()-1,json);
-       // if(isSorted)
-        sort(Array,json);
-       // countingSort(this.Array,json);
+        // if(isSorted)
+        sort(Array, json);
+        // countingSort(this.Array,json);
 
         return this;
     }
 
     public JSONArray getArray(Json json) {
-       JSONArray ArrayAux=Array;
+        JSONArray ArrayAux = Array;
         return ArrayAux;
     }
-    public JSONObject getObject(JSONArray array,int i)  {
-        try{
+
+    public JSONObject getObject(JSONArray array, int i) {
+        try {
             return array.getJSONObject(i);
-        }catch (JSONException ex){
+        } catch (JSONException ex) {
             Log.e(TAG, "getObject: Error: " + ex.getMessage());
             return null;
         }
@@ -54,7 +55,7 @@ public class SortJsonObject {
             } catch (JSONException e) {
                 Log.e(TAG, "sort: Error: " + e.getMessage());
             }
-            heapify(arr, i, 0,json);
+            heapify(arr, i, 0, json);
         }
     }
 
@@ -92,26 +93,24 @@ public class SortJsonObject {
         SortJsonObject.isSorted = isSorted;
     }
 
-    public  void countingSort(JSONArray input,Json json) {
+    public void countingSort(JSONArray input, Json json) {
         // create buckets
-         JSONArray aux=input;
-         // fill buckets
+        JSONArray aux = input;
+        // fill buckets
 
-         // sort array
-         int ndx = 0;
-         for (int i = 0; i < aux.length(); i++)
-              { while (0 <json.getScore(getObject(aux,i),false))
-                {// input[ndx++] = i; counter[i]--;
-                    try {
-                        input.put(ndx++,getObject(aux,i));
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-
+        // sort array
+        int ndx = 0;
+        for (int i = 0; i < aux.length(); i++) {
+            while (0 < json.getScore(getObject(aux, i), false)) {// input[ndx++] = i; counter[i]--;
+                try {
+                    input.put(ndx++, getObject(aux, i));
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
+
             }
         }
-
+    }
 
 
 }

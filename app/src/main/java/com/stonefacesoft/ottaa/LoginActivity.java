@@ -76,7 +76,6 @@ import com.stonefacesoft.ottaa.utils.Constants;
 import com.stonefacesoft.ottaa.utils.IntentCode;
 import com.stonefacesoft.ottaa.utils.ObservableInteger;
 import com.stonefacesoft.ottaa.utils.exceptions.FiveMbException;
-import com.stonefacesoft.ottaa.utils.login_package.GoogleLogin;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
@@ -108,7 +107,6 @@ public class LoginActivity extends AppCompatActivity implements View
     private ImageView Imagen;
 
     //Analytics
-
 
 
     private BajarJsonFirebase mBajarJsonFirebase;
@@ -159,7 +157,6 @@ public class LoginActivity extends AppCompatActivity implements View
     private static final String TAG = "LoginActivity";
     private Button conditionsAndTerms;
     private Context mContext;
-    private GoogleLogin login;
 
     private SharedPreferences userPreferences;
 
@@ -186,7 +183,7 @@ public class LoginActivity extends AppCompatActivity implements View
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         }
         super.onCreate(savedInstanceState);
-        mContext=this;
+        mContext = this;
         setContentView(R.layout.activity_login);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -256,10 +253,10 @@ public class LoginActivity extends AppCompatActivity implements View
         obsInt.setOnIntegerChangeListener(new ObservableInteger.OnIntegerChangeListener() {
             @Override
             public void onIntegerChanged(int newValue) {
-                if(obsInt.get()==0) {
+                if (obsInt.get() == 0) {
                     Log.d(TAG, "onIntegerChanged: obsInt 0");
                 }
-                if (obsInt.get() == 1){
+                if (obsInt.get() == 1) {
                     Log.d(TAG, "onIntegerChanged: obsInt 1");
                 }
                 if (obsInt.get() == 2) {
@@ -280,7 +277,7 @@ public class LoginActivity extends AppCompatActivity implements View
     protected void onResume() {
         super.onResume();
 
-        json=Json.getInstance();
+        json = Json.getInstance();
         json.setmContext(this);
 
         if (sharedPrefsDefault.getBoolean("firstrun", true)) {
@@ -459,10 +456,6 @@ public class LoginActivity extends AppCompatActivity implements View
     }
 
 
-
-
-
-
     private void Alert() {
         AlertDialog.Builder dialogo1 = new AlertDialog.Builder(this);
         dialogo1.setTitle(getResources().getString(R.string.pref_important_alert));
@@ -621,7 +614,6 @@ public class LoginActivity extends AppCompatActivity implements View
     }
 
 
-
     private void firebaseAuthWithGoogle(final GoogleSignInAccount acct) {
 
 
@@ -723,7 +715,7 @@ public class LoginActivity extends AppCompatActivity implements View
             @Override
             public void onAuthStateChanged(@NonNull final FirebaseAuth firebaseAuth) {
 
-                if(firebaseAuth.getCurrentUser()!=null) {
+                if (firebaseAuth.getCurrentUser() != null) {
                     Log.d(TAG, "onAuthStateChanged: currentUser not null");
                     sharedPrefsDefault.edit().putString(getString(R.string.str_userMail), mAuth.getCurrentUser().getEmail()).apply();
                     sharedPrefsDefault = getSharedPreferences(sharedPrefsDefault.getString(getString(R.string.str_userMail), "error"), Context.MODE_PRIVATE);
@@ -767,7 +759,6 @@ public class LoginActivity extends AppCompatActivity implements View
         mBajarJsonFirebase.bajarGrupos(locale, rootPath, obsInt);
         mBajarJsonFirebase.bajarPictos(locale, rootPath, obsInt);
         mBajarJsonFirebase.bajarFrases(locale, rootPath, obsInt);
-
 
 
     }
@@ -870,7 +861,6 @@ public class LoginActivity extends AppCompatActivity implements View
     }
 
 
-
     /*
      * Show the terms and condition from the aplication in the login activity
      * */
@@ -901,8 +891,8 @@ public class LoginActivity extends AppCompatActivity implements View
                     Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://ottaaproject.com/contacto.php"));
                     intent.putExtra(Browser.EXTRA_APPLICATION_ID, mContext.getPackageName());
                     mContext.startActivity(intent);
-                }catch (Exception ex){
-                    Toast.makeText(mContext,"Por favor habilite un navegador",Toast.LENGTH_LONG).show();
+                } catch (Exception ex) {
+                    Toast.makeText(mContext, "Por favor habilite un navegador", Toast.LENGTH_LONG).show();
                 }
             }
         });

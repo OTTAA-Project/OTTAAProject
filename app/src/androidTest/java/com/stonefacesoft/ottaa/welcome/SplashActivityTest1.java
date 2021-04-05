@@ -37,7 +37,7 @@ import static org.hamcrest.Matchers.is;
 @RunWith(AndroidJUnit4.class)
 public class SplashActivityTest1 {
     private SharedPreferences preferences;
-    private Context mContext= ApplicationProvider.getApplicationContext();
+    private final Context mContext= ApplicationProvider.getApplicationContext();
     @Rule
     public ActivityTestRule<SplashActivity> mActivityTestRule = new ActivityTestRule<>(SplashActivity.class);
 

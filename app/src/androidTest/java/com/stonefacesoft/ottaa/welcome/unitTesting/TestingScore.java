@@ -29,7 +29,7 @@ import org.junit.runners.Suite;
 @LargeTest
 @RunWith(AndroidJUnit4.class)
 public class TestingScore {
-    private Context context = ApplicationProvider.getApplicationContext();
+    private final Context context = ApplicationProvider.getApplicationContext();
     private CalculaPuntos score;
     /**
      * Declaration

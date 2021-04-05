@@ -4,22 +4,23 @@ import android.util.Log;
 import android.view.InputDevice;
 import android.view.MotionEvent;
 
-import com.stonefacesoft.ottaa.Principal;
-
 import androidx.core.view.MotionEventCompat;
 
+import com.stonefacesoft.ottaa.Principal;
+
 public class PrincipalControls extends Controls {
-    private Principal principal;
-    private final String TAG="PrincipalControls";
+    private final Principal principal;
+    private final String TAG = "PrincipalControls";
+
     public PrincipalControls(Principal principal) {
         super(principal);
-        this.principal=principal;
+        this.principal = principal;
     }
 
     @Override
     public boolean makeClick(MotionEvent event) {
-        Log.e(TAG, "makeClick: "+event.getAction() );
-        if (event.getSource() == InputDevice.SOURCE_MOUSE&&(principal.getBarridoPantalla().isAvanzarYAceptar()||principal.getBarridoPantalla().isSipAndPuff())) {
+        Log.e(TAG, "makeClick: " + event.getAction());
+        if (event.getSource() == InputDevice.SOURCE_MOUSE && (principal.getBarridoPantalla().isAvanzarYAceptar() || principal.getBarridoPantalla().isSipAndPuff())) {
             switch (event.getButtonState()) {
                 case MotionEvent.BUTTON_PRIMARY:
                     Log.e(TAG, "onTouchEvent: Primary Button");
@@ -34,24 +35,24 @@ public class PrincipalControls extends Controls {
                     makeTertiaryClick(event);
                     return true;
                 case MotionEvent.AXIS_LTRIGGER:
-                        principal.getBarridoPantalla().volverAtrasBarrido();
+                    principal.getBarridoPantalla().volverAtrasBarrido();
                     return true;
                 case MotionEvent.AXIS_RTRIGGER:
                     principal.getBarridoPantalla().avanzarBarrido();
-                case MotionEvent.AXIS_HAT_Y :
+                case MotionEvent.AXIS_HAT_Y:
                     return true;
 
             }
 
-        }else if(event.getSource()==InputDevice.SOURCE_MOUSE&&principal.getBarridoPantalla().isScrollModeClicker()){
-            switch (event.getButtonState()){
-                case  MotionEvent.BUTTON_PRIMARY:
+        } else if (event.getSource() == InputDevice.SOURCE_MOUSE && principal.getBarridoPantalla().isScrollModeClicker()) {
+            switch (event.getButtonState()) {
+                case MotionEvent.BUTTON_PRIMARY:
                     principal.OnClickBarrido();
                     return true;
             }
-        }else{
+        } else {
             final int action = MotionEventCompat.getActionMasked(event);
-            switch (action){
+            switch (action) {
                 case MotionEvent.ACTION_MOVE:
                     break;
             }
@@ -63,9 +64,9 @@ public class PrincipalControls extends Controls {
     @Override
     public boolean makePrimaryClick(MotionEvent event) {
         principal.getBarridoPantalla().avanzarBarrido();
-        switch (preferences.getInt("deviceId",0)){
+        switch (preferences.getInt("deviceId", 0)) {
             case 0:
-                if(principal.getBarridoPantalla().isSipAndPuff())
+                if (principal.getBarridoPantalla().isSipAndPuff())
                     principal.getFunction_scroll().HacerClickEnTiempo();
                 break;
         }
@@ -74,10 +75,10 @@ public class PrincipalControls extends Controls {
 
     @Override
     public boolean makeSecondaryClick(MotionEvent event) {
-        switch (preferences.getInt("deviceId",0)){
+        switch (preferences.getInt("deviceId", 0)) {
             case 0:
                 principal.getBarridoPantalla().volverAtrasBarrido();
-                if(principal.getBarridoPantalla().isSipAndPuff())
+                if (principal.getBarridoPantalla().isSipAndPuff())
                     principal.getFunction_scroll().HacerClickEnTiempo();
                 break;
             case 1:

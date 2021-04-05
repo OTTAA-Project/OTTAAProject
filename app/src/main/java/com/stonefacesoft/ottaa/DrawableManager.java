@@ -12,7 +12,6 @@ import org.apache.http.impl.client.DefaultHttpClient;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,7 +20,7 @@ import java.util.Map;
  */
 public class DrawableManager {
     private final Map<String, Drawable> drawableMap;
-    private final String TAG="DrawableManager";
+    private final String TAG = "DrawableManager";
 
     public DrawableManager() {
         drawableMap = new HashMap<String, Drawable>();
@@ -78,7 +77,7 @@ public class DrawableManager {
         thread.start();
     }
 
-    private InputStream fetch(String urlString) throws MalformedURLException, IOException {
+    private InputStream fetch(String urlString) throws IOException {
         DefaultHttpClient httpClient = new DefaultHttpClient();
         HttpGet request = new HttpGet(urlString);
         HttpResponse response = httpClient.execute(request);

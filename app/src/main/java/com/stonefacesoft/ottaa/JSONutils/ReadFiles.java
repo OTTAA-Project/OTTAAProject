@@ -13,15 +13,17 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 
-public class ReadFiles extends AsyncTask<Void,Void,String> {
+public class ReadFiles extends AsyncTask<Void, Void, String> {
     private String string;
-    private String fileName;
-    private Context mContext;
-    private final static String TAG="ReadFilesClass";
-    public ReadFiles(String fileName,Context mContext){
-        this.mContext=mContext;
-        this.fileName=fileName;
+    private final String fileName;
+    private final Context mContext;
+    private final static String TAG = "ReadFilesClass";
+
+    public ReadFiles(String fileName, Context mContext) {
+        this.mContext = mContext;
+        this.fileName = fileName;
     }
+
     @Override
     protected String doInBackground(Void... voids) {
         File archivo = new File(mContext.getFilesDir(), fileName);

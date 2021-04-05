@@ -13,40 +13,43 @@ import com.stonefacesoft.ottaa.MainJuegos;
 import com.stonefacesoft.ottaa.utils.Accesibilidad.BarridoPantalla;
 import com.stonefacesoft.ottaa.Views.Games.GameViewSelectPictograms;
 
-public class GameControl extends Controls{
+public class GameControl extends Controls {
     private MainJuegos mainJuegos;
-    private WhichIsThePicto whichIsThePicto ;
+    private WhichIsThePicto whichIsThePicto;
     private MatchPictograms matchPictograms;
     private GameSelector gameSelector;
     private GameViewSelectPictograms gameViewSelectPictograms;
-    private String TAG="GameControl";
+    private final String TAG = "GameControl";
 
 
     public GameControl(MainJuegos game) {
         super(game);
-        this.mainJuegos=game;
-    }
-    public GameControl(WhichIsThePicto whichIsThePicto){
-        super(whichIsThePicto);
-        this.whichIsThePicto=whichIsThePicto;
-    }
-    public GameControl(MatchPictograms matchPictograms){
-        super(matchPictograms);
-        this.matchPictograms=matchPictograms;
-    }
-    public GameControl(GameSelector gameSelector){
-        super(gameSelector);
-        this.gameSelector=gameSelector;
+        this.mainJuegos = game;
     }
 
-    public GameControl(GameViewSelectPictograms gameSelector){
+    public GameControl(WhichIsThePicto whichIsThePicto) {
+        super(whichIsThePicto);
+        this.whichIsThePicto = whichIsThePicto;
+    }
+
+    public GameControl(MatchPictograms matchPictograms) {
+        super(matchPictograms);
+        this.matchPictograms = matchPictograms;
+    }
+
+    public GameControl(GameSelector gameSelector) {
         super(gameSelector);
-        this.gameViewSelectPictograms=gameSelector;
+        this.gameSelector = gameSelector;
+    }
+
+    public GameControl(GameViewSelectPictograms gameSelector) {
+        super(gameSelector);
+        this.gameViewSelectPictograms = gameSelector;
     }
 
     @Override
     public boolean makeClick(MotionEvent event) {
-        if (event.getSource() == InputDevice.SOURCE_MOUSE&&(getBarridoPantalla().isAvanzarYAceptar()||getBarridoPantalla().isSipAndPuff())) {
+        if (event.getSource() == InputDevice.SOURCE_MOUSE && (getBarridoPantalla().isAvanzarYAceptar() || getBarridoPantalla().isSipAndPuff())) {
             switch (event.getButtonState()) {
                 case MotionEvent.BUTTON_PRIMARY:
                     Log.e(TAG, "onTouchEvent: First Button");
@@ -63,15 +66,15 @@ public class GameControl extends Controls{
 
             }
 
-        }else if(event.getSource()==InputDevice.SOURCE_MOUSE&&getBarridoPantalla().isScrollModeClicker()){
-            switch (event.getButtonState()){
-                case  MotionEvent.BUTTON_PRIMARY:
+        } else if (event.getSource() == InputDevice.SOURCE_MOUSE && getBarridoPantalla().isScrollModeClicker()) {
+            switch (event.getButtonState()) {
+                case MotionEvent.BUTTON_PRIMARY:
                     makeClick();
                     return true;
             }
-        }else{
+        } else {
             final int action = MotionEventCompat.getActionMasked(event);
-            switch (action){
+            switch (action) {
                 case MotionEvent.ACTION_MOVE:
                     break;
             }
@@ -82,10 +85,10 @@ public class GameControl extends Controls{
 
     @Override
     public boolean makePrimaryClick(MotionEvent event) {
-       getBarridoPantalla().avanzarBarrido();
-        switch (preferences.getInt("deviceId",0)){
+        getBarridoPantalla().avanzarBarrido();
+        switch (preferences.getInt("deviceId", 0)) {
             case 0:
-                if(getBarridoPantalla().isSipAndPuff())
+                if (getBarridoPantalla().isSipAndPuff())
                     selectSippAndPuff();
                 break;
         }
@@ -94,10 +97,10 @@ public class GameControl extends Controls{
 
     @Override
     public boolean makeSecondaryClick(MotionEvent event) {
-        switch (preferences.getInt("deviceId",0)){
+        switch (preferences.getInt("deviceId", 0)) {
             case 0:
                 getBarridoPantalla().volverAtrasBarrido();
-                if(getBarridoPantalla().isSipAndPuff())
+                if (getBarridoPantalla().isSipAndPuff())
                     selectSippAndPuff();
                 break;
             case 1:
@@ -109,58 +112,60 @@ public class GameControl extends Controls{
 
     @Override
     public boolean makeTertiaryClick(MotionEvent event) {
-          makeOnClick();
+        makeOnClick();
         return true;
     }
 
-    private BarridoPantalla getBarridoPantalla(){
-        if(mainJuegos!=null)
+    private BarridoPantalla getBarridoPantalla() {
+        if (mainJuegos != null)
             return mainJuegos.getBarridoPantalla();
-        else if(whichIsThePicto!=null)
+        else if (whichIsThePicto != null)
             return whichIsThePicto.getBarridoPantalla();
-        else if(matchPictograms!=null)
+        else if (matchPictograms != null)
             return matchPictograms.getBarridoPantalla();
-        else if(gameSelector!=null)
+        else if (gameSelector != null)
             return gameSelector.getBarridoPantalla();
-        else if(gameViewSelectPictograms!=null)
+        else if (gameViewSelectPictograms != null)
             return gameViewSelectPictograms.getBarridoPantalla();
         return null;
     }
 
-    private void makeClick(){
-        if(mainJuegos!=null)
-             mainJuegos.OnClickBarrido();
-        else if(whichIsThePicto!=null)
+    private void makeClick() {
+        if (mainJuegos != null)
+            mainJuegos.OnClickBarrido();
+        else if (whichIsThePicto != null)
             whichIsThePicto.OnClickBarrido();
-        else if(matchPictograms!=null)
-             matchPictograms.OnClickBarrido();
-        else if(gameSelector!=null)
-             gameSelector.OnClickBarrido();
-        else if(gameViewSelectPictograms!=null)
-             gameViewSelectPictograms.OnClickBarrido();
-    }
-    private void selectSippAndPuff(){
-        if(mainJuegos!=null)
-            mainJuegos.getFunction_scroll().HacerClickEnTiempo();
-        else if(whichIsThePicto!=null)
-            whichIsThePicto.OnClickBarrido();
-        else if(matchPictograms!=null)
+        else if (matchPictograms != null)
             matchPictograms.OnClickBarrido();
-        else if(gameSelector!=null)
+        else if (gameSelector != null)
             gameSelector.OnClickBarrido();
-        else if(gameViewSelectPictograms!=null)
+        else if (gameViewSelectPictograms != null)
             gameViewSelectPictograms.OnClickBarrido();
     }
-    private void  makeOnClick(){
-        if(mainJuegos!=null)
+
+    private void selectSippAndPuff() {
+        if (mainJuegos != null)
+            mainJuegos.getFunction_scroll().HacerClickEnTiempo();
+        else if (whichIsThePicto != null)
+            whichIsThePicto.OnClickBarrido();
+        else if (matchPictograms != null)
+            matchPictograms.OnClickBarrido();
+        else if (gameSelector != null)
+            gameSelector.OnClickBarrido();
+        else if (gameViewSelectPictograms != null)
+            gameViewSelectPictograms.OnClickBarrido();
+    }
+
+    private void makeOnClick() {
+        if (mainJuegos != null)
             mainJuegos.onClick(getBarridoPantalla().getmListadoVistas().get(getBarridoPantalla().getPosicionBarrido()));
-        else if(whichIsThePicto!=null)
+        else if (whichIsThePicto != null)
             whichIsThePicto.onClick(getBarridoPantalla().getmListadoVistas().get(getBarridoPantalla().getPosicionBarrido()));
-        else if(matchPictograms!=null)
+        else if (matchPictograms != null)
             matchPictograms.onClick(getBarridoPantalla().getmListadoVistas().get(getBarridoPantalla().getPosicionBarrido()));
-        else if(gameSelector!=null)
+        else if (gameSelector != null)
             gameSelector.onClick(getBarridoPantalla().getmListadoVistas().get(getBarridoPantalla().getPosicionBarrido()));
-        else if(gameViewSelectPictograms!=null)
+        else if (gameViewSelectPictograms != null)
             gameViewSelectPictograms.onClick(getBarridoPantalla().getmListadoVistas().get(getBarridoPantalla().getPosicionBarrido()));
 
     }

@@ -67,7 +67,7 @@ public class TraducirFrase extends AsyncTask<Void, Void, Void> {
     // automatically done on workerFirebase thread (separate from UI thread)
     @Override
     protected Void doInBackground(Void... voids) {
-        String url = "https://translation.googleapis.com/language/translate/v2?key="+mContext.getResources().getString(R.string.google_translate_api_key);
+        String url = "https://translation.googleapis.com/language/translate/v2?key=" + mContext.getResources().getString(R.string.google_translate_api_key);
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(mContext);
         final JSONObject jsonBody;

@@ -42,27 +42,25 @@ import java.util.List;
 
 public class GaleriaPictosAdapter extends RecyclerView.Adapter<GaleriaPictosAdapter.PictosViewHolder> implements ItemTouchHelperAdapter, ListPreloader.PreloadModelProvider {
 
-    private Context mContext;
-    private int layoutID;
+    private final Context mContext;
+    private final int layoutID;
     private JSONArray mArrayPictos;
     private Json json;
-    private SubirArchivosFirebase uploadFirebaseFile;
-    private FirebaseAuth mAuth;
+    private final SubirArchivosFirebase uploadFirebaseFile;
+    private final FirebaseAuth mAuth;
     private static final String TAG = "GaleriaPictosAdapter";
-    private GlideAttatcher glideAttatcher; // esto se encarga de adjuntar el glide
+    private final GlideAttatcher glideAttatcher; // esto se encarga de adjuntar el glide
     private int cantCambios;
 
 
-
-    public GaleriaPictosAdapter(Context mContext,JSONArray mArrayPictos, int layoutID, FirebaseAuth auth ) {
+    public GaleriaPictosAdapter(Context mContext, JSONArray mArrayPictos, int layoutID, FirebaseAuth auth) {
         this.mContext = mContext;
         this.layoutID = layoutID;
         this.mArrayPictos = mArrayPictos;
         this.uploadFirebaseFile = new SubirArchivosFirebase(mContext);
         this.mAuth = auth;
-         glideAttatcher=new GlideAttatcher(mContext);
+        glideAttatcher = new GlideAttatcher(mContext);
     }
-
 
 
     @Override
@@ -82,28 +80,25 @@ public class GaleriaPictosAdapter extends RecyclerView.Adapter<GaleriaPictosAdap
     @Override
     public void onItemMove(int fromIndex, int toIndex) {
 
-                try {
-                    JSONObject json1 = mArrayPictos.getJSONObject(fromIndex);
-                    JSONObject json2 = mArrayPictos.getJSONObject(toIndex);
-                    mArrayPictos.put(toIndex, json1);
-                    mArrayPictos.put(fromIndex, json2);
+        try {
+            JSONObject json1 = mArrayPictos.getJSONObject(fromIndex);
+            JSONObject json2 = mArrayPictos.getJSONObject(toIndex);
+            mArrayPictos.put(toIndex, json1);
+            mArrayPictos.put(fromIndex, json2);
 
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                } finally {
-                    notifyItemMoved(fromIndex, toIndex);
-                    if (toIndex > fromIndex)
-                        notifyItemRangeChanged(fromIndex, toIndex - fromIndex + 1);
-                    else if (toIndex < fromIndex)
-                        notifyItemRangeChanged(toIndex, fromIndex - toIndex + 1);
-
-                }
-
-
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } finally {
+            notifyItemMoved(fromIndex, toIndex);
+            if (toIndex > fromIndex)
+                notifyItemRangeChanged(fromIndex, toIndex - fromIndex + 1);
+            else if (toIndex < fromIndex)
+                notifyItemRangeChanged(toIndex, fromIndex - toIndex + 1);
 
         }
 
 
+    }
 
 
     //Seteamos y obtenemos el array de pictos modificados, para cuando lo cambiamos de lugar y cuando buscamos en el searchview
@@ -115,10 +110,10 @@ public class GaleriaPictosAdapter extends RecyclerView.Adapter<GaleriaPictosAdap
         JSONArray mArrayRelacion = new JSONArray();
         for (int i = 0; i < mArrayPictos.length(); i++) {
 
-                try {
-                    mArrayRelacion.put(i, new JSONObject().put("id", mArrayPictos.getJSONObject(i).getInt("id")));
-                } catch (JSONException e) {
-                    e.printStackTrace();
+            try {
+                mArrayRelacion.put(i, new JSONObject().put("id", mArrayPictos.getJSONObject(i).getInt("id")));
+            } catch (JSONException e) {
+                e.printStackTrace();
 
             }
 
@@ -130,8 +125,6 @@ public class GaleriaPictosAdapter extends RecyclerView.Adapter<GaleriaPictosAdap
         this.mArrayPictos = mArrayPictos;
 
     }
-
-
 
 
     public void onDropItem() {
@@ -160,7 +153,6 @@ public class GaleriaPictosAdapter extends RecyclerView.Adapter<GaleriaPictosAdap
             return mArrayPictos.length();
         return 0;
     }
-
 
 
     private Integer cargarColor(int tipo) {
@@ -206,6 +198,7 @@ public class GaleriaPictosAdapter extends RecyclerView.Adapter<GaleriaPictosAdap
             drawable = AppCompatResources.getDrawable(mContext, R.drawable.ic_cloud_download_orange);
         return Collections.singletonList(drawable);
     }
+
     //
     @Nullable
     @Override
@@ -228,7 +221,6 @@ public class GaleriaPictosAdapter extends RecyclerView.Adapter<GaleriaPictosAdap
         }
 
 
-
     }
 
     public class cargarPictosAsync extends AsyncTask<Void, Void, Void> {
@@ -236,10 +228,10 @@ public class GaleriaPictosAdapter extends RecyclerView.Adapter<GaleriaPictosAdap
         //Pasamos el holder y la posicion que nos da el onBindViewHolder para poder asignarle a cada elemento
         // en el onPostExecute que cargue el texto y la imagen de ese picto.
         //De esta forma el onBindViewHolder ejecuta el AsyncTask y esto va cargando asyncronamente mientras se desplaza
-        private String mStringTexto="";
+        private String mStringTexto = "";
         private Drawable mDrawableIcono;
-        private PictosViewHolder mHolder;
-        private int mPosition;
+        private final PictosViewHolder mHolder;
+        private final int mPosition;
 
         cargarPictosAsync(PictosViewHolder holder, int position) {
             this.mHolder = holder;
@@ -271,7 +263,6 @@ public class GaleriaPictosAdapter extends RecyclerView.Adapter<GaleriaPictosAdap
                 mDrawableIcono = new BitmapDrawable(mContext.getResources(), mBitmap);
 
 
-
             } catch (Exception e) {
                 e.getMessage();
                 e.printStackTrace();
@@ -288,8 +279,8 @@ public class GaleriaPictosAdapter extends RecyclerView.Adapter<GaleriaPictosAdap
             try {
                 if (mArrayPictos.getJSONObject(mPosition) != null) {
                     mHolder.mTextoPicto.setText(mStringTexto);
-                    Pictogram pictogram=new Pictogram(mArrayPictos.getJSONObject(mPosition),json.getIdioma());
-                    loadDrawable(glideAttatcher,pictogram,mHolder.mPictoImageView);
+                    Pictogram pictogram = new Pictogram(mArrayPictos.getJSONObject(mPosition), json.getIdioma());
+                    loadDrawable(glideAttatcher, pictogram, mHolder.mPictoImageView);
                     mHolder.mPictoImageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
                     try {
                         mHolder.mPictoImageColor.setColorFilter(cargarColor(json.getTipo(mArrayPictos.getJSONObject(mPosition))));
@@ -303,19 +294,20 @@ public class GaleriaPictosAdapter extends RecyclerView.Adapter<GaleriaPictosAdap
 
         }
     }
-    public  void loadDrawable(GlideAttatcher attatcher, Pictogram pictogram, ImageView imageView){
-        if(pictogram.getEditedPictogram().isEmpty()){
-            Drawable drawable=json.getIcono(pictogram.toJsonObject());
-            if(drawable!=null)
-                attatcher.loadCircleDrawable(drawable,imageView);
+
+    public void loadDrawable(GlideAttatcher attatcher, Pictogram pictogram, ImageView imageView) {
+        if (pictogram.getEditedPictogram().isEmpty()) {
+            Drawable drawable = json.getIcono(pictogram.toJsonObject());
+            if (drawable != null)
+                attatcher.loadCircleDrawable(drawable, imageView);
             else
-                attatcher.loadCircleDrawable(mContext.getResources().getDrawable(R.drawable.ic_cloud_download_orange),imageView);
-        }else{
-            File picto=new File(pictogram.getEditedPictogram());
-            if(picto.exists())
-                attatcher.loadCircleDrawable(picto,imageView);
+                attatcher.loadCircleDrawable(mContext.getResources().getDrawable(R.drawable.ic_cloud_download_orange), imageView);
+        } else {
+            File picto = new File(pictogram.getEditedPictogram());
+            if (picto.exists())
+                attatcher.loadCircleDrawable(picto, imageView);
             else
-                attatcher.loadCircleDrawable(Uri.parse(pictogram.getUrl()),imageView);
+                attatcher.loadCircleDrawable(Uri.parse(pictogram.getUrl()), imageView);
         }
     }
 

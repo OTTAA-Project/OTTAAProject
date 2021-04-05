@@ -16,24 +16,25 @@ import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.utils.Constants;
 
 import java.util.ArrayList;
+
 /**
  * @author Hector Costa
  * @author Gonzalo Juarez
- * @version  2.1
+ * @version 2.1
  * <h3>Objective</h3>
  * the screen scanning functions is show a floating button in a list of selected views
  * <h3>Implementation</h3>
- *<code>BarridoPantalla barridoPantalla=new BarridoPantalla(@param mContext,@param listadoObjectos,@param mActivity);</code>
+ * <code>BarridoPantalla barridoPantalla=new BarridoPantalla(@param mContext,@param listadoObjectos,@param mActivity);</code>
  * <h3>How to use</h3>
  * <h4>How to get a position </h4>
  * <code>barridoPantalla.getPosicionBarrido();</code>
  * <h4>How to move to the next object </h4>
  * <code>barridoPantalla.avanzarBarrido();</code>
- *  <h4>How to move to the Previous object</h4>
- *  <code>barridoPantalla.volverAtrasBarrido();</code>
- * */
+ * <h4>How to move to the Previous object</h4>
+ * <code>barridoPantalla.volverAtrasBarrido();</code>
+ */
 public class BarridoPantalla {
-    private static final String TAG ="BarridoPantalla" ;
+    private static final String TAG = "BarridoPantalla";
     private int tiempo, tiempo1;
 
     public void setmListadoVistas(ArrayList<View> mListadoVistas) {
@@ -41,29 +42,28 @@ public class BarridoPantalla {
     }
 
     private ArrayList<View> mListadoVistas;
-    private int posicion=0;
+    private int posicion = 0;
     private boolean cambioPosicion;
-    private Context mContext;
+    private final Context mContext;
     private boolean mEstaActivado;
     private boolean avanzarYAceptar;
     private boolean scrollMode;
     private boolean scrollModeClicker;
     private boolean isBarridoPantalla;
-    private boolean isSipAndPuff;
+    private final boolean isSipAndPuff;
 
-    private SharedPreferences mDefaultSharedPreferences;
+    private final SharedPreferences mDefaultSharedPreferences;
 
     private boolean pago;
-    private FloatingActionButton button;
+    private final FloatingActionButton button;
     private Handler waitTime;//screenScanningRun,waitTime;
     private TimeToChange timeToChange;
 
 
-
-    private Runnable limpiarBarrido =new Runnable() {
+    private final Runnable limpiarBarrido = new Runnable() {
         @Override
         public void run() {
-            waitTime=new Handler();
+            waitTime = new Handler();
             waitTime.postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -77,18 +77,18 @@ public class BarridoPantalla {
 
     public BarridoPantalla(Context mContext, ArrayList<View> listadoObjetos, Activity mActivity) {
         this.mContext = mContext;
-    //    screenScanningRun=new Handler();
+        //    screenScanningRun=new Handler();
         this.mListadoVistas = listadoObjetos;
         Activity activity = mActivity;
-        button=activity.findViewById(R.id.floatting_button);
+        button = activity.findViewById(R.id.floatting_button);
         mDefaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
         mEstaActivado = mDefaultSharedPreferences.getBoolean(Constants.BARRIDO_BOOL, false);
         tiempo = mDefaultSharedPreferences.getInt("velocidad_barrido", 5);
-        isBarridoPantalla=mDefaultSharedPreferences.getBoolean("tipo_barrido_normal",false);
+        isBarridoPantalla = mDefaultSharedPreferences.getBoolean("tipo_barrido_normal", false);
         avanzarYAceptar = mDefaultSharedPreferences.getBoolean("tipo_barrido", false);
-        isSipAndPuff=mDefaultSharedPreferences.getBoolean("sip_and_puff",false);
-        scrollMode=mDefaultSharedPreferences.getBoolean(this.mContext.getResources().getString(R.string.usar_scroll),false);
-        scrollModeClicker =mDefaultSharedPreferences.getBoolean(this.mContext.getResources().getString(R.string.usar_scroll_click),false);
+        isSipAndPuff = mDefaultSharedPreferences.getBoolean("sip_and_puff", false);
+        scrollMode = mDefaultSharedPreferences.getBoolean(this.mContext.getResources().getString(R.string.usar_scroll), false);
+        scrollModeClicker = mDefaultSharedPreferences.getBoolean(this.mContext.getResources().getString(R.string.usar_scroll_click), false);
         posicion = 0;
         pago = consultarPago();
         cambiarEstadoBarrido();
@@ -121,7 +121,7 @@ public class BarridoPantalla {
     private void activarBarrido() {
         if (pago) {
             if (mEstaActivado) {
-                if (devolverTipoBarrido()==0) {
+                if (devolverTipoBarrido() == 0) {
                     recorrerBarridoAutomatico();
                 } else {
                     recorrerBarridoManual();
@@ -134,10 +134,10 @@ public class BarridoPantalla {
      * Metodo encargado de cambiar la opcion del barrido de manera automatica
      * */
     public void recorrerBarridoAutomatico() {
-        if(mListadoVistas.size()>0) {
+        if (mListadoVistas.size() > 0) {
             int color = mDefaultSharedPreferences.getInt("Color_Picker", Color.BLUE);
             Log.e("position", "position: " + posicion);
-            posicion=devolverPosicion();
+            posicion = devolverPosicion();
             if (posicion != -1) {
                 moveCursor();
             }
@@ -151,7 +151,7 @@ public class BarridoPantalla {
      * */
     private void recorrerBarridoManual() {
         moveCursor();
-      //  mListadoVistas.get(posicion).setBackgroundColor(color);
+        //  mListadoVistas.get(posicion).setBackgroundColor(color);
 
     }
 
@@ -163,7 +163,7 @@ public class BarridoPantalla {
         return mEstaActivado;
     }
 
-    public boolean isScrollMode(){
+    public boolean isScrollMode() {
         return scrollMode;
     }
 
@@ -195,24 +195,25 @@ public class BarridoPantalla {
             activarBarrido();
         else {
             //limpiarBarrido();
-            if(button.getVisibility()==View.VISIBLE)
-            changeButtonVisibility();
+            if (button.getVisibility() == View.VISIBLE)
+                changeButtonVisibility();
 
         }
 
     }
-    public boolean devolverpago(){
+
+    public boolean devolverpago() {
         return pago;
     }
 
     public void avanzarBarrido() {
-        devolverPosicion(posicion,true);
+        devolverPosicion(posicion, true);
         recorrerBarridoManual();
 
     }
 
     public void volverAtrasBarrido() {
-        devolverPosicion(posicion,false);
+        devolverPosicion(posicion, false);
         recorrerBarridoManual();
     }
 
@@ -220,7 +221,6 @@ public class BarridoPantalla {
     private boolean consultarPago() {
         return mDefaultSharedPreferences.getInt("premium", 0) == 1;
     }
-
 
 
     public ArrayList<View> getmListadoVistas() {
@@ -231,17 +231,17 @@ public class BarridoPantalla {
     public void cambiarEstadoBarrido() {
         mEstaActivado = mDefaultSharedPreferences.getBoolean(Constants.BARRIDO_BOOL, false);
         tiempo = mDefaultSharedPreferences.getInt("velocidad_barrido", 5);
-        isBarridoPantalla=mDefaultSharedPreferences.getBoolean("tipo_barrido_normal",false);
+        isBarridoPantalla = mDefaultSharedPreferences.getBoolean("tipo_barrido_normal", false);
         avanzarYAceptar = mDefaultSharedPreferences.getBoolean("tipo_barrido", false);
-        scrollMode=mDefaultSharedPreferences.getBoolean(this.mContext.getResources().getString(R.string.usar_scroll),false);
-        scrollModeClicker =mDefaultSharedPreferences.getBoolean(this.mContext.getResources().getString(R.string.usar_scroll_click),false);
+        scrollMode = mDefaultSharedPreferences.getBoolean(this.mContext.getResources().getString(R.string.usar_scroll), false);
+        scrollModeClicker = mDefaultSharedPreferences.getBoolean(this.mContext.getResources().getString(R.string.usar_scroll_click), false);
 
         pago = consultarPago();
 
         // cambiarMargin();
-      //  limpiarBarrido();
+        //  limpiarBarrido();
         posicion = 0;
-        timeToChange=new TimeToChange(this,tiempo);
+        timeToChange = new TimeToChange(this, tiempo);
         activarDesactivarBarrido();
 
     }
@@ -250,104 +250,106 @@ public class BarridoPantalla {
      * Use this method to return the position of object that&acutes is visible
      * */
     private int devolverPosicion() {
-        try{
+        try {
             posicion++;
-            if (posicion>mListadoVistas.size())
+            if (posicion > mListadoVistas.size())
                 posicion = 0;
             else if (posicion < 0)
-                posicion = mListadoVistas.size() ;
+                posicion = mListadoVistas.size();
             if (mListadoVistas.get(posicion).getVisibility() == View.VISIBLE) {
                 return posicion;
-            } else{
-               devolverPosicion();
+            } else {
+                devolverPosicion();
             }
-        }catch (Exception ex){
+        } catch (Exception ex) {
             return 0;
         }
         return posicion;
     }
 
-    private void devolverPosicion(int pos,boolean add) {
+    private void devolverPosicion(int pos, boolean add) {
 
-            if(add)
-                pos++;
-            else
-                pos--;
+        if (add)
+            pos++;
+        else
+            pos--;
 
-            if (pos>=mListadoVistas.size())
-                pos = 0;
-            else if (pos < 0)
-                pos = mListadoVistas.size() -1;
-            posicion=pos;
-            if (mListadoVistas.get(pos).getVisibility() != View.VISIBLE) {
-                devolverPosicion(pos,add);
-            }
+        if (pos >= mListadoVistas.size())
+            pos = 0;
+        else if (pos < 0)
+            pos = mListadoVistas.size() - 1;
+        posicion = pos;
+        if (mListadoVistas.get(pos).getVisibility() != View.VISIBLE) {
+            devolverPosicion(pos, add);
+        }
     }
 
 
-
-
-    public void addView(View v){
+    public void addView(View v) {
         mListadoVistas.add(v);
     }
-    public void removieView(View v){
+
+    public void removieView(View v) {
         mListadoVistas.remove(v);
     }
 
     /**
      * drag the floating button to an specific button
-     * */
-    private void moveCursor(){
-        if(button.getVisibility()==View.INVISIBLE||button.getVisibility()==View.GONE)
-       changeButtonVisibility();
+     */
+    private void moveCursor() {
+        if (button.getVisibility() == View.INVISIBLE || button.getVisibility() == View.GONE)
+            changeButtonVisibility();
 
-        if(posicion!=-1) {
-                getExactCenterPoint(mListadoVistas.get(posicion));
-            }
+        if (posicion != -1) {
+            getExactCenterPoint(mListadoVistas.get(posicion));
+        }
 //
     }
 
-    public void changeButtonVisibility(){
-        switch (button.getVisibility()){
+    public void changeButtonVisibility() {
+        switch (button.getVisibility()) {
             case View.GONE:
                 button.setVisibility(View.VISIBLE);
                 break;
             case View.INVISIBLE:
                 button.setVisibility(View.VISIBLE);
                 break;
-            case View.VISIBLE  :
+            case View.VISIBLE:
                 button.setVisibility(View.GONE);
                 break;
         }
     }
-/**
- * return the visibility of the floating button
- * */
-    public boolean isButtonVisible(){
-        return button.getVisibility()==View.VISIBLE;
+
+    /**
+     * return the visibility of the floating button
+     */
+    public boolean isButtonVisible() {
+        return button.getVisibility() == View.VISIBLE;
     }
+
     /**
      * Set the position of the floating button
+     *
      * @param to item to drag the floating button
-     * */
+     */
     private void getExactCenterPoint(View to) {
-        Rect rect=new Rect();
+        Rect rect = new Rect();
         to.getGlobalVisibleRect(rect);
-        button.setX(rect.exactCenterX()-button.getWidth()/2);
-        button.setY(rect.exactCenterY()-button.getHeight()/2);
+        button.setX(rect.exactCenterX() - button.getWidth() / 2);
+        button.setY(rect.exactCenterY() - button.getHeight() / 2);
     }
 
     /**
      * @return the kind of screen scanning
-     * */
-    private int devolverTipoBarrido(){
-        if(isAvanzarYAceptar())
+     */
+    private int devolverTipoBarrido() {
+        if (isAvanzarYAceptar())
             return 1;
-        else if(isScrollMode())
+        else if (isScrollMode())
             return 2;
-        else if(isScrollModeClicker())
+        else if (isScrollModeClicker())
             return 3;
-        else if(isSipAndPuff())
+        else if (isSipAndPuff())
             return 4;
         return 0;
     }

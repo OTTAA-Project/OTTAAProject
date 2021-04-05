@@ -1,6 +1,7 @@
 package com.stonefacesoft.ottaa.utils.preferences;
 
 import android.content.res.ColorStateList;
+
 import androidx.annotation.ColorInt;
 
 public class Utils {

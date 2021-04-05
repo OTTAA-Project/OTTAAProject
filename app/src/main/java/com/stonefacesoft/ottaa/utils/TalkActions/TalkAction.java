@@ -11,22 +11,22 @@ import java.util.ArrayList;
 
 public class TalkAction {
     private boolean useNlg;
-    private NLG  nlg;
-    private Context mContext;
+    private NLG nlg;
+    private final Context mContext;
     private ArrayList<JSONObject> history;
     private String Phrase;
-    private Json json;
+    private final Json json;
 
-    public TalkAction(Context mContext,Json json){
-        this.mContext=mContext;
-        this.json=json;
+    public TalkAction(Context mContext, Json json) {
+        this.mContext = mContext;
+        this.json = json;
     }
 
-    public void loadHistory(ArrayList<JSONObject> history){
-        this.history=history;
+    public void loadHistory(ArrayList<JSONObject> history) {
+        this.history = history;
     }
 
-    public void talkWithNlg(){
+    public void talkWithNlg() {
 
     }
 
@@ -34,16 +34,19 @@ public class TalkAction {
     public String getPhrase() {
         return Phrase;
     }
-    public void borrarDeAuno(){
-        if(history.size()>0)
-        history.remove(history.size()-1);
+
+    public void borrarDeAuno() {
+        if (history.size() > 0)
+            history.remove(history.size() - 1);
     }
-    public void eraseAll(){
+
+    public void eraseAll() {
         history.clear();
     }
-    public JSONObject getParent(){
-        if(history.size()>0)
-            return history.get(history.size()-1);
+
+    public JSONObject getParent() {
+        if (history.size() > 0)
+            return history.get(history.size() - 1);
         return json.getPictoFromId2(0);
     }
 }

@@ -4,28 +4,29 @@ import android.content.Context;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.stonefacesoft.ottaa.Adapters.ScoreListItem;
 import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.utils.Games.Juego;
 
-import androidx.recyclerview.widget.RecyclerView;
-
 public class DialogGameProgressInform extends DialogUtils {
     private RecyclerView mRecyclerView;
-    private TextView Title,title_correct,title_wrong,title_cantUso,Title_racha,Correct,Wrong,cant_uso,racha;
+    private TextView Title, title_correct, title_wrong, title_cantUso, Title_racha, Correct, Wrong, cant_uso, racha;
     private ImageView imageView;
-    private Context mContext;
+    private final Context mContext;
     private ScoreListItem scoreListItem;
-    private Juego game;
-     //TODO recordar que el layout de este dialogo es R.layout.
+    private final Juego game;
+
+    //TODO recordar que el layout de este dialogo es R.layout.
     public DialogGameProgressInform(Context mContext, int layout, Juego game) {
         super(mContext, layout);
-        this.mContext=mContext;
-        this.game=game;
+        this.mContext = mContext;
+        this.game = game;
     }
 
 
-    public DialogGameProgressInform cargarDatosJuego(){
+    public DialogGameProgressInform cargarDatosJuego() {
         prepareDataDialog();
         dialog.setCancelable(true);
         return this;
@@ -33,29 +34,30 @@ public class DialogGameProgressInform extends DialogUtils {
 
     @Override
     public void prepareDataDialog() {
-        Title=dialog.findViewById(R.id.dialog_title);
-        title_correct=dialog.findViewById(R.id.text_descripcion);
-        title_wrong=dialog.findViewById(R.id.title_wrong);
-        title_cantUso=dialog.findViewById(R.id.cant_uso);
-        Title_racha=dialog.findViewById(R.id.Racha_maxima);
-        Correct=dialog.findViewById(R.id.value_correct);
-        Wrong=dialog.findViewById(R.id.wrong_value);
-        cant_uso=dialog.findViewById(R.id.cantidad);
-        racha=dialog.findViewById(R.id.racha_max);
-        Correct.setText(game.getScoreClass().getAciertos()+"");
-        Wrong.setText(game.getScoreClass().getDesaciertos()+"");
-        cant_uso.setText(game.getReloj().getTimeInMinutes()+"");
-        racha.setText(game.getBestStreak()+"");
-        imageView=dialog.findViewById(R.id.status_face);
+        Title = dialog.findViewById(R.id.dialog_title);
+        title_correct = dialog.findViewById(R.id.text_descripcion);
+        title_wrong = dialog.findViewById(R.id.title_wrong);
+        title_cantUso = dialog.findViewById(R.id.cant_uso);
+        Title_racha = dialog.findViewById(R.id.Racha_maxima);
+        Correct = dialog.findViewById(R.id.value_correct);
+        Wrong = dialog.findViewById(R.id.wrong_value);
+        cant_uso = dialog.findViewById(R.id.cantidad);
+        racha = dialog.findViewById(R.id.racha_max);
+        Correct.setText(game.getScoreClass().getAciertos() + "");
+        Wrong.setText(game.getScoreClass().getDesaciertos() + "");
+        cant_uso.setText(game.getReloj().getTimeInMinutes() + "");
+        racha.setText(game.getBestStreak() + "");
+        imageView = dialog.findViewById(R.id.status_face);
         imageView.setImageDrawable(game.devolverCarita());
     }
 
-    public void showDialog(){
-        if(dialog!=null||!dialog.isShowing())
+    public void showDialog() {
+        if (dialog != null || !dialog.isShowing())
             dialog.show();
     }
-    public void dismissDialog(){
-        if(dialog!=null&&dialog.isShowing())
+
+    public void dismissDialog() {
+        if (dialog != null && dialog.isShowing())
             dialog.dismiss();
     }
 }

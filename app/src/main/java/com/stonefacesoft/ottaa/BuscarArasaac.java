@@ -20,19 +20,19 @@ public class BuscarArasaac {
     JSONObject arasaac;
     SharedPreferences sharedPrefsDefault;
 
-    public JSONObject HacerBusqueda(Context context, String texto){
+    public JSONObject HacerBusqueda(Context context, String texto) {
 
         // Create http cliient object to send request to server
         sharedPrefsDefault = PreferenceManager.getDefaultSharedPreferences(context);
         HttpClient Client = new DefaultHttpClient();
 
         // Create URL string
-        Log.d("BuscarAraasaac","entre!!!!");
+        Log.d("BuscarAraasaac", "entre!!!!");
         String URL;
 
-        String lang = sharedPrefsDefault.getString(context.getString(R.string.str_idioma),"en").toUpperCase();
+        String lang = sharedPrefsDefault.getString(context.getString(R.string.str_idioma), "en").toUpperCase();
         //Todo remove key from galeriaAraasac
-        URL = "http://arasaac.org/api/index.php?callback=json&language="+ lang +"&word=" + texto +
+        URL = "http://arasaac.org/api/index.php?callback=json&language=" + lang + "&word=" + texto +
                 "&catalog=colorpictos&thumbnailsize=150&TXTlocate=4&KEY=GaArpYjNXFr2bJXuQcCT";
 
 //        if(sharedPrefsDefault.getString(mContext.getString(R.string.str_idioma),"en")) {
@@ -43,8 +43,7 @@ public class BuscarArasaac {
 
         //Log.i("httpget", URL);
 
-        try
-        {
+        try {
             String SetServerString = "";
 
             // Create Request to server and get response
@@ -54,9 +53,9 @@ public class BuscarArasaac {
             SetServerString = Client.execute(httpget, responseHandler);
 
             arasaac = new JSONObject(SetServerString);
+        } catch (Exception ex) {
+            Log.e("error_BuscarAraasac", ex.toString());
         }
-        catch(Exception ex) {
-            Log.e("error_BuscarAraasac", ex.toString());}
         return arasaac;
     }
 

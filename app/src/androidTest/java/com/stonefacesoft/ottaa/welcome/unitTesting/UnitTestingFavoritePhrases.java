@@ -37,7 +37,7 @@ import java.util.ArrayList;
 
 @RunWith(AndroidJUnit4.class)
 public class UnitTestingFavoritePhrases {
-    private Context mContext= ApplicationProvider.getApplicationContext();
+    private final Context mContext= ApplicationProvider.getApplicationContext();
     private Json json;
     private JSONObject picto0,picto1,picto2,picto3,picto4,picto5,picto6,picto7,picto8,picto9;
     private Pictograms picto;

@@ -33,21 +33,21 @@ public class SearchObjects {
         }
 
         // Ver si est en la mitad
-        if(elementoDelMedio == busqueda){
+        if (elementoDelMedio == busqueda) {
             return indiceDelElementoDelMedio;
         }
         // Si no, entonces vemos si est a la izquierda o derecha
-             if(busqueda < elementoDelMedio){
-                derecha = indiceDelElementoDelMedio - 1;
-                return busquedaBinariaRecursiva(arreglo, busqueda, izquierda, derecha,json);
-            }else{
-                izquierda = indiceDelElementoDelMedio + 1;
-                return busquedaBinariaRecursiva(arreglo, busqueda, izquierda, derecha,json);
-            }
+        if (busqueda < elementoDelMedio) {
+            derecha = indiceDelElementoDelMedio - 1;
+            return busquedaBinariaRecursiva(arreglo, busqueda, izquierda, derecha, json);
+        } else {
+            izquierda = indiceDelElementoDelMedio + 1;
+            return busquedaBinariaRecursiva(arreglo, busqueda, izquierda, derecha, json);
+        }
 
     }
 
-    public JSONObject getObject(JSONArray array, int position){
+    public JSONObject getObject(JSONArray array, int position) {
         try {
             return array.getJSONObject(position);
         } catch (JSONException e) {
@@ -55,7 +55,6 @@ public class SearchObjects {
         }
         return null;
     }
-
 
 
 }

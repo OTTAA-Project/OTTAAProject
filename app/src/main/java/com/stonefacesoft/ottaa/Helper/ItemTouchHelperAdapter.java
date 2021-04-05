@@ -7,7 +7,9 @@ package com.stonefacesoft.ottaa.Helper;
 public interface ItemTouchHelperAdapter {
 
     void onItemMove(int fromIndex, int toIndex);
+
     void onItemDismiss(int position);
+
     void onDropItem();
 
 }

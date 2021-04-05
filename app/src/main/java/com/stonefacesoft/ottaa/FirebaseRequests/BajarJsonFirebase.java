@@ -66,11 +66,10 @@ public class BajarJsonFirebase implements OnFailureListener {
         this.mContext = mContext;
         Json.getInstance().setmContext(mContext);
         this.json = Json.getInstance();
-        firebaseUtils=FirebaseUtils.getInstance();
+        firebaseUtils = FirebaseUtils.getInstance();
         firebaseUtils.setmContext(this.mContext);
         firebaseUtils.setUpFirebaseDatabase();
         //this.json.leerPictosFrasesGrupos();
-
 
 
         this.mDatabase = firebaseUtils.getmDatabase();
@@ -80,7 +79,7 @@ public class BajarJsonFirebase implements OnFailureListener {
 
 
     // Setter para el listener de la clase BajarJsonFirebase
-    public void setInterfaz(FirebaseSuccessListener interfaz){
+    public void setInterfaz(FirebaseSuccessListener interfaz) {
         this.mFbSuccessListenerInterfaz = interfaz;
     }
 
@@ -95,7 +94,7 @@ public class BajarJsonFirebase implements OnFailureListener {
         return sb.toString();
     }
 
-    public static String getStringFromFile (String filePath) throws Exception {
+    public static String getStringFromFile(String filePath) throws Exception {
         File fl = new File(filePath);
         FileInputStream fin = new FileInputStream(fl);
         String ret = convertStreamToString(fin);
@@ -136,7 +135,7 @@ public class BajarJsonFirebase implements OnFailureListener {
                             try {
                                 if (!getStringFromFile(gruposUsuarioFile
                                         .getAbsolutePath()).equals("[]") &&
-                                        gruposUsuarioFile.length() > 0 ) {
+                                        gruposUsuarioFile.length() > 0) {
                                     json.setmJSONArrayTodosLosGrupos(json.readJSONArrayFromFile(gruposUsuarioFile.getAbsolutePath()));
                                     if (!json.guardarJson(Constants.ARCHIVO_GRUPOS))
                                         Log.e(TAG, "Error al guardar Json");
@@ -192,7 +191,7 @@ public class BajarJsonFirebase implements OnFailureListener {
                                     final File pictosUsuarioFile = new File(rootPath, "pictos.txt");
                                     final File gruposUsuarioFile = new File(rootPath, "grupos.txt");
                                     final File frasesUsuarioFile = new File(rootPath, "frases.txt");
-                                    final File frasesJuegosPictos=new File(rootPath,"frasesjuegos.txt");
+                                    final File frasesJuegosPictos = new File(rootPath, "frasesjuegos.txt");
                                     mStorageRefPictos.getFile(pictosUsuarioFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
                                         @Override
                                         public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
@@ -250,10 +249,10 @@ public class BajarJsonFirebase implements OnFailureListener {
                                                             e.printStackTrace();
                                                             Log.e("printStackTrace", "" + e.toString());
                                                         }
-                                                  }
+                                                    }
                                                 });
-                                                bajarJuego(locale,rootPath);
-                                                bajarFrasesFavoritas(locale,rootPath);
+                                                bajarJuego(locale, rootPath);
+                                                bajarFrasesFavoritas(locale, rootPath);
                                                 /*
                                                 mStorageRefFrasesJuegos.getFile(frasesJuegosPictos).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
                                                     @Override
@@ -318,7 +317,7 @@ public class BajarJsonFirebase implements OnFailureListener {
             rootPath.mkdirs();//si no existe el directorio lo creamos
         }
 
-         File pictosDatabaseFile = new File(rootPath, Constants.ARCHIVO_PICTOS_DATABASE);
+        File pictosDatabaseFile = new File(rootPath, Constants.ARCHIVO_PICTOS_DATABASE);
 
         mStorageReferencePictosDatabase.getFile(pictosDatabaseFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
             @Override
@@ -355,10 +354,10 @@ public class BajarJsonFirebase implements OnFailureListener {
 
     }
 
-    public void descargarFirebaseBackup(String mStorageReferencePictos, String mStorageReferenceGrupos, String mStorageReferenceFrases){
+    public void descargarFirebaseBackup(String mStorageReferencePictos, String mStorageReferenceGrupos, String mStorageReferenceFrases) {
         //Cuando clicamos el boton aceptar del dialog , va a traernos grupos y pictos del timestamp seleccionado, creamos donde se van a guardar.
-        File rootPath = new File(mContext.getCacheDir(),"Archivos_OTTAA");
-        if(!rootPath.exists()) {
+        File rootPath = new File(mContext.getCacheDir(), "Archivos_OTTAA");
+        if (!rootPath.exists()) {
             rootPath.mkdirs();//si no existe el directorio lo creamos
         }
 
@@ -434,30 +433,28 @@ public class BajarJsonFirebase implements OnFailureListener {
         });
 
 
-
-
-
     }
-    public void descargarFirebaseBackup(String mStorageReferenceFotos){
+
+    public void descargarFirebaseBackup(String mStorageReferenceFotos) {
 
 
-        File rootPath = new File(mContext.getCacheDir(),"Archivos_OTTAA");
-        final File fotoBackupRootPath = new File(Environment.getExternalStorageDirectory().toString()+"/GcHgMf/Fotos/");
+        File rootPath = new File(mContext.getCacheDir(), "Archivos_OTTAA");
+        final File fotoBackupRootPath = new File(Environment.getExternalStorageDirectory().toString() + "/GcHgMf/Fotos/");
         final File ottaaFotosFolder = new File(Environment.getExternalStorageDirectory()
                 + "/Android/data/"
                 + mContext.getPackageName()
                 + "/Files");
 
 
-        if(!rootPath.exists()) {
+        if (!rootPath.exists()) {
             rootPath.mkdirs();//si no existe el directorio lo creamos
         }
 
-        if(!fotoBackupRootPath.exists()){
+        if (!fotoBackupRootPath.exists()) {
             fotoBackupRootPath.mkdirs();
         }
 
-        if(!ottaaFotosFolder.exists()){
+        if (!ottaaFotosFolder.exists()) {
             ottaaFotosFolder.mkdirs();
         }
 
@@ -484,28 +481,28 @@ public class BajarJsonFirebase implements OnFailureListener {
 
         });
 
-        try{
+        try {
 
-            for(JSONObject jsonObject : json.getmArrayListTodasLasFotosBackup()) {
+            for (JSONObject jsonObject : json.getmArrayListTodasLasFotosBackup()) {
                 String storageUrl = null;
                 try {
                     //Obtenemos los datos de la foto, en este caso la url y el path picto que tiene el nombre de la misma
                     storageUrl = jsonObject.getString("urlFoto");
                     String fotoName = jsonObject.getString("picto");
                     //Ahora lo que necesitamos hacer es cortar la ultima parte de ese string del path de la foto para agarrar el nombre solo de la foto
-                    String fotoNameCut = fotoName.replace(ottaaFotosFolder.toString(),"");
+                    String fotoNameCut = fotoName.replace(ottaaFotosFolder.toString(), "");
                     //Al obtener el nombre de la foto ya se la asignamos al path donde se tiene que guardar y con que nombre se tiene que guardar
                     final File fotosBackupFile = new File(fotoBackupRootPath, fotoNameCut);
-                    Log.e("UrlFoto:",""+storageUrl);
+                    Log.e("UrlFoto:", "" + storageUrl);
                     StorageReference bajarFotosBackup = FirebaseStorage.getInstance().getReferenceFromUrl(storageUrl);
                     bajarFotosBackup.getFile(fotosBackupFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
                             mFbSuccessListenerInterfaz.onFotoDescargada(Constants.FOTO_DESCARGADA);
-                            Log.e("Dir",""+taskSnapshot.getTotalByteCount());
+                            Log.e("Dir", "" + taskSnapshot.getTotalByteCount());
                             //Movemos el directorio de la foto de un lado al otro para generar el backup
                             try {
-                                FilesUtils.copyDirectory(fotoBackupRootPath,ottaaFotosFolder);
+                                FilesUtils.copyDirectory(fotoBackupRootPath, ottaaFotosFolder);
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
@@ -528,7 +525,7 @@ public class BajarJsonFirebase implements OnFailureListener {
         mDatabase.child(Constants.Grupos).child(mAuth.getCurrentUser().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                Log.e(TAG, "bajarGrupos: entrando " );
+                Log.e(TAG, "bajarGrupos: entrando ");
                 String child = "URL_" + Constants.Grupos.toLowerCase() + "_" + locale;
                 if (dataSnapshot.hasChild(child)) {
                     StorageReference mStorageRefUsuariosGrupos = FirebaseStorage.getInstance().getReference().child("Archivos_Usuarios").child(Constants.Grupos).child(Constants.Grupos.toLowerCase() + "_" + mAuth.getCurrentUser().getEmail() + "_" + locale + "." + "txt");
@@ -541,7 +538,7 @@ public class BajarJsonFirebase implements OnFailureListener {
                                 json.setmJSONArrayTodosLosGrupos(json.readJSONArrayFromFile(gruposUsuarioFile.getAbsolutePath()));
                                 if (!json.guardarJson(Constants.ARCHIVO_GRUPOS)) {
                                     Log.e(TAG, "Fallo al guardar json");
-                                }else{
+                                } else {
                                     Log.e(TAG, "Grupo json");
                                     gruposUsuarioFile.delete();
                                 }
@@ -558,7 +555,7 @@ public class BajarJsonFirebase implements OnFailureListener {
                                             json.setmJSONArrayTodosLosGrupos(json.readJSONArrayFromFile(gruposUsuarioFile.getAbsolutePath()));
                                             if (!json.guardarJson(Constants.ARCHIVO_GRUPOS)) {
                                                 Log.e(TAG, "Fallo al guardar json");
-                                            }else{
+                                            } else {
                                                 Log.e(TAG, "Grupo json");
                                                 gruposUsuarioFile.delete();
                                             }
@@ -573,11 +570,9 @@ public class BajarJsonFirebase implements OnFailureListener {
                         }
 
 
-
                     }).addOnFailureListener(BajarJsonFirebase.this);
 
-                }
-                else {
+                } else {
                     mStorageRefGrupos = FirebaseStorage.getInstance().getReference().child("Archivos_Paises/grupos/" + "grupos_" + locale + "." + "txt");
                     final File gruposUsuarioFile = new File(roothPath, Constants.ARCHIVO_GRUPOS);
                     mStorageRefGrupos.getFile(gruposUsuarioFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
@@ -587,11 +582,11 @@ public class BajarJsonFirebase implements OnFailureListener {
                                 json.setmJSONArrayTodosLosGrupos(json.readJSONArrayFromFile(gruposUsuarioFile.getAbsolutePath()));
                                 if (!json.guardarJson(Constants.ARCHIVO_GRUPOS)) {
                                     Log.e(TAG, "Fallo al guardar json");
-                                }else
+                                } else
                                     Log.e(TAG, "Grupo json");
                                 observableInteger.set(observableInteger.get() + 1);
                             } catch (Exception ex) {
-                                Log.e(TAG, "ex :" +ex.getMessage());
+                                Log.e(TAG, "ex :" + ex.getMessage());
 
                             }
                         }
@@ -603,10 +598,8 @@ public class BajarJsonFirebase implements OnFailureListener {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.e(TAG, "onCancelled: "+ databaseError.getMessage() );
+                Log.e(TAG, "onCancelled: " + databaseError.getMessage());
             }
-
-
 
 
         });
@@ -614,7 +607,7 @@ public class BajarJsonFirebase implements OnFailureListener {
 
 
     public void bajarFrases(String locale, File roothPath, ObservableInteger observableInteger) {
-        Log.e(TAG, "bajarFrases: " );
+        Log.e(TAG, "bajarFrases: ");
         mDatabase.child(Constants.Frases).child(mAuth.getCurrentUser().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -643,13 +636,14 @@ public class BajarJsonFirebase implements OnFailureListener {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.e(TAG, "onCancelled: "+ databaseError.getMessage() );
-                Log.e(TAG, "bajar Frases: failure" );
+                Log.e(TAG, "onCancelled: " + databaseError.getMessage());
+                Log.e(TAG, "bajar Frases: failure");
             }
         });
     }
+
     public void bajarFrasesFavoritas(String locale, File roothPath) {
-        Log.e(TAG, "bajarFrases: " );
+        Log.e(TAG, "bajarFrases: ");
         mDatabase.child(Constants.FrasesFavoritas).child(mAuth.getCurrentUser().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -673,16 +667,17 @@ public class BajarJsonFirebase implements OnFailureListener {
                     }).addOnFailureListener(BajarJsonFirebase.this);
                 }
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.e(TAG, "onCancelled: "+ databaseError.getMessage() );
-                Log.e(TAG, "bajar Frases: failure" );
+                Log.e(TAG, "onCancelled: " + databaseError.getMessage());
+                Log.e(TAG, "bajar Frases: failure");
             }
         });
     }
 
     public void bajarPictos(String locale, File roothPath, ObservableInteger observableInteger) {
-        Log.e(TAG, "bajar Pictos: " );
+        Log.e(TAG, "bajar Pictos: ");
         mDatabase.child(Constants.PICTOS).child(mAuth.getCurrentUser().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -698,7 +693,7 @@ public class BajarJsonFirebase implements OnFailureListener {
                                 json.setmJSONArrayTodosLosPictos(json.readJSONArrayFromFile(pictosUsuariosFile.getAbsolutePath()));
                                 if (!json.guardarJson(Constants.ARCHIVO_PICTOS)) {
                                     Log.e(TAG, "Fallo al guardar json");
-                                }else
+                                } else
                                     Log.e(TAG, "Pictos Usuarios json");
                                 observableInteger.set(observableInteger.get() + 1);
                             } catch (Exception ex) {
@@ -712,8 +707,8 @@ public class BajarJsonFirebase implements OnFailureListener {
                                             json.setmJSONArrayTodosLosPictos(json.readJSONArrayFromFile(pictosUsuariosFile.getAbsolutePath()));
                                             if (!json.guardarJson(Constants.ARCHIVO_PICTOS)) {
                                                 Log.e(TAG, "Fallo al guardar json");
-                                            }else
-                                                Log.e(TAG, "Pictos Usuarios json" );
+                                            } else
+                                                Log.e(TAG, "Pictos Usuarios json");
                                             observableInteger.set(observableInteger.get() + 1);
                                         } catch (Exception ex) {
                                             Log.e(TAG, ex.getMessage());
@@ -751,10 +746,9 @@ public class BajarJsonFirebase implements OnFailureListener {
             }
 
 
-
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.e(TAG, "onCancelled: "+ databaseError.getMessage() );
+                Log.e(TAG, "onCancelled: " + databaseError.getMessage());
 
             }
         });
@@ -776,7 +770,7 @@ public class BajarJsonFirebase implements OnFailureListener {
                                 json.setmJSONArrayTodosLosPictos(json.readJSONArrayFromFile(pictosUsuariosFile.getAbsolutePath()));
                                 if (!json.guardarJson(Constants.ARCHIVO_JUEGO)) {
                                     Log.e(TAG, "The file hasn't been saved");
-                                }else
+                                } else
                                     Log.e(TAG, "The file has been saved");
                             } catch (Exception ex) {
                                 Log.e(TAG, "The file not exist");
@@ -790,18 +784,18 @@ public class BajarJsonFirebase implements OnFailureListener {
             }
 
 
-
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.e(TAG, "onCancelled: "+ databaseError.getMessage() );
+                Log.e(TAG, "onCancelled: " + databaseError.getMessage());
 
             }
         });
     }
+
     public void bajarDescripcionJuegos(String locale, File roothPath) {
 
-        mStorageRefDescJuegos=FirebaseStorage.getInstance().getReference().child("Archivos_Paises").child("descripcion-pictos").child("desc-"+sharedPrefsDefault.getString("idioma","es")+".txt");
-        final File frasesJuegosPictos=new File(roothPath,Constants.ARCHIVO_JUEGO_DESCRIPCION);
+        mStorageRefDescJuegos = FirebaseStorage.getInstance().getReference().child("Archivos_Paises").child("descripcion-pictos").child("desc-" + sharedPrefsDefault.getString("idioma", "es") + ".txt");
+        final File frasesJuegosPictos = new File(roothPath, Constants.ARCHIVO_JUEGO_DESCRIPCION);
         mStorageRefDescJuegos.getFile(frasesJuegosPictos).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
@@ -816,9 +810,10 @@ public class BajarJsonFirebase implements OnFailureListener {
             }
         });
     }
+
     public void bajarJuego(String locale, File roothPath) {
 
-        Log.e(TAG, "bajar juegos: " );
+        Log.e(TAG, "bajar juegos: ");
         mDatabase.child(Constants.JUEGOS).child(mAuth.getCurrentUser().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -834,7 +829,7 @@ public class BajarJsonFirebase implements OnFailureListener {
                                 json.setmJSonArrayJuegos(json.readJSONArrayFromFile(juegosUsuariosFile.getAbsolutePath()));
                                 if (!json.guardarJson(Constants.ARCHIVO_JUEGO)) {
                                     Log.e(TAG, "Fallo al guardar json");
-                                }else
+                                } else
                                     Log.e(TAG, "Pictos Usuarios json");
                             } catch (Exception ex) {
 
@@ -846,10 +841,9 @@ public class BajarJsonFirebase implements OnFailureListener {
             }
 
 
-
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.e(TAG, "onCancelled: "+ databaseError.getMessage() );
+                Log.e(TAG, "onCancelled: " + databaseError.getMessage());
 
             }
         });
@@ -859,6 +853,6 @@ public class BajarJsonFirebase implements OnFailureListener {
     public void onFailure(@NonNull Exception e) {
         int errorCode = ((StorageException) e).getErrorCode();
         String errorMessage = e.getMessage();
-        Log.e(TAG, "onFailure: "+errorCode +" :"+errorMessage );
+        Log.e(TAG, "onFailure: " + errorCode + " :" + errorMessage);
     }
 }

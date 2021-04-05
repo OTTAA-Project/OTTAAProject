@@ -13,25 +13,28 @@ import com.stonefacesoft.ottaa.utils.Constants;
 
 import org.json.JSONArray;
 
-public class Picto_Recycler_View_Sort extends Custom_recyclerView{
+public class Picto_Recycler_View_Sort extends Custom_recyclerView {
     private int button;
     private GaleriaPictosAdapter galeriaPictos2;
-    private final String TAG="Picto_R_View_sort";
+    private final String TAG = "Picto_R_View_sort";
+
     public Picto_Recycler_View_Sort(AppCompatActivity mActivity, FirebaseAuth mAuth) {
         super(mActivity, mAuth);
     }
-    public void setArray(int position){
-        this.button=position;
-        array=json.getHijosGrupo2(position);
-        arrayAux=new JSONArray();
+
+    public void setArray(int position) {
+        this.button = position;
+        array = json.getHijosGrupo2(position);
+        arrayAux = new JSONArray();
         createRecyclerLayoutManager();
-        galeriaPictos2=new GaleriaPictosAdapter(mActivity,array, R.layout.grid_item_layout,mAuth);
+        galeriaPictos2 = new GaleriaPictosAdapter(mActivity, array, R.layout.grid_item_layout, mAuth);
         mRecyclerView.setAdapter(galeriaPictos2);
         itemTouchHelperCallback = new SimpleItemTouchHelperCallback(galeriaPictos2);
         ItemTouchHelper.Callback callback = itemTouchHelperCallback;
         ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
         touchHelper.attachToRecyclerView(mRecyclerView);
     }
+
     @Override
     public void onPictosFiltrados() {
 

@@ -6,5 +6,4 @@ package com.stonefacesoft.ottaa.Helper;
 
 public interface RecyclerViewItemClickInterface {
     void onItemClicked(String name);
-
 }

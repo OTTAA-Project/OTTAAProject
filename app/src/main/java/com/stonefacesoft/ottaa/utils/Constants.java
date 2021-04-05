@@ -76,7 +76,7 @@ public final class Constants {
     public static final int PICTOS_DESCARGADOS = 121;
     public static final int GRUPOS_DESCARGADOS = 122;
     public static final int FRASES_DESCARGADOS = 123;
-    public static final int FRASESJUEGOS_DESCARGADOS=100;
+    public static final int FRASESJUEGOS_DESCARGADOS = 100;
     public static final int TIEMPO_SUBIDO = 250;
     public static final String ARCHIVO_PICTOS_DATABASE = "pictosDatabase_es.txt";
     public static final String ARCHIVO_FOTO_BACKUP = "fotosborradas.txt";
@@ -99,8 +99,8 @@ public final class Constants {
     public static final String ARCHIVO_FRASES = "frases.txt";
     public static final String ARCHIVO_FRASES_FAVORITAS = "favoritePhrases.txt";
     public static final String ARCHIVO_FRASES_JUEGOS = "frasesjuegos.txt";
-    public static final String ARCHIVO_JUEGO="juegos.txt";
-    public static final String ARCHIVO_JUEGO_DESCRIPCION="juegos_desc.txt";
+    public static final String ARCHIVO_JUEGO = "juegos.txt";
+    public static final String ARCHIVO_JUEGO_DESCRIPCION = "juegos_desc.txt";
 
     public static int TODO_DESCARGADO = 366;
     public static int VUELTAS_CARRETE = 5;
@@ -121,10 +121,10 @@ public final class Constants {
     public static final String JUEGOS = "Juegos";
     public static final String PAGO = "Pago";
     public static final String FECHAPAGO = "FechaPago";
-    public static final String FECHAVENCIMIENTO="FechaVencimiento";
+    public static final String FECHAVENCIMIENTO = "FechaVencimiento";
     public static final String PREMIUM = "premium";
     public static final String BARRIDO_BOOL = "bool_barrido";
-    public static final String SUGERENCIA_BOOL="bool_sugerencias";
+    public static final String SUGERENCIA_BOOL = "bool_sugerencias";
     public static final String PRIMERAULTIMACONEXION = "PrimeraUltimaConexion";
     public static final String PRIMERACONEXION = "PConexion";
     public static final String UCONEXION = "UConexion";

@@ -28,21 +28,21 @@ import org.json.JSONException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
-public class Grupo_Recycler_View extends Custom_recyclerView implements  View.OnClickListener {
+public class Grupo_Recycler_View extends Custom_recyclerView implements View.OnClickListener {
 
     private GaleriaGruposAdapter mGaleriaGruposAdapter;
-    private int mPosition=-1;
+    private int mPosition = -1;
     private ItemTouchHelper mItemTouchHelper;
     private final String TAG = "Grupo_Recycler";
 
     public Grupo_Recycler_View(AppCompatActivity mActivity, FirebaseAuth mAuth) {
-        super(mActivity,mAuth);
-        array=json.getmJSONArrayTodosLosGrupos();
+        super(mActivity, mAuth);
+        array = json.getmJSONArrayTodosLosGrupos();
         createRecyclerLayoutManager();
     }
 
 
-    public void cargarGrupo(){
+    public void cargarGrupo() {
         mGaleriaGruposAdapter = new GaleriaGruposAdapter(mActivity, R.layout.grid_group_layout_2, mAuth);
         DefaultItemAnimator itemAnimator = new DefaultItemAnimator();
         mRecyclerView.setItemAnimator(itemAnimator);
@@ -51,17 +51,17 @@ public class Grupo_Recycler_View extends Custom_recyclerView implements  View.On
     }
 
     @Override
-    public void sincronizeData(){
-        json=Json.getInstance();
+    public void sincronizeData() {
+        json = Json.getInstance();
         json.setmContext(mActivity);
-        array=json.getmJSONArrayTodosLosGrupos();
+        array = json.getmJSONArrayTodosLosGrupos();
         json.setmJSONArrayTodosLosGrupos(array);
         mGaleriaGruposAdapter.setmArrayGrupos(array);
     }
     //Encargado de manejar los doble click y click en cada grupo para abrirlo con sus pictos
 
     private RecyclerItemClickListener RecyclerItemClickListener() {
-        return new RecyclerItemClickListener(mRecyclerView,mActivity, new RecyclerItemClickListener.OnItemClickListener() {
+        return new RecyclerItemClickListener(mRecyclerView, mActivity, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View v, final int position) {
                 if (v != null) {
@@ -97,7 +97,7 @@ public class Grupo_Recycler_View extends Custom_recyclerView implements  View.On
                         }
                         try {
 
-                            CrashlyticsUtils.getInstance().getCrashlytics().setCustomKey("Grupo Usado",json.getNombre(array.getJSONObject(position)));
+                            CrashlyticsUtils.getInstance().getCrashlytics().setCustomKey("Grupo Usado", json.getNombre(array.getJSONObject(position)));
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -144,7 +144,7 @@ public class Grupo_Recycler_View extends Custom_recyclerView implements  View.On
                         public boolean onMenuItemClick(MenuItem menuItem) {
                             switch (menuItem.getItemId()) {
                                 case R.id.item_edit:
-                                    analyticsFirebase.customEvents("Touch","Galeria Grupos","Edit Group");
+                                    analyticsFirebase.customEvents("Touch", "Galeria Grupos", "Edit Group");
                                     if (getmPosition() != -1) {
                                         Intent intent = new Intent(mActivity, Edit_Picto_Visual.class);
                                         int id = 0;
@@ -163,9 +163,9 @@ public class Grupo_Recycler_View extends Custom_recyclerView implements  View.On
 
                                     return true;
                                 case R.id.item_delete:
-                                    analyticsFirebase.customEvents("Touch","Galeria Grupos","Delete Group");
+                                    analyticsFirebase.customEvents("Touch", "Galeria Grupos", "Delete Group");
                                     try {
-                                        if(!(array.getJSONObject(mPosition).getJSONObject("texto").getString("en").equals("ALL") && array.getJSONObject(mPosition).getInt("id") == 24))
+                                        if (!(array.getJSONObject(mPosition).getJSONObject("texto").getString("en").equals("ALL") && array.getJSONObject(mPosition).getInt("id") == 24))
                                             AlertBorrar();
                                     } catch (JSONException e) {
                                         e.printStackTrace();
@@ -200,7 +200,7 @@ public class Grupo_Recycler_View extends Custom_recyclerView implements  View.On
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-                    if(!mActivity.isFinishing())
+                    if (!mActivity.isFinishing())
                         popupMenu.show();
                 }
             }
@@ -210,13 +210,10 @@ public class Grupo_Recycler_View extends Custom_recyclerView implements  View.On
     }
 
 
-
     @Override
     public void onClick(View view) {
 
     }
-
-
 
 
     @Override
@@ -229,10 +226,10 @@ public class Grupo_Recycler_View extends Custom_recyclerView implements  View.On
 
     }
 
-    public void setGrupos(){
-        json=Json.getInstance();
+    public void setGrupos() {
+        json = Json.getInstance();
         json.setmContext(mActivity);
-        array=json.getmJSONArrayTodosLosGrupos();
+        array = json.getmJSONArrayTodosLosGrupos();
         mGaleriaGruposAdapter.setmArrayGrupos(array);
         mGaleriaGruposAdapter.notifyDataSetChanged();
     }
@@ -243,7 +240,7 @@ public class Grupo_Recycler_View extends Custom_recyclerView implements  View.On
 
     @Override
     protected void AlertBorrar() {
-        Yes_noDialogs dialog_yes_no=new Yes_noDialogs(mActivity);
+        Yes_noDialogs dialog_yes_no = new Yes_noDialogs(mActivity);
         dialog_yes_no.setTitle(mActivity.getResources().getString(R.string.pref_important_alert));
         dialog_yes_no.setMessage(mActivity.getResources().getString(R.string.pref_text5_alert));
         dialog_yes_no.setCancelable(true);
@@ -251,9 +248,9 @@ public class Grupo_Recycler_View extends Custom_recyclerView implements  View.On
             @Override
             public void onClick(View v) {
                 try {
-                    int mPosition=getmPosition();
-                    if(mPosition!=-1) {
-                        if (!(json.getNombre(array.getJSONObject(mPosition)).toLowerCase().equals("all") &&json.getId(array.getJSONObject(mPosition)) == 24)) {
+                    int mPosition = getmPosition();
+                    if (mPosition != -1) {
+                        if (!(json.getNombre(array.getJSONObject(mPosition)).toLowerCase().equals("all") && json.getId(array.getJSONObject(mPosition)) == 24)) {
                             try {
 //                                final String pushKeyFoto = array.getJSONObject(mPosition).getJSONObject("imagen").getString("pushKey");
 //                                File f = new File(array.getJSONObject(mPosition).getJSONObject("imagen").getString("pictoEditado"));

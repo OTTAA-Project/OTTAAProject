@@ -36,11 +36,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+
 /**
  * @author Gonzalo Juarez
  * @since 23/06/2020
  * Viewpager to select the group
- * */
+ */
 public class viewpager_galeria_grupo {
 
     private static final String TAG = "viewpager_GG";
@@ -84,7 +85,7 @@ public class viewpager_galeria_grupo {
 
         @Override
         public Fragment createFragment(int position) {
-           return new fragmentGrupo().newInstance(position);
+            return new fragmentGrupo().newInstance(position);
         }
 
         @Override
@@ -178,11 +179,11 @@ public class viewpager_galeria_grupo {
 
         }
 
-        public   fragmentGrupo newInstance(Integer position1){
-             fragmentGrupo fragmentGrupo=new fragmentGrupo();
+        public fragmentGrupo newInstance(Integer position1) {
+            fragmentGrupo fragmentGrupo = new fragmentGrupo();
             Bundle args = new Bundle();
-            args.putInt("position",position1);
-            args.putBoolean("edit",edit);
+            args.putInt("position", position1);
+            args.putBoolean("edit", edit);
             fragmentGrupo.setArguments(args);
             return fragmentGrupo;
         }
@@ -190,9 +191,9 @@ public class viewpager_galeria_grupo {
         @Override
         public void onCreate(@Nullable Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-            if(getArguments()!=null){
-                position=getArguments().getInt("position");
-                editar=getArguments().getBoolean("edit");
+            if (getArguments() != null) {
+                position = getArguments().getInt("position");
+                editar = getArguments().getBoolean("edit");
             }
         }
 
@@ -200,7 +201,7 @@ public class viewpager_galeria_grupo {
         @Override
         public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
             super.onActivityResult(requestCode, resultCode, data);
-            mActivity.setResult(resultCode,data);
+            mActivity.setResult(resultCode, data);
         }
 
         @Override
@@ -209,30 +210,32 @@ public class viewpager_galeria_grupo {
             // Inflate the layout for this fragment
             return inflater.inflate(R.layout.groups_components, container, false);
         }
-        @Override public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+
+        @Override
+        public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
             super.onViewCreated(view, savedInstanceState);
-            Custom_Grupo grupo=view.findViewById(R.id.grupo_1);
+            Custom_Grupo grupo = view.findViewById(R.id.grupo_1);
             try {
                 grupo.setCustom_Texto(json.getNombre(array.getJSONObject(position)));
-                Pictogram pictogram=new Pictogram(array.getJSONObject(position),json.getIdioma());
-                GlideAttatcher attatcher=new GlideAttatcher(mActivity);
-                loadDrawable(attatcher,pictogram,grupo.getImg());
-                grupo.setTagDrawable(0,json.tieneTag(array.getJSONObject(position),Constants.UBICACION)?R.drawable.ic_location_on_black_24dp:R.drawable.ic_location_off_black_24dp);
-                grupo.setTagDrawable(1,json.tieneTag(array.getJSONObject(position), Constants.HORA) ? R.drawable.ic_timer_black_24dp : R.drawable.ic_baseline_timer_off_gray_24);
-                grupo.setTagDrawable(3,json.tieneTag(array.getJSONObject(position), Constants.EDAD) ? R.drawable.ic_face_black_on_24dp : R.drawable.ic_face_black_24dp);
-                grupo.setTagDrawable(2,json.tieneTag(array.getJSONObject(position), Constants.SEXO) ? R.drawable.ic_wc_black_24dp : R.drawable.ic_wc_block_24dp);
+                Pictogram pictogram = new Pictogram(array.getJSONObject(position), json.getIdioma());
+                GlideAttatcher attatcher = new GlideAttatcher(mActivity);
+                loadDrawable(attatcher, pictogram, grupo.getImg());
+                grupo.setTagDrawable(0, json.tieneTag(array.getJSONObject(position), Constants.UBICACION) ? R.drawable.ic_location_on_black_24dp : R.drawable.ic_location_off_black_24dp);
+                grupo.setTagDrawable(1, json.tieneTag(array.getJSONObject(position), Constants.HORA) ? R.drawable.ic_timer_black_24dp : R.drawable.ic_baseline_timer_off_gray_24);
+                grupo.setTagDrawable(3, json.tieneTag(array.getJSONObject(position), Constants.EDAD) ? R.drawable.ic_face_black_on_24dp : R.drawable.ic_face_black_24dp);
+                grupo.setTagDrawable(2, json.tieneTag(array.getJSONObject(position), Constants.SEXO) ? R.drawable.ic_wc_black_24dp : R.drawable.ic_wc_block_24dp);
 
                 view.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Intent intent=new Intent(view.getContext(), GaleriaPictos3.class);
+                        Intent intent = new Intent(view.getContext(), GaleriaPictos3.class);
                         intent.putExtra("Boton", position);
                         try {
                             myTTS.hablarSinMostrarFrase(json.getNombre(array.getJSONObject(position)));
                         } catch (JSONException e) {
                             Log.e(TAG, "onClick: Error: " + e.getMessage());
                         }
-                        mActivity.startActivityForResult(intent,IntentCode.GALERIA_PICTOS.getCode());
+                        mActivity.startActivityForResult(intent, IntentCode.GALERIA_PICTOS.getCode());
                     }
                 });
             } catch (JSONException e) {
@@ -241,12 +244,11 @@ public class viewpager_galeria_grupo {
         }
 
 
-
         @Override
         public void onClick(View view) {
             try {
                 view.callOnClick();
-            }catch (Exception ex){
+            } catch (Exception ex) {
                 Log.e(TAG, "onClick: Error: " + ex.getMessage());
 
             }
@@ -259,21 +261,21 @@ public class viewpager_galeria_grupo {
         }
     }
 
-    public static  void loadDrawable(GlideAttatcher attatcher, Pictogram pictogram, ImageView imageView){
-        if(pictogram.getEditedPictogram().isEmpty()){
-            JSONObject picto=pictogram.toJsonObject();
-            Log.d(TAG, "loadDrawable: "+ picto.toString());
-            Drawable drawable=json.getIcono(picto);
-            if(drawable!=null)
-                attatcher.loadCircleDrawable(drawable,imageView);
+    public static void loadDrawable(GlideAttatcher attatcher, Pictogram pictogram, ImageView imageView) {
+        if (pictogram.getEditedPictogram().isEmpty()) {
+            JSONObject picto = pictogram.toJsonObject();
+            Log.d(TAG, "loadDrawable: " + picto.toString());
+            Drawable drawable = json.getIcono(picto);
+            if (drawable != null)
+                attatcher.loadCircleDrawable(drawable, imageView);
             else
-                attatcher.loadCircleDrawable(mActivity.getResources().getDrawable(R.drawable.ic_cloud_download_orange),imageView);
-        }else{
-            File picto=new File(pictogram.getEditedPictogram());
-            if(picto.exists())
-                attatcher.loadCircleDrawable(picto,imageView);
+                attatcher.loadCircleDrawable(mActivity.getResources().getDrawable(R.drawable.ic_cloud_download_orange), imageView);
+        } else {
+            File picto = new File(pictogram.getEditedPictogram());
+            if (picto.exists())
+                attatcher.loadCircleDrawable(picto, imageView);
             else
-                attatcher.loadCircleDrawable(Uri.parse(pictogram.getUrl()),imageView);
+                attatcher.loadCircleDrawable(Uri.parse(pictogram.getUrl()), imageView);
         }
     }
 

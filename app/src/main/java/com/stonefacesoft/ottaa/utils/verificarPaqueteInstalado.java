@@ -8,18 +8,16 @@ import java.util.List;
 
 public class verificarPaqueteInstalado {
     Context mContext;
-    public verificarPaqueteInstalado(Context context)
-    {
-        this.mContext=context;
+
+    public verificarPaqueteInstalado(Context context) {
+        this.mContext = context;
     }
-    public boolean estaInstalado(String texto)
-    {
-        PackageManager packageManager=mContext.getPackageManager();
-        List<ApplicationInfo> list=packageManager.getInstalledApplications(PackageManager.GET_META_DATA);
-        for (ApplicationInfo packInfo:list)
-        {
-            if(packInfo.packageName.equals(texto))
-            {
+
+    public boolean estaInstalado(String texto) {
+        PackageManager packageManager = mContext.getPackageManager();
+        List<ApplicationInfo> list = packageManager.getInstalledApplications(PackageManager.GET_META_DATA);
+        for (ApplicationInfo packInfo : list) {
+            if (packInfo.packageName.equals(texto)) {
                 return true;
             }
         }

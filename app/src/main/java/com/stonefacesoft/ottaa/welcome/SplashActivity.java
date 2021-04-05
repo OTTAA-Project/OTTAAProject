@@ -42,7 +42,7 @@ import java.util.Locale;
 public class SplashActivity extends Activity {
 
     //Declaro el manejador de preferencia
-    private SharedPreferences sharedPrefsDefault,sharedPrefs;
+    private SharedPreferences sharedPrefsDefault, sharedPrefs;
     private static final String TAG = "SplashActivity";
     private ProgressBar mProgressBar;
     private TextView txtCargando;
@@ -52,7 +52,6 @@ public class SplashActivity extends Activity {
     private ChangeText changeName;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,7 +59,7 @@ public class SplashActivity extends Activity {
         setContentView(R.layout.spl_screen_nuevo);
         initComponents();
         txtCargando.setText(getApplicationContext().getText(R.string.starting_software));
-        changeName=new ChangeText();
+        changeName = new ChangeText();
         new sharedPreferencesLoad(this).execute();
 
     }
@@ -80,10 +79,10 @@ public class SplashActivity extends Activity {
             finish();
         }
     }
+
     /**
      * Use this method if you want to delete old pictograms from the json object
-     *
-     * */
+     */
 
     private void borrarPictosViejos() {
         //poner un shared que i
@@ -118,7 +117,7 @@ public class SplashActivity extends Activity {
             //recorrer el listado de pictos y borrar los que se tienen q eliminar
             Log.d(TAG, "borrarPictosViejos:  tamanio antes" + pictosUsuario.length());
             Log.d(TAG, "borrarPictosViejos:  tamanio picto" + pictos.size());
-            pictosUsuario=borrarPictos(pictosUsuario,pictos);
+            pictosUsuario = borrarPictos(pictosUsuario, pictos);
 
             Log.d(TAG, "borrarPictosViejos:  tamanio despues " + pictosUsuario.length());
             //recorer el listado de nuevo y preguntar si las relaciones contienen algun elemento de los que se deben borrar, si contiene entrar y borrar sino seguir con el siguiente
@@ -129,7 +128,7 @@ public class SplashActivity extends Activity {
                             //ver como funciona este metodo en cuanto tiempo
                             int id = pictosUsuario.getJSONObject(i).getJSONArray("relacion").getJSONObject(j).getInt("id");
                             boolean estaEditado = Json.getInstance().estaEditado(Json.getInstance().getPictoFromId2(id));
-                            if (pictos.lastIndexOf(id) != -1&&!estaEditado) {
+                            if (pictos.lastIndexOf(id) != -1 && !estaEditado) {
                                 pictosUsuario.getJSONObject(i).getJSONArray("relacion").remove(j);
                                 Log.d(TAG, "borrarPictosViejos: " + id);
                             }
@@ -156,7 +155,7 @@ public class SplashActivity extends Activity {
             } catch (JSONException ex) {
                 Log.e(TAG, "borrarPictosViejos: Error" + ex.getMessage());
             }
-            JSONArray gruposAux=new JSONArray();
+            JSONArray gruposAux = new JSONArray();
             try {
                 for (int i = 0; i < grupos.length(); i++) {
                     JSONArray relacionGrupo = new JSONArray();
@@ -166,10 +165,10 @@ public class SplashActivity extends Activity {
                             //ver como funciona este metodo en cuanto tiempo
                             int id = grupos.getJSONObject(i).getJSONArray("relacion").getJSONObject(j).getInt("id");
                             boolean estaEditado = Json.getInstance().estaEditado(Json.getInstance().getPictoFromId2(id));
-                            int esta=pictos.lastIndexOf(id);
-                            if(estaEditado)
-                                esta=-1;
-                           if (esta == -1) {
+                            int esta = pictos.lastIndexOf(id);
+                            if (estaEditado)
+                                esta = -1;
+                            if (esta == -1) {
                                 relacionGrupo.put(grupos.getJSONObject(i).getJSONArray("relacion").getJSONObject(j));
                             } else {
                                 Log.d(TAG, "Grupo Padre : " + i + " se pudo borrar : " + id);
@@ -180,12 +179,12 @@ public class SplashActivity extends Activity {
                     }
                 }
 
-                for (int i = 0; i <grupos.length() ; i++) {
+                for (int i = 0; i < grupos.length(); i++) {
                     if (grupos.getJSONObject(i).getInt("id") != 14)
                         gruposAux.put(grupos.getJSONObject(i));
-                  if (Json.getInstance().estaEditado(grupos.getJSONObject(i))&&grupos.getJSONObject(i).getInt("id") == 14) {
-                          gruposAux.put(grupos.getJSONObject(i));
-                  }
+                    if (Json.getInstance().estaEditado(grupos.getJSONObject(i)) && grupos.getJSONObject(i).getInt("id") == 14) {
+                        gruposAux.put(grupos.getJSONObject(i));
+                    }
                 }
             } catch (JSONException ex) {
                 Log.e(TAG, "borrarPictosViejos: Error" + ex.getMessage());
@@ -262,7 +261,7 @@ public class SplashActivity extends Activity {
         }
     }
 
-    private void borrarPictosRelacion(JSONArray pictosUsuario, ArrayList<Integer> pictos){
+    private void borrarPictosRelacion(JSONArray pictosUsuario, ArrayList<Integer> pictos) {
         for (int i = 0; i < pictos.size(); i++) {
 
             int pos = Json.getInstance().getPosPicto(pictosUsuario, pictos.get(i));
@@ -313,21 +312,24 @@ public class SplashActivity extends Activity {
                     Json.getInstance().setmContext(SplashActivity.this);
                     int hashcode = Json.getInstance().hashCode();
                     Log.d(TAG, "hashJson: " + hashcode);
-                changeName.cambiarPosicion();
-                new preLoadSplashScreen().execute();
-            }
-        }, 2500);
-       }else{
-           Intent mainIntent = new Intent().setClass(SplashActivity.this, LoginActivity.class);
-           startActivity(mainIntent);
-           finish();
-       }
-    }
-    public  class sharedPreferencesLoad extends AsyncTask<Void,Void,Void>{
-        private final Context mContext;
-        public sharedPreferencesLoad(Context mContext){
-            this.mContext=mContext;
+                    changeName.cambiarPosicion();
+                    new preLoadSplashScreen().execute();
+                }
+            }, 2500);
+        } else {
+            Intent mainIntent = new Intent().setClass(SplashActivity.this, LoginActivity.class);
+            startActivity(mainIntent);
+            finish();
         }
+    }
+
+    public class sharedPreferencesLoad extends AsyncTask<Void, Void, Void> {
+        private final Context mContext;
+
+        public sharedPreferencesLoad(Context mContext) {
+            this.mContext = mContext;
+        }
+
         @Override
         protected Void doInBackground(Void... voids) {
             sharedPrefsDefault = PreferenceManager.getDefaultSharedPreferences(mContext);
@@ -348,7 +350,7 @@ public class SplashActivity extends Activity {
             // esperamos un tiempo para poder lanzar el loading screen
             changeName.cambiarPosicion();
             String idioma = sharedPrefsDefault.getString(getString(R.string.str_idioma), "en");
-            mAuth=FirebaseAuth.getInstance();
+            mAuth = FirebaseAuth.getInstance();
             changeName.cambiarPosicion();
 
             return null;
@@ -360,7 +362,7 @@ public class SplashActivity extends Activity {
         }
     }
 
-    private void initComponents(){
+    private void initComponents() {
         mProgressBar = findViewById(R.id.progress_circular);
         mProgressBar.setIndeterminate(true);
         //seteamos el texview
@@ -370,52 +372,55 @@ public class SplashActivity extends Activity {
 
     }
 
-    class ChangeText extends Handler{
+    class ChangeText extends Handler {
         private int position;
-        private void removeCreatedMessages(int value){
-            if(super.hasMessages(value))
+
+        private void removeCreatedMessages(int value) {
+            if (super.hasMessages(value))
                 super.removeMessages(value);
         }
-        private void removeAllMessages()
-        {
+
+        private void removeAllMessages() {
             removeCreatedMessages(position);
         }
+
         @Override
         public void handleMessage(@NonNull Message msg) {
-            switch (msg.what){
+            switch (msg.what) {
                 default:
                     hacerAccion(position);
                     break;
             }
         }
 
-        public android.os.Handler getHandler()
-        {
+        public android.os.Handler getHandler() {
             return this;
         }
-        public void cambiarPosicion(){
+
+        public void cambiarPosicion() {
             removeAllMessages();
             position++;
             super.sendMessage(getHandler().obtainMessage(position));
         }
     }
 
-    public void hacerAccion(int position){
+    public void hacerAccion(int position) {
         setVisibleButton();
-        switch (position){
+        switch (position) {
             case 1:
                 findViewById(R.id.logo_inicial).startAnimation(beat);
                 break;
             case 2:
                 txtCargando.setText(getApplicationContext().getText(R.string.starting_software));
-            break;
+                break;
             case 3:
                 txtCargando.setText(getApplicationContext().getText(R.string.loadingdata));
                 break;
         }
     }
-    public void setVisibleButton(){
-        if(txtCargando.getVisibility()==View.INVISIBLE||txtCargando.getVisibility()==View.GONE)
-        txtCargando.setVisibility(View.VISIBLE);
+
+    public void setVisibleButton() {
+        if (txtCargando.getVisibility() == View.INVISIBLE || txtCargando.getVisibility() == View.GONE)
+            txtCargando.setVisibility(View.VISIBLE);
     }
 }

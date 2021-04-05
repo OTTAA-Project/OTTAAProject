@@ -144,7 +144,6 @@ public class Edit_Picto_Visual extends AppCompatActivity implements View.OnClick
     ImageButton btnTagEdad;
 
 
-
     Custom_Picto Picto;
     boolean iniciar = false;
     private String formato;
@@ -212,14 +211,14 @@ public class Edit_Picto_Visual extends AppCompatActivity implements View.OnClick
         super.onCreate(savedInstanceState);
         new ConfigurarIdioma(getApplicationContext(), PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString(getApplicationContext().getString(R.string.str_idioma), "en"));
         setContentView(R.layout.edit_picto_visual);
-        firebaseUtils=FirebaseUtils.getInstance();
+        firebaseUtils = FirebaseUtils.getInstance();
         firebaseUtils.setmContext(mContext);
         firebaseUtils.setUpFirebaseDatabase();
 
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         constraintBotonera = findViewById(R.id.constraintRightButtons);
-        dialogs=new Progress_dialog_options(this);
+        dialogs = new Progress_dialog_options(this);
         cornerImageView = findViewById(R.id.cornerImageViewLeft);
       /*  try{
             strictModeClassUtils.init(this);
@@ -252,7 +251,7 @@ public class Edit_Picto_Visual extends AppCompatActivity implements View.OnClick
         mStorageRef = FirebaseStorage.getInstance().getReference();
 
         /*Referencias database grupos pictos*/
-        mDatabase =firebaseUtils.getmDatabase();
+        mDatabase = firebaseUtils.getmDatabase();
 
         bajarJsonFirebase = new BajarJsonFirebase(sharedPrefsDefault, mAuth, getApplicationContext());
 
@@ -455,7 +454,7 @@ public class Edit_Picto_Visual extends AppCompatActivity implements View.OnClick
 
             }
         };
-        analyticsFirebase=new AnalyticsFirebase(this);
+        analyticsFirebase = new AnalyticsFirebase(this);
 
     }
 
@@ -489,8 +488,6 @@ public class Edit_Picto_Visual extends AppCompatActivity implements View.OnClick
     }
 
 
-
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -503,7 +500,7 @@ public class Edit_Picto_Visual extends AppCompatActivity implements View.OnClick
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle presses on the action bar items
-                return super.onOptionsItemSelected(item);
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -779,7 +776,7 @@ public class Edit_Picto_Visual extends AppCompatActivity implements View.OnClick
                     cardViewFrame.setVisibility(View.VISIBLE);
                     cardViewTAGs.setVisibility(View.INVISIBLE);
                     cardViewTexto.setVisibility(View.INVISIBLE);
-                    analyticsFirebase.customEvents("Touch","Editar Pictos","Select Pictograms Category");
+                    analyticsFirebase.customEvents("Touch", "Editar Pictos", "Select Pictograms Category");
 
 
                 }
@@ -797,14 +794,14 @@ public class Edit_Picto_Visual extends AppCompatActivity implements View.OnClick
                 break;
 
             case R.id.TextViewTextOutLoud:
-                analyticsFirebase.customEvents("Touch","Edit Pictogram","Say Pictogram Name");
+                analyticsFirebase.customEvents("Touch", "Edit Pictogram", "Say Pictogram Name");
 
                 break;
 
             case R.id.btnTagHora:
                 if (chequearDatosBeforeTags()) {
                     new NewDialogsOTTAA(this).showDialogTags(Constants.HORA, jsonObject, esGrupo);
-                    analyticsFirebase.customEvents("Pictogram","Edit Pictogram","Hour Tag");
+                    analyticsFirebase.customEvents("Pictogram", "Edit Pictogram", "Hour Tag");
                 }
 
                 break;
@@ -812,7 +809,7 @@ public class Edit_Picto_Visual extends AppCompatActivity implements View.OnClick
             case R.id.btnTagUbicacion:
                 if (sharedPrefsDefault.getInt(Constants.PREMIUM, 1) == 1) {
                     new NewDialogsOTTAA(this).showDialogTags(Constants.UBICACION, jsonObject, esGrupo);
-                    analyticsFirebase.customEvents("Pictogram","Edit Pictogram","Location Tag");
+                    analyticsFirebase.customEvents("Pictogram", "Edit Pictogram", "Location Tag");
 
                 } else {
                     Intent i = new Intent(this, LicenciaExpirada.class);
@@ -820,18 +817,17 @@ public class Edit_Picto_Visual extends AppCompatActivity implements View.OnClick
                 }
 
 
-
                 break;
 
             case R.id.btnTagCalendario:
                 new NewDialogsOTTAA(this).showDialogTags(Constants.SEXO, jsonObject, esGrupo);
-                analyticsFirebase.customEvents("Pictogram","Edit Pictogram","Gender Tag");
+                analyticsFirebase.customEvents("Pictogram", "Edit Pictogram", "Gender Tag");
                 break;
 
             case R.id.btnTagEdad:
                 if (chequearDatosBeforeTags()) {
                     new NewDialogsOTTAA(this).showDialogTags(Constants.EDAD, jsonObject, esGrupo);
-                    analyticsFirebase.customEvents("Pictogram","Edit Pictogram","Age Tag");
+                    analyticsFirebase.customEvents("Pictogram", "Edit Pictogram", "Age Tag");
                 }
 
 
@@ -888,15 +884,15 @@ public class Edit_Picto_Visual extends AppCompatActivity implements View.OnClick
 
         Bundle bundle = new Bundle();
         bundle.putString(FirebaseAnalytics.Param.ACHIEVEMENT_ID, "Imagen Editada");
-        analyticsFirebase.customEvents("Touch","Edit Pictogram","Select Custom Picto Image");
+        analyticsFirebase.customEvents("Touch", "Edit Pictogram", "Select Custom Picto Image");
 
         final Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.dialog_select_imagen);
         dialog.getWindow().setBackgroundDrawable(this.getDrawable(R.color.colorTransparent));
         dialog.show();
 
-        TextView camera, galery, araasac,titulo;
-        titulo=dialog.getWindow().findViewById(R.id.titulo);
+        TextView camera, galery, araasac, titulo;
+        titulo = dialog.getWindow().findViewById(R.id.titulo);
         camera = dialog.getWindow().findViewById(R.id.textAudio);
         galery = dialog.getWindow().findViewById(R.id.textImagen);
         araasac = dialog.getWindow().findViewById(R.id.textArasaac);
@@ -984,7 +980,7 @@ public class Edit_Picto_Visual extends AppCompatActivity implements View.OnClick
     }
 
     public void Alert() {
-        Yes_no_otheroptionDialog dialogo1=new Yes_no_otheroptionDialog(this);
+        Yes_no_otheroptionDialog dialogo1 = new Yes_no_otheroptionDialog(this);
         dialogo1.setTitle(getString(R.string.pref_important_alert)).setMessage(getString(R.string.pref_text1_alert));
         dialogo1.setCancelable(true);
         dialogo1.setOnClick(dialogo1.getObject(R.id.yes_button), new View.OnClickListener() {
@@ -1017,7 +1013,7 @@ public class Edit_Picto_Visual extends AppCompatActivity implements View.OnClick
                 }
             }
         });
-        dialogo1.setOnClick(dialogo1.changeIcon((Custom_button) dialogo1.getObject(R.id.unknow_Button),R.drawable.ic_replay_black_24dp).getObject(R.id.unknow_Button) ,new View.OnClickListener() {
+        dialogo1.setOnClick(dialogo1.changeIcon((Custom_button) dialogo1.getObject(R.id.unknow_Button), R.drawable.ic_replay_black_24dp).getObject(R.id.unknow_Button), new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dialogo1.cancelarDialogo();
@@ -1049,7 +1045,7 @@ public class Edit_Picto_Visual extends AppCompatActivity implements View.OnClick
         traducirTexto.traducirIdioma(this, Picto.getCustom_Texto(), sharedPrefsDefault.getString(getString(R.string.str_idioma), "en"), "en", ConnectionDetector.isNetworkAvailable(this));
         if (ConnectionDetector.isNetworkAvailable(Edit_Picto_Visual.this)) {
             // pd.setTitle(getString(R.string.translating_languaje));
-           dialogs.setCancelable(false);
+            dialogs.setCancelable(false);
             dialogs.setMessage(getString(R.string.translating_languaje) + textoPicto);
             //pd.show();
 
@@ -1095,7 +1091,7 @@ public class Edit_Picto_Visual extends AppCompatActivity implements View.OnClick
 
         } catch (IOException e) {
             Log.e(TAG, "storeImage: Error: " + "Error accessing file: " + e.getMessage());
-        }catch (Exception e){
+        } catch (Exception e) {
             Log.e(TAG, "storeImage: Error: " + "Error pictogram is not created: " + e.getMessage());
         }
         return Uri.fromFile(pictureFile);
@@ -1222,16 +1218,16 @@ public class Edit_Picto_Visual extends AppCompatActivity implements View.OnClick
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
 
-      //  super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        //  super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == Constants.EXTERNAL_STORAGE) {
 
             if (grantResults.length > 0 &&
-                        grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    SelectorFuente();
-                } else {
-                    //permission granted
-                    showCustomAlert(getString(R.string.edit_permisos_archivos));
-                }
+                    grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                SelectorFuente();
+            } else {
+                //permission granted
+                showCustomAlert(getString(R.string.edit_permisos_archivos));
+            }
 /*
             if (permission == PackageManager.PERMISSION_GRANTED) {
             } else if (permission == PackageManager.PERMISSION_DENIED) {
@@ -1455,11 +1451,8 @@ public class Edit_Picto_Visual extends AppCompatActivity implements View.OnClick
     }
 
 
-
-
-
-    public void setTourguide(){}
-
+    public void setTourguide() {
+    }
 
 
 }

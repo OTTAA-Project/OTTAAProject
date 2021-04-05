@@ -18,8 +18,8 @@ import com.stonefacesoft.pictogramslibrary.view.PictoView;
 
 //Esta es una clase q se encarga de
 public class AnimGameScore {
-    private Context context;
-    private ImageView animationSprite;
+    private final Context context;
+    private final ImageView animationSprite;
     final private String TAG = "AnimGameScore";
 
     public AnimGameScore(Context context, ImageView animationSprite) {
@@ -210,7 +210,7 @@ public class AnimGameScore {
 
     }
 
-    public void animateCorrect(PictoView picto, int smiley,ImageView sprite) {
+    public void animateCorrect(PictoView picto, int smiley, ImageView sprite) {
         sprite.setVisibility(View.VISIBLE);
 
         sprite.setImageDrawable(getTintedSmiley(smiley));

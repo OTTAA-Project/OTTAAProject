@@ -8,7 +8,6 @@ import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -72,14 +71,14 @@ public class GameCard extends ConstraintLayout {
         a.recycle();
     }
 
-    public void prepareCardView(int name,int description,int drawable,OnClickListener onClickListener){
+    public void prepareCardView(int name, int description, int drawable, OnClickListener onClickListener) {
         setmTxtTitle(getResources().getString(name));
         setmTxtDescription(getResources().getString(description));
         setmImage(getResources().getDrawable(drawable));
         setOnClickListenerGeneral(onClickListener);
     }
 
-    public void prepareGameScore(String text){
+    public void prepareGameScore(String text) {
         btnPuntaje.setText(text);
     }
 
@@ -157,7 +156,7 @@ public class GameCard extends ConstraintLayout {
         btnPuntaje.setOnClickListener(listener);
     }
 
-    public void setOnClickListenerGeneral(OnClickListener listener){
+    public void setOnClickListenerGeneral(OnClickListener listener) {
         this.imageView.setOnClickListener(listener);
         this.textViewTitle.setOnClickListener(listener);
         this.textViewDescription.setOnClickListener(listener);
@@ -165,12 +164,12 @@ public class GameCard extends ConstraintLayout {
         this.btnPuntaje.setOnClickListener(listener);
     }
 
-    public void setRatingBar(float puntaje){
+    public void setRatingBar(float puntaje) {
         this.setRatingBar(puntaje);
     }
 
     //this set the number of games
     public void setmTxtScore(String mTxtDescription) {
-        this.btnPuntaje.setText(getResources().getString(R.string.str_level)+" "+mTxtDescription);
+        this.btnPuntaje.setText(getResources().getString(R.string.str_level) + " " + mTxtDescription);
     }
 }

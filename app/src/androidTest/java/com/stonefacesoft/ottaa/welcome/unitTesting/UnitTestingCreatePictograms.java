@@ -26,7 +26,7 @@ import org.junit.runner.RunWith;
 
 @RunWith(AndroidJUnit4.class)
 public class UnitTestingCreatePictograms {
-    private Context mContext= ApplicationProvider.getApplicationContext();
+    private final Context mContext= ApplicationProvider.getApplicationContext();
     private Json json;
     private JSONArray mJsonArrayAllGroups,mJsonArrayAllPictograms;
     private SharedPreferences sharedPreferences;

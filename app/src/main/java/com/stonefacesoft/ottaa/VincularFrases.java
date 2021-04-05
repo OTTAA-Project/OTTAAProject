@@ -28,7 +28,7 @@ public class VincularFrases extends AppCompatActivity implements View.OnClickLis
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
-        subirArchivos=new SubirArchivosFirebase(this);
+        subirArchivos = new SubirArchivosFirebase(this);
 
         boolean status_bar = intent.getBooleanExtra("status_bar", false);
         if (!status_bar) {
@@ -36,17 +36,18 @@ public class VincularFrases extends AppCompatActivity implements View.OnClickLis
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         }
         setContentView(R.layout.activity_galeria_grupos2);
-        firebaseUser=new User(this);
+        firebaseUser = new User(this);
         initComponents();
     }
-    public void initComponents(){
-        viewPager2=findViewById(R.id.viewPager_groups);
+
+    public void initComponents() {
+        viewPager2 = findViewById(R.id.viewPager_groups);
         viewPager2.setVisibility(View.GONE);
-        recyclerView=new PhrasesRecyclerView(this,firebaseUser.getmAuth());
-        ImageButton foward=findViewById(R.id.down_button);
-        ImageButton previous=findViewById(R.id.up_button);
-        ImageButton exit=findViewById(R.id.back_button);
-        ImageButton btnEditar=findViewById(R.id.edit_button);
+        recyclerView = new PhrasesRecyclerView(this, firebaseUser.getmAuth());
+        ImageButton foward = findViewById(R.id.down_button);
+        ImageButton previous = findViewById(R.id.up_button);
+        ImageButton exit = findViewById(R.id.back_button);
+        ImageButton btnEditar = findViewById(R.id.edit_button);
         btnEditar.setVisibility(View.VISIBLE);
         btnEditar.setImageDrawable(getApplicationContext().getResources().getDrawable(R.drawable.ic_baseline_save_white_24));
         btnEditar.setOnClickListener(this);
@@ -55,24 +56,23 @@ public class VincularFrases extends AppCompatActivity implements View.OnClickLis
         exit.setOnClickListener(this);
 
 
-
     }
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.up_button:
-                    recyclerView.scrollTo(false);
+                recyclerView.scrollTo(false);
                 break;
             case R.id.down_button:
-                    recyclerView.scrollTo(true);
+                recyclerView.scrollTo(true);
                 break;
             case R.id.back_button:
                 onBackPressed();
                 break;
             case R.id.edit_button:
                 recyclerView.savePhrases();
-                subirArchivos.uploadFavoritePhrases(subirArchivos.getmDatabase(firebaseUser.getmAuth(), Constants.FrasesFavoritas),subirArchivos.getmStorageRef(firebaseUser.getmAuth(),Constants.FrasesFavoritas));
+                subirArchivos.uploadFavoritePhrases(subirArchivos.getmDatabase(firebaseUser.getmAuth(), Constants.FrasesFavoritas), subirArchivos.getmStorageRef(firebaseUser.getmAuth(), Constants.FrasesFavoritas));
                 onBackPressed();
                 break;
         }

@@ -6,10 +6,12 @@ import android.view.MotionEvent;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 public class Gesture extends GestureDetector.SimpleOnGestureListener {
-    private DrawerLayout drawer;
-    public Gesture(DrawerLayout drawerLayout){
-        this.drawer=drawerLayout;
+    private final DrawerLayout drawer;
+
+    public Gesture(DrawerLayout drawerLayout) {
+        this.drawer = drawerLayout;
     }
+
     @Override
     public boolean onDown(MotionEvent e) {
         return super.onDown(e);
@@ -26,10 +28,9 @@ public class Gesture extends GestureDetector.SimpleOnGestureListener {
     }
 
 
-
     @Override
     public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-        boolean result=false;
+        boolean result = false;
 
         return result;
     }

@@ -32,7 +32,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class ArmarFrases extends AppCompatActivity implements View.OnClickListener {
-    private String TAG="ArmarFrases";
+    private final String TAG = "ArmarFrases";
     private ImageButton seleccion1;
     private ImageButton seleccion2;
     private ImageButton seleccion3;
@@ -65,8 +65,7 @@ public class ArmarFrases extends AppCompatActivity implements View.OnClickListen
     private int posicion;
 
 
-
-    private String[] fraseCompleta=new String[]{"","","",""};
+    private final String[] fraseCompleta = new String[]{"", "", "", ""};
 
     private String armarFrase;
 
@@ -82,7 +81,7 @@ public class ArmarFrases extends AppCompatActivity implements View.OnClickListen
     private Dialog_options_level_game dialog_options;
     private Picto Agregar;
 
-    private int[] idPictos=new int[]{-1,-1,-1,-1};
+    private int[] idPictos = new int[]{-1, -1, -1, -1};
 
     private MediaPlayerAudio player;
 
@@ -94,36 +93,36 @@ public class ArmarFrases extends AppCompatActivity implements View.OnClickListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_principal_v4);
         initComponents();
-        puntaje=new CalculaPuntos();
-        json=Json.getInstance();
+        puntaje = new CalculaPuntos();
+        json = Json.getInstance();
         json.setmContext(this);
         inicializar_seleccion();
         seleccionarFrase();
     }
 
-    private void initComponents(){
-        player=new MediaPlayerAudio(this);
+    private void initComponents() {
+        player = new MediaPlayerAudio(this);
         Agregar = new Picto(0, getResources().getDrawable(R.drawable.agregar_picto_transp), "", "", R.color.Black);
-        numeros=new ArrayList();
-        mDefaultSharedPreferences= PreferenceManager.getDefaultSharedPreferences(this);
-        toast=new CustomToast(this);
-        mUtilsTTS=new UtilsTTS(this,mTTS,toast,mDefaultSharedPreferences);
-        listadoPictos=new ArrayList<>();
-        seleccion1=findViewById(R.id.Seleccion1);
-        seleccion2=findViewById(R.id.Seleccion2);
-        seleccion3=findViewById(R.id.Seleccion3);
-        seleccion4=findViewById(R.id.Seleccion4);
-        seleccion5=findViewById(R.id.Seleccion5);
-        seleccion6=findViewById(R.id.Seleccion6);
-        seleccion7=findViewById(R.id.Seleccion7);
-        seleccion8=findViewById(R.id.Seleccion8);
-        seleccion9=findViewById(R.id.Seleccion9);
-        seleccion10=findViewById(R.id.Seleccion10);
+        numeros = new ArrayList();
+        mDefaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        toast = new CustomToast(this);
+        mUtilsTTS = new UtilsTTS(this, mTTS, toast, mDefaultSharedPreferences);
+        listadoPictos = new ArrayList<>();
+        seleccion1 = findViewById(R.id.Seleccion1);
+        seleccion2 = findViewById(R.id.Seleccion2);
+        seleccion3 = findViewById(R.id.Seleccion3);
+        seleccion4 = findViewById(R.id.Seleccion4);
+        seleccion5 = findViewById(R.id.Seleccion5);
+        seleccion6 = findViewById(R.id.Seleccion6);
+        seleccion7 = findViewById(R.id.Seleccion7);
+        seleccion8 = findViewById(R.id.Seleccion8);
+        seleccion9 = findViewById(R.id.Seleccion9);
+        seleccion10 = findViewById(R.id.Seleccion10);
 
-        levelOption=findViewById(R.id.action_reiniciar);
+        levelOption = findViewById(R.id.action_reiniciar);
         levelOption.setOnClickListener(this);
 
-        hablar=findViewById(R.id.btnTalk);
+        hablar = findViewById(R.id.btnTalk);
         AjustarAncho(R.id.Seleccion1);
         AjustarAncho(R.id.Seleccion2);
         AjustarAncho(R.id.Seleccion3);
@@ -144,32 +143,32 @@ public class ArmarFrases extends AppCompatActivity implements View.OnClickListen
         Opcion3.setOnClickListener(this);
         Opcion4.setOnClickListener(this);
 
-        deleteButton=findViewById(R.id.btn_borrar);
+        deleteButton = findViewById(R.id.btn_borrar);
         deleteButton.setOnClickListener(this);
 
-        dialog_options=new Dialog_options_level_game(this);
+        dialog_options = new Dialog_options_level_game(this);
 
 
     }
 
-    private void seleccionarFrase(){
-        frases=json.getmJSONArrayTodasLasFrases();
-          int value= (int)Math.round(Math.random()*frases.length());
+    private void seleccionarFrase() {
+        frases = json.getmJSONArrayTodasLasFrases();
+        int value = (int) Math.round(Math.random() * frases.length());
         try {
-            frase=frases.getJSONObject(value);
-            Log.e(TAG, "seleccionarFrase: "+frase.toString() );
-            pictogramas=json.devolverComplejidad(frase).getJSONArray("pictos componentes");
-            if(pictogramas.length()>1&&pictogramas.length()<=4){
-                for (int i = 0; i <pictogramas.length() ; i++) {
-                    ordenarNumerosAleatorios(i,pictogramas.length());
+            frase = frases.getJSONObject(value);
+            Log.e(TAG, "seleccionarFrase: " + frase.toString());
+            pictogramas = json.devolverComplejidad(frase).getJSONArray("pictos componentes");
+            if (pictogramas.length() > 1 && pictogramas.length() <= 4) {
+                for (int i = 0; i < pictogramas.length(); i++) {
+                    ordenarNumerosAleatorios(i, pictogramas.length());
                 }
-                for (int i = 0; i <numeros.size() ; i++) {
-                    Log.e(TAG, "seleccionarFrase: "+numeros.get(i));
-                    JSONObject pictograma=json.getPictoFromId2(json.getId(pictogramas.getJSONObject((int)numeros.get(i))));
+                for (int i = 0; i < numeros.size(); i++) {
+                    Log.e(TAG, "seleccionarFrase: " + numeros.get(i));
+                    JSONObject pictograma = json.getPictoFromId2(json.getId(pictogramas.getJSONObject((int) numeros.get(i))));
                     listadoPictos.add(pictograma);
-                    cargarOpcion(pictograma,i);
+                    cargarOpcion(pictograma, i);
                 }
-            }else {
+            } else {
                 seleccionarFrase();
             }
 
@@ -181,18 +180,18 @@ public class ArmarFrases extends AppCompatActivity implements View.OnClickListen
         }
     }
 
-    private void ordenarNumerosAleatorios(int pos,int size){
-        int numero=(int)Math.round(Math.random()*size);
-        Log.e(TAG, " numero"+numero );
-        if(numeros.lastIndexOf(numero)==-1){
-                numeros.add(numero);
-            }else{
-               ordenarNumerosAleatorios(pos,size);
-            }
+    private void ordenarNumerosAleatorios(int pos, int size) {
+        int numero = (int) Math.round(Math.random() * size);
+        Log.e(TAG, " numero" + numero);
+        if (numeros.lastIndexOf(numero) == -1) {
+            numeros.add(numero);
+        } else {
+            ordenarNumerosAleatorios(pos, size);
+        }
     }
 
-    private void cargarOpcion(JSONObject picto,int i){
-        switch (i){
+    private void cargarOpcion(JSONObject picto, int i) {
+        switch (i) {
             case 0:
                 Opcion1.setCustom_Texto(json.getNombre(picto));
                 Opcion1.setCustom_Img(json.getIcono(picto));
@@ -216,46 +215,45 @@ public class ArmarFrases extends AppCompatActivity implements View.OnClickListen
 
     @Override
     public void onClick(View view) {
-        level=dialog_options.getLevel();
-        switch (view.getId()){
+        level = dialog_options.getLevel();
+        switch (view.getId()) {
             case R.id.Option1:
-                if(Opcion1!=null) {
+                if (Opcion1 != null) {
                     consultarPictograma(0);
                 }
                 break;
             case R.id.Option2:
-                if(Opcion2!=null){
+                if (Opcion2 != null) {
                     consultarPictograma(1);
                 }
                 break;
             case R.id.Option3:
-                if(Opcion3!=null){
+                if (Opcion3 != null) {
                     consultarPictograma(2);
                 }
                 break;
             case R.id.Option4:
-                if(Opcion4!=null){
+                if (Opcion4 != null) {
                     consultarPictograma(3);
                 }
                 break;
             case R.id.btnTalk:
                 try {
-                    Log.e(TAG, "onClick: "+devolverFraseCompleta() );
-                    Log.e(TAG, "onClick: "+frase.getString("frase") );
-                    if(verificarFraseCorrecta()){
-                    mUtilsTTS.hablar(frase.getString("frase"));
-                    puntaje.sumarCantidadVecesCorrectas();
-                        Handler handler=new Handler();
+                    Log.e(TAG, "onClick: " + devolverFraseCompleta());
+                    Log.e(TAG, "onClick: " + frase.getString("frase"));
+                    if (verificarFraseCorrecta()) {
+                        mUtilsTTS.hablar(frase.getString("frase"));
+                        puntaje.sumarCantidadVecesCorrectas();
+                        Handler handler = new Handler();
                         handler.postDelayed(new Runnable() {
                             @Override
                             public void run() {
                                 player.playYesSound();
                                 resetPhrase();
                             }
-                        },1000);
+                        }, 1000);
                         puntaje.calcularValor();
-                    }
-                    else{
+                    } else {
                         puntaje.sumarCantidVecesIncorretas();
                         player.playNoSound();
                         puntaje.calcularValor();
@@ -273,32 +271,31 @@ public class ArmarFrases extends AppCompatActivity implements View.OnClickListen
         }
     }
 
-    private void consultarPictograma(int pos){
+    private void consultarPictograma(int pos) {
         try {
-            int position=consultarPosicionPictograma(json.getId(listadoPictos.get(pos)));
-            switch (level){
+            int position = consultarPosicionPictograma(json.getId(listadoPictos.get(pos)));
+            switch (level) {
                 case 0:
                     cargarPictogramaSeleccion(position);
                     break;
                 case 1:
-                    cargarPictogramaSeleccion(posicion,position);
+                    cargarPictogramaSeleccion(posicion, position);
                     posicion++;
                     break;
             }
 
         } catch (JSONException e) {
             e.printStackTrace();
-        }catch (Exception ex){
+        } catch (Exception ex) {
 
         }
     }
 
 
-
-    private int consultarPosicionPictograma(int id){
-        for (int i = 0; i <pictogramas.length() ; i++) {
+    private int consultarPosicionPictograma(int id) {
+        for (int i = 0; i < pictogramas.length(); i++) {
             try {
-                if(json.getId(pictogramas.getJSONObject(i))==id){
+                if (json.getId(pictogramas.getJSONObject(i)) == id) {
                     return i;
                 }
             } catch (JSONException e) {
@@ -312,56 +309,57 @@ public class ArmarFrases extends AppCompatActivity implements View.OnClickListen
         try {
             JSONObject object = json.getPictoFromId2(json.getId(pictogramas.getJSONObject(pos)));
             Log.e(TAG, "pos :" + pos);
-            setDrawable(pos,json.getIcono(object));
+            setDrawable(pos, json.getIcono(object));
             fraseCompleta[pos] = json.getNombre(object);
-            idPictos[pos]=json.getId(object);
-        } catch (JSONException ex) {
-
-        }
-     }
-
-    private void cargarPictogramaSeleccion(int positionFinal,int location) {
-        try {
-            JSONObject object = json.getPictoFromId2(json.getId(pictogramas.getJSONObject(location)));
-            Log.e(TAG, "pos :" + location);
-            setDrawable(positionFinal,json.getIcono(object));
-            fraseCompleta[positionFinal] = json.getNombre(object);
-            idPictos[positionFinal]=json.getId(object);
+            idPictos[pos] = json.getId(object);
         } catch (JSONException ex) {
 
         }
     }
-        private String devolverFraseCompleta(){
-            String frase="";
-            for (int i = 0; i <fraseCompleta.length ; i++) {
-                frase+=" "+fraseCompleta[i];
-            }
-            return frase;
-        }
 
-        private void resetearFrase(){
-            for (int i=0;i<fraseCompleta.length;i++){
-                fraseCompleta[i]="";
-            }
+    private void cargarPictogramaSeleccion(int positionFinal, int location) {
+        try {
+            JSONObject object = json.getPictoFromId2(json.getId(pictogramas.getJSONObject(location)));
+            Log.e(TAG, "pos :" + location);
+            setDrawable(positionFinal, json.getIcono(object));
+            fraseCompleta[positionFinal] = json.getNombre(object);
+            idPictos[positionFinal] = json.getId(object);
+        } catch (JSONException ex) {
 
         }
+    }
 
-        private void setDrawable(int pos, Drawable drawable){
-         switch (pos){
-             case 0:
-                 seleccion1.setImageDrawable(drawable);
-                 break;
-             case 1:
-                 seleccion2.setImageDrawable(drawable);
-                 break;
-             case 2:
-                 seleccion3.setImageDrawable(drawable);
-                 break;
-             case 3:
-                 seleccion4.setImageDrawable(drawable);
-                 break;
-         }
+    private String devolverFraseCompleta() {
+        String frase = "";
+        for (int i = 0; i < fraseCompleta.length; i++) {
+            frase += " " + fraseCompleta[i];
         }
+        return frase;
+    }
+
+    private void resetearFrase() {
+        for (int i = 0; i < fraseCompleta.length; i++) {
+            fraseCompleta[i] = "";
+        }
+
+    }
+
+    private void setDrawable(int pos, Drawable drawable) {
+        switch (pos) {
+            case 0:
+                seleccion1.setImageDrawable(drawable);
+                break;
+            case 1:
+                seleccion2.setImageDrawable(drawable);
+                break;
+            case 2:
+                seleccion3.setImageDrawable(drawable);
+                break;
+            case 3:
+                seleccion4.setImageDrawable(drawable);
+                break;
+        }
+    }
 
 
     private void AjustarAncho(int Rid) {
@@ -376,8 +374,8 @@ public class ArmarFrases extends AppCompatActivity implements View.OnClickListen
 
     }
 
-    private void resetPhrase(){
-        posicion=0;
+    private void resetPhrase() {
+        posicion = 0;
         resetearPictogramas();
         inicializar_seleccion();
         listadoPictos.clear();
@@ -407,36 +405,36 @@ public class ArmarFrases extends AppCompatActivity implements View.OnClickListen
         seleccion9.startAnimation(AnimationUtils.loadAnimation(this, R.anim.overshoot_arriba));
         seleccion10.setImageDrawable(Agregar.getIcono());
         seleccion10.startAnimation(AnimationUtils.loadAnimation(this, R.anim.overshoot_arriba));
-        idPictos=new int[]{-1,-1,-1,-1};
+        idPictos = new int[]{-1, -1, -1, -1};
     }
 
-    private  void resetearPictogramas(){
+    private void resetearPictogramas() {
         Opcion1.setCustom_Img(getResources().getDrawable(R.drawable.ic_agregar_nuevo));
         Opcion2.setCustom_Img(getResources().getDrawable(R.drawable.ic_agregar_nuevo));
         Opcion3.setCustom_Img(getResources().getDrawable(R.drawable.ic_agregar_nuevo));
         Opcion4.setCustom_Img(getResources().getDrawable(R.drawable.ic_agregar_nuevo));
     }
 
-    private void borrar(){
-        switch (level){
+    private void borrar() {
+        switch (level) {
             case 0:
-                int pos=borrarPorPosicion();
-                Log.e(TAG, "borrarPorPosicion: "+pos);
-                if(pos!=-1)
-                idPictos[pos]=-1;
+                int pos = borrarPorPosicion();
+                Log.e(TAG, "borrarPorPosicion: " + pos);
+                if (pos != -1)
+                    idPictos[pos] = -1;
                 cambiarDrawable(pos);
                 break;
-         case 1:
+            case 1:
                 posicion--;
-            if(posicion<0)
-                posicion=0;
-            cambiarDrawable(posicion);
-            fraseCompleta[posicion]="";
+                if (posicion < 0)
+                    posicion = 0;
+                cambiarDrawable(posicion);
+                fraseCompleta[posicion] = "";
         }
     }
 
-    private void cambiarDrawable(int position){
-        switch (position){
+    private void cambiarDrawable(int position) {
+        switch (position) {
             case 0:
                 seleccion1.setImageDrawable(Agregar.getIcono());
                 break;
@@ -454,9 +452,9 @@ public class ArmarFrases extends AppCompatActivity implements View.OnClickListen
         }
     }
 
-    private boolean verificarFraseCorrecta(){
-        boolean estaCorrecto=false;
-        for (int i = 0; i <pictogramas.length(); i++) {
+    private boolean verificarFraseCorrecta() {
+        boolean estaCorrecto = false;
+        for (int i = 0; i < pictogramas.length(); i++) {
             try {
                 estaCorrecto = idPictos[i] == json.getId(pictogramas.getJSONObject(i));
             } catch (JSONException e) {
@@ -466,11 +464,11 @@ public class ArmarFrases extends AppCompatActivity implements View.OnClickListen
         return estaCorrecto;
     }
 
-    private int borrarPorPosicion(){
-        for (int i = (idPictos.length-1); i >=0 ; i--) {
+    private int borrarPorPosicion() {
+        for (int i = (idPictos.length - 1); i >= 0; i--) {
 
-            if(idPictos[i]!=-1){
-                Log.w(TAG, "borrarPorPosicion:e"+i );
+            if (idPictos[i] != -1) {
+                Log.w(TAG, "borrarPorPosicion:e" + i);
                 return i;
             }
         }

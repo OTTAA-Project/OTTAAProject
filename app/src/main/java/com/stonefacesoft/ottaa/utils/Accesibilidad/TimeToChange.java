@@ -5,38 +5,40 @@ import android.os.Message;
 import androidx.annotation.NonNull;
 
 public class TimeToChange extends android.os.Handler {
-    public static final int CHANGE_BUTTON=0;
-    private BarridoPantalla barridoPantalla;
-    private int tiempo;
+    public static final int CHANGE_BUTTON = 0;
+    private final BarridoPantalla barridoPantalla;
+    private final int tiempo;
 
-    public TimeToChange(BarridoPantalla barridoPantalla,int tiempo){
-        this.barridoPantalla=barridoPantalla;
-        this.tiempo=tiempo;
+    public TimeToChange(BarridoPantalla barridoPantalla, int tiempo) {
+        this.barridoPantalla = barridoPantalla;
+        this.tiempo = tiempo;
     }
 
-    private void removeCreatedMessages(int value){
-        if(super.hasMessages(value))
+    private void removeCreatedMessages(int value) {
+        if (super.hasMessages(value))
             super.removeMessages(value);
     }
-    private void removeAllMessages(){
+
+    private void removeAllMessages() {
         removeCreatedMessages(CHANGE_BUTTON);
     }
+
     @Override
     public void handleMessage(@NonNull Message msg) {
-        switch (msg.what){
+        switch (msg.what) {
             case CHANGE_BUTTON:
                 barridoPantalla.recorrerBarridoAutomatico();
                 break;
         }
     }
 
-    public void cambiarBoton(){
+    public void cambiarBoton() {
         removeAllMessages();
-        if(barridoPantalla.isBarridoActivado())
-        super.sendMessageDelayed(getHandler().obtainMessage(CHANGE_BUTTON),tiempo*1000);
+        if (barridoPantalla.isBarridoActivado())
+            super.sendMessageDelayed(getHandler().obtainMessage(CHANGE_BUTTON), tiempo * 1000);
     }
-    public android.os.Handler getHandler()
-    {
+
+    public android.os.Handler getHandler() {
         return this;
     }
 }

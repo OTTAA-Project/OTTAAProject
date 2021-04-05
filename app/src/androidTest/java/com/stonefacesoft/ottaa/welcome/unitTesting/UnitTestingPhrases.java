@@ -33,7 +33,7 @@ import static junit.framework.TestCase.assertTrue;
 @LargeTest
 @RunWith(AndroidJUnit4.class)
 public class UnitTestingPhrases {
-    private Context context = ApplicationProvider.getApplicationContext();
+    private final Context context = ApplicationProvider.getApplicationContext();
     private Historial historial;
     private NLG nlg;
     private JSONObject picto0,picto1,picto2,picto3;

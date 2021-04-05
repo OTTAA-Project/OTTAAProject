@@ -1,24 +1,22 @@
 package com.stonefacesoft.ottaa.utils;
 
-import android.app.Activity;
 import android.os.Handler;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
-import android.view.VelocityTracker;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 public class InmersiveMode implements View.OnTouchListener {
-    private View decorView;
-    private AppCompatActivity mActivity;
+    private final View decorView;
+    private final AppCompatActivity mActivity;
     private boolean immersive;
-    private Handler handler;
+    private final Handler handler;
     private final GestureDetector detector;
 
-    public InmersiveMode(AppCompatActivity view){
-        this.mActivity=view;
-        this.handler=new Handler();
+    public InmersiveMode(AppCompatActivity view) {
+        this.mActivity = view;
+        this.handler = new Handler();
         this.decorView = this.mActivity.getWindow().getDecorView();
         hideUI();
         decorView.setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener() {
@@ -27,14 +25,13 @@ public class InmersiveMode implements View.OnTouchListener {
                 if ((visibility & View.SYSTEM_UI_FLAG_FULLSCREEN) == 0) {
                     immersive = false;
                     handler.postDelayed(autoHideRunner, 5000);
-                }
-                else{
+                } else {
                     immersive = true;
 
                 }
             }
         });
-        detector=new GestureDetector(mActivity,new GestureListener());
+        detector = new GestureDetector(mActivity, new GestureListener());
         decorView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -43,6 +40,7 @@ public class InmersiveMode implements View.OnTouchListener {
             }
         });
     }
+
     private void hideUI() {
         immersive = true;
         mActivity.getSupportActionBar().hide();
@@ -53,6 +51,7 @@ public class InmersiveMode implements View.OnTouchListener {
                 | View.SYSTEM_UI_FLAG_FULLSCREEN
                 | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
     }
+
     public void toggleState() {
         if (immersive) {
             showUI();
@@ -106,8 +105,7 @@ public class InmersiveMode implements View.OnTouchListener {
                         }
                         result = true;
                     }
-                }
-                else if (Math.abs(diffY) > SWIPE_THRESHOLD && Math.abs(velocityY) > SWIPE_VELOCITY_THRESHOLD) {
+                } else if (Math.abs(diffY) > SWIPE_THRESHOLD && Math.abs(velocityY) > SWIPE_VELOCITY_THRESHOLD) {
                     if (diffY > 0) {
                         onSwipeBottom();
                     } else {

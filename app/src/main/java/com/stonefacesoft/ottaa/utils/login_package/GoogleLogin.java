@@ -8,6 +8,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -24,13 +27,11 @@ import com.google.firebase.auth.GoogleAuthProvider;
 import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.utils.IntentCode;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
-public class GoogleLogin extends Login_class implements View.OnClickListener{
+public class GoogleLogin extends Login_class implements View.OnClickListener {
     private static final int RC_SIGN_IN = 1;
-    private GoogleApiClient mGoogleApiClient;
-    private com.google.android.gms.common.SignInButton SingIn;
+    private final GoogleApiClient mGoogleApiClient;
+    private final com.google.android.gms.common.SignInButton SingIn;
+
     public GoogleLogin(AppCompatActivity mActivity) {
         super(mActivity);
         //Este es el boton para hacer el sign in, ver si lo ponemos en otro activity o donde
@@ -83,6 +84,7 @@ public class GoogleLogin extends Login_class implements View.OnClickListener{
         }
 
     }
+
     private void AlertCheckPlayService() {
         AlertDialog.Builder dialogo1 = new AlertDialog.Builder(mActivity);
         dialogo1.setTitle(mActivity.getResources().getString(R.string.pref_important_alert));
@@ -106,7 +108,7 @@ public class GoogleLogin extends Login_class implements View.OnClickListener{
 
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
         mAuth.signInWithCredential(credential)
-                .addOnCompleteListener(mActivity,new OnCompleteListener<AuthResult>() {
+                .addOnCompleteListener(mActivity, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {

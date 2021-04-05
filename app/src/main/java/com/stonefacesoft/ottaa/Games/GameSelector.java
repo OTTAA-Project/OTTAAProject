@@ -24,28 +24,20 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.ItemTouchHelper;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
-import com.stonefacesoft.ottaa.Adapters.GaleriaJuegosAdapter;
 import com.stonefacesoft.ottaa.Helper.RecyclerItemClickListener;
 import com.stonefacesoft.ottaa.Interfaces.Make_Click_At_Time;
 import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.RecyclerViews.Game_Recyler_View;
 import com.stonefacesoft.ottaa.Viewpagers.ViewPager_Game_Grupo;
-import com.stonefacesoft.ottaa.Viewpagers.viewpager_galeria_grupo;
 import com.stonefacesoft.ottaa.utils.Accesibilidad.BarridoPantalla;
 import com.stonefacesoft.ottaa.utils.Accesibilidad.devices.GameControl;
-import com.stonefacesoft.ottaa.utils.Accesibilidad.scrollActions.ScrollFunctionGaleriaGrupos;
 import com.stonefacesoft.ottaa.utils.Accesibilidad.scrollActions.ScrollFuntionGames;
 import com.stonefacesoft.ottaa.utils.Constants;
 import com.stonefacesoft.ottaa.utils.IntentCode;
-import com.stonefacesoft.ottaa.utils.PreferencesManager;
 import com.stonefacesoft.ottaa.utils.exceptions.FiveMbException;
 import com.stonefacesoft.ottaa.utils.textToSpeech;
 
@@ -58,13 +50,10 @@ import java.util.ArrayList;
  * @author Gonzalo Juarez
  *
  * <p>Choose the level game</p>
- *
- *  @see ViewPager_Game_Grupo
+ * @see ViewPager_Game_Grupo
  * @see Game_Recyler_View
- *
- *
- * */
-public class GameSelector extends AppCompatActivity implements View.OnClickListener , Make_Click_At_Time,View.OnTouchListener {
+ */
+public class GameSelector extends AppCompatActivity implements View.OnClickListener, Make_Click_At_Time, View.OnTouchListener {
 
     private static final String TAG = "GameSelector";
     private Json json;
@@ -77,7 +66,7 @@ public class GameSelector extends AppCompatActivity implements View.OnClickListe
     private ProgressBar mProgressBar;
     private TextView mTextViewCargandoGrupos;
     private String juego;
-    private ImageButton up_button,down_button,backpress_button;
+    private ImageButton up_button, down_button, backpress_button;
     private boolean showViewPager;
     private ViewPager_Game_Grupo grupo_viewPager;
     private Game_Recyler_View game_recycler_view;
@@ -87,7 +76,6 @@ public class GameSelector extends AppCompatActivity implements View.OnClickListe
     private ScrollFuntionGames function_scroll;
     private GameControl gameControl;
     private FloatingActionButton btnSelector;
-
 
 
     @SuppressLint("ResourceType")
@@ -103,35 +91,35 @@ public class GameSelector extends AppCompatActivity implements View.OnClickListe
         }
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_galeria_grupos2);
-        mAuth=FirebaseAuth.getInstance();
-        juego=intento.getStringExtra("name_game");
+        mAuth = FirebaseAuth.getInstance();
+        juego = intento.getStringExtra("name_game");
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle(getResources().getString(R.string.select_category));
         mProgressBar = findViewById(R.id.progressBar);
-        sharedPrefsDefault= PreferenceManager.getDefaultSharedPreferences(this);
-        showViewPager=true;
+        sharedPrefsDefault = PreferenceManager.getDefaultSharedPreferences(this);
+        showViewPager = true;
         mTextViewCargandoGrupos = findViewById(R.id.textoCargandoGrupos);
-        btnSelector=findViewById(R.id.btnTalk);
+        btnSelector = findViewById(R.id.btnTalk);
         btnSelector.setOnClickListener(this);
-        up_button=findViewById(R.id.up_button);
-        down_button=findViewById(R.id.down_button);
-        backpress_button=findViewById(R.id.back_button);
-        btnBarrido=findViewById(R.id.btnBarrido);
+        up_button = findViewById(R.id.up_button);
+        down_button = findViewById(R.id.down_button);
+        backpress_button = findViewById(R.id.back_button);
+        btnBarrido = findViewById(R.id.btnBarrido);
         btnBarrido.setOnTouchListener(this);
         btnBarrido.setOnClickListener(this);
         up_button.setOnClickListener(this);
         down_button.setOnClickListener(this);
         backpress_button.setOnClickListener(this);
-        textToSpeech mytts=new textToSpeech(this);
-        grupo_viewPager=new ViewPager_Game_Grupo(this,mytts,devolverPosicion(juego));
-        game_recycler_view=new Game_Recyler_View(this,mAuth,devolverPosicion(juego));
+        textToSpeech mytts = new textToSpeech(this);
+        grupo_viewPager = new ViewPager_Game_Grupo(this, mytts, devolverPosicion(juego));
+        game_recycler_view = new Game_Recyler_View(this, mAuth, devolverPosicion(juego));
         cargarGruposJson = new GameSelector.CargarGruposJson(mProgressBar, mTextViewCargandoGrupos, GameSelector.this);
         cargarGruposJson.execute();
         grupo_viewPager.showViewPager(showViewPager);
         game_recycler_view.showRecyclerView(showViewPager);
         iniciarBarrido();
-        function_scroll=new ScrollFuntionGames(this);
-        gameControl=new GameControl(this);
+        function_scroll = new ScrollFuntionGames(this);
+        gameControl = new GameControl(this);
 
     }
 
@@ -148,7 +136,7 @@ public class GameSelector extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onResume() {
         super.onResume();
-        textToSpeech mytts=new textToSpeech(this);
+        textToSpeech mytts = new textToSpeech(this);
         grupo_viewPager.updateData();
         grupo_viewPager.refreshView();
     }
@@ -167,51 +155,51 @@ public class GameSelector extends AppCompatActivity implements View.OnClickListe
 //        return mActivity.getResources().getConfiguration().screenWidthDp / convertToDp(150);
     }
 
-    private void initComponents(){
+    private void initComponents() {
 
     }
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.up_button:
-                    if(!showViewPager)
-                        game_recycler_view.scrollTo(false);
-                    else
-                        grupo_viewPager.scrollPosition(false);
+                if (!showViewPager)
+                    game_recycler_view.scrollTo(false);
+                else
+                    grupo_viewPager.scrollPosition(false);
                 break;
             case R.id.down_button:
-                    if(!showViewPager)
-                        game_recycler_view.scrollTo(true);
-                    else
-                        grupo_viewPager.scrollPosition(true);
+                if (!showViewPager)
+                    game_recycler_view.scrollTo(true);
+                else
+                    grupo_viewPager.scrollPosition(true);
                 break;
             case R.id.back_button:
-                    onBackPressed();
+                onBackPressed();
                 break;
             case R.id.btnTalk:
                 grupo_viewPager.OnClickItem();
                 break;
             case R.id.btnBarrido:
-                    onClick(barridoPantalla.getmListadoVistas().get(barridoPantalla.getPosicionBarrido()));
+                onClick(barridoPantalla.getmListadoVistas().get(barridoPantalla.getPosicionBarrido()));
                 break;
         }
     }
 
     @Override
     public void OnClickBarrido() {
-        if(function_scroll.isClickEnabled()&&barridoPantalla.getmListadoVistas().get(barridoPantalla.getPosicionBarrido()).getId()==R.id.btnTodosLosPictos)
+        if (function_scroll.isClickEnabled() && barridoPantalla.getmListadoVistas().get(barridoPantalla.getPosicionBarrido()).getId() == R.id.btnTodosLosPictos)
             onClick(barridoPantalla.getmListadoVistas().get(barridoPantalla.getPosicionBarrido()));
-        else if(!function_scroll.isClickEnabled()){
+        else if (!function_scroll.isClickEnabled()) {
             onClick(barridoPantalla.getmListadoVistas().get(barridoPantalla.getPosicionBarrido()));
         }
     }
 
     public class CargarGruposJson extends AsyncTask<Void, Void, Void> {
 
-        private ProgressBar mProgressBarCargandoGrupos;
-        private TextView mTextViewCargandoGrupos;
-        private Context mContext;
+        private final ProgressBar mProgressBarCargandoGrupos;
+        private final TextView mTextViewCargandoGrupos;
+        private final Context mContext;
 
         public CargarGruposJson(ProgressBar mProgressBarCargandoGrupos, TextView mTextViewCargandoGrupos, Context context) {
             this.mProgressBarCargandoGrupos = mProgressBarCargandoGrupos;
@@ -280,8 +268,8 @@ public class GameSelector extends AppCompatActivity implements View.OnClickListe
                 if (v != null) {
 
                     if (position != -1) {
-                        Intent intent=null;
-                        switch (juego){
+                        Intent intent = null;
+                        switch (juego) {
                             case "notigames":
                                 intent = new Intent(GameSelector.this, WhichIsThePicto.class);
                                 break;
@@ -289,7 +277,7 @@ public class GameSelector extends AppCompatActivity implements View.OnClickListe
                                 intent = new Intent(GameSelector.this, MatchPictograms.class);
                                 break;
                             case "descripciones":
-                                intent=new Intent(GameSelector.this,MemoryGame.class);
+                                intent = new Intent(GameSelector.this, MemoryGame.class);
                                 break;
                         }
 
@@ -298,7 +286,7 @@ public class GameSelector extends AppCompatActivity implements View.OnClickListe
                             intent.putExtra("PositionPadre", position);
                             startActivityForResult(intent, IntentCode.NOTIGAMES.getCode());
                         } catch (Exception e) {
-                            Log.e(TAG, "onItemClick: "+e.getMessage() );
+                            Log.e(TAG, "onItemClick: " + e.getMessage());
                         }
 
 
@@ -321,8 +309,8 @@ public class GameSelector extends AppCompatActivity implements View.OnClickListe
         });
     }
 
-    private int devolverPosicion(String title){
-        switch (title){
+    private int devolverPosicion(String title) {
+        switch (title) {
             case "notigames":
                 return 0;
             case "seleccionar_palabras":
@@ -354,11 +342,11 @@ public class GameSelector extends AppCompatActivity implements View.OnClickListe
                 @Override
                 public void run() {
                     // Stuff that updates the UI
-                    showViewPager=true;
+                    showViewPager = true;
                     btnBarrido.setVisibility(View.VISIBLE);
                 }
             });
-        }else{
+        } else {
             btnBarrido.setVisibility(View.GONE);
         }
 
@@ -370,14 +358,13 @@ public class GameSelector extends AppCompatActivity implements View.OnClickListe
             switch (event.getAction()) {
                 case MotionEvent.ACTION_SCROLL:
 
-                    if(barridoPantalla.isScrollMode()||barridoPantalla.isScrollModeClicker()){
-                        if(event.getAxisValue(MotionEvent.AXIS_VSCROLL)<0.0f){
-                            if(barridoPantalla.isScrollMode())
+                    if (barridoPantalla.isScrollMode() || barridoPantalla.isScrollModeClicker()) {
+                        if (event.getAxisValue(MotionEvent.AXIS_VSCROLL) < 0.0f) {
+                            if (barridoPantalla.isScrollMode())
                                 function_scroll.HacerClickEnTiempo();
                             barridoPantalla.avanzarBarrido();
-                        }
-                        else{
-                            if(barridoPantalla.isScrollMode())
+                        } else {
+                            if (barridoPantalla.isScrollMode())
                                 function_scroll.HacerClickEnTiempo();
                             barridoPantalla.volverAtrasBarrido();
 
@@ -394,6 +381,7 @@ public class GameSelector extends AppCompatActivity implements View.OnClickListe
     public boolean onTouch(View v, MotionEvent event) {
         return gameControl.makeClick(event);
     }
+
     public BarridoPantalla getBarridoPantalla() {
         return barridoPantalla;
     }

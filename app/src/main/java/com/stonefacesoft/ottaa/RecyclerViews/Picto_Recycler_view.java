@@ -28,22 +28,21 @@ import java.lang.reflect.Method;
 public class Picto_Recycler_view extends Custom_recyclerView {
     private int button;
     private GaleriaPictosAdapter galeriaPictos2;
-    private int id=-1;
-    private final String TAG="Picto_Recycler_View";
+    private int id = -1;
+    private final String TAG = "Picto_Recycler_View";
 
     public Picto_Recycler_view(AppCompatActivity mActivity, FirebaseAuth mAuth) {
         super(mActivity, mAuth);
     }
 
 
-
     //Load
-    public void setArray(int position){
-        this.button=position;
-        array=json.getHijosGrupo2(position);
-        arrayAux=new JSONArray();
+    public void setArray(int position) {
+        this.button = position;
+        array = json.getHijosGrupo2(position);
+        arrayAux = new JSONArray();
         createRecyclerLayoutManager();
-        galeriaPictos2=new GaleriaPictosAdapter(mActivity,array, R.layout.grid_item_layout,mAuth);
+        galeriaPictos2 = new GaleriaPictosAdapter(mActivity, array, R.layout.grid_item_layout, mAuth);
         mRecyclerView.setAdapter(galeriaPictos2);
         mRecyclerView.addOnItemTouchListener(listener());
     }
@@ -51,21 +50,21 @@ public class Picto_Recycler_view extends Custom_recyclerView {
 
     @Override
     public void sincronizeData() {
-        json=Json.getInstance();
+        json = Json.getInstance();
         json.setmContext(mActivity);
-        array=json.getHijosGrupo2(button);
+        array = json.getHijosGrupo2(button);
         galeriaPictos2.setmArrayPictos(array);
     }
 
-    public void filterChildren(){
+    public void filterChildren() {
         galeriaPictos2.setmArrayPictos(arrayAux);
         galeriaPictos2.notifyDataSetChanged();
         mRecyclerView.invalidate();
     }
+
     /**
      * this method set up the visibility around a recycler view
-     *
-     * */
+     */
 
 
     public JSONArray getArray() {
@@ -83,17 +82,16 @@ public class Picto_Recycler_view extends Custom_recyclerView {
         sincronizeData();
     }
 
-    private RecyclerItemClickListener listener(){
-        return new RecyclerItemClickListener(mRecyclerView,mActivity,new RecyclerItemClickListener.OnItemClickListener(){
+    private RecyclerItemClickListener listener() {
+        return new RecyclerItemClickListener(mRecyclerView, mActivity, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
                 try {
-                    int idPicto=json.getId(galeriaPictos2.getmArrayPictos().getJSONObject(position));
-                    if(id!=idPicto){
-                        id=idPicto;
-                      myTTS.hablar(json.getNombre(galeriaPictos2.getmArrayPictos().getJSONObject(position)));
-                    }
-                    else {
+                    int idPicto = json.getId(galeriaPictos2.getmArrayPictos().getJSONObject(position));
+                    if (id != idPicto) {
+                        id = idPicto;
+                        myTTS.hablar(json.getNombre(galeriaPictos2.getmArrayPictos().getJSONObject(position)));
+                    } else {
                         Intent databack = new Intent();
                         databack.putExtra("ID", id);
                         databack.putExtra("Boton", button);
@@ -109,25 +107,26 @@ public class Picto_Recycler_view extends Custom_recyclerView {
             @Override
             public void onDoubleTap(View view, int position) {
 
-                }
+            }
 
             @Override
             public void onLongClickListener(View view, int position) {
-                int idPicto= 0;
+                int idPicto = 0;
                 try {
                     idPicto = json.getId(galeriaPictos2.getmArrayPictos().getJSONObject(position));
-                    if(id!=idPicto){
-                        id=idPicto;
+                    if (id != idPicto) {
+                        id = idPicto;
                         myTTS.hablar(json.getNombre(galeriaPictos2.getmArrayPictos().getJSONObject(position)));
-                        ShowpopMenu(view,position);}
+                        ShowpopMenu(view, position);
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
-        } );
+        });
     }
 
-    public void ShowpopMenu(View view,int position) {
+    public void ShowpopMenu(View view, int position) {
 
         popupMenu = new PopupMenu(mActivity, view);
         popupMenu.inflate(R.menu.popup_menu);
@@ -146,7 +145,7 @@ public class Picto_Recycler_view extends Custom_recyclerView {
         }
         if (sharedPrefsDefault.getInt("premium", 0) == 1) {
             popupMenu.getMenu().findItem(R.id.item_edit).setEnabled(true);
-        }else{
+        } else {
             popupMenu.getMenu().findItem(R.id.item_edit).setIcon(R.drawable.ic_padlock);
             popupMenu.getMenu().findItem(R.id.item_edit).setEnabled(false);
         }
@@ -159,7 +158,7 @@ public class Picto_Recycler_view extends Custom_recyclerView {
                     case R.id.item_edit:
                         if (galeriaPictos2.getmArrayPictos() != null) {
                             // JSONObject aux = pictosDelGrupo.get(position);
-                            analyticsFirebase.customEvents("Touch","Galeria Pictos","Edit Pictogram");
+                            analyticsFirebase.customEvents("Touch", "Galeria Pictos", "Edit Pictogram");
                             if (id != -1) {
                                 Intent intent = new Intent(mActivity, Edit_Picto_Visual.class);
                                 intent.putExtra("PositionPadre", button);
@@ -182,7 +181,7 @@ public class Picto_Recycler_view extends Custom_recyclerView {
                         }
                         return true;
                     case R.id.item_delete:
-                        analyticsFirebase.customEvents("Touch","Galeria Pictos","Delete Pictogram");
+                        analyticsFirebase.customEvents("Touch", "Galeria Pictos", "Delete Pictogram");
                         AlertBorrar();
                         return true;
                 }
@@ -202,7 +201,7 @@ public class Picto_Recycler_view extends Custom_recyclerView {
         dialogo1.setOnClick(dialogo1.getObject(R.id.yes_button), new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                JSONArray pictosGrupos=json.getmJSONArrayTodosLosGrupos();
+                JSONArray pictosGrupos = json.getmJSONArrayTodosLosGrupos();
                 try {
                     json.setHijosGrupo2(pictosGrupos, array, button);
                     json.desvincularJson(pictosGrupos.getJSONObject(button), id);
@@ -231,6 +230,7 @@ public class Picto_Recycler_view extends Custom_recyclerView {
 
         dialogo1.mostrarDialogo();
     }
+
     public void guardarDatosGrupo() {
         JSONArray pictosGrupos = json.getmJSONArrayTodosLosGrupos();
         json.setHijosGrupo2(pictosGrupos, array, button);

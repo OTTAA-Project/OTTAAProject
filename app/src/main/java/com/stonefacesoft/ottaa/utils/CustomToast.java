@@ -40,7 +40,7 @@ public class CustomToast extends Application {
 
         LayoutInflater inflater = LayoutInflater.from(mContext.getApplicationContext());
 
-        View layout1 = inflater.inflate(R.layout.custom_toast,null,true);
+        View layout1 = inflater.inflate(R.layout.custom_toast, null, true);
         this.layout = inflater.inflate(R.layout.custom_toast, layout1.findViewById(R.id.toast_layout_root));
 
         this.layout.setAlpha((float) 0.85);
@@ -51,7 +51,7 @@ public class CustomToast extends Application {
     public void mostrarFrase(CharSequence texto, AnalyticsFirebase mTracker) {
         setMayus(texto);
         personalizarToast();
-        mTracker.customEvents("Talk","Principal","Created Phrase");
+        mTracker.customEvents("Talk", "Principal", "Created Phrase");
     }
 
 

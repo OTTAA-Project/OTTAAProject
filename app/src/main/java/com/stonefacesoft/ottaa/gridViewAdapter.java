@@ -51,10 +51,10 @@ public class gridViewAdapter extends ArrayAdapter {
     private final ArrayList<int[][]> posicionPicto;
     private final boolean esInet;
     private final DrawableManager drawableManager;
-    private ArrayList<JSONObject> pictosSeleccionados1;
-    private SharedPreferences sharedPrefsDefault;
-    private String lang;
-    private GlideAttatcher glideAttatcher;
+    private final ArrayList<JSONObject> pictosSeleccionados1;
+    private final SharedPreferences sharedPrefsDefault;
+    private final String lang;
+    private final GlideAttatcher glideAttatcher;
 
     public gridViewAdapter(Context context, int layoutResourceId, ArrayList data, Json json, boolean esInet) throws FiveMbException {
         super(context, layoutResourceId, data);
@@ -63,10 +63,10 @@ public class gridViewAdapter extends ArrayAdapter {
         this.data = data;
         this.json = json;
         this.esInet = esInet;
-        glideAttatcher=new GlideAttatcher(this.context);
+        glideAttatcher = new GlideAttatcher(this.context);
         pictosSeleccionados1 = new ArrayList<>();//genero el listado de pictos a elegir
         posicionPictos = new ArrayList<>();//genero el listado de pictos a elegir
-        posicionPicto=new ArrayList<int[][]>();
+        posicionPicto = new ArrayList<int[][]>();
         drawableManager = new DrawableManager();
         data1 = new ArrayList();//
         sharedPrefsDefault = PreferenceManager.getDefaultSharedPreferences(context);
@@ -92,7 +92,7 @@ public class gridViewAdapter extends ArrayAdapter {
             row = inflater.inflate(layoutResourceId, null);
             holder = new ViewHolder();
             holder.imageTitle = row.findViewById(R.id.grid_text);
-            holder.colorItem =row.findViewById(R.id.color_Picto);
+            holder.colorItem = row.findViewById(R.id.color_Picto);
             holder.image = row.findViewById(R.id.grid_image);
             row.setTag(holder);
 
@@ -101,25 +101,25 @@ public class gridViewAdapter extends ArrayAdapter {
         }
         holder.position = position;
 
-       if(posicionPictos.size()>0)
-       {for(int i=0;i<posicionPicto.size();i++) {
+        if (posicionPictos.size() > 0) {
+            for (int i = 0; i < posicionPicto.size(); i++) {
 
-             try {
+                try {
 
-                    if(posicionPicto.get(i)[0][1]==position)
-                    {
-                        Log.d("gridView_getView_picto", ""+pictosSeleccionados1.get(i).toString());
-                        Log.d("gridView_getView_pos", ""+posicionPictos.get(i));
-                        Log.d("gridView_getView_json",json.getId(pictosSeleccionados1.get(i))+"");
+                    if (posicionPicto.get(i)[0][1] == position) {
+                        Log.d("gridView_getView_picto", "" + pictosSeleccionados1.get(i).toString());
+                        Log.d("gridView_getView_pos", "" + posicionPictos.get(i));
+                        Log.d("gridView_getView_json", json.getId(pictosSeleccionados1.get(i)) + "");
 
                     }
 
-             } catch (Exception e) {
-                  e.printStackTrace();
-              }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
 
 
-       }}/*else
+            }
+        }/*else
         {
 
             color = 0xFF0000FF; // Opaque Blue
@@ -127,12 +127,9 @@ public class gridViewAdapter extends ArrayAdapter {
         }*/
 
 
-
-
 //        new CargarRow(position, holder).execute();
         // vvvvvvvvvveeeeeeeeeeeeeerrrrrrrrrrrrrrrr http://lucasr.org/2012/04/05/performance-tips-for-androids-listview/
-        if(esInet)
-        {
+        if (esInet) {
             try {
                 new CargarRow(position, holder).execute();
                 holder.imageTitle.setText(data.get(position).getString("name"));
@@ -140,8 +137,7 @@ public class gridViewAdapter extends ArrayAdapter {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-        }else
-        {
+        } else {
             new CargarImg(position, holder).execute();
             holder.imageTitle.setText(json.getNombre(data.get(position)));
             holder.colorItem.setColorFilter(cargarColor(json.getWorlType(data.get(position))));
@@ -151,26 +147,24 @@ public class gridViewAdapter extends ArrayAdapter {
         return row;
     }
 
-    private Integer cargarColor (int tipo)
-    {
-        switch (tipo){
+    private Integer cargarColor(int tipo) {
+        switch (tipo) {
             case 1:
-                return  context.getResources().getColor(R.color.Yellow);
+                return context.getResources().getColor(R.color.Yellow);
             case 2:
-                return  context.getResources().getColor(R.color.Orange);
+                return context.getResources().getColor(R.color.Orange);
             case 3:
-                return  context.getResources().getColor(R.color.YellowGreen);
+                return context.getResources().getColor(R.color.YellowGreen);
             case 4:
-                return  context.getResources().getColor(R.color.DodgerBlue);
+                return context.getResources().getColor(R.color.DodgerBlue);
             case 5:
-                return  context.getResources().getColor(R.color.Magenta);
+                return context.getResources().getColor(R.color.Magenta);
             case 6:
-                return  context.getResources().getColor(R.color.Black);
+                return context.getResources().getColor(R.color.Black);
             default:
-                return  context.getResources().getColor(R.color.White);
+                return context.getResources().getColor(R.color.White);
         }
     }
-
 
 
     public ArrayList<JSONObject> getPictosSeleccionados() {
@@ -192,17 +186,17 @@ public class gridViewAdapter extends ArrayAdapter {
 
         @Override
         protected Void doInBackground(Void... voids) {
-            try{
+            try {
                 img = json.getIcono(data.get(mPosition));
                 Bitmap b;
                 ThumbnailUtils thumbnailUtils = new ThumbnailUtils();
 
-                b = ThumbnailUtils.extractThumbnail(((BitmapDrawable)img).getBitmap(),150,150);
+                b = ThumbnailUtils.extractThumbnail(((BitmapDrawable) img).getBitmap(), 150, 150);
                 img = new BitmapDrawable(context.getResources(), b);
-                }catch (Exception e){
+            } catch (Exception e) {
                 showToast(context.getString(R.string.sync_pictos));
 
-                }
+            }
             return null;
         }
 
@@ -221,14 +215,14 @@ public class gridViewAdapter extends ArrayAdapter {
 
         /**
          * Una vez que paso el tiempo de espera ilumino la parte adecuando
+         *
          * @param unused
          */
         protected void onPostExecute(final Void unused) {
             if (mHolder.position == mPosition) {
-                glideAttatcher.attachedOnImaView(mHolder.image,img);
-            }
-            else {
-                glideAttatcher.attachedOnImaView(mHolder.image,context.getResources().getDrawable(R.drawable.ic_agregar_nuevo));
+                glideAttatcher.attachedOnImaView(mHolder.image, img);
+            } else {
+                glideAttatcher.attachedOnImaView(mHolder.image, context.getResources().getDrawable(R.drawable.ic_agregar_nuevo));
             }
         }
     }
@@ -258,12 +252,13 @@ public class gridViewAdapter extends ArrayAdapter {
 
         /**
          * Una vez que paso el tiempo de espera ilumino la parte adecuando
+         *
          * @param unused
          */
         protected void onPostExecute(final Void unused) {
             if (mHolder.position == mPosition) {
 //                mHolder.imageTitle.setText(texto);
-                glideAttatcher.attachedOnImaView(mHolder.image,img);
+                glideAttatcher.attachedOnImaView(mHolder.image, img);
             }
         }
     }
@@ -276,19 +271,18 @@ public class gridViewAdapter extends ArrayAdapter {
     }
 
     public void filter(String charText) {
-        String s=null;
-        HashSet hashSet= new HashSet<String>();
+        String s = null;
+        HashSet hashSet = new HashSet<String>();
 
         charText = charText.toLowerCase(Locale.getDefault());
         data.clear();
         if (charText.length() == 0) {
             data.addAll(data1);
-        }
-        else {
-                String lang;
-                SharedPreferences sharedPrefsDefault = PreferenceManager.getDefaultSharedPreferences(context);
-                lang = sharedPrefsDefault.getString(context.getResources().getString(R.string.str_idioma), Locale.getDefault().getLanguage());
-                for (JSONObject wp : data1) {
+        } else {
+            String lang;
+            SharedPreferences sharedPrefsDefault = PreferenceManager.getDefaultSharedPreferences(context);
+            lang = sharedPrefsDefault.getString(context.getResources().getString(R.string.str_idioma), Locale.getDefault().getLanguage());
+            for (JSONObject wp : data1) {
                 if ((wp.optJSONObject("texto").optString(lang).toLowerCase(Locale.getDefault()).contains(charText)))//&&(headerText.get(i).toLowerCase(Locale.getDefault()).contains(wp.brandName.substring(0,1))))
                 {
                     data.add(wp);

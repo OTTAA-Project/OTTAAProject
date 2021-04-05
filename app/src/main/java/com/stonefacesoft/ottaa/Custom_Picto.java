@@ -15,7 +15,7 @@ import android.widget.TextView;
  * <h3>Examples of implementation</h3>
  * <h4>How to set up the pictogram name</h4>
  * <code>String name="Hello";</code>
- *<code> picto.setCustom_Texto(name);</code>
+ * <code> picto.setCustom_Texto(name);</code>
  * <h4>How to set up the custom color </h4>
  * <code>int color=getResources().getColor(R.color.Black)</code>
  * <code>picto.setCustom_Color(color);</code>
@@ -42,14 +42,14 @@ public class Custom_Picto extends LinearLayout {
     }
 
     public Custom_Picto(Context context, AttributeSet attrs) {
-        super(context,attrs);
+        super(context, attrs);
         TypedArray a = context.getTheme().obtainStyledAttributes(
                 attrs,
                 R.styleable.Custom_Picto,
                 0, 0);
         try {
             Custom_Texto = a.getString(R.styleable.Custom_Picto_Texto);
-            Custom_Color = a.getColor(R.styleable.Custom_Picto_Color,getResources().getColor(R.color.Black));
+            Custom_Color = a.getColor(R.styleable.Custom_Picto_Color, getResources().getColor(R.color.Black));
 //            Custom_Imagen = a.getInteger(R.styleable.Custom_Picto_Imagen, 0);
         } finally {
             a.recycle();
@@ -116,20 +116,27 @@ public class Custom_Picto extends LinearLayout {
         return Img;
     }
 
-    public String getCustom_Texto()  {return Custom_Texto;}
+    public String getCustom_Texto() {
+        return Custom_Texto;
+    }
 
-    public int getCustom_Color()  {return Custom_Color;}
+    public int getCustom_Color() {
+        return Custom_Color;
+    }
 
-    public Drawable getCustom_Imagen()  {return Custom_Imagen;}
+    public Drawable getCustom_Imagen() {
+        return Custom_Imagen;
+    }
 
-    public void goneCustomTexto(){
+    public void goneCustomTexto() {
         tv.setVisibility(GONE);
     }
-    public void setInvisibleCustomTexto(){
+
+    public void setInvisibleCustomTexto() {
         tv.setVisibility(INVISIBLE);
     }
 
-    public void setVisibleText(){
+    public void setVisibleText() {
         tv.setVisibility(VISIBLE);
     }
 

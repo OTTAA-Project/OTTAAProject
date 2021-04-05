@@ -4,7 +4,7 @@ import android.view.MotionEvent;
 import android.view.View;
 
 public interface Make_Click_At_Time {
-    public void OnClickBarrido();
+    void OnClickBarrido();
 
     boolean onTouch(View v, MotionEvent event);
 }

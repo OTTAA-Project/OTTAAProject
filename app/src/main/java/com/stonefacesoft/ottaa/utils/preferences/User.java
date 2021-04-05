@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import androidx.annotation.NonNull;
+
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInApi;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -17,35 +19,32 @@ import com.stonefacesoft.ottaa.Interfaces.FirebaseSuccessListener;
 import com.stonefacesoft.ottaa.LoginActivity;
 import com.stonefacesoft.ottaa.R;
 
-import androidx.annotation.NonNull;
-
 public class User {
     private Activity mActivity;
     private Context mContext;
     public GoogleSignInApi mGoogleSignInClient;
-    private GoogleApiClient mGoogleApiClient;
-    private SharedPreferences sharedPrefsDefault;
+    private final GoogleApiClient mGoogleApiClient;
+    private final SharedPreferences sharedPrefsDefault;
     private static FirebaseSuccessListener mFirebaseSuccess;
-    private FirebaseAuth mAuth;
+    private final FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
 
 
-
-    public User(Activity mContext){
-        this.mActivity=mContext;
-        sharedPrefsDefault= PreferenceManager.getDefaultSharedPreferences(this.mActivity);
-        GoogleSignInOptions gso =createGSO();
+    public User(Activity mContext) {
+        this.mActivity = mContext;
+        sharedPrefsDefault = PreferenceManager.getDefaultSharedPreferences(this.mActivity);
+        GoogleSignInOptions gso = createGSO();
         // [END config_signin]
 
         mGoogleApiClient = new GoogleApiClient.Builder(mContext)
-                .addApi(Auth.GOOGLE_SIGN_IN_API,gso)
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
-       mAuth=FirebaseAuth.getInstance();
+        mAuth = FirebaseAuth.getInstance();
 
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                if(firebaseAuth.getCurrentUser() == null){
+                if (firebaseAuth.getCurrentUser() == null) {
                     sharedPrefsDefault.edit().putBoolean("firstrun", true).apply();
                     Intent mainIntent = new Intent().setClass(
                             mContext, LoginActivity.class);
@@ -59,44 +58,41 @@ public class User {
         mAuth.addAuthStateListener(mAuthListener);
     }
 
-    public User(Context mContext){
-        this.mContext=mContext;
-        sharedPrefsDefault= PreferenceManager.getDefaultSharedPreferences(this.mContext);
+    public User(Context mContext) {
+        this.mContext = mContext;
+        sharedPrefsDefault = PreferenceManager.getDefaultSharedPreferences(this.mContext);
         GoogleSignInOptions gso = createGSO();
         // [END config_signin]
 
         mGoogleApiClient = new GoogleApiClient.Builder(mContext)
-                .addApi(Auth.GOOGLE_SIGN_IN_API,gso)
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
-        mAuth=FirebaseAuth.getInstance();
+        mAuth = FirebaseAuth.getInstance();
 
     }
 
-    public void connectClient(){
+    public void connectClient() {
         mGoogleApiClient.connect();
     }
 
-    public  void disconnectClient(){
-        if(mGoogleApiClient.isConnected())
-        mGoogleApiClient.disconnect();
-
-
+    public void disconnectClient() {
+        if (mGoogleApiClient.isConnected())
+            mGoogleApiClient.disconnect();
 
 
     }
 
 
-
-    public void logOut(){
+    public void logOut() {
         sharedPrefsDefault.edit().putBoolean("usuario logueado", false)
                 .apply();
-        if(mGoogleApiClient.isConnected()){
+        if (mGoogleApiClient.isConnected()) {
             Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(new ResultCallback<Status>() {
                 @Override
                 public void onResult(@NonNull Status status) {
 
                     disconnectClient();
-                    mAuth.getInstance().signOut();
+                    FirebaseAuth.getInstance().signOut();
                     mActivity.finish();
                 }
 
@@ -108,15 +104,16 @@ public class User {
     public FirebaseAuth getmAuth() {
         return mAuth;
     }
+
     /**
      * Authenticate the google user
-     * */
-    private GoogleSignInOptions createGSO(){
-        if(mActivity!=null)
-        return  new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(this.mActivity.getString(R.string.default_web_client_id))
-                .requestEmail()
-                .build();
+     */
+    private GoogleSignInOptions createGSO() {
+        if (mActivity != null)
+            return new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                    .requestIdToken(this.mActivity.getString(R.string.default_web_client_id))
+                    .requestEmail()
+                    .build();
         else
             return new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                     .requestIdToken(this.mContext.getString(R.string.default_web_client_id))
@@ -124,7 +121,7 @@ public class User {
                     .build();
     }
 
-    public String getUserUid(){
+    public String getUserUid() {
         return mAuth.getCurrentUser().getUid();
     }
 }

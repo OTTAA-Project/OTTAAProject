@@ -21,13 +21,11 @@ import org.json.JSONObject;
 
 public class MemoryGame extends GameViewSelectPictograms {
 
-    private int matrixIdPictogram[][]= new int[2][4];
-    private int controlIndexSelect[]=new int[4];// se utiliza para indicar que pictogramas fueron seleccionados dos veces
-    private Handler resetOption=new Handler();
-    private int foundPictos=0;
-    private String history[]=new String[4];
-
-
+    private final int[][] matrixIdPictogram = new int[2][4];
+    private final int[] controlIndexSelect = new int[4];// se utiliza para indicar que pictogramas fueron seleccionados dos veces
+    private final Handler resetOption = new Handler();
+    private int foundPictos = 0;
+    private final String[] history = new String[4];
 
 
     @Override
@@ -41,17 +39,17 @@ public class MemoryGame extends GameViewSelectPictograms {
 
     @Override
     protected void selectRandomPictogram(int pos) {
-        int value=(int)Math.round((Math.random()*hijos.length()-1)+0);
-        if(!numeros.contains(value)) {
+        int value = (int) Math.round((Math.random() * hijos.length() - 1) + 0);
+        if (!numeros.contains(value)) {
             numeros.add(value);
             try {
-                JSONObject object=hijos.getJSONObject(value);
+                JSONObject object = hijos.getJSONObject(value);
                 pictogramas[pos] = hijos.getJSONObject(value);
             } catch (JSONException e) {
                 e.printStackTrace();
                 selectRandomPictogram(pos);
             }
-        }else{
+        } else {
             selectRandomPictogram(pos);
         }
     }
@@ -64,8 +62,8 @@ public class MemoryGame extends GameViewSelectPictograms {
         selectRandomPictogram(3);
     }
 
-        protected void cargarOpcion(int pos){
-        switch (pos){
+    protected void cargarOpcion(int pos) {
+        switch (pos) {
             case 0:
                 opcion1.setCustom_Img(json.getIcono(pictogramas[0]));
                 opcion1.setCustom_Texto(json.getNombre(pictogramas[0]));
@@ -93,64 +91,64 @@ public class MemoryGame extends GameViewSelectPictograms {
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.Option1:
 
-                setOption(opcion1,0,0);
-                lastPosicion=0;
+                setOption(opcion1, 0, 0);
+                lastPosicion = 0;
                 isCorrect(opcion1);
                 speakOption(opcion1);
                 break;
             case R.id.Option2:
 
-                setOption(opcion2,0,1);
-                lastPosicion=1;
+                setOption(opcion2, 0, 1);
+                lastPosicion = 1;
                 isCorrect(opcion2);
                 speakOption(opcion2);
                 //hacerClickOpcion(true);
                 break;
             case R.id.Option3:
-                setOption(opcion3,0,2);
-                lastPosicion=2;
+                setOption(opcion3, 0, 2);
+                lastPosicion = 2;
                 isCorrect(opcion3);
                 speakOption(opcion3);
                 //hacerClickOpcion(true);
                 break;
             case R.id.Option4:
-                setOption(opcion4,0,3);
-                lastPosicion=3;
+                setOption(opcion4, 0, 3);
+                lastPosicion = 3;
                 isCorrect(opcion4);
                 speakOption(opcion4);
                 //hacerClickOpcion(true);
                 break;
             case R.id.Guess1:
-                setOption(guess1,1,0);
+                setOption(guess1, 1, 0);
                 isCorrect(guess1);
                 speakOption(guess1);
                 //hacerClickOpcion(false);
                 break;
             case R.id.Guess2:
-                setOption(guess2,1,1);
+                setOption(guess2, 1, 1);
                 isCorrect(guess2);
                 speakOption(guess2);
                 //hacerClickOpcion(false);
                 break;
             case R.id.Guess3:
-                setOption(guess3,1,2);
+                setOption(guess3, 1, 2);
                 isCorrect(guess3);
                 speakOption(guess3);
                 //hacerClickOpcion(false);
                 break;
             case R.id.Guess4:
-                setOption(guess4,1,3);
+                setOption(guess4, 1, 3);
                 isCorrect(guess4);
                 speakOption(guess4);
                 //hacerClickOpcion(false);
                 break;
             case R.id.action_parar:
-                mute=!mute;
+                mute = !mute;
                 music.setMuted(mute);
-                sharedPrefsDefault.edit().putBoolean("muteSound",mute).apply();
+                sharedPrefsDefault.edit().putBoolean("muteSound", mute).apply();
 //                    if(mute)
 //                        sound_on_off.setImageDrawable(getResources().getDrawable(R.drawable.ic_volume_off_white_24dp));
 //                    else
@@ -164,9 +162,10 @@ public class MemoryGame extends GameViewSelectPictograms {
     protected void animarPictoGanador(PictoView from, PictoView to) {
 
     }
-    protected void hacerClickOpcion(boolean esPicto){
-        if(isChecked)
-            handlerHablar.postDelayed(animarHablar,1000);
+
+    protected void hacerClickOpcion(boolean esPicto) {
+        if (isChecked)
+            handlerHablar.postDelayed(animarHablar, 1000);
 
     }
 
@@ -187,8 +186,8 @@ public class MemoryGame extends GameViewSelectPictograms {
                 setIcon(item, mute, R.drawable.ic_volume_off_white_24dp, R.drawable.ic_volume_up_white_24dp);
                 return true;
             case R.id.check:
-                analyticsFirebase.customEvents("Touch","Match Pictograms","Help Action");
-                isChecked=!isChecked;
+                analyticsFirebase.customEvents("Touch", "Match Pictograms", "Help Action");
+                isChecked = !isChecked;
                 sharedPrefsDefault.edit().putBoolean(getString(R.string.str_pistas), isChecked).apply();
                 setIcon(mMenu.getItem(1), isChecked, R.drawable.ic_live_help_white_24dp, R.drawable.ic_unhelp);
                 if (isChecked) {
@@ -221,37 +220,38 @@ public class MemoryGame extends GameViewSelectPictograms {
         return false;
     }
 
-    public void resetMatrix(){
-        for (int i = 0; i < 2 ; i++) {
+    public void resetMatrix() {
+        for (int i = 0; i < 2; i++) {
             for (int j = 0; j < 4; j++) {
-                matrixIdPictogram[i][j]=-1;
+                matrixIdPictogram[i][j] = -1;
             }
         }
     }
 
-    public void resetValue(){
-        for (int i = 0; i <4 ; i++) {
-            controlIndexSelect[i]=0;
+    public void resetValue() {
+        for (int i = 0; i < 4; i++) {
+            controlIndexSelect[i] = 0;
         }
     }
 
-    public void resetHistory(){
-        for (int i = 0; i <history.length ; i++) {
-            history[i]="";
+    public void resetHistory() {
+        for (int i = 0; i < history.length; i++) {
+            history[i] = "";
         }
     }
-/**
- *
- * */
-    public void addRandomIndex(){
-        for (int i = 0; i < matrixIdPictogram.length ; i++) {// recorro la filas
+
+    /**
+     *
+     */
+    public void addRandomIndex() {
+        for (int i = 0; i < matrixIdPictogram.length; i++) {// recorro la filas
             for (int j = 0; j < matrixIdPictogram[i].length; j++) { //recorro las columnas
-                if(matrixIdPictogram[i][j]==-1){
-                    int index=(int)(Math.random()*4)+0; // picto a seleccionar
-                    if(controlIndexSelect[index]<2){ //pregunto cuantas veces fue seleccionado el valor
-                        matrixIdPictogram[i][j]=index;
+                if (matrixIdPictogram[i][j] == -1) {
+                    int index = (int) (Math.random() * 4) + 0; // picto a seleccionar
+                    if (controlIndexSelect[index] < 2) { //pregunto cuantas veces fue seleccionado el valor
+                        matrixIdPictogram[i][j] = index;
                         controlIndexSelect[index]++; //le indico que ese valor fue seleccionado
-                    }else{
+                    } else {
                         addRandomIndex(); //
                     }
 
@@ -260,14 +260,14 @@ public class MemoryGame extends GameViewSelectPictograms {
         }
     }
 
-    public void setOption(PictoView option,int row,int column){
+    public void setOption(PictoView option, int row, int column) {
 
-        Log.d("TAG", "setOption: "+pictogramas[matrixIdPictogram[row][column]].toString());
-            try {
-                option.setCustom_Texto(pictogramas[matrixIdPictogram[row][column]].getJSONObject("texto").getString(json.getIdioma()));
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+        Log.d("TAG", "setOption: " + pictogramas[matrixIdPictogram[row][column]].toString());
+        try {
+            option.setCustom_Texto(pictogramas[matrixIdPictogram[row][column]].getJSONObject("texto").getString(json.getIdioma()));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         option.setVisibleText();
         option.setCustom_Img(json.getIcono(pictogramas[matrixIdPictogram[row][column]]));
     }
@@ -294,9 +294,9 @@ public class MemoryGame extends GameViewSelectPictograms {
     }
 
 
-    private void startGame(){
+    private void startGame() {
         numeros.clear();
-        foundPictos =0;
+        foundPictos = 0;
         resetMatrix();
         resetValue();
         resetHistory();
@@ -372,7 +372,7 @@ public class MemoryGame extends GameViewSelectPictograms {
         history[foundPictos] = lastButton.getCustom_Texto();
         foundPictos++;
         setMenuScoreIcon();
-        animateChildrens(lastButton,lastPictogram,true);
+        animateChildrens(lastButton, lastPictogram, true);
         lastPictogram = null;
         lastButton = null;
         if (foundPictos == pictogramas.length) {
@@ -391,7 +391,7 @@ public class MemoryGame extends GameViewSelectPictograms {
         player.playOhOhSound();
         game.incrementWrong();
         setMenuScoreIcon();
-        animateChildrens(findViewById(lastPictogram.getId()),findViewById(lastButton.getId()),false);
+        animateChildrens(findViewById(lastPictogram.getId()), findViewById(lastButton.getId()), false);
         resetOption.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -406,25 +406,25 @@ public class MemoryGame extends GameViewSelectPictograms {
         }, 2500);
     }
 
-    private void selectLastButton(PictoView view){
+    private void selectLastButton(PictoView view) {
         lastButton = view;
         if (theViewHasBeenSelected(lastButton.getCustom_Texto()))
             lastButton = null;
     }
 
-    private void selectLastPictogram(PictoView view){
+    private void selectLastPictogram(PictoView view) {
         lastPictogram = view;
         if (theViewHasBeenSelected(lastPictogram.getCustom_Texto()))
             lastPictogram = null;
     }
 
-    private void animateChildrens(PictoView view1,PictoView view2,boolean isCorrect){
-        if(isCorrect){
-            animGameScore.animateCorrect(view1, game.getSmiley(Juego.VERY_SSATISFIED),mAnimationWin);
-            animGameScore.animateCorrect(view2, game.getSmiley(Juego.VERY_SSATISFIED),mAnimationWin2);
-        }else{
-            animGameScore.animateCorrect(view1, game.getSmiley(Juego.DISSATISFIED),mAnimationWin);
-            animGameScore.animateCorrect(view2, game.getSmiley(Juego.DISSATISFIED),mAnimationWin2);
+    private void animateChildrens(PictoView view1, PictoView view2, boolean isCorrect) {
+        if (isCorrect) {
+            animGameScore.animateCorrect(view1, game.getSmiley(Juego.VERY_SSATISFIED), mAnimationWin);
+            animGameScore.animateCorrect(view2, game.getSmiley(Juego.VERY_SSATISFIED), mAnimationWin2);
+        } else {
+            animGameScore.animateCorrect(view1, game.getSmiley(Juego.DISSATISFIED), mAnimationWin);
+            animGameScore.animateCorrect(view2, game.getSmiley(Juego.DISSATISFIED), mAnimationWin2);
         }
     }
 }

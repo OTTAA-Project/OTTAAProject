@@ -34,7 +34,7 @@ public class AboutOttaa extends AppCompatActivity {
 
     private static final String TAG = "AboutOTTAA";
     private String uid;
-    private TextView mUserEmail,mAppVersion,mFirebaseAppVersion;
+    private TextView mUserEmail, mAppVersion, mFirebaseAppVersion;
     private DatabaseReference mDatabase;
     private int versionCode;
     private Button mBtnActualizar;
@@ -71,7 +71,7 @@ public class AboutOttaa extends AppCompatActivity {
     }
 
 
-    private void ObtenerVersion(){
+    private void ObtenerVersion() {
 
         try {
             PackageInfo pInfo = this.getPackageManager().getPackageInfo(getPackageName(), 0);
@@ -89,7 +89,7 @@ public class AboutOttaa extends AppCompatActivity {
                 mAppVersion.setText(getApplicationContext().getResources().getString(R.string.version_de_ottaa_instalada) + ": " + versionCode);
                 mFirebaseAppVersion.setText(getApplicationContext().getResources().getString(R.string.versi_n_actual_de_ottaa) + ": " + versionApp);
 
-                if(versionCode != versionApp){
+                if (versionCode != versionApp) {
                     mBtnActualizar.setEnabled(true);
                     mBtnActualizar.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -103,7 +103,7 @@ public class AboutOttaa extends AppCompatActivity {
                         }
                     });
 
-                }else{
+                } else {
                     mBtnActualizar.setEnabled(false);
                     mBtnActualizar.setText(getApplicationContext().getResources().getString(R.string.ottaa_actualizado));
                 }
@@ -118,18 +118,18 @@ public class AboutOttaa extends AppCompatActivity {
         });
     }
 
-    private void ObtenerEmailUsuario(){
+    private void ObtenerEmailUsuario() {
 
         //Todo Replacement with the firebaseCloudFunction
-        FirebaseUtils firebaseUtils=FirebaseUtils.getInstance();
+        FirebaseUtils firebaseUtils = FirebaseUtils.getInstance();
         firebaseUtils.setmContext(this);
         firebaseUtils.setUpFirebaseDatabase();
-        DatabaseReference firebaseRef=firebaseUtils.getmDatabase();
-       firebaseRef.getDatabase().getReference().child("email").child(uid).child("email").addListenerForSingleValueEvent(new ValueEventListener() {
+        DatabaseReference firebaseRef = firebaseUtils.getmDatabase();
+        firebaseRef.getDatabase().getReference().child("email").child(uid).child("email").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 String userEmail = dataSnapshot.getValue(String.class);
-                mUserEmail.setText(getApplicationContext().getString(R.string.cuenta) +":"+userEmail);
+                mUserEmail.setText(getApplicationContext().getString(R.string.cuenta) + ":" + userEmail);
             }
 
             @Override

@@ -6,19 +6,16 @@ package com.stonefacesoft.ottaa.Helper;
 
 import android.content.Context;
 import android.os.Handler;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import butterknife.OnTouch;
+public class RecyclerItemClickListener implements RecyclerView.OnItemTouchListener {
 
-public class RecyclerItemClickListener implements RecyclerView.OnItemTouchListener{
-
-    private OnItemClickListener mListener;
-    private GestureDetector mGestureDetector;
+    private final OnItemClickListener mListener;
+    private final GestureDetector mGestureDetector;
     private boolean isDouble;//boolean para saber si entro en el double tap
     private boolean isRunning;//boolean para saber si el handler esta corriendo
     private boolean isLongPress; //para saber si se esta presionan
@@ -26,8 +23,10 @@ public class RecyclerItemClickListener implements RecyclerView.OnItemTouchListen
 
     public interface OnItemClickListener {
         void onItemClick(View view, int position);
+
         void onDoubleTap(View view, int position);
-        void onLongClickListener(View view,int position);
+
+        void onLongClickListener(View view, int position);
     }
 
     public RecyclerItemClickListener(Context context, OnItemClickListener listener) {
@@ -35,15 +34,14 @@ public class RecyclerItemClickListener implements RecyclerView.OnItemTouchListen
         mGestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
 
             @Override
-            public boolean onSingleTapConfirmed(MotionEvent e)
-            {
-                isLongPress=false;
-                isDouble=false;//si toco una sola vez
+            public boolean onSingleTapConfirmed(MotionEvent e) {
+                isLongPress = false;
+                isDouble = false;//si toco una sola vez
                 return true;
             }
+
             @Override
-            public boolean onSingleTapUp(MotionEvent e)
-            {
+            public boolean onSingleTapUp(MotionEvent e) {
                 //llama a la funcion cuando se deja de tocar el boton
                 return true;
             }
@@ -52,8 +50,8 @@ public class RecyclerItemClickListener implements RecyclerView.OnItemTouchListen
             @Override
             public boolean onDoubleTap(MotionEvent e) {
 
-                isDouble=true;// si entra en el double tap
-                isLongPress=false;
+                isDouble = true;// si entra en el double tap
+                isLongPress = false;
 
                 return true;
             }
@@ -62,23 +60,22 @@ public class RecyclerItemClickListener implements RecyclerView.OnItemTouchListen
         });
 
 
-
     }
-    public RecyclerItemClickListener(RecyclerView recyclerView1,Context context, OnItemClickListener listener) {
+
+    public RecyclerItemClickListener(RecyclerView recyclerView1, Context context, OnItemClickListener listener) {
         mListener = listener;
-        recyclerView=recyclerView1;
+        recyclerView = recyclerView1;
         mGestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
 
             @Override
-            public boolean onSingleTapConfirmed(MotionEvent e)
-            {
-                isLongPress=false;
-                isDouble=false;//si toco una sola vez
+            public boolean onSingleTapConfirmed(MotionEvent e) {
+                isLongPress = false;
+                isDouble = false;//si toco una sola vez
                 return true;
             }
+
             @Override
-            public boolean onSingleTapUp(MotionEvent e)
-            {
+            public boolean onSingleTapUp(MotionEvent e) {
                 //llama a la funcion cuando se deja de tocar el boton
                 return true;
             }
@@ -87,8 +84,8 @@ public class RecyclerItemClickListener implements RecyclerView.OnItemTouchListen
             @Override
             public boolean onDoubleTap(MotionEvent e) {
 
-                isDouble=true;// si entra en el double tap
-                isLongPress=false;
+                isDouble = true;// si entra en el double tap
+                isLongPress = false;
 
                 return true;
             }
@@ -105,7 +102,6 @@ public class RecyclerItemClickListener implements RecyclerView.OnItemTouchListen
         });
 
 
-
     }
 
     @Override
@@ -113,21 +109,21 @@ public class RecyclerItemClickListener implements RecyclerView.OnItemTouchListen
 
         final View childView = view.findChildViewUnder(e.getX(), e.getY());
         if (childView != null && mListener != null && mGestureDetector.onTouchEvent(e)) {
-            Handler handler=new Handler();
-            if(!isRunning)//si no esta corriendo el tiempo
+            Handler handler = new Handler();
+            if (!isRunning)//si no esta corriendo el tiempo
             {
                 isRunning = true;// se inicia y se da un tiempo de 1,7 segundos
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         //si no hay double click entra en la primera opcion
-                        if(isDouble){
-                            mListener.onDoubleTap(childView,view.getChildAdapterPosition(childView));
-                        }else if(!isLongPress&&!isDouble){
+                        if (isDouble) {
+                            mListener.onDoubleTap(childView, view.getChildAdapterPosition(childView));
+                        } else if (!isLongPress && !isDouble) {
                             mListener.onItemClick(childView, view.getChildAdapterPosition(childView));
                         }
 
-                       isRunning = false;
+                        isRunning = false;
                     }
                 }, 300);
 
@@ -146,19 +142,19 @@ public class RecyclerItemClickListener implements RecyclerView.OnItemTouchListen
 
         final View childView = view.findChildViewUnder(e.getX(), e.getY());
         if (childView != null && mListener != null && mGestureDetector.onTouchEvent(e)) {
-            Handler handler=new Handler();
-            if(!isRunning)//si no esta corriendo el tiempo
+            Handler handler = new Handler();
+            if (!isRunning)//si no esta corriendo el tiempo
             {
                 isRunning = true;// se inicia y se da un tiempo de 1,7 segundos
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
                         //si no hay double click entra en la primera opcion
-                        if(isLongPress){
+                        if (isLongPress) {
                             mListener.onLongClickListener(childView, view.getChildAdapterPosition(childView));
-                        }else if(isDouble){
-                            mListener.onDoubleTap(childView,view.getChildAdapterPosition(childView));
-                        }else{
+                        } else if (isDouble) {
+                            mListener.onDoubleTap(childView, view.getChildAdapterPosition(childView));
+                        } else {
                             mListener.onItemClick(childView, view.getChildAdapterPosition(childView));
                         }
 
@@ -175,12 +171,10 @@ public class RecyclerItemClickListener implements RecyclerView.OnItemTouchListen
     }
 
 
-
     @Override
     public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
 
     }
-
 
 
 }

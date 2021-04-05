@@ -14,25 +14,25 @@ import com.stonefacesoft.ottaa.utils.Firebase.CrashlyticsUtils;
 import com.stonefacesoft.ottaa.utils.verificarPaqueteInstalado;
 
 import java.util.Locale;
+
 /**
  * @author Gonzalo Juarez
  * <h3>Objetive</h3>
  * <p>This class implement the action to speak in high voice the phrase or the pictogram name.</p>
  * <h3>How to declare</h3>
- *   <code>
- *       Declare UtilsTTS utilTts=new UtilsTTS(Context,CustomToast,SharedPreferences);
- *   </code>
- *   <h3>Examples of implementation</h3>
- *     <h4>Prepare the tts engine</h4>
-*      <code>utilsTts.preparEngineTTS();</code>
- *      <h4>Talk with dialog</h4>
- *      <code>String word="hello";</code> <br>
- *      <code>utilsTts.hablarConDialogo(world);</code>
- *      <h4>Talk without the dialog screen</h4>
- *      <code>String word="hello";</code> <br>
- *      <code>utilsTts.hablar(world);</code>
- *
- * */
+ * <code>
+ * Declare UtilsTTS utilTts=new UtilsTTS(Context,CustomToast,SharedPreferences);
+ * </code>
+ * <h3>Examples of implementation</h3>
+ * <h4>Prepare the tts engine</h4>
+ * <code>utilsTts.preparEngineTTS();</code>
+ * <h4>Talk with dialog</h4>
+ * <code>String word="hello";</code> <br>
+ * <code>utilsTts.hablarConDialogo(world);</code>
+ * <h4>Talk without the dialog screen</h4>
+ * <code>String word="hello";</code> <br>
+ * <code>utilsTts.hablar(world);</code>
+ */
 public class UtilsTTS {
     protected SharedPreferences sharedPrefsDefault;
     protected TextToSpeech mTTS;
@@ -40,31 +40,32 @@ public class UtilsTTS {
     protected CustomToast alerta;
     protected boolean speak;
 
-    public UtilsTTS(Context mContext, TextToSpeech mTTS, CustomToast alerta, SharedPreferences sharedPrefsDefault){
-        this.mContext=mContext;
-        this.alerta=alerta;
+    public UtilsTTS(Context mContext, TextToSpeech mTTS, CustomToast alerta, SharedPreferences sharedPrefsDefault) {
+        this.mContext = mContext;
+        this.alerta = alerta;
 
-        this.mTTS=new TextToSpeech(this.mContext, new TextToSpeech.OnInitListener() {
+        this.mTTS = new TextToSpeech(this.mContext, new TextToSpeech.OnInitListener() {
             @Override
             public void onInit(int status) {
                 if (status == TextToSpeech.SUCCESS) {
                     preparEngineTTS();
-                    speak=true;
+                    speak = true;
                 } else if (status == TextToSpeech.ERROR) {
                     if (mTTS != null)
                         mTTS.stop();
-                    speak=false;
+                    speak = false;
 
                 }
             }
         });
-        this.sharedPrefsDefault=sharedPrefsDefault;
+        this.sharedPrefsDefault = sharedPrefsDefault;
     }
+
     /**
      * <h5>Objetive :</h5>
      * <p> Prepare the Text to Speech Engine.</p>
-     * */
-    public void preparEngineTTS(){
+     */
+    public void preparEngineTTS() {
         try {
 
             // Primero se fija en que idioma est&aacute configurada la traducci&oacuten para poner el TTS en el idioma correcto
@@ -144,13 +145,15 @@ public class UtilsTTS {
         mTTS.setPitch(pitch / 10);
         mTTS.setSpeechRate(vel / 10);
     }
+
     /**
      * <h5>Objetive :</h5>
      * <p>Speak the phrase without dialog.</p>
+     *
      * @param frase Text to said in high voice with the TTS.
-     * */
-    public void hablar(String frase){
-        speak=true;
+     */
+    public void hablar(String frase) {
+        speak = true;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 
             mTTS.speak(frase, TextToSpeech.QUEUE_FLUSH, null, null);
@@ -158,12 +161,14 @@ public class UtilsTTS {
             mTTS.speak(frase, TextToSpeech.QUEUE_FLUSH, null);
         }
     }
+
     /**
      * <h5>Objetive :</h5>
      * <p>Speak the phrase with dialog screen.</p>
+     *
      * @param frase Text to said in high voice with the TTS.
-     * */
-    public void hablarConDialogo(String frase){
+     */
+    public void hablarConDialogo(String frase) {
         Log.d("texToSpeech_hablar", "Hablar");
         alerta.mostrarFrase(frase);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

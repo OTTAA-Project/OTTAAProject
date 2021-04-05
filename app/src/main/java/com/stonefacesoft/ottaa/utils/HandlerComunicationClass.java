@@ -10,43 +10,45 @@ public class HandlerComunicationClass extends Handler {
     private prefs preferences;
     private Principal principal;
 
-    public static final int SHOWDIALOG=0;
-    public static final int DISMISSDIALOG=1;
-    public static final int CARGARJSON=2;
-    public static final int ERRORCARGARJSON=3;
+    public static final int SHOWDIALOG = 0;
+    public static final int DISMISSDIALOG = 1;
+    public static final int CARGARJSON = 2;
+    public static final int ERRORCARGARJSON = 3;
     public static final int FraseTraducida = 4;
     public static final int TEXTONOTRADUCIDO = 5;
     public static final int INTENTARDENUEVO = 6;
 
-    private  int fallasLeerJson=0;
-    public HandlerComunicationClass(prefs preferences){
-        this.preferences=preferences;
+    private int fallasLeerJson = 0;
+
+    public HandlerComunicationClass(prefs preferences) {
+        this.preferences = preferences;
     }
-    public HandlerComunicationClass(Principal principal){
-        this.principal=principal;
+
+    public HandlerComunicationClass(Principal principal) {
+        this.principal = principal;
     }
 
     @Override
     public void handleMessage(Message msg) {
-        switch (msg.what){
+        switch (msg.what) {
             case SHOWDIALOG:
-                 if(preferences!=null){
+                if (preferences != null) {
                     preferences.mostrarDialogo();
                 }
                 break;
             case DISMISSDIALOG:
-                if(preferences!=null){
+                if (preferences != null) {
                     preferences.cancelarDialogo();
                 }
                 break;
-            case CARGARJSON :
-                if(principal!=null)
+            case CARGARJSON:
+                if (principal != null)
                     principal.CargarJson();
                 break;
             case ERRORCARGARJSON:
-                if(principal!=null){
+                if (principal != null) {
                     fallasLeerJson++;
-                    if(fallasLeerJson==1)
+                    if (fallasLeerJson == 1)
                         principal.CargarJson();
 
                 }
@@ -68,12 +70,12 @@ public class HandlerComunicationClass extends Handler {
                     principal.intentarDeNuevo();
                 }
                 break;
-             default:
-                 super.handleMessage(msg);
+            default:
+                super.handleMessage(msg);
         }
     }
 
-    public void setFallasLeerJson(int fallasLeerJson){
-        this.fallasLeerJson=fallasLeerJson;
+    public void setFallasLeerJson(int fallasLeerJson) {
+        this.fallasLeerJson = fallasLeerJson;
     }
 }

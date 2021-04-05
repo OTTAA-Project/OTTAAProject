@@ -35,12 +35,12 @@ public class Viewpager_tutorial extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tutorialview);
         viewPager = findViewById(R.id.viewpager);
-        setImageDescriptions(0, R.drawable.tutorial01,getResources().getString(R.string.tutorial01), getResources().getString(R.string.createyourphrases),R.color.tuto_color1);
-        setImageDescriptions(1, R.drawable.tutorial02, getResources().getString(R.string.tutorial02), getResources().getString(R.string.talktotheworld),R.color.tuto_color2);
-        setImageDescriptions(2, R.drawable.tutorial03,  getResources().getString(R.string.tutorial03),getResources().getString(R.string.accessthousandof) ,R.color.tuto_color3);
-        setImageDescriptions(3, R.drawable.tutorial04,  getResources().getString(R.string.tutorial04), getResources().getString(R.string.playandlearn),R.color.tuto_color4);
+        setImageDescriptions(0, R.drawable.tutorial01, getResources().getString(R.string.tutorial01), getResources().getString(R.string.createyourphrases), R.color.tuto_color1);
+        setImageDescriptions(1, R.drawable.tutorial02, getResources().getString(R.string.tutorial02), getResources().getString(R.string.talktotheworld), R.color.tuto_color2);
+        setImageDescriptions(2, R.drawable.tutorial03, getResources().getString(R.string.tutorial03), getResources().getString(R.string.accessthousandof), R.color.tuto_color3);
+        setImageDescriptions(3, R.drawable.tutorial04, getResources().getString(R.string.tutorial04), getResources().getString(R.string.playandlearn), R.color.tuto_color4);
         pagerAdapter = new Viewpager_tutorial.ScreenSlidePagerAdapter(this);
-        floatingActionButton=findViewById(R.id.exit);
+        floatingActionButton = findViewById(R.id.exit);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -68,31 +68,28 @@ public class Viewpager_tutorial extends AppCompatActivity {
         public int getItemCount() {
             try {
                 return imageDescriptions.length;
-            } catch (Exception ex){
+            } catch (Exception ex) {
                 return 0;
             }
         }
 
 
-
-
     }
 
 
-
-    public  static class fragmentTutorial extends Fragment implements View.OnClickListener {
+    public static class fragmentTutorial extends Fragment implements View.OnClickListener {
         private View view;
-        private  int position;
+        private int position;
         private boolean editar;
 
-        public fragmentTutorial(){
+        public fragmentTutorial() {
 
         }
 
-        public fragmentTutorial newInstance(Integer position1){
-            Viewpager_tutorial.fragmentTutorial fragmentGrupo=new Viewpager_tutorial.fragmentTutorial();
+        public fragmentTutorial newInstance(Integer position1) {
+            Viewpager_tutorial.fragmentTutorial fragmentGrupo = new Viewpager_tutorial.fragmentTutorial();
             Bundle args = new Bundle();
-            args.putInt("position",position1);
+            args.putInt("position", position1);
             fragmentGrupo.setArguments(args);
             return fragmentGrupo;
         }
@@ -100,8 +97,8 @@ public class Viewpager_tutorial extends AppCompatActivity {
         @Override
         public void onCreate(@Nullable Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-            if(getArguments()!=null){
-                position=getArguments().getInt("position");
+            if (getArguments() != null) {
+                position = getArguments().getInt("position");
             }
         }
 
@@ -112,16 +109,17 @@ public class Viewpager_tutorial extends AppCompatActivity {
             // Inflate the layout for this fragment
             View view = getView() != null ? getView() :
                     inflater.inflate(R.layout.viewpagertutorialclass, container, false);
-            return view; }
+            return view;
+        }
 
 
         @Override
         public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
             super.onViewCreated(view, savedInstanceState);
-            ImageView backgroundColor=view.findViewById(R.id.text_background);
+            ImageView backgroundColor = view.findViewById(R.id.text_background);
             ImageView imageView = view.findViewById(R.id.icon);
-            Button next=view.findViewById(R.id.btn_siguiente);
-            Button previous=view.findViewById(R.id.btn_anterior);
+            Button next = view.findViewById(R.id.btn_siguiente);
+            Button previous = view.findViewById(R.id.btn_anterior);
             TextView textView = view.findViewById(R.id.description);
             TextView title = view.findViewById(R.id.title);
             imageView.setImageDrawable(view.getResources().getDrawable(imageDescriptions[position].getIdImage()));
@@ -132,21 +130,21 @@ public class Viewpager_tutorial extends AppCompatActivity {
             next.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(position==imageDescriptions.length-1)
+                    if (position == imageDescriptions.length - 1)
                         floatingActionButton.callOnClick();
                     else
-                        viewPager.setCurrentItem(position+1);
+                        viewPager.setCurrentItem(position + 1);
 
                 }
             });
-            if(position==0){
+            if (position == 0) {
                 previous.setVisibility(View.INVISIBLE);
-            }else if(position==imageDescriptions.length-1)
+            } else if (position == imageDescriptions.length - 1)
                 next.setText("Listo");
             previous.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    viewPager.setCurrentItem(position-1);
+                    viewPager.setCurrentItem(position - 1);
 
                 }
             });
@@ -154,13 +152,11 @@ public class Viewpager_tutorial extends AppCompatActivity {
         }
 
 
-
-
         @Override
         public void onClick(View view) {
             try {
 
-            }catch (Exception ex){
+            } catch (Exception ex) {
 
             }
         }
@@ -176,11 +172,12 @@ public class Viewpager_tutorial extends AppCompatActivity {
             super.onDestroyView();
         }
     }
-    public void setImageDescriptions(int position,int id,String description,String title,int color){
-        imageDescriptions[position]=new Custom_ImageDescription(this,title,description,id,color);
+
+    public void setImageDescriptions(int position, int id, String description, String title, int color) {
+        imageDescriptions[position] = new Custom_ImageDescription(this, title, description, id, color);
     }
 
-    public  void finishActivity(){
+    public void finishActivity() {
         finish();
     }
 

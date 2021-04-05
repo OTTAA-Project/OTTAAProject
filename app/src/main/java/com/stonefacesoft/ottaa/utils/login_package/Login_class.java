@@ -1,7 +1,6 @@
 package com.stonefacesoft.ottaa.utils.login_package;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -11,6 +10,9 @@ import android.os.Build;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.Log;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.facebook.FacebookSdk;
 import com.google.firebase.auth.FirebaseAuth;
@@ -25,7 +27,6 @@ import com.google.firebase.storage.StorageReference;
 import com.stonefacesoft.ottaa.FirebaseRequests.BajarJsonFirebase;
 import com.stonefacesoft.ottaa.FirebaseRequests.FirebaseDatabaseRequest;
 import com.stonefacesoft.ottaa.Interfaces.FirebaseSuccessListener;
-import com.stonefacesoft.ottaa.LoginActivity;
 import com.stonefacesoft.ottaa.Principal;
 import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.utils.ObservableInteger;
@@ -45,23 +46,20 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 public class Login_class implements FirebaseSuccessListener {
-    private  StorageReference mStorageRef;
+    private final StorageReference mStorageRef;
     protected AppCompatActivity mActivity;
     protected FirebaseAuth.AuthStateListener mAuthListener;
     protected FirebaseAuth mAuth;
     private SharedPreferences sharedPrefsDefault;
     private BajarJsonFirebase mBajarJsonFirebase;
-    private DatabaseReference mDatabase;
+    private final DatabaseReference mDatabase;
     private static final String TAG = "LoginActivity";
     private String StrTipo, StrEdad, StrSexo, pais;
     private String locale;
     private String dateStr;
     protected ObservableInteger obsInt;
-    private ProgressDialog dialog;
+    private final ProgressDialog dialog;
 
 
     public Login_class(AppCompatActivity mActivity){

@@ -248,7 +248,7 @@ public class ActivityInformes extends AppCompatActivity implements CloudFunction
         LineData data = new LineData(dataSets);
 
         data.setDrawValues(false);
-        Description description=new Description();
+        Description description = new Description();
         description.setText("");
         lineChart.setDescription(description);
         lineChart.setData(data);
@@ -397,7 +397,6 @@ public class ActivityInformes extends AppCompatActivity implements CloudFunction
     }
 
     /**
-     *
      * This method loads the most used sentences to an Imageview that will switch images automatically
      */
     private void loadMostUsedSentences(JSONArray jsonArray) {

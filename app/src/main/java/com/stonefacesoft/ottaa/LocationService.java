@@ -40,16 +40,16 @@ public class LocationService extends Service implements LocationListener {
                 .ACCESS_FINE_LOCATION) !=
                 PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context,
                 Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            Log.e("LocationService_Permis","permission not granted");
+            Log.e("LocationService_Permis", "permission not granted");
             return null;
         }
         locationManager.requestLocationUpdates(provider, MIN_TIME_FOR_UPDATE, MIN_DISTANCE_FOR_UPDATE, this);
-        Log.e("LocationService_Permis","permission granted");
+        Log.e("LocationService_Permis", "permission granted");
         if (locationManager != null) {
             Location location = locationManager.getLastKnownLocation(provider);
-                return location;
-        }else{
-            Log.e("LocationService_Permisr","returning null");
+            return location;
+        } else {
+            Log.e("LocationService_Permisr", "returning null");
             return null;
         }
     }

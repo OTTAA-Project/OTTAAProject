@@ -7,7 +7,6 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.view.Window;
@@ -47,12 +46,12 @@ import java.util.List;
 
 public class NewDialogsOTTAA implements FirebaseSuccessListener {
 
-    private Activity mActivity;
+    private final Activity mActivity;
     private GestionarBitmap mGestionarBitmap;
     private DatosDeUso mDatosDeUso;
-    private Dialog dialog;
+    private final Dialog dialog;
     private RecyclerView mRecyclerViewFrases, mRecyclerViewTags;
-    private ArrayList<FavModel> mArrayListFavoritos = new ArrayList<>();
+    private final ArrayList<FavModel> mArrayListFavoritos = new ArrayList<>();
     private TextView textViewNoData;
     private ProgressBar progressBar;
     private AsignTags asignTags;
@@ -73,8 +72,6 @@ public class NewDialogsOTTAA implements FirebaseSuccessListener {
         dialog.setCancelable(isCancelable);
         dialog.setContentView(layoutResource);
     }
-
-
 
 
     private void initProgress() {
@@ -191,10 +188,10 @@ public class NewDialogsOTTAA implements FirebaseSuccessListener {
 
     }
 
-    public void initCustomFavoritePhrase(boolean isBarrido){
-        SharedPreferences defaultSharedPreferences=PreferenceManager.getDefaultSharedPreferences(mActivity);
-        int option=defaultSharedPreferences.getInt("favoritePhrase",0);
-        switch (option){
+    public void initCustomFavoritePhrase(boolean isBarrido) {
+        SharedPreferences defaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(mActivity);
+        int option = defaultSharedPreferences.getInt("favoritePhrase", 0);
+        switch (option) {
             case 0:
                 showHeartDialog();
                 break;
@@ -212,22 +209,22 @@ public class NewDialogsOTTAA implements FirebaseSuccessListener {
 
         initDialog(R.layout.dialog_most_used_frases, true);
         initProgress();
-        position=0;
+        position = 0;
 
         mRecyclerViewFrases = dialog.findViewById(R.id.recyclerViewFrases);
         setLinearLayoutManager(mRecyclerViewFrases);
         new cargarFavoritos().execute();
-        ImageButton foward,next,sort;
-        sort=dialog.findViewById(R.id.actionButton);
-        foward=dialog.findViewById(R.id.frase_anterior);
-        next=dialog.findViewById(R.id.frase_siguiente);
-        TextView title=dialog.findViewById(R.id.textTiulo);
+        ImageButton foward, next, sort;
+        sort = dialog.findViewById(R.id.actionButton);
+        foward = dialog.findViewById(R.id.frase_anterior);
+        next = dialog.findViewById(R.id.frase_siguiente);
+        TextView title = dialog.findViewById(R.id.textTiulo);
         title.setText(mActivity.getResources().getText(R.string.frases_musadas));
         sort.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_sort_phrases));
         foward.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                position=positionItemAdapter.subtract();
+                position = positionItemAdapter.subtract();
                 mRecyclerViewFrases.smoothScrollToPosition(position);
 
             }
@@ -235,7 +232,7 @@ public class NewDialogsOTTAA implements FirebaseSuccessListener {
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                position=positionItemAdapter.add();
+                position = positionItemAdapter.add();
                 mRecyclerViewFrases.smoothScrollToPosition(position);
 
             }
@@ -243,8 +240,8 @@ public class NewDialogsOTTAA implements FirebaseSuccessListener {
         sort.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SharedPreferences defaultSharedPreferences=PreferenceManager.getDefaultSharedPreferences(mActivity);
-                defaultSharedPreferences.edit().putInt("favoritePhrase",1).apply();
+                SharedPreferences defaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(mActivity);
+                defaultSharedPreferences.edit().putInt("favoritePhrase", 1).apply();
                 showCustomPhrases();
             }
         });
@@ -252,76 +249,76 @@ public class NewDialogsOTTAA implements FirebaseSuccessListener {
 
     }
 
-    public void showCustomPhrases(){
-        initDialog(R.layout.dialog_most_used_frases,true);
+    public void showCustomPhrases() {
+        initDialog(R.layout.dialog_most_used_frases, true);
         initProgress();
-        position=0;
+        position = 0;
         mRecyclerViewFrases = dialog.findViewById(R.id.recyclerViewFrases);
         setLinearLayoutManager(mRecyclerViewFrases);
         new cargarFrasesSeleccionadas().execute();
-        ImageButton foward,next,sort,addPhrases;
-        addPhrases=dialog.findViewById(R.id.addButton);
+        ImageButton foward, next, sort, addPhrases;
+        addPhrases = dialog.findViewById(R.id.addButton);
         addPhrases.setVisibility(View.VISIBLE);
-        sort=dialog.findViewById(R.id.actionButton);
-        TextView title=dialog.findViewById(R.id.textTiulo);
+        sort = dialog.findViewById(R.id.actionButton);
+        TextView title = dialog.findViewById(R.id.textTiulo);
         title.setText(mActivity.getResources().getText(R.string.favorite_phrases));
         sort.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_favorite_black_24dp));
-        foward=dialog.findViewById(R.id.frase_anterior);
-        next=dialog.findViewById(R.id.frase_siguiente);
+        foward = dialog.findViewById(R.id.frase_anterior);
+        next = dialog.findViewById(R.id.frase_siguiente);
         foward.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               if(positionItemAdapter!=null) {
-                   position = positionItemAdapter.subtract();
+                if (positionItemAdapter != null) {
+                    position = positionItemAdapter.subtract();
                     mRecyclerViewFrases.smoothScrollToPosition(position);
-               }
+                }
             }
         });
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               if(positionItemAdapter!=null) {
-                   position = positionItemAdapter.add();
-                   mRecyclerViewFrases.smoothScrollToPosition(position);
-               }
+                if (positionItemAdapter != null) {
+                    position = positionItemAdapter.add();
+                    mRecyclerViewFrases.smoothScrollToPosition(position);
+                }
             }
         });
         sort.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SharedPreferences defaultSharedPreferences=PreferenceManager.getDefaultSharedPreferences(mActivity);
-                defaultSharedPreferences.edit().putInt("favoritePhrase",0).apply();
+                SharedPreferences defaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(mActivity);
+                defaultSharedPreferences.edit().putInt("favoritePhrase", 0).apply();
                 showHeartDialog();
             }
         });
         addPhrases.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(mActivity, VincularFrases.class);
+                Intent intent = new Intent(mActivity, VincularFrases.class);
                 mActivity.startActivityForResult(intent, IntentCode.CUSTOMPHRASES.getCode());
                 dialog.dismiss();
             }
         });
     }
 
-    public void showAllPhrases(){
+    public void showAllPhrases() {
 
-        initDialog(R.layout.dialog_most_used_frases,true);
+        initDialog(R.layout.dialog_most_used_frases, true);
         initProgress();
-        position=0;
+        position = 0;
         mRecyclerViewFrases = dialog.findViewById(R.id.recyclerViewFrases);
         setLinearLayoutManager(mRecyclerViewFrases);
         new cargarTodasLasFrases().execute();
-        ImageButton foward,next,sort;
+        ImageButton foward, next, sort;
 
-        sort=dialog.findViewById(R.id.actionButton);
+        sort = dialog.findViewById(R.id.actionButton);
         sort.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_favorite_black_24dp));
-        foward=dialog.findViewById(R.id.frase_anterior);
-        next=dialog.findViewById(R.id.frase_siguiente);
+        foward = dialog.findViewById(R.id.frase_anterior);
+        next = dialog.findViewById(R.id.frase_siguiente);
         foward.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                position=positionItemAdapter.subtract();
+                position = positionItemAdapter.subtract();
                 mRecyclerViewFrases.smoothScrollToPosition(position);
 
             }
@@ -329,7 +326,7 @@ public class NewDialogsOTTAA implements FirebaseSuccessListener {
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                position=positionItemAdapter.add();
+                position = positionItemAdapter.add();
                 mRecyclerViewFrases.smoothScrollToPosition(position);
 
             }
@@ -476,7 +473,6 @@ public class NewDialogsOTTAA implements FirebaseSuccessListener {
             }
 
 
-
             return null;
         }
 
@@ -502,13 +498,13 @@ public class NewDialogsOTTAA implements FirebaseSuccessListener {
                 textViewNoData.setVisibility(View.GONE);
                 mRecyclerViewFrases.setAdapter(mAdapter);
             }
-            positionItemAdapter=new ReturnPositionItem(mArrayListFavoritos.size());
+            positionItemAdapter = new ReturnPositionItem(mArrayListFavoritos.size());
 
 
         }
     }
 
-    private class cargarFrasesSeleccionadas extends AsyncTask<Void,Void,Void>{
+    private class cargarFrasesSeleccionadas extends AsyncTask<Void, Void, Void> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -516,6 +512,7 @@ public class NewDialogsOTTAA implements FirebaseSuccessListener {
             progressBar.setVisibility(View.VISIBLE);
 
         }
+
         @Override
         protected Void doInBackground(Void... voids) {
 
@@ -525,15 +522,15 @@ public class NewDialogsOTTAA implements FirebaseSuccessListener {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            CustomFavoritePhrasesAdapter adapter=null;
+            CustomFavoritePhrasesAdapter adapter = null;
             progressBar.setVisibility(View.INVISIBLE);
-            adapter=new CustomFavoritePhrasesAdapter(mActivity);
+            adapter = new CustomFavoritePhrasesAdapter(mActivity);
             mRecyclerViewFrases.setAdapter(adapter);
-            positionItemAdapter=new ReturnPositionItem(mRecyclerViewFrases.getAdapter().getItemCount());
+            positionItemAdapter = new ReturnPositionItem(mRecyclerViewFrases.getAdapter().getItemCount());
         }
     }
 
-    private class cargarTodasLasFrases extends AsyncTask<Void,Void,Void>{
+    private class cargarTodasLasFrases extends AsyncTask<Void, Void, Void> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -541,6 +538,7 @@ public class NewDialogsOTTAA implements FirebaseSuccessListener {
             progressBar.setVisibility(View.VISIBLE);
 
         }
+
         @Override
         protected Void doInBackground(Void... voids) {
 
@@ -550,11 +548,11 @@ public class NewDialogsOTTAA implements FirebaseSuccessListener {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            SelectFavoritePhrasesAdapter  adapter=null;
+            SelectFavoritePhrasesAdapter adapter = null;
             progressBar.setVisibility(View.INVISIBLE);
-            adapter=new SelectFavoritePhrasesAdapter(mActivity);
+            adapter = new SelectFavoritePhrasesAdapter(mActivity);
             mRecyclerViewFrases.setAdapter(adapter);
-            positionItemAdapter=new ReturnPositionItem(mRecyclerViewFrases.getAdapter().getItemCount());
+            positionItemAdapter = new ReturnPositionItem(mRecyclerViewFrases.getAdapter().getItemCount());
 
         }
     }
@@ -587,11 +585,6 @@ public class NewDialogsOTTAA implements FirebaseSuccessListener {
         if (descargado)
             dialog.dismiss();
     }
-
-
-
-
-
 
 
 }

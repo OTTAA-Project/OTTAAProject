@@ -3,7 +3,6 @@ package com.stonefacesoft.ottaa;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.StrictMode;
 import android.preference.PreferenceManager;
 
 import com.google.android.gms.analytics.GoogleAnalytics;
@@ -21,6 +20,7 @@ public class AnalyticsApplication extends Application {
 
     /**
      * Gets the default {@link Tracker} for this {@link Application}.
+     *
      * @return tracker
      */
     synchronized public Tracker getDefaultTracker() {
@@ -31,6 +31,7 @@ public class AnalyticsApplication extends Application {
         }
         return mTracker;
     }
+
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(newBase);
@@ -43,14 +44,14 @@ public class AnalyticsApplication extends Application {
         super.onCreate();
         CrashlyticsUtils.getInstance();
         SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-        if(sharedPrefs.getString("Email_id","").equalsIgnoreCase("")) {
+        if (sharedPrefs.getString("Email_id", "").equalsIgnoreCase("")) {
             CrashlyticsUtils.getInstance().getCrashlytics().setUserId("");
         }
-       // turnOnStrictMode();
+        // turnOnStrictMode();
     }
 
     private void turnOnStrictMode() {
-        if (BuildConfig.DEBUG){
+        if (BuildConfig.DEBUG) {
             StrictModePolicyClass.enableStrictMode();
             StrictModePolicyClass.allowDiskReadAndWrite(super::onCreate);
         }

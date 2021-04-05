@@ -14,7 +14,7 @@ import com.stonefacesoft.ottaa.utils.NotificationUtils;
  * Created by GastonSaillen on 22/12/2017.
  */
 
-    //TODO chequear el Warning sobre el metodo NewToken
+//TODO chequear el Warning sobre el metodo NewToken
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
     //MFMS : MyFirebaseMessagingService
     private NotificationUtils mNotificationUtils;
@@ -44,6 +44,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         mNotificationUtils.getManager().notify(101, nb.build());
 
     }
+
     private void handleNow() {
         Log.d(TAG, "Short lived task is done.");
     }

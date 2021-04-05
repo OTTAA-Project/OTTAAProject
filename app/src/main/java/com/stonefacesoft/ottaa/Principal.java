@@ -139,14 +139,13 @@ import java.util.Objects;
 import static com.facebook.FacebookSdk.setAutoLogAppEventsEnabled;
 
 /**
- *
  * VERSION 83 first push to Github
  */
 public class Principal extends AppCompatActivity implements View
         .OnClickListener,
         View.OnLongClickListener,
         OnMenuItemClickListener,
-        FirebaseSuccessListener, NavigationView.OnNavigationItemSelectedListener,   PlaceSuccessListener, GoogleApiClient.ConnectionCallbacks, translateInterface, View.OnTouchListener, Make_Click_At_Time  {
+        FirebaseSuccessListener, NavigationView.OnNavigationItemSelectedListener, PlaceSuccessListener, GoogleApiClient.ConnectionCallbacks, translateInterface, View.OnTouchListener, Make_Click_At_Time {
 
     private static final String TAG = "Principal";
     public Uri bajarGrupos;
@@ -158,7 +157,7 @@ public class Principal extends AppCompatActivity implements View
     private Button Registro;
     int heigth = 0, width = 0;
 
-    private  DrawerLayout drawerLayout;
+    private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle toggle;
     private NavigationView navigationView;
     private PrincipalControls navigationControls;
@@ -182,10 +181,10 @@ public class Principal extends AppCompatActivity implements View
     private PictoView Opcion3;
     private PictoView Opcion4;
 
-    private timer_pictogram_clicker  Opcion1_clicker;
-    private timer_pictogram_clicker  Opcion2_clicker;
-    private timer_pictogram_clicker  Opcion3_clicker;
-    private timer_pictogram_clicker  Opcion4_clicker;
+    private timer_pictogram_clicker Opcion1_clicker;
+    private timer_pictogram_clicker Opcion2_clicker;
+    private timer_pictogram_clicker Opcion3_clicker;
+    private timer_pictogram_clicker Opcion4_clicker;
 
     private ImageButton MasPictos;
     private ImageButton TodosLosPictos;
@@ -249,7 +248,6 @@ public class Principal extends AppCompatActivity implements View
 
     //InputStream
     private FileInputStream pictos, grupos, frasesGuardadas;
-
 
 
     private long networkTS;
@@ -355,7 +353,7 @@ public class Principal extends AppCompatActivity implements View
     public void onPictosSugeridosBajados(boolean descargado) {
         if (descargado) {
             descargado = false;
-            if(firebaseDialog.isShowing())
+            if (firebaseDialog.isShowing())
                 firebaseDialog.destruirDialogo();
             try {
                 json.setmJSONArrayPictosSugeridos(json.readJSONArrayFromFile(Constants.ARCHIVO_PICTOS_DATABASE));
@@ -397,10 +395,10 @@ public class Principal extends AppCompatActivity implements View
         if (mCheckDatos == Constants.TODO_ENCONTRADO) {
             mCheckDatos = 0;
             try {
-                if (!this.isFinishing() && ConnectionDetector.isNetworkAvailable(this)  && json.readJSONArrayFromFile(Constants.ARCHIVO_PICTOS).length() > 0) {
+                if (!this.isFinishing() && ConnectionDetector.isNetworkAvailable(this) && json.readJSONArrayFromFile(Constants.ARCHIVO_PICTOS).length() > 0) {
 
                     mBajarJsonFirebase.setInterfaz(this);
-                    if (firebaseDialog !=null) {
+                    if (firebaseDialog != null) {
                         firebaseDialog.setTitle(getApplicationContext().getResources().getString(R.string.edit_sync)).setMessage(getApplicationContext().getResources().getString(R.string.edit_sync_pict)).setCancelable(false);
                         firebaseDialog.mostrarDialogo();
                     }
@@ -428,28 +426,28 @@ public class Principal extends AppCompatActivity implements View
         }
 
         super.onCreate(savedInstanceState);
-        sharedPrefsDefault =PreferenceManager.getDefaultSharedPreferences(this);
-        if(sharedPrefsDefault.getBoolean("skillHand",false))
-        setContentView(R.layout.activity_main_rigth);
+        sharedPrefsDefault = PreferenceManager.getDefaultSharedPreferences(this);
+        if (sharedPrefsDefault.getBoolean("skillHand", false))
+            setContentView(R.layout.activity_main_rigth);
         else
             setContentView(R.layout.activity_main);
 
         //Facebook analytics
         setAutoLogAppEventsEnabled(true);
-        if(BuildConfig.DEBUG) {
+        if (BuildConfig.DEBUG) {
             FacebookSdk.setIsDebugEnabled(true);
         }
 
-        user =new User(this);
+        user = new User(this);
         mStorageRef = FirebaseStorage.getInstance().getReference();
-        firebaseUtils=FirebaseUtils.getInstance();
+        firebaseUtils = FirebaseUtils.getInstance();
         firebaseUtils.setmContext(this);
         firebaseUtils.setUpFirebaseDatabase();
         mDatabase = firebaseUtils.getmDatabase();
 
         //  mDatabase.keepSynced(true);
         cornerImageView = findViewById(R.id.cornerImageViewLeft);
-        analitycsFirebase=new AnalyticsFirebase(this);
+        analitycsFirebase = new AnalyticsFirebase(this);
 
         //Implemento el manejador de preferencias
 
@@ -465,7 +463,7 @@ public class Principal extends AppCompatActivity implements View
 
         timeStamp = getTimeStamp();
         firebaseDialog = new Progress_dialog_options(this);
-        function_scroll=new ScrollFunctionMainActivity(this,this);
+        function_scroll = new ScrollFunctionMainActivity(this, this);
 
 
         if (user.getmAuth().getCurrentUser() != null) {
@@ -503,7 +501,7 @@ public class Principal extends AppCompatActivity implements View
 //            mDatabaseBackupFotos = mDatabase.child("Usuarios").child(mAuth.getCurrentUser().getUid()).child("Backup").child(timeStamp).child("Backup_fotos_" + sharedPrefsDefault.getString(getApplicationContext().getString(R.string.str_idioma), "en"));
 
             /**Referencias database grupos pictos frases Archivos_Usuario*/
-            mPictosDatabaseRef =firebaseUtils.getmDatabase().child("Pictos").child(user.getmAuth().getCurrentUser().getUid()).child("URL_pictos_" + sharedPrefsDefault.getString(getApplicationContext().getString(R.string.str_idioma), "en"));
+            mPictosDatabaseRef = firebaseUtils.getmDatabase().child("Pictos").child(user.getmAuth().getCurrentUser().getUid()).child("URL_pictos_" + sharedPrefsDefault.getString(getApplicationContext().getString(R.string.str_idioma), "en"));
             mFrasesDatabaseRef = firebaseUtils.getmDatabase().child("Frases").child(user.getmAuth().getCurrentUser().getUid()).child("URL_frases_" + sharedPrefsDefault.getString(getApplicationContext().getString(R.string.str_idioma), "en"));
             mGruposDatabaseRef = firebaseUtils.getmDatabase().child("Grupos").child(user.getmAuth().getCurrentUser().getUid()).child("URL_grupos_" + sharedPrefsDefault.getString(getApplicationContext().getString(R.string.str_idioma), "en"));
             consultarPago();
@@ -527,8 +525,7 @@ public class Principal extends AppCompatActivity implements View
         handlerHablar.postDelayed(animarHablar, 4000);
 
 
-
-        if(!BuildConfig.DEBUG) {
+        if (!BuildConfig.DEBUG) {
             RateThisApp.Config config = new RateThisApp.Config(10, 20);
             config.setTitle(R.string.my_own_title);
             config.setMessage(R.string.my_own_message);
@@ -549,10 +546,10 @@ public class Principal extends AppCompatActivity implements View
             }
         }
 
-        navigationView=findViewById(R.id.nav_view);
+        navigationView = findViewById(R.id.nav_view);
         toolbar = findViewById(R.id.toolbar);
-        drawerLayout=findViewById(R.id.drawer_layout);
-        toggle=new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.navigation_drawer_open,R.string.navigation_drawer_close);
+        drawerLayout = findViewById(R.id.drawer_layout);
+        toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerLayout.setOnClickListener(this);
         drawerLayout.addDrawerListener(toggle);
         toggle.setDrawerIndicatorEnabled(true);
@@ -568,14 +565,12 @@ public class Principal extends AppCompatActivity implements View
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         constraintBotonera = findViewById(R.id.constraintRightButtons);
-        inmersiveMode=new InmersiveMode(this);
-
-
+        inmersiveMode = new InmersiveMode(this);
 
 
         //Seteo en false salvo que sea la primera vez q se usa
         TutoFlag = sharedPrefs.getBoolean("PrimerUso", true);
-        historial=new Historial(this,json);
+        historial = new Historial(this, json);
         //Implemento el vibrador
         Vibrator vibe = (Vibrator) Principal.this.getSystemService(Context.VIBRATOR_SERVICE);
 
@@ -648,11 +643,11 @@ public class Principal extends AppCompatActivity implements View
         TodosLosPictos.setOnClickListener(this);
         TodosLosPictos.setOnLongClickListener(this);
 
-        ResetButton=findViewById(R.id.action_reiniciar);
+        ResetButton = findViewById(R.id.action_reiniciar);
         ResetButton.setOnClickListener(this);
         ResetButton.setOnLongClickListener(this);
 
-        btn_share=findViewById(R.id.action_share);
+        btn_share = findViewById(R.id.action_share);
         btn_share.setOnClickListener(this);
         btn_share.setOnLongClickListener(this);
 
@@ -661,7 +656,7 @@ public class Principal extends AppCompatActivity implements View
         btnBarrido.setOnTouchListener(this);
         btnBarrido.setVisibility(View.GONE);
 
-        talk=findViewById(R.id.btnTalk);
+        talk = findViewById(R.id.btnTalk);
         talk.setOnClickListener(this);
 
         AjustarAncho(R.id.Seleccion1);
@@ -765,15 +760,15 @@ public class Principal extends AppCompatActivity implements View
             subirArchivos.userDataExists(subirArchivos.getmDatabase(user.getmAuth(), "Pictos"), subirArchivos.getmDatabase(user.getmAuth(), "Grupos"), subirArchivos.getmDatabase(user.getmAuth(), "Frases"));
         }
 
-        Opcion1_clicker=new timer_pictogram_clicker(this);
-        Opcion2_clicker=new timer_pictogram_clicker(this);
-        Opcion3_clicker=new timer_pictogram_clicker(this);
-        Opcion4_clicker=new timer_pictogram_clicker(this);
+        Opcion1_clicker = new timer_pictogram_clicker(this);
+        Opcion2_clicker = new timer_pictogram_clicker(this);
+        Opcion3_clicker = new timer_pictogram_clicker(this);
+        Opcion4_clicker = new timer_pictogram_clicker(this);
 
         iniciarBarrido();
         //Instancia de Ubicacion
-        if (sharedPrefsDefault.getBoolean(getString(R.string.bool_ubicacion),false)) {
-            placesImplementation=new PlacesImplementation(this);
+        if (sharedPrefsDefault.getBoolean(getString(R.string.bool_ubicacion), false)) {
+            placesImplementation = new PlacesImplementation(this);
             placesImplementation.iniciarClientePlaces();
             placesImplementation.locationRequest();
 
@@ -789,30 +784,30 @@ public class Principal extends AppCompatActivity implements View
 //        if (!sharedPrefsDefault.getBoolean("configurarPrediccion", false) && !sharedPrefs.getBoolean("PrimerUso", true)) {
 //            new NewDialogsOTTAA(this).showSettingsDialog();
 //        }
-        if(barridoPantalla.isBarridoActivado())
-            editarPicto=false;
-        try{
-        if(!sharedPrefsDefault.getBoolean("skillHand",false)&&sharedPrefsDefault.getInt("showMenu",3)>0){
-            drawerLayout.open();
-            int value=sharedPrefsDefault.getInt("showMenu",4);
-            value--;
-            sharedPrefsDefault.edit().putInt("showMenu",value).apply();
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    drawerLayout.close();
-                }
-             },5000);
-             }
-            }catch (Exception ex){
+        if (barridoPantalla.isBarridoActivado())
+            editarPicto = false;
+        try {
+            if (!sharedPrefsDefault.getBoolean("skillHand", false) && sharedPrefsDefault.getInt("showMenu", 3) > 0) {
+                drawerLayout.open();
+                int value = sharedPrefsDefault.getInt("showMenu", 4);
+                value--;
+                sharedPrefsDefault.edit().putInt("showMenu", value).apply();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        drawerLayout.close();
+                    }
+                }, 5000);
+            }
+        } catch (Exception ex) {
 
         }
-        gesture=new Gesture(drawerLayout);
+        gesture = new Gesture(drawerLayout);
         if (TutoFlag) {
-            sharedPrefs.edit().putBoolean("PrimerUso",false).apply();
-            startActivity(new Intent(this,Viewpager_tutorial.class));
+            sharedPrefs.edit().putBoolean("PrimerUso", false).apply();
+            startActivity(new Intent(this, Viewpager_tutorial.class));
         }
-        navigationControls=new PrincipalControls(this);
+        navigationControls = new PrincipalControls(this);
 
     }
 
@@ -865,8 +860,8 @@ public class Principal extends AppCompatActivity implements View
                 wb.weeklyBackupDialog(false, R.string.pref_summary_backup_principal, false);
                 */
             }
-            if (firebaseDialog !=null){
-               firebaseDialog.destruirDialogo();
+            if (firebaseDialog != null) {
+                firebaseDialog.destruirDialogo();
             }
 
         }
@@ -903,7 +898,6 @@ public class Principal extends AppCompatActivity implements View
     }
 
 
-
     public static String getIdioma() {
         return idioma;
     }
@@ -929,38 +923,37 @@ public class Principal extends AppCompatActivity implements View
 
         switch (item.getItemId()) {
             case R.id.item_edit:
-                analitycsFirebase.customEvents("Touch","Principal","Edit Pictogram");
-                if(sharedPrefsDefault.getInt("premium",0)==1){
-                if (onLongOpcion == null) {
-                    return true;
-                }
-                Intent intent = new Intent(Principal.this, Edit_Picto_Visual.class);
-                intent.putExtra("principal", true);
-                try {
-                    intent.putExtra("PictoID", json.getId(onLongOpcion));
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                intent.putExtra("Texto", json.getNombre(onLongOpcion));
-                intent.putExtra("Sel", 1);
-                intent.putExtra("Nombre", json.getNombre(onLongOpcion));
-                intent.putExtra("Color", cargarColor(json.getTipo(onLongOpcion)));
-                myTTS.hablar(getString(R.string.editar_pictogram));
+                analitycsFirebase.customEvents("Touch", "Principal", "Edit Pictogram");
+                if (sharedPrefsDefault.getInt("premium", 0) == 1) {
+                    if (onLongOpcion == null) {
+                        return true;
+                    }
+                    Intent intent = new Intent(Principal.this, Edit_Picto_Visual.class);
+                    intent.putExtra("principal", true);
+                    try {
+                        intent.putExtra("PictoID", json.getId(onLongOpcion));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    intent.putExtra("Texto", json.getNombre(onLongOpcion));
+                    intent.putExtra("Sel", 1);
+                    intent.putExtra("Nombre", json.getNombre(onLongOpcion));
+                    intent.putExtra("Color", cargarColor(json.getTipo(onLongOpcion)));
+                    myTTS.hablar(getString(R.string.editar_pictogram));
 
-                //Abrir pantalla de edicion de pictograma
-                isSettings = false;
-                startActivityForResult(intent, IntentCode.EDITARPICTO.getCode());
-                }
-                else{
-                    Intent i=new Intent(Principal.this,LicenciaExpirada.class);
+                    //Abrir pantalla de edicion de pictograma
+                    isSettings = false;
+                    startActivityForResult(intent, IntentCode.EDITARPICTO.getCode());
+                } else {
+                    Intent i = new Intent(Principal.this, LicenciaExpirada.class);
                     startActivity(i);
                 }
                 return true;
             case R.id.item_delete:
-                analitycsFirebase.customEvents("Touch","Principal","Delete Pictogram");
+                analitycsFirebase.customEvents("Touch", "Principal", "Delete Pictogram");
                 try {
-                    if(onLongOpcion!=null)
-                    AlertBorrar(json.getId(onLongOpcion));
+                    if (onLongOpcion != null)
+                        AlertBorrar(json.getId(onLongOpcion));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -974,19 +967,16 @@ public class Principal extends AppCompatActivity implements View
 
     private void setPrimerBackupTimeLocal() {
         //Nos fijamos si el permiso de escribir en el storage esta dado para hacer el backup local.
-        BackupPictograms backupPictograms=new BackupPictograms(this,Constants.ARCHIVO_PICTOS);
-        BackupGroups backupGroups=new BackupGroups(this,Constants.ARCHIVO_GRUPOS);
-        BackupPhrases backupPhrases=new BackupPhrases(this,Constants.ARCHIVO_FRASES);
-        BackupPhotos backupPhotos=new BackupPhotos(this,Constants.ARCHIVO_PICTOS);
+        BackupPictograms backupPictograms = new BackupPictograms(this, Constants.ARCHIVO_PICTOS);
+        BackupGroups backupGroups = new BackupGroups(this, Constants.ARCHIVO_GRUPOS);
+        BackupPhrases backupPhrases = new BackupPhrases(this, Constants.ARCHIVO_FRASES);
+        BackupPhotos backupPhotos = new BackupPhotos(this, Constants.ARCHIVO_PICTOS);
 
         backupPictograms.prepareFirstLocalBackup(timeStamp);
         backupGroups.prepareFirstLocalBackup(timeStamp);
         backupPhrases.prepareFirstLocalBackup(timeStamp);
         backupPhotos.prepareFirstLocalBackup(timeStamp);
     }
-
-
-
 
 
     @Override
@@ -1009,8 +999,8 @@ public class Principal extends AppCompatActivity implements View
 
     private void startLocationUpdate() {
         initLocationRequest();
-        if(placesImplementation!=null&&sharedPrefsDefault.getBoolean(getString(R.string.bool_ubicacion),false)){
-            if(!placesImplementation.isStarted())
+        if (placesImplementation != null && sharedPrefsDefault.getBoolean(getString(R.string.bool_ubicacion), false)) {
+            if (!placesImplementation.isStarted())
                 placesImplementation.iniciarClientePlaces();
             else
                 placesImplementation.locationRequest();
@@ -1056,10 +1046,10 @@ public class Principal extends AppCompatActivity implements View
     }
 
     private void guardarBackupLocal() {
-        BackupPictograms backupPictograms=new BackupPictograms(this,Constants.ARCHIVO_PICTOS);
-        BackupGroups backupGroups=new BackupGroups(this,Constants.ARCHIVO_GRUPOS);
-        BackupPhrases backupPhrases=new BackupPhrases(this,Constants.ARCHIVO_FRASES);
-        BackupPhotos backupPhotos=new BackupPhotos(this,Constants.ARCHIVO_PICTOS);
+        BackupPictograms backupPictograms = new BackupPictograms(this, Constants.ARCHIVO_PICTOS);
+        BackupGroups backupGroups = new BackupGroups(this, Constants.ARCHIVO_GRUPOS);
+        BackupPhrases backupPhrases = new BackupPhrases(this, Constants.ARCHIVO_FRASES);
+        BackupPhotos backupPhotos = new BackupPhotos(this, Constants.ARCHIVO_PICTOS);
 
         backupPictograms.preparelocalBackup(timeStamp);
         backupGroups.preparelocalBackup(timeStamp);
@@ -1135,8 +1125,6 @@ public class Principal extends AppCompatActivity implements View
 //////////////////////////////  Barrido Fin  ////////////////////////////////////////////
 
 
-
-
     /**
      * Traforma una fecha que esta en formato String en una fecha que esta en formato java.util.Date
      *
@@ -1172,8 +1160,8 @@ public class Principal extends AppCompatActivity implements View
         if (firebaseDialog != null) {
             firebaseDialog.destruirDialogo();
         }
-        if(placesImplementation!=null){
-           placesImplementation.locationRequest();
+        if (placesImplementation != null) {
+            placesImplementation.locationRequest();
         }
 
     }
@@ -1215,7 +1203,7 @@ public class Principal extends AppCompatActivity implements View
 
     @Override
     protected void onDestroy() {
-        if(firebaseDialog !=null){
+        if (firebaseDialog != null) {
             firebaseDialog.destruirDialogo();
         }
 
@@ -1271,7 +1259,6 @@ public class Principal extends AppCompatActivity implements View
     }
 
 
-
     @Override
     public void onBackPressed() {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
@@ -1312,61 +1299,61 @@ public class Principal extends AppCompatActivity implements View
      * @param opcion
      */
     void CargarSeleccion(JSONObject opcion) {
-        GlideAttatcher attatcher=new GlideAttatcher(this);
-        Pictogram pictogram=new Pictogram(opcion,idioma);
+        GlideAttatcher attatcher = new GlideAttatcher(this);
+        Pictogram pictogram = new Pictogram(opcion, idioma);
         switch (CantClicks) {
             case 0:
-                loadDrawable(attatcher,pictogram,Seleccion1);
+                loadDrawable(attatcher, pictogram, Seleccion1);
                 Seleccion1.startAnimation(AnimationUtils.loadAnimation(this, R.anim.overshoot_arriba));
                 Seleccion2.setImageDrawable(getResources().getDrawable(R.drawable.icono_ottaa));
                 break;
             case 1:
-                loadDrawable(attatcher,pictogram,Seleccion2);
+                loadDrawable(attatcher, pictogram, Seleccion2);
                 Seleccion2.startAnimation(AnimationUtils.loadAnimation(this, R.anim.overshoot_arriba));
                 Seleccion3.setImageDrawable(getResources().getDrawable(R.drawable.icono_ottaa));
                 break;
             case 2:
-                loadDrawable(attatcher,pictogram,Seleccion3);
+                loadDrawable(attatcher, pictogram, Seleccion3);
                 Seleccion3.startAnimation(AnimationUtils.loadAnimation(this, R.anim.overshoot_arriba));
                 Seleccion4.setImageDrawable(getResources().getDrawable(R.drawable.icono_ottaa));
                 break;
             case 3:
-                loadDrawable(attatcher,pictogram,Seleccion4);
+                loadDrawable(attatcher, pictogram, Seleccion4);
                 Seleccion4.setImageDrawable(json.getIcono(opcion));
                 Seleccion4.startAnimation(AnimationUtils.loadAnimation(this, R.anim.overshoot_arriba));
                 Seleccion5.setImageDrawable(getResources().getDrawable(R.drawable.icono_ottaa));
                 break;
             case 4:
-                loadDrawable(attatcher,pictogram,Seleccion5);
+                loadDrawable(attatcher, pictogram, Seleccion5);
                 Seleccion5.setImageDrawable(json.getIcono(opcion));
                 Seleccion5.startAnimation(AnimationUtils.loadAnimation(this, R.anim.overshoot_arriba));
                 Seleccion6.setImageDrawable(getResources().getDrawable(R.drawable.icono_ottaa));
                 break;
             case 5:
-                loadDrawable(attatcher,pictogram,Seleccion6);
+                loadDrawable(attatcher, pictogram, Seleccion6);
                 Seleccion6.setImageDrawable(json.getIcono(opcion));
                 Seleccion6.startAnimation(AnimationUtils.loadAnimation(this, R.anim.overshoot_arriba));
                 Seleccion7.setImageDrawable(getResources().getDrawable(R.drawable.icono_ottaa));
                 break;
             case 6:
-                loadDrawable(attatcher,pictogram,Seleccion7);
+                loadDrawable(attatcher, pictogram, Seleccion7);
                 Seleccion7.setImageDrawable(json.getIcono(opcion));
                 Seleccion7.startAnimation(AnimationUtils.loadAnimation(this, R.anim.overshoot_arriba));
                 Seleccion8.setImageDrawable(getResources().getDrawable(R.drawable.icono_ottaa));
                 break;
             case 7:
-                loadDrawable(attatcher,pictogram,Seleccion8);
+                loadDrawable(attatcher, pictogram, Seleccion8);
                 Seleccion8.setImageDrawable(json.getIcono(opcion));
                 Seleccion8.startAnimation(AnimationUtils.loadAnimation(this, R.anim.overshoot_arriba));
                 Seleccion9.setImageDrawable(getResources().getDrawable(R.drawable.icono_ottaa));
                 break;
             case 8:
-                loadDrawable(attatcher,pictogram,Seleccion9);
+                loadDrawable(attatcher, pictogram, Seleccion9);
                 Seleccion9.setImageDrawable(json.getIcono(opcion));
                 Seleccion9.startAnimation(AnimationUtils.loadAnimation(this, R.anim.overshoot_arriba));
                 Seleccion10.setImageDrawable(getResources().getDrawable(R.drawable.icono_ottaa));
             case 9:
-                loadDrawable(attatcher,pictogram,Seleccion10);
+                loadDrawable(attatcher, pictogram, Seleccion10);
                 Seleccion10.setImageDrawable(json.getIcono(opcion));
                 Seleccion10.startAnimation(AnimationUtils.loadAnimation(this, R.anim.overshoot_arriba));
                 break;
@@ -1424,7 +1411,7 @@ public class Principal extends AppCompatActivity implements View
 
             JSONArray opciones = new JSONArray();
             try {
-                opciones = json.cargarOpciones(padre,cuentaMasPictos);
+                opciones = json.cargarOpciones(padre, cuentaMasPictos);
 
             } catch (JSONException e) {
                 Log.e(TAG, "CargarOpciones: " + e.toString());
@@ -1496,20 +1483,20 @@ public class Principal extends AppCompatActivity implements View
                 e.printStackTrace();
             }
         } else if (json.getCantFallas() < 4) {
-            boolean falloPictos=false,falloGrupos=false,falloFrases=false;
+            boolean falloPictos = false, falloGrupos = false, falloFrases = false;
             if (json.getmJSONArrayTodosLosPictos().length() == 0 || json.getmJSONArrayTodosLosPictos() == null) {
                 //  json.initJsonArrays();
-                falloPictos=true;
+                falloPictos = true;
                 Log.e(TAG, "CargarOpciones: " + "fallo Leer Json 1");
                 //     CargarJson();
-            } else if(json.getmJSONArrayTodosLosGrupos().length()==0||json.getmJSONArrayTodosLosGrupos()==null) {
-                falloGrupos=true;
+            } else if (json.getmJSONArrayTodosLosGrupos().length() == 0 || json.getmJSONArrayTodosLosGrupos() == null) {
+                falloGrupos = true;
                 Log.e(TAG, "CargarOpciones: " + "fallo Leer grupos 2");
-            }else if(json.getmJSONArrayTodasLasFrases().length()==0||json.getmJSONArrayTodasLasFrases()==null){
-                falloFrases=true;
+            } else if (json.getmJSONArrayTodasLasFrases().length() == 0 || json.getmJSONArrayTodasLasFrases() == null) {
+                falloFrases = true;
                 Log.e(TAG, "CargarOpciones: " + "fallo Leer frases 3");
             }
-            if(isFallo(falloPictos,falloGrupos,falloFrases)){
+            if (isFallo(falloPictos, falloGrupos, falloFrases)) {
                 Log.e("CargarOpciones_error", "Pictos o grupos no bajados correctamente");
 
                 ObservableInteger observableInteger = new ObservableInteger();
@@ -1531,25 +1518,25 @@ public class Principal extends AppCompatActivity implements View
                 mBajarJsonFirebase.bajarPictos(idioma, rootPath, observableInteger);
                 mBajarJsonFirebase.bajarGrupos(idioma, rootPath, observableInteger);
                 mBajarJsonFirebase.bajarFrases(idioma, rootPath, observableInteger);
-                mBajarJsonFirebase.bajarJuego(idioma,rootPath);
-                mBajarJsonFirebase.bajarFrasesFavoritas(idioma,rootPath);
-                mBajarJsonFirebase.bajarDescripcionJuegos(idioma,rootPath);
+                mBajarJsonFirebase.bajarJuego(idioma, rootPath);
+                mBajarJsonFirebase.bajarFrasesFavoritas(idioma, rootPath);
+                mBajarJsonFirebase.bajarDescripcionJuegos(idioma, rootPath);
             }
 
-               // json.resetearError();
+            // json.resetearError();
             Log.e(TAG, "CargarOpciones: " + json.getFallJson());
 
             String uid = "";
 
-            }
+        }
     }
 
-    private boolean isFallo(boolean pictos,boolean grupos,boolean frases){
-        if(pictos)
+    private boolean isFallo(boolean pictos, boolean grupos, boolean frases) {
+        if (pictos)
             return pictos;
-        if(grupos)
+        if (grupos)
             return grupos;
-        if(frases)
+        if (frases)
             return frases;
         return false;
     }
@@ -1590,8 +1577,8 @@ public class Principal extends AppCompatActivity implements View
         int situacionActual = 0;
         CantClicks = 0;
         inicializar_seleccion();
-        if(!historial.getListadoPictos().isEmpty()){
-            for (int i = 0; i <historial.getListadoPictos().size() ; i++) {
+        if (!historial.getListadoPictos().isEmpty()) {
+            for (int i = 0; i < historial.getListadoPictos().size(); i++) {
                 CargarOracion(historial.getListadoPictos().get(i));
             }
         }
@@ -1606,16 +1593,14 @@ public class Principal extends AppCompatActivity implements View
 
     private void volver() {
 
-        pictoPadre=historial.removePictograms(false);
+        pictoPadre = historial.removePictograms(false);
         ResetSeleccion();
         cuentaMasPictos = 0;
-        for (int i = 0; i <historial.getListadoPictos().size() ; i++) {
+        for (int i = 0; i < historial.getListadoPictos().size(); i++) {
             CargarSeleccion(historial.getListadoPictos().get(i));
             CantClicks++;
         }
         CargarOpciones(json, pictoPadre, cuentaMasPictos);
-
-
 
 
     }
@@ -1629,8 +1614,8 @@ public class Principal extends AppCompatActivity implements View
             Log.d(TAG, "click: Opcion es null");
             return;
         }
-      //  Historial.add(opcion);
-            historial.addPictograma(opcion);
+        //  Historial.add(opcion);
+        historial.addPictograma(opcion);
         try {
             int pos = json.getPosPicto(json.getmJSONArrayTodosLosPictos(), pictoPadre.getInt("id"));
             json.aumentarFrec(pictoPadre, opcion);
@@ -1663,7 +1648,7 @@ public class Principal extends AppCompatActivity implements View
     public void AlertBorrar(final int pos) {
         vibrar = false;
 
-        Yes_noDialogs dialogs=new Yes_noDialogs(this);
+        Yes_noDialogs dialogs = new Yes_noDialogs(this);
         dialogs.setTitle(getResources().getString(R.string.pref_important_alert));
         dialogs.setMessage(getResources().getString(R.string.pref_text4_alert));
         dialogs.setCancelable(true);
@@ -1713,15 +1698,13 @@ public class Principal extends AppCompatActivity implements View
                 findViewById(R.id.Option2).clearAnimation();
                 findViewById(R.id.Option3).clearAnimation();
                 findViewById(R.id.Option4).clearAnimation();
-              dialogs.cancelarDialogo();
+                dialogs.cancelarDialogo();
             }
         });
         dialogs.mostrarDialogo();
 
 
-
     }
-
 
 
     private void inflatePopup(PopupMenu menu) {
@@ -1741,12 +1724,11 @@ public class Principal extends AppCompatActivity implements View
     private String EjecutarNLG(boolean flag) {
         Log.d(TAG, "EjecutarNLG: flag:" + flag);
         if (flag) {
-           Oracion=historial.talkWithtNLG();
-           return Oracion;
+            Oracion = historial.talkWithtNLG();
+            return Oracion;
         } else
             return Oracion;
     }
-
 
 
     public void speak() {
@@ -1796,8 +1778,8 @@ public class Principal extends AppCompatActivity implements View
     public boolean onLongClick(View v) {
         if (v.getId() == R.id.btn_borrar) {
             //Registo que uso un funcion que nos interesa que use
-            analitycsFirebase.customEvents("Erase","Principal","Erase all pictograms");
-                Reset();
+            analitycsFirebase.customEvents("Erase", "Principal", "Erase all pictograms");
+            Reset();
         }
         if (editarPicto) {
             Intent intent = new Intent(Principal.this, Edit_Picto_Visual.class);
@@ -1809,10 +1791,9 @@ public class Principal extends AppCompatActivity implements View
                         popupMenu = new PopupMenu(Principal.this, Opcion1);
                         popupMenu.setOnMenuItemClickListener(Principal.this);
                         popupMenu.inflate(R.menu.popup_menu);
-                        if(sharedPrefsDefault.getInt("premium",0)!=1){
-                        popupMenu.getMenu().getItem(0).setIcon(R.drawable.ic_padlock);
-                        }
-                        else
+                        if (sharedPrefsDefault.getInt("premium", 0) != 1) {
+                            popupMenu.getMenu().getItem(0).setIcon(R.drawable.ic_padlock);
+                        } else
                             popupMenu.getMenu().getItem(0).setEnabled(true);
 
 
@@ -1828,10 +1809,9 @@ public class Principal extends AppCompatActivity implements View
                         popupMenu = new PopupMenu(Principal.this, Opcion2);
                         popupMenu.setOnMenuItemClickListener(Principal.this);
                         popupMenu.inflate(R.menu.popup_menu);
-                        if(sharedPrefsDefault.getInt("premium",0)!=1){
+                        if (sharedPrefsDefault.getInt("premium", 0) != 1) {
                             popupMenu.getMenu().getItem(0).setIcon(R.drawable.ic_padlock);
-                        }
-                        else
+                        } else
                             popupMenu.getMenu().getItem(0).setEnabled(true);
                         inflatePopup(popupMenu);
                         popupMenu.show();
@@ -1844,10 +1824,9 @@ public class Principal extends AppCompatActivity implements View
                         popupMenu = new PopupMenu(Principal.this, Opcion3);
                         popupMenu.setOnMenuItemClickListener(Principal.this);
                         popupMenu.inflate(R.menu.popup_menu);
-                        if(sharedPrefsDefault.getInt("premium",0)!=1){
+                        if (sharedPrefsDefault.getInt("premium", 0) != 1) {
                             popupMenu.getMenu().getItem(0).setIcon(R.drawable.ic_padlock);
-                        }
-                        else
+                        } else
                             popupMenu.getMenu().getItem(0).setEnabled(true);
                         inflatePopup(popupMenu);
                         popupMenu.show();
@@ -1860,10 +1839,9 @@ public class Principal extends AppCompatActivity implements View
                         popupMenu = new PopupMenu(Principal.this, Opcion4);
                         popupMenu.setOnMenuItemClickListener(Principal.this);
                         popupMenu.inflate(R.menu.popup_menu);
-                        if(sharedPrefsDefault.getInt("premium",0)!=1){
+                        if (sharedPrefsDefault.getInt("premium", 0) != 1) {
                             popupMenu.getMenu().getItem(0).setIcon(R.drawable.ic_padlock);
-                        }
-                        else
+                        } else
                             popupMenu.getMenu().getItem(0).setEnabled(true);
                         inflatePopup(popupMenu);
                         popupMenu.show();
@@ -1919,12 +1897,11 @@ public class Principal extends AppCompatActivity implements View
         if (sharedPrefsDefault.getBoolean(getString(R.string.mBoolModoExperimental), false)) {
 
             //Registo que uso un funcion que nos interesa que use
-            analitycsFirebase.customEvents("Talk","Principal","Phrase With NLG");
+            analitycsFirebase.customEvents("Talk", "Principal", "Phrase With NLG");
             nlgFlag = true;
 
 
             Oracion = EjecutarNLG(nlgFlag);
-
 
 
             if (!sharedPrefsDefault.getString(getString(R.string.str_idioma), "en").equals("en")) {
@@ -1938,7 +1915,7 @@ public class Principal extends AppCompatActivity implements View
 
         } else {
             //Registo que uso un funcion que nos interesa que use
-            analitycsFirebase.customEvents("Talk","Principal","Phrase without  NLG");
+            analitycsFirebase.customEvents("Talk", "Principal", "Phrase without  NLG");
             speak();
         }
     }
@@ -1954,7 +1931,6 @@ public class Principal extends AppCompatActivity implements View
 
         super.takeKeyEvents(get);
     }
-
 
 
     @Override
@@ -1981,10 +1957,9 @@ public class Principal extends AppCompatActivity implements View
     }
 
 
-
     @Override
     public void onClick(View v) {
-        View vista=findViewById(v.getId());
+        View vista = findViewById(v.getId());
         Log.d(TAG, "onClick: " + vista.getId());
 
         if (barridoPantalla.isBarridoActivado() && !barridoPantalla.isAvanzarYAceptar()) {
@@ -2011,25 +1986,25 @@ public class Principal extends AppCompatActivity implements View
                     volver();
                     break;
                 case 5:
-                    analitycsFirebase.customEvents("Accessibility","Principal","Talk");
+                    analitycsFirebase.customEvents("Accessibility", "Principal", "Talk");
                     hablarModoExperimental();
 
                     break;
                 case 6:
-                    analitycsFirebase.customEvents("Accessibility","Principal","More Options");
+                    analitycsFirebase.customEvents("Accessibility", "Principal", "More Options");
                     cargarMasPictos();
                     break;
                 case 7:
 
-                    analitycsFirebase.customEvents("Accessibility","Principal","Group Galery");
+                    analitycsFirebase.customEvents("Accessibility", "Principal", "Group Galery");
                     Intent intent2 = new Intent(Principal.this, GaleriaGrupos2.class);
                     intent2.putExtra("Boton", 0);
                     startActivityForResult(intent2, IntentCode.GALERIA_GRUPOS.getCode());
                     break;
                 case 8:
-                    analitycsFirebase.customEvents("Accessibility","Principal","Games");
-                     intent2 = new Intent(Principal.this, MainJuegos.class);
-                     startActivity(intent2);
+                    analitycsFirebase.customEvents("Accessibility", "Principal", "Games");
+                    intent2 = new Intent(Principal.this, MainJuegos.class);
+                    startActivity(intent2);
                     break;
 
             }
@@ -2084,48 +2059,48 @@ public class Principal extends AppCompatActivity implements View
             switch (v.getId()) {
                 case R.id.Option1:
 
-                    if (opcion1 == null&&!barridoPantalla.isBarridoActivado()) {
-                        analitycsFirebase.customEvents("Touch","Principal","Add Pictogram");
+                    if (opcion1 == null && !barridoPantalla.isBarridoActivado()) {
+                        analitycsFirebase.customEvents("Touch", "Principal", "Add Pictogram");
                         Intent intent2 = new Intent(Principal.this, GaleriaGrupos2.class);
                         intent2.putExtra("Boton", 0);
                         startActivityForResult(intent2, IntentCode.GALERIA_GRUPOS.getCode());
                     }
-                    function_clickOption(opcion1,Opcion1_clicker);
+                    function_clickOption(opcion1, Opcion1_clicker);
 
                     break;
 
                 case R.id.Option2:
 
-                      if (opcion2 == null&&!barridoPantalla.isBarridoActivado()) {
-                          analitycsFirebase.customEvents("Touch","Principal","Add Pictogram");
-                          Intent intent2 = new Intent(Principal.this, GaleriaGrupos2.class);
-                          intent2.putExtra("Boton", 0);
-                          startActivityForResult(intent2, IntentCode.GALERIA_GRUPOS.getCode());
-                      }
-                      function_clickOption(opcion2, Opcion2_clicker);
+                    if (opcion2 == null && !barridoPantalla.isBarridoActivado()) {
+                        analitycsFirebase.customEvents("Touch", "Principal", "Add Pictogram");
+                        Intent intent2 = new Intent(Principal.this, GaleriaGrupos2.class);
+                        intent2.putExtra("Boton", 0);
+                        startActivityForResult(intent2, IntentCode.GALERIA_GRUPOS.getCode());
+                    }
+                    function_clickOption(opcion2, Opcion2_clicker);
 
 
                     break;
 
                 case R.id.Option3:
-                        if (opcion3 == null&&!barridoPantalla.isBarridoActivado()) {
-                            analitycsFirebase.customEvents("Touch","Principal","Add Pictogram");
-                            Intent intent2 = new Intent(Principal.this, GaleriaGrupos2.class);
-                            intent2.putExtra("Boton", 0);
-                            startActivityForResult(intent2, IntentCode.GALERIA_GRUPOS.getCode());
-                        }
-                        function_clickOption(opcion3, Opcion3_clicker);
+                    if (opcion3 == null && !barridoPantalla.isBarridoActivado()) {
+                        analitycsFirebase.customEvents("Touch", "Principal", "Add Pictogram");
+                        Intent intent2 = new Intent(Principal.this, GaleriaGrupos2.class);
+                        intent2.putExtra("Boton", 0);
+                        startActivityForResult(intent2, IntentCode.GALERIA_GRUPOS.getCode());
+                    }
+                    function_clickOption(opcion3, Opcion3_clicker);
 
                     break;
 
                 case R.id.Option4:
-                        if (opcion4 == null&&!barridoPantalla.isBarridoActivado()) {
-                            analitycsFirebase.customEvents("Touch","Principal","Add Pictogram");
-                            Intent intent2 = new Intent(Principal.this, GaleriaGrupos2.class);
-                            intent2.putExtra("Boton", 0);
-                            startActivityForResult(intent2, IntentCode.GALERIA_GRUPOS.getCode());
-                        }
-                        function_clickOption(opcion4, Opcion4_clicker);
+                    if (opcion4 == null && !barridoPantalla.isBarridoActivado()) {
+                        analitycsFirebase.customEvents("Touch", "Principal", "Add Pictogram");
+                        Intent intent2 = new Intent(Principal.this, GaleriaGrupos2.class);
+                        intent2.putExtra("Boton", 0);
+                        startActivityForResult(intent2, IntentCode.GALERIA_GRUPOS.getCode());
+                    }
+                    function_clickOption(opcion4, Opcion4_clicker);
 
                     break;
 
@@ -2137,7 +2112,7 @@ public class Principal extends AppCompatActivity implements View
 
                 case R.id.btn_borrar:
 
-                    analitycsFirebase.customEvents("Erase","Principal","Delete one pictogram");
+                    analitycsFirebase.customEvents("Erase", "Principal", "Delete one pictogram");
                     volver();
 
                     break;
@@ -2149,7 +2124,7 @@ public class Principal extends AppCompatActivity implements View
                     ///////////
 
                     //Registo que uso un funcion que nos interesa que use
-                    analitycsFirebase.customEvents("Touch","Principal","More Pictograms");
+                    analitycsFirebase.customEvents("Touch", "Principal", "More Pictograms");
                     cargarMasPictos();
 
                     break;
@@ -2157,27 +2132,27 @@ public class Principal extends AppCompatActivity implements View
                 case R.id.btnTodosLosPictos:
                     ////decimo paso del tutorial
                     /// Termino el tutorial
-                    if(barridoPantalla.isBarridoActivado()&&barridoPantalla.isAvanzarYAceptar()){
+                    if (barridoPantalla.isBarridoActivado() && barridoPantalla.isAvanzarYAceptar()) {
                         Intent intent2 = new Intent(Principal.this, GaleriaGrupos2.class);
                         intent2.putExtra("Boton", 0);
                         startActivityForResult(intent2, IntentCode.GALERIA_GRUPOS.getCode());
                     }
-                    if(!barridoPantalla.isBarridoActivado()) {
+                    if (!barridoPantalla.isBarridoActivado()) {
                         //Registo que uso un funcion que nos interesa que use
-                        if(barridoPantalla.isBarridoActivado())
-                            analitycsFirebase.customEvents("Accessibility","Principal","Group Galery");
+                        if (barridoPantalla.isBarridoActivado())
+                            analitycsFirebase.customEvents("Accessibility", "Principal", "Group Galery");
                         else
-                            analitycsFirebase.customEvents("Touch","Principal","Group Galery");
+                            analitycsFirebase.customEvents("Touch", "Principal", "Group Galery");
                         Intent intent2 = new Intent(Principal.this, GaleriaGrupos2.class);
                         intent2.putExtra("Boton", 0);
                         startActivityForResult(intent2, IntentCode.GALERIA_GRUPOS.getCode());
-                    }else{
-                      if(function_scroll.isClickEnabled()){
-                          function_scroll.descansar();
-                          break;
-                      }else{
-                          function_scroll.wakeUp();
-                      }
+                    } else {
+                        if (function_scroll.isClickEnabled()) {
+                            function_scroll.descansar();
+                            break;
+                        } else {
+                            function_scroll.wakeUp();
+                        }
                     }
                     break;
                 case R.id.constraintRightButtons:
@@ -2189,12 +2164,12 @@ public class Principal extends AppCompatActivity implements View
                     //octavo paso del tutorial
 
 
-                        //Registo que uso un funcion que nos interesa que use
-                        analitycsFirebase.customEvents("Touch","Principal","Favorite Phrases");
+                    //Registo que uso un funcion que nos interesa que use
+                    analitycsFirebase.customEvents("Touch", "Principal", "Favorite Phrases");
 
-                        NewDialogsOTTAA newDialogsOTTAA=new NewDialogsOTTAA(this);
+                    NewDialogsOTTAA newDialogsOTTAA = new NewDialogsOTTAA(this);
 
-                        newDialogsOTTAA.initCustomFavoritePhrase(false);
+                    newDialogsOTTAA.initCustomFavoritePhrase(false);
 
 
                     break;
@@ -2203,48 +2178,48 @@ public class Principal extends AppCompatActivity implements View
                     if (barridoPantalla.isBarridoActivado() && barridoPantalla.isAvanzarYAceptar()) {
 
                         if (barridoPantalla.getmListadoVistas().get(barridoPantalla.getPosicionBarrido()).getId() == R.id.btnTalk) {
-                            analitycsFirebase.customEvents("Accessibility","Principal","Talk with screen scanning");
+                            analitycsFirebase.customEvents("Accessibility", "Principal", "Talk with screen scanning");
                             hablarModoExperimental();
                         }
 
-                    }else if(barridoPantalla.isBarridoActivado()&&!barridoPantalla.isAvanzarYAceptar()){
+                    } else if (barridoPantalla.isBarridoActivado() && !barridoPantalla.isAvanzarYAceptar()) {
                         barridoPantalla.getmListadoVistas().get(barridoPantalla.getPosicionBarrido()).callOnClick();
                     }
 
                     break;
                 case R.id.action_reiniciar:
-                        Intent intent = new Intent(this, MainJuegos.class);
-                        this.startActivity(intent);
+                    Intent intent = new Intent(this, MainJuegos.class);
+                    this.startActivity(intent);
 
 
                     break;
                 case R.id.action_share:
                     //Analytics
                     //Registo que uso un funcion que nos interesa que use
-                    analitycsFirebase.customEvents("Touch","Principal","Share");
-                        if (historial.getListadoPictos().size() > 0) {
-                            if (!sharedPrefsDefault.getBoolean(getString(R.string.mBoolModoExperimental), false)) {
-                                if (myTTS != null) {
-                                    CompartirArchivos compartirArchivos = new CompartirArchivos(getContext(), myTTS);
-                                    compartirArchivos.setHistorial(historial.getListadoPictos());
-                                    compartirArchivos.seleccionarFormato(Oracion);
-                                }
-                            } else if (sharedPrefsDefault.getBoolean(getString(R.string.mBoolModoExperimental), false)) {
-                                Log.d(TAG, "onClick: " + historial.getListadoPictos().toString());
-                                traducirfrase = new traducirTexto(getApplication(), sharedPrefsDefault);
-                                if (Oracion.isEmpty() && historial.getListadoPictos().size() > 0)
-                                    CargarOracion(historial.getListadoPictos().get(0));
-                                Oracion = EjecutarNLG(true);
-                                traducirfrase.traducirIdioma(this, Oracion, "en", sharedPrefsDefault.getString(getString(R.string.str_idioma), "en"), true);
+                    analitycsFirebase.customEvents("Touch", "Principal", "Share");
+                    if (historial.getListadoPictos().size() > 0) {
+                        if (!sharedPrefsDefault.getBoolean(getString(R.string.mBoolModoExperimental), false)) {
+                            if (myTTS != null) {
+                                CompartirArchivos compartirArchivos = new CompartirArchivos(getContext(), myTTS);
+                                compartirArchivos.setHistorial(historial.getListadoPictos());
+                                compartirArchivos.seleccionarFormato(Oracion);
                             }
-                            // if(myTTS().devolverPathAudio().exists())
+                        } else if (sharedPrefsDefault.getBoolean(getString(R.string.mBoolModoExperimental), false)) {
+                            Log.d(TAG, "onClick: " + historial.getListadoPictos().toString());
+                            traducirfrase = new traducirTexto(getApplication(), sharedPrefsDefault);
+                            if (Oracion.isEmpty() && historial.getListadoPictos().size() > 0)
+                                CargarOracion(historial.getListadoPictos().get(0));
+                            Oracion = EjecutarNLG(true);
+                            traducirfrase.traducirIdioma(this, Oracion, "en", sharedPrefsDefault.getString(getString(R.string.str_idioma), "en"), true);
                         }
+                        // if(myTTS().devolverPathAudio().exists())
+                    }
 
-                   break;
+                    break;
                 default:
                     Log.d(TAG, "onClick: Oracion:" + Oracion);
-                    if(barridoPantalla.isBarridoActivado()&&(barridoPantalla.isScrollMode()||barridoPantalla.isAvanzarYAceptar()))
-                        analitycsFirebase.customEvents("Accessibility","Principal","Talk with accessibility device");
+                    if (barridoPantalla.isBarridoActivado() && (barridoPantalla.isScrollMode() || barridoPantalla.isAvanzarYAceptar()))
+                        analitycsFirebase.customEvents("Accessibility", "Principal", "Talk with accessibility device");
                     hablarModoExperimental();
                     hijos = true;
                     break;
@@ -2275,26 +2250,23 @@ public class Principal extends AppCompatActivity implements View
 
     }
 
-    public void updateLanguaje(){
-        Locale locale = new Locale(sharedPrefsDefault.getString(this.getString(R.string.str_idioma),"en"));
+    public void updateLanguaje() {
+        Locale locale = new Locale(sharedPrefsDefault.getString(this.getString(R.string.str_idioma), "en"));
         Locale.setDefault(locale);
 
         Resources res = this.getResources();
         Configuration config = new Configuration(res.getConfiguration());
 
-            config.setLocale(locale);
-             this.createConfigurationContext(config);
+        config.setLocale(locale);
+        this.createConfigurationContext(config);
 
     }
-
-
-
 
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        
+
 
         //myContextWrapper.setLocale(sharedPrefsDefault.getString("en","en"));
 
@@ -2371,13 +2343,12 @@ public class Principal extends AppCompatActivity implements View
                 });
             }
 
-            if(sharedPrefsDefault.getBoolean("skillHand",false)){
-                    setContentView(R.layout.activity_main_rigth);
-                    recreate();
-            }
-            else{
+            if (sharedPrefsDefault.getBoolean("skillHand", false)) {
+                setContentView(R.layout.activity_main_rigth);
+                recreate();
+            } else {
                 setContentView(R.layout.activity_main);
-               recreate();
+                recreate();
             }
 
 
@@ -2399,11 +2370,10 @@ public class Principal extends AppCompatActivity implements View
 //                    Intent intent = new Intent(getApplicationContext(), Principal.class);
 //                    startActivity(intent);
 //                    this.finish();
-                    if(sharedPrefsDefault.getBoolean("skillHand",false)){
+                    if (sharedPrefsDefault.getBoolean("skillHand", false)) {
                         setContentView(R.layout.activity_main_rigth);
                         recreate();
-                    }
-                    else{
+                    } else {
                         setContentView(R.layout.activity_main);
                         recreate();
                     }
@@ -2416,8 +2386,8 @@ public class Principal extends AppCompatActivity implements View
         if (requestCode == IntentCode.LOGIN_ACTIVITY.getCode()) {
             Log.d(TAG, "onActivityResult: enter LoginActivity");
         }
-        if(requestCode==IntentCode.CUSTOMPHRASES.getCode()){
-            NewDialogsOTTAA newDialogsOTTAA=new NewDialogsOTTAA(this);
+        if (requestCode == IntentCode.CUSTOMPHRASES.getCode()) {
+            NewDialogsOTTAA newDialogsOTTAA = new NewDialogsOTTAA(this);
             newDialogsOTTAA.initCustomFavoritePhrase(false);
         }
 
@@ -2425,7 +2395,7 @@ public class Principal extends AppCompatActivity implements View
 
     private void consultarPago() {
         new LicenciaUsuario(getApplicationContext());
-        final DatabaseReference pagoRef =firebaseUtils.getmDatabase();
+        final DatabaseReference pagoRef = firebaseUtils.getmDatabase();
         pagoRef.child(Constants.PAGO).child(user.getUserUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -2462,7 +2432,7 @@ public class Principal extends AppCompatActivity implements View
 
     @Override
     public void onTextoTraducido(boolean traduccion) {
-        if (traduccion ) {
+        if (traduccion) {
             if (myTTS != null) {
                 CompartirArchivos compartirArchivos = new CompartirArchivos(getContext(), myTTS);
                 compartirArchivos.setHistorial(historial.getListadoPictos());
@@ -2484,12 +2454,10 @@ public class Principal extends AppCompatActivity implements View
     }
 
 
-
-
     @Override
     public boolean onTouch(View v, MotionEvent event) {
 
-       return navigationControls.makeClick(event);
+        return navigationControls.makeClick(event);
     }
 
     @Override
@@ -2504,25 +2472,23 @@ public class Principal extends AppCompatActivity implements View
             switch (event.getAction()) {
                 case MotionEvent.ACTION_SCROLL:
 
-                    if(barridoPantalla.isScrollMode()||barridoPantalla.isScrollModeClicker()){
-                    if(event.getAxisValue(MotionEvent.AXIS_VSCROLL)<0.0f){
-                        if(barridoPantalla.isScrollMode())
-                        function_scroll.HacerClickEnTiempo();
-                        barridoPantalla.avanzarBarrido();
-                     }
-                    else{
-                        if(barridoPantalla.isScrollMode())
-                            function_scroll.HacerClickEnTiempo();
-                        barridoPantalla.volverAtrasBarrido();
+                    if (barridoPantalla.isScrollMode() || barridoPantalla.isScrollModeClicker()) {
+                        if (event.getAxisValue(MotionEvent.AXIS_VSCROLL) < 0.0f) {
+                            if (barridoPantalla.isScrollMode())
+                                function_scroll.HacerClickEnTiempo();
+                            barridoPantalla.avanzarBarrido();
+                        } else {
+                            if (barridoPantalla.isScrollMode())
+                                function_scroll.HacerClickEnTiempo();
+                            barridoPantalla.volverAtrasBarrido();
 
-                      }
+                        }
                     }
                     return true;
             }
         }
         return super.onGenericMotionEvent(event);
     }
-
 
 
     //metodo encargado de pasar una vista a un formato semitransparente
@@ -2545,10 +2511,6 @@ public class Principal extends AppCompatActivity implements View
     }
 
 
-
-
-
-
     @Override
     public void onTrimMemory(int level) {
         switch (level) {
@@ -2560,7 +2522,6 @@ public class Principal extends AppCompatActivity implements View
                 break;
         }
     }
-
 
 
     public void iniciarBarrido() {
@@ -2590,15 +2551,15 @@ public class Principal extends AppCompatActivity implements View
 
                 }
             });
-        }else{
+        } else {
             btnBarrido.setVisibility(View.GONE);
         }
 
     }
 
-    public void CargarJson(){
+    public void CargarJson() {
         Json.getInstance().setmContext(this);
-        json=Json.getInstance();
+        json = Json.getInstance();
         try {
 
             json.initJsonArrays();
@@ -2607,7 +2568,7 @@ public class Principal extends AppCompatActivity implements View
                 try {
                     if (pictoPadre == null || pictoPadre.getInt("id") == 0)
                         pictoPadre = json.getmJSONArrayTodosLosPictos().getJSONObject(0);
-                    cuentaMasPictos=0;
+                    cuentaMasPictos = 0;
                     CargarOpciones(json, pictoPadre, cuentaMasPictos);
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -2668,19 +2629,19 @@ public class Principal extends AppCompatActivity implements View
     }
 
     private void addOption(JSONObject opcion, PictoView picto, Animation animation) {
-        Log.d(TAG, "addOption: "+opcion.toString() );
-        Pictogram pictogram=new Pictogram(opcion,idioma);
+        Log.d(TAG, "addOption: " + opcion.toString());
+        Pictogram pictogram = new Pictogram(opcion, idioma);
         picto.setUpGlideAttatcher(this);
         picto.setUpContext(this);
         picto.setPictogramsLibraryPictogram(pictogram);
-       // picto.setScaleType(ImageView.ScaleType.FIT_CENTER);
+        // picto.setScaleType(ImageView.ScaleType.FIT_CENTER);
         formatoTransparencia(picto, opcion);
         picto.startAnimation(animation);
     }
 
     /**
      * use custom_picto opcion , animation alphaAnimation
-     * */
+     */
     private void addOpcionNull(PictoView Opcion, Animation alphaAnimation) {
         Opcion.setCustom_Img(getResources().getDrawable(R.drawable.ic_agregar_nuevo));
         Opcion.setCustom_Texto(getResources().getString(R.string.agregar_picto));
@@ -2690,7 +2651,6 @@ public class Principal extends AppCompatActivity implements View
         this.cuentaMasPictos = -1;// linea encargada de indicar que el contador esta en 0
         Animation animation = AnimationUtils.loadAnimation(getApplicationContext(),
                 R.anim.alpha_dismiss);
-
 
 
         if (opcion1 == null) {
@@ -2718,11 +2678,10 @@ public class Principal extends AppCompatActivity implements View
             Opcion4.startAnimation(animation);
             Opcion4.setVisibility(View.INVISIBLE);
             Opcion4.setEnabled(false);
-        }else if(opcion4==null&&opcion3!=null&&Opcion3.getVisibility()==View.VISIBLE){
+        } else if (opcion4 == null && opcion3 != null && Opcion3.getVisibility() == View.VISIBLE) {
             Opcion4.setVisibility(View.VISIBLE);
         }
     }
-
 
 
     @Override
@@ -2737,8 +2696,8 @@ public class Principal extends AppCompatActivity implements View
 
     }
 
-    private void function_clickOption(JSONObject pictoPadre,timer_pictogram_clicker pictogram_clicker){
-        if(!pictogram_clicker.isClicked()){
+    private void function_clickOption(JSONObject pictoPadre, timer_pictogram_clicker pictogram_clicker) {
+        if (!pictogram_clicker.isClicked()) {
             pictogram_clicker.disableClick();
             click(pictoPadre);
             pictogram_clicker.resetClick();
@@ -2748,9 +2707,9 @@ public class Principal extends AppCompatActivity implements View
 
     @Override
     public void OnClickBarrido() {
-        if(function_scroll.isClickEnabled()&&barridoPantalla.getmListadoVistas().get(barridoPantalla.getPosicionBarrido()).getId()==R.id.btnTodosLosPictos)
+        if (function_scroll.isClickEnabled() && barridoPantalla.getmListadoVistas().get(barridoPantalla.getPosicionBarrido()).getId() == R.id.btnTodosLosPictos)
             onClick(barridoPantalla.getmListadoVistas().get(barridoPantalla.getPosicionBarrido()));
-        else if(!function_scroll.isClickEnabled()){
+        else if (!function_scroll.isClickEnabled()) {
             onClick(barridoPantalla.getmListadoVistas().get(barridoPantalla.getPosicionBarrido()));
         }
     }
@@ -2762,47 +2721,44 @@ public class Principal extends AppCompatActivity implements View
     }
 
 
-
-
-
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle presses on the action bar items
-        Log.d(TAG, "onNavigationItemSelected: " );
+        Log.d(TAG, "onNavigationItemSelected: ");
         Bundle bundle = new Bundle();
         switch (item.getItemId()) {
 
             case R.id.action_parar:
 
 
-                    //Registo que uso un funcion que nos interesa que use
+                //Registo que uso un funcion que nos interesa que use
 
 
-                    analitycsFirebase.customEvents("Touch","Principal","Silence");
-                    if (mute) {
-                        item.setIcon(getResources().getDrawable(R.drawable.ic_volume_off_white_24dp));
-                        mute = false;
-                    } else {
-                        item.setIcon(getResources().getDrawable(R.drawable.ic_volume_up_white_24dp));
-                        mute = true;
+                analitycsFirebase.customEvents("Touch", "Principal", "Silence");
+                if (mute) {
+                    item.setIcon(getResources().getDrawable(R.drawable.ic_volume_off_white_24dp));
+                    mute = false;
+                } else {
+                    item.setIcon(getResources().getDrawable(R.drawable.ic_volume_up_white_24dp));
+                    mute = true;
+                }
+
+                myTTS.mute();
+                sharedPrefs.edit().putBoolean("mBoolMute", mute).apply();
+
+                if (isChristmas) {
+                    count++;
+                    if (count == 4) {
+                        MediaPlayer mediaPlayer = MediaPlayer.create(Principal.this, R.raw.navidad);
+                        mediaPlayer.start();
                     }
-
-                    myTTS.mute();
-                    sharedPrefs.edit().putBoolean("mBoolMute", mute).apply();
-
-                    if (isChristmas) {
-                        count++;
-                        if (count == 4) {
-                            MediaPlayer mediaPlayer = MediaPlayer.create(Principal.this, R.raw.navidad);
-                            mediaPlayer.start();
-                        }
-                    }
+                }
 
                 break;
 
 
             case R.id.action_settings:
-                analitycsFirebase.customEvents("Touch","Principal","Settings");
+                analitycsFirebase.customEvents("Touch", "Principal", "Settings");
                 //Abrimos otra pantalla
                 isSettings = true;
                 Intent intent12 = new Intent(Principal.this, prefs.class);
@@ -2811,14 +2767,14 @@ public class Principal extends AppCompatActivity implements View
 
                 return true;
             case R.id.ubic:
-                analitycsFirebase.customEvents("Touch","Principal","Location");
-                if(placesImplementation!=null){
-                    if(placesImplementation.typesSizes()>0){
-                        Place place=placesImplementation.getPlace();
-                        String name=placesImplementation.getPlaceName(place);
-                        String placeType=placesImplementation.getPlaceType(place);
-                        Log.d(TAG, "onOptionsItemSelected: "+name +" "+placeType);
-                        item.setTitle(name+" : "+placesImplementation.getPlaceName(placeType));
+                analitycsFirebase.customEvents("Touch", "Principal", "Location");
+                if (placesImplementation != null) {
+                    if (placesImplementation.typesSizes() > 0) {
+                        Place place = placesImplementation.getPlace();
+                        String name = placesImplementation.getPlaceName(place);
+                        String placeType = placesImplementation.getPlaceType(place);
+                        Log.d(TAG, "onOptionsItemSelected: " + name + " " + placeType);
+                        item.setTitle(name + " : " + placesImplementation.getPlaceName(placeType));
                         json.setPlaceName(placeType);
                     }
                 }
@@ -2828,51 +2784,53 @@ public class Principal extends AppCompatActivity implements View
                 super.onBackPressed();
                 break;
             case R.id.tutorial:
-                Intent intent1=new Intent(this,Viewpager_tutorial.class);
+                Intent intent1 = new Intent(this, Viewpager_tutorial.class);
                 startActivity(intent1);
                 break;
             case R.id.logout:
-                analitycsFirebase.customEvents("Touch","Principal","LogOut");
+                analitycsFirebase.customEvents("Touch", "Principal", "LogOut");
                 user.logOut();
                 break;
             case R.id.report:
                 //todo firebase analitycs
-                analitycsFirebase.customEvents("Touch","Principal","Report");
-                if(sharedPrefsDefault.getInt("premium",0)==1) {
+                analitycsFirebase.customEvents("Touch", "Principal", "Report");
+                if (sharedPrefsDefault.getInt("premium", 0) == 1) {
                     Intent i = new Intent(getApplicationContext(), ActivityInformes.class);
                     startActivity(i);
-                }  else{
-                    Intent i=new Intent(Principal.this,LicenciaExpirada.class);
+                } else {
+                    Intent i = new Intent(Principal.this, LicenciaExpirada.class);
                     startActivity(i);
                 }
                 break;
             case R.id.about:
                 //todo firebase analitycs
-                analitycsFirebase.customEvents("Touch","Principal","About that");
+                analitycsFirebase.customEvents("Touch", "Principal", "About that");
                 Intent intent = new Intent(getApplicationContext(), AboutOttaa.class);
                 startActivity(intent);
                 break;
         }
 
-       return true;
-    }
-    public BarridoPantalla getBarridoPantalla(){
-        return  barridoPantalla;
+        return true;
     }
 
-    public ScrollFunctionMainActivity getFunction_scroll(){
+    public BarridoPantalla getBarridoPantalla() {
+        return barridoPantalla;
+    }
+
+    public ScrollFunctionMainActivity getFunction_scroll() {
         return function_scroll;
     }
-    public  void loadDrawable(GlideAttatcher attatcher, Pictogram pictogram, ImageView imageView){
-        if(pictogram.getEditedPictogram().isEmpty()){
+
+    public void loadDrawable(GlideAttatcher attatcher, Pictogram pictogram, ImageView imageView) {
+        if (pictogram.getEditedPictogram().isEmpty()) {
             attatcher.loadCircleDrawable(this.getResources().getDrawable(this.getContext().getResources().getIdentifier(pictogram.getPictogram(),
-                    "drawable", this.getPackageName())),imageView);
-        }else{
-            File picto=new File(pictogram.getEditedPictogram());
-            if(picto.exists())
-                attatcher.loadCircleDrawable(picto,imageView);
+                    "drawable", this.getPackageName())), imageView);
+        } else {
+            File picto = new File(pictogram.getEditedPictogram());
+            if (picto.exists())
+                attatcher.loadCircleDrawable(picto, imageView);
             else
-                attatcher.loadCircleDrawable(Uri.parse(pictogram.getUrl()),imageView);
+                attatcher.loadCircleDrawable(Uri.parse(pictogram.getUrl()), imageView);
         }
     }
 }

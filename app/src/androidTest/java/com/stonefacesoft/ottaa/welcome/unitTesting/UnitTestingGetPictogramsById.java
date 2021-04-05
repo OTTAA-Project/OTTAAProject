@@ -27,7 +27,7 @@ import org.junit.runner.RunWith;
 @LargeTest
 @RunWith(AndroidJUnit4.class)
 public class UnitTestingGetPictogramsById {
-    private Context context = ApplicationProvider.getApplicationContext();
+    private final Context context = ApplicationProvider.getApplicationContext();
     private JSONObject picto1,picto2,picto3,picto4;
     private JSONArray getOpciones;
     private Pictograms pictograms;

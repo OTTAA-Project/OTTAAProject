@@ -7,13 +7,14 @@ import android.media.MediaCodecList;
 import java.io.FileOutputStream;
 import java.nio.ByteBuffer;
 
-public class FileAudioConverter  {
+public class FileAudioConverter {
     private MediaCodec codec;
     private FileOutputStream fos;
 
-    public FileAudioConverter(){
+    public FileAudioConverter() {
 
     }
+
     private String getEncoderNamesForType(String mime) {
         int n = MediaCodecList.getCodecCount();
         String name = null;

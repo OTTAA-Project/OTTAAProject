@@ -89,29 +89,29 @@ public class ViewPager_Game_Grupo {
 
     }
 
-        public void setId(int id){
-            ViewPager_Game_Grupo.id = id;
+    public void setId(int id) {
+        ViewPager_Game_Grupo.id = id;
+    }
+
+    private class ScreenSlidePagerAdapter extends FragmentStateAdapter {
+        public ScreenSlidePagerAdapter(FragmentActivity fa) {
+            super(fa);
         }
 
-        private class ScreenSlidePagerAdapter extends FragmentStateAdapter {
-            public ScreenSlidePagerAdapter(FragmentActivity fa) {
-                super(fa);
-            }
+        @Override
+        public Fragment createFragment(int position) {
+            return new com.stonefacesoft.ottaa.Viewpagers.ViewPager_Game_Grupo.fragmentGrupo().newInstance(position);
+        }
 
-            @Override
-            public Fragment createFragment(int position) {
-                return new com.stonefacesoft.ottaa.Viewpagers.ViewPager_Game_Grupo.fragmentGrupo().newInstance(position);
-            }
-
-            @Override
-            public int getItemCount() {
-                try {
-                    return array.length();
-                } catch (Exception ex) {
-                    return 0;
-                }
+        @Override
+        public int getItemCount() {
+            try {
+                return array.length();
+            } catch (Exception ex) {
+                return 0;
             }
         }
+    }
 
     /**
      * Talk action
@@ -211,110 +211,112 @@ public class ViewPager_Game_Grupo {
 
         }
 
-        public com.stonefacesoft.ottaa.Viewpagers.ViewPager_Game_Grupo.fragmentGrupo newInstance(Integer position1){
-                com.stonefacesoft.ottaa.Viewpagers.ViewPager_Game_Grupo.fragmentGrupo fragmentGrupo=new com.stonefacesoft.ottaa.Viewpagers.ViewPager_Game_Grupo.fragmentGrupo();
-                Bundle args = new Bundle();
-                args.putInt("position",position1);
-                args.putBoolean("edit",edit);
-                fragmentGrupo.setArguments(args);
-                return fragmentGrupo;
-            }
+        public com.stonefacesoft.ottaa.Viewpagers.ViewPager_Game_Grupo.fragmentGrupo newInstance(Integer position1) {
+            com.stonefacesoft.ottaa.Viewpagers.ViewPager_Game_Grupo.fragmentGrupo fragmentGrupo = new com.stonefacesoft.ottaa.Viewpagers.ViewPager_Game_Grupo.fragmentGrupo();
+            Bundle args = new Bundle();
+            args.putInt("position", position1);
+            args.putBoolean("edit", edit);
+            fragmentGrupo.setArguments(args);
+            return fragmentGrupo;
+        }
 
-            @Override
-            public void onCreate(@Nullable Bundle savedInstanceState) {
-                super.onCreate(savedInstanceState);
-                if(getArguments()!=null){
-                    position=getArguments().getInt("position");
-                    editar=getArguments().getBoolean("edit");
+        @Override
+        public void onCreate(@Nullable Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            if (getArguments() != null) {
+                position = getArguments().getInt("position");
+                editar = getArguments().getBoolean("edit");
+            }
+        }
+
+        @Override
+        public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+            super.onActivityResult(requestCode, resultCode, data);
+            mActivity.setResult(resultCode, data);
+        }
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            // Inflate the layout for this fragment
+            return inflater.inflate(R.layout.groups_components_juegos, container, false);
+        }
+
+        @Override
+        public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+            super.onViewCreated(view, savedInstanceState);
+            Custom_Grupo_Juego grupo = view.findViewById(R.id.grupo_1);
+            ImageView cancelButton = view.findViewById(R.id.edit_button);
+
+            try {
+                Pictogram pictogram = new Pictogram(array.getJSONObject(position), json.getIdioma());
+                GlideAttatcher attatcher = new GlideAttatcher(mActivity);
+                loadDrawable(attatcher, pictogram, grupo.getImg());
+                grupo.setCustom_Texto(json.getNombre(array.getJSONObject(position)));
+                int levelId = json.getId(array.getJSONObject(position));
+                Juego juego = new Juego(mActivity, id, levelId);
+                Drawable drawable = juego.devolverCarita();
+                drawable.setTint(mActivity.getResources().getColor(R.color.NaranjaOTTAA));
+                if (juego.getScoreClass().getIntentos() > 0)
+                    grupo.setTagDrawable(drawable);
+                else {
+                    grupo.setTagDrawable(mActivity.getResources().getDrawable(R.drawable.ic_remove_orange_24dp));
                 }
-            }
 
-            @Override
-            public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-                super.onActivityResult(requestCode, resultCode, data);
-                mActivity.setResult(resultCode,data);
-            }
-
-            @Override
-            public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                     Bundle savedInstanceState) {
-                // Inflate the layout for this fragment
-                return inflater.inflate(R.layout.groups_components_juegos, container, false);
-            }
-            @Override public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-                super.onViewCreated(view, savedInstanceState);
-                Custom_Grupo_Juego grupo=view.findViewById(R.id.grupo_1);
-                ImageView cancelButton=view.findViewById(R.id.edit_button);
-
-                try {
-                    Pictogram pictogram=new Pictogram(array.getJSONObject(position),json.getIdioma());
-                    GlideAttatcher attatcher=new GlideAttatcher(mActivity);
-                    loadDrawable(attatcher,pictogram,grupo.getImg());
-                    grupo.setCustom_Texto(json.getNombre(array.getJSONObject(position)));
-                    int levelId=json.getId(array.getJSONObject(position));
-                    Juego juego=new Juego(mActivity,id,levelId);
-                    Drawable drawable=juego.devolverCarita();
-                    drawable.setTint(mActivity.getResources().getColor(R.color.NaranjaOTTAA));
-                    if(juego.getScoreClass().getIntentos()>0)
-                        grupo.setTagDrawable(drawable);
-                    else{
-                        grupo.setTagDrawable(mActivity.getResources().getDrawable(R.drawable.ic_remove_orange_24dp));
-                    }
-
-                    grupo.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            Intent intent=null;
-                           // intent.putExtra("Boton", position);
-                            positionItem=position;
+                grupo.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = null;
+                        // intent.putExtra("Boton", position);
+                        positionItem = position;
+                        try {
+                            myTTS.hablarSinMostrarFrase(json.getNombre(array.getJSONObject(position)));
+                            switch (id) {
+                                case 0:
+                                    intent = new Intent(mActivity, WhichIsThePicto.class);
+                                    break;
+                                case 1:
+                                    intent = new Intent(mActivity, MatchPictograms.class);
+                                    break;
+                                case 2:
+                                    intent = new Intent(mActivity, MemoryGame.class);
+                                    break;
+                            }
                             try {
-                                myTTS.hablarSinMostrarFrase(json.getNombre(array.getJSONObject(position)));
-                                switch (id){
-                                    case 0:
-                                        intent = new Intent(mActivity, WhichIsThePicto.class);
-                                        break;
-                                    case 1:
-                                        intent = new Intent(mActivity, MatchPictograms.class);
-                                        break;
-                                  case 2:
-                                        intent=new Intent(mActivity, MemoryGame.class);
-                                        break;
-                                }
-                                try {
-                                    intent.putExtra("PictoID", array.getJSONObject(position).getInt("id"));
-                                    intent.putExtra("PositionPadre", position);
-                                    startActivityForResult(intent, IntentCode.NOTIGAMES.getCode());
-                                } catch (Exception e) {
-                                    Log.e(TAG, "onClick: Error: " + e.getMessage());
-                                }
-                            } catch (JSONException e) {
+                                intent.putExtra("PictoID", array.getJSONObject(position).getInt("id"));
+                                intent.putExtra("PositionPadre", position);
+                                startActivityForResult(intent, IntentCode.NOTIGAMES.getCode());
+                            } catch (Exception e) {
                                 Log.e(TAG, "onClick: Error: " + e.getMessage());
                             }
-
+                        } catch (JSONException e) {
+                            Log.e(TAG, "onClick: Error: " + e.getMessage());
                         }
-                    });
-                } catch (JSONException e) {
-                    Log.e(TAG, "onViewCreated: Error: " + e.getMessage());
-                }
+
+                    }
+                });
+            } catch (JSONException e) {
+                Log.e(TAG, "onViewCreated: Error: " + e.getMessage());
             }
+        }
 
     }
 
-    public static void loadDrawable(GlideAttatcher attatcher, Pictogram pictogram, ImageView imageView){
-        if(pictogram.getEditedPictogram().isEmpty()){
-            JSONObject picto=pictogram.toJsonObject();
-            Log.d(TAG, "loadDrawable: "+ picto.toString());
-            Drawable drawable=json.getIcono(picto);
-            if(drawable!=null)
-                attatcher.loadCircleDrawable(drawable,imageView);
+    public static void loadDrawable(GlideAttatcher attatcher, Pictogram pictogram, ImageView imageView) {
+        if (pictogram.getEditedPictogram().isEmpty()) {
+            JSONObject picto = pictogram.toJsonObject();
+            Log.d(TAG, "loadDrawable: " + picto.toString());
+            Drawable drawable = json.getIcono(picto);
+            if (drawable != null)
+                attatcher.loadCircleDrawable(drawable, imageView);
             else
-                attatcher.loadCircleDrawable(mActivity.getResources().getDrawable(R.drawable.ic_cloud_download_orange),imageView);
-        }else{
-            File picto=new File(pictogram.getEditedPictogram());
-            if(picto.exists())
-                attatcher.loadCircleDrawable(picto,imageView);
+                attatcher.loadCircleDrawable(mActivity.getResources().getDrawable(R.drawable.ic_cloud_download_orange), imageView);
+        } else {
+            File picto = new File(pictogram.getEditedPictogram());
+            if (picto.exists())
+                attatcher.loadCircleDrawable(picto, imageView);
             else
-                attatcher.loadCircleDrawable(Uri.parse(pictogram.getUrl()),imageView);
+                attatcher.loadCircleDrawable(Uri.parse(pictogram.getUrl()), imageView);
         }
     }
 }

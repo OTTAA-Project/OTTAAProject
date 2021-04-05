@@ -33,7 +33,7 @@ import org.junit.runner.RunWith;
 
 @RunWith(AndroidJUnit4.class)
 public class UnitTestingTags {
-    private Context mContext= ApplicationProvider.getApplicationContext();
+    private final Context mContext= ApplicationProvider.getApplicationContext();
     private Groups group;
     private Pictograms pictograms;
     private Json json;

@@ -104,7 +104,7 @@ public class GaleriaGrupos2 extends AppCompatActivity implements OnStartDragList
     private CargarGruposJson cargarGruposJson;
     private FallanDatosDelUsuario fallanDatosDelUsuario;
     public static Progress_dialog_options downloadDialog;
-    private ImageButton up_button,down_button,editButton,backpress_button;
+    private ImageButton up_button, down_button, editButton, backpress_button;
     private Button btnBarrido;
 
 
@@ -132,13 +132,13 @@ public class GaleriaGrupos2 extends AppCompatActivity implements OnStartDragList
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         }
         super.onCreate(savedInstanceState);
-        firebaseUtils=FirebaseUtils.getInstance();
+        firebaseUtils = FirebaseUtils.getInstance();
         firebaseUtils.setmContext(this);
         firebaseUtils.setUpFirebaseDatabase();
         setContentView(R.layout.activity_galeria_grupos2);
         mContext = getApplicationContext();
         myTTS = new textToSpeech(mContext);
-        analyticsFirebase=new AnalyticsFirebase(this);
+        analyticsFirebase = new AnalyticsFirebase(this);
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         mProgressBar = findViewById(R.id.progressBar);
@@ -146,13 +146,13 @@ public class GaleriaGrupos2 extends AppCompatActivity implements OnStartDragList
         fallanDatosDelUsuario = this;
         cargarGruposJson = new CargarGruposJson(mProgressBar, mTextViewCargandoGrupos, GaleriaGrupos2.this);
         cargarGruposJson.execute();
-        function_scroll=new ScrollFunctionGaleriaGrupos(this,this);
-        showDismissDialog=new ShowDismissDialog();
+        function_scroll = new ScrollFunctionGaleriaGrupos(this, this);
+        showDismissDialog = new ShowDismissDialog();
 
         /*Manejo de preferencias de cada usuario**/
         sharedPrefsDefault = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         //sharedPrefs = getSharedPreferences(sharedPrefsDefault.getString(getString(R.string.str_userMail), "error"), Context.MODE_PRIVATE);
-        showViewPager=sharedPrefsDefault.getBoolean("showViewPager",false);
+        showViewPager = sharedPrefsDefault.getBoolean("showViewPager", false);
 
         //Referencias principales a la database
         mStorageRef = FirebaseStorage.getInstance().getReference();
@@ -162,20 +162,19 @@ public class GaleriaGrupos2 extends AppCompatActivity implements OnStartDragList
         //**Recycler View*//*
 
         Bundle extras = getIntent().getExtras();
-        showViewPager=sharedPrefsDefault.getBoolean("showViewPager",false);
-        if (extras!= null) {
-            isOrdenar=extras.getBoolean("esOrdenar",false);
-            if(isOrdenar)
-                showViewPager=false;
+        showViewPager = sharedPrefsDefault.getBoolean("showViewPager", false);
+        if (extras != null) {
+            isOrdenar = extras.getBoolean("esOrdenar", false);
+            if (isOrdenar)
+                showViewPager = false;
         }
         //Sacamos el de bajarJsonFirebase que tardaba para entrar a grupo y no se estaba usando en ningun lado
         uploadFirebaseFile = new SubirArchivosFirebase(mContext);
-        downloadDialog =new Progress_dialog_options(this);
+        downloadDialog = new Progress_dialog_options(this);
         downloadDialog.setTitle(getApplicationContext().getResources().getString(R.string.downloadingFoto));
         downloadDialog.setMessage(getApplicationContext().getResources().getString(R.string.downLoadFotos));
         downloadDialog.setCancelable(false);
         downloadDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-
 
 
         Json.getInstance().setmContext(this);
@@ -184,13 +183,12 @@ public class GaleriaGrupos2 extends AppCompatActivity implements OnStartDragList
         /*Si el usuario no entro nunca a la galeria pictos se hace un prompt del tutorial*/
 
 
-
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 if (firebaseAuth.getCurrentUser() == null) {
                     Intent mainIntent = new Intent().setClass(
-                        GaleriaGrupos2.this, LoginActivity.class);
+                            GaleriaGrupos2.this, LoginActivity.class);
                     startActivity(mainIntent);
                     Toast.makeText(GaleriaGrupos2.this, R.string.expired_sesions, Toast.LENGTH_SHORT).show();
                     finish();
@@ -203,13 +201,13 @@ public class GaleriaGrupos2 extends AppCompatActivity implements OnStartDragList
 
             }
         };
-        btnBarrido =findViewById(R.id.btnBarrido);
-        up_button=findViewById(R.id.up_button);
-        down_button=findViewById(R.id.down_button);
-        backpress_button=findViewById(R.id.back_button);
-         editButton=findViewById(R.id.edit_button);
-        btnTalk=findViewById(R.id.btnTalk);
-        if(isOrdenar){
+        btnBarrido = findViewById(R.id.btnBarrido);
+        up_button = findViewById(R.id.up_button);
+        down_button = findViewById(R.id.down_button);
+        backpress_button = findViewById(R.id.back_button);
+        editButton = findViewById(R.id.edit_button);
+        btnTalk = findViewById(R.id.btnTalk);
+        if (isOrdenar) {
             editButton.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_save_white_24));
         }
         btnBarrido.setOnClickListener(this);
@@ -223,23 +221,23 @@ public class GaleriaGrupos2 extends AppCompatActivity implements OnStartDragList
 
         iniciarBarrido();
         crearRecyclerView();
-        viewpager=new viewpager_galeria_grupo(this,myTTS);
+        viewpager = new viewpager_galeria_grupo(this, myTTS);
 
         viewpager.showViewPager(showViewPager);
-        showView(editButton,showViewPager);
-        deviceControl=new GaleriaGruposControls(this);
+        showView(editButton, showViewPager);
+        deviceControl = new GaleriaGruposControls(this);
     }
 
-    private void crearRecyclerView(){
-        if(!isOrdenar){
-            recycler_view_grupo=new Grupo_Recycler_View(this,mAuth);
+    private void crearRecyclerView() {
+        if (!isOrdenar) {
+            recycler_view_grupo = new Grupo_Recycler_View(this, mAuth);
             recycler_view_grupo.setUploadFirebaseFile(uploadFirebaseFile);
             recycler_view_grupo.setPopupMenu(popupMenu);
             recycler_view_grupo.setMyTTS(myTTS);
             recycler_view_grupo.setSharedPrefsDefault(sharedPrefsDefault);
             recycler_view_grupo.showRecyclerView(showViewPager);
-        }else{
-            recycler_view_sort_grupo=new Grupo_Recycler_View_Sort(this,mAuth);
+        } else {
+            recycler_view_sort_grupo = new Grupo_Recycler_View_Sort(this, mAuth);
             recycler_view_sort_grupo.setUploadFirebaseFile(uploadFirebaseFile);
             recycler_view_sort_grupo.setMyTTS(myTTS);
             recycler_view_sort_grupo.setSharedPrefsDefault(sharedPrefsDefault);
@@ -249,7 +247,7 @@ public class GaleriaGrupos2 extends AppCompatActivity implements OnStartDragList
 
     /**
      * Prepare the screen-Scanning
-     * */
+     */
     private void iniciarBarrido() {
         ArrayList<View> listadoObjetosBarrido = new ArrayList<>();
         listadoObjetosBarrido.add(up_button);
@@ -264,17 +262,15 @@ public class GaleriaGrupos2 extends AppCompatActivity implements OnStartDragList
                 @Override
                 public void run() {
                     // Stuff that updates the UI
-                    showViewPager=true;
+                    showViewPager = true;
                     btnBarrido.setVisibility(View.VISIBLE);
-                    if(barridoPantalla.isAvanzarYAceptar())
+                    if (barridoPantalla.isAvanzarYAceptar())
                         barridoPantalla.changeButtonVisibility();
                 }
             });
-        }else{
+        } else {
             btnBarrido.setVisibility(View.GONE);
         }
-
-
 
 
     }
@@ -324,7 +320,7 @@ public class GaleriaGrupos2 extends AppCompatActivity implements OnStartDragList
         Log.d(TAG, "onActivityResult: Entering ActivityResult");
         if (requestCode == IntentCode.GALERIA_PICTOS.getCode()) {
             viewpager.updateData();
-            if(recycler_view_grupo!=null){
+            if (recycler_view_grupo != null) {
                 recycler_view_grupo.setGrupos();
             }
             if (data != null) {
@@ -342,8 +338,8 @@ public class GaleriaGrupos2 extends AppCompatActivity implements OnStartDragList
 
             }
         }
-        if (requestCode == IntentCode.EDITARPICTO.getCode()||requestCode==IntentCode.ORDENAR.getCode()) {
-            if(recycler_view_grupo!=null){
+        if (requestCode == IntentCode.EDITARPICTO.getCode() || requestCode == IntentCode.ORDENAR.getCode()) {
+            if (recycler_view_grupo != null) {
                 recycler_view_grupo.sincronizeData();
                 recycler_view_grupo.changeData();
                 recycler_view_grupo.guardarDatosGrupo();
@@ -382,7 +378,6 @@ public class GaleriaGrupos2 extends AppCompatActivity implements OnStartDragList
     //------- ------- metodos relacionados al menu -------- ------------
 
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -404,18 +399,18 @@ public class GaleriaGrupos2 extends AppCompatActivity implements OnStartDragList
             item = menu.findItem(R.id.bajarFotos);
             item.setVisible(true);
 
-            item=menu.findItem(R.id.order_items);
-                item.setVisible(true);
-
-            item=menu.findItem(R.id.tipe_view);
+            item = menu.findItem(R.id.order_items);
             item.setVisible(true);
-            if(isOrdenar){
+
+            item = menu.findItem(R.id.tipe_view);
+            item.setVisible(true);
+            if (isOrdenar) {
                 menu.findItem(R.id.order_items).setVisible(false);
                 menu.findItem(R.id.tipe_view).setVisible(false);
                 menu.findItem(R.id.nuevo).setVisible(false);
                 menu.findItem(R.id.bajarFotos).setVisible(false);
             }
-            if(!showViewPager)
+            if (!showViewPager)
                 item.setIcon(R.drawable.ic_baseline_view_carousel_white_24);
             else
                 item.setIcon(R.drawable.ic_baseline_apps_white_24);
@@ -462,22 +457,22 @@ public class GaleriaGrupos2 extends AppCompatActivity implements OnStartDragList
                 return true;
 
             case R.id.tipe_view:
-                analyticsFirebase.customEvents("Touch","Galeria Grupos","Change view");
-                showViewPager=!showViewPager;
-                if(!showViewPager)
+                analyticsFirebase.customEvents("Touch", "Galeria Grupos", "Change view");
+                showViewPager = !showViewPager;
+                if (!showViewPager)
                     item.setIcon(R.drawable.ic_baseline_view_carousel_white_24);
                 else
                     item.setIcon(R.drawable.ic_baseline_apps_white_24);
-                sharedPrefsDefault.edit().putBoolean("showViewPager",showViewPager).apply();
+                sharedPrefsDefault.edit().putBoolean("showViewPager", showViewPager).apply();
                 viewpager.showViewPager(showViewPager);
                 recycler_view_grupo.showRecyclerView(showViewPager);
-                showView(editButton,showViewPager);
+                showView(editButton, showViewPager);
                 break;
             case R.id.order_items:
-                analyticsFirebase.customEvents("Touch","Galeria Grupos","Sort Groups");
-                Intent intent=new Intent(GaleriaGrupos2.this,GaleriaGrupos2.class);
-                intent.putExtra("esOrdenar",true);
-                startActivityForResult(intent,IntentCode.ORDENAR.getCode());
+                analyticsFirebase.customEvents("Touch", "Galeria Grupos", "Sort Groups");
+                Intent intent = new Intent(GaleriaGrupos2.this, GaleriaGrupos2.class);
+                intent.putExtra("esOrdenar", true);
+                startActivityForResult(intent, IntentCode.ORDENAR.getCode());
                 break;
 
         }
@@ -498,19 +493,18 @@ public class GaleriaGrupos2 extends AppCompatActivity implements OnStartDragList
     @Override
     protected void onDestroy() {
         super.onDestroy();
-       if(downloadDialog !=null)
-           downloadDialog.destruirDialogo();
+        if (downloadDialog != null)
+            downloadDialog.destruirDialogo();
         // subirTodasLasFotos();
     }
 
     //------ metodos relacionados con las fotos --------
     private void accionBajarFoto() {
-        if(downloadPictures==null)
-            downloadPictures=new DownloadPictures(this,showDismissDialog,this);
+        if (downloadPictures == null)
+            downloadPictures = new DownloadPictures(this, showDismissDialog, this);
         downloadPictures.setUpDirectory();
 
     }
-
 
 
     @Override
@@ -530,11 +524,11 @@ public class GaleriaGrupos2 extends AppCompatActivity implements OnStartDragList
         switch (fotosDescargadas) {
             case Constants.FOTO_DESCARGADA:
 //                pd.incrementProgressBy(1);
-                    downloadDialog.setProgress(progresoDeDescarga);
+                downloadDialog.setProgress(progresoDeDescarga);
                 break;
             case Constants.FOTOS_YA_DESCARGADAS:
-                    downloadDialog.setProgress(progresoDeDescarga);
-                    myTTS.mostrarAlerta(getApplicationContext().getResources().getString(R.string.fotosBajadas));
+                downloadDialog.setProgress(progresoDeDescarga);
+                myTTS.mostrarAlerta(getApplicationContext().getResources().getString(R.string.fotosBajadas));
 
                 break;
         }
@@ -551,25 +545,24 @@ public class GaleriaGrupos2 extends AppCompatActivity implements OnStartDragList
     }
 
 
+    /*  //-------- -------- ----------- metodos relacionados con los permisos ------------------ -----------------
+      private void preguntarPermisos() {
+          if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && ContextCompat
+              .checkSelfPermission(getApplicationContext(), android.Manifest
+                  .permission.WRITE_EXTERNAL_STORAGE)
+              != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission
+              (getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE)
+              != PackageManager.PERMISSION_GRANTED) {
+              if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                  requestPermissions(new String[]{
+                      //Ver a donde hay q pasarlo, posiblemente Galeria Pictos
+                      android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+                  }, Constants.EXTERNAL_STORAGE);
+              }
+          }
 
-  /*  //-------- -------- ----------- metodos relacionados con los permisos ------------------ -----------------
-    private void preguntarPermisos() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && ContextCompat
-            .checkSelfPermission(getApplicationContext(), android.Manifest
-                .permission.WRITE_EXTERNAL_STORAGE)
-            != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission
-            (getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE)
-            != PackageManager.PERMISSION_GRANTED) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                requestPermissions(new String[]{
-                    //Ver a donde hay q pasarlo, posiblemente Galeria Pictos
-                    android.Manifest.permission.WRITE_EXTERNAL_STORAGE
-                }, Constants.EXTERNAL_STORAGE);
-            }
-        }
-
-    }
-*/
+      }
+  */
     //permisos para poder crear los archivos, se necesitan cuando se bajan fotos
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
@@ -588,7 +581,7 @@ public class GaleriaGrupos2 extends AppCompatActivity implements OnStartDragList
                 }
             }
             if (mPermission == PackageManager.PERMISSION_GRANTED) {
-               accionBajarFoto();
+                accionBajarFoto();
             } else if (mPermission == PackageManager.PERMISSION_DENIED) {
                 myTTS.mostrarAlerta(getString(R.string.permisos_fotos_denegados));
 
@@ -614,49 +607,48 @@ public class GaleriaGrupos2 extends AppCompatActivity implements OnStartDragList
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.up_button:
-               if(showViewPager)
-               viewpager.scrollPosition(false);
-               else  if(recycler_view_grupo!=null&&!showViewPager)
-                   recycler_view_grupo.scrollTo(false);
-               if(barridoPantalla.isBarridoActivado()){
-                   analyticsFirebase.customEvents("Accessibility","Galeria Grupos","Previous Button");
-               }
+                if (showViewPager)
+                    viewpager.scrollPosition(false);
+                else if (recycler_view_grupo != null && !showViewPager)
+                    recycler_view_grupo.scrollTo(false);
+                if (barridoPantalla.isBarridoActivado()) {
+                    analyticsFirebase.customEvents("Accessibility", "Galeria Grupos", "Previous Button");
+                }
                 break;
             case R.id.down_button:
-                if(showViewPager)
+                if (showViewPager)
                     viewpager.scrollPosition(true);
-                else  if(recycler_view_grupo!=null&&!showViewPager)
+                else if (recycler_view_grupo != null && !showViewPager)
                     recycler_view_grupo.scrollTo(true);
-                if(barridoPantalla.isBarridoActivado()){
-                    analyticsFirebase.customEvents("Accessibility","Galeria Grupos","Next Button");
+                if (barridoPantalla.isBarridoActivado()) {
+                    analyticsFirebase.customEvents("Accessibility", "Galeria Grupos", "Next Button");
                 }
                 break;
             case R.id.back_button:
-                if(barridoPantalla.isBarridoActivado()){
-                    analyticsFirebase.customEvents("Accessibility","Galeria Grupos","Close Galery Groups");
+                if (barridoPantalla.isBarridoActivado()) {
+                    analyticsFirebase.customEvents("Accessibility", "Galeria Grupos", "Close Galery Groups");
                 }
 
-                    onBackPressed();
+                onBackPressed();
 
                 break;
             case R.id.edit_button:
-                if(!isOrdenar){
-                    analyticsFirebase.customEvents("Touch","Galeria Grupos","Edit Group");
+                if (!isOrdenar) {
+                    analyticsFirebase.customEvents("Touch", "Galeria Grupos", "Edit Group");
                     viewpager.editItem(sharedPrefsDefault.getInt("premium", 0) == 1);
-                }
-                else{
+                } else {
                     recycler_view_sort_grupo.guardarOrden();
                     Intent databack = new Intent();
                     setResult(IntentCode.ORDENAR.getCode(), databack);
-                     finish();
+                    finish();
                 }
                 break;
             case R.id.btnTalk:
-                if(showViewPager){
-                if(barridoPantalla.isBarridoActivado())
-                    analyticsFirebase.customEvents("Accessibility","Galeria Grupos","Select Group");
+                if (showViewPager) {
+                    if (barridoPantalla.isBarridoActivado())
+                        analyticsFirebase.customEvents("Accessibility", "Galeria Grupos", "Select Group");
                     viewpager.OnClickItem();
                 }
                 break;
@@ -706,14 +698,14 @@ public class GaleriaGrupos2 extends AppCompatActivity implements OnStartDragList
 
     @Override
     public boolean onTouch(View view, MotionEvent event) {
-       return deviceControl.makeClick(event);
+        return deviceControl.makeClick(event);
     }
 
     @Override
     public void OnClickBarrido() {
-        if(function_scroll.isClickEnabled()&&barridoPantalla.getmListadoVistas().get(barridoPantalla.getPosicionBarrido()).getId()==R.id.btnTodosLosPictos)
+        if (function_scroll.isClickEnabled() && barridoPantalla.getmListadoVistas().get(barridoPantalla.getPosicionBarrido()).getId() == R.id.btnTodosLosPictos)
             onClick(barridoPantalla.getmListadoVistas().get(barridoPantalla.getPosicionBarrido()));
-        else if(!function_scroll.isClickEnabled()){
+        else if (!function_scroll.isClickEnabled()) {
             onClick(barridoPantalla.getmListadoVistas().get(barridoPantalla.getPosicionBarrido()));
         }
     }
@@ -753,8 +745,6 @@ public class GaleriaGrupos2 extends AppCompatActivity implements OnStartDragList
             }
 
 
-
-
             return null;
         }
 
@@ -768,11 +758,10 @@ public class GaleriaGrupos2 extends AppCompatActivity implements OnStartDragList
             mTextViewCargandoGrupos.setVisibility(View.GONE);
 
             /*Se encarga de abrir los grupos y manejar el drag-n-drop*/
-            if(recycler_view_grupo!=null)
-            recycler_view_grupo.cargarGrupo();
-            else if(recycler_view_sort_grupo!=null)
+            if (recycler_view_grupo != null)
+                recycler_view_grupo.cargarGrupo();
+            else if (recycler_view_sort_grupo != null)
                 recycler_view_sort_grupo.cargarGrupo();
-
 
 
         }
@@ -797,14 +786,13 @@ public class GaleriaGrupos2 extends AppCompatActivity implements OnStartDragList
             switch (event.getAction()) {
                 case MotionEvent.ACTION_SCROLL:
 
-                    if(barridoPantalla.isScrollMode()||barridoPantalla.isScrollModeClicker()){
-                        if(event.getAxisValue(MotionEvent.AXIS_VSCROLL)<0.0f){
-                            if(barridoPantalla.isScrollMode())
+                    if (barridoPantalla.isScrollMode() || barridoPantalla.isScrollModeClicker()) {
+                        if (event.getAxisValue(MotionEvent.AXIS_VSCROLL) < 0.0f) {
+                            if (barridoPantalla.isScrollMode())
                                 function_scroll.HacerClickEnTiempo();
                             barridoPantalla.avanzarBarrido();
-                        }
-                        else{
-                            if(barridoPantalla.isScrollMode())
+                        } else {
+                            if (barridoPantalla.isScrollMode())
                                 function_scroll.HacerClickEnTiempo();
                             barridoPantalla.volverAtrasBarrido();
 
@@ -816,40 +804,44 @@ public class GaleriaGrupos2 extends AppCompatActivity implements OnStartDragList
         return super.onGenericMotionEvent(event);
     }
 
-   public class ShowDismissDialog extends Handler {
-        private int position=-1;
-        private void removeCreatedMessages(int value){
-            if(super.hasMessages(value))
+    public class ShowDismissDialog extends Handler {
+        private int position = -1;
+
+        private void removeCreatedMessages(int value) {
+            if (super.hasMessages(value))
                 super.removeMessages(value);
         }
-        private void removeAllMessages(){
+
+        private void removeAllMessages() {
             removeCreatedMessages(position);
         }
+
         @Override
         public void handleMessage(@NonNull Message msg) {
-            switch (msg.what){
+            switch (msg.what) {
                 default:
-                    position=msg.what;
+                    position = msg.what;
                     mostrarDialogo(msg.what);
             }
         }
-        public void sendMessage(int what){
-            if(what!=position){
+
+        public void sendMessage(int what) {
+            if (what != position) {
                 removeAllMessages();
                 super.sendMessage(getHandler().obtainMessage(what));
             }
         }
-        public android.os.Handler getHandler()
-        {
+
+        public android.os.Handler getHandler() {
             return this;
         }
 
     }
 
-     public void mostrarDialogo(int show){
-        switch (show){
+    public void mostrarDialogo(int show) {
+        switch (show) {
             case 0:
-                if(downloadDialog.isShowing())
+                if (downloadDialog.isShowing())
                     downloadDialog.destruirDialogo();
                 break;
             case 1:
@@ -859,8 +851,8 @@ public class GaleriaGrupos2 extends AppCompatActivity implements OnStartDragList
     }
 
 
-    private void showView(View view,boolean showItem){
-        if(showItem)
+    private void showView(View view, boolean showItem) {
+        if (showItem)
             view.setVisibility(View.VISIBLE);
         else
             view.setVisibility(View.INVISIBLE);
@@ -870,7 +862,7 @@ public class GaleriaGrupos2 extends AppCompatActivity implements OnStartDragList
         return barridoPantalla;
     }
 
-    public ScrollFunctionGaleriaGrupos getFunction_scroll(){
+    public ScrollFunctionGaleriaGrupos getFunction_scroll() {
         return function_scroll;
     }
 }

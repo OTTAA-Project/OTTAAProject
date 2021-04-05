@@ -229,8 +229,8 @@ public class AsignTags {
     }
 
     private void setTagsToGrupo(JSONObject grupo, boolean esAgenda) throws FiveMbException {
-        if(grupo!=null&&grupo.has("tags"))
-        grupo.remove("tags");
+        if (grupo != null && grupo.has("tags"))
+            grupo.remove("tags");
         JSONArray todosLosPictos = null;
         try {
             todosLosPictos = json.readJSONArrayFromFile(Constants.ARCHIVO_PICTOS);
@@ -239,23 +239,23 @@ public class AsignTags {
         }
         try {
 
-                JSONArray array = grupo.getJSONArray("relacion");//relacion de los grupos
-                for (int i = 0; i < array.length(); i++) {
-                    //Cargo el json que apunta al picto a modificar
-                    JSONObject jsonGrupo = array.getJSONObject(i);// picto obtenido
-                    Log.d(TAG, "setTagsToGrupo: " + jsonGrupo.getInt("id"));
-                    //Modifico el json desde pictos
+            JSONArray array = grupo.getJSONArray("relacion");//relacion de los grupos
+            for (int i = 0; i < array.length(); i++) {
+                //Cargo el json que apunta al picto a modificar
+                JSONObject jsonGrupo = array.getJSONObject(i);// picto obtenido
+                Log.d(TAG, "setTagsToGrupo: " + jsonGrupo.getInt("id"));
+                //Modifico el json desde pictos
 
-                    JSONObject jsonPicto = json.getPictoFromId2(jsonGrupo.getInt("id"));
-                    if (jsonPicto != null) {
-                        setTagsToPicto(jsonPicto, esAgenda);
-                        json.setJsonEditado2(json.getmJSONArrayTodosLosPictos(), jsonPicto);
-                    } else {
-                        array.remove(i);
-                        int pos = json.getPosPicto(json.getmJSONArrayTodosLosGrupos(), jsonGrupo.getInt("id"));
-                        json.getmJSONArrayTodosLosGrupos().getJSONObject(pos).put("relacion", array);
-                    }
+                JSONObject jsonPicto = json.getPictoFromId2(jsonGrupo.getInt("id"));
+                if (jsonPicto != null) {
+                    setTagsToPicto(jsonPicto, esAgenda);
+                    json.setJsonEditado2(json.getmJSONArrayTodosLosPictos(), jsonPicto);
+                } else {
+                    array.remove(i);
+                    int pos = json.getPosPicto(json.getmJSONArrayTodosLosGrupos(), jsonGrupo.getInt("id"));
+                    json.getmJSONArrayTodosLosGrupos().getJSONObject(pos).put("relacion", array);
                 }
+            }
 
             if (!json.guardarJson(Constants.ARCHIVO_PICTOS))
                 Log.e(TAG, "Error al guardar el json");
@@ -346,10 +346,11 @@ public class AsignTags {
 
         }
     }
-/*
-*The system verify if the tag exist
-*The system run into the array an question which is the selected tag and mark them
-* */
+
+    /*
+     *The system verify if the tag exist
+     *The system run into the array an question which is the selected tag and mark them
+     * */
     private void cargarTagsPictos() {
         try {
             JSONArray pictosTags;
@@ -379,7 +380,7 @@ public class AsignTags {
 
 
     public void setTagsToPicto(JSONObject picto) throws JSONException {
-        if(picto!=null) {
+        if (picto != null) {
             //Borrar los array de tags
             if (tieneTag(Constants.HORA, picto))
                 picto.remove(Constants.HORA);
@@ -495,12 +496,9 @@ public class AsignTags {
         return null;
     }
 
-    private boolean tieneTag(String  texto,JSONObject object){
+    private boolean tieneTag(String texto, JSONObject object) {
         return object.has(texto);
     }
-
-
-
 
 
 }

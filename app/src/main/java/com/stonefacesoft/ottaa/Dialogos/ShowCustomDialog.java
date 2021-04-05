@@ -14,8 +14,8 @@ import android.widget.TextView;
 import com.stonefacesoft.ottaa.R;
 
 public class ShowCustomDialog {
-    private Context mContext;
-    private SharedPreferences sharedPreferences;
+    private final Context mContext;
+    private final SharedPreferences sharedPreferences;
 
     public ShowCustomDialog(Context context) {
         this.mContext = context;

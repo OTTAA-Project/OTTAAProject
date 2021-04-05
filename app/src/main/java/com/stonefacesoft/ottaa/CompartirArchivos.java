@@ -39,13 +39,13 @@ public class CompartirArchivos {
     private File audio;
     private ArrayList<JSONObject> historial;
     private Bitmap imagen;
-    private Context mContext;
+    private final Context mContext;
     private boolean actionShare;
     //   private Dialog dialog;
-    private Json json;
-    private GestionarBitmap gestionarBitmap;
+    private final Json json;
+    private final GestionarBitmap gestionarBitmap;
     private File file;
-    private textToSpeech myTTS;
+    private final textToSpeech myTTS;
     private final String TAG = "CompartirArchivos_";
 
     public CompartirArchivos(Context context1, textToSpeech myTTS) {
@@ -80,9 +80,9 @@ public class CompartirArchivos {
         actionShare = true;
         Intent sharingIntent = new Intent(Intent.ACTION_SEND);
         sharingIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-        Uri uri=Uri.fromFile(file);
+        Uri uri = Uri.fromFile(file);
         sharingIntent.setType("audio/*");
-        sharingIntent.putExtra(Intent.EXTRA_STREAM,uri);
+        sharingIntent.putExtra(Intent.EXTRA_STREAM, uri);
         mContext.startActivity(sharingIntent);
         //convertAudio(file);
 
@@ -221,7 +221,7 @@ public class CompartirArchivos {
         compartirAudio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                MediaPlayerAudio mediaPlayerAudio=new MediaPlayerAudio(mContext);
+                MediaPlayerAudio mediaPlayerAudio = new MediaPlayerAudio(mContext);
                 mediaPlayerAudio.playedCustomFile(file);
                 compartirAudioPictogramas(file);
                 /*

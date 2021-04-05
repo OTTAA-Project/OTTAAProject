@@ -11,6 +11,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+
 /**
  * Make a follow up about the selected pictograms
  */
@@ -34,33 +35,34 @@ public class Historial {
     public ArrayList<JSONObject> getListadoPictos() {
         return listOfPictograms;
     }
-    public void addPictograma(JSONObject object){
+
+    public void addPictograma(JSONObject object) {
         listOfPictograms.add(object);
     }
-    public void removePictogram(){
-        if(listOfPictograms.size()>0) {
+
+    public void removePictogram() {
+        if (listOfPictograms.size() > 0) {
             listOfPictograms.remove(listOfPictograms.size() - 1);
         }
     }
 
 
-    public void clear(){
+    public void clear() {
 
-        listOfPictograms=new ArrayList<>();
+        listOfPictograms = new ArrayList<>();
     }
 
 
-
-    public JSONObject getFather(){
+    public JSONObject getFather() {
         try {
-            if(!listOfPictograms.isEmpty())
-            father=listOfPictograms.get(listOfPictograms.size()-1);
+            if (!listOfPictograms.isEmpty())
+                father = listOfPictograms.get(listOfPictograms.size() - 1);
             else
-             father=json.getmJSONArrayTodosLosPictos().getJSONObject(0);
+                father = json.getmJSONArrayTodosLosPictos().getJSONObject(0);
 
-        }catch (Exception ex){
+        } catch (Exception ex) {
             try {
-                father=json.getmJSONArrayTodosLosPictos().getJSONObject(0);
+                father = json.getmJSONArrayTodosLosPictos().getJSONObject(0);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -68,8 +70,8 @@ public class Historial {
         return father;
     }
 
-    public JSONObject removePictograms(boolean clearAll){
-        if(clearAll)
+    public JSONObject removePictograms(boolean clearAll) {
+        if (clearAll)
             clear();
         else
             removePictogram();
@@ -77,17 +79,18 @@ public class Historial {
         return getFather();
     }
 
-    public void talkSmart(){
+    public void talkSmart() {
 
     }
-    public String talkWithtNLG(){
-        String Phrase="";
+
+    public String talkWithtNLG() {
+        String Phrase = "";
         nlg.NuevaFrase();
         for (int i = 0; i < listOfPictograms.size(); i++) {
             nlg.CargarFrase(listOfPictograms.get(i));
         }
-        Phrase=nlg.ArmarFrase();
-        Log.d(TAG, "talkWithtNLG: "+ Phrase );
+        Phrase = nlg.ArmarFrase();
+        Log.d(TAG, "talkWithtNLG: " + Phrase);
         return Phrase;
     }
 

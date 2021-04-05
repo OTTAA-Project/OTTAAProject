@@ -20,17 +20,16 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
 //Todos los datos de uso de la aplicacion, cuando se usa, como se usa, frases y pictos.
 public class DatosDeUso {
 
     private JSONArray frasesOrdenadas;
-    private ArrayList<JSONObject> frasesOrdenSort = new ArrayList<>();
+    private final ArrayList<JSONObject> frasesOrdenSort = new ArrayList<>();
     private JSONArray gruposOrdenados;
-    private ArrayList<JSONObject> gruposOrdenSort = new ArrayList<>();
+    private final ArrayList<JSONObject> gruposOrdenSort = new ArrayList<>();
 
-    private Json json;
+    private final Json json;
     private static final String TAG = "DatosDeUso";
 
     public DatosDeUso(Context mContext) throws FiveMbException {
@@ -126,19 +125,19 @@ public class DatosDeUso {
                         return json.compareTo(frec1, frec2);
                     }
                 });
-            }else{
+            } else {
                 Collections.sort(gruposOrdenSort, new Comparator<JSONObject>() {
-                 @Override
+                    @Override
                     public int compare(JSONObject json1, JSONObject json2) {
                         double frec1 = 0;
                         double frec2 = 0;
-                         try {
+                        try {
                             frec1 = ((double) json1.getInt("frecuencia"));
                             frec2 = ((double) json2.getInt("frecuencia"));
-                         } catch (Exception e) {
+                        } catch (Exception e) {
 
                             e.printStackTrace();
-                         }
+                        }
                         return json.compareTo(frec1, frec2);
                     }
                 });
@@ -152,21 +151,21 @@ public class DatosDeUso {
 
     /**
      * @return the promedio
-     * */
+     */
     public float getPromedioPictoPorFrase() {
         int sumPictosPorFrase = 0;
         int totalFrases = getCantidadDeFrasesTotal();
-        try{
-        for (int i = 0; i < frasesOrdenadas.length(); i++) {
-            try {
-                JSONArray array = frasesOrdenadas.getJSONObject(i).getJSONObject("complejidad").getJSONArray("pictos componentes");
-                sumPictosPorFrase += array.length();
-            } catch (JSONException e) {
-                e.printStackTrace();
+        try {
+            for (int i = 0; i < frasesOrdenadas.length(); i++) {
+                try {
+                    JSONArray array = frasesOrdenadas.getJSONObject(i).getJSONObject("complejidad").getJSONArray("pictos componentes");
+                    sumPictosPorFrase += array.length();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
-        }
-        return (float) sumPictosPorFrase / (float) frasesOrdenadas.length();
-        }catch (Exception ex){
+            return (float) sumPictosPorFrase / (float) frasesOrdenadas.length();
+        } catch (Exception ex) {
             return 0;
         }
     }
@@ -189,14 +188,14 @@ public class DatosDeUso {
     //este metodo devuelve la cantidad de frases hechas
     public int getCantidadDeFrasesTotal() {
         int CantDeFrases = 0;
-        if(frasesOrdenadas!=null)
-        for (int i = 0; i < frasesOrdenadas.length(); i++) {
-            try {
-                CantDeFrases += frasesOrdenadas.getJSONObject(i).getInt("frecuencia");
-            } catch (JSONException e) {
-                e.printStackTrace();
+        if (frasesOrdenadas != null)
+            for (int i = 0; i < frasesOrdenadas.length(); i++) {
+                try {
+                    CantDeFrases += frasesOrdenadas.getJSONObject(i).getInt("frecuencia");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
-        }
         return CantDeFrases;
     }
 
@@ -255,18 +254,18 @@ public class DatosDeUso {
         int CantDeFrases = 0;
         long timeStamp = (Calendar.getInstance().getTimeInMillis() - TimeUnit.DAYS.toMillis
                 (CantDeDias)) / 1000;
-        if(frasesOrdenadas!=null)
-        for (int i = 0; i < frasesOrdenadas.length(); i++) {
-            try {
-                JSONArray array = frasesOrdenadas.getJSONObject(i).getJSONArray("fecha");
-                for (int j = 0; j < array.length(); j++) {
-                    if (array.getLong(j) >= timeStamp)
-                        CantDeFrases++;
+        if (frasesOrdenadas != null)
+            for (int i = 0; i < frasesOrdenadas.length(); i++) {
+                try {
+                    JSONArray array = frasesOrdenadas.getJSONObject(i).getJSONArray("fecha");
+                    for (int j = 0; j < array.length(); j++) {
+                        if (array.getLong(j) >= timeStamp)
+                            CantDeFrases++;
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-            } catch (JSONException e) {
-                e.printStackTrace();
             }
-        }
         return CantDeFrases;
     }
 
@@ -295,7 +294,7 @@ public class DatosDeUso {
 
     //Array [dias de la semana] [Ma;ana, Tarde, Noche]
     public int[][] getCantidadFrasesPorDia() {
-        int matriz[][] = new int[8][3];
+        int[][] matriz = new int[8][3];
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 3; j++) {
                 matriz[i][j] = 0;
@@ -305,37 +304,36 @@ public class DatosDeUso {
         GregorianCalendar gregorianCalendar = new GregorianCalendar();
         int dia = 0;
         int hora = 0;
-        if(frasesOrdenadas!=null){
-        for (int i = 0; i < frasesOrdenadas.length(); i++) {
-            try {
-                JSONArray array = frasesOrdenadas.getJSONObject(i).getJSONArray("fecha");
-                for (int j = 0; j < array.length(); j++) {
-                    gregorianCalendar.setTime(new Date(array.getLong(j) * 1000));
-                    dia = gregorianCalendar.get(Calendar.DAY_OF_WEEK);
-                    hora = getMomentoDelDia(gregorianCalendar);
-                    matriz[dia][hora]++;
-                    Log.d("FrasesPorDia", "Mes: " + gregorianCalendar.get(Calendar.MONTH) + "Dia: " + gregorianCalendar.get(Calendar.DAY_OF_WEEK) + "Hora: " + gregorianCalendar.get(Calendar.HOUR_OF_DAY));
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-                Log.e(TAG, "getCantidadFrasesPorDia_Error:"+e.getMessage() );
+        if (frasesOrdenadas != null) {
+            for (int i = 0; i < frasesOrdenadas.length(); i++) {
                 try {
-                    long lonG=frasesOrdenadas.getJSONObject(i).getLong("fecha");
-                    gregorianCalendar.setTime(new Date(lonG * 1000));
-                    dia = gregorianCalendar.get(Calendar.DAY_OF_WEEK);
-                    hora = getMomentoDelDia(gregorianCalendar);
-                    matriz[dia][hora]++;
-                    Log.d("FrasesPorDia", "Mes: " + gregorianCalendar.get(Calendar.MONTH) + "Dia: " + gregorianCalendar.get(Calendar.DAY_OF_WEEK) + "Hora: " + gregorianCalendar.get(Calendar.HOUR_OF_DAY));
+                    JSONArray array = frasesOrdenadas.getJSONObject(i).getJSONArray("fecha");
+                    for (int j = 0; j < array.length(); j++) {
+                        gregorianCalendar.setTime(new Date(array.getLong(j) * 1000));
+                        dia = gregorianCalendar.get(Calendar.DAY_OF_WEEK);
+                        hora = getMomentoDelDia(gregorianCalendar);
+                        matriz[dia][hora]++;
+                        Log.d("FrasesPorDia", "Mes: " + gregorianCalendar.get(Calendar.MONTH) + "Dia: " + gregorianCalendar.get(Calendar.DAY_OF_WEEK) + "Hora: " + gregorianCalendar.get(Calendar.HOUR_OF_DAY));
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    Log.e(TAG, "getCantidadFrasesPorDia_Error:" + e.getMessage());
+                    try {
+                        long lonG = frasesOrdenadas.getJSONObject(i).getLong("fecha");
+                        gregorianCalendar.setTime(new Date(lonG * 1000));
+                        dia = gregorianCalendar.get(Calendar.DAY_OF_WEEK);
+                        hora = getMomentoDelDia(gregorianCalendar);
+                        matriz[dia][hora]++;
+                        Log.d("FrasesPorDia", "Mes: " + gregorianCalendar.get(Calendar.MONTH) + "Dia: " + gregorianCalendar.get(Calendar.DAY_OF_WEEK) + "Hora: " + gregorianCalendar.get(Calendar.HOUR_OF_DAY));
 
-                } catch (JSONException ex) {
-                    ex.printStackTrace();
+                    } catch (JSONException ex) {
+                        ex.printStackTrace();
+                    }
                 }
             }
-         }
         }
         return matriz;
     }
-
 
 
     private int getMomentoDelDia(GregorianCalendar gregorianCalendar) {
@@ -345,7 +343,6 @@ public class DatosDeUso {
             return 1;
         else return 2;
     }
-
 
 
 }

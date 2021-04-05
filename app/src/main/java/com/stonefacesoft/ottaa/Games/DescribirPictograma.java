@@ -24,12 +24,10 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import com.google.firebase.analytics.FirebaseAnalytics;
 import com.stonefacesoft.ottaa.Custom_Picto;
 import com.stonefacesoft.ottaa.Dialogos.DialogGameProgressInform;
 import com.stonefacesoft.ottaa.JSONutils.Json;
@@ -46,8 +44,6 @@ import com.stonefacesoft.ottaa.utils.exceptions.FiveMbException;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.IOException;
 
 
 //Merge realizado
@@ -74,9 +70,9 @@ public class DescribirPictograma extends AppCompatActivity implements View
     private Custom_Picto Opcion2;
     private Custom_Picto Opcion3;
     private Custom_Picto Opcion4;
-    private int[] valores=new int[]{-1,-1,-1,-1};
+    private int[] valores = new int[]{-1, -1, -1, -1};
     private boolean primerUso;
-    private int ganadorAnterior=-1;
+    private int ganadorAnterior = -1;
 
     //RatingStar
     private RatingBar Puntaje;
@@ -87,11 +83,11 @@ public class DescribirPictograma extends AppCompatActivity implements View
 
 
     //Declaramos el media player
-    private MediaPlayerAudio mediaPlayer,music;
+    private MediaPlayerAudio mediaPlayer, music;
     //Handler para animar la respuesat correcta luego de un tiempo si no se presiona
     private final Handler handlerHablar = new Handler();
     private final Handler handlerGano = new Handler();
-    private Handler decirPicto=new Handler();
+    private final Handler decirPicto = new Handler();
 
     //View para animar respuesta correcta en niveles
     private Custom_Picto viewGanador;
@@ -105,7 +101,7 @@ public class DescribirPictograma extends AppCompatActivity implements View
 
     //Jsons
     private Json json;
-    private  JSONArray mDescripcion;
+    private JSONArray mDescripcion;
 
 
     // Datos que le paso por el intent!!!
@@ -137,8 +133,7 @@ public class DescribirPictograma extends AppCompatActivity implements View
     };
 
 
-
-    private final Runnable talkGanador=new Runnable() {
+    private final Runnable talkGanador = new Runnable() {
         @Override
         public void run() {
             imageButton.callOnClick();
@@ -170,14 +165,14 @@ public class DescribirPictograma extends AppCompatActivity implements View
     protected void onCreate(Bundle savedInstanceState) {
         //Ocultamos la barra de notificaciones
         Intent intent = getIntent();
-        analitycsFirebase=new AnalyticsFirebase(this);
+        analitycsFirebase = new AnalyticsFirebase(this);
         PictoID = intent.getIntExtra("PictoID", 0);
         mPositionPadre = intent.getIntExtra("PositionPadre", 0);
 //        firebaseAnalytics=FirebaseAnalytics.getInstance(this);
-       analitycsFirebase=new AnalyticsFirebase(this);
-        dialogo=new CustomToast(this);
-        mediaPlayer=new MediaPlayerAudio(this);
-        music=new MediaPlayerAudio(this);
+        analitycsFirebase = new AnalyticsFirebase(this);
+        dialogo = new CustomToast(this);
+        mediaPlayer = new MediaPlayerAudio(this);
+        music = new MediaPlayerAudio(this);
         mediaPlayer.setVolumenAudio(0.15f);
         music.setVolumenAudio(0.05f);
         boolean status_bar = intent.getBooleanExtra("status_bar", false);
@@ -198,15 +193,14 @@ public class DescribirPictograma extends AppCompatActivity implements View
         primerUso = true;
         //Implemento el manejador de preferencias
         sharedPrefsDefault = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        mute=sharedPrefsDefault.getBoolean("muteSound",false);
-        isChecked=sharedPrefsDefault.getBoolean(getString(R.string.str_pistas),true);
+        mute = sharedPrefsDefault.getBoolean("muteSound", false);
+        isChecked = sharedPrefsDefault.getBoolean(getString(R.string.str_pistas), true);
         music.setMuted(mute);
-        if(mUtilsTTS==null) {
-            mUtilsTTS=new UtilsTTS(this,mTTS,dialogo,sharedPrefsDefault);
+        if (mUtilsTTS == null) {
+            mUtilsTTS = new UtilsTTS(this, mTTS, dialogo, sharedPrefsDefault);
         }
         music.playMusic();
         analitycsFirebase.levelNameGame(TAG);
-
 
 
         //Declaramos el boton para que reproduzca el tts con lo que tiene que decir
@@ -226,7 +220,6 @@ public class DescribirPictograma extends AppCompatActivity implements View
         //Pistas
 
 
-
         //Implementacion de los botones con las respuestas
         Opcion1 = findViewById(R.id.Option1);
         Opcion1.setOnClickListener(this);
@@ -242,7 +235,7 @@ public class DescribirPictograma extends AppCompatActivity implements View
 
         try {
             mDescripcion = json.readJSONArrayFromFile(Constants.ARCHIVO_JUEGO_DESCRIPCION);
-            game=new Juego(this,2,0);
+            game = new Juego(this, 2, 0);
             game.startUseTime();
             Bundle bundle = new Bundle();
 
@@ -253,7 +246,6 @@ public class DescribirPictograma extends AppCompatActivity implements View
         }
 
 
-
         mTutorialFlag = sharedPrefsDefault.getBoolean("PrimerUsoJuegos", true);
         PrimerNivel();
 
@@ -261,7 +253,6 @@ public class DescribirPictograma extends AppCompatActivity implements View
 
 
     }
-
 
 
     @Override
@@ -301,7 +292,6 @@ public class DescribirPictograma extends AppCompatActivity implements View
     }
 
 
-
     private void PrimerNivel() {
         liberaMemoria();
 
@@ -323,7 +313,7 @@ public class DescribirPictograma extends AppCompatActivity implements View
     }
 
     private void elegirGanador(int... pictos) {
-        int ganador=devolverOpcionGanadora((int)(Math.random()*4));
+        int ganador = devolverOpcionGanadora((int) (Math.random() * 4));
         switch (ganador) {
             case 0:
                 viewGanador = Opcion1;
@@ -339,12 +329,12 @@ public class DescribirPictograma extends AppCompatActivity implements View
                 break;
         }
         desbloquearPictos();
-        handlerHablar.postDelayed(talkGanador,600);
+        handlerHablar.postDelayed(talkGanador, 600);
         //return pictos[ganador];
     }
 
     private boolean esGanador(Custom_Picto valor, Custom_Picto ganadorLvl) {
-        if(valor.getCustom_description().equals(ganadorLvl.getCustom_description())){
+        if (valor.getCustom_description().equals(ganadorLvl.getCustom_description())) {
             bloquearPictos();
             return true;
         }
@@ -428,13 +418,13 @@ public class DescribirPictograma extends AppCompatActivity implements View
                 actionGanador(Opcion4);
                 break;
             case R.id.ttsJuego:
-                if(viewGanador!=null){
+                if (viewGanador != null) {
 
 
                     mUtilsTTS.hablar(viewGanador.getCustom_description());
-                    if(primerUso) {
+                    if (primerUso) {
                         viewGanador.startAnimation(AnimationUtils.loadAnimation(DescribirPictograma.this, R.anim.shake));
-                        primerUso=false;
+                        primerUso = false;
                     }
 
                 }
@@ -442,9 +432,6 @@ public class DescribirPictograma extends AppCompatActivity implements View
 
 
         }
-
-
-
 
 
     }
@@ -460,7 +447,7 @@ public class DescribirPictograma extends AppCompatActivity implements View
     @Override
     protected void onResume() {
         super.onResume();
-        if(music!=null){
+        if (music != null) {
             music.stop();
             music.playMusic();
         }
@@ -468,19 +455,16 @@ public class DescribirPictograma extends AppCompatActivity implements View
     }
 
 
-
-
-
     private void CalcularPuntaje(boolean Acerto) {
         if (Acerto) {
             game.incrementCorrect();
-            Drawable drawable=game.devolverCarita();
+            Drawable drawable = game.devolverCarita();
             drawable.setTint(getResources().getColor(R.color.colorWhite));
             mMenu.getItem(0).setIcon(drawable).setVisible(true);
 
-        } else{
+        } else {
             game.incrementWrong();
-            Drawable drawable=game.devolverCarita();
+            Drawable drawable = game.devolverCarita();
             drawable.setTint(getResources().getColor(R.color.colorWhite));
             mMenu.getItem(0).setIcon(drawable).setVisible(true);
 
@@ -493,9 +477,9 @@ public class DescribirPictograma extends AppCompatActivity implements View
     }
 
 
-    private void actionGanador(Custom_Picto picto){
+    private void actionGanador(Custom_Picto picto) {
         if (esGanador(picto, viewGanador)) {
-            if(cantVecInc==0)
+            if (cantVecInc == 0)
                 mediaPlayer.playYesSound();
             else
                 mediaPlayer.playYupi2Sound();
@@ -522,7 +506,7 @@ public class DescribirPictograma extends AppCompatActivity implements View
         }
     }
 
-    private int devolverOpcionGanadora ( int value){
+    private int devolverOpcionGanadora(int value) {
         if (ganadorAnterior == -1) {
             ganadorAnterior = value;
             return value;
@@ -535,7 +519,7 @@ public class DescribirPictograma extends AppCompatActivity implements View
         return value;
     }
 
-    private int devolverValor ( int value){
+    private int devolverValor(int value) {
         if (!tieneValor(value))
             return value;
         else
@@ -543,7 +527,7 @@ public class DescribirPictograma extends AppCompatActivity implements View
         return -1;
     }
 
-    private boolean tieneValor ( int valor){
+    private boolean tieneValor(int valor) {
         for (int i = 0; i < valores.length; i++) {
             if (valores[i] == valor)
                 return true;
@@ -554,7 +538,7 @@ public class DescribirPictograma extends AppCompatActivity implements View
     //Anima el picto correctamente seleccionado
 
 
-    private void cargarDatosValors ( int position){
+    private void cargarDatosValors(int position) {
         int valor = (int) (Math.random() * mDescripcion.length());
         boolean tieneValor = false;
         for (int i = 0; i < valores.length; i++) {
@@ -570,27 +554,27 @@ public class DescribirPictograma extends AppCompatActivity implements View
     private void cargarDatosOpcion(int position, Custom_Picto option, int pos) {
         try {
             if (mDescripcion.getJSONObject(position) != null) {
-                JSONObject jsonObject=json.getPictoFromId2(mDescripcion.getJSONObject(position).getInt("id"));
+                JSONObject jsonObject = json.getPictoFromId2(mDescripcion.getJSONObject(position).getInt("id"));
                 //json.getDescription(mDescripcion.getJSONObject(position)).getString("es")
-                     option.setCustom_Texto(json.getNombre(jsonObject));
-                    option.setCustom_Img(json.getIcono(jsonObject));
-                    option.setCustom_Color(cargarColor(json.getTipo(jsonObject)));
-                    option.setCustom_description(json.getDescription(mDescripcion.getJSONObject(position)).getString("es"));
-                    valores[pos]=position;
+                option.setCustom_Texto(json.getNombre(jsonObject));
+                option.setCustom_Img(json.getIcono(jsonObject));
+                option.setCustom_Color(cargarColor(json.getTipo(jsonObject)));
+                option.setCustom_description(json.getDescription(mDescripcion.getJSONObject(position)).getString("es"));
+                valores[pos] = position;
                 /*}else{
                     position =devolverValor(Math.round((float) Math.random() * mJsonArrayTodosLosPictos.length()));
                     cargarDatosValors(pos);
                     cargarDatosOpcion(position, option, pos);
                 }*/
             } else {
-                position =devolverValor(Math.round((float) Math.random() * mDescripcion.length()));
-                valores[pos]=position;
+                position = devolverValor(Math.round((float) Math.random() * mDescripcion.length()));
+                valores[pos] = position;
                 cargarDatosOpcion(position, option, pos);
             }
         } catch (JSONException e) {
             e.printStackTrace();
-            position =devolverValor(Math.round((float) Math.random() * mDescripcion.length()));
-            valores[pos]=position;
+            position = devolverValor(Math.round((float) Math.random() * mDescripcion.length()));
+            valores[pos] = position;
             cargarDatosOpcion(position, option, pos);
 
         } finally {
@@ -602,14 +586,15 @@ public class DescribirPictograma extends AppCompatActivity implements View
         }
     }
 
-    private void desbloquearPictos(){
+    private void desbloquearPictos() {
         Opcion1.setEnabled(true);
         Opcion2.setEnabled(true);
         Opcion3.setEnabled(true);
         Opcion4.setEnabled(true);
 
     }
-    private void bloquearPictos(){
+
+    private void bloquearPictos() {
         Opcion1.setEnabled(false);
         Opcion2.setEnabled(false);
         Opcion3.setEnabled(false);
@@ -619,28 +604,28 @@ public class DescribirPictograma extends AppCompatActivity implements View
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        mMenu=menu;
+        mMenu = menu;
         inflater.inflate(R.menu.action_bar_game, mMenu);
         // mMenu = menu;
-        scoreItem=menu.findItem(R.id.score);
+        scoreItem = menu.findItem(R.id.score);
         // animGameScore.setMenuView(mMenu);
-        Drawable drawable=game.devolverCarita();
-        if(game.getScore()==0)
-            drawable=getResources().getDrawable(R.drawable.ic_sentiment_very_satisfied_white_24dp);
+        Drawable drawable = game.devolverCarita();
+        if (game.getScore() == 0)
+            drawable = getResources().getDrawable(R.drawable.ic_sentiment_very_satisfied_white_24dp);
         drawable.setTint(getResources().getColor(R.color.colorWhite));
         mMenu.getItem(0).setIcon(drawable);
         mMenu.getItem(0).setVisible(true);
         menu.getItem(2).setVisible(false);
 
 
-        if(game!=null)
+        if (game != null)
             scoreItem.setIcon(game.devolverCarita());
         mMenu.getItem(0).setOnMenuItemClickListener(this::onMenuItemClick);
         mMenu.getItem(1).setOnMenuItemClickListener(this::onMenuItemClick);
         mMenu.getItem(3).setOnMenuItemClickListener(this::onMenuItemClick);
 
-        setIcon(mMenu.getItem(3),mute,R.drawable.ic_volume_off_white_24dp,R.drawable.ic_volume_up_white_24dp);
-        setIcon(mMenu.getItem(1),isChecked,R.drawable.ic_live_help_white_24dp,R.drawable.ic_unhelp);
+        setIcon(mMenu.getItem(3), mute, R.drawable.ic_volume_off_white_24dp, R.drawable.ic_volume_up_white_24dp);
+        setIcon(mMenu.getItem(1), isChecked, R.drawable.ic_live_help_white_24dp, R.drawable.ic_unhelp);
 
         return super.onCreateOptionsMenu(menu);
     }
@@ -648,18 +633,18 @@ public class DescribirPictograma extends AppCompatActivity implements View
 
     @Override
     public boolean onMenuItemClick(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.action_parar:
-                analyticsFirebase.customEvents("Touch","Describir Pictogramas","Mute");
-                mute=!mute;
-                sharedPrefsDefault.edit().putBoolean("muteSound",mute).apply();
+                analyticsFirebase.customEvents("Touch", "Describir Pictogramas", "Mute");
+                mute = !mute;
+                sharedPrefsDefault.edit().putBoolean("muteSound", mute).apply();
                 music.setMuted(mute);
-                setIcon(item,mute,R.drawable.ic_volume_off_white_24dp,R.drawable.ic_volume_up_white_24dp);
+                setIcon(item, mute, R.drawable.ic_volume_off_white_24dp, R.drawable.ic_volume_up_white_24dp);
 
                 return true;
             case R.id.score:
-                analyticsFirebase.customEvents("Touch","Describir Pictogramas","Score Dialog");
-                DialogGameProgressInform inform=new DialogGameProgressInform(this,R.layout.game_progress_score,game);
+                analyticsFirebase.customEvents("Touch", "Describir Pictogramas", "Score Dialog");
+                DialogGameProgressInform inform = new DialogGameProgressInform(this, R.layout.game_progress_score, game);
                 inform.cargarDatosJuego();
                 inform.showDialog();
 //                Bundle bundle = new Bundle();
@@ -668,10 +653,10 @@ public class DescribirPictograma extends AppCompatActivity implements View
                 analitycsFirebase.setUnlockAchievement("Dialogo_Score");
                 return true;
             case R.id.check:
-                analyticsFirebase.customEvents("Touch","Describir Pictogramas","Help Action");
-                isChecked=!isChecked;
+                analyticsFirebase.customEvents("Touch", "Describir Pictogramas", "Help Action");
+                isChecked = !isChecked;
                 sharedPrefsDefault.edit().putBoolean(getString(R.string.str_pistas), isChecked).apply();
-                setIcon(item,isChecked,R.drawable.ic_live_help_white_24dp,R.drawable.ic_unhelp);
+                setIcon(item, isChecked, R.drawable.ic_live_help_white_24dp, R.drawable.ic_unhelp);
                 if (isChecked) {
                     handlerHablar.postDelayed(animarHablar, 4000);
                     dialogo.mostrarFrase(getString(R.string.help_function));
@@ -684,7 +669,7 @@ public class DescribirPictograma extends AppCompatActivity implements View
         return false;
     }
 
-    private void setIcon(MenuItem item,boolean status,int dEnabled,int dDisabled){
+    private void setIcon(MenuItem item, boolean status, int dEnabled, int dDisabled) {
 
         if (status) {
             item.setIcon(getResources().getDrawable(dEnabled));

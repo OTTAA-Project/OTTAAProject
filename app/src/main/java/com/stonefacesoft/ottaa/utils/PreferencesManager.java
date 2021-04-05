@@ -1,9 +1,9 @@
 package com.stonefacesoft.ottaa.utils;
 
 /*@Author: Ruhi Bhandari
-* @Created Date: 15/4/2016
-* @PreferencesManager
-* */
+ * @Created Date: 15/4/2016
+ * @PreferencesManager
+ * */
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -28,20 +28,20 @@ public class PreferencesManager {
      */
 
 
-    private String FIRST_NAME = "FIRST_NAME";
-    private String USER_ID="USER_ID";
-    private String ONE_TIME_LOGIN="onetime";
-    private String IS_ONLINE_OR_OFFLINE_PRESSED_STATUS="YES";
-    private String IS_ONLINE_ONLY="online only";
-    private String ISSUED="issued";
-    private String SCANNED="scanned";
-    private String SCANNED_BY_ME="scanned_by_me";
-    private String IS_TICKETS_DOWNLOADED="is_tickets_downloaded";
-    private String EVENT_ID="event_id";
-    private String KEY="key";
-    private String PROGRESS_COUNT="progress_count";
-    private String DB_ID="db_id";
-    private String TOTAL_TICKETS="total_tickets";
+    private final String FIRST_NAME = "FIRST_NAME";
+    private final String USER_ID = "USER_ID";
+    private final String ONE_TIME_LOGIN = "onetime";
+    private final String IS_ONLINE_OR_OFFLINE_PRESSED_STATUS = "YES";
+    private final String IS_ONLINE_ONLY = "online only";
+    private final String ISSUED = "issued";
+    private final String SCANNED = "scanned";
+    private final String SCANNED_BY_ME = "scanned_by_me";
+    private final String IS_TICKETS_DOWNLOADED = "is_tickets_downloaded";
+    private final String EVENT_ID = "event_id";
+    private final String KEY = "key";
+    private final String PROGRESS_COUNT = "progress_count";
+    private final String DB_ID = "db_id";
+    private final String TOTAL_TICKETS = "total_tickets";
 
 
     private PreferencesManager(Context context) {
@@ -70,6 +70,7 @@ public class PreferencesManager {
         editor.putString(TOTAL_TICKETS, user_id);
         editor.apply();
     }
+
     public String getDB_ID() {
         return sharedPreferences.getString(DB_ID, "");
     }
@@ -110,6 +111,7 @@ public class PreferencesManager {
         editor.putString(EVENT_ID, user_id);
         editor.apply();
     }
+
     public String getIS_TICKETS_DOWNLOADED() {
         return sharedPreferences.getString(IS_TICKETS_DOWNLOADED, "");
     }
@@ -130,7 +132,6 @@ public class PreferencesManager {
         editor.putString(ISSUED, user_id);
         editor.apply();
     }
-
 
 
     public String getSCANNED() {
@@ -155,7 +156,6 @@ public class PreferencesManager {
     }
 
 
-
     public String getIS_ONLINE_OR_OFFLINE_PRESSED_STATUS() {
         return sharedPreferences.getString(IS_ONLINE_OR_OFFLINE_PRESSED_STATUS, "");
     }
@@ -167,9 +167,6 @@ public class PreferencesManager {
     }
 
 
-
-
-
     public String getIS_ONLINE_ONLY() {
         return sharedPreferences.getString(IS_ONLINE_ONLY, "");
     }
@@ -179,11 +176,6 @@ public class PreferencesManager {
         editor.putString(IS_ONLINE_ONLY, user_id);
         editor.apply();
     }
-
-
-
-
-
 
 
     public String getONE_TIME_LOGIN() {

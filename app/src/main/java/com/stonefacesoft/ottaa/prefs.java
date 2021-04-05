@@ -70,8 +70,7 @@ import java.util.Locale;
 /**
  * Created by Hector on 27/03/2015.
  * <h3>Objetive</h3>
- *  Preference setting activity
- *
+ * Preference setting activity
  */
 
 
@@ -120,13 +119,13 @@ public class prefs extends PreferenceActivity implements SharedPreferences.OnSha
     public static String STR_SCROLL_SPEED;
     public static String STR_BARRIDO_PANTALLA;
     public static String STR_SIP_AND_PUFF;
-    private String mBackupDates,mHumanDate,mSelectedBackupDate, mPictosBackupUrl,mFrasesBackupUrl,mGruposBackupUrl,mFotosBackupUrl;
-    private String mPictosDownloadUrlDispacher,mFrasesDownloadUrlDispacher,mGruposDownloadUrlDispacher,mFotosDownloadUrlDispacher;
+    private String mBackupDates, mHumanDate, mSelectedBackupDate, mPictosBackupUrl, mFrasesBackupUrl, mGruposBackupUrl, mFotosBackupUrl;
+    private String mPictosDownloadUrlDispacher, mFrasesDownloadUrlDispacher, mGruposDownloadUrlDispacher, mFotosDownloadUrlDispacher;
     public static String STR_color;
     private ArrayList<JSONObject> listadoGrupos;
     private ArrayList<JSONObject> listadoPictos;
     private ObservableInteger obsInt;
-    private static  FirebaseSuccessListener mSucesListener;
+    private static FirebaseSuccessListener mSucesListener;
     private ControlFacial mFaceControl;
 
     public static String SEEK_1;
@@ -144,8 +143,8 @@ public class prefs extends PreferenceActivity implements SharedPreferences.OnSha
     private PersonalSwitchPreferences mBoolExperimental;
     private PersonalSwitchPreferences mBoolSipAndPuff;
 
-    private StorageReference mStorageRef,mStorageRefPictosBackup,mStorageRefPictos, mStorageRefGrupos;
-   // private ProgressDialog progressDialog,dialog;
+    private StorageReference mStorageRef, mStorageRefPictosBackup, mStorageRefPictos, mStorageRefGrupos;
+    // private ProgressDialog progressDialog,dialog;
     private Progress_dialog_options firebaseDialog;
 
     private String locale;
@@ -161,10 +160,10 @@ public class prefs extends PreferenceActivity implements SharedPreferences.OnSha
     private Preference mSexoUsuario;
     private Preference edad;
     private Preference manoHabil;
-    private Preference mNumVelocidad, mNumVelocidadBarrido,mNumVelocidadClicker, mNumTono;
+    private Preference mNumVelocidad, mNumVelocidadBarrido, mNumVelocidadClicker, mNumTono;
     private Preference mNumVelocidadScroll;
-    private Preference device1,device2;
-    private StorageReference mStorageRef2,mStorageRef3;
+    private Preference device1, device2;
+    private StorageReference mStorageRef2, mStorageRef3;
     private EditTextPreference mStrPresentacion;
     DownloadFilesTask downloadFilesTask;
 
@@ -179,9 +178,9 @@ public class prefs extends PreferenceActivity implements SharedPreferences.OnSha
     private List<String> lstBackups;
     private ArrayList<String> lstBackupsMilis;
     private int mCheckDescarga;
-   // private BajarJsonFirebase bajarJsonFirebase;
+    // private BajarJsonFirebase bajarJsonFirebase;
     private Json json;
-    private static  boolean mCerrarSesion;
+    private static boolean mCerrarSesion;
     private static FirebaseSuccessListener mFirebaseSuccess;
     private boolean cambioIdioma;
     private textToSpeech myTTS;
@@ -197,18 +196,17 @@ public class prefs extends PreferenceActivity implements SharedPreferences.OnSha
         addPreferencesFromResource(R.xml.preferences);
         initComponents();
         isConnected();
-        habilitarFuncionesPremiun(sharedPrefsDefault.getInt("premium",0));
-        analyticsFirebase=new AnalyticsFirebase(this);
-        if(sharedPrefsDefault.getInt("premium",0)==0)
-        {
+        habilitarFuncionesPremiun(sharedPrefsDefault.getInt("premium", 0));
+        analyticsFirebase = new AnalyticsFirebase(this);
+        if (sharedPrefsDefault.getInt("premium", 0) == 0) {
             mBoolBarrido.setChecked(false);
             mBoolUbicacion.setChecked(false);
 
         }
         bajarJsonFirebase = new BajarJsonFirebase(sharedPrefsDefault, mAuth, getApplicationContext());
         bajarJsonFirebase.setInterfaz(this);
-        firebaseDialog=new Progress_dialog_options(this);
-        handlerComunicationClass=new HandlerComunicationClass(this);
+        firebaseDialog = new Progress_dialog_options(this);
+        handlerComunicationClass = new HandlerComunicationClass(this);
 
 
     }
@@ -243,26 +241,27 @@ public class prefs extends PreferenceActivity implements SharedPreferences.OnSha
         }
         return false;
     }
+
     /**
      * Init the components of the preference activity
-     * */
-   private void initComponents(){
-       //Implemento el manejador de preferencias
-       mAuth = FirebaseAuth.getInstance();
-       uid = mAuth.getCurrentUser().getUid();
-       firebaseUtils=FirebaseUtils.getInstance();
-       firebaseUtils.setmContext(this);
-       firebaseUtils.setUpFirebaseDatabase();
-       mDatabase = firebaseUtils.getmDatabase();
-       mStorageRef = FirebaseStorage.getInstance().getReference();
-       sharedPrefsDefault = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+     */
+    private void initComponents() {
+        //Implemento el manejador de preferencias
+        mAuth = FirebaseAuth.getInstance();
+        uid = mAuth.getCurrentUser().getUid();
+        firebaseUtils = FirebaseUtils.getInstance();
+        firebaseUtils.setmContext(this);
+        firebaseUtils.setUpFirebaseDatabase();
+        mDatabase = firebaseUtils.getmDatabase();
+        mStorageRef = FirebaseStorage.getInstance().getReference();
+        sharedPrefsDefault = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
-       Json.getInstance().setmContext(this);
-       json = Json.getInstance();
-       mFirebaseSuccess=this;
-       strIdioma_original=sharedPrefsDefault.getString(getString(R.string.str_idioma),"en");
-       downloadFilesTask =new DownloadFilesTask(strIdioma_original);
-       myTTS = new textToSpeech(getApplicationContext());
+        Json.getInstance().setmContext(this);
+        json = Json.getInstance();
+        mFirebaseSuccess = this;
+        strIdioma_original = sharedPrefsDefault.getString(getString(R.string.str_idioma), "en");
+        downloadFilesTask = new DownloadFilesTask(strIdioma_original);
+        myTTS = new textToSpeech(getApplicationContext());
 
         android.app.ActionBar actionBar = getActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -271,77 +270,76 @@ public class prefs extends PreferenceActivity implements SharedPreferences.OnSha
         BOOL_SUBTITULO = getString(R.string.bool_subtitulo);
         STR_TAM_SUBTITULO = getString(R.string.str_subtitulo_tamano);
         BOOL_SUBTITULO_MAYUSCULA = getString(R.string.bool_subtitulo_mayuscula);
-        STR_PRESENTACION  = getString(R.string.str_presentacion);
+        STR_PRESENTACION = getString(R.string.str_presentacion);
         NUM_Vel = getString(R.string.tts_velocidad);
         NUM_Tono = getString(R.string.pitch_tts);
         BOOL_UBICACION = getString(R.string.bool_ubicacion);
-        NUM_VelB="velocidad_barrido";
-        BOOL_CONTROLFACIAL="control_facial";
+        NUM_VelB = "velocidad_barrido";
+        BOOL_CONTROLFACIAL = "control_facial";
         BOOL_BARRIDO = getString(R.string.bool_barrido);
         BOOL_EDITAR = getString(R.string.bool_editar_picto);
         STR_IDIOMA = getString(R.string.str_idioma);
-        BOOL_HABLAR_BORRAR=getString(R.string.talk_erase);
+        BOOL_HABLAR_BORRAR = getString(R.string.talk_erase);
         STR_LOGOUT = getString(R.string.banderaUpload);
-        STR_MANOHABIL="skillHand";
-        STR_TUTORIAL= getString(R.string.title_activity_tutorial);
+        STR_MANOHABIL = "skillHand";
+        STR_TUTORIAL = getString(R.string.title_activity_tutorial);
         STR_ABOUT = getString(R.string.pref_header_acerca_de);
-       STR_BACKUP = getString(R.string.pref_header_backup);
-        BOOL_TIPO_BARRIDO="tipo_barrido";
-       STR_OPCIONES = "bool_sugerencias";
-       STR_Velocidad_Click=getString(R.string.str_time_click);
-       STR_SCROLL_FUNCTION=getResources().getString(R.string.usar_scroll);
-       STR_SCROLL_FUNCTION_CLICKER=getResources().getString(R.string.usar_scroll_click);
-       STR_SCROLL_SPEED=getResources().getString(R.string.scroll_speed);
-       STR_BARRIDO_PANTALLA="tipo_barrido_normal";
-       STR_Modo_Exp=getResources().getString(R.string.mBoolModoExperimental);
-       STR_SIP_AND_PUFF=getResources().getString(R.string.sip_and_puff);
+        STR_BACKUP = getString(R.string.pref_header_backup);
+        BOOL_TIPO_BARRIDO = "tipo_barrido";
+        STR_OPCIONES = "bool_sugerencias";
+        STR_Velocidad_Click = getString(R.string.str_time_click);
+        STR_SCROLL_FUNCTION = getResources().getString(R.string.usar_scroll);
+        STR_SCROLL_FUNCTION_CLICKER = getResources().getString(R.string.usar_scroll_click);
+        STR_SCROLL_SPEED = getResources().getString(R.string.scroll_speed);
+        STR_BARRIDO_PANTALLA = "tipo_barrido_normal";
+        STR_Modo_Exp = getResources().getString(R.string.mBoolModoExperimental);
+        STR_SIP_AND_PUFF = getResources().getString(R.string.sip_and_puff);
 
 
+        //PersonalSwitchPreference
+        mBoolTTS = (PersonalSwitchPreferences) findPreference(BOOL_TTS);
+        mBoolSubtitulo = (PersonalSwitchPreferences) findPreference(BOOL_SUBTITULO);
+        mBoolBarrido = (PersonalSwitchPreferences) findPreference(BOOL_BARRIDO);
+        mBoolUbicacion = (PersonalSwitchPreferences) findPreference(BOOL_UBICACION);
+        mboolHablarBorrar = (PersonalSwitchPreferences) findPreference(BOOL_HABLAR_BORRAR);
+        mboolControlFacial = (PersonalSwitchPreferences) findPreference(BOOL_CONTROLFACIAL);
+        mOpciones = (PersonalSwitchPreferences) findPreference(STR_OPCIONES);
+        mBoolEditar = (PersonalSwitchPreferences) findPreference(BOOL_EDITAR);
+        mBoolExperimental = (PersonalSwitchPreferences) findPreference(STR_Modo_Exp);
+        PersonalSwitchPreferences mBoolSubtituloMayuscula = (PersonalSwitchPreferences) findPreference(BOOL_SUBTITULO_MAYUSCULA);
+        mBoolTipoBarrido = (PersonalSwitchPreferences) findPreference(BOOL_TIPO_BARRIDO);
+        mBoolUsarScroll = (PersonalSwitchPreferences) findPreference(STR_SCROLL_FUNCTION);
+        mBoolUsarScrollClick = (PersonalSwitchPreferences) findPreference(STR_SCROLL_FUNCTION_CLICKER);
+        mBoolBarridoPantalla = (PersonalSwitchPreferences) findPreference(STR_BARRIDO_PANTALLA);
+        mBoolSipAndPuff = (PersonalSwitchPreferences) findPreference(STR_SIP_AND_PUFF);
 
-       //PersonalSwitchPreference
-       mBoolTTS = (PersonalSwitchPreferences) findPreference(BOOL_TTS);
-       mBoolSubtitulo = (PersonalSwitchPreferences) findPreference(BOOL_SUBTITULO);
-       mBoolBarrido = (PersonalSwitchPreferences) findPreference(BOOL_BARRIDO);
-       mBoolUbicacion = (PersonalSwitchPreferences) findPreference(BOOL_UBICACION);
-       mboolHablarBorrar = (PersonalSwitchPreferences) findPreference(BOOL_HABLAR_BORRAR);
-       mboolControlFacial = (PersonalSwitchPreferences) findPreference(BOOL_CONTROLFACIAL);
-       mOpciones = (PersonalSwitchPreferences) findPreference(STR_OPCIONES);
-       mBoolEditar = (PersonalSwitchPreferences) findPreference(BOOL_EDITAR);
-       mBoolExperimental=(PersonalSwitchPreferences) findPreference(STR_Modo_Exp);
-       PersonalSwitchPreferences mBoolSubtituloMayuscula = (PersonalSwitchPreferences) findPreference(BOOL_SUBTITULO_MAYUSCULA);
-       mBoolTipoBarrido=(PersonalSwitchPreferences) findPreference(BOOL_TIPO_BARRIDO);
-       mBoolUsarScroll=(PersonalSwitchPreferences) findPreference(STR_SCROLL_FUNCTION);
-       mBoolUsarScrollClick=(PersonalSwitchPreferences) findPreference(STR_SCROLL_FUNCTION_CLICKER);
-       mBoolBarridoPantalla=(PersonalSwitchPreferences) findPreference(STR_BARRIDO_PANTALLA);
-       mBoolSipAndPuff=(PersonalSwitchPreferences) findPreference(STR_SIP_AND_PUFF);
+        // preference
+        mNumTono = findPreference(NUM_Tono);
+        mNumVelocidad = findPreference(NUM_Vel);
+        mNumVelocidadClicker = findPreference(STR_Velocidad_Click);
+        mNumVelocidadBarrido = findPreference(NUM_VelB);
+        mStrIdioma = findPreference(STR_IDIOMA);
+        mSexoUsuario = findPreference("sexo");
+        mEdadUsuario = findPreference("edad");
+        mOrientacionJoystick = findPreference("posicion_joystick");
+        mStrSubtituloTamano = findPreference(STR_TAM_SUBTITULO);
+        mNumVelocidadScroll = findPreference(getResources().getString(R.string.scroll_speed));
+        manoHabil = findPreference(STR_MANOHABIL);
+        device1 = findPreference("v1");
+        device2 = findPreference("v2");
+        //Edit text preference
+        mStrPresentacion = (EditTextPreference) findPreference(STR_PRESENTACION);
+        getFragmentManager().executePendingTransactions();
 
-       // preference
-       mNumTono = findPreference(NUM_Tono);
-       mNumVelocidad =  findPreference(NUM_Vel);
-       mNumVelocidadClicker= findPreference(STR_Velocidad_Click);
-       mNumVelocidadBarrido = findPreference(NUM_VelB);
-       mStrIdioma = findPreference(STR_IDIOMA);
-       mSexoUsuario = findPreference("sexo");
-       mEdadUsuario =  findPreference("edad");
-       mOrientacionJoystick =  findPreference("posicion_joystick");
-       mStrSubtituloTamano =  findPreference(STR_TAM_SUBTITULO);
-       mNumVelocidadScroll=findPreference(getResources().getString(R.string.scroll_speed));
-       manoHabil=findPreference(STR_MANOHABIL);
-       device1=findPreference("v1");
-       device2=findPreference("v2");
-       //Edit text preference
-       mStrPresentacion = (EditTextPreference) findPreference(STR_PRESENTACION);
-       getFragmentManager().executePendingTransactions();
+        mStrIdioma.setOnPreferenceChangeListener(this);
+        mSexoUsuario.setOnPreferenceChangeListener(this);
+        mEdadUsuario.setOnPreferenceChangeListener(this);
+        mOrientacionJoystick.setOnPreferenceChangeListener(this);
+        manoHabil.setOnPreferenceChangeListener(this);
+        device1.setOnPreferenceChangeListener(this);
+        device2.setOnPreferenceChangeListener(this);
 
-       mStrIdioma.setOnPreferenceChangeListener(this);
-       mSexoUsuario.setOnPreferenceChangeListener(this);
-       mEdadUsuario.setOnPreferenceChangeListener(this);
-       mOrientacionJoystick.setOnPreferenceChangeListener(this);
-       manoHabil.setOnPreferenceChangeListener(this);
-       device1.setOnPreferenceChangeListener(this);
-       device2.setOnPreferenceChangeListener(this);
-
-       createOnClickItemBarrido();
+        createOnClickItemBarrido();
        /*
        buttonTutorial.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
            @Override
@@ -357,37 +355,31 @@ public class prefs extends PreferenceActivity implements SharedPreferences.OnSha
         });*/
 
 
-       //Listener
-       obsInt = new ObservableInteger();
-       obsInt.set(0);
+        //Listener
+        obsInt = new ObservableInteger();
+        obsInt.set(0);
 
-       obsInt.setOnIntegerChangeListener(new ObservableInteger.OnIntegerChangeListener()
-       {
-           @Override
-           public void onIntegerChanged(int newValue) {
-               if (obsInt.get() == 1)
-                   Log.d(TAG, "onIntegerChanged: obsInt 1");
-               Log.d(TAG, "onIntegerChanged: Picto is downloaded");
-               if (obsInt.get() == 2) {
-                   Log.d(TAG, "onIntegerChanged: obsInt 2");
-                   Log.d(TAG, "onIntegerChanged: Grupos is downloaded");
-                   handlerComunicationClass.sendMessage(
-                           Message.obtain(handlerComunicationClass, HandlerComunicationClass.DISMISSDIALOG, ""));
-                   obsInt.set(0);
-               }
-               if (obsInt.get() == -1) {
-                   handlerComunicationClass.sendMessage(
-                           Message.obtain(handlerComunicationClass, HandlerComunicationClass.DISMISSDIALOG, ""));
-               }
-           }
-       });
+        obsInt.setOnIntegerChangeListener(new ObservableInteger.OnIntegerChangeListener() {
+            @Override
+            public void onIntegerChanged(int newValue) {
+                if (obsInt.get() == 1)
+                    Log.d(TAG, "onIntegerChanged: obsInt 1");
+                Log.d(TAG, "onIntegerChanged: Picto is downloaded");
+                if (obsInt.get() == 2) {
+                    Log.d(TAG, "onIntegerChanged: obsInt 2");
+                    Log.d(TAG, "onIntegerChanged: Grupos is downloaded");
+                    handlerComunicationClass.sendMessage(
+                            Message.obtain(handlerComunicationClass, HandlerComunicationClass.DISMISSDIALOG, ""));
+                    obsInt.set(0);
+                }
+                if (obsInt.get() == -1) {
+                    handlerComunicationClass.sendMessage(
+                            Message.obtain(handlerComunicationClass, HandlerComunicationClass.DISMISSDIALOG, ""));
+                }
+            }
+        });
 
-   }
-
-
-
-
-
+    }
 
 
     @Override
@@ -398,17 +390,18 @@ public class prefs extends PreferenceActivity implements SharedPreferences.OnSha
     /*    if (BOOL_PRESENTACION.equals(key)) {
             boolean b = sharedPrefs.getBoolean(key, false);
             mBoolPresentacion.setSummary(b ? getResources().getString(R.string.pref_activado) : getResources().getString(R.string.pref_desactivado));
-        } else */if (BOOL_TTS.equals(key)) {
+        } else */
+        if (BOOL_TTS.equals(key)) {
             boolean b = sharedPrefs.getBoolean(key, false);
             mBoolTTS.setSummary(b ? getResources().getString(R.string.pref_activado) : getResources().getString(R.string.pref_desactivado));
          /* if (STR_PRESENTACION.equals(key)) {
             String str = sharedPrefs.getString(key, "");
             mStrPresentacion.setSummary(str);
-        }*/} else if (NUM_Vel.equals(key)) {
+        }*/
+        } else if (NUM_Vel.equals(key)) {
             int i = sharedPrefs.getInt(key, 10);
             mNumVelocidad.setSummary(" " + i);
-        }else if(NUM_VelB.equals(key))
-        {
+        } else if (NUM_VelB.equals(key)) {
             int i = sharedPrefs.getInt(key, 5);
             mNumVelocidadBarrido.setSummary(" " + i);
         } else if (NUM_Tono.equals(key)) {
@@ -417,17 +410,17 @@ public class prefs extends PreferenceActivity implements SharedPreferences.OnSha
         } else if (BOOL_SUBTITULO.equals(key)) {
             boolean b = sharedPrefs.getBoolean(key, false);
             mBoolSubtitulo.setSummary(b ? getResources().getString(R.string.pref_activado) : getResources().getString(R.string.pref_desactivado));
-        }else if(STR_Velocidad_Click.equals(key)){
+        } else if (STR_Velocidad_Click.equals(key)) {
             int i = sharedPrefs.getInt(key, 10);
             mNumVelocidadClicker.setSummary(" " + i);
-        }else if(BOOL_TIPO_BARRIDO.equals(key)){
-            boolean b=sharedPrefs.getBoolean(key,false);
+        } else if (BOOL_TIPO_BARRIDO.equals(key)) {
+            boolean b = sharedPrefs.getBoolean(key, false);
 
-        }else if (BOOL_HABLAR_BORRAR.equals(key)) {
+        } else if (BOOL_HABLAR_BORRAR.equals(key)) {
             boolean b = sharedPrefs.getBoolean(key, false);
-        }else if (BOOL_UBICACION.equals(key)) {
+        } else if (BOOL_UBICACION.equals(key)) {
             boolean b = sharedPrefs.getBoolean(key, false);
-            if (b && mBoolUbicacion.getSummary()== getResources().getString(R.string.pref_desactivado)){
+            if (b && mBoolUbicacion.getSummary() == getResources().getString(R.string.pref_desactivado)) {
                 //Check si tenemoslos permisos necesarios para ejecutar el calendario.
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && ContextCompat
@@ -440,12 +433,12 @@ public class prefs extends PreferenceActivity implements SharedPreferences.OnSha
                             Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission
                             .ACCESS_FINE_LOCATION
                     }, Constants.PERMISSION_UBICACION);
-                } else{
+                } else {
                     Log.d(TAG, "onSharedPreferenceChanged: Location permit granted");
                 }
             }
             mBoolUbicacion.setSummary(b ? getResources().getString(R.string.pref_activado) : getResources().getString(R.string.pref_desactivado));
-        }else if (BOOL_BARRIDO.equals(key)) {
+        } else if (BOOL_BARRIDO.equals(key)) {
             boolean b = sharedPrefs.getBoolean(key, false);
         } else if (BOOL_EDITAR.equals(key)) {
             boolean b = sharedPrefs.getBoolean(key, true);
@@ -456,15 +449,15 @@ public class prefs extends PreferenceActivity implements SharedPreferences.OnSha
         } else if (STR_OPCIONES.equals(key)) {
             boolean b = sharedPrefs.getBoolean(key, true);
         } else if (BOOL_CONTROLFACIAL.equals(key)) {
-                boolean b=sharedPrefs.getBoolean(key,false);
-        } else if(STR_SCROLL_FUNCTION.equals(key)){
-            boolean b=sharedPrefs.getBoolean(key,false);
-        }else if(STR_SCROLL_FUNCTION_CLICKER.equals(key)){
-            boolean b=sharedPrefs.getBoolean(key,false);
-        }else if(STR_BARRIDO_PANTALLA.equals(key)){
-            boolean b=sharedPrefs.getBoolean(key,false);
-        }else if(STR_SIP_AND_PUFF.equals(key)){
-            boolean b=sharedPrefs.getBoolean(key,false);
+            boolean b = sharedPrefs.getBoolean(key, false);
+        } else if (STR_SCROLL_FUNCTION.equals(key)) {
+            boolean b = sharedPrefs.getBoolean(key, false);
+        } else if (STR_SCROLL_FUNCTION_CLICKER.equals(key)) {
+            boolean b = sharedPrefs.getBoolean(key, false);
+        } else if (STR_BARRIDO_PANTALLA.equals(key)) {
+            boolean b = sharedPrefs.getBoolean(key, false);
+        } else if (STR_SIP_AND_PUFF.equals(key)) {
+            boolean b = sharedPrefs.getBoolean(key, false);
         }
     }
 
@@ -486,7 +479,7 @@ public class prefs extends PreferenceActivity implements SharedPreferences.OnSha
         onSharedPreferenceChanged(sharedPrefsDefault, STR_IDIOMA);
         onSharedPreferenceChanged(sharedPrefsDefault, STR_OPCIONES);
         onSharedPreferenceChanged(sharedPrefsDefault, STR_LOGOUT);
-        onSharedPreferenceChanged(sharedPrefsDefault,STR_SCROLL_FUNCTION);
+        onSharedPreferenceChanged(sharedPrefsDefault, STR_SCROLL_FUNCTION);
         onSharedPreferenceChanged(sharedPrefsDefault, "hablar_borrar");
 
 
@@ -522,12 +515,13 @@ public class prefs extends PreferenceActivity implements SharedPreferences.OnSha
         Intent databack = new Intent();
         databack.putExtra(getString(R.string.boolean_cambio_idioma), cambioIdioma);
         setResult(IntentCode.CONFIG_SCREEN.getCode(), databack);
-            finish();
+        finish();
 
     }
+
     /**
      * Download the files related with an specific language
-     * */
+     */
     private void DescargarArchivosPais(final String s) {
 
         locale = Locale.getDefault().getLanguage();
@@ -563,7 +557,6 @@ public class prefs extends PreferenceActivity implements SharedPreferences.OnSha
     }
 
 
-
     @Override
     public void onPictosSugeridosBajados(boolean descargado) {
         if (descargado) {
@@ -576,12 +569,12 @@ public class prefs extends PreferenceActivity implements SharedPreferences.OnSha
 
     @Override
     public void isconnected(boolean b) {
-        if(!b){
-            if(firebaseDialog!=null&&firebaseDialog.isShowing()){
+        if (!b) {
+            if (firebaseDialog != null && firebaseDialog.isShowing()) {
                 firebaseDialog.destruirDialogo();
             }
         }
-       
+
     }
 
     @Override
@@ -596,18 +589,18 @@ public class prefs extends PreferenceActivity implements SharedPreferences.OnSha
     }
 
 
-
     private class DownloadFilesTask extends AsyncTask<Void, Void, Void> {
         String s;
-        public DownloadFilesTask(String s){
+
+        public DownloadFilesTask(String s) {
             this.s = s;
         }
 
         @Override
         protected Void doInBackground(Void... voids) {
             DescargarArchivosPais(s);
-            sharedPrefsDefault.edit().putString(getString(R.string.str_idioma_buffer),s).apply();
-            sharedPrefsDefault.edit().putString(getString(R.string.str_idioma),s).apply();
+            sharedPrefsDefault.edit().putString(getString(R.string.str_idioma_buffer), s).apply();
+            sharedPrefsDefault.edit().putString(getString(R.string.str_idioma), s).apply();
 
             cambioIdioma = true;
             return null;
@@ -639,7 +632,7 @@ public class prefs extends PreferenceActivity implements SharedPreferences.OnSha
     }*/
 
 
-    public boolean onOptionsItemSelected(MenuItem item){
+    public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == android.R.id.home) {
             finish();
@@ -685,138 +678,132 @@ public class prefs extends PreferenceActivity implements SharedPreferences.OnSha
     }
 
 
-
-    private void habilitarFuncionesPremiun(int n)
-    {
-        if(n==1)
-        {
+    private void habilitarFuncionesPremiun(int n) {
+        if (n == 1) {
             mBoolBarrido.setEnabled(true);
             mBoolUbicacion.setEnabled(true);
             //  mBtnBackup.setEnabled(true);
 
-        }
-        else
-            {
-                mBoolBarrido.setIcon(R.drawable.locked);
-                mBoolUbicacion.setIcon(R.drawable.locked);
-                //   mBtnBackup.setIcon(R.drawable.locked);
+        } else {
+            mBoolBarrido.setIcon(R.drawable.locked);
+            mBoolUbicacion.setIcon(R.drawable.locked);
+            //   mBtnBackup.setIcon(R.drawable.locked);
 
-            }
+        }
 
     }
 
 
     @Override
     public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen, Preference preference) {
-        if(sharedPrefsDefault.getInt("premium",0)==0){
-            if(preference==mBoolBarrido) {
+        if (sharedPrefsDefault.getInt("premium", 0) == 0) {
+            if (preference == mBoolBarrido) {
 
                 mBoolBarrido.setChecked(false);
-                Intent i=new Intent(preference.getContext(),LicenciaExpirada.class);
+                Intent i = new Intent(preference.getContext(), LicenciaExpirada.class);
                 startActivity(i);
                 return true;
-            } else if(preference==mBoolUbicacion) {
+            } else if (preference == mBoolUbicacion) {
                 mBoolUbicacion.setChecked(false);
-                Intent i=new Intent(preference.getContext(),LicenciaExpirada.class);
+                Intent i = new Intent(preference.getContext(), LicenciaExpirada.class);
                 startActivity(i);
                 return true;
-            }else if(preference==mOpciones){
+            } else if (preference == mOpciones) {
                 mOpciones.setChecked(false);
-                Intent i=new Intent(preference.getContext(),LicenciaExpirada.class);
+                Intent i = new Intent(preference.getContext(), LicenciaExpirada.class);
                 startActivity(i);
             }
         }
-        if(preference==mBoolExperimental){
-            analyticsFirebase.customEvents("Settings","prefs","Experimental Mode");
-        }if(preference==mOpciones){
-            analyticsFirebase.customEvents("Settings","prefs","Suggested Pictograms");
-        }else if(preference==mBoolSubtitulo){
-            analyticsFirebase.customEvents("Settings","prefs","Custom Subtitle");
-        }else if(preference==mBoolTTS){
-            analyticsFirebase.customEvents("Settings","prefs","Custom TTS");
-        }else if(preference==mboolControlFacial){
-            analyticsFirebase.customEvents("Settings","prefs","Facial Control");
-            mFaceControl=new ControlFacial(preference.getContext());
-        }else if(preference==mStrSubtituloTamano){
-            analyticsFirebase.customEvents("Settings","prefs","Subtitle Text Size");
-            showDialogOptionsSettings(getString(R.string.pref_subtitulo_tamanio),R.array.pref_subtitulos_tamanio_nombres,R.array.pref_subtitulos_tamanio_valores,getResources().getString(R.string.str_subtitulo_tamano));
-        }else if(preference==mBoolEditar){
-            analyticsFirebase.customEvents("Settings","prefs","Edit Pictograms");
-        } else if(preference==mboolHablarBorrar){
-            analyticsFirebase.customEvents("Settings","prefs","Talk and erase");
+        if (preference == mBoolExperimental) {
+            analyticsFirebase.customEvents("Settings", "prefs", "Experimental Mode");
+        }
+        if (preference == mOpciones) {
+            analyticsFirebase.customEvents("Settings", "prefs", "Suggested Pictograms");
+        } else if (preference == mBoolSubtitulo) {
+            analyticsFirebase.customEvents("Settings", "prefs", "Custom Subtitle");
+        } else if (preference == mBoolTTS) {
+            analyticsFirebase.customEvents("Settings", "prefs", "Custom TTS");
+        } else if (preference == mboolControlFacial) {
+            analyticsFirebase.customEvents("Settings", "prefs", "Facial Control");
+            mFaceControl = new ControlFacial(preference.getContext());
+        } else if (preference == mStrSubtituloTamano) {
+            analyticsFirebase.customEvents("Settings", "prefs", "Subtitle Text Size");
+            showDialogOptionsSettings(getString(R.string.pref_subtitulo_tamanio), R.array.pref_subtitulos_tamanio_nombres, R.array.pref_subtitulos_tamanio_valores, getResources().getString(R.string.str_subtitulo_tamano));
+        } else if (preference == mBoolEditar) {
+            analyticsFirebase.customEvents("Settings", "prefs", "Edit Pictograms");
+        } else if (preference == mboolHablarBorrar) {
+            analyticsFirebase.customEvents("Settings", "prefs", "Talk and erase");
         } else if (preference == mOrientacionJoystick) {
-            analyticsFirebase.customEvents("Settings","prefs","Joystick");
-            showDialogOptionsSettings(getString(R.string.joystick_orientation),R.array.pref_posicion,R.array.pref_posicion_valores,"orientacion_joystick");
+            analyticsFirebase.customEvents("Settings", "prefs", "Joystick");
+            showDialogOptionsSettings(getString(R.string.joystick_orientation), R.array.pref_posicion, R.array.pref_posicion_valores, "orientacion_joystick");
             return true;
-        } else if(preference == mSexoUsuario) {
+        } else if (preference == mSexoUsuario) {
             // progressDialog = new ProgressDialog(this);
-            analyticsFirebase.customEvents("Settings","prefs","Gender User");
-                    showDialogOptionsDownloadFile(getResources().getString(R.string.gender_string),R.array.listSexo,R.array.list_sexo_valores,"pref_sexo");
-                    //  new ordenarPictos().execute();
-                    return true;
+            analyticsFirebase.customEvents("Settings", "prefs", "Gender User");
+            showDialogOptionsDownloadFile(getResources().getString(R.string.gender_string), R.array.listSexo, R.array.list_sexo_valores, "pref_sexo");
+            //  new ordenarPictos().execute();
+            return true;
 
         } else if (preference == mEdadUsuario) {
             //  progressDialog = new ProgressDialog(this);
-            analyticsFirebase.customEvents("Settings","prefs","Age User");
-            showDialogOptionsDownloadFile(this.getResources().getString(R.string.str_seleccionar_edad_usuario),R.array.listEdad,R.array.list_Edad_valores,getString(R.string.prefedad));
+            analyticsFirebase.customEvents("Settings", "prefs", "Age User");
+            showDialogOptionsDownloadFile(this.getResources().getString(R.string.str_seleccionar_edad_usuario), R.array.listEdad, R.array.list_Edad_valores, getString(R.string.prefedad));
             return true;
 
-        } else if(preference==mStrIdioma) {
-            analyticsFirebase.customEvents("Settings","prefs","Language");
-             showLanguajeDialog(this.getResources().getString(R.string.pref_idioma),R.array.pref_idiomas,R.array.pref_idiomas_valores);
-            return  true;
-         }else if(preference==manoHabil) {
+        } else if (preference == mStrIdioma) {
+            analyticsFirebase.customEvents("Settings", "prefs", "Language");
+            showLanguajeDialog(this.getResources().getString(R.string.pref_idioma), R.array.pref_idiomas, R.array.pref_idiomas_valores);
+            return true;
+        } else if (preference == manoHabil) {
             analyticsFirebase.customEvents("Settings", "prefs", "Skill hand");
             showDialogOptionsSkilledHand("Mano Habil", R.array.Mano, R.array.Mano_valores, manoHabil.getKey());
-            return  true;
-         }else if(preference==mNumTono){
-            analyticsFirebase.customEvents("Settings","prefs","TTS Voice");
-            preparePickerDialog(this.getResources().getString(R.string.pref_option2_tts),NUM_Tono,1,20);
             return true;
-        }else if(preference==mNumVelocidad){
-            analyticsFirebase.customEvents("Settings","prefs","TTS Speed");
-            preparePickerDialog(this.getResources().getString(R.string.pref_option1_tts),NUM_Vel,1,20);
+        } else if (preference == mNumTono) {
+            analyticsFirebase.customEvents("Settings", "prefs", "TTS Voice");
+            preparePickerDialog(this.getResources().getString(R.string.pref_option2_tts), NUM_Tono, 1, 20);
             return true;
-        }else if(preference== mNumVelocidadBarrido){
-            analyticsFirebase.customEvents("Settings","prefs","Screen Scanning Speed");
-            preparePickerDialog(this.getResources().getString(R.string.scanning_resources),NUM_VelB,1,10);
+        } else if (preference == mNumVelocidad) {
+            analyticsFirebase.customEvents("Settings", "prefs", "TTS Speed");
+            preparePickerDialog(this.getResources().getString(R.string.pref_option1_tts), NUM_Vel, 1, 20);
+            return true;
+        } else if (preference == mNumVelocidadBarrido) {
+            analyticsFirebase.customEvents("Settings", "prefs", "Screen Scanning Speed");
+            preparePickerDialog(this.getResources().getString(R.string.scanning_resources), NUM_VelB, 1, 10);
 
             return true;
-        }else if(preference==mNumVelocidadClicker){
-            analyticsFirebase.customEvents("Settings","prefs","Time Between Clicks");
-            preparePickerDialog(this.getResources().getString(R.string.str_delay_time_click),STR_Velocidad_Click,1,20);
+        } else if (preference == mNumVelocidadClicker) {
+            analyticsFirebase.customEvents("Settings", "prefs", "Time Between Clicks");
+            preparePickerDialog(this.getResources().getString(R.string.str_delay_time_click), STR_Velocidad_Click, 1, 20);
             return true;
-        }else if(preference==mNumVelocidadScroll){
-            analyticsFirebase.customEvents("Settings","prefs","Scroll Speed");
-            preparePickerDialog(this.getResources().getString(R.string.scroll_speed_title),STR_SCROLL_SPEED,1,20);
+        } else if (preference == mNumVelocidadScroll) {
+            analyticsFirebase.customEvents("Settings", "prefs", "Scroll Speed");
+            preparePickerDialog(this.getResources().getString(R.string.scroll_speed_title), STR_SCROLL_SPEED, 1, 20);
             return true;
-        }else if(preference==mBoolUbicacion){
-            analyticsFirebase.customEvents("Settings","prefs","Location");
+        } else if (preference == mBoolUbicacion) {
+            analyticsFirebase.customEvents("Settings", "prefs", "Location");
 
-        }else if(preference==device1){
+        } else if (preference == device1) {
             sharedPrefsDefault.edit().putInt("deviceId", 0).apply();
-            new Devices_Version_Dialog(this,false);
+            new Devices_Version_Dialog(this, false);
 
-        }else if(preference==device2){
+        } else if (preference == device2) {
             sharedPrefsDefault.edit().putInt("deviceId", 1).apply();
-            new Devices_Version_Dialog(this,true);
+            new Devices_Version_Dialog(this, true);
         }
         return super.onPreferenceTreeClick(preferenceScreen, preference);
     }
 
 
-
-
     /**
      * This method request the connection to firebase database
-     * */
-    public void isConnected(){
+     */
+    public void isConnected() {
         DatabaseReference connectedRef = firebaseUtils.getmDatabase().getDatabase().getReference(".info/connected");
         connectedRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 boolean connected = snapshot.getValue(Boolean.class);
-                status=connected;
+                status = connected;
                 isconnected(connected);
             }
 
@@ -829,15 +816,15 @@ public class prefs extends PreferenceActivity implements SharedPreferences.OnSha
     }
 
 
-    public void mostrarDialogo(){
+    public void mostrarDialogo() {
         firebaseDialog.setMessage(message);
         firebaseDialog.mostrarDialogo();
         firebaseDialog.setCancelable(false);
 
     }
 
-    public void cancelarDialogo(){
-        if(firebaseDialog!=null)
+    public void cancelarDialogo() {
+        if (firebaseDialog != null)
             firebaseDialog.destruirDialogo();
     }
 
@@ -848,14 +835,14 @@ public class prefs extends PreferenceActivity implements SharedPreferences.OnSha
     }
 
 
-    public void cargarValorSeleccionado(ListPreference preference,int value){
+    public void cargarValorSeleccionado(ListPreference preference, int value) {
         preference.setValueIndex(value);
     }
 
 
-    private void preparePickerDialog(String title,String key,int min,int max){
-        NumberPickerPreference pickerPreference=new NumberPickerPreference(this,title,key);
-        pickerPreference.setmPicker(min,max);
+    private void preparePickerDialog(String title, String key, int min, int max) {
+        NumberPickerPreference pickerPreference = new NumberPickerPreference(this, title, key);
+        pickerPreference.setmPicker(min, max);
         pickerPreference.createPicker();
     }
 
@@ -863,27 +850,27 @@ public class prefs extends PreferenceActivity implements SharedPreferences.OnSha
     @Override
     public void showLanguajeDialog(String name, int value, int options) {
 
-        custom_dialog_option_item dialog_option_item=new custom_dialog_option_item(this);
-        dialog_option_item.prepareDialog(this.getResources().getString(R.string.pref_idioma),value,options,new View.OnClickListener() {
+        custom_dialog_option_item dialog_option_item = new custom_dialog_option_item(this);
+        dialog_option_item.prepareDialog(this.getResources().getString(R.string.pref_idioma), value, options, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Item_adapter adapter=(Item_adapter) dialog_option_item.getRecycler().getAdapter();
-                final String s=adapter.getmArrayListValues()[adapter.devolverPosition()];
+                Item_adapter adapter = (Item_adapter) dialog_option_item.getRecycler().getAdapter();
+                final String s = adapter.getmArrayListValues()[adapter.devolverPosition()];
                 message = getString(R.string.downloadingFoto);
 
-                if(status){
+                if (status) {
                     handlerComunicationClass.sendMessage(
                             Message.obtain(handlerComunicationClass, HandlerComunicationClass.SHOWDIALOG, ""));
                     sharedPrefsDefault.edit().putString(getString(R.string.str_idioma), s).apply();
                     sharedPrefsDefault.edit().putBoolean("pictosEliminados", false).apply();
-                    downloadFilesTask =new DownloadFilesTask(s);
+                    downloadFilesTask = new DownloadFilesTask(s);
                     downloadFilesTask.execute();
 
                 } else {
                     isconnected(false);
                     myTTS.mostrarAlerta(getString(R.string.error_bajarFotos));
-                    sharedPrefsDefault.edit().putString(getString(R.string.str_idioma_buffer),strIdioma_original).apply();
-                    sharedPrefsDefault.edit().putString(getString(R.string.str_idioma),strIdioma_original).apply();
+                    sharedPrefsDefault.edit().putString(getString(R.string.str_idioma_buffer), strIdioma_original).apply();
+                    sharedPrefsDefault.edit().putString(getString(R.string.str_idioma), strIdioma_original).apply();
                 }
 
 
@@ -894,13 +881,13 @@ public class prefs extends PreferenceActivity implements SharedPreferences.OnSha
 
     @Override
     public void showDialogOptionsDownloadFile(String name, int value, int options, String preference) {
-        custom_dialog_option_item dialog_option_item=new custom_dialog_option_item(this);
-        dialog_option_item.prepareDialog(name,value,options,new View.OnClickListener() {
+        custom_dialog_option_item dialog_option_item = new custom_dialog_option_item(this);
+        dialog_option_item.prepareDialog(name, value, options, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (status) {
-                    Item_adapter adapter=(Item_adapter) dialog_option_item.getRecycler().getAdapter();
-                    final String value=adapter.getmArrayListValues()[adapter.devolverPosition()];
+                    Item_adapter adapter = (Item_adapter) dialog_option_item.getRecycler().getAdapter();
+                    final String value = adapter.getmArrayListValues()[adapter.devolverPosition()];
                     //      mostrarDialogo();
                     sharedPrefsDefault.edit().putString(preference, value).apply();
                     message = "Bajando sugerencias";
@@ -917,15 +904,15 @@ public class prefs extends PreferenceActivity implements SharedPreferences.OnSha
 
     @Override
     public void showDialogOptionsSettings(String name, int value, int options, String preferences) {
-        custom_dialog_option_item dialog_option_item=new custom_dialog_option_item(this);
-        dialog_option_item.prepareDialog(name,value,options,new View.OnClickListener() {
+        custom_dialog_option_item dialog_option_item = new custom_dialog_option_item(this);
+        dialog_option_item.prepareDialog(name, value, options, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (status) {
-                    Item_adapter adapter=(Item_adapter) dialog_option_item.getRecycler().getAdapter();
-                    final String value=adapter.getmArrayListValues()[adapter.devolverPosition()];
-                    if(value!=null)
-                    sharedPrefsDefault.edit().putInt(preferences, Integer.parseInt(value)).apply();
+                    Item_adapter adapter = (Item_adapter) dialog_option_item.getRecycler().getAdapter();
+                    final String value = adapter.getmArrayListValues()[adapter.devolverPosition()];
+                    if (value != null)
+                        sharedPrefsDefault.edit().putInt(preferences, Integer.parseInt(value)).apply();
                     //    new ordenarPictos().execute();
                 }
 
@@ -936,17 +923,17 @@ public class prefs extends PreferenceActivity implements SharedPreferences.OnSha
 
     @Override
     public void showDialogOptionsSkilledHand(String name, int value, int options, String preferences) {
-        custom_dialog_option_item dialog_option_item=new custom_dialog_option_item(this);
-        dialog_option_item.prepareDialog(name,value,options,new View.OnClickListener() {
+        custom_dialog_option_item dialog_option_item = new custom_dialog_option_item(this);
+        dialog_option_item.prepareDialog(name, value, options, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (status) {
-                    Item_adapter adapter=(Item_adapter) dialog_option_item.getRecycler().getAdapter();
-                   int value=adapter.devolverPosition();
-                        if(value==0)
-                            sharedPrefsDefault.edit().putBoolean(preferences,false).apply();
-                        else
-                            sharedPrefsDefault.edit().putBoolean(preferences,true).apply();
+                    Item_adapter adapter = (Item_adapter) dialog_option_item.getRecycler().getAdapter();
+                    int value = adapter.devolverPosition();
+                    if (value == 0)
+                        sharedPrefsDefault.edit().putBoolean(preferences, false).apply();
+                    else
+                        sharedPrefsDefault.edit().putBoolean(preferences, true).apply();
 
                     //    new ordenarPictos().execute();
                 }
@@ -955,16 +942,16 @@ public class prefs extends PreferenceActivity implements SharedPreferences.OnSha
         }).ShowDialog();
     }
 
-    private void createOnClickItemBarrido(){
+    private void createOnClickItemBarrido() {
         mBoolBarrido.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object o) {
-                analyticsFirebase.customEvents("Settings","pref","Screen Scanning");
-                        mBoolBarrido.setChecked(!mBoolBarrido.isChecked());
-                if(mBoolBarrido.isChecked()){
-                if(!mBoolTipoBarrido.isChecked()&&!mBoolUsarScroll.isChecked()&&!mBoolUsarScrollClick.isChecked())
-                    mBoolBarridoPantalla.setChecked(true);
-                    analyticsFirebase.customEvents("screen-Scanning","pref","enabled");
+                analyticsFirebase.customEvents("Settings", "pref", "Screen Scanning");
+                mBoolBarrido.setChecked(!mBoolBarrido.isChecked());
+                if (mBoolBarrido.isChecked()) {
+                    if (!mBoolTipoBarrido.isChecked() && !mBoolUsarScroll.isChecked() && !mBoolUsarScrollClick.isChecked())
+                        mBoolBarridoPantalla.setChecked(true);
+                    analyticsFirebase.customEvents("screen-Scanning", "pref", "enabled");
                 }
 
                 return false;
@@ -974,16 +961,16 @@ public class prefs extends PreferenceActivity implements SharedPreferences.OnSha
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
                 mBoolSipAndPuff.setChecked(!mBoolSipAndPuff.isChecked());
-                sendAnalitycsDevice(mBoolBarrido,"Sip and puff");
+                sendAnalitycsDevice(mBoolBarrido, "Sip and puff");
 
                 if (mBoolSipAndPuff.isChecked()) {
                     mBoolUsarScroll.setChecked(false);
                     mBoolUsarScrollClick.setChecked(false);
                     mBoolBarridoPantalla.setChecked(false);
                     mBoolTipoBarrido.setChecked(false);
-                } else if (!mBoolTipoBarrido.isChecked() && !mBoolUsarScroll.isChecked() && !mBoolUsarScrollClick.isChecked() && !mBoolSipAndPuff.isChecked()){
+                } else if (!mBoolTipoBarrido.isChecked() && !mBoolUsarScroll.isChecked() && !mBoolUsarScrollClick.isChecked() && !mBoolSipAndPuff.isChecked()) {
                     mBoolBarridoPantalla.setChecked(true);
-            }
+                }
                 return false;
             }
         });
@@ -991,14 +978,13 @@ public class prefs extends PreferenceActivity implements SharedPreferences.OnSha
             @Override
             public boolean onPreferenceChange(Preference preference, Object o) {
                 mBoolTipoBarrido.setChecked(!mBoolTipoBarrido.isChecked());
-                sendAnalitycsDevice(mBoolBarrido,"advanced and accept");
-                if(mBoolTipoBarrido.isChecked()){
+                sendAnalitycsDevice(mBoolBarrido, "advanced and accept");
+                if (mBoolTipoBarrido.isChecked()) {
                     mBoolUsarScroll.setChecked(false);
                     mBoolUsarScrollClick.setChecked(false);
                     mBoolBarridoPantalla.setChecked(false);
                     mBoolSipAndPuff.setChecked(false);
-                }
-                else if(!mBoolTipoBarrido.isChecked()&&!mBoolUsarScroll.isChecked()&&!mBoolUsarScrollClick.isChecked()&&!mBoolSipAndPuff.isChecked()){
+                } else if (!mBoolTipoBarrido.isChecked() && !mBoolUsarScroll.isChecked() && !mBoolUsarScrollClick.isChecked() && !mBoolSipAndPuff.isChecked()) {
                     mBoolBarridoPantalla.setChecked(true);
                 }
                 return false;
@@ -1008,16 +994,15 @@ public class prefs extends PreferenceActivity implements SharedPreferences.OnSha
             @Override
             public boolean onPreferenceChange(Preference preference, Object o) {
                 mBoolUsarScroll.setChecked(!mBoolUsarScroll.isChecked());
-                sendAnalitycsDevice(mBoolBarrido,"Scroll");
-                if(mBoolUsarScroll.isChecked()){
+                sendAnalitycsDevice(mBoolBarrido, "Scroll");
+                if (mBoolUsarScroll.isChecked()) {
                     mBoolTipoBarrido.setChecked(false);
                     mBoolUsarScrollClick.setChecked(false);
                     mBoolBarridoPantalla.setChecked(false);
                     mBoolSipAndPuff.setChecked(false);
-                }
-                else if(!mBoolTipoBarrido.isChecked()&&!mBoolUsarScroll.isChecked()&&!mBoolUsarScrollClick.isChecked()&&!mBoolSipAndPuff.isChecked()){
+                } else if (!mBoolTipoBarrido.isChecked() && !mBoolUsarScroll.isChecked() && !mBoolUsarScrollClick.isChecked() && !mBoolSipAndPuff.isChecked()) {
                     mBoolBarridoPantalla.setChecked(true);
-               }
+                }
 
                 return false;
             }
@@ -1026,14 +1011,13 @@ public class prefs extends PreferenceActivity implements SharedPreferences.OnSha
             @Override
             public boolean onPreferenceChange(Preference preference, Object o) {
                 mBoolUsarScrollClick.setChecked(!mBoolUsarScrollClick.isChecked());
-                sendAnalitycsDevice(mBoolBarrido,"Scroll with Click");
-                if(mBoolUsarScrollClick.isChecked()){
+                sendAnalitycsDevice(mBoolBarrido, "Scroll with Click");
+                if (mBoolUsarScrollClick.isChecked()) {
                     mBoolTipoBarrido.setChecked(false);
                     mBoolUsarScroll.setChecked(false);
                     mBoolBarridoPantalla.setChecked(false);
                     mBoolSipAndPuff.setChecked(false);
-                }
-                else if(!mBoolTipoBarrido.isChecked()&&!mBoolUsarScroll.isChecked()&&!mBoolUsarScrollClick.isChecked()&&!mBoolSipAndPuff.isChecked()){
+                } else if (!mBoolTipoBarrido.isChecked() && !mBoolUsarScroll.isChecked() && !mBoolUsarScrollClick.isChecked() && !mBoolSipAndPuff.isChecked()) {
                     mBoolBarridoPantalla.setChecked(true);
                 }
                 return false;
@@ -1044,14 +1028,14 @@ public class prefs extends PreferenceActivity implements SharedPreferences.OnSha
             public boolean onPreferenceChange(Preference preference, Object o) {
 
                 mBoolBarridoPantalla.setChecked(!mBoolBarridoPantalla.isChecked());
-                sendAnalitycsDevice(mBoolBarrido,"Screen-Scanning");
-                if(mBoolBarridoPantalla.isChecked()){
+                sendAnalitycsDevice(mBoolBarrido, "Screen-Scanning");
+                if (mBoolBarridoPantalla.isChecked()) {
                     mBoolTipoBarrido.setChecked(false);
                     mBoolUsarScroll.setChecked(false);
                     mBoolUsarScrollClick.setChecked(false);
                     mBoolSipAndPuff.setChecked(false);
                 }
-                if(!mBoolBarridoPantalla.isChecked()&&!mBoolTipoBarrido.isChecked()&&!mBoolUsarScroll.isChecked()&&!mBoolUsarScrollClick.isChecked()&&!mBoolSipAndPuff.isChecked()){
+                if (!mBoolBarridoPantalla.isChecked() && !mBoolTipoBarrido.isChecked() && !mBoolUsarScroll.isChecked() && !mBoolUsarScrollClick.isChecked() && !mBoolSipAndPuff.isChecked()) {
                     mBoolBarrido.setChecked(false);
                 }
                 return false;
@@ -1060,11 +1044,12 @@ public class prefs extends PreferenceActivity implements SharedPreferences.OnSha
 
 
     }
-    public void sendAnalitycsDevice(PersonalSwitchPreferences personalSwitchPreferences,String device){
-        if(personalSwitchPreferences.isChecked())
-            analyticsFirebase.customEvents("Settings","prefs","enabled "+device);
+
+    public void sendAnalitycsDevice(PersonalSwitchPreferences personalSwitchPreferences, String device) {
+        if (personalSwitchPreferences.isChecked())
+            analyticsFirebase.customEvents("Settings", "prefs", "enabled " + device);
         else
-            analyticsFirebase.customEvents("Settings","prefs","disabled "+device);
+            analyticsFirebase.customEvents("Settings", "prefs", "disabled " + device);
 
 
     }

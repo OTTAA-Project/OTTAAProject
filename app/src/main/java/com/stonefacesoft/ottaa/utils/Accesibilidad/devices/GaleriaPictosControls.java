@@ -4,21 +4,22 @@ import android.util.Log;
 import android.view.InputDevice;
 import android.view.MotionEvent;
 
-import com.stonefacesoft.ottaa.GaleriaPictos3;
-
 import androidx.core.view.MotionEventCompat;
 
-public class GaleriaPictosControls extends Controls{
-    private GaleriaPictos3 galeriaGrupos;
-    private final String TAG="GaleriaPictosControl";
+import com.stonefacesoft.ottaa.GaleriaPictos3;
+
+public class GaleriaPictosControls extends Controls {
+    private final GaleriaPictos3 galeriaGrupos;
+    private final String TAG = "GaleriaPictosControl";
+
     public GaleriaPictosControls(GaleriaPictos3 galeriaPictos3) {
         super(galeriaPictos3);
-        this.galeriaGrupos=galeriaPictos3;
+        this.galeriaGrupos = galeriaPictos3;
     }
 
     @Override
     public boolean makeClick(MotionEvent event) {
-        if (event.getSource() == InputDevice.SOURCE_MOUSE&&(galeriaGrupos.getBarridoPantalla().isAvanzarYAceptar()||galeriaGrupos.getBarridoPantalla().isSipAndPuff())) {
+        if (event.getSource() == InputDevice.SOURCE_MOUSE && (galeriaGrupos.getBarridoPantalla().isAvanzarYAceptar() || galeriaGrupos.getBarridoPantalla().isSipAndPuff())) {
             switch (event.getButtonState()) {
                 case MotionEvent.BUTTON_PRIMARY:
                     Log.d(TAG, "onTouchEvent:Principal Button");
@@ -35,15 +36,15 @@ public class GaleriaPictosControls extends Controls{
 
             }
 
-        }else if(event.getSource()==InputDevice.SOURCE_MOUSE&&galeriaGrupos.getBarridoPantalla().isScrollModeClicker()){
-            switch (event.getButtonState()){
-                case  MotionEvent.BUTTON_PRIMARY:
+        } else if (event.getSource() == InputDevice.SOURCE_MOUSE && galeriaGrupos.getBarridoPantalla().isScrollModeClicker()) {
+            switch (event.getButtonState()) {
+                case MotionEvent.BUTTON_PRIMARY:
                     galeriaGrupos.OnClickBarrido();
                     return true;
             }
-        }else{
+        } else {
             final int action = MotionEventCompat.getActionMasked(event);
-            switch (action){
+            switch (action) {
                 case MotionEvent.ACTION_MOVE:
                     break;
             }
@@ -55,9 +56,9 @@ public class GaleriaPictosControls extends Controls{
     @Override
     public boolean makePrimaryClick(MotionEvent event) {
         galeriaGrupos.getBarridoPantalla().avanzarBarrido();
-        switch (preferences.getInt("deviceId",0)){
+        switch (preferences.getInt("deviceId", 0)) {
             case 0:
-                if(galeriaGrupos.getBarridoPantalla().isSipAndPuff())
+                if (galeriaGrupos.getBarridoPantalla().isSipAndPuff())
                     galeriaGrupos.getFunction_scroll().HacerClickEnTiempo();
                 break;
         }
@@ -66,10 +67,10 @@ public class GaleriaPictosControls extends Controls{
 
     @Override
     public boolean makeSecondaryClick(MotionEvent event) {
-        switch (preferences.getInt("deviceId",0)){
+        switch (preferences.getInt("deviceId", 0)) {
             case 0:
                 galeriaGrupos.getBarridoPantalla().volverAtrasBarrido();
-                if(galeriaGrupos.getBarridoPantalla().isSipAndPuff())
+                if (galeriaGrupos.getBarridoPantalla().isSipAndPuff())
                     galeriaGrupos.getFunction_scroll().HacerClickEnTiempo();
                 break;
             case 1:

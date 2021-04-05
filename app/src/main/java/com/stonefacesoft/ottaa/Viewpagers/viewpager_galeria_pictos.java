@@ -208,19 +208,20 @@ public class viewpager_galeria_pictos {
         }
 
         //instancio el objeto
-        public viewpager_galeria_pictos.fragmentPicto newInstance(Integer position1){
-            viewpager_galeria_pictos.fragmentPicto fragmentPicto=new viewpager_galeria_pictos.fragmentPicto();
+        public viewpager_galeria_pictos.fragmentPicto newInstance(Integer position1) {
+            viewpager_galeria_pictos.fragmentPicto fragmentPicto = new viewpager_galeria_pictos.fragmentPicto();
             Bundle args = new Bundle();
-            args.putInt("position",position1);
+            args.putInt("position", position1);
             fragmentPicto.setArguments(args);
             return fragmentPicto;
         }
+
         //creo la posicion del objeto
         @Override
         public void onCreate(@Nullable Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-            if(getArguments()!=null){
-                position=getArguments().getInt("position");
+            if (getArguments() != null) {
+                position = getArguments().getInt("position");
             }
         }
 
@@ -237,10 +238,12 @@ public class viewpager_galeria_pictos {
         public void onDestroyView() {
             super.onDestroyView();
         }
+
         // creo la vista
-        @Override public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        @Override
+        public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
             super.onViewCreated(view, savedInstanceState);
-            picto1=view.findViewById(R.id.Option1);
+            picto1 = view.findViewById(R.id.Option1);
             loadPictogram(picto1);
 
         }
@@ -264,20 +267,20 @@ public class viewpager_galeria_pictos {
             }
         }
 
-        private void loadPictogram(Custom_Picto custom_picto){
+        private void loadPictogram(Custom_Picto custom_picto) {
             try {
                 custom_picto.setCustom_Texto(json.getNombre(array.getJSONObject(position)));
                 custom_picto.setCustom_Color(cargarColor(json.getTipo(array.getJSONObject(position))));
-                Pictogram pictogram=new Pictogram(array.getJSONObject(position),json.getIdioma());
-                GlideAttatcher attatcher=new GlideAttatcher(mActivity);
-                loadDrawable(attatcher,pictogram,custom_picto.getImg());
+                Pictogram pictogram = new Pictogram(array.getJSONObject(position), json.getIdioma());
+                GlideAttatcher attatcher = new GlideAttatcher(mActivity);
+                loadDrawable(attatcher, pictogram, custom_picto.getImg());
                 custom_picto.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        if(custom_picto.isClicked()){
+                        if (custom_picto.isClicked()) {
                             Intent databack = new Intent();
                             try {
-                                databack.putExtra("ID",array.getJSONObject(position).getInt("id"));
+                                databack.putExtra("ID", array.getJSONObject(position).getInt("id"));
                             } catch (JSONException e) {
                                 e.printStackTrace();
                                 Log.e(TAG, "onClick: Error" + e.getMessage());
@@ -285,7 +288,7 @@ public class viewpager_galeria_pictos {
                             databack.putExtra("Boton", parent_button);
                             mActivity.setResult(IntentCode.GALERIA_PICTOS.getCode(), databack);
                             mActivity.finish();
-                        }else{
+                        } else {
                             custom_picto.setClicked(true);
                             myTTS.hablar(custom_picto.getCustom_Texto());
                         }
@@ -302,20 +305,20 @@ public class viewpager_galeria_pictos {
 
     }
 
-    public static  void loadDrawable(GlideAttatcher attatcher, Pictogram pictogram, ImageView imageView){
-        if(pictogram.getEditedPictogram().isEmpty()){
-            JSONObject picto=pictogram.toJsonObject();
-            Drawable drawable=json.getIcono(picto);
-            if(drawable!=null)
-                attatcher.loadCircleDrawable(drawable,imageView);
+    public static void loadDrawable(GlideAttatcher attatcher, Pictogram pictogram, ImageView imageView) {
+        if (pictogram.getEditedPictogram().isEmpty()) {
+            JSONObject picto = pictogram.toJsonObject();
+            Drawable drawable = json.getIcono(picto);
+            if (drawable != null)
+                attatcher.loadCircleDrawable(drawable, imageView);
             else
-                attatcher.loadCircleDrawable(mActivity.getResources().getDrawable(R.drawable.ic_cloud_download_orange),imageView);
-        }else{
-            File picto=new File(pictogram.getEditedPictogram());
-            if(picto.exists())
-                attatcher.loadCircleDrawable(picto,imageView);
+                attatcher.loadCircleDrawable(mActivity.getResources().getDrawable(R.drawable.ic_cloud_download_orange), imageView);
+        } else {
+            File picto = new File(pictogram.getEditedPictogram());
+            if (picto.exists())
+                attatcher.loadCircleDrawable(picto, imageView);
             else
-                attatcher.loadCircleDrawable(Uri.parse(pictogram.getUrl()),imageView);
+                attatcher.loadCircleDrawable(Uri.parse(pictogram.getUrl()), imageView);
         }
     }
 }

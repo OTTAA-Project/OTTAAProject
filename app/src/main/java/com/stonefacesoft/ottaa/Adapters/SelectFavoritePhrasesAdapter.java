@@ -3,26 +3,20 @@ package com.stonefacesoft.ottaa.Adapters;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.media.ThumbnailUtils;
 import android.os.AsyncTask;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.content.res.AppCompatResources;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.stonefacesoft.ottaa.Bitmap.GestionarBitmap;
 import com.stonefacesoft.ottaa.R;
-import com.stonefacesoft.ottaa.utils.Constants;
 import com.stonefacesoft.ottaa.utils.Phrases.CustomFavoritePhrases;
 import com.stonefacesoft.ottaa.utils.textToSpeech;
-import com.stonefacesoft.pictogramslibrary.Classes.Pictogram;
 import com.stonefacesoft.pictogramslibrary.utils.GlideAttatcher;
 
 import org.json.JSONArray;
@@ -30,24 +24,23 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class SelectFavoritePhrasesAdapter extends RecyclerView.Adapter<SelectFavoritePhrasesAdapter.FavoritePhrases> {
-    private Context mContext;
-    private CustomFavoritePhrases phrases;
-    private JSONArray favoritesPhrases;
-    private textToSpeech myTTs;
-    private GlideAttatcher glideAttatcher;
-    private GestionarBitmap gestionarBitmap;
+    private final Context mContext;
+    private final CustomFavoritePhrases phrases;
+    private final JSONArray favoritesPhrases;
+    private final textToSpeech myTTs;
+    private final GlideAttatcher glideAttatcher;
+    private final GestionarBitmap gestionarBitmap;
 
 
     public SelectFavoritePhrasesAdapter(Context mContext) {
         this.mContext = mContext;
-        phrases=new CustomFavoritePhrases(this.mContext);
-        favoritesPhrases=phrases.getJson().getmJSONArrayTodasLasFrases();
-        myTTs=new textToSpeech(this.mContext);
-        glideAttatcher=new GlideAttatcher(this.mContext);
-        gestionarBitmap=new GestionarBitmap(this.mContext);
+        phrases = new CustomFavoritePhrases(this.mContext);
+        favoritesPhrases = phrases.getJson().getmJSONArrayTodasLasFrases();
+        myTTs = new textToSpeech(this.mContext);
+        glideAttatcher = new GlideAttatcher(this.mContext);
+        gestionarBitmap = new GestionarBitmap(this.mContext);
         gestionarBitmap.setColor(android.R.color.white);
     }
-
 
 
     @NonNull
@@ -62,7 +55,7 @@ public class SelectFavoritePhrasesAdapter extends RecyclerView.Adapter<SelectFav
 
     @Override
     public void onBindViewHolder(@NonNull FavoritePhrases holder, int position) {
-        new CargarFrasesAsync(position,holder).execute();
+        new CargarFrasesAsync(position, holder).execute();
         /*
         holder.position
         holder.img.setOnClickListener(new View.OnClickListener() {
@@ -84,26 +77,27 @@ public class SelectFavoritePhrasesAdapter extends RecyclerView.Adapter<SelectFav
         });*/
     }
 
-    public void saveList(){
+    public void saveList() {
         phrases.saveFavoritePhrases();
     }
 
 
     @Override
     public int getItemCount() {
-            return favoritesPhrases.length();
+        return favoritesPhrases.length();
     }
 
-    public class FavoritePhrases extends RecyclerView.ViewHolder implements View.OnClickListener  {
+    public class FavoritePhrases extends RecyclerView.ViewHolder implements View.OnClickListener {
         private ImageView img;
         private JSONObject phrase;
         private int position;
         private boolean isExist;
+
         public FavoritePhrases(@NonNull View itemView) {
             super(itemView);
-            img=itemView.findViewById(R.id.frase);
+            img = itemView.findViewById(R.id.frase);
             try {
-                phrase=favoritesPhrases.getJSONObject(position);
+                phrase = favoritesPhrases.getJSONObject(position);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -120,17 +114,17 @@ public class SelectFavoritePhrasesAdapter extends RecyclerView.Adapter<SelectFav
 
         @Override
         public void onClick(View v) {
-            boolean isExist=phrases.isExist(phrase);
-            if(!isExist){
+            boolean isExist = phrases.isExist(phrase);
+            if (!isExist) {
                 v.setBackground(mContext.getResources().getDrawable(R.drawable.picto_shape_select));
                 phrases.addFavoritePhrase(phrase);
-            }
-            else{
+            } else {
                 v.setBackgroundColor(mContext.getResources().getColor(R.color.FondoApp));
                 phrases.removeFavoritePhrase(phrase);
             }
         }
     }
+
     private class CargarFrasesAsync extends AsyncTask<Void, Void, Void> {
 
         private final int mPosition;
@@ -138,7 +132,7 @@ public class SelectFavoritePhrasesAdapter extends RecyclerView.Adapter<SelectFav
         private String mStringTexto;
         private Drawable mDrawableIcono;
 
-        public CargarFrasesAsync(int mPosition,SelectFavoritePhrasesAdapter.FavoritePhrases mHolder) {
+        public CargarFrasesAsync(int mPosition, SelectFavoritePhrasesAdapter.FavoritePhrases mHolder) {
             this.mPosition = mPosition;
             this.mHolder = mHolder;
         }
@@ -154,8 +148,8 @@ public class SelectFavoritePhrasesAdapter extends RecyclerView.Adapter<SelectFav
         protected Void doInBackground(Void... voids) {
             Bitmap mBitmap;
             try {
-                mHolder.phrase=favoritesPhrases.getJSONObject(mPosition);
-                mHolder.position=mPosition;
+                mHolder.phrase = favoritesPhrases.getJSONObject(mPosition);
+                mHolder.position = mPosition;
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -165,18 +159,18 @@ public class SelectFavoritePhrasesAdapter extends RecyclerView.Adapter<SelectFav
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            glideAttatcher.loadCircleDrawable(gestionarBitmap.getBitmapDeFrase(mHolder.phrase),mHolder.img);
-            boolean isExist=phrases.isExist(mHolder.phrase);
-            if(isExist)
+            glideAttatcher.loadCircleDrawable(gestionarBitmap.getBitmapDeFrase(mHolder.phrase), mHolder.img);
+            boolean isExist = phrases.isExist(mHolder.phrase);
+            if (isExist)
                 mHolder.img.setBackground(mContext.getResources().getDrawable(R.drawable.picto_shape_select));
             else
                 mHolder.img.setBackgroundColor(mContext.getResources().getColor(R.color.FondoApp));
-            }
-
-            //Le asignamos al grupo su texto e icono
-            // Glide.with(mContext).load(mDrawableIcono).transform(new RoundedCorners(16)).into(mHolder.mGrupoImageView);
-            //   mHolder.mGrupoImageView.setImageDrawable(mDrawableIcono);
-
         }
+
+        //Le asignamos al grupo su texto e icono
+        // Glide.with(mContext).load(mDrawableIcono).transform(new RoundedCorners(16)).into(mHolder.mGrupoImageView);
+        //   mHolder.mGrupoImageView.setImageDrawable(mDrawableIcono);
+
+    }
 
 }

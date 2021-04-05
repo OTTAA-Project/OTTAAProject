@@ -38,10 +38,10 @@ public class FilesUtils {
                 return true;
             }
         }
-        return  false;
+        return false;
     }
 
-    public static void copyDirectory(File sourceLocation , File targetLocation)
+    public static void copyDirectory(File sourceLocation, File targetLocation)
             throws IOException {
 
         if (sourceLocation.isDirectory()) {
@@ -50,7 +50,7 @@ public class FilesUtils {
             }
 
             String[] children = sourceLocation.list();
-            for (int i=0; i<children.length; i++) {
+            for (int i = 0; i < children.length; i++) {
                 copyDirectory(new File(sourceLocation, children[i]),
                         new File(targetLocation, children[i]));
             }
