@@ -112,22 +112,85 @@
             app:layout_constraintCircleRadius="@dimen/big_fat_margin">
 
             <ImageView
+                android:id="@+id/imgAvatar"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:id="@+id/imgAvatar"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
                 android:src="@drawable/circulo"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintCircleAngle="45"
                 app:layout_constraintDimensionRatio="1:1"
-                app:tint="@color/quantum_grey200"
-                app:layout_constraintCircleAngle="45"/>
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0"/>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:id="@+id/constraintSourceButtons"
+                android:visibility="invisible"
+                app:layout_constraintTop_toTopOf="@id/buttonSelectAvatarSource"
+                app:layout_constraintBottom_toBottomOf="@id/buttonSelectAvatarSource"
+                app:layout_constraintStart_toStartOf="@id/buttonSelectAvatarSource"
+                android:background="@drawable/dialog_round_shape_orange"
+                android:backgroundTint="@color/quantum_grey">
+
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/buttonSourcePlaceholder"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/buttonSourceGallery"
+                    android:layout_marginStart="@dimen/medium_margin"
+                    android:tint="@color/White"
+                    android:background="@drawable/dialog_round_shape_orange"/>
+
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/buttonSourceGallery"
+                    app:layout_constraintStart_toEndOf="@id/buttonSourcePlaceholder"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/buttonSourceCamera"
+                    android:background="@color/colorTransparent"
+                    android:src="@drawable/ic_menu_gallery"
+                    android:tint="@color/White"
+                    android:layout_marginHorizontal="@dimen/small_margin"
+                    android:onClick="onClick"/>
+
+                <ImageButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/buttonSourceCamera"
+                    app:layout_constraintStart_toEndOf="@id/buttonSourceGallery"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:background="@color/colorTransparent"
+                    android:src="@drawable/ic_menu_camera"
+                    android:tint="@color/White"
+                    android:layout_marginHorizontal="@dimen/small_margin"
+                    android:onClick="onClick"/>
+
+
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <ImageButton
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/buttonSelectAvatarSource"
+                app:layout_constraintEnd_toEndOf="@id/imgAvatar"
+                app:layout_constraintBottom_toBottomOf="@id/imgAvatar"
+                android:src="@drawable/ic_edit_black_24dp"
+                android:tint="@color/White"
+                android:background="@drawable/dialog_round_shape_orange"
+                android:padding="2dp"
+                android:onClick="onClick"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -155,7 +218,8 @@
                 android:src="@drawable/ic_avatar11"
                 android:scaleType="centerInside"
                 android:background="@color/colorTransparent"
-                app:layout_constraintDimensionRatio="1:1"/>
+                app:layout_constraintDimensionRatio="1:1"
+                android:onClick="onClick"/>
 
             <ImageButton
                 android:layout_width="0dp"
@@ -168,7 +232,8 @@
                 android:src="@drawable/ic_avatar12"
                 android:scaleType="centerInside"
                 android:background="@color/colorTransparent"
-                app:layout_constraintDimensionRatio="1:1" />
+                app:layout_constraintDimensionRatio="1:1"
+                android:onClick="onClick" />
 
             <ImageButton
                 android:layout_width="0dp"
@@ -181,7 +246,8 @@
                 android:src="@drawable/ic_avatar13"
                 android:scaleType="centerInside"
                 android:background="@color/colorTransparent"
-                app:layout_constraintDimensionRatio="1:1" />
+                app:layout_constraintDimensionRatio="1:1"
+                android:onClick="onClick" />
 
             <ImageButton
                 android:layout_width="0dp"
@@ -194,7 +260,8 @@
                 android:src="@drawable/ic_avatar14"
                 android:scaleType="centerInside"
                 android:background="@color/colorTransparent"
-                app:layout_constraintDimensionRatio="1:1" />
+                app:layout_constraintDimensionRatio="1:1"
+                android:onClick="onClick"/>
 
             <ImageButton
                 android:layout_width="0dp"
@@ -207,7 +274,8 @@
                 android:src="@drawable/ic_avatar15"
                 android:scaleType="centerInside"
                 android:background="@color/colorTransparent"
-                app:layout_constraintDimensionRatio="1:1"/>
+                app:layout_constraintDimensionRatio="1:1"
+                android:onClick="onClick"/>
 
             <ImageButton
                 android:layout_width="0dp"
@@ -220,7 +288,8 @@
                 android:src="@drawable/ic_avatar21"
                 android:scaleType="centerInside"
                 android:background="@color/colorTransparent"
-                app:layout_constraintDimensionRatio="1:1" />
+                app:layout_constraintDimensionRatio="1:1"
+                android:onClick="onClick" />
 
             <ImageButton
                 android:layout_width="0dp"
@@ -233,7 +302,8 @@
                 android:src="@drawable/ic_avatar22"
                 android:scaleType="centerInside"
                 android:background="@color/colorTransparent"
-                app:layout_constraintDimensionRatio="1:1" />
+                app:layout_constraintDimensionRatio="1:1"
+                android:onClick="onClick"/>
 
             <ImageButton
                 android:layout_width="0dp"
@@ -246,7 +316,8 @@
                 android:src="@drawable/ic_avatar23"
                 android:scaleType="centerInside"
                 android:background="@color/colorTransparent"
-                app:layout_constraintDimensionRatio="1:1"/>
+                app:layout_constraintDimensionRatio="1:1"
+                android:onClick="onClick"/>
 
             <ImageButton
                 android:layout_width="0dp"
@@ -259,7 +330,8 @@
                 android:src="@drawable/ic_avatar24"
                 android:scaleType="centerInside"
                 android:background="@color/colorTransparent"
-                app:layout_constraintDimensionRatio="1:1" />
+                app:layout_constraintDimensionRatio="1:1"
+                android:onClick="onClick" />
 
             <ImageButton
                 android:layout_width="0dp"
@@ -272,7 +344,8 @@
                 android:src="@drawable/ic_avatar25"
                 android:scaleType="centerInside"
                 android:background="@color/colorTransparent"
-                app:layout_constraintDimensionRatio="1:1"/>
+                app:layout_constraintDimensionRatio="1:1"
+                android:onClick="onClick"/>
 
             <ImageButton
                 android:layout_width="0dp"
@@ -285,7 +358,8 @@
                 android:src="@drawable/ic_avatar31"
                 android:scaleType="centerInside"
                 android:background="@color/colorTransparent"
-                app:layout_constraintDimensionRatio="1:1" />
+                app:layout_constraintDimensionRatio="1:1"
+                android:onClick="onClick"/>
 
             <ImageButton
                 android:layout_width="0dp"
@@ -298,7 +372,8 @@
                 android:src="@drawable/ic_avatar32"
                 android:scaleType="centerInside"
                 android:background="@color/colorTransparent"
-                app:layout_constraintDimensionRatio="1:1"/>
+                app:layout_constraintDimensionRatio="1:1"
+                android:onClick="onClick"/>
 
             <ImageButton
                 android:layout_width="0dp"
@@ -311,7 +386,8 @@
                 android:src="@drawable/ic_avatar33"
                 android:scaleType="centerInside"
                 android:background="@color/colorTransparent"
-                app:layout_constraintDimensionRatio="1:1"/>
+                app:layout_constraintDimensionRatio="1:1"
+                android:onClick="onClick"/>
 
             <ImageButton
                 android:layout_width="0dp"
@@ -324,7 +400,8 @@
                 android:src="@drawable/ic_avatar34"
                 android:scaleType="centerInside"
                 android:background="@color/colorTransparent"
-                app:layout_constraintDimensionRatio="1:1" />
+                app:layout_constraintDimensionRatio="1:1"
+                android:onClick="onClick" />
 
             <ImageButton
                 android:layout_width="0dp"
@@ -337,7 +414,8 @@
                 android:src="@drawable/ic_avatar35"
                 android:scaleType="centerInside"
                 android:background="@color/colorTransparent"
-                app:layout_constraintDimensionRatio="1:1" />
+                app:layout_constraintDimensionRatio="1:1"
+                android:onClick="onClick" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

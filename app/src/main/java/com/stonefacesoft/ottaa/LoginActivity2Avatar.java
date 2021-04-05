@@ -1,21 +1,28 @@
 package com.stonefacesoft.ottaa;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Animation;
+import android.view.animation.ScaleAnimation;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class LoginActivity2Avatar extends AppCompatActivity implements View.OnClickListener {
+
+    private static final String TAG = "LoginActivityAvatar";
 
     //User variables
     private FirebaseAuth mAuth;
@@ -23,15 +30,15 @@ public class LoginActivity2Avatar extends AppCompatActivity implements View.OnCl
     //UI elemetns
     ImageView imageViewOrangeBanner;
     ImageView imageViewThreePeople;
+    ImageView imageViewAvatar;
     TextView textViewLoginBig;
     TextView textViewLoginSmall;
     Button buttonNext;
     Button buttonPrevious;
     ImageButton imageButtonAvatar11;
-    ImageButton imageButtonAvatar12;
-    ImageButton imageButtonAvatar13;
-    ImageButton imageButtonAvatar14;
-    ImageButton imageButtonAvatar15;
+    ImageButton imageButtonSelectAvatarSource;
+    ConstraintLayout constraintSourceButtons;
+
 
 
     @Override
@@ -40,7 +47,6 @@ public class LoginActivity2Avatar extends AppCompatActivity implements View.OnCl
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_activity_avatar);
 
-        //TODO get user data Name, Birthday and Gender
         mAuth = FirebaseAuth.getInstance();
 
         bindUI();
@@ -51,6 +57,8 @@ public class LoginActivity2Avatar extends AppCompatActivity implements View.OnCl
     private void bindUI(){
         imageViewOrangeBanner = findViewById(R.id.orangeBanner2);
         imageViewThreePeople = findViewById(R.id.imagen3personas);
+        imageViewAvatar = findViewById(R.id.imgAvatar);
+
         textViewLoginBig = findViewById(R.id.textLoginBig);
         textViewLoginSmall = findViewById(R.id.textLoginSmall);
 
@@ -60,8 +68,9 @@ public class LoginActivity2Avatar extends AppCompatActivity implements View.OnCl
         buttonPrevious.setOnClickListener(this);
 
         imageButtonAvatar11 = findViewById(R.id.avatar11);
-        imageButtonAvatar12 = findViewById(R.id.avatar12);
-        imageButtonAvatar13 = findViewById(R.id.avatar13);
+        imageButtonSelectAvatarSource = findViewById(R.id.buttonSelectAvatarSource);
+
+        constraintSourceButtons = findViewById(R.id.constraintSourceButtons);
 
 
     }
@@ -87,16 +96,40 @@ public class LoginActivity2Avatar extends AppCompatActivity implements View.OnCl
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
-            case R.id.nextButton:
-                Intent intent = new Intent(LoginActivity2Avatar.this, Principal.class);
-                startActivity(intent);
-                break;
-            case R.id.backButton:
-                //TODO Check if backpress will do
-                Intent intent2 = new Intent(LoginActivity2Avatar.this, LoginActivity2Step3.class);
-                startActivity(intent2);
+        int id = view.getId();
+        if (id == R.id.nextButton) {
+            //TODO Check that the avatar is choosen, if not select a default one.
+            Intent intent = new Intent(LoginActivity2Avatar.this, Principal.class);
+            startActivity(intent);
+        } else if (id == R.id.backButton) {
+            //TODO Check if backpress will do
+            Intent intent2 = new Intent(LoginActivity2Avatar.this, LoginActivity2Step3.class);
+            startActivity(intent2);
+        } else if (id == R.id.buttonSelectAvatarSource) {
+            //Scale Animation to show the other buttons
+            doScaleAnimation();
+        }
+        else if (id == R.id.buttonSourceGallery) {
+            //TODO Select an Image from Gallery
+        }
+        else if (id == R.id.buttonSourceCamera) {
+            //TODO Take a picture from Camera, resize it and store it. Maybe do it with a CloudFunction????
+
+        }
+        else {
+            if (view instanceof ImageView){
+                Glide.with(this).load(((ImageView) view).getDrawable()).into(imageViewAvatar);
+            }
         }
     }
 
+    private void doScaleAnimation(){
+        ScaleAnimation scaleAnimation = new ScaleAnimation(0f,1f,1f,1f);
+        scaleAnimation.setRepeatMode(Animation.ABSOLUTE);
+        scaleAnimation.setInterpolator(new AccelerateDecelerateInterpolator());
+        scaleAnimation.setDuration(500);
+        scaleAnimation.setFillAfter(true);
+        constraintSourceButtons.setVisibility(View.VISIBLE);
+        constraintSourceButtons.startAnimation(scaleAnimation);
+    }
 }

@@ -643,7 +643,7 @@
     </string-array>
 
     <string-array name="Sexo">
-        <item>Elija una opción</item>
+        <item>Elegí tu genéro</item>
         <item>Masculino</item>
         <item>Femenino</item>
         <item>Fluid</item>

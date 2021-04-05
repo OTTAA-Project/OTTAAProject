@@ -131,7 +131,6 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:id="@+id/selectorGender"
-                android:dropDownSelector="@android:drawable/arrow_down_float"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/editTextName"
@@ -149,37 +148,61 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintVertical_weight="1">
 
-                <Spinner
+                <EditText
                     android:layout_width="0dp"
                     android:layout_height="0dp"
-                    android:id="@+id/birthDayPicker"
-                    android:dropDownSelector="@android:drawable/arrow_down_float"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:id="@+id/editTextBirthday"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toStartOf="@id/birthMonthPicker"
-                    android:entries="@array/DayOfMonth"/>
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/buttonCalendarDialog"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintHorizontal_weight="4"/>
 
-                <Spinner
+                <ImageButton
                     android:layout_width="0dp"
                     android:layout_height="0dp"
-                    android:id="@+id/birthMonthPicker"
-                    android:dropDownSelector="@android:drawable/arrow_down_float"
+                    android:id="@+id/buttonCalendarDialog"
+                    app:layout_constraintStart_toEndOf="@id/editTextBirthday"
                     app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/birthDayPicker"
-                    app:layout_constraintEnd_toStartOf="@id/birthYearPicker"
-                    android:entries="@array/MonthOfYear"/>
+                    android:src="@drawable/ic_event_black_24dp"
+                    android:tint="@color/NaranjaOTTAA"
+                    android:background="@color/colorTransparent"
+                    app:layout_constraintHorizontal_weight="1"
+                    android:onClick="onClick"/>
 
-                <Spinner
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:id="@+id/birthYearPicker"
-                    android:dropDownSelector="@android:drawable/arrow_down_float"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/birthMonthPicker"
-                    app:layout_constraintEnd_toEndOf="parent"/>
+<!--                <Spinner-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="0dp"-->
+<!--                    android:id="@+id/birthDayPicker"-->
+<!--                    android:dropDownSelector="@android:drawable/arrow_down_float"-->
+<!--                    app:layout_constraintTop_toTopOf="parent"-->
+<!--                    app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                    app:layout_constraintStart_toStartOf="parent"-->
+<!--                    app:layout_constraintEnd_toStartOf="@id/birthMonthPicker"-->
+<!--                    android:entries="@array/DayOfMonth"/>-->
+
+<!--                <Spinner-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="0dp"-->
+<!--                    android:id="@+id/birthMonthPicker"-->
+<!--                    android:dropDownSelector="@android:drawable/arrow_down_float"-->
+<!--                    app:layout_constraintTop_toTopOf="parent"-->
+<!--                    app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                    app:layout_constraintStart_toEndOf="@id/birthDayPicker"-->
+<!--                    app:layout_constraintEnd_toStartOf="@id/birthYearPicker"-->
+<!--                    android:entries="@array/MonthOfYear"/>-->
+
+<!--                <Spinner-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="0dp"-->
+<!--                    android:id="@+id/birthYearPicker"-->
+<!--                    android:dropDownSelector="@android:drawable/arrow_down_float"-->
+<!--                    app:layout_constraintTop_toTopOf="parent"-->
+<!--                    app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                    app:layout_constraintStart_toEndOf="@id/birthMonthPicker"-->
+<!--                    app:layout_constraintEnd_toEndOf="parent"/>-->
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
