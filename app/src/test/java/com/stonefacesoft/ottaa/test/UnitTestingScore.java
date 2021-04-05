@@ -46,6 +46,7 @@ public class UnitTestingScore extends TestCase {
         String text=score.getAciertos()+"";
         Assert.assertTrue(score.getAciertos()==5);
         Assert.assertTrue(score.getDesaciertos()==2);
+        Assert.assertTrue(score.getDesaciertos()==3);
     }
 
     @Override
