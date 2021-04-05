@@ -879,6 +879,7 @@ public class Json implements FindPictogram {
             e.printStackTrace();
         }
         try {
+            if(!img.isEmpty())
             setImagen(mJSONArrayTodosLosGrupos.getJSONObject(mJSONArrayTodosLosGrupos.length() - 1), img);
         } catch (JSONException e) {
             e.printStackTrace();
