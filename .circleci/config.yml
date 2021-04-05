@@ -95,6 +95,10 @@ references:
     run:
       name: Chmod Permission
       command: sudo chmod +x ./gradlew
+  run_instrumentation_test: &run_integration_test
+    run:
+      name: instrumentation test
+      command: .gradlew /connectedAndroidTest
 jobs:
   deploy:
     <<: *android_config
@@ -113,6 +117,7 @@ jobs:
       - *decode_file
       - *run_testing
       - *run_lint_test
+      - *run_integration_test
       - store_artifacts:
           path: app/build/reports
           destination: reports
