@@ -90,6 +90,10 @@ references:
     run:
       name: run test
       command: ./gradlew test
+  chmod_change_setup: &chmodGradle
+    run:
+      name: Chmod Permission
+      command: sudo chmod +x ./gradlew
 jobs:
   deploy:
     <<: *android_config
@@ -101,6 +105,7 @@ jobs:
     steps:
       - checkout
       - restore_cache: *cache_key
+      - *chmodGradle
       - *export_google_services_json
       - *get_google_services_json
       - *prepare_file
