@@ -11,6 +11,7 @@ workflows:
             branches:
               only:
                 - setupCircleci
+                - dev
 references:
   # cache
   cache_key: &cache_key
@@ -89,7 +90,7 @@ references:
   run_lint_testing: &run_lint_test
     run:
       name: run test
-      command: ./gradlew test
+      command: ./gradlew lint test
   chmod_change_setup: &chmodGradle
     run:
       name: Chmod Permission

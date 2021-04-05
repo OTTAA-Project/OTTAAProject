@@ -18,9 +18,6 @@ public class Pictograms {
     public Pictograms(Context mContext,Json json){
         this.mContext=mContext;
         this.json=json;
-
-
-
     }
 
     public void relacionarObjeto(JSONObject father,JSONObject child){
