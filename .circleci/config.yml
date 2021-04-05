@@ -14,8 +14,9 @@ workflows:
 references:
   # cache
   cache_key: &cache_key
-               cache-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}-{{ checksum "build.gradle" }}-{{ checksum "mobile/build.gradle" }}
-
+    key: jars-{{ checksum "build.gradle" }}-{{ checksum "app/build.gradle" }}
+  restore_cache: &restore_cache
+    <<: *cache_key
 
   #workspace
   workspace: &workspace ~/src
@@ -99,8 +100,7 @@ jobs:
           password: $DOCKER_PASSWORD
     steps:
       - checkout
-      - restore_cache:
-          key: *cache_key
+      - *restore_cache
       - *export_google_services_json
       - *get_google_services_json
       - *prepare_file
