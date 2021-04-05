@@ -100,7 +100,7 @@ jobs:
           password: $DOCKER_PASSWORD
     steps:
       - checkout
-      - *restore_cache
+      - restore_cache: *cache_key
       - *export_google_services_json
       - *get_google_services_json
       - *prepare_file
