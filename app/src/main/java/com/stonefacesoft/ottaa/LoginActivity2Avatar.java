@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
+import com.stonefacesoft.ottaa.utils.InmersiveMode;
 
 public class LoginActivity2Avatar extends AppCompatActivity implements View.OnClickListener {
 
@@ -46,6 +47,8 @@ public class LoginActivity2Avatar extends AppCompatActivity implements View.OnCl
         //TODO hacer que sea fullscreen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_activity_avatar);
+
+        new InmersiveMode(this, InmersiveMode.NOACTIONBAR);
 
         mAuth = FirebaseAuth.getInstance();
 

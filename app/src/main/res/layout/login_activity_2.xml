@@ -83,7 +83,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_weight="1"
         app:cardCornerRadius="@dimen/fab_margin"
-        android:layout_margin="@dimen/big_fat_margin">
+        android:layout_marginStart="@dimen/big_fat_margin"
+        android:layout_marginTop="@dimen/medium_margin"
+        android:layout_marginEnd="@dimen/big_fat_margin"
+        android:layout_marginBottom="@dimen/big_fat_margin">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -114,11 +117,23 @@
                 android:gravity="center"
                 android:text="Check if the info is correct,\nif not, change it as you wish. This will help us to personalize the app for you."/>
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:id="@+id/textViewName"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/editTextName"
+                app:layout_constraintTop_toTopOf="@id/editTextName"
+                app:layout_constraintBottom_toBottomOf="@id/editTextName"
+                android:gravity="center_vertical"
+                android:layout_marginStart="@dimen/small_margin"
+                android:text="Name: "/>
+
             <EditText
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:id="@+id/editTextName"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toEndOf="@id/textViewName"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/textViewLogin2"
                 app:layout_constraintBottom_toTopOf="@+id/selectorGender"
@@ -127,22 +142,46 @@
                 android:inputType="text"
                 android:autofillHints="Your name" />
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:id="@+id/textViewGender"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/selectorGender"
+                app:layout_constraintTop_toTopOf="@id/selectorGender"
+                app:layout_constraintBottom_toBottomOf="@id/selectorGender"
+                android:gravity="center_vertical"
+                android:layout_marginStart="@dimen/small_margin"
+                android:text="Gender: "/>
+
             <Spinner
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:id="@+id/selectorGender"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toEndOf="@id/textViewGender"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/editTextName"
                 app:layout_constraintBottom_toTopOf="@+id/constraintBirthDate"
                 app:layout_constraintVertical_weight="1"
                 android:entries="@array/Sexo"/>
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:id="@+id/textViewBirthday"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/constraintBirthDate"
+                app:layout_constraintTop_toTopOf="@id/constraintBirthDate"
+                app:layout_constraintBottom_toBottomOf="@id/constraintBirthDate"
+                android:gravity="center_vertical"
+                android:layout_marginStart="@dimen/small_margin"
+                android:text="Fecha de nacimiento: "/>
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:id="@+id/constraintBirthDate"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintStart_toEndOf="@id/textViewBirthday"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/selectorGender"
                 app:layout_constraintBottom_toBottomOf="parent"

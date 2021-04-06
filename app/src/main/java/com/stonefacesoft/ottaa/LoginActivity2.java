@@ -1,5 +1,6 @@
 package com.stonefacesoft.ottaa;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -23,6 +24,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 
@@ -42,18 +44,20 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.stonefacesoft.ottaa.utils.Constants;
+import com.stonefacesoft.ottaa.utils.InmersiveMode;
 import com.stonefacesoft.ottaa.utils.IntentCode;
 
 import static com.stonefacesoft.ottaa.utils.Constants.RC_SIGN_IN;
 
 //Code source https://developers.google.com/identity/sign-in/android/sign-in
 
-public class LoginActivity2 extends Activity implements View.OnClickListener {
+public class LoginActivity2 extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = "LoginActivity";
 
     private GoogleSignInClient mGoogleSignInClient;
     private FirebaseAuth mAuth;
+
 
     //UI elements
     private TextView textViewLoginBig;
@@ -68,6 +72,8 @@ public class LoginActivity2 extends Activity implements View.OnClickListener {
         //TODO hacer que sea fullscreen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_activity_1);
+
+        new InmersiveMode(this,InmersiveMode.NOACTIONBAR);
 
         bindUI();
 
@@ -202,7 +208,7 @@ public class LoginActivity2 extends Activity implements View.OnClickListener {
         AlphaAnimation alphaAnimation = new AlphaAnimation(0.0f,1.0f);
         alphaAnimation.setRepeatMode(Animation.ABSOLUTE);
         alphaAnimation.setInterpolator(new AccelerateInterpolator());
-        alphaAnimation.setDuration(2000);
+        alphaAnimation.setDuration(1500);
         alphaAnimation.setFillAfter(true);
 
         //CardView animation

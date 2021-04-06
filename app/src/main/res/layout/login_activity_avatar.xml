@@ -82,7 +82,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_weight="1"
-        android:layout_marginBottom="60dp">
+        android:layout_marginBottom="80dp">
 
         <TextView
             android:layout_width="0dp"
@@ -193,8 +193,6 @@
                 android:onClick="onClick"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="0dp"

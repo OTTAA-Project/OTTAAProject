@@ -12,6 +12,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.stonefacesoft.ottaa.utils.InmersiveMode;
+
 public class LoginActivity2Step3 extends AppCompatActivity implements View.OnClickListener {
 
     //UI elements
@@ -26,6 +28,8 @@ public class LoginActivity2Step3 extends AppCompatActivity implements View.OnCli
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_activity_3);
+
+        new InmersiveMode(this,InmersiveMode.NOACTIONBAR);
 
         bindUI();
 
@@ -59,7 +63,7 @@ public class LoginActivity2Step3 extends AppCompatActivity implements View.OnCli
                 startActivity(intent2);
                 break;
             case R.id.buttonTutorial:
-
+                //TODO launch the current tutorial
                 break;
             case R.id.buttonAutoWorkshop:
                 //TODO launch a Dialog that will explain what is the Autoworkshop

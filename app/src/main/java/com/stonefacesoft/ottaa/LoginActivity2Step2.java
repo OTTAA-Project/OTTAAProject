@@ -15,11 +15,14 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.firebase.auth.FirebaseAuth;
+import com.stonefacesoft.ottaa.utils.InmersiveMode;
 
 import java.util.Calendar;
 
-public class LoginActivity2Step2 extends Activity implements View.OnClickListener {
+public class LoginActivity2Step2 extends AppCompatActivity implements View.OnClickListener {
     private static final String TAG = "LoginActivity2Step2";
 
     //UI elemetns
@@ -43,6 +46,8 @@ public class LoginActivity2Step2 extends Activity implements View.OnClickListene
         setContentView(R.layout.login_activity_2);
 
         mAuth = FirebaseAuth.getInstance();
+
+        new InmersiveMode(this, InmersiveMode.NOACTIONBAR);
 
         bindUI();
 
@@ -103,7 +108,8 @@ public class LoginActivity2Step2 extends Activity implements View.OnClickListene
             Intent intent2 = new Intent(LoginActivity2Step2.this, LoginActivity2Step2.class);
             startActivity(intent2);
         } else if (id == R.id.buttonCalendarDialog) {
-            //TODO open dialog with calendar view and choose date.
+            //TODO open dialog with calendar view and choose date. GONZA 6-4
+            //Usar un calendarpicker
 
         }
     }
