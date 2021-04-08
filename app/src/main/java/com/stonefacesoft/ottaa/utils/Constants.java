@@ -129,8 +129,13 @@ public final class Constants {
     public static final String Grupos = "Grupos";
     public static final String Frases = "Frases";
     public static final String FrasesFavoritas = "FrasesFavoritas";
+
+    //Datos del usuario
     public static final String JUEGOS = "Juegos";
     public static final String PAGO = "Pago";
+    public static final String GENERO = "pref_sexo";
+    public static final String SKILLHAND = "skillHand";
+    public static final String FECHACUMPLE = "birth_date";
     public static final String FECHAPAGO = "FechaPago";
     public static final String FECHAVENCIMIENTO="FechaVencimiento";
     public static final String PREMIUM = "premium";

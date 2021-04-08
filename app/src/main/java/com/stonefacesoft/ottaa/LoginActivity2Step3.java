@@ -1,7 +1,5 @@
 package com.stonefacesoft.ottaa;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -12,6 +10,9 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.stonefacesoft.ottaa.Viewpagers.Viewpager_tutorial;
 import com.stonefacesoft.ottaa.utils.InmersiveMode;
 
 public class LoginActivity2Step3 extends AppCompatActivity implements View.OnClickListener {
@@ -23,6 +24,7 @@ public class LoginActivity2Step3 extends AppCompatActivity implements View.OnCli
     TextView textViewLoginSmall;
     Button buttonNext;
     Button buttonPrevious;
+    Button buttonTutorial;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +49,11 @@ public class LoginActivity2Step3 extends AppCompatActivity implements View.OnCli
         buttonNext.setOnClickListener(this);
         buttonPrevious = findViewById(R.id.backButton);
         buttonPrevious.setOnClickListener(this);
+        buttonTutorial = findViewById(R.id.buttonTutorial);
+        buttonTutorial.setOnClickListener(this);
+
+
+
 
 
     }
@@ -64,6 +71,8 @@ public class LoginActivity2Step3 extends AppCompatActivity implements View.OnCli
                 break;
             case R.id.buttonTutorial:
                 //TODO launch the current tutorial
+                Intent intent3 = new Intent(LoginActivity2Step3.this, Viewpager_tutorial.class);
+                startActivity(intent3);
                 break;
             case R.id.buttonAutoWorkshop:
                 //TODO launch a Dialog that will explain what is the Autoworkshop

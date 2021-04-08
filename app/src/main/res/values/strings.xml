@@ -227,6 +227,10 @@
     <string name="toca_la_lupa_para_buscar_en_arasaac">Touch the search button to download a picto from ARASAAC</string>
     <string name="MaleUser">Male</string>
     <string name="FemaleUser">Female</string>
+    <string name="BinaryUser">Binary</string>
+    <string name="FluidUser">Fluid</string>
+    <string name="OtherUser">Other</string>
+
     <string name="ChildUser">Child</string>
     <string name="YoungUser">Young</string>
     <string name="ottaa_actualizado" translatable="false">OTTAA Updated</string>
@@ -584,15 +588,7 @@
         <item>ADULTO</item>
 
     </string-array>
-    <string-array name="listSexo" translatable="false">
-        <item>@string/MaleUser</item>
-        <item>@string/FemaleUser</item>
-    </string-array>
-    <string-array name="list_sexo_valores" translatable="false">
-        <item>MASCULINO</item>
-        <item>FEMENINO</item>
 
-    </string-array>
     <string-array name="pref_idiomas_valores" translatable="false">
         <item>ar</item>
         <item>ca</item>
@@ -642,14 +638,6 @@
         <item>Noche</item>
     </string-array>
 
-    <string-array name="Sexo">
-        <item>Elegí tu genéro</item>
-        <item>Masculino</item>
-        <item>Femenino</item>
-        <item>Fluid</item>
-        <item>Binary</item>
-        <item>Other</item>
-    </string-array>
 
     <string-array name="DayOfMonth">
         <item>1</item>
