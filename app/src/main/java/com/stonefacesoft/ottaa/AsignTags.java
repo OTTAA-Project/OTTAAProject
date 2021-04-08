@@ -459,6 +459,12 @@ public class AsignTags {
                 return Sexo.MASCULINO;
             case 1033:
                 return Sexo.FEMENINO;
+            case 1036:
+                return Sexo.BINARIO;
+            case 1037:
+                return Sexo.FLUIDO;
+            case 1038:
+                return Sexo.BINARIO;
         }
         return null;
     }

@@ -4,29 +4,23 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Handler;
-import android.preference.Preference;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckedTextView;
-import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.stonefacesoft.ottaa.FavModel;
-import com.stonefacesoft.ottaa.FirebaseRequests.BajarJsonFirebase;
 import com.stonefacesoft.ottaa.R;
-import com.stonefacesoft.ottaa.utils.DatosDeUso;
-import com.stonefacesoft.ottaa.utils.exceptions.FiveMbException;
-import com.stonefacesoft.ottaa.utils.textToSpeech;
+import com.stonefacesoft.ottaa.utils.preferences.PreferencesUtil;
 
-import java.util.ArrayList;
-
-public class Item_adapter extends RecyclerView.Adapter<Item_adapter.ItemAdapterViewHolder>  {
+/**
+ * This class was created as to reduce code in the prefs class
+ * In order to select one item when I try
+ */
+public class Item_adapter extends RecyclerView.Adapter<Item_adapter.ItemAdapterViewHolder> {
 
     private int mLayoutResourceId;
     private Context mContext;
@@ -34,9 +28,13 @@ public class Item_adapter extends RecyclerView.Adapter<Item_adapter.ItemAdapterV
     private String[] mArrayListValues;
 
     private Dialog dialogDismiss;
-    private int position=0;
+    private int position = 0;
 
     private View.OnClickListener listener;
+
+    private PreferencesUtil sharedPreferencesUtil;
+
+    private String key, defaultValue;
 
     /**
      * El sistema pone el valor en el sistema de acuerdo a los siguientes casos :
@@ -44,30 +42,38 @@ public class Item_adapter extends RecyclerView.Adapter<Item_adapter.ItemAdapterV
      * Cambio de opcion para el joystick el sistema tiene que dar opcion 1 0 2
      * Cambio de sexo
      * Cambio de edad
-     * */
+     */
 
 
-
-
-    public Item_adapter(int mLayoutResourceId, Context mContext, Dialog dialogToDismiss)  {
+    public Item_adapter(int mLayoutResourceId, Context mContext, Dialog dialogToDismiss) {
         this.mLayoutResourceId = mLayoutResourceId;
         this.mContext = mContext;
         this.dialogDismiss = dialogToDismiss;
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this.mContext);
+        sharedPreferencesUtil = new PreferencesUtil(preferences);
     }
 
-    public Item_adapter setmArrayListItemsNames(String[] mArrayListItemsNames){
-        this.mArrayListItemsnames=mArrayListItemsNames;
+    public Item_adapter setmArrayListItemsNames(String[] mArrayListItemsNames) {
+        this.mArrayListItemsnames = mArrayListItemsNames;
         return this;
     }
 
 
-    public Item_adapter setmArrayListValues(String[] mArrayListValues){
-        this.mArrayListValues=mArrayListValues;
+    public Item_adapter setmArrayListValues(String[] mArrayListValues) {
+        this.mArrayListValues = mArrayListValues;
         return this;
     }
 
-    public void setOnClickListener(View.OnClickListener listener){
-        this.listener=listener;
+    public void setKey(String key) {
+        this.key = key;
+    }
+
+    public void setDefaultValue(String defaultValue) {
+        this.defaultValue = defaultValue;
+    }
+
+    public void setOnClickListener(View.OnClickListener listener) {
+        this.listener = listener;
     }
 
 
@@ -83,11 +89,50 @@ public class Item_adapter extends RecyclerView.Adapter<Item_adapter.ItemAdapterV
     @Override
     public void onBindViewHolder(Item_adapter.ItemAdapterViewHolder holder, int position) {
         String model = mArrayListItemsnames[position];
-        holder.textView.setText( model);
-
+        holder.textView.setText(model);
+        selecItem(holder, position);
     }
 
+    public void selecItem(Item_adapter.ItemAdapterViewHolder holder, int position) {
+        if (defaultValue != null) {
+            try {
+                if (sharedPreferencesUtil.getStringValue(key, defaultValue).toLowerCase().equals(mArrayListValues[position].toLowerCase()))
+                    holder.radioButton.setChecked(true);
+                else
+                    holder.radioButton.setChecked(false);
+            } catch (Exception ex) {
 
+                if (!sharedPreferencesUtil.getBooleanKey(key, false)) {
+                    switch (position) {
+                        case 0:
+                            holder.radioButton.setChecked(true);
+                            break;
+                        case 1:
+                            holder.radioButton.setChecked(false);
+                            break;
+                    }
+                } else {
+                    switch (position) {
+                        case 0:
+                            holder.radioButton.setChecked(false);
+                            break;
+                        case 1:
+                            holder.radioButton.setChecked(true);
+                            break;
+                    }
+                }
+
+            }
+        } else {
+            holder.radioButton.setChecked(false);
+        }
+    }
+
+    public String getBooleanValue(boolean value) {
+        if (value == false)
+            return "false";
+        return "true";
+    }
 
 
     @Override
@@ -115,17 +160,14 @@ public class Item_adapter extends RecyclerView.Adapter<Item_adapter.ItemAdapterV
         private TextView textView;
 
 
-
         public ItemAdapterViewHolder(View itemView) {
             super(itemView);//this class extends from recycler view
             radioButton = itemView.findViewById(R.id.checkbox);
-            textView=itemView.findViewById(R.id.text_description);
-            if(listener!=null)
-            radioButton.setOnClickListener(this);
 
+            textView = itemView.findViewById(R.id.text_description);
+            if (listener != null)
+                radioButton.setOnClickListener(this);
         }
-
-
 
 
         public RadioButton getRadioButton() {
@@ -134,18 +176,17 @@ public class Item_adapter extends RecyclerView.Adapter<Item_adapter.ItemAdapterV
 
         @Override
         public void onClick(View v) {
-            position=getPosition();
-            Handler handler=new Handler();
+            position = getPosition();
+            Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     listener.onClick(v);
                 }
-            },100);
+            }, 100);
 
         }
     }
-
 
 
     public String[] getmArrayListItemsnames() {

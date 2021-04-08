@@ -185,8 +185,13 @@ public class LoginActivity2Step2 extends AppCompatActivity implements View.OnCli
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         if(position!=0)
             gender=genderSelector.getSelectedItem().toString();
-        else
-            gender=preferencesUtil.getStringValue(Constants.GENERO,genderSelector.getItemAtPosition(position+1).toString());
+        else {
+            try {
+                gender=preferencesUtil.getStringValue(Constants.GENERO,genderSelector.getItemAtPosition(position+1).toString());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override

@@ -19,7 +19,7 @@ public class PreferencesUtil {
         preferences.edit().putString(key,value).apply();
     }
 
-    public String getStringValue(String key,String defaultValue){
+    public String getStringValue(String key,String defaultValue) throws Exception{
         return preferences.getString(key,defaultValue);
     }
 

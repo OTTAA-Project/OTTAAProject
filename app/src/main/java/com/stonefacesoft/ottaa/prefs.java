@@ -751,14 +751,14 @@ public class prefs extends PreferenceActivity implements SharedPreferences.OnSha
         } else if(preference == mSexoUsuario) {
             // progressDialog = new ProgressDialog(this);
             analyticsFirebase.customEvents("Settings","prefs","Gender User");
-                    showDialogOptionsDownloadFile(getResources().getString(R.string.gender_string),R.array.listSexo,R.array.list_sexo_valores,"pref_sexo");
+                    showDialogOptionsDownloadFile(getResources().getString(R.string.gender_string),Constants.GENERO,sharedPrefsDefault.getString(Constants.GENERO,"MASCULINO"),R.array.listSexo,R.array.list_sexo_valores,"pref_sexo");
                     //  new ordenarPictos().execute();
                     return true;
 
         } else if (preference == mEdadUsuario) {
             //  progressDialog = new ProgressDialog(this);
             analyticsFirebase.customEvents("Settings","prefs","Age User");
-            showDialogOptionsDownloadFile(this.getResources().getString(R.string.str_seleccionar_edad_usuario),R.array.listEdad,R.array.list_Edad_valores,getString(R.string.prefedad));
+            showDialogOptionsDownloadFile(this.getResources().getString(R.string.str_seleccionar_edad_usuario),getString(R.string.prefedad),sharedPrefsDefault.getString(getString(R.string.prefedad), "ADULTO"),R.array.listEdad,R.array.list_Edad_valores,getString(R.string.prefedad));
             return true;
 
         } else if(preference==mStrIdioma) {
@@ -767,7 +767,7 @@ public class prefs extends PreferenceActivity implements SharedPreferences.OnSha
             return  true;
          }else if(preference==manoHabil) {
             analyticsFirebase.customEvents("Settings", "prefs", "Skill hand");
-            showDialogOptionsSkilledHand("Mano Habil", R.array.Mano, R.array.Mano_valores, manoHabil.getKey());
+            showDialogOptionsSkilledHand("Mano Habil",sharedPrefsDefault.getBoolean(Constants.SKILLHAND,false),R.array.Mano, R.array.Mano_valores, manoHabil.getKey());
             return  true;
          }else if(preference==mNumTono){
             analyticsFirebase.customEvents("Settings","prefs","TTS Voice");
@@ -864,7 +864,7 @@ public class prefs extends PreferenceActivity implements SharedPreferences.OnSha
     public void showLanguajeDialog(String name, int value, int options) {
 
         custom_dialog_option_item dialog_option_item=new custom_dialog_option_item(this);
-        dialog_option_item.prepareDialog(this.getResources().getString(R.string.pref_idioma),value,options,new View.OnClickListener() {
+        dialog_option_item.prepareDialog(this.getResources().getString(R.string.pref_idioma),name,sharedPrefsDefault.getString(getString(R.string.str_idioma),Locale.getDefault().getLanguage()),value,options,new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Item_adapter adapter=(Item_adapter) dialog_option_item.getRecycler().getAdapter();
@@ -893,9 +893,33 @@ public class prefs extends PreferenceActivity implements SharedPreferences.OnSha
     }
 
     @Override
-    public void showDialogOptionsDownloadFile(String name, int value, int options, String preference) {
+    public void showDialogOptionsDownloadFile(String name, int value, int options, String preferences) {
         custom_dialog_option_item dialog_option_item=new custom_dialog_option_item(this);
         dialog_option_item.prepareDialog(name,value,options,new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (status) {
+                    Item_adapter adapter=(Item_adapter) dialog_option_item.getRecycler().getAdapter();
+                    final String value=adapter.getmArrayListValues()[adapter.devolverPosition()];
+                    //      mostrarDialogo();
+                    sharedPrefsDefault.edit().putString(preferences, value).apply();
+                    message = "Bajando sugerencias";
+                    final StorageReference mPredictionRef = mStorageRef.child("Archivos_Sugerencias").child("pictos_" + sharedPrefsDefault.getString("prefSexo", "FEMENINO") + "_" + sharedPrefsDefault.getString("prefEdad", "JOVEN") + ".txt");
+                    bajarJsonFirebase.descargarPictosDatabase(mPredictionRef);
+                    handlerComunicationClass.sendMessage(
+                            Message.obtain(handlerComunicationClass, HandlerComunicationClass.SHOWDIALOG, ""));
+                    //    new ordenarPictos().execute();
+                }
+
+            }
+        });
+        dialog_option_item.ShowDialog();
+    }
+
+    @Override
+    public void showDialogOptionsDownloadFile(String name,String key,String selectedValue, int values, int options, String preference) {
+        custom_dialog_option_item dialog_option_item=new custom_dialog_option_item(this);
+        dialog_option_item.prepareDialog(name,preference,selectedValue,values,options,new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (status) {
@@ -912,7 +936,8 @@ public class prefs extends PreferenceActivity implements SharedPreferences.OnSha
                 }
 
             }
-        }).ShowDialog();
+        });
+        dialog_option_item.ShowDialog();
     }
 
     @Override
@@ -948,6 +973,29 @@ public class prefs extends PreferenceActivity implements SharedPreferences.OnSha
                         else
                             sharedPrefsDefault.edit().putBoolean(preferences,true).apply();
 
+                    //    new ordenarPictos().execute();
+                }
+
+            }
+        }).ShowDialog();
+    }
+
+    @Override
+    public void showDialogOptionsSkilledHand(String name, boolean value, int values, int options, String preferences) {
+        custom_dialog_option_item dialog_option_item=new custom_dialog_option_item(this);
+        String valor="false";
+        if(value==true)
+            valor="true";
+        dialog_option_item.prepareDialog(name,preferences,valor,values,options,new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (status) {
+                    Item_adapter adapter=(Item_adapter) dialog_option_item.getRecycler().getAdapter();
+                    int value=adapter.devolverPosition();
+                    if(value==0)
+                        sharedPrefsDefault.edit().putBoolean(preferences,false).apply();
+                    else
+                        sharedPrefsDefault.edit().putBoolean(preferences,true).apply();
                     //    new ordenarPictos().execute();
                 }
 
