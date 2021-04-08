@@ -29,6 +29,7 @@ android {
 
     }
     dexOptions {
+        incremental true
         preDexLibraries = false
         javaMaxHeapSize "4g" // 2g should be also OK
     }
@@ -211,6 +212,9 @@ dependencies {
     //noinspection GradleDependency
     implementation 'com.github.OTTAA-Project:PictogramsLibrary:0.1.4'
 
+    //Image Cropper
+    //TODO add this library to the Wiki
+    implementation 'com.theartofdev.edmodo:android-image-cropper:2.8.0'
 
 
 }

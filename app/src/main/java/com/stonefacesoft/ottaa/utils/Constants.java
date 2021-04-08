@@ -57,6 +57,15 @@ public final class Constants {
     //Constants FOR RESULT
     public static final int RC_SIGN_IN = 400;
 
+
+
+
+
+
+
+
+
+
     //2 mins
 //    public static final long UN_MES = 120;
     //30 dias

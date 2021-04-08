@@ -26,10 +26,10 @@ public class LoginActivity2Step3 extends AppCompatActivity implements View.OnCli
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        new InmersiveMode(this);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_activity_3);
-
-        new InmersiveMode(this,InmersiveMode.NOACTIONBAR);
 
         bindUI();
 

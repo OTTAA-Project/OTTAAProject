@@ -4,8 +4,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.app.Activity;
+import android.content.ComponentName;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcelable;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
@@ -16,10 +23,22 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.Target;
 import com.google.firebase.auth.FirebaseAuth;
+import com.stonefacesoft.ottaa.utils.Constants;
 import com.stonefacesoft.ottaa.utils.InmersiveMode;
+import com.stonefacesoft.ottaa.utils.IntentCode;
+import com.theartofdev.edmodo.cropper.CropImage;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class LoginActivity2Avatar extends AppCompatActivity implements View.OnClickListener {
 
@@ -41,14 +60,12 @@ public class LoginActivity2Avatar extends AppCompatActivity implements View.OnCl
     ConstraintLayout constraintSourceButtons;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        //TODO hacer que sea fullscreen
+        new InmersiveMode(this);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_activity_avatar);
-
-        new InmersiveMode(this, InmersiveMode.NOACTIONBAR);
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -105,19 +122,20 @@ public class LoginActivity2Avatar extends AppCompatActivity implements View.OnCl
             Intent intent = new Intent(LoginActivity2Avatar.this, Principal.class);
             startActivity(intent);
         } else if (id == R.id.backButton) {
-            //TODO Check if backpress will do
             Intent intent2 = new Intent(LoginActivity2Avatar.this, LoginActivity2Step3.class);
             startActivity(intent2);
         } else if (id == R.id.buttonSelectAvatarSource) {
             //Scale Animation to show the other buttons
             doScaleAnimation();
         }
-        else if (id == R.id.buttonSourceGallery) {
-            //TODO Select an Image from Gallery
-        }
         else if (id == R.id.buttonSourceCamera) {
-            //TODO Take a picture from Camera, resize it and store it. Maybe do it with a CloudFunction????
-
+            //TODO Quality is low, maybe use a different approch, also for EditPicto
+            takePictureSetup();
+        }
+        else if (id == R.id.buttonSourceGallery) {
+            Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+            photoPickerIntent.setType("image/*");
+            startActivityForResult(photoPickerIntent, IntentCode.PICK_IMAGE.getCode());
         }
         else {
             if (view instanceof ImageView){
@@ -135,4 +153,66 @@ public class LoginActivity2Avatar extends AppCompatActivity implements View.OnCl
         constraintSourceButtons.setVisibility(View.VISIBLE);
         constraintSourceButtons.startAnimation(scaleAnimation);
     }
+
+    //source https://stackoverflow.com/questions/8017374/how-to-pass-a-uri-to-an-intent
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            Log.d(TAG, "onActivityResult: Cropped Image: ");
+            Uri uri = data.getParcelableExtra("imageUri");
+            Glide.with(this).load(uri)
+                    .override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
+                    .error(R.drawable.ic_no)
+                    .circleCrop()
+                    .into(imageViewAvatar);
+
+        }
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+            Log.d(TAG, "onActivityResult: Canceled by user");
+
+        }
+        //Source https://stackoverflow.com/questions/38352148/get-image-from-the-gallery-and-show-in-imageview
+        if (requestCode == IntentCode.PICK_IMAGE.getCode()) {
+            Log.d(TAG, "onActivityResult: Pick image done");
+            if (resultCode == RESULT_OK) {
+                final Uri pickedImageUri = data.getData();
+                Intent intent = new Intent(LoginActivity2Avatar.this, PictureCropper.class);
+                intent.putExtra("pickedImageUri", pickedImageUri);
+                startActivityForResult(intent, CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE);
+            }else {
+                Toast.makeText(this, "You haven't picked Image",Toast.LENGTH_LONG).show();
+            }
+        }
+
+        if (requestCode == IntentCode.CAMARA.getCode()) {
+            Log.d(TAG, "onActivityResult: Camera image done");
+            if (resultCode == RESULT_OK) {
+                Bundle extras = data.getExtras();
+                Bitmap imageBitmap = (Bitmap) extras.get("data");
+                File tempFile = null;
+                try {
+                    tempFile = File.createTempFile("cam","jpg");
+                    FileOutputStream fosTemp = new FileOutputStream(tempFile);
+                    imageBitmap.compress(Bitmap.CompressFormat.JPEG, 90, fosTemp);
+                } catch (IOException e) {
+                    Log.d(TAG, "onActivityResult: ERROR saving bitmap");
+                }
+                Intent intent = new Intent(LoginActivity2Avatar.this, PictureCropper.class);
+                intent.putExtra("pickedImageUri", Uri.fromFile(tempFile));
+                startActivityForResult(intent, CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE);
+            }else {
+                Toast.makeText(this, "You didn't take a picture",Toast.LENGTH_LONG).show();
+            }
+        }
+
+    }
+
+    private void takePictureSetup() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(takePictureIntent, IntentCode.CAMARA.getCode());
+        }
+    }
+
 }

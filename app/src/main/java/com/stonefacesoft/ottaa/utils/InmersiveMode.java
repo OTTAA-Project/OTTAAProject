@@ -20,31 +20,6 @@ public class InmersiveMode implements View.OnTouchListener {
     private Handler handler;
     private GestureDetector detector;
 
-    public InmersiveMode(AppCompatActivity appCompatActivity,int mode){
-        if (mode == NOACTIONBAR){
-            View decorView = appCompatActivity.getWindow().getDecorView();
-            // Hide the status bar.
-            int uiOptions = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                    | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                    | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                    | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                    | View.SYSTEM_UI_FLAG_FULLSCREEN;
-            decorView.setSystemUiVisibility(uiOptions);
-            // Remember that you should never show the action bar if the
-            // status bar is hidden, so hide that too if necessary.
-        } if (mode == WITHACTIONBAR){
-            View decorView = appCompatActivity.getWindow().getDecorView();
-            // Hide the status bar.
-            int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_FULLSCREEN;
-            decorView.setSystemUiVisibility(uiOptions);
-            // Remember that you should never show the action bar if the
-            // status bar is hidden, so hide that too if necessary.
-            ActionBar actionBar = appCompatActivity.getActionBar();
-            actionBar.hide();
-        } else
-            Log.d(TAG, "InmersiveMode: No MODE");
-    }
-
     public InmersiveMode(AppCompatActivity appCompatActivity){
         this.mActivity=appCompatActivity;
         this.handler=new Handler();
@@ -59,7 +34,6 @@ public class InmersiveMode implements View.OnTouchListener {
                 }
                 else{
                     immersive = true;
-
                 }
             }
         });
@@ -77,7 +51,8 @@ public class InmersiveMode implements View.OnTouchListener {
 
     private void hideUI() {
         immersive = true;
-        mActivity.getSupportActionBar().hide();
+        if (mActivity.getSupportActionBar() != null)
+            mActivity.getSupportActionBar().hide();
         decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                 | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                 | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
@@ -96,7 +71,8 @@ public class InmersiveMode implements View.OnTouchListener {
 
     private void showUI() {
         immersive = false;
-        mActivity.getSupportActionBar().show();
+        if (mActivity.getSupportActionBar() != null)
+            mActivity.getSupportActionBar().show();
         decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
 
     }

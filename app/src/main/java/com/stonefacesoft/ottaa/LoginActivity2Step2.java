@@ -41,13 +41,13 @@ public class LoginActivity2Step2 extends AppCompatActivity implements View.OnCli
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        //TODO hacer que sea fullscreen
+        new InmersiveMode(this);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_activity_2);
 
         mAuth = FirebaseAuth.getInstance();
 
-        new InmersiveMode(this, InmersiveMode.NOACTIONBAR);
 
         bindUI();
 
@@ -101,7 +101,8 @@ public class LoginActivity2Step2 extends AppCompatActivity implements View.OnCli
     @Override
     public void onClick(View view) {
         int id = view.getId();
-        if (id == R.id.nextButton) {//TODO save user data on preferences and on Firebase
+        if (id == R.id.nextButton) {
+            //TODO save user data on preferences and on Firebase
             Intent intent = new Intent(LoginActivity2Step2.this, LoginActivity2Step3.class);
             startActivity(intent);
         } else if (id == R.id.backButton) {

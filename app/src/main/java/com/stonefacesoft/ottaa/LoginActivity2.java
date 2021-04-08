@@ -69,11 +69,10 @@ public class LoginActivity2 extends AppCompatActivity implements View.OnClickLis
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        //TODO hacer que sea fullscreen
+        new InmersiveMode(this);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_activity_1);
-
-        new InmersiveMode(this,InmersiveMode.NOACTIONBAR);
 
         bindUI();
 
@@ -190,8 +189,6 @@ public class LoginActivity2 extends AppCompatActivity implements View.OnClickLis
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "onComplete: firebaseAuth succesfull");
                             FirebaseUser user = mAuth.getCurrentUser();
-
-                            //TODO Save user data if needed
                             animateTransition();
                         } else {
                             // If sign in fails, display a message to the user.
@@ -260,9 +257,9 @@ public class LoginActivity2 extends AppCompatActivity implements View.OnClickLis
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                //TODO check we dont need to send some information to the screen
-                Log.d(TAG, "onAnimationEnd: Haciendo el intent");
-                Intent intent = new Intent(LoginActivity2.this, LoginActivity2Step2.class);
+                //With Firebase Auth is enough to get user data.
+                Log.d(TAG, "onAnimationEnd: Closing the app");
+                Intent intent = new Intent(LoginActivity2.this, LoginActivity2Avatar.class);
                 startActivity(intent);
             }
 

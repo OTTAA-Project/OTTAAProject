@@ -38,7 +38,8 @@
         android:supportsRtl="true"
         android:theme="@style/CustomActionBarTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".LoginActivity2Avatar"></activity>
+        <activity android:name=".PictureCropper"></activity>
+        <activity android:name=".LoginActivity2Avatar" />
         <activity android:name=".LoginActivity2Step3" />
         <activity
             android:name=".ActivityInformes"
