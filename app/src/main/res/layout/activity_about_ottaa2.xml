@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:id="@+id/constraint_orange_2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/constraintInfoAbout"
+        app:layout_constraintHorizontal_weight="1">
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:id="@+id/constraintInfoAbout"
+        app:layout_constraintStart_toEndOf="@+id/constraint_orange_2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_weight="2">
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:id="@+id/orangeBanner2"
+            android:rotation="180"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_ola_naranja_rot"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:id="@+id/textKeepUpdated"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/constraintTextViewsAbout"
+            app:layout_constraintVertical_weight="1"
+            android:layout_marginStart="@dimen/medium_margin"
+            android:layout_marginTop="@dimen/medium_margin"
+            android:layout_marginEnd="@dimen/medium_margin"
+            android:text="Keep your OTTAA up-to-date"
+            android:gravity="bottom"
+            android:textAlignment="viewEnd"
+            android:textColor="@color/White"
+            android:textSize="25sp"
+            android:textStyle="bold"/>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:id="@+id/constraintTextViewsAbout"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textKeepUpdated"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginStart="@dimen/big_fat_margin"
+            app:layout_constraintVertical_weight="5">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:id="@+id/constraintFrame"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/buttonContactSupport"
+                app:layout_constraintDimensionRatio="3:2"
+                app:layout_constraintVertical_weight="5"
+                android:layout_marginTop="@dimen/medium_margin"
+                android:layout_marginBottom="@dimen/medium_margin"
+                android:layout_marginStart="@dimen/big_fat_margin"
+                android:background="@drawable/fizgerald_shape"
+                android:backgroundTint="@color/White">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:id="@+id/textViewAccountTitle"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toTopOf="@id/textViewAccount"
+                    android:layout_marginTop="@dimen/small_margin"
+                    android:text="Account Info"
+                    android:textColor="@color/White"
+                    android:textStyle="bold"
+                    android:textSize="20sp"
+                    android:textAlignment="center"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:id="@+id/textViewAccount"
+                    android:text="@string/cuenta"
+                    android:textStyle="bold"
+                    android:textColor="@color/White"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/userEmail"
+                    app:layout_constraintTop_toBottomOf="@id/textViewAccountTitle"
+                    app:layout_constraintBottom_toTopOf="@id/textViewAccountType"
+                    android:layout_marginStart="@dimen/medium_margin"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:id="@+id/userEmail"
+                    android:text=": ottaa@ottaaproject.com"
+                    android:textColor="@color/White"
+                    app:layout_constraintStart_toEndOf="@id/textViewAccount"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/textViewAccount"
+                    app:layout_constraintBottom_toBottomOf="@id/textViewAccount"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:id="@+id/textViewAccountType"
+                    android:text="Account Type: "
+                    android:textStyle="bold"
+                    android:textColor="@color/White"
+                    app:layout_constraintStart_toStartOf="@id/textViewAccount"
+                    app:layout_constraintEnd_toStartOf="@id/accountType"
+                    app:layout_constraintTop_toBottomOf="@id/textViewAccount"
+                    app:layout_constraintBottom_toTopOf="@id/versionApp"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:id="@+id/accountType"
+                    android:text="Free"
+                    android:textColor="@color/White"
+                    app:layout_constraintStart_toEndOf="@id/textViewAccountType"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/textViewAccountType"
+                    app:layout_constraintBottom_toBottomOf="@id/textViewAccountType"/>
+
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:id="@+id/versionApp"
+                    android:textStyle="bold"
+                    android:textColor="@color/White"
+                    android:text="@string/version_de_ottaa_instalada"
+                    app:layout_constraintStart_toStartOf="@id/textViewAccount"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/textViewAccountType"
+                    app:layout_constraintBottom_toTopOf="@id/versionServer"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:id="@+id/versionServer"
+                    android:textStyle="bold"
+                    android:textColor="@color/White"
+                    android:text="@string/versi_n_actual_de_ottaa"
+                    app:layout_constraintStart_toStartOf="@id/textViewAccount"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/versionApp"
+                    app:layout_constraintBottom_toTopOf="@id/textViewDeviceName"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:id="@+id/textViewDeviceName"
+                    android:textStyle="bold"
+                    android:textColor="@color/White"
+                    android:text="Device name: "
+                    app:layout_constraintStart_toStartOf="@id/textViewAccount"
+                    app:layout_constraintEnd_toStartOf="@id/deviceName"
+                    app:layout_constraintTop_toBottomOf="@id/versionServer"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:id="@+id/deviceName"
+                    android:textColor="@color/White"
+                    android:text="Lenovo Tab 4"
+                    app:layout_constraintStart_toEndOf="@id/textViewDeviceName"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/textViewDeviceName"
+                    app:layout_constraintBottom_toBottomOf="@id/textViewDeviceName"/>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:id="@+id/buttonContactSupport"
+                app:layout_constraintStart_toStartOf="@id/constraintFrame"
+                app:layout_constraintEnd_toEndOf="@id/constraintFrame"
+                app:layout_constraintTop_toBottomOf="@id/constraintFrame"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginBottom="@dimen/medium_margin"
+                app:layout_constraintVertical_weight="1"
+                android:text="Contact support"
+                android:textColor="@color/NaranjaOTTAA"
+                android:textStyle="bold"
+                android:background="@drawable/dialog_round_shape_orange"
+                android:backgroundTint="@color/White"
+                android:onClick="onClick"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/mancha_gris"
+        android:src="@drawable/ic_mancha_gris"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:rotation=""/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

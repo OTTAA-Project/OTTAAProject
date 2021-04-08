@@ -258,8 +258,8 @@ public class LoginActivity2 extends AppCompatActivity implements View.OnClickLis
             @Override
             public void onAnimationEnd(Animation animation) {
                 //With Firebase Auth is enough to get user data.
-                Log.d(TAG, "onAnimationEnd: Closing the app");
-                Intent intent = new Intent(LoginActivity2.this, LoginActivity2Avatar.class);
+                Log.d(TAG, "onAnimationEnd: Closing login screen");
+                Intent intent = new Intent(LoginActivity2.this, LoginActivity2Step2.class);
                 startActivity(intent);
             }
 

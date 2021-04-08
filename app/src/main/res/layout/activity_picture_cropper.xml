@@ -11,7 +11,7 @@
         android:id="@+id/cropImageView"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        custom:layout_constraintVertical_weight="5"
+        custom:layout_constraintVertical_weight="6"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
