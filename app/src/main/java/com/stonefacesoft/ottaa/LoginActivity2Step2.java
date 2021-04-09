@@ -99,6 +99,10 @@ public class LoginActivity2Step2 extends AppCompatActivity implements View.OnCli
         convert=true;
         userData=new DataUser();
 
+
+        //TODO modify EditText to be more compact
+        //TODO remove the keyboard when entering the screen
+
     }
 
     @Override

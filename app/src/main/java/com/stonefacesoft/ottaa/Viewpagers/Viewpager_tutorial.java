@@ -35,10 +35,11 @@ public class Viewpager_tutorial extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tutorialview);
         viewPager = findViewById(R.id.viewpager);
-        setImageDescriptions(0, R.drawable.tutorial01,getResources().getString(R.string.tutorial01), getResources().getString(R.string.createyourphrases),R.color.tuto_color1);
-        setImageDescriptions(1, R.drawable.tutorial02, getResources().getString(R.string.tutorial02), getResources().getString(R.string.talktotheworld),R.color.tuto_color2);
-        setImageDescriptions(2, R.drawable.tutorial03,  getResources().getString(R.string.tutorial03),getResources().getString(R.string.accessthousandof) ,R.color.tuto_color3);
-        setImageDescriptions(3, R.drawable.tutorial04,  getResources().getString(R.string.tutorial04), getResources().getString(R.string.playandlearn),R.color.tuto_color4);
+        //TODO cambiar el tamano del texto y el color GONZA
+        setImageDescriptions(0, R.drawable.ic_tuto1,getResources().getString(R.string.tutorial01), getResources().getString(R.string.createyourphrases),R.color.NaranjaOTTAA);
+        setImageDescriptions(1, R.drawable.ic_tuto2, getResources().getString(R.string.tutorial02), getResources().getString(R.string.talktotheworld),R.color.quantum_grey300);
+        setImageDescriptions(2, R.drawable.ic_tuto3,  getResources().getString(R.string.tutorial03),getResources().getString(R.string.accessthousandof) ,R.color.NaranjaOTTAA);
+        setImageDescriptions(3, R.drawable.ic_tuto4,  getResources().getString(R.string.tutorial04), getResources().getString(R.string.playandlearn),R.color.quantum_grey300);
         pagerAdapter = new Viewpager_tutorial.ScreenSlidePagerAdapter(this);
         floatingActionButton=findViewById(R.id.exit);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
