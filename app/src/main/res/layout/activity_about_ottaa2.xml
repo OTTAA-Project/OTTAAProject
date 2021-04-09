@@ -229,7 +229,7 @@
         android:src="@drawable/ic_mancha_gris"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:rotation=""/>
+        android:rotation="90"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
