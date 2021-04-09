@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -27,24 +28,32 @@ import com.stonefacesoft.ottaa.FirebaseRequests.FirebaseUtils;
 import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.idioma.ConfigurarIdioma;
 import com.stonefacesoft.ottaa.idioma.myContextWrapper;
-import com.stonefacesoft.ottaa.prefs;
-
+import com.stonefacesoft.ottaa.utils.preferences.PreferencesUtil;
+/*
+* @version 2.0
+* @author gonzalo juarez
+* this version was designed by  hector costa and  modified by gonzalo juarez
+*
+*
+*
+* */
 
 public class AboutOttaa extends AppCompatActivity {
 
     private static final String TAG = "AboutOTTAA";
     private String uid;
-    private TextView mUserEmail,mAppVersion,mFirebaseAppVersion;
+    private TextView textViewAccount,textViewAccountType,versionServer,versionApp,deviceName;
     private DatabaseReference mDatabase;
     private int versionCode;
-    private Button mBtnActualizar;
+    private Button buttonContactSupport;
     private Toolbar toolbar;
+    private PreferencesUtil preferencesUtil;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_about_ottaa);
-        toolbar = findViewById(R.id.toolbar);
+        setContentView(R.layout.activity_about_ottaa2);
+/*        toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -52,26 +61,36 @@ public class AboutOttaa extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), prefs.class);
                 startActivity(intent);
             }
-        });
+        });*/
+        SharedPreferences preferences=PreferenceManager.getDefaultSharedPreferences(this);
+        preferencesUtil=new PreferencesUtil(preferences);
 
 
-        mBtnActualizar = findViewById(R.id.btnActualizar);
-        mAppVersion = findViewById(R.id.versionApp);
-        mUserEmail = findViewById(R.id.userEmail);
-        mFirebaseAppVersion = findViewById(R.id.versionServer);
-
+        buttonContactSupport = findViewById(R.id.buttonContactSupport);
+        textViewAccountType =findViewById(R.id.textViewAccountType);
+        versionServer = findViewById(R.id.versionServer);
+        versionApp= findViewById(R.id.versionApp);
+        deviceName=findViewById(R.id.deviceName);
+        textViewAccount = findViewById(R.id.textViewAccount);
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         uid = mAuth.getCurrentUser().getUid();
         Log.d(TAG, "onCreate: uid: " + uid);
-        ObtenerVersion();
-        ObtenerEmailUsuario();
-
+        getVersion();
+        getUserMail();
+        getDeviceName();
+        textViewAccountType.setText(getKindOfUser());
+        buttonContactSupport.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendMail();
+            }
+        });
     }
 
 
-    private void ObtenerVersion(){
+    private void getVersion(){
 
         try {
             PackageInfo pInfo = this.getPackageManager().getPackageInfo(getPackageName(), 0);
@@ -85,13 +104,13 @@ public class AboutOttaa extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                int versionApp = Integer.valueOf(dataSnapshot.getValue().toString());
-                mAppVersion.setText(getApplicationContext().getResources().getString(R.string.version_de_ottaa_instalada) + ": " + versionCode);
-                mFirebaseAppVersion.setText(getApplicationContext().getResources().getString(R.string.versi_n_actual_de_ottaa) + ": " + versionApp);
+                int codeVersion = Integer.valueOf(dataSnapshot.getValue().toString());
+                versionApp.setText(getApplicationContext().getResources().getString(R.string.version_de_ottaa_instalada) + ": " + versionCode);
+                versionServer.setText(getApplicationContext().getResources().getString(R.string.versi_n_actual_de_ottaa) + ": " + codeVersion);
 
-                if(versionCode != versionApp){
-                    mBtnActualizar.setEnabled(true);
-                    mBtnActualizar.setOnClickListener(new View.OnClickListener() {
+                if(versionCode != codeVersion){
+
+                    versionServer.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
                             try {
@@ -102,12 +121,7 @@ public class AboutOttaa extends AppCompatActivity {
                             }
                         }
                     });
-
-                }else{
-                    mBtnActualizar.setEnabled(false);
-                    mBtnActualizar.setText(getApplicationContext().getResources().getString(R.string.ottaa_actualizado));
                 }
-
             }
 
             @Override
@@ -118,7 +132,7 @@ public class AboutOttaa extends AppCompatActivity {
         });
     }
 
-    private void ObtenerEmailUsuario(){
+    private void getUserMail(){
 
         //Todo Replacement with the firebaseCloudFunction
         FirebaseUtils firebaseUtils=FirebaseUtils.getInstance();
@@ -129,7 +143,7 @@ public class AboutOttaa extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 String userEmail = dataSnapshot.getValue(String.class);
-                mUserEmail.setText(getApplicationContext().getString(R.string.cuenta) +":"+userEmail);
+                textViewAccount.setText(getApplicationContext().getString(R.string.cuenta) +":"+userEmail);
             }
 
             @Override
@@ -146,5 +160,43 @@ public class AboutOttaa extends AppCompatActivity {
         super.attachBaseContext(myContextWrapper.wrap(newBase, preferences.getString(newBase.getString(R.string.str_idioma), "en")));
 
     }
+
+    private void getDeviceName(){
+        deviceName.setText(Build.MODEL);
+    }
+
+    /**
+     * the code has been extrated from this page
+     * https://netcorecloud.com/tutorials/send-email-in-android-using-javamail-api/
+     *
+     * the function of this method is sending an email
+     *
+     * */
+    private void sendMail(){
+        Intent mail=new Intent(Intent.ACTION_SEND);
+        mail.setType("message/rfc822");
+        mail.putExtra(Intent.EXTRA_EMAIL, new String[]{ "support@ottaaproject.com"});
+        mail.putExtra(Intent.EXTRA_SUBJECT,textViewAccountType.getText());
+        mail.putExtra(Intent.EXTRA_TEXT,prepareDataToSend());
+
+        startActivity(Intent.createChooser(mail,"Send mail ..."));
+    }
+
+    private String getKindOfUser(){
+        if(preferencesUtil.getIntegerValue(Constants.PREMIUM,0)==1)
+            return "Premiun";
+        return "free";
+    }
+
+    private String prepareDataToSend(){
+        StringBuilder builder=new StringBuilder();
+        builder.append("Email: "+textViewAccount.getText()).append("\n");
+        builder.append("Version de la aplicacion:"+versionApp.getText()).append("\n");
+        builder.append("Tipo de cuenta:"+textViewAccountType.getText()).append("\n");
+        builder.append("Nombre del dispositivo:"+deviceName.getText()).append("\n");
+        return builder.toString();
+    }
+
+
 
 }

@@ -2849,8 +2849,8 @@ public class Principal extends AppCompatActivity implements View
             case R.id.about:
                 //todo firebase analitycs
                 analitycsFirebase.customEvents("Touch","Principal","About that");
-                //Intent intent = new Intent(getApplicationContext(), AboutOttaa.class);
-                Intent intent = new Intent(Principal.this, LoginActivity2.class);
+                Intent intent = new Intent(getApplicationContext(), AboutOttaa.class);
+                //Intent intent = new Intent(Principal.this, LoginActivity2.class);
                 startActivity(intent);
                 break;
         }
