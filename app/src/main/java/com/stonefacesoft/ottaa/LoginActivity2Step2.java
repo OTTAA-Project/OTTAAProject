@@ -171,6 +171,7 @@ public class LoginActivity2Step2 extends AppCompatActivity implements View.OnCli
         preferencesUtil.applyStringValue(Constants.GENERO,userData.getGender());
         preferencesUtil.applyLongValue(Constants.FECHACUMPLE,userData.getBirthDate());
         databaseRequest.UploadUserData(userData);
+        setUserAgePrediction();
     }
 
 
@@ -278,8 +279,21 @@ public class LoginActivity2Step2 extends AppCompatActivity implements View.OnCli
         public void afterTextChanged(Editable s) {
             convert=true;
         }
+    }
 
-
+    private void setUserAgePrediction(){
+        int age=userData.getUserAge();
+        String[] ageArray=getResources().getStringArray(R.array.list_Edad_valores);
+        if(age<12){
+            preferencesUtil.applyStringValue(Constants.EDAD,ageArray[0]);
+            databaseRequest.subirEdadUsuario(ageArray[0],mAuth);
+        }else if(age>=12&&age<20){
+            preferencesUtil.applyStringValue(Constants.EDAD,ageArray[1]);
+            databaseRequest.subirEdadUsuario(ageArray[1],mAuth);
+        }else{
+            preferencesUtil.applyStringValue(Constants.EDAD,ageArray[2]);
+            databaseRequest.subirEdadUsuario(ageArray[2],mAuth);
+        }
     }
 }
 
