@@ -42,7 +42,7 @@ public class AboutOttaa extends AppCompatActivity {
 
     private static final String TAG = "AboutOTTAA";
     private String uid;
-    private TextView textViewAccount,textViewAccountType,versionServer,versionApp,deviceName;
+    private TextView textViewUserEmail,textViewAccountType,versionServer,versionApp,deviceName;
     private DatabaseReference mDatabase;
     private int versionCode;
     private Button buttonContactSupport;
@@ -67,11 +67,11 @@ public class AboutOttaa extends AppCompatActivity {
 
 
         buttonContactSupport = findViewById(R.id.buttonContactSupport);
-        textViewAccountType =findViewById(R.id.textViewAccountType);
+        textViewAccountType =findViewById(R.id.accountType);
         versionServer = findViewById(R.id.versionServer);
         versionApp= findViewById(R.id.versionApp);
         deviceName=findViewById(R.id.deviceName);
-        textViewAccount = findViewById(R.id.textViewAccount);
+        textViewUserEmail = findViewById(R.id.userEmail);
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
@@ -143,7 +143,8 @@ public class AboutOttaa extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 String userEmail = dataSnapshot.getValue(String.class);
-                textViewAccount.setText(getApplicationContext().getString(R.string.cuenta) +":"+userEmail);
+                //getApplicationContext().getString(R.string.cuenta) +":"+
+                textViewUserEmail.setText(userEmail);
             }
 
             @Override
@@ -190,7 +191,7 @@ public class AboutOttaa extends AppCompatActivity {
 
     private String prepareDataToSend(){
         StringBuilder builder=new StringBuilder();
-        builder.append("Email: "+textViewAccount.getText()).append("\n");
+        builder.append("Email: "+textViewUserEmail.getText()).append("\n");
         builder.append("Version de la aplicacion:"+versionApp.getText()).append("\n");
         builder.append("Tipo de cuenta:"+textViewAccountType.getText()).append("\n");
         builder.append("Nombre del dispositivo:"+deviceName.getText()).append("\n");
