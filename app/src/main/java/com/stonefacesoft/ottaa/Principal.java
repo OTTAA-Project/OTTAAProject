@@ -93,7 +93,6 @@ import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.Viewpagers.Viewpager_tutorial;
 import com.stonefacesoft.ottaa.idioma.ConfigurarIdioma;
 import com.stonefacesoft.ottaa.idioma.myContextWrapper;
-import com.stonefacesoft.ottaa.utils.AboutOttaa;
 import com.stonefacesoft.ottaa.utils.Accesibilidad.BarridoPantalla;
 import com.stonefacesoft.ottaa.utils.Accesibilidad.Gesture;
 import com.stonefacesoft.ottaa.utils.Accesibilidad.devices.PrincipalControls;
@@ -2849,8 +2848,8 @@ public class Principal extends AppCompatActivity implements View
             case R.id.about:
                 //todo firebase analitycs
                 analitycsFirebase.customEvents("Touch","Principal","About that");
-                Intent intent = new Intent(getApplicationContext(), AboutOttaa.class);
-                //Intent intent = new Intent(Principal.this, LoginActivity2.class);
+               // Intent intent = new Intent(getApplicationContext(), AboutOttaa.class);
+                Intent intent = new Intent(Principal.this, LoginActivity2.class);
                 startActivity(intent);
                 break;
         }

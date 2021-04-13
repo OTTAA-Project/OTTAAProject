@@ -218,7 +218,9 @@
                 android:scaleType="centerInside"
                 android:background="@color/colorTransparent"
                 app:layout_constraintDimensionRatio="1:1"
-                android:onClick="onClick"/>
+                android:onClick="onClick"
+                android:tag="avatar11"
+                />
 
             <ImageButton
                 android:layout_width="0dp"
@@ -232,7 +234,10 @@
                 android:scaleType="centerInside"
                 android:background="@color/colorTransparent"
                 app:layout_constraintDimensionRatio="1:1"
-                android:onClick="onClick" />
+                android:onClick="onClick"
+                android:tag="avatar12"
+
+                />
 
             <ImageButton
                 android:layout_width="0dp"
@@ -246,7 +251,10 @@
                 android:scaleType="centerInside"
                 android:background="@color/colorTransparent"
                 app:layout_constraintDimensionRatio="1:1"
-                android:onClick="onClick" />
+                android:onClick="onClick"
+                android:tag="avatar13"
+
+                />
 
             <ImageButton
                 android:layout_width="0dp"
@@ -260,7 +268,9 @@
                 android:scaleType="centerInside"
                 android:background="@color/colorTransparent"
                 app:layout_constraintDimensionRatio="1:1"
-                android:onClick="onClick"/>
+                android:onClick="onClick"
+                android:tag="avatar14"
+                />
 
             <ImageButton
                 android:layout_width="0dp"
@@ -274,7 +284,9 @@
                 android:scaleType="centerInside"
                 android:background="@color/colorTransparent"
                 app:layout_constraintDimensionRatio="1:1"
-                android:onClick="onClick"/>
+                android:onClick="onClick"
+                android:tag="avatar15"
+                />
 
             <ImageButton
                 android:layout_width="0dp"
@@ -288,7 +300,9 @@
                 android:scaleType="centerInside"
                 android:background="@color/colorTransparent"
                 app:layout_constraintDimensionRatio="1:1"
-                android:onClick="onClick" />
+                android:onClick="onClick"
+                android:tag="avatar21"
+                />
 
             <ImageButton
                 android:layout_width="0dp"
@@ -302,7 +316,9 @@
                 android:scaleType="centerInside"
                 android:background="@color/colorTransparent"
                 app:layout_constraintDimensionRatio="1:1"
-                android:onClick="onClick"/>
+                android:onClick="onClick"
+                android:tag="avatar22"
+                />
 
             <ImageButton
                 android:layout_width="0dp"
@@ -316,7 +332,9 @@
                 android:scaleType="centerInside"
                 android:background="@color/colorTransparent"
                 app:layout_constraintDimensionRatio="1:1"
-                android:onClick="onClick"/>
+                android:onClick="onClick"
+                android:tag="avatar23"
+                />
 
             <ImageButton
                 android:layout_width="0dp"
@@ -330,7 +348,9 @@
                 android:scaleType="centerInside"
                 android:background="@color/colorTransparent"
                 app:layout_constraintDimensionRatio="1:1"
-                android:onClick="onClick" />
+                android:onClick="onClick"
+                android:tag="avatar24"
+                />
 
             <ImageButton
                 android:layout_width="0dp"
@@ -344,7 +364,9 @@
                 android:scaleType="centerInside"
                 android:background="@color/colorTransparent"
                 app:layout_constraintDimensionRatio="1:1"
-                android:onClick="onClick"/>
+                android:onClick="onClick"
+                android:tag="avatar25"
+                />
 
             <ImageButton
                 android:layout_width="0dp"
@@ -358,7 +380,9 @@
                 android:scaleType="centerInside"
                 android:background="@color/colorTransparent"
                 app:layout_constraintDimensionRatio="1:1"
-                android:onClick="onClick"/>
+                android:onClick="onClick"
+                android:tag="avatar31"
+                />
 
             <ImageButton
                 android:layout_width="0dp"
@@ -372,7 +396,9 @@
                 android:scaleType="centerInside"
                 android:background="@color/colorTransparent"
                 app:layout_constraintDimensionRatio="1:1"
-                android:onClick="onClick"/>
+                android:onClick="onClick"
+                android:tag="avatar32"
+                />
 
             <ImageButton
                 android:layout_width="0dp"
@@ -386,7 +412,9 @@
                 android:scaleType="centerInside"
                 android:background="@color/colorTransparent"
                 app:layout_constraintDimensionRatio="1:1"
-                android:onClick="onClick"/>
+                android:onClick="onClick"
+                android:tag="avatar33"
+                />
 
             <ImageButton
                 android:layout_width="0dp"
@@ -400,7 +428,9 @@
                 android:scaleType="centerInside"
                 android:background="@color/colorTransparent"
                 app:layout_constraintDimensionRatio="1:1"
-                android:onClick="onClick" />
+                android:onClick="onClick"
+                android:tag="avatar34"
+                />
 
             <ImageButton
                 android:layout_width="0dp"
@@ -414,7 +444,9 @@
                 android:scaleType="centerInside"
                 android:background="@color/colorTransparent"
                 app:layout_constraintDimensionRatio="1:1"
-                android:onClick="onClick" />
+                android:onClick="onClick"
+                android:tag="avatar35"
+                />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
