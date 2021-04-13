@@ -108,7 +108,7 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
 
-        <androidx.cardview.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        <androidx.cardview.widget.CardView
             android:id="@+id/card_view2"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -118,11 +118,11 @@
             android:layout_marginEnd="@dimen/activity_vertical_margin"
             android:layout_marginBottom="@dimen/activity_horizontal_margin"
             android:background="@color/White"
-            card_view:cardCornerRadius="7dp"
-            card_view:layout_constraintBottom_toBottomOf="parent"
-            card_view:layout_constraintEnd_toEndOf="parent"
-            card_view:layout_constraintStart_toEndOf="@id/card_view1"
-            card_view:layout_constraintTop_toTopOf="parent">
+            app:cardCornerRadius="7dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/card_view1"
+            app:layout_constraintTop_toTopOf="parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/containerCardview"
@@ -137,11 +137,11 @@
                     android:gravity="start"
                     android:padding="10dp"
                     android:text="@string/funcion_edad"
-                    card_view:layout_constraintBottom_toTopOf="@+id/textViewEdad"
-                    card_view:layout_constraintEnd_toEndOf="parent"
-                    card_view:layout_constraintStart_toStartOf="parent"
-                    card_view:layout_constraintTop_toTopOf="parent"
-                    card_view:layout_constraintVertical_weight="2" />
+                    app:layout_constraintBottom_toTopOf="@+id/textViewEdad"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_weight="2" />
 
                 <TextView
                     android:id="@+id/TextViewPago"
@@ -152,11 +152,11 @@
                     android:gravity="start"
                     android:padding="10dp"
                     android:text="@string/pref_login"
-                    card_view:layout_constraintBottom_toTopOf="@id/sign_in_button"
-                    card_view:layout_constraintEnd_toEndOf="parent"
-                    card_view:layout_constraintStart_toStartOf="parent"
-                    card_view:layout_constraintTop_toBottomOf="@+id/radioGroupEdad"
-                    card_view:layout_constraintVertical_weight="2" />
+                    app:layout_constraintBottom_toTopOf="@id/sign_in_button"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/radioGroupEdad"
+                    app:layout_constraintVertical_weight="2" />
 
 
                 <TextView
@@ -166,11 +166,11 @@
                     android:gravity="start"
                     android:padding="10dp"
                     android:text="@string/str_seleccionar_edad_usuario"
-                    card_view:layout_constraintBottom_toTopOf="@id/radioGroupEdad"
-                    card_view:layout_constraintEnd_toEndOf="parent"
-                    card_view:layout_constraintStart_toStartOf="parent"
-                    card_view:layout_constraintTop_toBottomOf="@+id/funcion_edad"
-                    card_view:layout_constraintVertical_weight="1" />
+                    app:layout_constraintBottom_toTopOf="@id/radioGroupEdad"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/funcion_edad"
+                    app:layout_constraintVertical_weight="1" />
 
                 <RadioGroup
                     android:id="@+id/radioGroupEdad"
@@ -178,11 +178,11 @@
                     android:layout_height="0dp"
                     android:orientation="horizontal"
                     android:padding="10dp"
-                    card_view:layout_constraintBottom_toTopOf="@id/TextViewPago"
-                    card_view:layout_constraintEnd_toEndOf="parent"
-                    card_view:layout_constraintStart_toStartOf="parent"
-                    card_view:layout_constraintTop_toBottomOf="@+id/textViewEdad"
-                    card_view:layout_constraintVertical_weight="1">
+                    app:layout_constraintBottom_toTopOf="@id/TextViewPago"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textViewEdad"
+                    app:layout_constraintVertical_weight="1">
 
                     <RadioButton
                         android:id="@+id/radioButtonNino"
@@ -217,13 +217,22 @@
                     android:layout_height="0dp"
                     android:layout_margin="@dimen/regular_margin"
                     android:layout_marginBottom="16dp"
-                    card_view:colorScheme="dark"
-                    card_view:layout_constraintBottom_toBottomOf="parent"
-                    card_view:layout_constraintEnd_toStartOf="@id/login_button"
-                    card_view:layout_constraintStart_toStartOf="parent"
-                    card_view:layout_constraintTop_toBottomOf="@id/TextViewPago"
-                    card_view:layout_constraintVertical_weight="2"
-                    card_view:layout_goneMarginBottom="15dp" />
+                    app:colorScheme="dark"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/login_button"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/TextViewPago"
+                    app:layout_constraintVertical_weight="2"
+                    app:layout_goneMarginBottom="15dp" >
+
+                    <Button
+                        android:id="@+id/BotonContacto"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_marginBottom="16dp"
+                        android:text="@string/cont_ctanos"
+                        android:visibility="invisible" />
+                </com.google.android.gms.common.SignInButton>
                 <com.facebook.login.widget.LoginButton
                     android:id="@+id/login_button"
                     android:layout_width="0dp"
@@ -233,25 +242,12 @@
                     android:layout_marginEnd="16dp"
                     android:layout_marginTop="3dp"
                     android:layout_marginBottom="2dp"
-                    card_view:layout_constraintEnd_toEndOf="parent"
-                    card_view:layout_constraintStart_toEndOf="@id/sign_in_button"
-                    card_view:layout_constraintTop_toTopOf="@id/sign_in_button"
-                    card_view:layout_constraintBottom_toBottomOf="@id/sign_in_button"
-                    card_view:layout_constraintVertical_weight="2"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/sign_in_button"
+                    app:layout_constraintTop_toTopOf="@id/sign_in_button"
+                    app:layout_constraintBottom_toBottomOf="@id/sign_in_button"
+                    app:layout_constraintVertical_weight="2"
                     />
-
-                <Button
-                    android:id="@+id/BotonContacto"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_marginBottom="16dp"
-                    android:text="@string/cont_ctanos"
-                    android:visibility="invisible"
-                    card_view:layout_constraintBottom_toBottomOf="parent"
-                    card_view:layout_constraintEnd_toEndOf="parent"
-                    card_view:layout_constraintStart_toStartOf="parent"
-                    card_view:layout_constraintTop_toBottomOf="@id/TextViewPago"
-                    card_view:layout_constraintVertical_weight="1" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

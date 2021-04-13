@@ -102,16 +102,18 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toTopOf="@+id/textViewLogin2"
                 app:layout_constraintVertical_weight="1"
+                app:layout_constraintDimensionRatio="4:1"
                 android:src="@drawable/logo_ottaa"/>
 
             <TextView
                 android:layout_width="0dp"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:id="@+id/textViewLogin2"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/logoLogin"
                 app:layout_constraintBottom_toTopOf="@id/editTextName"
+                android:layout_marginTop="@dimen/small_margin"
                 app:layout_constraintVertical_weight="1"
                 android:textAlignment="center"
                 android:gravity="center"
@@ -131,13 +133,14 @@
 
             <EditText
                 android:layout_width="0dp"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:id="@+id/editTextName"
                 app:layout_constraintStart_toEndOf="@id/textViewName"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/textViewLogin2"
                 app:layout_constraintBottom_toTopOf="@+id/selectorGender"
                 app:layout_constraintVertical_weight="1"
+                android:layout_marginTop="@dimen/small_margin"
                 android:hint="Your Name"
                 android:inputType="text"
                 android:autofillHints="Your name" />
@@ -156,12 +159,13 @@
 
             <Spinner
                 android:layout_width="0dp"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:id="@+id/selectorGender"
                 app:layout_constraintStart_toEndOf="@id/textViewGender"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/editTextName"
                 app:layout_constraintBottom_toTopOf="@+id/constraintBirthDate"
+                android:layout_marginTop="@dimen/small_margin"
                 app:layout_constraintVertical_weight="1"
                 android:entries="@array/Sexo"/>
 
@@ -179,7 +183,7 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="0dp"
-                android:layout_height="0dp"
+                android:layout_height="wrap_content"
                 android:id="@+id/constraintBirthDate"
                 app:layout_constraintStart_toEndOf="@id/textViewBirthday"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -189,8 +193,11 @@
 
                 <EditText
                     android:layout_width="0dp"
-                    android:layout_height="0dp"
+                    android:layout_height="wrap_content"
                     android:id="@+id/editTextBirthday"
+                    android:hint="DD/MM/YYYY"
+                    android:inputType="date"
+                    android:importantForAutofill="no"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/buttonCalendarDialog"
@@ -211,37 +218,6 @@
                     app:layout_constraintHorizontal_weight="1"
                     android:onClick="onClick"/>
 
-                <!--                <Spinner-->
-                <!--                    android:layout_width="0dp"-->
-                <!--                    android:layout_height="0dp"-->
-                <!--                    android:id="@+id/birthDayPicker"-->
-                <!--                    android:dropDownSelector="@android:drawable/arrow_down_float"-->
-                <!--                    app:layout_constraintTop_toTopOf="parent"-->
-                <!--                    app:layout_constraintBottom_toBottomOf="parent"-->
-                <!--                    app:layout_constraintStart_toStartOf="parent"-->
-                <!--                    app:layout_constraintEnd_toStartOf="@id/birthMonthPicker"-->
-                <!--                    android:entries="@array/DayOfMonth"/>-->
-
-                <!--                <Spinner-->
-                <!--                    android:layout_width="0dp"-->
-                <!--                    android:layout_height="0dp"-->
-                <!--                    android:id="@+id/birthMonthPicker"-->
-                <!--                    android:dropDownSelector="@android:drawable/arrow_down_float"-->
-                <!--                    app:layout_constraintTop_toTopOf="parent"-->
-                <!--                    app:layout_constraintBottom_toBottomOf="parent"-->
-                <!--                    app:layout_constraintStart_toEndOf="@id/birthDayPicker"-->
-                <!--                    app:layout_constraintEnd_toStartOf="@id/birthYearPicker"-->
-                <!--                    android:entries="@array/MonthOfYear"/>-->
-
-                <!--                <Spinner-->
-                <!--                    android:layout_width="0dp"-->
-                <!--                    android:layout_height="0dp"-->
-                <!--                    android:id="@+id/birthYearPicker"-->
-                <!--                    android:dropDownSelector="@android:drawable/arrow_down_float"-->
-                <!--                    app:layout_constraintTop_toTopOf="parent"-->
-                <!--                    app:layout_constraintBottom_toBottomOf="parent"-->
-                <!--                    app:layout_constraintStart_toEndOf="@id/birthMonthPicker"-->
-                <!--                    app:layout_constraintEnd_toEndOf="parent"/>-->
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

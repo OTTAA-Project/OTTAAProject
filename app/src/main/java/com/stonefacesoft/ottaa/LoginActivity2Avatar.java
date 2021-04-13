@@ -118,6 +118,7 @@ public class LoginActivity2Avatar extends AppCompatActivity implements View.OnCl
     public void onClick(View view) {
         int id = view.getId();
         if (id == R.id.nextButton) {
+            //TODO El proceso es lento para ir a principal avisar al usuario que esta yendo a principal
             //TODO Check that the avatar is choosen, if not select a default one.
             Intent intent = new Intent(LoginActivity2Avatar.this, Principal.class);
             startActivity(intent);
@@ -129,6 +130,7 @@ public class LoginActivity2Avatar extends AppCompatActivity implements View.OnCl
             doScaleAnimation();
         }
         else if (id == R.id.buttonSourceCamera) {
+            //TODO hacer mas grande el boton editar en Tablet
             //TODO Quality is low, maybe use a different approch, also for EditPicto
             takePictureSetup();
         }

@@ -147,13 +147,13 @@ public class LoginActivity2Step2 extends AppCompatActivity implements View.OnCli
 
     private void fillUserData(){
         if (mAuth.getCurrentUser() != null){
-            //TODO get user data, birthdate and gender is quite tricky. Probably best to ask the user to insert it
             editTextName.setText(mAuth.getCurrentUser().getDisplayName());
-
+            //TODO el teclado no permite ver lo que se esta escribiendo
         }
     }
 
     public void calendarDialog(){
+        //TODO hacer que el color del calendar sea Naranja
         Calendar calendar=Calendar.getInstance();
         final Calendar cldr = Calendar.getInstance();
         int day = cldr.get(Calendar.DAY_OF_MONTH);

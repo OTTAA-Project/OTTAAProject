@@ -32,7 +32,7 @@
         android:layout_height="0dp"
         android:text="Titulo"
         android:textAlignment="center"
-        android:textSize="22sp"
+        android:textSize="30sp"
         app:layout_constraintBottom_toTopOf="@id/description"
         android:textStyle="bold"
         android:textColor="@color/White"

@@ -70,7 +70,6 @@ public class LoginActivity2Step3 extends AppCompatActivity implements View.OnCli
                 startActivity(intent2);
                 break;
             case R.id.buttonTutorial:
-                //TODO launch the current tutorial
                 Intent intent3 = new Intent(LoginActivity2Step3.this, Viewpager_tutorial.class);
                 startActivity(intent3);
                 break;

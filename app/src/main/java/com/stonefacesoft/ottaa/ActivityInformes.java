@@ -83,6 +83,7 @@ public class ActivityInformes extends AppCompatActivity implements CloudFunction
         binding();
 
         //TODO revisar si esto mata el hilo, cambiar a un metodo asyncrono
+//        TODO Poner el avatar en la foto y poner el nombre del usuario
         if (connectionDetector.isConnectedToInternet()) {
             imageInternet.setVisibility(View.INVISIBLE);
             doHTTPRequestFirst();
