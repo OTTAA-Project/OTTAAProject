@@ -101,7 +101,6 @@ public class LoginActivity2Step2 extends AppCompatActivity implements View.OnCli
         userData = new DataUser();
 
 
-        //TODO modify EditText to be more compact
         //TODO remove the keyboard when entering the screen
 
     }
@@ -140,7 +139,6 @@ public class LoginActivity2Step2 extends AppCompatActivity implements View.OnCli
                 Intent intent = new Intent(LoginActivity2Step2.this, LoginActivity2Step3.class);
                 startActivity(intent);
             }else{
-                //Todo hablar con hector para validar el texto
                 Toast.makeText(this,"Estos datos son necesarios para la prediccion",Toast.LENGTH_LONG).show();
             }
         } else if (id == R.id.backButton) {
@@ -266,8 +264,6 @@ public class LoginActivity2Step2 extends AppCompatActivity implements View.OnCli
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            //TODO check if the double press happens on a device as well.
             if (convert) {
                 if (s.toString().equals(current)) {
                     return;

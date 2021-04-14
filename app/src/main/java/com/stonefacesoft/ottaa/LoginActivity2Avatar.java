@@ -155,7 +155,6 @@ public class LoginActivity2Avatar extends AppCompatActivity implements View.OnCl
         int id = view.getId();
         if (id == R.id.nextButton) {
             //TODO El proceso es lento para ir a principal avisar al usuario que esta yendo a principal
-            //TODO Check that the avatar is choosen, if not select a default one.
             if (uploadAvatar) {
                 if (avatarId == -1) {
                     uploadFirebaseAvatar();
