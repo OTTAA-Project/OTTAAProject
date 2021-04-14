@@ -38,6 +38,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.stonefacesoft.ottaa.FirebaseRequests.FirebaseUtils;
+import com.stonefacesoft.ottaa.utils.ConnectionDetector;
 import com.stonefacesoft.ottaa.utils.Constants;
 import com.stonefacesoft.ottaa.utils.InmersiveMode;
 import com.stonefacesoft.ottaa.utils.IntentCode;
@@ -57,6 +58,28 @@ public class LoginActivity2Avatar extends AppCompatActivity implements View.OnCl
     ImageView imageViewOrangeBanner;
     ImageView imageViewThreePeople;
     ImageView imageViewAvatar;
+    private final ValueEventListener firebaseEventListener = new ValueEventListener() {
+        @Override
+        public void onDataChange(@NonNull DataSnapshot snapshot) {
+            Context mContext = LoginActivity2Avatar.this;
+            if (snapshot.hasChild("url_foto")) {
+                Log.d(TAG, "onDataChange:" + snapshot.child("url_foto").toString());
+                Glide.with(mContext).load(Uri.parse(snapshot.child("url_foto").getValue().toString())).into(imageViewAvatar);
+            } else if (snapshot.exists()) {
+                String name = snapshot.getValue().toString();
+                Log.d(TAG, "onDataChange:" + name);
+                name = name.replace("avatar", "ic_avatar");
+                setAvatarByName(mContext,name);
+            } else {
+                setAvatarByName(mContext,"ic_avatar11");
+            }
+        }
+
+        @Override
+        public void onCancelled(@NonNull DatabaseError error) {
+
+        }
+    };
     TextView textViewLoginBig;
     TextView textViewLoginSmall;
     Button buttonNext;
@@ -71,28 +94,6 @@ public class LoginActivity2Avatar extends AppCompatActivity implements View.OnCl
     private String avatarName;
     private boolean uploadAvatar;
     private DatabaseReference childDatabase;
-    private final ValueEventListener firebaseEventListener = new ValueEventListener() {
-        @Override
-        public void onDataChange(@NonNull DataSnapshot snapshot) {
-            Context mContext = LoginActivity2Avatar.this;
-            if (snapshot.hasChild("url_foto")) {
-                Log.d(TAG, "onDataChange:" + snapshot.child("url_foto").toString());
-                Glide.with(mContext).load(Uri.parse(snapshot.child("url_foto").getValue().toString())).into(imageViewAvatar);
-            } else if (snapshot.exists()) {
-                String name = snapshot.getValue().toString();
-                Log.d(TAG, "onDataChange:" + name);
-                name = name.replace("avatar", "ic_avatar");
-                Drawable drawable = mContext.getResources().getDrawable(mContext.getResources().getIdentifier(name, "drawable", mContext.getPackageName()));
-                Glide.with(mContext).load(drawable).into(imageViewAvatar);
-            }
-        }
-
-        @Override
-        public void onCancelled(@NonNull DatabaseError error) {
-
-        }
-    };
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -314,8 +315,20 @@ public class LoginActivity2Avatar extends AppCompatActivity implements View.OnCl
      * This method return the user avatar
      */
     public void getFirebaseAvatar() {
-        childDatabase = FirebaseUtils.getInstance().getmDatabase().child(Constants.AVATAR).child(mAuth.getCurrentUser().getUid());
-        childDatabase.addListenerForSingleValueEvent(firebaseEventListener);
+        ConnectionDetector connectionDetector = new ConnectionDetector(this);
+        if (connectionDetector.isConnectedToInternet()) {
+            childDatabase = FirebaseUtils.getInstance().getmDatabase().child(Constants.AVATAR).child(mAuth.getCurrentUser().getUid());
+            childDatabase.addListenerForSingleValueEvent(firebaseEventListener);
+        }else{
+            setAvatarByName(this,"ic_avatar11");
+        }
+    }
+    /**
+     * this method shows the avatar picture on the ImageViewAvatar
+     * */
+    public void setAvatarByName(Context mContext,String name){
+        Drawable drawable = mContext.getResources().getDrawable(mContext.getResources().getIdentifier(name, "drawable", mContext.getPackageName()));
+        Glide.with(mContext).load(drawable).into(imageViewAvatar);
     }
 
 

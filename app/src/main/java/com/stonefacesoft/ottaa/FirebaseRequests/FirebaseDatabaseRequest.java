@@ -45,7 +45,7 @@ public class FirebaseDatabaseRequest {
     }
 
     public void subirEdadUsuario(String edad, FirebaseAuth auth) {
-        mDatabase.child(Constants.EDADUSUARIO).child(auth.getCurrentUser().getUid()).setValue(edad);
+        mDatabase.child(Constants.EDAD.replaceFirst("e","E")).child(auth.getCurrentUser().getUid()).setValue(edad);
     }
 
     public void subirTipoUsuario(){
