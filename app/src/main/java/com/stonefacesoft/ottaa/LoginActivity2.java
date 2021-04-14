@@ -51,7 +51,7 @@ import static com.stonefacesoft.ottaa.utils.Constants.RC_SIGN_IN;
 
 //Code source https://developers.google.com/identity/sign-in/android/sign-in
 
-//merge with new design-doc
+//merge with new design-doc and new design-avatar
 public class LoginActivity2 extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = "LoginActivity";
