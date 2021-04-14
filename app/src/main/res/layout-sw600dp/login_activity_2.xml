@@ -143,7 +143,9 @@
                 android:layout_marginTop="@dimen/small_margin"
                 android:hint="Your Name"
                 android:inputType="text"
-                android:autofillHints="Your name" />
+                android:autofillHints="Your name"
+                android:imeOptions="flagNoExtractUi"
+                />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -202,7 +204,9 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/buttonCalendarDialog"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintHorizontal_weight="4"/>
+                    app:layout_constraintHorizontal_weight="4"
+
+                    />
 
                 <ImageButton
                     android:layout_width="0dp"

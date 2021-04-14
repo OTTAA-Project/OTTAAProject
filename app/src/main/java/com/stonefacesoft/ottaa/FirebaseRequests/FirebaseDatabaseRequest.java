@@ -3,6 +3,7 @@ package com.stonefacesoft.ottaa.FirebaseRequests;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.preference.PreferenceManager;
 
 import androidx.annotation.NonNull;
@@ -44,7 +45,7 @@ public class FirebaseDatabaseRequest {
     }
 
     public void subirEdadUsuario(String edad, FirebaseAuth auth) {
-        mDatabase.child(Constants.EDADUSUARIO).child(auth.getCurrentUser().getUid()).setValue(edad);
+        mDatabase.child(Constants.EDAD.replaceFirst("e","E")).child(auth.getCurrentUser().getUid()).setValue(edad);
     }
 
     public void subirTipoUsuario(){
@@ -86,6 +87,14 @@ public class FirebaseDatabaseRequest {
         mDatabase.child(Constants.USUARIOS).child(mAuth.getCurrentUser().getUid()).child(Constants.FECHACUMPLE).setValue(userData.getBirthDate());
         mDatabase.child(Constants.USUARIOS).child(mAuth.getCurrentUser().getUid()).child(Constants.GENERO).setValue(userData.getGender());
     }
+
+   public void uploadUserAvatar(String name){
+        mDatabase.child(Constants.AVATAR).child(mAuth.getCurrentUser().getUid()).child(name);
+   }
+   public void uploadUserAvatar(String name, String file){
+       mDatabase.child(Constants.AVATAR).child(mAuth.getCurrentUser().getUid()).child(name);
+       mDatabase.child(Constants.AVATAR).child(mAuth.getCurrentUser().getUid()).child(file);
+   }
 
 
 

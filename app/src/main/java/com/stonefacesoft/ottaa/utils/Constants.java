@@ -152,6 +152,7 @@ public final class Constants {
     public static final String USUARIOS = "Usuarios";
     public static final String EDADUSUARIO = "EdadUsuario";
     public static final String NOMBRE = "Nombre";
+    public static final String AVATAR = "Avatar";
     //Constants ubicacion places
 
     public static final int TYPE_AIRPORT = 2;
