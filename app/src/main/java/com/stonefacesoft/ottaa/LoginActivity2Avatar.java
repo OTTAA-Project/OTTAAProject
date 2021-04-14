@@ -71,18 +71,18 @@ public class LoginActivity2Avatar extends AppCompatActivity implements View.OnCl
     private String avatarName;
     private boolean uploadAvatar;
     private DatabaseReference childDatabase;
-    private ValueEventListener firebaseEventListener=new ValueEventListener() {
+    private final ValueEventListener firebaseEventListener = new ValueEventListener() {
         @Override
         public void onDataChange(@NonNull DataSnapshot snapshot) {
-            Context mContext=LoginActivity2Avatar.this;
-            if(snapshot.hasChild("url_foto")){
-                Log.d(TAG, "onDataChange:"+snapshot.child("url_foto").toString());
+            Context mContext = LoginActivity2Avatar.this;
+            if (snapshot.hasChild("url_foto")) {
+                Log.d(TAG, "onDataChange:" + snapshot.child("url_foto").toString());
                 Glide.with(mContext).load(Uri.parse(snapshot.child("url_foto").getValue().toString())).into(imageViewAvatar);
-            }else if(snapshot.exists()){
-                String name=snapshot.getValue().toString();
-                Log.d(TAG, "onDataChange:"+name);
-                name=name.replace("avatar","ic_avatar");
-                Drawable drawable=mContext.getResources().getDrawable(mContext.getResources().getIdentifier(name,"drawable",mContext.getPackageName()));
+            } else if (snapshot.exists()) {
+                String name = snapshot.getValue().toString();
+                Log.d(TAG, "onDataChange:" + name);
+                name = name.replace("avatar", "ic_avatar");
+                Drawable drawable = mContext.getResources().getDrawable(mContext.getResources().getIdentifier(name, "drawable", mContext.getPackageName()));
                 Glide.with(mContext).load(drawable).into(imageViewAvatar);
             }
         }
@@ -154,13 +154,13 @@ public class LoginActivity2Avatar extends AppCompatActivity implements View.OnCl
         int id = view.getId();
         if (id == R.id.nextButton) {
             //TODO Check that the avatar is choosen, if not select a default one.
-           if(uploadAvatar){
+            if (uploadAvatar) {
                 if (avatarId == -1) {
                     uploadFirebaseAvatar();
                 } else {
                     uploadFirebaseAvatarName();
                 }
-           }
+            }
             Intent intent = new Intent(LoginActivity2Avatar.this, Principal.class);
             startActivity(intent);
         } else if (id == R.id.backButton) {
@@ -179,7 +179,7 @@ public class LoginActivity2Avatar extends AppCompatActivity implements View.OnCl
             startActivityForResult(photoPickerIntent, IntentCode.PICK_IMAGE.getCode());
         } else {
             if (view instanceof ImageView) {
-                uploadAvatar=true;
+                uploadAvatar = true;
                 avatarId = id;
                 avatarName = view.getTag().toString();
                 Log.d(TAG, "onClick: " + avatarName);
@@ -199,6 +199,10 @@ public class LoginActivity2Avatar extends AppCompatActivity implements View.OnCl
     }
 
     //source https://stackoverflow.com/questions/8017374/how-to-pass-a-uri-to-an-intent
+
+    /**
+     * this method receiving a result from this activity or another
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -206,7 +210,7 @@ public class LoginActivity2Avatar extends AppCompatActivity implements View.OnCl
             Log.d(TAG, "onActivityResult: Cropped Image: ");
             Uri uri = data.getParcelableExtra("imageUri");
             avatarId = -1;
-            uploadAvatar=true;
+            uploadAvatar = true;
             Glide.with(this).load(uri)
                     .override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
                     .error(R.drawable.ic_no)
@@ -253,6 +257,9 @@ public class LoginActivity2Avatar extends AppCompatActivity implements View.OnCl
 
     }
 
+    /**
+     * this method call the camera function
+     */
     private void takePictureSetup() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
@@ -261,14 +268,14 @@ public class LoginActivity2Avatar extends AppCompatActivity implements View.OnCl
     }
 
     /**
-     * This method upload the user avatar
+     * this method upload  to  firebase the selected avatar picture
      */
     private void uploadFirebaseAvatar() {
         FirebaseUtils firebaseUtils = FirebaseUtils.getInstance();
         firebaseUtils.setmContext(this);
-        final String name = System.currentTimeMillis() +".png";
+        final String name = System.currentTimeMillis() + ".png";
         StorageReference reference = FirebaseStorage.getInstance().getReference().child("Archivos_Usuarios").child(Constants.AVATAR).child(mAuth.getCurrentUser().getUid()).child(name);
-        Bitmap bitmap=((BitmapDrawable) imageViewAvatar.getDrawable().getCurrent()).getBitmap();
+        Bitmap bitmap = ((BitmapDrawable) imageViewAvatar.getDrawable().getCurrent()).getBitmap();
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
         byte[] byteArray = stream.toByteArray();
@@ -294,18 +301,22 @@ public class LoginActivity2Avatar extends AppCompatActivity implements View.OnCl
 
     }
 
+    /**
+     * this method upload  to  firebase the selected avatar name
+     */
     private void uploadFirebaseAvatarName() {
-        FirebaseUtils utils=FirebaseUtils.getInstance();
+        FirebaseUtils utils = FirebaseUtils.getInstance();
         utils.setmContext(this);
-        utils.getInstance().getmDatabase().child(Constants.AVATAR).child(mAuth.getCurrentUser().getUid()).setValue(avatarName);
+        FirebaseUtils.getInstance().getmDatabase().child(Constants.AVATAR).child(mAuth.getCurrentUser().getUid()).setValue(avatarName);
     }
 
-    public void getFirebaseAvatar(){
-        childDatabase=FirebaseUtils.getInstance().getmDatabase().child(Constants.AVATAR).child(mAuth.getCurrentUser().getUid());
+    /**
+     * This method return the user avatar
+     */
+    public void getFirebaseAvatar() {
+        childDatabase = FirebaseUtils.getInstance().getmDatabase().child(Constants.AVATAR).child(mAuth.getCurrentUser().getUid());
         childDatabase.addListenerForSingleValueEvent(firebaseEventListener);
     }
-
-
 
 
 }
