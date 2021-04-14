@@ -30,6 +30,7 @@ public class PictureCropper extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //TODO hacer la version para sw600
         setContentView(R.layout.activity_picture_cropper);
 
         cropImageView = findViewById(R.id.cropImageView);

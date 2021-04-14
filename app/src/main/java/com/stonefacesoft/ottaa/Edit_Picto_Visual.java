@@ -229,7 +229,6 @@ public class Edit_Picto_Visual extends AppCompatActivity implements View.OnClick
         //Obtenemos el userID del usuario logueado
         mAuth = FirebaseAuth.getInstance();
 
-        //TODO GONZA chequear que esto puede tirar null, hay q agarrar el error
         uid = mAuth.getCurrentUser().getUid();
         //LLamamos a la clase subirArchivosFirebase para subir grupos, pictos y frases donde necesitemos
         uploadFile = new SubirArchivosFirebase(getApplicationContext());
@@ -1294,7 +1293,6 @@ public class Edit_Picto_Visual extends AppCompatActivity implements View.OnClick
                     return;
                 }
                 if (esGrupo) {
-                    //TODO hacer la traduccion online del picto
                     analyticsFirebase.customEvents("Pictogram", "Editar Grupos", "Add Group");
                     try {
                         mArrayListAGuardar = json.readJSONArrayFromFile(Constants.ARCHIVO_GRUPOS);

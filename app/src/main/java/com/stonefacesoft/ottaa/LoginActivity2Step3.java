@@ -2,6 +2,7 @@ package com.stonefacesoft.ottaa;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Animation;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.stonefacesoft.ottaa.Dialogos.NewDialogsOTTAA;
 import com.stonefacesoft.ottaa.Viewpagers.Viewpager_tutorial;
 import com.stonefacesoft.ottaa.utils.InmersiveMode;
 
@@ -60,25 +62,20 @@ public class LoginActivity2Step3 extends AppCompatActivity implements View.OnCli
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
-            case R.id.nextButton:
-                Intent intent = new Intent(LoginActivity2Step3.this, LoginActivity2Avatar.class);
-                startActivity(intent);
-                break;
-            case R.id.backButton:
-                Intent intent2 = new Intent(LoginActivity2Step3.this, LoginActivity2Step2.class);
-                startActivity(intent2);
-                break;
-            case R.id.buttonTutorial:
-                Intent intent3 = new Intent(LoginActivity2Step3.this, Viewpager_tutorial.class);
-                startActivity(intent3);
-                break;
-            case R.id.buttonAutoWorkshop:
-                //TODO launch a Dialog that will explain what is the Autoworkshop
-                break;
-            case R.id.buttonBookDemo:
-                //TODO launch a Dialog that will tell how to contact us or send email with contact details.
-                break;
+        int id = view.getId();
+        if (id == R.id.nextButton) {
+            Intent intent = new Intent(LoginActivity2Step3.this, LoginActivity2Avatar.class);
+            startActivity(intent);
+        } else if (id == R.id.backButton) {
+            Intent intent2 = new Intent(LoginActivity2Step3.this, LoginActivity2Step2.class);
+            startActivity(intent2);
+        } else if (id == R.id.buttonTutorial) {
+            Intent intent3 = new Intent(LoginActivity2Step3.this, Viewpager_tutorial.class);
+            startActivity(intent3);
+        } else if (id == R.id.buttonAutoWorkshop) {
+            new NewDialogsOTTAA(this).showAutoWorkshopDialog();
+        } else if (id == R.id.buttonBookDemo) {
+            new NewDialogsOTTAA(this).showBookDemoDialog();
         }
     }
 

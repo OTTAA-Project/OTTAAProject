@@ -16,7 +16,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import com.stonefacesoft.ottaa.R;
 
 /**
- * TODO: document your custom view class.
+ *
  */
 public class GameCard extends ConstraintLayout {
     TextView textViewTitle;

@@ -299,7 +299,7 @@ public class NLG {
             NLGElement Frase = nlgFactory.createSentence(FraseSocial);
             FraseSocial = realiser.realiseSentence(Frase);
         }
-//        TODO Agregar el sujeto tacito para que no falle.
+        //TODO Agregar el sujeto tacito para que no falle.
         StringFrase = realiser.realiseSentence(frase);
         Log.d(TAG, "ArmarFrase: realiser: " + StringFrase);
 

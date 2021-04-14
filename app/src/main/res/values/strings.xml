@@ -731,7 +731,6 @@
     <string name="accessthousandof">Access thousands of pictograms</string>
     <string name="talktotheworld">Talk to the world</string>
     <string name="createyourphrases">Create your phrases</string>
-    <!--    Todo ofuscar claves-->
     <string name="sip_and_puff" translatable="false">sip_and_puff</string>
     <string name="device_version">Device Version</string>
     <string name="select_device_version">select your devices version</string>

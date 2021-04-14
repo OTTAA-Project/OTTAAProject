@@ -201,7 +201,7 @@ public class DatosDeUso {
     }
 
     //este metodo devuelve la cantidad de frases hechas en un mes particular
-//    TODO Terminar esto
+
 //    public int getCantidadDeFrasesGeneradasPorSemana(int semana) {
 //        int CantDeFrases = 0;
 //

@@ -709,8 +709,6 @@ public class LoginActivity extends AppCompatActivity implements View
     }
 
 
-    ///////////////////////////  Mail Inicio  //////////////////////////////////////////////
-    //TODO CAMBIAR EL NOMBRE DE ESTE METODO !!!
 
     private void AuthListener() {
         mAuthListener = new FirebaseAuth.AuthStateListener() {

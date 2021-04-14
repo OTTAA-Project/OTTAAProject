@@ -17,7 +17,7 @@ public class DialogGameProgressInform extends DialogUtils {
     private Context mContext;
     private ScoreListItem scoreListItem;
     private Juego game;
-     //TODO recordar que el layout de este dialogo es R.layout.
+     //NOTA recordar que el layout de este dialogo es R.layout.
     public DialogGameProgressInform(Context mContext, int layout, Juego game) {
         super(mContext, layout);
         this.mContext=mContext;

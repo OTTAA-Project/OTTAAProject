@@ -73,8 +73,6 @@ public class ConnectionDetector {
         return false;
     }
 
-
-    //TODO GASTON definir el metodo de deteccion de conteccion y borrar esto
    public boolean isConnectedToInternet() {
        ConnectivityManager manager = (ConnectivityManager) m_context.getSystemService(Context.CONNECTIVITY_SERVICE);
 

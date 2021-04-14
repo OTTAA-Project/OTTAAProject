@@ -2,8 +2,11 @@ package com.stonefacesoft.ottaa.Dialogos;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
@@ -34,6 +37,7 @@ import com.stonefacesoft.ottaa.FirebaseRequests.BajarJsonFirebase;
 import com.stonefacesoft.ottaa.Interfaces.FirebaseSuccessListener;
 import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.VincularFrases;
+import com.stonefacesoft.ottaa.utils.CustomToast;
 import com.stonefacesoft.ottaa.utils.DatosDeUso;
 import com.stonefacesoft.ottaa.utils.IntentCode;
 import com.stonefacesoft.ottaa.utils.ReturnPositionItem;
@@ -45,7 +49,12 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.content.Context.CLIPBOARD_SERVICE;
+
 public class NewDialogsOTTAA implements FirebaseSuccessListener {
+
+    //TODO hacer esta clase abstracta e implementar cada dialogo NewFeature, hearth, ETC... APLICAR DISENO ORIENTADO A OBJETOS
+    private static final String TAG = "NewDialogs";
 
     private Activity mActivity;
     private GestionarBitmap mGestionarBitmap;
@@ -490,8 +499,7 @@ public class NewDialogsOTTAA implements FirebaseSuccessListener {
             try {
                 mAdapter = new FrasesFavoritasAdapter(R.layout.item_favoritos_row, mActivity, mArrayListFavoritos, dialog);
             } catch (FiveMbException e) {
-                e.printStackTrace();
-                //TODO poner algo aca
+                Log.e(TAG, "onPostExecute: ERROR"+e.getMessage());
             }
 
             if (mAdapter.getItemCount() == 0) {
@@ -590,8 +598,80 @@ public class NewDialogsOTTAA implements FirebaseSuccessListener {
 
 
 
+    //A dialog that show the user how to do the Autoworkshop
+    public void showAutoWorkshopDialog() {
+        //Init the layout
+        initDialog(R.layout.dialog_auto_workshop, false);
 
+        Button dialogButton = dialog.findViewById(R.id.btn_dialog);
+        dialogButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
 
+        });
 
+        Button emailButton = dialog.findViewById(R.id.buttonEmailLink);
+        emailButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                triggerEmail();
+            }
+
+        });
+
+        Button copyButton = dialog.findViewById(R.id.buttonCopyLink);
+        copyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                    copyToClipboard();
+            }
+        });
+        dialog.show();
+    }
+
+    //A dialog that show the user options to Book a demo
+    public void showBookDemoDialog() {
+        //Init the layout
+        initDialog(R.layout.dialog_book_demo, false);
+
+        Button dialogButton = dialog.findViewById(R.id.btn_dialog);
+        dialogButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        Button demoButton = dialog.findViewById(R.id.buttonBookDemo);
+        demoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openCalendly();
+            }
+        });
+
+        dialog.show();
+    }
+
+    private void copyToClipboard(){
+        ClipboardManager clipboard = (ClipboardManager) mActivity.getSystemService(CLIPBOARD_SERVICE);
+        ClipData clip = ClipData.newPlainText("label", "https://forms.gle/vp6EDqxq55vEB6YC9");
+        clipboard.setPrimaryClip(clip);
+        CustomToast customToast = new CustomToast(mActivity);
+        customToast.mostrarFrase("Copiado correctamente!"); //TODO extraer resource
+    }
+
+    private void triggerEmail(){
+        //TODO register user to email API and fire email.
+        CustomToast customToast = new CustomToast(mActivity);
+        customToast.mostrarFrase("Email enviado"); //TODO extraer resource
+    }
+
+    private void openCalendly(  ) {
+        Intent browse = new Intent( Intent.ACTION_VIEW , Uri.parse("https://calendly.com/ottaa-lixi/30min"));
+        mActivity.startActivity(browse);
+    }
 
 }
