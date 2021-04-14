@@ -16,10 +16,25 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="Widget.Custom.NavigationView" parent="Widget.Design.NavigationView">
-        <item name="itemIconTint">@color/NaranjaOTTAA</item>
-        <item name="itemTextColor">@color/Black</item>
-        <item name="itemBackground">@color/White</item>
+
+    <style name="MyDatePickerStyle" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorAccent">@color/NaranjaOTTAA</item>
+        <!--selected Item color-->
+        <item name="colorControlActivated">@color/NaranjaOTTAA</item>
+        <!-- Highlight item color-->
+        <item name="colorControlHighlight">@color/NaranjaOTTAA</item>
+        <!--Calender Background color -->
+        <item name="android:background">@color/colorTransparent</item>
+        <!-- Ok Cancel Color-->
+        <item name="android:textColor">@color/NaranjaOTTAA</item>
+        <!-- Week TextColor-->
+        <item name="android:textColorSecondary">#E91E63</item>
+        <!-- Calender Number color arrow color (< >) -->
+        <item name="android:textColorPrimary">#3F51B5</item>
+        <!--day , month-->
+        <item name="android:textColorPrimaryInverse">@color/White</item>
+        <!-- year-->
+        <item name="android:textColorSecondaryInverse">@color/White</item>
     </style>
 
 </resources>
