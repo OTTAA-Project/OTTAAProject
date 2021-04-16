@@ -38,9 +38,7 @@
         android:supportsRtl="true"
         android:theme="@style/CustomActionBarTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".PictureCropper"></activity>
-        <activity android:name=".LoginActivity2Avatar" />
-        <activity android:name=".LoginActivity2Step3" />
+
         <activity
             android:name=".ActivityInformes"
             android:label="@string/title_activity_informes"
@@ -194,6 +192,9 @@
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_login"
             android:screenOrientation="sensorLandscape" />
+        <activity android:name=".PictureCropper" android:screenOrientation="sensorLandscape"></activity>
+        <activity android:name=".LoginActivity2Avatar" android:screenOrientation="sensorLandscape" />
+        <activity android:name=".LoginActivity2Step3" android:screenOrientation="sensorLandscape" />
 
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"

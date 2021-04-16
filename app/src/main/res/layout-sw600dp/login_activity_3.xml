@@ -37,7 +37,7 @@
             app:layout_constraintVertical_weight="2"
             android:layout_marginStart="@dimen/medium_margin"
             android:layout_marginTop="@dimen/medium_margin"
-            android:text="OTTAA es una potente \nherramienta de comunicación."
+            android:text="@string/ottaa_es_una_potente_nherramienta_de_comunicaci_n"
             android:gravity="bottom"
             android:textColor="@color/White"
             android:textSize="25sp"
@@ -54,7 +54,7 @@
             app:layout_constraintVertical_weight="1"
             android:layout_marginStart="@dimen/medium_margin"
             android:layout_marginTop="@dimen/small_margin"
-            android:text="Te ofrecemos varias opciones para \naprender a utilizarla y sacarle el maximo provecho."
+            android:text="@string/te_ofrecemos_varias_opciones_para_naprender_a_utilizarla_y_sacarle_el_maximo_provecho"
             android:textColor="@color/White"
             android:textSize="15sp"/>
 
@@ -115,13 +115,13 @@
                 app:layout_constraintVertical_weight="1"
                 android:textAlignment="center"
                 android:gravity="center"
-                android:text="Select now how you would like to learn how to use OTTAA, you can go back to this screen later on."/>
+                android:text="@string/select_now_how_you_would_like_to_learn_how_to_use_ottaa_you_can_go_back_to_this_screen_later_on"/>
 
             <Button
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:id="@+id/buttonTutorial"
-                android:text="Launch short tutorial"
+                android:text="@string/launch_short_tutorial"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/textViewLogin2"
@@ -138,7 +138,7 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:id="@+id/buttonAutoWorkshop"
-                android:text="Do a guided workshop"
+                android:text="@string/do_a_guided_workshop"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/buttonTutorial"
@@ -154,7 +154,7 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:id="@+id/buttonBookDemo"
-                android:text="Book a demo"
+                android:text="@string/book_a_demo"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/buttonAutoWorkshop"
@@ -191,7 +191,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginEnd="@dimen/medium_margin"
-            android:text="Back"
+            android:text="@string/back"
             android:textColor="@color/Gray"
             android:background="@drawable/dialog_round_shape_orange"
             android:backgroundTint="@color/quantum_grey200"/>
@@ -205,7 +205,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginStart="@dimen/medium_margin"
-            android:text="Next"
+            android:text="@string/next"
             android:textColor="@color/White"
             android:background="@drawable/dialog_round_shape_orange"/>
 

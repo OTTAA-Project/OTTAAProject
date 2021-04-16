@@ -494,5 +494,30 @@
     <string name="favorite_phrases">Frases Favoritas</string>
     <string name="memory_game">Juego De Memoria</string>
     <string name="memory_game_string">Prueba tu memoria</string>
+    <string name="vamos_a_pedirte_cierta_informaci_n_para_nmejorar_tu_experiencia_con_ottaa">Vamos a pedirte cierta información para <br /> mejorar tu experiencia con OTTAA</string>
+    <string name="hola_nnos_conozcamos_un_poco">Hola, <br />Nos conozcamos un poco</string>
+    <string name="give_me_the_link">¡Dame el enlace!</string>
+    <string name="email_me">Envíame un email</string>
+    <string name="con_videos_explicativos_n_con_6_modulos_especializados_n_autonomo_y_a_tu_ritmo_n_es_totalmente_gratuito_n_40_minutos_de_duracion">○ Con Videos Explicativos <br /> ○ Con 6 modulos especializados <br /> ○ Autonomo y a tu ritmo <br /> ○ Es Totalmente gratuito <br /> ○ 40 minutos de duracion</string>
+    <string name="nuestro_workshop_gratiuto_te_permite_aprender_a_usar_ottaa">Nuestro workshop gratuito te permite aprender a usar OTTAA</string>
+    <string name="back">Volver</string>
+    <string name="next">Siguiente</string>
+    <string name="choose_your_avatar">Elige tu avatar</string>
+    <string name="elige_un_personaje_que_nmejor_te_represente">Elige un personaje que  mejor te represente.</string>
+    <string name="por_ltimo">Por Ultimo</string>
+    <string name="book_a_demo">Reservar una demo</string>
+    <string name="do_a_guided_workshop">Hacer un taller guiado</string>
+    <string name="launch_short_tutorial">Lanzar un breve tutorial</string>
+    <string name="select_now_how_you_would_like_to_learn_how_to_use_ottaa_you_can_go_back_to_this_screen_later_on">Seleccione ahora cómo desea aprender a utilizar  OTTAA, puede volver a esta pantalla más adelante.</string>
+    <string name="te_ofrecemos_varias_opciones_para_naprender_a_utilizarla_y_sacarle_el_maximo_provecho">Te ofrecemos varias opciones para <br />aprender a utilizarla y sacarle el maximo provecho.</string>
+    <string name="ottaa_es_una_potente_nherramienta_de_comunicaci_n">OTTAA es una potente <br />herramienta de comunicación.</string>
+    <string name="we_are_helping_thousand_of_speech_impaired_children_to_communicate_improving_their_life_quality">Ayudamos a miles de niños con problemas de habla a comunicarse, mejorando su calidad de vida</string>
+    <string name="bienvenido_nesto_es_ottaa">Bienvenido, <br />esto es OTTAA</string>
+    <string name="hello_nplease_register_to_continue">Hola! <br /> Por favor Registrese para continuar</string>
+    <string name="fecha_de_nacimiento">Fecha de nacimiento</string>
+    <string name="your_name">Su Nombre</string>
+    <string name="text_gender">Genero :</string>
+    <string name="text_name">Nombre</string>
+    <string name="check_if_the_info_is_correct_nif_not_change_it_as_you_wish_this_will_help_us_to_personalize_the_app_for_you">Comprueba si la información es correcta,<br />si no, cámbiala como quieras. Esto nos ayudará a personalizar la aplicación para ti.</string>
 
 </resources>

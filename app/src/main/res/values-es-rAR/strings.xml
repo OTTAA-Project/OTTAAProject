@@ -481,5 +481,8 @@
     <string name="favorite_phrases">Frases Favoritas</string>
     <string name="memory_game">Juego de memoria</string>
     <string name="memory_game_string">Prueba tu memoria</string>
+    <string name="hola_nnos_conozcamos_un_poco">Hola, <br />Nos conozcamos un poco</string>
+    <string name="give_me_the_link">¡Dame el enlace!</string>
+    <string name="email_me">Envíame un email</string>
 
 </resources>

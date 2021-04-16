@@ -48,7 +48,7 @@
                 android:gravity="center"
                 app:layout_constraintVertical_weight="1"
                 android:textSize="20sp"
-                android:text="Hello! \nPlease register to continue"/>
+                android:text="@string/hello_nplease_register_to_continue"/>
 
             <com.google.android.gms.common.SignInButton
                 android:layout_width="wrap_content"
@@ -118,7 +118,7 @@
             app:layout_constraintBottom_toTopOf="@id/textLoginSmall"
             android:layout_marginStart="@dimen/medium_margin"
             android:layout_marginTop="@dimen/medium_margin"
-            android:text="Bienvenido, \nesto es OTTAA"
+            android:text="@string/bienvenido_nesto_es_ottaa"
             android:gravity="bottom"
             android:textColor="@color/White"
             android:textSize="25sp"
@@ -134,7 +134,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginStart="@dimen/medium_margin"
             android:layout_marginTop="@dimen/small_margin"
-            android:text="We are helping thousand of speech impaired children to communicate, improving their life quality"
+            android:text="@string/we_are_helping_thousand_of_speech_impaired_children_to_communicate_improving_their_life_quality"
             android:textColor="@color/White"
             android:textSize="15sp"/>
 
