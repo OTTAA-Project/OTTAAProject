@@ -165,7 +165,7 @@ public class SelectFavoritePhrasesAdapter extends RecyclerView.Adapter<SelectFav
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            glideAttatcher.loadCircleDrawable(gestionarBitmap.getBitmapDeFrase(mHolder.phrase),mHolder.img);
+            glideAttatcher.UseCornerRadius(true).loadDrawable(gestionarBitmap.getBitmapDeFrase(mHolder.phrase),mHolder.img);
             boolean isExist=phrases.isExist(mHolder.phrase);
             if(isExist)
                 mHolder.img.setBackground(mContext.getResources().getDrawable(R.drawable.picto_shape_select));

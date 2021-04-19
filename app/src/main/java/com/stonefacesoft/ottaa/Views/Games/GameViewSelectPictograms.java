@@ -2,6 +2,7 @@ package com.stonefacesoft.ottaa.Views.Games;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.ColorFilter;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -24,6 +25,7 @@ import android.widget.ImageView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.graphics.drawable.DrawableCompat;
 
 import com.stonefacesoft.ottaa.Interfaces.Make_Click_At_Time;
 import com.stonefacesoft.ottaa.JSONutils.Json;
@@ -37,6 +39,7 @@ import com.stonefacesoft.ottaa.utils.Firebase.AnalyticsFirebase;
 import com.stonefacesoft.ottaa.utils.Games.AnimGameScore;
 import com.stonefacesoft.ottaa.utils.Games.Juego;
 import com.stonefacesoft.ottaa.utils.Ttsutils.UtilsTTS;
+import com.stonefacesoft.pictogramslibrary.utils.GlideAttatcher;
 import com.stonefacesoft.pictogramslibrary.view.PictoView;
 
 import org.json.JSONArray;
@@ -740,7 +743,8 @@ public class GameViewSelectPictograms extends AppCompatActivity implements View.
         return barridoPantalla;
     }
     protected void setGuessDrawable(PictoView view){
-        view.setCustom_Img(getDrawable(R.drawable.ic_help_outline_black_24dp));
+        Drawable drawable=getDrawable(R.drawable.ic_help_outline_black_24dp);
+        new GlideAttatcher(this).setScale(4).UseCornerRadius(true).loadDrawable(drawable,view.getImageView());
     }
 
     protected void setVisibleText(PictoView view){

@@ -2865,14 +2865,14 @@ public class Principal extends AppCompatActivity implements View
     }
     public  void loadDrawable(GlideAttatcher attatcher, Pictogram pictogram, ImageView imageView){
         if(pictogram.getEditedPictogram().isEmpty()){
-            attatcher.loadCircleDrawable(this.getResources().getDrawable(this.getContext().getResources().getIdentifier(pictogram.getPictogram(),
+            attatcher.UseCornerRadius(true).loadDrawable(this.getResources().getDrawable(this.getContext().getResources().getIdentifier(pictogram.getPictogram(),
                     "drawable", this.getPackageName())),imageView);
         }else{
             File picto=new File(pictogram.getEditedPictogram());
             if(picto.exists())
-                attatcher.loadCircleDrawable(picto,imageView);
+                attatcher.UseCornerRadius(true).loadDrawable(picto,imageView);
             else
-                attatcher.loadCircleDrawable(Uri.parse(pictogram.getUrl()),imageView);
+                attatcher.UseCornerRadius(true).loadDrawable(Uri.parse(pictogram.getUrl()),imageView);
         }
     }
 }

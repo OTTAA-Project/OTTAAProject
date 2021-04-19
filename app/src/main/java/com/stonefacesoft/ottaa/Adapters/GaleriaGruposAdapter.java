@@ -228,15 +228,15 @@ public class GaleriaGruposAdapter extends RecyclerView.Adapter<GaleriaGruposAdap
                 Log.d(TAG, "loadDrawable: "+ picto.toString());
                Drawable drawable=json.getIcono(picto);
                 if(drawable!=null)
-                    attatcher.loadCircleDrawable(drawable,imageView);
+                    attatcher.UseCornerRadius(true).loadDrawable(drawable,imageView);
                 else
-                    attatcher.loadCircleDrawable(mContext.getResources().getDrawable(R.drawable.ic_cloud_download_orange),imageView);
+                    attatcher.UseCornerRadius(true).loadDrawable(mContext.getResources().getDrawable(R.drawable.ic_cloud_download_orange),imageView);
             }else{
                 File picto=new File(pictogram.getEditedPictogram());
                 if(picto.exists())
-                    attatcher.loadCircleDrawable(picto,imageView);
+                    attatcher.UseCornerRadius(true).loadDrawable(picto,imageView);
                 else
-                    attatcher.loadCircleDrawable(Uri.parse(pictogram.getUrl()),imageView);
+                    attatcher.UseCornerRadius(true).loadDrawable(Uri.parse(pictogram.getUrl()),imageView);
             }
     }
 
