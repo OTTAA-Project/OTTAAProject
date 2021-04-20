@@ -58,7 +58,7 @@ public class CustomFavoritePhrasesAdapter extends RecyclerView.Adapter<CustomFav
             JSONObject phrase=favoritesPhrases.getJSONObject(position);
 
             holder.phrase=phrase;
-            glideAttatcher.loadCircleDrawable(gestionarBitmap.getBitmapDeFrase(phrase),holder.img);
+            glideAttatcher.UseCornerRadius(true).loadDrawable(gestionarBitmap.getBitmapDeFrase(phrase),holder.img);
             holder.img.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

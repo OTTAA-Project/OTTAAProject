@@ -6,10 +6,13 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.provider.Browser;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInApi;
@@ -24,42 +27,34 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.stonefacesoft.ottaa.Adapters.LicenciaExpiradaAdapter;
-import com.stonefacesoft.ottaa.utils.CustomToast;
 import com.stonefacesoft.ottaa.utils.preferences.User;
 
 import java.util.Timer;
 import java.util.TimerTask;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.viewpager.widget.ViewPager;
 /**
  * @author Hector Costa
- *
- * */
+ */
 
 public class LicenciaExpirada extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
 
-    private TextView mEndDateTxtView,mSignOutButton;
-    private GoogleApiClient mGoogleApiClient;
-    public GoogleSignInApi mGoogleSignInClient;
-    private TextView mFrasesTxt;
     public static String STR_LOGOUT;
-
-    private long Actual;
-    private User loginGoogle;
-
+    public GoogleSignInApi mGoogleSignInClient;
     ViewPager viewPager;
-    int images[] =new int[]{R.drawable.licencia_accesibilidad, R.drawable.licencia_games, R.drawable.licencia_informe, R
+    int[] images = new int[]{R.drawable.licencia_accesibilidad, R.drawable.licencia_games, R.drawable.licencia_informe, R
             .drawable.licencia_ubicacion};
-    int textos[] = new int[]{R.string.obtain_ottaa_project,
+    int[] textos = new int[]{R.string.obtain_ottaa_project,
             R.string.test_game_vocabulary,
             R.string.premium_report_description
-            ,R.string.location_text};
-
+            , R.string.location_text};
     LicenciaExpiradaAdapter licenciaExpiradaAdapter;
     int funcion = 0;
     Timer timer;
+    private TextView mEndDateTxtView, mSignOutButton;
+    private GoogleApiClient mGoogleApiClient;
+    private TextView mFrasesTxt;
+    private long Actual;
+    private User loginGoogle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,7 +67,7 @@ public class LicenciaExpirada extends AppCompatActivity implements SharedPrefere
 
         viewPager = findViewById(R.id.viewPagerLicenciaExpirada);
 
-        licenciaExpiradaAdapter = new LicenciaExpiradaAdapter (LicenciaExpirada.this, images, textos);
+        licenciaExpiradaAdapter = new LicenciaExpiradaAdapter(LicenciaExpirada.this, images, textos);
         viewPager.setAdapter(licenciaExpiradaAdapter);
 
         pageSwitcher(5);
@@ -82,7 +77,7 @@ public class LicenciaExpirada extends AppCompatActivity implements SharedPrefere
         Button mLicenciaBtn = findViewById(R.id.btnLicencia);
         Button mLoginActivityBtn = findViewById(R.id.btnLoginActivity);
 
-        mSignOutButton= findViewById(R.id.mSignOutBtn);
+        mSignOutButton = findViewById(R.id.mSignOutBtn);
         mSignOutButton.setClickable(true);
         mSignOutButton.setEnabled(false);
         mSignOutButton.setOnClickListener(new View.OnClickListener() {
@@ -111,7 +106,7 @@ public class LicenciaExpirada extends AppCompatActivity implements SharedPrefere
                 .build();
 
         mGoogleApiClient = new GoogleApiClient.Builder(getApplicationContext())
-                .addApi(Auth.GOOGLE_SIGN_IN_API,gso)
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
 
 
@@ -125,7 +120,6 @@ public class LicenciaExpirada extends AppCompatActivity implements SharedPrefere
                 finish();
 
 
-
             }
         });
         mLicenciaBtn.setOnClickListener(new View.OnClickListener() {
@@ -133,15 +127,11 @@ public class LicenciaExpirada extends AppCompatActivity implements SharedPrefere
             public void onClick(View v) {
                 // Intent mainIntent = new Intent().setClass(LicenciaExpirada.this, CheckoutExampleActivity.class);
                 //startActivity(mainIntent);
-               try{
-                   String url = "https://www.mercadopago.com/mla/checkout/start?pref_id=15410477-026f44d9-c8e5-4d28-9e30-d34e375b470b";
-                   Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-                   intent.putExtra(Browser.EXTRA_APPLICATION_ID, getApplicationContext().getPackageName());
-                   getApplicationContext().startActivity(intent);
-               }catch (Exception ex){
-                   CustomToast toast=new CustomToast(getApplicationContext());
-                   toast.mostrarFrase("Por favor habilite un navegador");
-               }
+                String url = "https://www.mercadopago.com/mla/debits/new?preapproval_plan_id=2c93808476d74ecd0176dcef1d880e11";
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                // Note the Chooser below. If no applications match,
+                // Android displays a system message.So here there is no need for try-catch.
+                startActivity(Intent.createChooser(intent, "Browse with"));
             }
         });
 
@@ -192,9 +182,9 @@ public class LicenciaExpirada extends AppCompatActivity implements SharedPrefere
     @Override
     public void onSharedPreferenceChanged(SharedPreferences prefs, String s) {
 
-        if (STR_LOGOUT.equals(s)){
-         //   Log.e("BotonSignOutLicencia","pref else if: "+ prefs.getBoolean(s,false));
-            mSignOutButton.setEnabled(prefs.getBoolean(s,false));
+        if (STR_LOGOUT.equals(s)) {
+            //   Log.e("BotonSignOutLicencia","pref else if: "+ prefs.getBoolean(s,false));
+            mSignOutButton.setEnabled(prefs.getBoolean(s, false));
         }
 
     }
