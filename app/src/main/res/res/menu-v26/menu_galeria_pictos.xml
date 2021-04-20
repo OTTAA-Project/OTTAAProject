@@ -6,7 +6,6 @@
         android:orderInCategory="100" app:showAsAction="never" />
 
 
-    <!--TODO GONZA extraer el resource y traducirTexto-->
     <item android:id="@+id/nuevo"
           android:icon="@drawable/zic_add_circle_outline_white_24dp"
           android:title="Agregar Nuevo"

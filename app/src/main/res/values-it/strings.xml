@@ -435,4 +435,27 @@
     <string name="favorite_phrases">Frasi preferite</string>
     <string name="memory_game">Gioco di memoria</string>
     <string name="memory_game_string">Metti alla prova la tua memoria</string>
+    <string name="vamos_a_pedirte_cierta_informaci_n_para_nmejorar_tu_experiencia_con_ottaa">Le chiederemo alcune informazioni per migliorare la sua esperienza con OTTAA.</string>
+    <string name="hola_nnos_conozcamos_un_poco">Ciao, <br />Conosciamoci un po\'.</string>
+    <string name="give_me_the_link">Mi dia il link!</string>
+    <string name="email_me">Mandami un\'e-mail</string>
+    <string name="con_videos_explicativos_n_con_6_modulos_especializados_n_autonomo_y_a_tu_ritmo_n_es_totalmente_gratuito_n_40_minutos_de_duracion">○ Con video esplicativi <br /> ○ Con 6 moduli specializzati <br /> ○ Autonomi e al proprio ritmo <br /> ○ Completamente gratuiti <br /> ○ Di 40 minuti</string>
+    <string name="nuestro_workshop_gratiuto_te_permite_aprender_a_usar_ottaa">Il nostro workshop gratuito ti permette di imparare come usare OTTAA</string>
+    <string name="choose_your_avatar">Scegli il tuo avatar</string>
+    <string name="elige_un_personaje_que_nmejor_te_represente">Scegli un personaggio che ti rappresenta meglio, .</string>
+    <string name="por_ltimo">Finalmente!</string>
+    <string name="book_a_demo">Prenota un demo</string>
+    <string name="do_a_guided_workshop">Fare un workshop guidato</string>
+    <string name="launch_short_tutorial">Avviare un breve tutorial</string>
+    <string name="select_now_how_you_would_like_to_learn_how_to_use_ottaa_you_can_go_back_to_this_screen_later_on">Selezioni ora come vuole imparare ad usare OTTAA, può tornare a questa schermata in seguito.</string>
+    <string name="te_ofrecemos_varias_opciones_para_naprender_a_utilizarla_y_sacarle_el_maximo_provecho">Vi offriamo diverse opzioni per <br />imparare ad usarlo e ottenere il massimo da esso.</string>
+    <string name="ottaa_es_una_potente_nherramienta_de_comunicaci_n">OTTAA è un potente strumento di <br />comunicazione.</string>
+    <string name="we_are_helping_thousand_of_speech_impaired_children_to_communicate_improving_their_life_quality">Stiamo aiutando migliaia di bambini con problemi di linguaggio a comunicare, migliorando la qualità della loro vita</string>
+    <string name="bienvenido_nesto_es_ottaa">Benvenuto, <br />questo è OTTAA</string>
+    <string name="hello_nplease_register_to_continue">Ciao! <br />Si prega di registrarsi per continuare</string>
+    <string name="fecha_de_nacimiento">Data di nascita:</string>
+    <string name="your_name">Il tuo nome</string>
+    <string name="text_gender">Genere:</string>
+    <string name="text_name">Nome</string>
+    <string name="check_if_the_info_is_correct_nif_not_change_it_as_you_wish_this_will_help_us_to_personalize_the_app_for_you">Controlla se le informazioni sono corrette,<br />se no, cambiale come vuoi. Questo ci aiuterà a personalizzare l\'app per te.</string>
 </resources>

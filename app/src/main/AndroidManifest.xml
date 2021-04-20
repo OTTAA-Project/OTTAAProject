@@ -38,16 +38,20 @@
         android:supportsRtl="true"
         android:theme="@style/CustomActionBarTheme"
         android:usesCleartextTraffic="true">
+
         <activity
             android:name=".ActivityInformes"
             android:label="@string/title_activity_informes"
             android:theme="@style/CustomActionBarTheme.NoActionBar" />
 
-        <uses-library android:name="android.test.runner"
+        <uses-library
+            android:name="android.test.runner"
             android:required="false" />
-        <uses-library android:name="android.test.base"
+        <uses-library
+            android:name="android.test.base"
             android:required="false" />
-        <uses-library android:name="android.test.mock"
+        <uses-library
+            android:name="android.test.mock"
             android:required="false" />
 
         <meta-data
@@ -79,7 +83,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <!--
      Set custom default icon. This is used when no icon is set for incoming notification messages.
      See README(https://goo.gl/l4GJaQ) for more.
@@ -141,7 +144,6 @@
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_licencia_expirada"
             android:screenOrientation="sensorLandscape" />
-
         <activity
             android:name=".GaleriaGrupos2"
             android:configChanges="orientation|keyboardHidden|screenSize"
@@ -176,12 +178,24 @@
             android:name=".Games.MemoryGame"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="sensorLandscape" />
-
         <activity
             android:name=".VincularFrases"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:screenOrientation="sensorLandscape"
-            />
+            android:screenOrientation="sensorLandscape" />
+        <activity
+            android:name=".LoginActivity2"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_login"
+            android:screenOrientation="sensorLandscape" />
+        <activity
+            android:name=".LoginActivity2Step2"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_login"
+            android:screenOrientation="sensorLandscape" />
+        <activity android:name=".PictureCropper" android:screenOrientation="sensorLandscape"></activity>
+        <activity android:name=".LoginActivity2Avatar" android:screenOrientation="sensorLandscape" />
+        <activity android:name=".LoginActivity2Step3" android:screenOrientation="sensorLandscape" />
+
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@drawable/logo_ottaa_dev" /> <!-- GEOFE -->

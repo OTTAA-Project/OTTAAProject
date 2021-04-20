@@ -246,7 +246,6 @@
             tools:exampleDrawable="@drawable/ic_cuales_1"
             tools:exampleString="Titulo 1" />
 
-        <!--        TODO para hcer commit and push-->
 
     </androidx.cardview.widget.CardView>
 

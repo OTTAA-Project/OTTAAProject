@@ -95,7 +95,6 @@
                     card_view:layout_constraintTop_toBottomOf="@id/Cuenta"
                     card_view:layout_constraintBottom_toTopOf="@id/version"/>
 
-                <!--TODO GONZA Sacar el hardecode y traducirTexto-->
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="0dp"

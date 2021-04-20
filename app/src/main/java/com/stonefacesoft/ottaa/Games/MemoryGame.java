@@ -28,8 +28,6 @@ public class MemoryGame extends GameViewSelectPictograms {
     private String history[]=new String[4];
 
 
-
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,7 +43,7 @@ public class MemoryGame extends GameViewSelectPictograms {
         if(!numeros.contains(value)) {
             numeros.add(value);
             try {
-                JSONObject object=hijos.getJSONObject(value);
+                JSONObject object = hijos.getJSONObject(value);
                 pictogramas[pos] = hijos.getJSONObject(value);
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -64,8 +62,8 @@ public class MemoryGame extends GameViewSelectPictograms {
         selectRandomPictogram(3);
     }
 
-        protected void cargarOpcion(int pos){
-        switch (pos){
+    protected void cargarOpcion(int pos) {
+        switch (pos) {
             case 0:
                 opcion1.setCustom_Img(json.getIcono(pictogramas[0]));
                 opcion1.setCustom_Texto(json.getNombre(pictogramas[0]));
@@ -93,7 +91,7 @@ public class MemoryGame extends GameViewSelectPictograms {
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.Option1:
 
                 setOption(opcion1,0,0);
@@ -148,9 +146,9 @@ public class MemoryGame extends GameViewSelectPictograms {
                 //hacerClickOpcion(false);
                 break;
             case R.id.action_parar:
-                mute=!mute;
+                mute = !mute;
                 music.setMuted(mute);
-                sharedPrefsDefault.edit().putBoolean("muteSound",mute).apply();
+                sharedPrefsDefault.edit().putBoolean("muteSound", mute).apply();
 //                    if(mute)
 //                        sound_on_off.setImageDrawable(getResources().getDrawable(R.drawable.ic_volume_off_white_24dp));
 //                    else
@@ -164,9 +162,10 @@ public class MemoryGame extends GameViewSelectPictograms {
     protected void animarPictoGanador(PictoView from, PictoView to) {
 
     }
-    protected void hacerClickOpcion(boolean esPicto){
-        if(isChecked)
-            handlerHablar.postDelayed(animarHablar,1000);
+
+    protected void hacerClickOpcion(boolean esPicto) {
+        if (isChecked)
+            handlerHablar.postDelayed(animarHablar, 1000);
 
     }
 
@@ -187,8 +186,8 @@ public class MemoryGame extends GameViewSelectPictograms {
                 setIcon(item, mute, R.drawable.ic_volume_off_white_24dp, R.drawable.ic_volume_up_white_24dp);
                 return true;
             case R.id.check:
-                analyticsFirebase.customEvents("Touch","Match Pictograms","Help Action");
-                isChecked=!isChecked;
+                analyticsFirebase.customEvents("Touch", "Memory Game", "Help Action");
+                isChecked = !isChecked;
                 sharedPrefsDefault.edit().putBoolean(getString(R.string.str_pistas), isChecked).apply();
                 setIcon(mMenu.getItem(1), isChecked, R.drawable.ic_live_help_white_24dp, R.drawable.ic_unhelp);
                 if (isChecked) {
@@ -221,8 +220,8 @@ public class MemoryGame extends GameViewSelectPictograms {
         return false;
     }
 
-    public void resetMatrix(){
-        for (int i = 0; i < 2 ; i++) {
+    public void resetMatrix() {
+        for (int i = 0; i < 2; i++) {
             for (int j = 0; j < 4; j++) {
                 matrixIdPictogram[i][j]=-1;
             }
@@ -235,9 +234,9 @@ public class MemoryGame extends GameViewSelectPictograms {
         }
     }
 
-    public void resetHistory(){
-        for (int i = 0; i <history.length ; i++) {
-            history[i]="";
+    public void resetHistory() {
+        for (int i = 0; i < history.length; i++) {
+            history[i] = "";
         }
     }
 /**

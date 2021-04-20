@@ -29,16 +29,16 @@ public class Viewpager_tutorial extends AppCompatActivity {
     private static FloatingActionButton floatingActionButton;
 
 
-    //TODO eliminar el floating button
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.tutorialview);
         viewPager = findViewById(R.id.viewpager);
-        setImageDescriptions(0, R.drawable.tutorial01,getResources().getString(R.string.tutorial01), getResources().getString(R.string.createyourphrases),R.color.tuto_color1);
-        setImageDescriptions(1, R.drawable.tutorial02, getResources().getString(R.string.tutorial02), getResources().getString(R.string.talktotheworld),R.color.tuto_color2);
-        setImageDescriptions(2, R.drawable.tutorial03,  getResources().getString(R.string.tutorial03),getResources().getString(R.string.accessthousandof) ,R.color.tuto_color3);
-        setImageDescriptions(3, R.drawable.tutorial04,  getResources().getString(R.string.tutorial04), getResources().getString(R.string.playandlearn),R.color.tuto_color4);
+        //TODO hay dos colores color del titulo y color del texto
+        setImageDescriptions(0, R.drawable.ic_tuto1,getResources().getString(R.string.tutorial01), getResources().getString(R.string.createyourphrases),R.color.NaranjaOTTAA,R.color.White);
+        setImageDescriptions(1, R.drawable.ic_tuto2, getResources().getString(R.string.tutorial02), getResources().getString(R.string.talktotheworld),R.color.quantum_grey300,R.color.quantum_yellow);
+        setImageDescriptions(2, R.drawable.ic_tuto3,  getResources().getString(R.string.tutorial03),getResources().getString(R.string.accessthousandof) ,R.color.NaranjaOTTAA,R.color.colorDarkGray);
+        setImageDescriptions(3, R.drawable.ic_tuto4,  getResources().getString(R.string.tutorial04), getResources().getString(R.string.playandlearn),R.color.quantum_grey300,R.color.holo_green_dark);
         pagerAdapter = new Viewpager_tutorial.ScreenSlidePagerAdapter(this);
         floatingActionButton=findViewById(R.id.exit);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
@@ -128,6 +128,7 @@ public class Viewpager_tutorial extends AppCompatActivity {
             backgroundColor.setBackgroundColor(view.getResources().getColor(imageDescriptions[position].getColor()));
             textView.setText(imageDescriptions[position].getDescription());
             title.setText(imageDescriptions[position].getTitle());
+            textView.setTextColor(imageDescriptions[position].getTextColor());
             view.setOnClickListener(this);
             next.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -176,8 +177,8 @@ public class Viewpager_tutorial extends AppCompatActivity {
             super.onDestroyView();
         }
     }
-    public void setImageDescriptions(int position,int id,String description,String title,int color){
-        imageDescriptions[position]=new Custom_ImageDescription(this,title,description,id,color);
+    public void setImageDescriptions(int position,int id,String description,String title,int color,int textColot){
+        imageDescriptions[position]=new Custom_ImageDescription(this,title,description,id,color,textColot);
     }
 
     public  void finishActivity(){

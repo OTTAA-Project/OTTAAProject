@@ -1,0 +1,141 @@
+
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="@dimen/sizeDialogWidth"
+    android:layout_height="@dimen/sizeDialogHeigth"
+    android:orientation="vertical"
+    android:background="@color/colorWhite"
+    android:layout_margin="@dimen/activity_vertical_margin"
+    app:cardCornerRadius="25dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorTransparent">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/dialog_shape_text"
+            android:gravity="center"
+            android:text="AutoWorkShop"
+            android:textAllCaps="true"
+            android:textAlignment="center"
+            android:textColor="@color/White"
+            android:textSize="@dimen/textSizeTitulo"
+            app:layout_constraintBottom_toTopOf="@+id/constraintDialogInfo"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_weight="2" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintDialogInfo"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginHorizontal="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            app:layout_constraintBottom_toTopOf="@id/btn_dialog"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/title"
+            app:layout_constraintVertical_weight="8">
+
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:id="@+id/textViewTitle"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/textViewDialog"
+                app:layout_constraintEnd_toStartOf="@id/textViewGiveLink"
+                android:text="@string/nuestro_workshop_gratiuto_te_permite_aprender_a_usar_ottaa"
+                app:layout_constraintHorizontal_weight="2"
+                app:layout_constraintVertical_weight="1"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:id="@+id/textViewDialog"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textViewTitle"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/textViewGiveLink"
+                android:layout_marginStart="@dimen/regular_margin"
+                android:layout_marginTop="@dimen/regular_margin"
+                android:text="@string/con_videos_explicativos_n_con_6_modulos_especializados_n_autonomo_y_a_tu_ritmo_n_es_totalmente_gratuito_n_40_minutos_de_duracion"
+                app:layout_constraintHorizontal_weight="2"
+                app:layout_constraintVertical_weight="3"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:id="@+id/textViewGiveLink"
+                app:layout_constraintStart_toEndOf="@id/textViewDialog"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/textViewTitle"
+                app:layout_constraintBottom_toTopOf="@+id/buttonCopyLink"
+                app:layout_constraintHorizontal_weight="1"
+                android:layout_marginStart="@dimen/small_margin"
+                android:text="@string/give_me_the_link"
+                android:textStyle="bold"
+                android:textSize="15sp"/>
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:id="@+id/buttonCopyLink"
+                android:backgroundTint="@color/quantum_grey400"
+                android:background="@drawable/dialog_round_shape_orange"
+                app:layout_constraintStart_toStartOf="@id/textViewGiveLink"
+                app:layout_constraintEnd_toEndOf="@id/textViewGiveLink"
+                app:layout_constraintTop_toBottomOf="@id/textViewGiveLink"
+                app:layout_constraintBottom_toTopOf="@+id/buttonEmailLink"
+                android:layout_margin="@dimen/regular_margin"
+                android:text="@android:string/copyUrl"
+                android:drawableTint="@color/White"
+                android:textColor="@color/White"
+                android:drawableLeft="@drawable/ic_baseline_content_copy_24"
+                android:padding="@dimen/small_margin"
+                android:onClick="onClick"/>
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:id="@+id/buttonEmailLink"
+                android:background="@drawable/dialog_round_shape_orange"
+                app:layout_constraintStart_toStartOf="@id/textViewGiveLink"
+                app:layout_constraintEnd_toEndOf="@id/textViewGiveLink"
+                app:layout_constraintTop_toBottomOf="@id/buttonCopyLink"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_margin="@dimen/regular_margin"
+                android:drawableTint="@color/White"
+                android:textColor="@color/White"
+                android:text="@string/email_me"
+                android:drawableLeft="@drawable/ic_baseline_email_24"
+                android:padding="@dimen/small_margin"
+                android:onClick="onClick"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <Button
+            android:id="@+id/btn_dialog"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:background="@drawable/button_selector"
+            android:backgroundTint="@color/quantum_grey400"
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            android:text="@string/pref_OK"
+            android:textColor="@color/White"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/constraintDialogInfo"
+            app:layout_constraintVertical_weight="2" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.cardview.widget.CardView>

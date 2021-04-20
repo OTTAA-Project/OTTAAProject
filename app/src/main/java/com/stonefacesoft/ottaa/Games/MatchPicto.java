@@ -16,7 +16,7 @@ import android.widget.RelativeLayout;
 
 
 /**
- * TODO: document your custom view class.
+ *
  * https://stackoverflow.com/questions/51624500/android-graphics-draw-a-line-from-one-view-pointing-to-another-view
  *
  */

@@ -23,7 +23,6 @@ import java.util.HashMap;
  * Created by gonzalo on 1/15/18.
  */
 
-//TODO VER POR QUE ESTO EXTIENDE DE APPCOMPAT SI NO ES UNA ACTIVITY , Y POR QUE USA ONDESTROY Y METODOS DE ACTIVITY SI NO INFLA NINGUNA.
 public class textToSpeech {
     private TextToSpeech hablar;
     private CustomToast alerta;

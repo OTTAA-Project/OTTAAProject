@@ -93,7 +93,6 @@ import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.Viewpagers.Viewpager_tutorial;
 import com.stonefacesoft.ottaa.idioma.ConfigurarIdioma;
 import com.stonefacesoft.ottaa.idioma.myContextWrapper;
-import com.stonefacesoft.ottaa.utils.AboutOttaa;
 import com.stonefacesoft.ottaa.utils.Accesibilidad.BarridoPantalla;
 import com.stonefacesoft.ottaa.utils.Accesibilidad.Gesture;
 import com.stonefacesoft.ottaa.utils.Accesibilidad.devices.PrincipalControls;
@@ -141,6 +140,7 @@ import static com.facebook.FacebookSdk.setAutoLogAppEventsEnabled;
 /**
  *
  * VERSION 83 merge dev dev-hotfix83
+ * VERSION 83 new design login doc into newdesign
  */
 public class Principal extends AppCompatActivity implements View
         .OnClickListener,
@@ -1238,8 +1238,6 @@ public class Principal extends AppCompatActivity implements View
     }
 
 
-    //TODO re hacer la presnetacion personalizada
-
     /**
      * Implementa este metodo de TTS interface, cuando se inicializa el TTS lo setea por defecto
      * @param initStatus
@@ -1888,7 +1886,6 @@ public class Principal extends AppCompatActivity implements View
     }
 
     //Bandera global del tutorial
-    //TODO hacer que en version tablet la letra sea mas grande
     private boolean TutoFlag;
 
     private void AnimarHablar() {
@@ -2028,8 +2025,8 @@ public class Principal extends AppCompatActivity implements View
                     break;
                 case 8:
                     analitycsFirebase.customEvents("Accessibility","Principal","Games");
-                     intent2 = new Intent(Principal.this, MainJuegos.class);
-                     startActivity(intent2);
+                    intent2 = new Intent(Principal.this, MainJuegos.class);
+                    startActivity(intent2);
                     break;
 
             }
@@ -2386,7 +2383,7 @@ public class Principal extends AppCompatActivity implements View
             //actualizo la voz del tts
 
             if (!sharedPrefsDefault.getBoolean("bool_ubicacion", false)) {
-                //TODO esto se reemplaza con Places
+                //NOTA esto se reemplaza con Places
                 // json.setPosicion(Posicion.NADA);
                 // json.inicializarGPS();
                 Reset();
@@ -2836,7 +2833,7 @@ public class Principal extends AppCompatActivity implements View
                 user.logOut();
                 break;
             case R.id.report:
-                //todo firebase analitycs
+                //NOTA firebase analitycs
                 analitycsFirebase.customEvents("Touch","Principal","Report");
                 if(sharedPrefsDefault.getInt("premium",0)==1) {
                     Intent i = new Intent(getApplicationContext(), ActivityInformes.class);
@@ -2847,9 +2844,10 @@ public class Principal extends AppCompatActivity implements View
                 }
                 break;
             case R.id.about:
-                //todo firebase analitycs
+                //NOTA firebase analitycs
                 analitycsFirebase.customEvents("Touch","Principal","About that");
-                Intent intent = new Intent(getApplicationContext(), AboutOttaa.class);
+               // Intent intent = new Intent(getApplicationContext(), AboutOttaa.class);
+                Intent intent = new Intent(Principal.this, LoginActivity2.class);
                 startActivity(intent);
                 break;
         }

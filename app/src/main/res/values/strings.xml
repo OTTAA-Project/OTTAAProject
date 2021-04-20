@@ -227,6 +227,10 @@
     <string name="toca_la_lupa_para_buscar_en_arasaac">Touch the search button to download a picto from ARASAAC</string>
     <string name="MaleUser">Male</string>
     <string name="FemaleUser">Female</string>
+    <string name="BinaryUser">Binary</string>
+    <string name="FluidUser">Fluid</string>
+    <string name="OtherUser">Other</string>
+
     <string name="ChildUser">Child</string>
     <string name="YoungUser">Young</string>
     <string name="ottaa_actualizado" translatable="false">OTTAA Updated</string>
@@ -584,15 +588,7 @@
         <item>ADULTO</item>
 
     </string-array>
-    <string-array name="listSexo" translatable="false">
-        <item>@string/MaleUser</item>
-        <item>@string/FemaleUser</item>
-    </string-array>
-    <string-array name="list_sexo_valores" translatable="false">
-        <item>MASCULINO</item>
-        <item>FEMENINO</item>
 
-    </string-array>
     <string-array name="pref_idiomas_valores" translatable="false">
         <item>ar</item>
         <item>ca</item>
@@ -633,6 +629,7 @@
         <item>@drawable/ic_feliz</item>
         <item>@drawable/ic_emocion</item>
     </string-array>
+
     <string-array name="Horario">
         <item>Elija una opción</item>
         <item>Mañana</item>
@@ -640,10 +637,54 @@
         <item>Tarde</item>
         <item>Noche</item>
     </string-array>
-    <string-array name="Sexo">
-        <item>Elija una opción</item>
-        <item>Masculino</item>
-        <item>Femenino</item>
+
+
+    <string-array name="DayOfMonth">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+        <item>13</item>
+        <item>14</item>
+        <item>15</item>
+        <item>16</item>
+        <item>17</item>
+        <item>18</item>
+        <item>19</item>
+        <item>20</item>
+        <item>21</item>
+        <item>22</item>
+        <item>23</item>
+        <item>24</item>
+        <item>25</item>
+        <item>26</item>
+        <item>27</item>
+        <item>28</item>
+        <item>29</item>
+        <item>30</item>
+        <item>31</item>
+    </string-array>
+
+    <string-array name="MonthOfYear">
+        <item>Jan</item>
+        <item>Feb</item>
+        <item>Mar</item>
+        <item>May</item>
+        <item>Jun</item>
+        <item>Jul</item>
+        <item>Aug</item>
+        <item>Sep</item>
+        <item>Oct</item>
+        <item>Nov</item>
+        <item>Dec</item>
     </string-array>
 
     <string-array name="Edad">
@@ -690,7 +731,6 @@
     <string name="accessthousandof">Access thousands of pictograms</string>
     <string name="talktotheworld">Talk to the world</string>
     <string name="createyourphrases">Create your phrases</string>
-    <!--    Todo ofuscar claves-->
     <string name="sip_and_puff" translatable="false">sip_and_puff</string>
     <string name="device_version">Device Version</string>
     <string name="select_device_version">select your devices version</string>
@@ -700,12 +740,35 @@
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
     <string name="second_fragment_label">Second Fragment</string>
-    <string name="next">Next</string>
     <string name="previous">Previous</string>
-
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="memory_game">Memory Game</string>
     <string name="memory_game_string">Test Your Memory</string>
+    <string name="check_if_the_info_is_correct_nif_not_change_it_as_you_wish_this_will_help_us_to_personalize_the_app_for_you">Check if the info is correct,<br/>if not, change it as you wish. This will help us to personalize the app for you.</string>
+    <string name="text_name">Name:</string>
+    <string name="text_gender">Gender:</string>
+    <string name="your_name">Your Name</string>
+    <string name="fecha_de_nacimiento">Date of Birth:</string>
+    <string name="hello_nplease_register_to_continue">Hello! <br/>Please register to continue</string>
+    <string name="we_are_helping_thousand_of_speech_impaired_children_to_communicate_improving_their_life_quality">We are helping thousand of speech impaired children to communicate, improving their life quality</string>
+    <string name="select_now_how_you_would_like_to_learn_how_to_use_ottaa_you_can_go_back_to_this_screen_later_on">Select now how you would like to learn how to use OTTAA, you can go back to this screen later on.</string>
+    <string name="launch_short_tutorial">Launch short tutorial</string>
+    <string name="do_a_guided_workshop">Do a guided workshop</string>
+    <string name="book_a_demo">Book a demo</string>
+    <string name="por_ltimo">At last!</string>
+    <string name="choose_your_avatar">Choose your avatar</string>
+    <string name="back">Back</string>
+    <string name="next">Next</string>
+    <string name="nuestro_workshop_gratiuto_te_permite_aprender_a_usar_ottaa">Our free workshop allows you to learn how to use OTTAA</string>
+    <string name="email_me">Email me</string>
+    <string name="give_me_the_link">Give me the link!</string>
+    <string name="vamos_a_pedirte_cierta_informaci_n_para_nmejorar_tu_experiencia_con_ottaa">We will ask you for certain information <br />to improve your experience with OTTAA.</string>
+    <string name="hola_nnos_conozcamos_un_poco">Hello, <br />Let\'s get to know each other a little bit.</string>
+    <string name="con_videos_explicativos_n_con_6_modulos_especializados_n_autonomo_y_a_tu_ritmo_n_es_totalmente_gratuito_n_40_minutos_de_duracion">○ With Explanatory Videos <br /> ○ With 6 specialised modules <br /> ○ Autonomous and at your own pace <br /> ○ Completely free of charge <br /> ○ 40 minutes long</string>
+    <string name="elige_un_personaje_que_nmejor_te_represente">Choose a character that best represents you.</string>
+    <string name="te_ofrecemos_varias_opciones_para_naprender_a_utilizarla_y_sacarle_el_maximo_provecho">We offer you several options to <br />learn how to use it and get the most out of it.</string>
+    <string name="ottaa_es_una_potente_nherramienta_de_comunicaci_n">OTTAA is a powerful <br />communication tool.</string>
+    <string name="bienvenido_nesto_es_ottaa">Welcome, <br />this is OTTAA</string>
 
 </resources>

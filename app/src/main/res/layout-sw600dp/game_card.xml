@@ -5,7 +5,6 @@
     android:layout_height="match_parent"
     android:background="@drawable/picto_shape">
 
-    <!--    TODO Arreglar el layout-->
     <FrameLayout
         android:id="@+id/imageFrame"
         android:layout_width="0dp"

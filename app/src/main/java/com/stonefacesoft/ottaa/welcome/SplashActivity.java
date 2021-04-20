@@ -23,7 +23,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.stonefacesoft.ottaa.FirebaseRequests.BajarJsonFirebase;
 import com.stonefacesoft.ottaa.FirebaseRequests.SubirArchivosFirebase;
 import com.stonefacesoft.ottaa.JSONutils.Json;
-import com.stonefacesoft.ottaa.LoginActivity;
+import com.stonefacesoft.ottaa.LoginActivity2;
 import com.stonefacesoft.ottaa.Principal;
 import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.utils.Constants;
@@ -75,7 +75,7 @@ public class SplashActivity extends Activity {
             new borrarPictos().execute();
         } else {
             // Llamamos a la Actividad principal de la aplicacion
-            Intent mainIntent = new Intent().setClass(SplashActivity.this, LoginActivity.class);
+            Intent mainIntent = new Intent().setClass(SplashActivity.this, LoginActivity2.class);
             startActivity(mainIntent);
             finish();
         }
@@ -101,7 +101,6 @@ public class SplashActivity extends Activity {
                 }
                 inputStream.close();
             } catch (IOException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
             try {
@@ -318,7 +317,7 @@ public class SplashActivity extends Activity {
             }
         }, 2500);
        }else{
-           Intent mainIntent = new Intent().setClass(SplashActivity.this, LoginActivity.class);
+           Intent mainIntent = new Intent().setClass(SplashActivity.this, LoginActivity2.class);
            startActivity(mainIntent);
            finish();
        }

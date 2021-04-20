@@ -36,7 +36,6 @@ public class traducirTexto {
     public traducirTexto(Context context, SharedPreferences sharedPreferences) {
         mContext=context;
         sharedPrefsDefault=sharedPreferences;
-        //TODO setInterfaz
 
     }
 
@@ -122,13 +121,11 @@ public class traducirTexto {
     // automatically done on workerFirebase thread (separate from UI thread)
     @Override
     protected Void doInBackground(Void... voids) {
-        //Todo remove the key from google translate
         String url = "https://translation.googleapis.com/language/translate/v2?key="+mContext.getResources().getString(R.string.google_translate_api_key);
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(mContext);
         final JSONObject jsonBody;
         try {
-            //TODO setearle el idioma para que no detecte
             jsonBody = new JSONObject("{\"q\":\""+texto+"\"," +
                     "\"target\":\""+mTarget+"\"" + ",\"source\":\""+mSource+"\"}");
 

@@ -6,7 +6,6 @@
         android:orderInCategory="100" app:showAsAction="never" />
 
 
-    <!--TODO GONZA extraer el resource y traducirTexto-->
     <item
         android:id="@+id/order_items"
         android:icon="@drawable/ic_baseline_reorder_white_24"
