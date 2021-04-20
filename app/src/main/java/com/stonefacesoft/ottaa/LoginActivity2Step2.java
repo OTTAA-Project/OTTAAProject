@@ -157,13 +157,12 @@ public class LoginActivity2Step2 extends AppCompatActivity implements View.OnCli
     }
 
     public void calendarDialog(){
-        //TODO hacer que el color del calendar sea Naranja
         Calendar calendar=Calendar.getInstance();
         final Calendar cldr = Calendar.getInstance();
         int day = cldr.get(Calendar.DAY_OF_MONTH);
         int month = cldr.get(Calendar.MONTH);
         int year = cldr.get(Calendar.YEAR);
-        DatePickerDialog datePickerDialog = new DatePickerDialog(this, this, year, month, day);
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this,R.style.MyDatePickerStyle ,this, year, month, day);
         datePickerDialog.show();
 
     }

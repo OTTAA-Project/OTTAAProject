@@ -38,7 +38,7 @@
             app:layout_constraintVertical_weight="1"
             android:layout_marginStart="@dimen/medium_margin"
             android:layout_marginTop="@dimen/medium_margin"
-            android:text="Hola, \nNos conozcamos un poco"
+            android:text="@string/hola_nnos_conozcamos_un_poco"
             android:gravity="bottom"
             android:textColor="@color/White"
             android:textSize="25sp"
@@ -55,7 +55,7 @@
             app:layout_constraintVertical_weight="2"
             android:layout_marginStart="@dimen/medium_margin"
             android:layout_marginTop="@dimen/small_margin"
-            android:text="Vamos a pedirte cierta información para \nmejorar tu experiencia con OTTAA"
+            android:text="@string/vamos_a_pedirte_cierta_informaci_n_para_nmejorar_tu_experiencia_con_ottaa"
             android:textColor="@color/White"
             android:textSize="15sp"/>
 
@@ -116,7 +116,7 @@
                 app:layout_constraintVertical_weight="1"
                 android:textAlignment="center"
                 android:gravity="center"
-                android:text="Check if the info is correct,\nif not, change it as you wish. This will help us to personalize the app for you."/>
+                android:text="@string/check_if_the_info_is_correct_nif_not_change_it_as_you_wish_this_will_help_us_to_personalize_the_app_for_you"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -128,7 +128,7 @@
                 app:layout_constraintBottom_toBottomOf="@id/editTextName"
                 android:gravity="center_vertical"
                 android:layout_marginStart="@dimen/small_margin"
-                android:text="Name: "/>
+                android:text="@string/text_name"/>
 
             <EditText
                 android:layout_width="0dp"
@@ -139,7 +139,7 @@
                 app:layout_constraintTop_toBottomOf="@id/textViewLogin2"
                 app:layout_constraintBottom_toTopOf="@+id/selectorGender"
                 app:layout_constraintVertical_weight="1"
-                android:hint="Your Name"
+                android:hint="@string/your_name"
                 android:inputType="text"
                 android:autofillHints="Your name" />
 
@@ -153,7 +153,7 @@
                 app:layout_constraintBottom_toBottomOf="@id/selectorGender"
                 android:gravity="center_vertical"
                 android:layout_marginStart="@dimen/small_margin"
-                android:text="Gender: "/>
+                android:text="@string/text_gender"/>
 
             <Spinner
                 android:layout_width="0dp"
@@ -176,7 +176,7 @@
                 app:layout_constraintBottom_toBottomOf="@id/constraintBirthDate"
                 android:gravity="center_vertical"
                 android:layout_marginStart="@dimen/small_margin"
-                android:text="Fecha de nacimiento: "/>
+                android:text="@string/fecha_de_nacimiento"/>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="0dp"
@@ -271,7 +271,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginEnd="@dimen/medium_margin"
-            android:text="Back"
+            android:text="@string/back"
             android:textColor="@color/Gray"
             android:background="@drawable/dialog_round_shape_orange"
             android:backgroundTint="@color/quantum_grey200"/>
@@ -285,7 +285,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginStart="@dimen/medium_margin"
-            android:text="Next"
+            android:text="@string/next"
             android:textColor="@color/White"
             android:background="@drawable/dialog_round_shape_orange"/>
 

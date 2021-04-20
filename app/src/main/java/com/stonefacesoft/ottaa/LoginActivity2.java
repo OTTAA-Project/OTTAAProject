@@ -106,7 +106,6 @@ public class LoginActivity2 extends AppCompatActivity implements View.OnClickLis
 
 //        TODO Dar margenes a OTTAA -Tablet10 OK -
 //        TODO Arreglar el tamano del texto "Hello" y hacer mas grande el boton de Login -Tablet10 OK -
-//        TODO extraer Strings y traducir
 //        TODO agregar imagenes de Bubas
     }
 

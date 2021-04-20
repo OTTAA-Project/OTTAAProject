@@ -39,7 +39,7 @@
             app:layout_constraintVertical_weight="2"
             android:layout_marginStart="@dimen/medium_margin"
             android:layout_marginTop="@dimen/medium_margin"
-            android:text="Por último!"
+            android:text="@string/por_ltimo"
             android:gravity="bottom"
             android:textColor="@color/White"
             android:textSize="25sp"
@@ -56,7 +56,7 @@
             app:layout_constraintVertical_weight="1"
             android:layout_marginStart="@dimen/medium_margin"
             android:layout_marginTop="@dimen/small_margin"
-            android:text="Elige un personaje que \nmejor te represente, ."
+            android:text="@string/elige_un_personaje_que_nmejor_te_represente"
             android:gravity="center_vertical"
             android:textColor="@color/White"
             android:textSize="15sp"/>
@@ -94,7 +94,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toTopOf="@+id/circularConstraint"
             app:layout_constraintVertical_weight="1"
-            android:text="Choose your avatar"
+            android:text="@string/choose_your_avatar"
             android:layout_marginEnd="@dimen/medium_margin"
             android:textAlignment="center"
             android:gravity="center"/>
@@ -474,7 +474,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginEnd="@dimen/medium_margin"
-            android:text="Back"
+            android:text="@string/back"
             android:textColor="@color/Gray"
             android:background="@drawable/dialog_round_shape_orange"
             android:backgroundTint="@color/quantum_grey200"/>
@@ -488,7 +488,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginStart="@dimen/medium_margin"
-            android:text="Next"
+            android:text="@string/next"
             android:textColor="@color/White"
             android:background="@drawable/dialog_round_shape_orange"/>
 

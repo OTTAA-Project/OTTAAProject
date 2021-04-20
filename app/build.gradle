@@ -24,7 +24,7 @@ android {
         versionName "6.5.0" //
         // Enabling multidex support.
         multiDexEnabled = true
-        resConfigs "ar,ca,da,en,es,fr,it,nb,pt,sw"
+        resConfigs "ar,en,es,it"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"//
 
     }
