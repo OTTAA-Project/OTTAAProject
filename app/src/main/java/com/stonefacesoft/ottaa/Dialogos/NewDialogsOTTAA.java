@@ -24,7 +24,14 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.stonefacesoft.ottaa.Adapters.CustomFavoritePhrasesAdapter;
@@ -39,6 +46,7 @@ import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.VincularFrases;
 import com.stonefacesoft.ottaa.utils.CustomToast;
 import com.stonefacesoft.ottaa.utils.DatosDeUso;
+import com.stonefacesoft.ottaa.utils.Firebase.AnalyticsFirebase;
 import com.stonefacesoft.ottaa.utils.IntentCode;
 import com.stonefacesoft.ottaa.utils.ReturnPositionItem;
 import com.stonefacesoft.ottaa.utils.exceptions.FiveMbException;
@@ -47,7 +55,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static android.content.Context.CLIPBOARD_SERVICE;
 
@@ -69,11 +79,15 @@ public class NewDialogsOTTAA implements FirebaseSuccessListener {
     private int position;
     private ReturnPositionItem positionItemAdapter;
 
+    AnalyticsFirebase analyticsFirebase;
+
 
     public NewDialogsOTTAA(Activity activity) {
         this.mActivity = activity;
         this.dialog = new Dialog(mActivity);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+
+        analyticsFirebase = new AnalyticsFirebase(mActivity);
 
     }
 
@@ -664,14 +678,61 @@ public class NewDialogsOTTAA implements FirebaseSuccessListener {
     }
 
     private void triggerEmail(){
-        //TODO register user to email API and fire email.
+        //TODO Peplace with a Realtime database trigger.
         CustomToast customToast = new CustomToast(mActivity);
         customToast.mostrarFrase("Email enviado"); //TODO extraer resource
+        analyticsFirebase.customEvents("WantWorkshop","LoginActivity2Step3","Trigger email");
+
+
+
     }
 
     private void openCalendly(  ) {
         Intent browse = new Intent( Intent.ACTION_VIEW , Uri.parse("https://calendly.com/ottaa-lixi/30min"));
         mActivity.startActivity(browse);
+    }
+
+    private void doHTTPRequest() {
+        // Instantiate the RequestQueue.
+        RequestQueue queue = Volley.newRequestQueue(mActivity);
+        String url = "https://us-central1-ottaa-project.cloudfunctions.net/readFile";
+
+        // Request a string response from the provided URL.
+        // Display the first 500 characters of the response string.
+        //Log.e(TAG, "onResponse: "+response);
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
+                this::parseReponse, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e(TAG, "onResponse: Volley Error: " + error.getMessage());
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                //TODO revisar que este assert este bien
+                assert user != null;
+                params.put("UserID", user.getEmail());
+                params.put("first_name", user.getDisplayName());
+                if (user.getPhoneNumber()!=null)
+                    params.put("phone", user.getPhoneNumber());
+                return params;
+            }
+        };
+        // Add the request to the RequestQueue.
+        queue.add(stringRequest);
+    }
+
+    private void parseReponse(String response) {
+        try {
+            Log.d(TAG, "parseResponse: OK");
+            JSONObject jsonObject = new JSONObject(response);
+
+        } catch (JSONException err) {
+            Log.e(TAG, "parseResponse: Error: " + err.toString());
+        }
+
     }
 
 }

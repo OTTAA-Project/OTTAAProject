@@ -13,9 +13,20 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.stonefacesoft.ottaa.Dialogos.NewDialogsOTTAA;
 import com.stonefacesoft.ottaa.Viewpagers.Viewpager_tutorial;
 import com.stonefacesoft.ottaa.utils.InmersiveMode;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class LoginActivity2Step3 extends AppCompatActivity implements View.OnClickListener {
 
@@ -97,4 +108,6 @@ public class LoginActivity2Step3 extends AppCompatActivity implements View.OnCli
         imageViewThreePeople.startAnimation(translateAnimation2);
 
     }
+
+
 }
