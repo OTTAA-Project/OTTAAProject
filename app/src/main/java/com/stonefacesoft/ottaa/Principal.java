@@ -139,7 +139,7 @@ import static com.facebook.FacebookSdk.setAutoLogAppEventsEnabled;
 
 /**
  *
- * VERSION 83 first push to Github
+ * VERSION 83 new design login doc into newdesign
  */
 public class Principal extends AppCompatActivity implements View
         .OnClickListener,
