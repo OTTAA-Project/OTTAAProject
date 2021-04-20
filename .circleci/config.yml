@@ -1,83 +1,389 @@
 version: 2.1
 orbs:
   gradle: circleci/gradle@2.1.0
-jobs:
-  build:
-    working_directory: ~/src
-    docker:
-      - image: circleci/android:api-29
+  android: circleci/android@1.0.3
+
+workflows:
+  main:
+    jobs:
+      - deploy:
+          filters:
+            branches:
+              only:
+                - setupCircleci
+                - dev
+references:
+  # cache
+  cache_key: &cache_key
+    key: jars-{{ checksum "build.gradle" }}-{{ checksum "app/build.gradle" }}
+  restore_cache: &restore_cache
+    <<: *cache_key
+
+  #workspace
+  workspace: &workspace ~/src
+  mobile_path: &mobile_build_path
+    - src/build/
+  mobile_output: &mobile_build_path_output
+    - src/build/outputs
+  workspace_production: &workspace_production
+    attach_workspace:
+      at: *workspace
+  workspace_debug: &workspace_debug
+    attach_workspace:
+      at: *workspace
+  persist_production_workspace:
+    persist_to_workspace:
+      root: *workspace
+      paths:
+        - *mobile_build_path
+  persist_debug_workspace: &persist_debug_workspace
+    persist_to_workspace:
+      root: *workspace
+      paths:
+        - src/build
+        - src/build/outputs/androidTest-results
+        - src/build/outputs/apk
+        - src/build/outputs/code-coverage
+        - src/build/outputs/test-results
+  attach_firebase_workspace: &attach_firebase_workspace
+    attach_workspace:
+      at: *workspace
+
+  persist_firebase_workspace: &persist_firebase_workspace
+    root: *workspace
+    paths:
+      - firebase
+
+  android_config: &android_config
+    working_directory: *workspace
     environment:
       JVM_OPTS: -Xmx3200m
+
+  gcloud_config: &gcloud_config
+    working_directory: *workspace
+    docker:
+      - image: google/cloud-sdk:latest
+    environment:
+      JVM_OPTS: -Xmx3200m
+
+  #Encoding and getting files
+  export_google_services_json: &export_google_services_json
+    run:
+      name: export google services Json
+      command: echo 'export GOOGLE_SERVICES_JSON="$GOOGLE_SERVICES_JSON"' >> $BASH_ENV
+  decode_google_services_json: &get_google_services_json
+    run:
+      name: Decode Google Services Json
+      command: echo $GOOGLE_SERVICES_JSON | base64 -di > app/google-services.json
+  export_file: &prepare_file
+    run:
+      name: get api keys
+      command: echo 'export api_keys="$API_KEYS"' >> $BASH_ENV
+  decode_file: &decode_file
+    run:
+      name: decode File
+      command: echo $API_KEYS | base64 -di > app/src/main/res/values/api_keys.xml
+  run_testing: &run_testing
+    run:
+      name: run test
+      command: ./gradlew test
+  run_lint_testing: &run_lint_test
+    run:
+      name: run test
+      command: ./gradlew lint test
+  chmod_change_setup: &chmodGradle
+    run:
+      name: Chmod Permission
+      command: sudo chmod +x ./gradlew
+  run_instrumentation_test: &run_integration_test
+    run:
+      name: instrumentation test
+      command: ./gradlew /connectedAndroidTest
+jobs:
+  deploy:
+    <<: *android_config
+    docker:
+      - image: circleci/android:api-29
+        auth:
+          username: $DOCKER_USER
+          password: $DOCKER_PASSWORD
     steps:
       - checkout
-      - restore_cache:
-          key: jars-{{ checksum "build.gradle" }}-{{ checksum "app/build.gradle" }}
-      - run:
-          name: Chmod permissions
-          command: sudo chmod +x ./gradlew
-          # Export base64 encoded google-services.json
-          # into local bash variables
-      - run :
-          name: Export Google Services Json
-          command: echo 'export GOOGLE_SERVICES_JSON="$GOOGLE_SERVICES_JSON"' >> $BASH_ENV
-      - run:
-          # Decode the base64 string
-          name: Decode Google Services Json
-          command: echo $GOOGLE_SERVICES_JSON | base64 -di > app/google-services.json
-
-      - run:
-          name: Export Api keys
-          command: echo 'export api_keys="$API_KEYS"' >> $BASH_ENV
-      - run:              # Decode the base64 string
-          name: Decode Google Services Json
-          command: echo $API_KEYS | base64 -di > app/src/main/res/values/api_keys.xml
-      - run:
-          name: Download Dependencies
-          command: ./gradlew androidDependencies
-      - save_cache:
-          paths:
-            - ~/.gradle
-          key: jars-{{ checksum "build.gradle" }}-{{ checksum "app/build.gradle" }}
-      - run:
-          name: Run Tests
-          command: ./gradlew lint test
-      - store_artifacts:
-          path: app/build/reports
-          destination: reports
-      - store_test_results:
-          path: app/build/test-results
-      - run:
-          name: Run UnitTest
-          command: ./gradlew testDemoDebugUnitTest
-      - run:
-          name: Setup emulator
-          command: sdkmanager "system-images;android-16;default;armeabi-v7a" && echo "no" | avdmanager create avd -n test -k "system-images;android-16;default;armeabi-v7a"
-      - run:
-          name: Launch emulator
-          command: export LD_LIBRARY_PATH=${ANDROID_HOME}/emulator/lib64:${ANDROID_HOME}/emulator/lib64/qt/lib && emulator64-arm -avd test -noaudio -no-boot-anim -no-window -accel auto -verbose
-          background: true
-      - run:
-          name: Launch emulator
-          command: export LD_LIBRARY_PATH=${ANDROID_HOME}/emulator/lib64:${ANDROID_HOME}/emulator/lib64/qt/lib && emulator64-arm -avd test -noaudio -no-boot-anim -no-window -accel auto -verbose
-          background: true
+      - restore_cache: *cache_key
+      - *chmodGradle
+      - *export_google_services_json
+      - *get_google_services_json
+      - *prepare_file
+      - *decode_file
+      - *run_testing
+      - *run_lint_test
       - run:
           name: Wait emulator
           command: |
             # wait for it to have booted
-            circle-android wait-for-boot
-            # unlock the emulator screen
-            sleep 30
-            adb shell input keyevent 82
-      - run:
-          name: Run EspressoTests
-          command: ./gradlew connectedDemoDebugAndroidTest
+            cir - run:
+              name: Setup emulator
+              command: $ANDROID_HOME/tools/bin/sdkmanager "tools" "emulator" "platform-tools" "platforms;android-29" "build-tools;29.0.2" "extras;android;m2repository" "extras;google;m2repository"
+
+      - *run_integration_test
       - store_artifacts:
           path: app/build/reports
           destination: reports
       - store_test_results:
           path: app/build/test-results
-workflows:
-  version: 2.1
-  workflow:
-    jobs:
-      - build
+#
+#
+#jobs:
+#  deploy:
+#    working_directory: ~/project
+#    docker:
+#      - image: circleci/android:api-29
+#        auth:
+#          username: $DOCKER_USER
+#          password: $DOCKER_PASSWORD
+#    environment:
+#      JVM_OPTS: -Xmx3200m
+#
+#    steps:
+#      - checkout
+#      - restore_cache:
+#          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
+#      - run:
+#          name: Chmod permissions #if permission for Gradlew Dependencies fail, use this.
+#          command: sudo chmod +x ./gradlew
+#      - run:
+#          name: Export Google Services Json
+#          command: echo 'export GOOGLE_SERVICES_JSON="$GOOGLE_SERVICES_JSON"' >> $BASH_ENV
+#      - run:
+#          # Decode the base64 string
+#          name: Decode Google Services Json
+#          command: echo $GOOGLE_SERVICES_JSON | base64 -di > app/google-services.json
+#      - run:
+#          name: Export Api keys
+#          command: echo 'export api_keys="$API_KEYS"' >> $BASH_ENV
+#      - run:
+#          # Decode the base64 string
+#          name: Decode Google Services Json
+#          command: echo $API_KEYS | base64 -di > app/src/main/res/values/api_keys.xml
+#      - run:
+#          name: Download Dependencies
+#          command: ./gradlew androidDependencies
+#      - save_cache:
+#          paths:
+#            - ~/.gradle
+#          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
+#      - run:
+#          name: Run Tests
+#          command:
+#      - store_artifacts:
+#          path: app/build/reports
+#          destination: reports
+#      - store_test_results:
+#          path: test-results
+#      - run:
+#          name: Build debug APK and release APK
+#          command: |
+#            ./gradlew :app:assembleDebug
+#            ./gradlew :app:assembleDebugAndroidTest
+#      - run:
+#          name: Store Google Service Account
+#          command: echo $GCLOUD_SERVICE_KEY > ${HOME}/gcloud-service-key.json
+#      - run:
+#          name: Authorize gcloud and set config defaults
+#          command: |
+#            sudo gcloud auth activate-service-account --key-file=${HOME}/gcloud-service-key.json
+#            sudo gcloud --quiet config set project ${GOOGLE_PROJECT_ID}
+#      - run:
+#          name: Test with Firebase Test Lab
+#          command: >
+#            sudo gcloud firebase test android run \
+#              --app <local_server_path>/<app_apk>.apk \
+#              --test <local_server_path>/<app_test_apk>.apk \
+#              --results-bucket cloud-test-${GOOGLE_PROJECT_ID}
+#      - run:
+#          name: Install gsutil dependency and copy test results data
+#          command: |
+#            sudo pip install -U crcmod
+#            sudo gsutil -m cp -r -U `sudo gsutil ls gs://[BUCKET_NAME]/[OBJECT_NAME] | tail -1` ${CIRCLE_ARTIFACTS}/ | true
+
+
+
+#jobs:
+#  build:
+#    working_directory: ~/src
+#    docker:
+#      - image: circleci/android:api-29
+#    environment:
+#      JVM_OPTS: -Xmx3200m
+#    steps:
+#      - checkout
+#      - restore_cache:
+#          key: jars-{{ checksum "build.gradle" }}-{{ checksum "app/build.gradle" }}
+#      - run:
+#          name: Chmod permissions
+#          command: sudo chmod +x ./gradlew
+#          # Export base64 encoded google-services.json
+#          # into local bash variables
+#      - run :
+#          name: Export Google Services Json
+#          command: echo 'export GOOGLE_SERVICES_JSON="$GOOGLE_SERVICES_JSON"' >> $BASH_ENV
+#      - run:
+#          # Decode the base64 string
+#          name: Decode Google Services Json
+#          command: echo $GOOGLE_SERVICES_JSON | base64 -di > app/google-services.json
+#
+#      - run:
+#          name: Export Api keys
+#          command: echo 'export api_keys="$API_KEYS"' >> $BASH_ENV
+#      - run:              # Decode the base64 string
+#          name: Decode Google Services Json
+#          command: echo $API_KEYS | base64 -di > app/src/main/res/values/api_keys.xml
+#      - run:
+#          name: Download Dependencies
+#          command: ./gradlew androidDependencies
+#      - save_cache:
+#          paths:
+#            - ~/.gradle
+#          key: jars-{{ checksum "build.gradle" }}-{{ checksum "app/build.gradle" }}
+#      - run:
+#          name: Run Tests
+#          command: ./gradlew lint test
+#      - store_artifacts:
+#          path: app/build/reports
+#          destination: reports
+#      - store_test_results:
+#          path: app/build/test-results
+#      - run:
+#          name: Accept licenses
+#          command: yes | sdkmanager --licenses || true
+#      - run:
+#          name: Launch emulator
+#          command: export LD_LIBRARY_PATH=${ANDROID_HOME}/emulator/lib64:${ANDROID_HOME}/emulator/lib64/qt/lib && emulator64-arm -avd test -noaudio -no-boot-anim -no-window -accel auto -verbose
+#          background: true
+#      - run:
+#          name: Wait emulator
+#          command: |
+#            # wait for it to have booted
+#            cir - run:
+#                name: Setup emulator
+#                command: $ANDROID_HOME/tools/bin/sdkmanager "tools" "emulator" "platform-tools" "platforms;android-28" "build-tools;28.0.3" "extras;android;m2repository" "extras;google;m2repository"
+#
+#      - run:
+#          name: Launch emulator
+#          command: export LD_LIBRARY_PATH=${ANDROID_HOME}/emulator/lib64:${ANDROID_HOME}/emulator/lib64/qt/lib && emulator64-arm -avd test -noaudio -no-boot-anim -no-window -accel auto -verbose
+#          background: true
+#      - run:
+#          name: Wait emulator
+#          command: |
+#            # wait for it to have booted
+#            circle-android wait-for-boot
+#            # unlock the emulator screen
+#            sleep 30
+#            adb shell input keyevent 82
+#      - run:
+#          name: Run EspressoTests
+#          command: ./gradlew connectedAndroidTest
+#      - store_artifacts:
+#          path: app/build/reports
+#          destination: reports
+#      - store_test_results:
+#          path: app/build/test-resultscle-android wait-for-boot
+#            sleep 30
+#            adb shell input keyevent 82
+#      - run:
+#          name: Run EspressoTests
+#          command: ./gradlew connectedAndroidTest
+#      - store_artifacts:
+#          path: app/build/reports
+#          destination: reports
+#      - store_test_results:
+#          path: app/build/test-resultsjobs:
+#  build:
+#    working_directory: ~/src
+#    docker:
+#      - image: circleci/android:api-29
+#    environment:
+#      JVM_OPTS: -Xmx3200m
+#    steps:
+#      - checkout
+#      - restore_cache:
+#          key: jars-{{ checksum "build.gradle" }}-{{ checksum "app/build.gradle" }}
+#      - run:
+#          name: Chmod permissions
+#          command: sudo chmod +x ./gradlew
+#          # Export base64 encoded google-services.json
+#          # into local bash variables
+#      - run :
+#          name: Export Google Services Json
+#          command: echo 'export GOOGLE_SERVICES_JSON="$GOOGLE_SERVICES_JSON"' >> $BASH_ENV
+#      - run:
+#          # Decode the base64 string
+#          name: Decode Google Services Json
+#          command: echo $GOOGLE_SERVICES_JSON | base64 -di > app/google-services.json
+#
+#      - run:
+#          name: Export Api keys
+#          command: echo 'export api_keys="$API_KEYS"' >> $BASH_ENV
+#      - run:              # Decode the base64 string
+#          name: Decode Google Services Json
+#          command: echo $API_KEYS | base64 -di > app/src/main/res/values/api_keys.xml
+#      - run:
+#          name: Download Dependencies
+#          command: ./gradlew androidDependencies
+#      - save_cache:
+#          paths:
+#            - ~/.gradle
+#          key: jars-{{ checksum "build.gradle" }}-{{ checksum "app/build.gradle" }}
+#      - run:
+#          name: Run Tests
+#          command: ./gradlew lint test
+#      - store_artifacts:
+#          path: app/build/reports
+#          destination: reports
+#      - store_test_results:
+#          path: app/build/test-results
+#      - run:
+#          name: Accept licenses
+#          command: yes | sdkmanager --licenses || true
+#      - run:
+#          name: Launch emulator
+#          command: export LD_LIBRARY_PATH=${ANDROID_HOME}/emulator/lib64:${ANDROID_HOME}/emulator/lib64/qt/lib && emulator64-arm -avd test -noaudio -no-boot-anim -no-window -accel auto -verbose
+#          background: true
+#      - run:
+#          name: Wait emulator
+#          command: |
+#            # wait for it to have booted
+#            cir - run:
+#                name: Setup emulator
+#                command: $ANDROID_HOME/tools/bin/sdkmanager "tools" "emulator" "platform-tools" "platforms;android-28" "build-tools;28.0.3" "extras;android;m2repository" "extras;google;m2repository"
+#
+#      - run:
+#          name: Launch emulator
+#          command: export LD_LIBRARY_PATH=${ANDROID_HOME}/emulator/lib64:${ANDROID_HOME}/emulator/lib64/qt/lib && emulator64-arm -avd test -noaudio -no-boot-anim -no-window -accel auto -verbose
+#          background: true
+#      - run:
+#          name: Wait emulator
+#          command: |
+#            # wait for it to have booted
+#            circle-android wait-for-boot
+#            # unlock the emulator screen
+#            sleep 30
+#            adb shell input keyevent 82
+#      - run:
+#          name: Run EspressoTests
+#          command: ./gradlew connectedAndroidTest
+#      - store_artifacts:
+#          path: app/build/reports
+#          destination: reports
+#      - store_test_results:
+#          path: app/build/test-resultscle-android wait-for-boot
+#            sleep 30
+#            adb shell input keyevent 82
+#      - run:
+#          name: Run EspressoTests
+#          command: ./gradlew connectedAndroidTest
+#      - store_artifacts:
+#          path: app/build/reports
+#          destination: reports
+#      - store_test_results:
+#          path: app/build/test-results
