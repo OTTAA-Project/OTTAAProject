@@ -117,15 +117,6 @@ jobs:
       - *decode_file
       - *run_testing
       - *run_lint_test
-      - run:
-          name: Wait emulator
-          command: |
-            # wait for it to have booted
-            cir - run:
-              name: Setup emulator
-              command: $ANDROID_HOME/tools/bin/sdkmanager "tools" "emulator" "platform-tools" "platforms;android-29" "build-tools;29.0.2" "extras;android;m2repository" "extras;google;m2repository"
-
-      - *run_integration_test
       - store_artifacts:
           path: app/build/reports
           destination: reports
