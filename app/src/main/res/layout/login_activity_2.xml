@@ -35,13 +35,14 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toTopOf="@id/textLoginSmall"
-            app:layout_constraintVertical_weight="1"
+            app:layout_constraintVertical_weight="2"
             android:layout_marginStart="@dimen/medium_margin"
             android:layout_marginTop="@dimen/medium_margin"
+            android:layout_marginEnd="@dimen/medium_margin"
             android:text="@string/hola_nnos_conozcamos_un_poco"
             android:gravity="bottom"
             android:textColor="@color/White"
-            android:textSize="25sp"
+            android:textSize="20sp"
             android:textStyle="bold"/>
 
         <TextView
@@ -55,9 +56,9 @@
             app:layout_constraintVertical_weight="2"
             android:layout_marginStart="@dimen/medium_margin"
             android:layout_marginTop="@dimen/small_margin"
+            android:layout_marginEnd="@dimen/medium_margin"
             android:text="@string/vamos_a_pedirte_cierta_informaci_n_para_nmejorar_tu_experiencia_con_ottaa"
-            android:textColor="@color/White"
-            android:textSize="15sp"/>
+            android:textColor="@color/White"/>
 
         <ImageView
             android:layout_width="0dp"

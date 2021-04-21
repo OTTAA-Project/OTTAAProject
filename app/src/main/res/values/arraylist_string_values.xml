@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="Sexo">
-        <item>Elegí tu genéro</item>
+        <item>Elegí tu genero</item>
         <item>Masculino</item>
         <item>Femenino</item>
         <item>Fluid</item>

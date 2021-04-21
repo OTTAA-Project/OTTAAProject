@@ -37,6 +37,7 @@
             app:layout_constraintVertical_weight="1"
             android:layout_marginStart="@dimen/medium_margin"
             android:layout_marginTop="@dimen/medium_margin"
+            android:layout_marginEnd="@dimen/medium_margin"
             android:text="@string/hola_nnos_conozcamos_un_poco"
             android:gravity="bottom"
             android:textColor="@color/White"
@@ -54,6 +55,7 @@
             app:layout_constraintVertical_weight="2"
             android:layout_marginStart="@dimen/medium_margin"
             android:layout_marginTop="@dimen/small_margin"
+            android:layout_marginEnd="@dimen/medium_margin"
             android:text="@string/vamos_a_pedirte_cierta_informaci_n_para_nmejorar_tu_experiencia_con_ottaa"
             android:textColor="@color/White"
             android:textSize="15sp"/>
