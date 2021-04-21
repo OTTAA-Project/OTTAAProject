@@ -1277,6 +1277,7 @@ public class Principal extends AppCompatActivity implements View
             drawerLayout.closeDrawer(GravityCompat.START);
         }
         if (doubleBackToExitPressedOnce) {
+            android.os.Process.killProcess(android.os.Process.myPid());
             super.onBackPressed();
             return;
         }

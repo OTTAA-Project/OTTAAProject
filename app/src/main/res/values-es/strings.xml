@@ -75,36 +75,36 @@
     <string name="pref_step3_tuto">Estamos listos! Toca el logo de OTTAA para empezar a hablar.</string>
     <string name="pref_title4_tuto">Volver a empezar</string>
     <string name="pref_step4_tuto">Toca el icono de reset, o presiona la tecla de volver para comenzar una nueva frase.</string>
-    <string name="pref_title6_tuto">¿No encontrás \n lo que buscás?</string>
-    <string name="pref_step6_tuto">Toca el carretel para cargar \n más pictogramas relacionados.</string>
+    <string name="pref_title6_tuto">¿No encontrás\nlo que buscás?</string>
+    <string name="pref_step6_tuto">Toca el carretel para cargar\nmás pictogramas relacionados.</string>
     <string name="pref_title5_tuto">¿Necesitas más opciones?</string>
     <string name="pref_step5_tuto">Haga clic para eliminar un picto,\n Haga clic y mantenga presionado para eliminar todo</string>
     <string name="tuto_title1_galeriaPictos">Elige un Picto</string>
     <string name="tuto_step1_galeriaPictos">Puedes seleccionar el picto que deseas utilizar presionándolo.  Manteniendo presionado el picto puedes editarlo   o si lo deseas borrarlo de ésta categoría.</string>
     <string name="tuto_title2_galeriaPictos">Créa tu propio Picto</string>
-    <string name="tuto_step2_galeriaPictos">Presionando en el ícono \"más\" puedes \n crear tu propio picto.</string>
+    <string name="tuto_step2_galeriaPictos">Presionando en el ícono \"más\" puedes\ncrear tu propio picto.</string>
     <string name="tuto_title3_galeriaPictos">Agrega más pictos</string>
-    <string name="tuto_step3_galeriaPictos">Presionando en el ícono \"víncular\" puedes \n agregar más pictos a esta categoría.</string>
+    <string name="tuto_step3_galeriaPictos">Presionando en el ícono \"víncular\" puedes\nagregar más pictos a esta categoría.</string>
     <string name="tuto_title1_galeriaGrupos">Elige uno de los Grupos</string>
-    <string name="tuto_step1_galeriaGrupos">Puedes encontrar el picto que estás buscando \n
+    <string name="tuto_step1_galeriaGrupos">Puedes encontrar el picto que estás buscando\n
         entrando en una de las categorías.\n
-                                            Manteniendo presionada la categoría puedes \n cambiarla de lugar , haciendo\n doble click editarla,  eliminarla o entrar en los juegos.</string>
+                                            Manteniendo presionada la categoría puedes\ncambiarla de lugar , haciendo\n doble click editarla,  eliminarla o entrar en los juegos.</string>
     <string name="tuto_title2_galeriaGrupos">Créa tu propia categoría</string>
-    <string name="tuto_step2_galeriaGrupos">Presionando en el ícono \"más\" puedes \n crear tu propia categoría.</string>
+    <string name="tuto_step2_galeriaGrupos">Presionando en el ícono \"más\" puedes\ncrear tu propia categoría.</string>
     <string name="tuto_title1_editPicto">Cambia la imagen</string>
     <string name="tuto_step1_editPicto">Presionando dentro del circulo puedes cambiar la imagen del pictograma.</string>
     <string name="tuto_title2_editPicto">¿ Que quieres que diga ?</string>
-    <string name="tuto_step2_editPicto">Modifica el texto del picto para que \n diga lo que vos quieras.</string>
+    <string name="tuto_step2_editPicto">Modifica el texto del picto para que\ndiga lo que vos quieras.</string>
     <string name="tuto_title3_editPicto">Hazlo hablar</string>
-    <string name="tuto_step3_editPicto">Presiona el icono de OTTAA para que \n reproduzca el texto del picto.</string>
+    <string name="tuto_step3_editPicto">Presiona el icono de OTTAA para que\nreproduzca el texto del picto.</string>
     <string name="tuto_title4_editPicto">Ponle color</string>
     <string name="tuto_step4_editPicto">Clasifique el picto en función del código de color de Fitzgerald para mejorar la salida. Verde: Acciones, Amarillo: Gente, Azul: Adjetivos, Naranja: Sustantivos, Magenta: Varios</string>
     <string name="tuto_title5_editPicto">Víncula el grupo</string>
-    <string name="tuto_step5_editPicto">Puedes víncular un grupo de pictos \n con el calendario o con el GPS.</string>
+    <string name="tuto_step5_editPicto">Puedes víncular un grupo de pictos\ncon el calendario o con el GPS.</string>
     <string name="tuto_title_vincularCalendar">Víncula éste grupo</string>
-    <string name="tuto_step_vincularCalendar">Puedes crear un evento en el \n calendario y vincularlo con éste grupo.</string>
+    <string name="tuto_step_vincularCalendar">Puedes crear un evento en el\ncalendario y vincularlo con éste grupo.</string>
     <string name="tuto_title_vincularGPS">Víncula éste grupo</string>
-    <string name="tuto_step_vincularGPS">Puedes víncular éste grupo con la \n ubicación que desees. \n Recuerda que debes establecer las ubicaciones desde configuraciones</string>
+    <string name="tuto_step_vincularGPS">Puedes víncular éste grupo con la\nubicación que desees.\nRecuerda que debes establecer las ubicaciones desde configuraciones</string>
     <string name="edit_grupo">Cargue cada uno de los pictogramas del grupo</string>
     <string name="edit_grupo_seguro">¿ Desea salir de Edit Picto ?</string>
     <string name="pref_ubicacion_alert">¿ Desea resetear las ubicaciones ?</string>
@@ -119,7 +119,7 @@
     <string name="agregar_picto">AGREGAR PICTO</string>
     <string name="problema_sign_in">Ocurrio un error al ingresar con su cuenta, vuelva a intentarlo.</string>
     <string name="ayuda1_Titulo">Pictos Relacionados</string>
-    <string name="ayuda1_Texto">Aquí se encuentran las opciones recomendadas, ordenadas \n de forma prioritaria.</string>
+    <string name="ayuda1_Texto">Aquí se encuentran las opciones recomendadas, ordenadas\nde forma prioritaria.</string>
     <string name="pref_descargode">Los pictogramas que utiliza OTTAA Project son propiedad del
         Gobierno de Aragón y ha sido desarrollados por Sergio Palao para ARASAAC (http://arasaac.org) que los distribuye bajo licencia Creative Commons (BY-NC-SA)\n\n Al utilizar la aplicación móvil OTTAA, ahora y en un  futuro, usted está de acuerdo con los siguientes términos y condiciones:\n
 - A pesar de que se ha puesto un especial cuidado para asegurar el correcto funcionamiento, calidad y pertinencia de los contenidos brindados por OTTAA la INFORMACION Y LAS POSIBILIDADES COMUNICACIONALES QUE BRINDA OTTAA NO TIENEN CARÁCTER CONTRACTUAL PARA SHORELABS S.R.L., SUS MIEMBROS O AFILIADOS, POR LO QUE NO CONLLEVA NINGUNA RESPONSABILIDAD.\n
@@ -494,11 +494,11 @@
     <string name="favorite_phrases">Frases Favoritas</string>
     <string name="memory_game">Juego De Memoria</string>
     <string name="memory_game_string">Prueba tu memoria</string>
-    <string name="vamos_a_pedirte_cierta_informaci_n_para_nmejorar_tu_experiencia_con_ottaa">Vamos a pedirte cierta información para <br /> mejorar tu experiencia con OTTAA</string>
-    <string name="hola_nnos_conozcamos_un_poco">Hola, <br />Nos conozcamos un poco</string>
+    <string name="vamos_a_pedirte_cierta_informaci_n_para_nmejorar_tu_experiencia_con_ottaa">Vamos a pedirte cierta información para\nmejorar tu experiencia con OTTAA</string>
+    <string name="hola_nnos_conozcamos_un_poco">Hola,\nNos conozcamos un poco</string>
     <string name="give_me_the_link">¡Dame el enlace!</string>
     <string name="email_me">Envíame un email</string>
-    <string name="con_videos_explicativos_n_con_6_modulos_especializados_n_autonomo_y_a_tu_ritmo_n_es_totalmente_gratuito_n_40_minutos_de_duracion">○ Con Videos Explicativos <br /> ○ Con 6 modulos especializados <br /> ○ Autonomo y a tu ritmo <br /> ○ Es Totalmente gratuito <br /> ○ 40 minutos de duracion</string>
+    <string name="con_videos_explicativos_n_con_6_modulos_especializados_n_autonomo_y_a_tu_ritmo_n_es_totalmente_gratuito_n_40_minutos_de_duracion">○ Con Videos Explicativos\n○ Con 6 modulos especializados\n○ Autonomo y a tu ritmo\n○ Es Totalmente gratuito\n○ 40 minutos de duracion</string>
     <string name="nuestro_workshop_gratiuto_te_permite_aprender_a_usar_ottaa">Nuestro workshop gratuito te permite aprender a usar OTTAA</string>
     <string name="back">Volver</string>
     <string name="next">Siguiente</string>
@@ -509,15 +509,17 @@
     <string name="do_a_guided_workshop">Hacer un taller guiado</string>
     <string name="launch_short_tutorial">Lanzar un breve tutorial</string>
     <string name="select_now_how_you_would_like_to_learn_how_to_use_ottaa_you_can_go_back_to_this_screen_later_on">Seleccione ahora cómo desea aprender a utilizar  OTTAA, puede volver a esta pantalla más adelante.</string>
-    <string name="te_ofrecemos_varias_opciones_para_naprender_a_utilizarla_y_sacarle_el_maximo_provecho">Te ofrecemos varias opciones para <br />aprender a utilizarla y sacarle el maximo provecho.</string>
-    <string name="ottaa_es_una_potente_nherramienta_de_comunicaci_n">OTTAA es una potente <br />herramienta de comunicación.</string>
+    <string name="te_ofrecemos_varias_opciones_para_naprender_a_utilizarla_y_sacarle_el_maximo_provecho">Te ofrecemos varias opciones para\naprender a utilizarla y sacarle el maximo provecho.</string>
+    <string name="ottaa_es_una_potente_nherramienta_de_comunicaci_n">OTTAA es una potente\nherramienta de comunicación.</string>
     <string name="we_are_helping_thousand_of_speech_impaired_children_to_communicate_improving_their_life_quality">Ayudamos a miles de niños con problemas de habla a comunicarse, mejorando su calidad de vida</string>
-    <string name="bienvenido_nesto_es_ottaa">Bienvenido, <br />esto es OTTAA</string>
-    <string name="hello_nplease_register_to_continue">Hola! <br /> Por favor Registrese para continuar</string>
+    <string name="bienvenido_nesto_es_ottaa">Bienvenido,esto es OTTAA</string>
+    <string name="hello_nplease_register_to_continue">Hola!\nPor favor Registrese para continuar</string>
     <string name="fecha_de_nacimiento">Fecha de nacimiento</string>
     <string name="your_name">Su Nombre</string>
     <string name="text_gender">Genero :</string>
     <string name="text_name">Nombre</string>
     <string name="check_if_the_info_is_correct_nif_not_change_it_as_you_wish_this_will_help_us_to_personalize_the_app_for_you">Comprueba si la información es correcta,<br />si no, cámbiala como quieras. Esto nos ayudará a personalizar la aplicación para ti.</string>
+    <string name="_30_minutes_demo_n_guided_tour_to_main_features_n_new_features_explained_n_absolutely_free">○ Demostración de 30 minutos\n○ Visita guiada a las funciones principales\n○ Explicación de las nuevas funciones\n○ Absolutamente GRATIS</string>
+    <string name="book_a_demo_with_one_of_our_specialist_to_help_you_better_understand_our_aac">Reserve una demostración con uno de nuestros especialistas para ayudarlo a comprender mejor nuestra CAA</string>
 
 </resources>

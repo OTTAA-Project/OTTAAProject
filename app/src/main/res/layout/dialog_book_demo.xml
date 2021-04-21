@@ -21,7 +21,7 @@
             android:layout_height="0dp"
             android:background="@drawable/dialog_shape_text"
             android:gravity="center"
-            android:text="Book a demo"
+            android:text="@string/book_a_demo"
             android:textAllCaps="true"
             android:textAlignment="center"
             android:textColor="@color/White"
@@ -53,7 +53,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toTopOf="@id/textViewDialog"
                 app:layout_constraintEnd_toStartOf="@id/textViewGiveLink"
-                android:text="Book a demo with one of our specialist to help you better understand our AAC"
+                android:text="@string/book_a_demo_with_one_of_our_specialist_to_help_you_better_understand_our_aac"
                 app:layout_constraintHorizontal_weight="2"
                 app:layout_constraintVertical_weight="1"
                 android:layout_marginEnd="@dimen/regular_margin"/>
@@ -68,7 +68,7 @@
                 app:layout_constraintEnd_toStartOf="@id/textViewGiveLink"
                 android:layout_marginStart="@dimen/regular_margin"
                 android:layout_marginTop="@dimen/regular_margin"
-                android:text=" ○ 30 minutes demo \n ○ Guided tour to main features \n ○ New features explained \n ○ Absolutely FREE"
+                android:text="@string/_30_minutes_demo_n_guided_tour_to_main_features_n_new_features_explained_n_absolutely_free"
                 app:layout_constraintHorizontal_weight="2"
                 app:layout_constraintVertical_weight="3"/>
 
@@ -82,7 +82,7 @@
                 app:layout_constraintBottom_toTopOf="@+id/buttonBookDemo"
                 app:layout_constraintHorizontal_weight="1"
                 android:layout_marginStart="@dimen/small_margin"
-                android:text="Book a demo"
+                android:text="@string/book_a_demo"
                 android:textStyle="bold"
                 android:textSize="15sp"/>
 
@@ -96,7 +96,7 @@
                 app:layout_constraintTop_toBottomOf="@id/textViewGiveLink"
                 app:layout_constraintBottom_toBottomOf="parent"
                 android:layout_margin="@dimen/regular_margin"
-                android:text="Book a demo"
+                android:text="@string/book_a_demo"
                 android:drawableTint="@color/White"
                 android:textColor="@color/White"
                 android:drawableTop="@drawable/ic_baseline_calendar_today_24"
@@ -114,7 +114,7 @@
             android:background="@drawable/button_selector"
             android:backgroundTint="@color/quantum_grey400"
             android:layout_margin="@dimen/activity_horizontal_margin"
-            android:text="Ok"
+            android:text="@android:string/ok"
             android:textColor="@color/White"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

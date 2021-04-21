@@ -7,14 +7,14 @@ public class Custom_ImageDescription {
     private String description;
     private String title;
     private int idImage;
-    private int color;
+    private int backgroundColor;
     private int textColor;
-    public Custom_ImageDescription(Context mContext,String title,String description,int idImage,int idColor,int textColor){
+    public Custom_ImageDescription(Context mContext,String title,String description,int idImage,int backgroundColor,int textColor){
         this.mContext=mContext;
         this.description=description;
         this.idImage=idImage;
         this.title=title;
-        this.color=idColor;
+        this.backgroundColor=backgroundColor;
         this.textColor=textColor;
     }
 
@@ -30,8 +30,8 @@ public class Custom_ImageDescription {
         return title;
     }
 
-    public int getColor() {
-        return color;
+    public int getBackgroundColor() {
+        return backgroundColor;
     }
 
     public int getTextColor() {

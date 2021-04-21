@@ -439,7 +439,7 @@
     <string name="hola_nnos_conozcamos_un_poco">Ciao, <br />Conosciamoci un po\'.</string>
     <string name="give_me_the_link">Mi dia il link!</string>
     <string name="email_me">Mandami un\'e-mail</string>
-    <string name="con_videos_explicativos_n_con_6_modulos_especializados_n_autonomo_y_a_tu_ritmo_n_es_totalmente_gratuito_n_40_minutos_de_duracion">○ Con video esplicativi <br /> ○ Con 6 moduli specializzati <br /> ○ Autonomi e al proprio ritmo <br /> ○ Completamente gratuiti <br /> ○ Di 40 minuti</string>
+    <string name="con_videos_explicativos_n_con_6_modulos_especializados_n_autonomo_y_a_tu_ritmo_n_es_totalmente_gratuito_n_40_minutos_de_duracion">○ Con video esplicativi\n○ Con 6 moduli specializzati\n○ Autonomi e al proprio ritmo\n○ Completamente gratuiti\n○ Di 40 minuti</string>
     <string name="nuestro_workshop_gratiuto_te_permite_aprender_a_usar_ottaa">Il nostro workshop gratuito ti permette di imparare come usare OTTAA</string>
     <string name="choose_your_avatar">Scegli il tuo avatar</string>
     <string name="elige_un_personaje_que_nmejor_te_represente">Scegli un personaggio che ti rappresenta meglio, .</string>
@@ -451,11 +451,13 @@
     <string name="te_ofrecemos_varias_opciones_para_naprender_a_utilizarla_y_sacarle_el_maximo_provecho">Vi offriamo diverse opzioni per <br />imparare ad usarlo e ottenere il massimo da esso.</string>
     <string name="ottaa_es_una_potente_nherramienta_de_comunicaci_n">OTTAA è un potente strumento di <br />comunicazione.</string>
     <string name="we_are_helping_thousand_of_speech_impaired_children_to_communicate_improving_their_life_quality">Stiamo aiutando migliaia di bambini con problemi di linguaggio a comunicare, migliorando la qualità della loro vita</string>
-    <string name="bienvenido_nesto_es_ottaa">Benvenuto, <br />questo è OTTAA</string>
+    <string name="bienvenido_nesto_es_ottaa">Benvenuto,questo è OTTAA</string>
     <string name="hello_nplease_register_to_continue">Ciao! <br />Si prega di registrarsi per continuare</string>
     <string name="fecha_de_nacimiento">Data di nascita:</string>
     <string name="your_name">Il tuo nome</string>
     <string name="text_gender">Genere:</string>
     <string name="text_name">Nome</string>
     <string name="check_if_the_info_is_correct_nif_not_change_it_as_you_wish_this_will_help_us_to_personalize_the_app_for_you">Controlla se le informazioni sono corrette,<br />se no, cambiale come vuoi. Questo ci aiuterà a personalizzare l\'app per te.</string>
+    <string name="_30_minutes_demo_n_guided_tour_to_main_features_n_new_features_explained_n_absolutely_free">○ Dimostrazione di 30 minuti\n○ Visita guidata alle funzioni principali\n○ Spiegazione delle nuove funzioni\n○ Assolutamente GRATUITO</string>
+    <string name="book_a_demo_with_one_of_our_specialist_to_help_you_better_understand_our_aac">Prenota una demo con uno dei nostri specialisti per aiutarti a comprendere meglio la nostra CAA</string>
 </resources>
