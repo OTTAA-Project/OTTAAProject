@@ -125,10 +125,10 @@ public class Viewpager_tutorial extends AppCompatActivity {
             TextView textView = view.findViewById(R.id.description);
             TextView title = view.findViewById(R.id.title);
             imageView.setImageDrawable(view.getResources().getDrawable(imageDescriptions[position].getIdImage()));
-            backgroundColor.setBackgroundColor(view.getResources().getColor(imageDescriptions[position].getColor()));
+            backgroundColor.setBackgroundColor(view.getResources().getColor(imageDescriptions[position].getBackgroundColor()));
             textView.setText(imageDescriptions[position].getDescription());
             title.setText(imageDescriptions[position].getTitle());
-            textView.setTextColor(imageDescriptions[position].getTextColor());
+            textView.setTextColor(view.getResources().getColor(imageDescriptions[position].getTextColor()));
             view.setOnClickListener(this);
             next.setOnClickListener(new View.OnClickListener() {
                 @Override

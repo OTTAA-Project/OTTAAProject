@@ -455,11 +455,11 @@
     <string name="favorite_phrases">العبارات المفضلة</string>
     <string name="memory_game">لعبة الذاكرة</string>
     <string name="memory_game_string">جرب ذاكرتك</string>
-    <string name="vamos_a_pedirte_cierta_informaci_n_para_nmejorar_tu_experiencia_con_ottaa">سنطلب منك معلومات معينة <br /> لتحسين تجربتك مع OTTAA</string>
-    <string name="hola_nnos_conozcamos_un_poco">مرحبًا ، <br /> لنتعرف على بعضنا البعض قليلاً.</string>
+    <string name="vamos_a_pedirte_cierta_informaci_n_para_nmejorar_tu_experiencia_con_ottaa">سنطلب منك معلومات معينة \n لتحسين تجربتك مع OTTAA</string>
+    <string name="hola_nnos_conozcamos_un_poco">مرحبًا ، \n لنتعرف على بعضنا البعض قليلاً.</string>
     <string name="give_me_the_link">اعطني الرابط!</string>
     <string name="email_me">راسلني</string>
-    <string name="con_videos_explicativos_n_con_6_modulos_especializados_n_autonomo_y_a_tu_ritmo_n_es_totalmente_gratuito_n_40_minutos_de_duracion">○ مع مقاطع الفيديو التوضيحية <br /> ○ مع 6 وحدات متخصصة <br /> ○ مستقلة ووفقًا لسرعتك الخاصة <br /> ○ خالية تمامًا <br /> ○ 40 دقيقة</string>
+    <string name="con_videos_explicativos_n_con_6_modulos_especializados_n_autonomo_y_a_tu_ritmo_n_es_totalmente_gratuito_n_40_minutos_de_duracion">○ مع مقاطع الفيديو التوضيحية \ n ○ مع 6 وحدات متخصصة \ n ous مستقلة ووفقًا لسرعتك الخاصة \ n ○ مجانًا تمامًا \ n ○ 40 دقيقة</string>
     <string name="nuestro_workshop_gratiuto_te_permite_aprender_a_usar_ottaa">تتيح لك ورشة العمل المجانية الخاصة بنا تعلم كيفية استخدام OTTAA</string>
     <string name="back">عودة</string>
     <string name="next">التالي</string>
@@ -470,15 +470,17 @@
     <string name="do_a_guided_workshop">قم بعمل ورشة عمل إرشادية</string>
     <string name="launch_short_tutorial">إطلاق برنامج تعليمي قصير</string>
     <string name="select_now_how_you_would_like_to_learn_how_to_use_ottaa_you_can_go_back_to_this_screen_later_on">حدد الآن كيف تريد معرفة كيفية استخدام OTTAA ، يمكنك العودة إلى هذه الشاشة لاحقًا.</string>
-    <string name="te_ofrecemos_varias_opciones_para_naprender_a_utilizarla_y_sacarle_el_maximo_provecho">نقدم لك عدة خيارات <br /> لتتعلم كيفية استخدامها وتحقيق أقصى استفادة منها</string>
+    <string name="te_ofrecemos_varias_opciones_para_naprender_a_utilizarla_y_sacarle_el_maximo_provecho">نقدم لك عدة خيارات \n لتتعلم كيفية استخدامها وتحقيق أقصى استفادة منها</string>
     <string name="ottaa_es_una_potente_nherramienta_de_comunicaci_n">OTTAA هي أداة اتصال قوية.</string>
     <string name="we_are_helping_thousand_of_speech_impaired_children_to_communicate_improving_their_life_quality">نحن نساعد الآلاف من الأطفال الذين يعانون من ضعف النطق على التواصل وتحسين نوعية حياتهم</string>
-    <string name="bienvenido_nesto_es_ottaa">مرحبًا ، <br /> هذا هو OTTAA</string>
-    <string name="hello_nplease_register_to_continue">مرحبا! <br /> الرجاء التسجيل للمتابعة</string>
+    <string name="bienvenido_nesto_es_ottaa">مرحبًا ،  هذا هو OTTAA</string>
+    <string name="hello_nplease_register_to_continue">مرحبا!\nالرجاء التسجيل للمتابعة</string>
     <string name="fecha_de_nacimiento">تاريخ الولادة:</string>
     <string name="your_name">اسمك</string>
     <string name="text_gender">جنس:</string>
     <string name="text_name">اسم</string>
-    <string name="check_if_the_info_is_correct_nif_not_change_it_as_you_wish_this_will_help_us_to_personalize_the_app_for_you">تحقق مما إذا كانت المعلومات صحيحة ، <br /> إذا لم تكن كذلك ، فغيّرها كما يحلو لك. سيساعدنا هذا في تخصيص التطبيق لك.</string>
+    <string name="check_if_the_info_is_correct_nif_not_change_it_as_you_wish_this_will_help_us_to_personalize_the_app_for_you">تحقق مما إذا كانت المعلومات صحيحة ، \n إذا لم تكن كذلك ، فغيّرها كما يحلو لك. سيساعدنا هذا في تخصيص التطبيق لك.</string>
+    <string name="_30_minutes_demo_n_guided_tour_to_main_features_n_new_features_explained_n_absolutely_free">○ عرض توضيحي لمدة 30 دقيقة\n○ جولة إرشادية إلى الميزات الرئيسية\n○ شرح ميزات جديدة\n○ مجاني تمامًا</string>
+    <string name="book_a_demo_with_one_of_our_specialist_to_help_you_better_understand_our_aac">احجز عرضًا توضيحيًا مع أحد المتخصصين لدينا لمساعدتك على فهم AAC بشكل أفضل</string>
 
 </resources>

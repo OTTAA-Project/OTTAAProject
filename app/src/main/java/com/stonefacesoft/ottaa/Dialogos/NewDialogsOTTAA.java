@@ -684,7 +684,7 @@ public class NewDialogsOTTAA implements FirebaseSuccessListener {
     }
 
     private void openCalendly(  ) {
-        Intent browse = new Intent( Intent.ACTION_VIEW , Uri.parse("https://calendly.com/ottaa-lixi/30min"));
+        Intent browse = new Intent( Intent.ACTION_VIEW , Uri.parse("https://calendly.com/ottaa-project-support/demo-ottaa-project"));
         mActivity.startActivity(browse);
     }
 
