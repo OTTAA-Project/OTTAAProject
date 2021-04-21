@@ -20,6 +20,7 @@ public class MediaPlayerAudio implements MediaPlayer.OnPreparedListener {
      }
 
      private void playSound(boolean completo){
+        if(player!=null){
          setPlayerSound();
          player.start();
          if(!completo)
@@ -35,6 +36,7 @@ public class MediaPlayerAudio implements MediaPlayer.OnPreparedListener {
 
              }
          });
+        }
      }
 
      public void playYesSound(){
