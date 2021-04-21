@@ -84,6 +84,7 @@
                 android:layout_marginTop="@dimen/medium_margin"
                 android:layout_marginBottom="@dimen/medium_margin"
                 android:layout_marginStart="@dimen/big_fat_margin"
+                android:layout_marginEnd="@dimen/big_fat_margin"
                 android:background="@drawable/fizgerald_shape"
                 android:backgroundTint="@color/White">
 

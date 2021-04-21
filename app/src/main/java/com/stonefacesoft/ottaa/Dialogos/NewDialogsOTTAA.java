@@ -678,13 +678,9 @@ public class NewDialogsOTTAA implements FirebaseSuccessListener {
     }
 
     private void triggerEmail(){
-        //TODO Peplace with a Realtime database trigger.
         CustomToast customToast = new CustomToast(mActivity);
         customToast.mostrarFrase("Email enviado"); //TODO extraer resource
-        analyticsFirebase.customEvents("WantWorkshop","LoginActivity2Step3","Trigger email");
-
-
-
+        doHTTPRequest();
     }
 
     private void openCalendly(  ) {
@@ -695,7 +691,7 @@ public class NewDialogsOTTAA implements FirebaseSuccessListener {
     private void doHTTPRequest() {
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(mActivity);
-        String url = "https://us-central1-ottaa-project.cloudfunctions.net/readFile";
+        String url = "https://us-central1-ottaa-project.cloudfunctions.net/add2list";
 
         // Request a string response from the provided URL.
         // Display the first 500 characters of the response string.
