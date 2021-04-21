@@ -102,10 +102,12 @@ public class MediaPlayerAudio implements MediaPlayer.OnPreparedListener {
          player.stop();
     }
     private void setPlayerSound(){
+        if(player!=null){
          if(muted)
              player.setVolume(0f,0f);
          else
              player.setVolume(audioLevel,audioLevel);
+        }
     }
 
     public boolean isMuted() {

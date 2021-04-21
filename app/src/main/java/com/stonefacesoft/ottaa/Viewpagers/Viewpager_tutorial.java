@@ -36,9 +36,9 @@ public class Viewpager_tutorial extends AppCompatActivity {
         viewPager = findViewById(R.id.viewpager);
         //TODO hay dos colores color del titulo y color del texto
         setImageDescriptions(0, R.drawable.ic_tuto1,getResources().getString(R.string.tutorial01), getResources().getString(R.string.createyourphrases),R.color.NaranjaOTTAA,R.color.White);
-        setImageDescriptions(1, R.drawable.ic_tuto2, getResources().getString(R.string.tutorial02), getResources().getString(R.string.talktotheworld),R.color.quantum_grey300,R.color.quantum_yellow);
-        setImageDescriptions(2, R.drawable.ic_tuto3,  getResources().getString(R.string.tutorial03),getResources().getString(R.string.accessthousandof) ,R.color.NaranjaOTTAA,R.color.colorDarkGray);
-        setImageDescriptions(3, R.drawable.ic_tuto4,  getResources().getString(R.string.tutorial04), getResources().getString(R.string.playandlearn),R.color.quantum_grey300,R.color.holo_green_dark);
+        setImageDescriptions(1, R.drawable.ic_tuto2, getResources().getString(R.string.tutorial02), getResources().getString(R.string.talktotheworld),R.color.quantum_grey300,R.color.NaranjaOTTAA);
+        setImageDescriptions(2, R.drawable.ic_tuto3,  getResources().getString(R.string.tutorial03),getResources().getString(R.string.accessthousandof) ,R.color.NaranjaOTTAA,R.color.White);
+        setImageDescriptions(3, R.drawable.ic_tuto4,  getResources().getString(R.string.tutorial04), getResources().getString(R.string.playandlearn),R.color.quantum_grey300,R.color.NaranjaOTTAA);
         pagerAdapter = new Viewpager_tutorial.ScreenSlidePagerAdapter(this);
         floatingActionButton=findViewById(R.id.exit);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
