@@ -333,13 +333,10 @@ public class BajarJsonFirebase implements OnFailureListener {
                         if (!json.guardarJson(Constants.ARCHIVO_PICTOS_DATABASE))
                             Log.e(TAG, "Error al guardar Json");
                         mFbSuccessListenerInterfaz.onPictosSugeridosBajados(true);
-
-
                     }
 
                 } catch (Exception e1) {
                     e1.printStackTrace();
-
                     mFbSuccessListenerInterfaz.onPictosSugeridosBajados(true);
                 }
 

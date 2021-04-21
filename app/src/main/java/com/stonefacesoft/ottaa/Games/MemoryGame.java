@@ -21,12 +21,11 @@ import org.json.JSONObject;
 
 public class MemoryGame extends GameViewSelectPictograms {
 
-    private int matrixIdPictogram[][]= new int[2][4];
-    private int controlIndexSelect[]=new int[4];// se utiliza para indicar que pictogramas fueron seleccionados dos veces
-    private Handler resetOption=new Handler();
-    private int foundPictos=0;
-    private String history[]=new String[4];
-
+    private final int[][] matrixIdPictogram = new int[2][4];
+    private final int[] controlIndexSelect = new int[4];// se utiliza para indicar que pictogramas fueron seleccionados dos veces
+    private final Handler resetOption = new Handler();
+    private final String[] history = new String[4];
+    private int foundPictos = 0;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -39,8 +38,8 @@ public class MemoryGame extends GameViewSelectPictograms {
 
     @Override
     protected void selectRandomPictogram(int pos) {
-        int value=(int)Math.round((Math.random()*hijos.length()-1)+0);
-        if(!numeros.contains(value)) {
+        int value = (int) Math.round((Math.random() * hijos.length() - 1) + 0);
+        if (!numeros.contains(value)) {
             numeros.add(value);
             try {
                 JSONObject object = hijos.getJSONObject(value);
@@ -49,7 +48,7 @@ public class MemoryGame extends GameViewSelectPictograms {
                 e.printStackTrace();
                 selectRandomPictogram(pos);
             }
-        }else{
+        } else {
             selectRandomPictogram(pos);
         }
     }
@@ -94,53 +93,53 @@ public class MemoryGame extends GameViewSelectPictograms {
         switch (view.getId()) {
             case R.id.Option1:
 
-                setOption(opcion1,0,0);
-                lastPosicion=0;
+                setOption(opcion1, 0, 0);
+                lastPosicion = 0;
                 isCorrect(opcion1);
                 speakOption(opcion1);
                 break;
             case R.id.Option2:
 
-                setOption(opcion2,0,1);
-                lastPosicion=1;
+                setOption(opcion2, 0, 1);
+                lastPosicion = 1;
                 isCorrect(opcion2);
                 speakOption(opcion2);
                 //hacerClickOpcion(true);
                 break;
             case R.id.Option3:
-                setOption(opcion3,0,2);
-                lastPosicion=2;
+                setOption(opcion3, 0, 2);
+                lastPosicion = 2;
                 isCorrect(opcion3);
                 speakOption(opcion3);
                 //hacerClickOpcion(true);
                 break;
             case R.id.Option4:
-                setOption(opcion4,0,3);
-                lastPosicion=3;
+                setOption(opcion4, 0, 3);
+                lastPosicion = 3;
                 isCorrect(opcion4);
                 speakOption(opcion4);
                 //hacerClickOpcion(true);
                 break;
             case R.id.Guess1:
-                setOption(guess1,1,0);
+                setOption(guess1, 1, 0);
                 isCorrect(guess1);
                 speakOption(guess1);
                 //hacerClickOpcion(false);
                 break;
             case R.id.Guess2:
-                setOption(guess2,1,1);
+                setOption(guess2, 1, 1);
                 isCorrect(guess2);
                 speakOption(guess2);
                 //hacerClickOpcion(false);
                 break;
             case R.id.Guess3:
-                setOption(guess3,1,2);
+                setOption(guess3, 1, 2);
                 isCorrect(guess3);
                 speakOption(guess3);
                 //hacerClickOpcion(false);
                 break;
             case R.id.Guess4:
-                setOption(guess4,1,3);
+                setOption(guess4, 1, 3);
                 isCorrect(guess4);
                 speakOption(guess4);
                 //hacerClickOpcion(false);
@@ -223,14 +222,14 @@ public class MemoryGame extends GameViewSelectPictograms {
     public void resetMatrix() {
         for (int i = 0; i < 2; i++) {
             for (int j = 0; j < 4; j++) {
-                matrixIdPictogram[i][j]=-1;
+                matrixIdPictogram[i][j] = -1;
             }
         }
     }
 
-    public void resetValue(){
-        for (int i = 0; i <4 ; i++) {
-            controlIndexSelect[i]=0;
+    public void resetValue() {
+        for (int i = 0; i < 4; i++) {
+            controlIndexSelect[i] = 0;
         }
     }
 
@@ -239,18 +238,19 @@ public class MemoryGame extends GameViewSelectPictograms {
             history[i] = "";
         }
     }
-/**
- *
- * */
-    public void addRandomIndex(){
-        for (int i = 0; i < matrixIdPictogram.length ; i++) {// recorro la filas
+
+    /**
+     *
+     */
+    public void addRandomIndex() {
+        for (int i = 0; i < matrixIdPictogram.length; i++) {// recorro la filas
             for (int j = 0; j < matrixIdPictogram[i].length; j++) { //recorro las columnas
-                if(matrixIdPictogram[i][j]==-1){
-                    int index=(int)(Math.random()*4)+0; // picto a seleccionar
-                    if(controlIndexSelect[index]<2){ //pregunto cuantas veces fue seleccionado el valor
-                        matrixIdPictogram[i][j]=index;
+                if (matrixIdPictogram[i][j] == -1) {
+                    int index = (int) (Math.random() * 4) + 0; // picto a seleccionar
+                    if (controlIndexSelect[index] < 2) { //pregunto cuantas veces fue seleccionado el valor
+                        matrixIdPictogram[i][j] = index;
                         controlIndexSelect[index]++; //le indico que ese valor fue seleccionado
-                    }else{
+                    } else {
                         addRandomIndex(); //
                     }
 
@@ -259,14 +259,14 @@ public class MemoryGame extends GameViewSelectPictograms {
         }
     }
 
-    public void setOption(PictoView option,int row,int column){
+    public void setOption(PictoView option, int row, int column) {
 
-        Log.d("TAG", "setOption: "+pictogramas[matrixIdPictogram[row][column]].toString());
-            try {
-                option.setCustom_Texto(pictogramas[matrixIdPictogram[row][column]].getJSONObject("texto").getString(json.getIdioma()));
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+        Log.d("TAG", "setOption: " + pictogramas[matrixIdPictogram[row][column]].toString());
+        try {
+            option.setCustom_Texto(pictogramas[matrixIdPictogram[row][column]].getJSONObject("texto").getString(json.getIdioma()));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         option.setVisibleText();
         option.setCustom_Img(json.getIcono(pictogramas[matrixIdPictogram[row][column]]));
     }
@@ -276,7 +276,8 @@ public class MemoryGame extends GameViewSelectPictograms {
     protected void isCorrect(PictoView view) {
 
         if (lastButton == null && lastPictogram != null) {
-            selectLastButton(view);
+            if (!lastPictogram.getTag().toString().equals(view.getTag().toString()))
+                selectLastButton(view);
         } else if (lastButton == null && lastPictogram == null) {
             selectLastPictogram(view);
         }
@@ -284,18 +285,19 @@ public class MemoryGame extends GameViewSelectPictograms {
             lockOptions();
             //If texts are equal, means that the user was correct
             if (lastPictogram.getCustom_Texto().contentEquals(lastButton.getCustom_Texto())) {
-
+                playCorrectSound();
                 CorrectAction();
             } else {
+                player.playOhOhSound();
                 WrongAction();
             }
         }
     }
 
 
-    private void startGame(){
+    private void startGame() {
         numeros.clear();
-        foundPictos =0;
+        foundPictos = 0;
         resetMatrix();
         resetValue();
         resetHistory();
@@ -364,14 +366,11 @@ public class MemoryGame extends GameViewSelectPictograms {
     @Override
     protected void CorrectAction() {
         game.incrementCorrect();
-        playCorrectSound();
-        player.playYesSound();
-        player.playYupi1Sound();
         unlockOptions();
         history[foundPictos] = lastButton.getCustom_Texto();
         foundPictos++;
         setMenuScoreIcon();
-        animateChildrens(lastButton,lastPictogram,true);
+        animateChildrens(lastButton, lastPictogram, true);
         lastPictogram = null;
         lastButton = null;
         if (foundPictos == pictogramas.length) {
@@ -387,10 +386,9 @@ public class MemoryGame extends GameViewSelectPictograms {
 
     @Override
     protected void WrongAction() {
-        player.playOhOhSound();
         game.incrementWrong();
         setMenuScoreIcon();
-        animateChildrens(findViewById(lastPictogram.getId()),findViewById(lastButton.getId()),false);
+        animateChildrens(findViewById(lastPictogram.getId()), findViewById(lastButton.getId()), false);
         resetOption.postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -405,25 +403,25 @@ public class MemoryGame extends GameViewSelectPictograms {
         }, 2500);
     }
 
-    private void selectLastButton(PictoView view){
+    private void selectLastButton(PictoView view) {
         lastButton = view;
         if (theViewHasBeenSelected(lastButton.getCustom_Texto()))
             lastButton = null;
     }
 
-    private void selectLastPictogram(PictoView view){
+    private void selectLastPictogram(PictoView view) {
         lastPictogram = view;
         if (theViewHasBeenSelected(lastPictogram.getCustom_Texto()))
             lastPictogram = null;
     }
 
-    private void animateChildrens(PictoView view1,PictoView view2,boolean isCorrect){
-        if(isCorrect){
-            animGameScore.animateCorrect(view1, game.getSmiley(Juego.VERY_SSATISFIED),mAnimationWin);
-            animGameScore.animateCorrect(view2, game.getSmiley(Juego.VERY_SSATISFIED),mAnimationWin2);
-        }else{
-            animGameScore.animateCorrect(view1, game.getSmiley(Juego.DISSATISFIED),mAnimationWin);
-            animGameScore.animateCorrect(view2, game.getSmiley(Juego.DISSATISFIED),mAnimationWin2);
+    private void animateChildrens(PictoView view1, PictoView view2, boolean isCorrect) {
+        if (isCorrect) {
+            animGameScore.animateCorrect(view1, game.getSmiley(Juego.VERY_SSATISFIED), mAnimationWin);
+            animGameScore.animateCorrect(view2, game.getSmiley(Juego.VERY_SSATISFIED), mAnimationWin2);
+        } else {
+            animGameScore.animateCorrect(view1, game.getSmiley(Juego.DISSATISFIED), mAnimationWin);
+            animGameScore.animateCorrect(view2, game.getSmiley(Juego.DISSATISFIED), mAnimationWin2);
         }
     }
 }

@@ -65,7 +65,7 @@ public class LicenciaUsuario {
 
                 } else {
                     if (mContext != null) {
-                        Intent intent = new Intent(mContext, LoginActivity.class);
+                        Intent intent = new Intent(mContext, LoginActivity2.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         mContext.startActivity(intent);
                     }

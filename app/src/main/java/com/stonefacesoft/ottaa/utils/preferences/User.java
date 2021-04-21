@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import androidx.annotation.NonNull;
+
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInApi;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -14,10 +16,8 @@ import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.google.firebase.auth.FirebaseAuth;
 import com.stonefacesoft.ottaa.Interfaces.FirebaseSuccessListener;
-import com.stonefacesoft.ottaa.LoginActivity;
+import com.stonefacesoft.ottaa.LoginActivity2;
 import com.stonefacesoft.ottaa.R;
-
-import androidx.annotation.NonNull;
 
 public class User {
     private Activity mActivity;
@@ -48,7 +48,7 @@ public class User {
                 if(firebaseAuth.getCurrentUser() == null){
                     sharedPrefsDefault.edit().putBoolean("firstrun", true).apply();
                     Intent mainIntent = new Intent().setClass(
-                            mContext, LoginActivity.class);
+                            mContext, LoginActivity2.class);
                     mContext.startActivity(mainIntent);
                     mContext.finish();
 

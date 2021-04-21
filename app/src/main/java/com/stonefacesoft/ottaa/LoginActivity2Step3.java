@@ -2,7 +2,6 @@ package com.stonefacesoft.ottaa;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Animation;
@@ -13,20 +12,9 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.stonefacesoft.ottaa.Dialogos.NewDialogsOTTAA;
 import com.stonefacesoft.ottaa.Viewpagers.Viewpager_tutorial;
 import com.stonefacesoft.ottaa.utils.InmersiveMode;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class LoginActivity2Step3 extends AppCompatActivity implements View.OnClickListener {
 
@@ -77,6 +65,7 @@ public class LoginActivity2Step3 extends AppCompatActivity implements View.OnCli
         if (id == R.id.nextButton) {
             Intent intent = new Intent(LoginActivity2Step3.this, LoginActivity2Avatar.class);
             startActivity(intent);
+            finish();
         } else if (id == R.id.backButton) {
             Intent intent2 = new Intent(LoginActivity2Step3.this, LoginActivity2Step2.class);
             startActivity(intent2);

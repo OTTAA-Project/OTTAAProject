@@ -350,7 +350,7 @@
     <string name="edit_sync_pict">Estamos sincronizando tus pictogramas / grupos</string>
     <string name="usar_pistas">Usar pistas</string>
     <string name="tutorial_shared1">Compartir</string>
-    <string name="cuenta">Cuenta</string>
+    <string name="cuenta">Cuenta : </string>
     <string name="pref_summary_backup_principal">Hubo un problema con la base de datos, restaure OTTAA a un punto guardado previamente para restaurar sus datos.</string>
     <string name="please_select_date">Porfavor seleccione una fecha</string>
     <string name="pref_summary_backup">Esta función le permite restablecer OTTAA a un punto anterior para recuperar datos perdidos.</string>

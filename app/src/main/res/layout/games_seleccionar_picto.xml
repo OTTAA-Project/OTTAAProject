@@ -67,7 +67,9 @@
             app:layout_constraintVertical_weight="5"
             app:layout_constraintDimensionRatio="1:1"
             custom:Imagen="1"
-            custom:Texto="Hola">
+            custom:Texto="Hola"
+            android:tag="Guess1"
+            >
 
         </com.stonefacesoft.pictogramslibrary.view.PictoView>
 
@@ -84,7 +86,9 @@
             app:layout_constraintTop_toTopOf="@id/Guess1"
             custom:Imagen="1"
             app:layout_constraintDimensionRatio="1:1"
-            custom:Texto="Hola">
+            custom:Texto="Hola"
+            android:tag="Guess2"
+            >
 
         </com.stonefacesoft.pictogramslibrary.view.PictoView>
 
@@ -102,6 +106,7 @@
             app:layout_constraintStart_toEndOf="@id/Guess2"
             app:layout_constraintTop_toTopOf="@id/Guess1"
             app:layout_constraintDimensionRatio="1:1"
+            android:tag="Guess3"
             >
 
         </com.stonefacesoft.pictogramslibrary.view.PictoView>
@@ -119,7 +124,9 @@
             app:layout_constraintTop_toTopOf="@id/Guess1"
             custom:Imagen="1"
             app:layout_constraintDimensionRatio="1:1"
-            custom:Texto="Hola">
+            custom:Texto="Hola"
+            android:tag="Guess4"
+            >
 
         </com.stonefacesoft.pictogramslibrary.view.PictoView>
 
@@ -150,6 +157,7 @@
             app:layout_constraintVertical_weight="5"
             custom:Imagen="1"
             app:layout_constraintDimensionRatio="1:1"
+            android:tag="Option1"
             >
 
         </com.stonefacesoft.pictogramslibrary.view.PictoView>
@@ -168,7 +176,9 @@
             app:layout_constraintStart_toEndOf="@id/Option1"
             app:layout_constraintDimensionRatio="1:1"
 
-            app:layout_constraintTop_toTopOf="@id/Option1">
+            app:layout_constraintTop_toTopOf="@id/Option1"
+            android:tag="Option2"
+            >
 
         </com.stonefacesoft.pictogramslibrary.view.PictoView>
 
@@ -186,7 +196,9 @@
             app:layout_constraintDimensionRatio="1:1"
 
             custom:Imagen="2"
-            custom:Texto="Hola">
+            custom:Texto="Hola"
+            android:tag="Option3"
+            >
 
         </com.stonefacesoft.pictogramslibrary.view.PictoView>
 
@@ -203,7 +215,9 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/Option3"
             app:layout_constraintTop_toTopOf="@id/Option1"
-            app:layout_constraintDimensionRatio="1:1">
+            app:layout_constraintDimensionRatio="1:1"
+            android:tag="Option4"
+            >
 
         </com.stonefacesoft.pictogramslibrary.view.PictoView>
 

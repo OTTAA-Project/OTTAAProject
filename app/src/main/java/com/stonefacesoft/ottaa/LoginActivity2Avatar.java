@@ -164,6 +164,7 @@ public class LoginActivity2Avatar extends AppCompatActivity implements View.OnCl
             }
             Intent intent = new Intent(LoginActivity2Avatar.this, Principal.class);
             startActivity(intent);
+            finish();
         } else if (id == R.id.backButton) {
             Intent intent2 = new Intent(LoginActivity2Avatar.this, LoginActivity2Step3.class);
             startActivity(intent2);
