@@ -1,10 +1,15 @@
 package com.stonefacesoft.ottaa;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
@@ -34,15 +39,25 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.stonefacesoft.ottaa.FirebaseRequests.BajarJsonFirebase;
+import com.stonefacesoft.ottaa.FirebaseRequests.FirebaseDatabaseRequest;
+import com.stonefacesoft.ottaa.Interfaces.FirebaseSuccessListener;
 import com.stonefacesoft.ottaa.utils.InmersiveMode;
 import com.stonefacesoft.ottaa.utils.IntentCode;
+import com.stonefacesoft.ottaa.utils.ObservableInteger;
+
+import java.io.File;
+import java.util.Locale;
 
 import static com.stonefacesoft.ottaa.utils.Constants.RC_SIGN_IN;
 
 //Code source https://developers.google.com/identity/sign-in/android/sign-in
 
 //merge with new design-doc and new design-avatar
-public class LoginActivity2 extends AppCompatActivity implements View.OnClickListener {
+public class LoginActivity2 extends AppCompatActivity implements View.OnClickListener, FirebaseSuccessListener {
 
     private static final String TAG = "LoginActivity";
 
@@ -56,6 +71,16 @@ public class LoginActivity2 extends AppCompatActivity implements View.OnClickLis
     private CardView cardViewLogin;
     private ImageView orangeBanner;
     private com.google.android.gms.common.SignInButton signInButton;
+
+    private ObservableInteger observableInteger;
+    private BajarJsonFirebase mBajarJsonFirebase;
+    private SharedPreferences sharedPrefsDefault;
+    private StorageReference mStorageRef;
+    private DatabaseReference mDatabase;
+    private ProgressDialog dialog;
+    private String locale;
+    private FirebaseAuth.AuthStateListener mAuthListener;
+
 
 
     @Override
@@ -78,9 +103,11 @@ public class LoginActivity2 extends AppCompatActivity implements View.OnClickLis
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
         mAuth = FirebaseAuth.getInstance();
-
+        setUpObservableInteger();
+        sharedPrefsDefault= PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        dialog = new ProgressDialog(LoginActivity2.this);
+        startmAuthListener();
         animateEntrance();
-
     }
 
     private void bindUI(){
@@ -103,7 +130,16 @@ public class LoginActivity2 extends AppCompatActivity implements View.OnClickLis
     @Override
     protected void onStart() {
         super.onStart();
+        mAuth.addAuthStateListener(mAuthListener);
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (dialog != null && dialog.isShowing()) {
+            dialog.dismiss();
+        }
     }
 
     @Override
@@ -186,7 +222,7 @@ public class LoginActivity2 extends AppCompatActivity implements View.OnClickLis
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "onComplete: firebaseAuth succesfull");
                             FirebaseUser user = mAuth.getCurrentUser();
-                            animateTransition();
+
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.e(TAG, "onComplete: firebaseAuth fail");
@@ -258,6 +294,7 @@ public class LoginActivity2 extends AppCompatActivity implements View.OnClickLis
                 Log.d(TAG, "onAnimationEnd: Closing login screen");
                 Intent intent = new Intent(LoginActivity2.this, LoginActivity2Step2.class);
                 startActivity(intent);
+                finish();
             }
 
             @Override
@@ -275,6 +312,132 @@ public class LoginActivity2 extends AppCompatActivity implements View.OnClickLis
         orangeBanner.startAnimation(translateAnimation2);
         textViewLoginBig.startAnimation(translateAnimation2);
         textViewLoginSmall.startAnimation(translateAnimation2);
+    }
 
+
+
+    public void setUpObservableInteger(){
+        observableInteger=new ObservableInteger();
+        observableInteger.set(0);
+        observableInteger.setOnIntegerChangeListener(new ObservableInteger.OnIntegerChangeListener() {
+            @Override
+            public void onIntegerChanged(int newValue) {
+                if(observableInteger.get()==0) {
+                    Log.d(TAG, "onIntegerChanged: obsInt 0");
+                }
+                if (observableInteger.get() == 1){
+                    Log.d(TAG, "onIntegerChanged: obsInt 1");
+                }
+                if (observableInteger.get() == 2) {
+                    Log.d(TAG, "onIntegerChanged: obsInt 2");
+                    Log.d(TAG, "onIntegerChanged: Se bajo grupos");
+                    dialog.dismiss();
+                    animateTransition();
+                    // chequearArchivoSugerencias();
+                }
+            }
+        });
+    }
+
+    @Override
+    public void onDescargaCompleta(int descargaCompleta) {
+
+    }
+
+    @Override
+    public void onDatosEncontrados(int datosEncontrados) {
+
+    }
+
+    @Override
+    public void onFotoDescargada(int fotosDescargadas) {
+
+    }
+
+    @Override
+    public void onArchivosSubidos(boolean subidos) {
+
+    }
+
+    @Override
+    public void onPictosSugeridosBajados(boolean descargado) {
+        Log.d(TAG, "onIntegerChanged: Se bajaron las sugerencias");
+        dialog.dismiss();
+        animateTransition();
+    }
+
+    public void downloadFiles() {
+        locale = Locale.getDefault().getLanguage();
+        sharedPrefsDefault.edit().putString(getString(R.string.str_idioma), locale).apply();
+        File rootPath = new File(getApplicationContext().getCacheDir(), "Archivos_OTTAA");
+        if (!rootPath.exists()) {
+            rootPath.mkdirs();//si no existe el directorio lo creamos
+        }
+        StorageReference mStorageRefUsuariosGruposOld = FirebaseStorage.getInstance().getReference().child("Archivos_Usuarios").child("grupos_" + mAuth.getCurrentUser().getEmail() + "." + "txt");
+        mBajarJsonFirebase.bajarGrupos(locale, rootPath, observableInteger);
+        mBajarJsonFirebase.bajarPictos(locale, rootPath, observableInteger);
+        mBajarJsonFirebase.bajarFrases(locale, rootPath, observableInteger);
+
+    }
+
+    private void startmAuthListener() {
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull final FirebaseAuth firebaseAuth) {
+
+                if(firebaseAuth.getCurrentUser()!=null) {
+                    Log.d(TAG, "onAuthStateChanged: currentUser not null");
+                    sharedPrefsDefault.edit().putString(getString(R.string.str_userMail), mAuth.getCurrentUser().getEmail()).apply();
+                    sharedPrefsDefault = getSharedPreferences(sharedPrefsDefault.getString(getString(R.string.str_userMail), "error"), Context.MODE_PRIVATE);
+
+                    mBajarJsonFirebase = new BajarJsonFirebase(sharedPrefsDefault, mAuth, getApplicationContext());
+                    mBajarJsonFirebase.setInterfaz(LoginActivity2.this);
+                    locale = Locale.getDefault().getLanguage();
+                    new BackgroundTask().execute();
+                    sharedPrefsDefault.edit().putBoolean("prediccion_usuario", false).apply();
+                    FirebaseDatabaseRequest request = new FirebaseDatabaseRequest(getApplicationContext());
+                    request.subirNombreUsuario(firebaseAuth);
+                    request.subirPago(firebaseAuth);
+                    request.subirEmail(firebaseAuth);
+                   /*Intent mainIntent = new Intent().setClass(LoginActivity.this, Principal.class);
+                    startActivity(mainIntent);*/
+
+                }
+
+
+            }
+
+
+        };
+
+    }
+
+    public class BackgroundTask extends AsyncTask<Void, Void, Void> {
+        @Override
+        protected void onPreExecute() {
+            if (!LoginActivity2.this.isFinishing()) {
+                dialog.setMessage(getResources().getString(R.string.pref_login_wait));
+                dialog.setTitle(getResources().getString(R.string.pref_login_autentificando));
+                dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+                dialog.setCancelable(false);
+                dialog.show();
+            }
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+
+            try {
+                downloadFiles();
+            } catch (Exception e) {
+                Log.e(TAG, "doInBackground: You cannot download picto");
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+        }
     }
 }

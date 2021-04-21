@@ -138,6 +138,7 @@ public class LoginActivity2Step2 extends AppCompatActivity implements View.OnCli
                 setUpUserData();
                 Intent intent = new Intent(LoginActivity2Step2.this, LoginActivity2Step3.class);
                 startActivity(intent);
+                finish();
             }else{
                 Toast.makeText(this,"Estos datos son necesarios para la prediccion",Toast.LENGTH_LONG).show();
             }

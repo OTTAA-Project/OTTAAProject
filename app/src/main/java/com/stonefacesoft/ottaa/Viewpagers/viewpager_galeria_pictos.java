@@ -63,6 +63,7 @@ public class viewpager_galeria_pictos {
     private static String idioma;
 
 
+
     public viewpager_galeria_pictos(AppCompatActivity mActivity, textToSpeech myTTS, int parent_button) {
         viewpager_galeria_pictos.mActivity = mActivity;
         viewpager_galeria_pictos.myTTS = myTTS;
@@ -95,7 +96,7 @@ public class viewpager_galeria_pictos {
 
         @Override
         public Fragment createFragment(int position) {
-            return fragment.newInstance(position);
+            return new fragmentPicto().newInstance(position);
         }
 
         @Override
@@ -243,6 +244,16 @@ public class viewpager_galeria_pictos {
             picto1=view.findViewById(R.id.Option1);
             loadPictogram(picto1);
 
+        }
+
+        @Override
+        public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+            super.onViewStateRestored(savedInstanceState);
+        }
+
+        @Override
+        public void onSaveInstanceState(@NonNull Bundle outState) {
+            super.onSaveInstanceState(outState);
         }
 
         private Integer cargarColor(int tipo) {

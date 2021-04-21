@@ -327,7 +327,7 @@
     <string name="edit_sync_pict">نحن نقوم بمزامنة الصور التوضيحية / المجموعات الخاصة بك</string>
     <string name="usar_pistas">استخدم الأدلة</string>
     <string name="tutorial_shared1">مشترك</string>
-    <string name="cuenta">الحساب</string>
+    <string name="cuenta">الحساب:</string>
     <string name="pref_summary_backup">تسمح لك هذه الوظيفة باستعادة OTTAA إلى نقطة سابقة لاستعادة البيانات المفقودة.</string>
     <string name="pref_summary_backup_principal">كانت هناك مشكلة في قاعدة البيانات ، يرجى إعادة OTTAA إلى نقطة حفظ سابقة من أجل استعادة بياناتك.</string>
     <string name="please_select_date">يرجى تحديد التاريخ</string>

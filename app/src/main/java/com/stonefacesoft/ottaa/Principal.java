@@ -93,6 +93,7 @@ import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.Viewpagers.Viewpager_tutorial;
 import com.stonefacesoft.ottaa.idioma.ConfigurarIdioma;
 import com.stonefacesoft.ottaa.idioma.myContextWrapper;
+import com.stonefacesoft.ottaa.utils.AboutOttaa;
 import com.stonefacesoft.ottaa.utils.Accesibilidad.BarridoPantalla;
 import com.stonefacesoft.ottaa.utils.Accesibilidad.Gesture;
 import com.stonefacesoft.ottaa.utils.Accesibilidad.devices.PrincipalControls;
@@ -514,7 +515,7 @@ public class Principal extends AppCompatActivity implements View
         } else {
             Log.e(TAG, "onCreate: CurrentUser == null");
             Intent mainIntent = new Intent().setClass(
-                    Principal.this, LoginActivity.class);
+                    Principal.this, LoginActivity2.class);
             startActivity(mainIntent);
             finish();
         }
@@ -811,7 +812,6 @@ public class Principal extends AppCompatActivity implements View
         gesture=new Gesture(drawerLayout);
         if (TutoFlag) {
             sharedPrefs.edit().putBoolean("PrimerUso",false).apply();
-            startActivity(new Intent(this,Viewpager_tutorial.class));
         }
         navigationControls=new PrincipalControls(this);
 
@@ -2847,8 +2847,7 @@ public class Principal extends AppCompatActivity implements View
             case R.id.about:
                 //NOTA firebase analitycs
                 analitycsFirebase.customEvents("Touch","Principal","About that");
-               // Intent intent = new Intent(getApplicationContext(), AboutOttaa.class);
-                Intent intent = new Intent(Principal.this, LoginActivity2.class);
+               Intent intent = new Intent(getApplicationContext(), AboutOttaa.class);
                 startActivity(intent);
                 break;
         }

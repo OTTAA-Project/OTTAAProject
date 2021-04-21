@@ -90,7 +90,7 @@ public class LicenciaExpirada extends AppCompatActivity implements SharedPrefere
                         FirebaseAuth.getInstance().signOut();
                         mGoogleApiClient.disconnect();
                         Intent mainIntent = new Intent().setClass(
-                                LicenciaExpirada.this, LoginActivity.class);
+                                LicenciaExpirada.this, LoginActivity2.class);
                         startActivity(mainIntent);
                         finish();
 
