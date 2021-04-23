@@ -28,7 +28,7 @@
 
     <dimen name="sizeFloattingButtonMin">50dp</dimen>
     <dimen name="sizeFloattingButtonMed">70dp</dimen>
-    <dimen name="sizeFloattingButtonMax">100dp</dimen>
+    <dimen name="sizeFloattingButtonMax">80dp</dimen>
 
     <dimen name="sizeFloattingButtonIconMin">40dp</dimen>
     <dimen name="sizeFloattingButtonIconMed">60dp</dimen>
