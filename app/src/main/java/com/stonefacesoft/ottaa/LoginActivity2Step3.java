@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.stonefacesoft.ottaa.Dialogos.NewDialogsOTTAA;
 import com.stonefacesoft.ottaa.Viewpagers.Viewpager_tutorial;
+import com.stonefacesoft.ottaa.utils.Firebase.AnalyticsFirebase;
 import com.stonefacesoft.ottaa.utils.InmersiveMode;
 
 public class LoginActivity2Step3 extends AppCompatActivity implements View.OnClickListener {
@@ -27,12 +28,15 @@ public class LoginActivity2Step3 extends AppCompatActivity implements View.OnCli
     Button buttonPrevious;
     Button buttonTutorial;
 
+    private AnalyticsFirebase mAnalyticsFirebase;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         new InmersiveMode(this);
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_activity_3);
+        mAnalyticsFirebase=new AnalyticsFirebase(this);
 
         bindUI();
 
@@ -63,18 +67,23 @@ public class LoginActivity2Step3 extends AppCompatActivity implements View.OnCli
     public void onClick(View view) {
         int id = view.getId();
         if (id == R.id.nextButton) {
+            mAnalyticsFirebase.customEvents("Touch","LoginActivityStep3","Next Button");
             Intent intent = new Intent(LoginActivity2Step3.this, LoginActivity2Avatar.class);
             startActivity(intent);
             finish();
         } else if (id == R.id.backButton) {
+            mAnalyticsFirebase.customEvents("Touch","LoginActivityStep3","Back Button");
             Intent intent2 = new Intent(LoginActivity2Step3.this, LoginActivity2Step2.class);
             startActivity(intent2);
         } else if (id == R.id.buttonTutorial) {
+            mAnalyticsFirebase.customEvents("Touch","LoginActivityStep3","ButtonTutorial");
             Intent intent3 = new Intent(LoginActivity2Step3.this, Viewpager_tutorial.class);
             startActivity(intent3);
         } else if (id == R.id.buttonAutoWorkshop) {
+            mAnalyticsFirebase.customEvents("Touch","LoginActivityStep3","ButtonAutoWorkShop");
             new NewDialogsOTTAA(this).showAutoWorkshopDialog();
         } else if (id == R.id.buttonBookDemo) {
+            mAnalyticsFirebase.customEvents("Touch","LoginActivityStep3","ButtonBookDemo");
             new NewDialogsOTTAA(this).showBookDemoDialog();
         }
     }

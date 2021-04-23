@@ -183,8 +183,28 @@ You can be part of this life-changer tech, join us in this social impact open so
 | Cual es el picto | BotonScore                           | Score Dialog               |
 | Cual es el picto | Activar/Desactivar Ayuda             | Help Action                |
 | Cual es el picto | Silenciar Cancion                    | Mute                       |
-
-
+| LoginActivity    | Seleccionar el boton de singin       | singIn                     |
+| LoginActivityStep2 | Los datos del usuario nombre,fecha de nacimiento y genero fueron cargados correctamente  paso a la siguiente pantalla| NextButtonIsAvailable |
+| LoginActivityStep2 | Falta completar alguno de los datos del nombre,genero y edad | NextButtonIsnotAvailable |
+| LoginActivityStep2 |vuelvo al login| BackButton |
+| LoginActivityStep2 | llamo al calendario | calendarButton |
+| LoginActivityStep3 | paso al activity siguiente| Next Button |
+| LoginActivityStep3 | paso al activity anterior | back Button |
+| LoginActivityStep3 | voy al tutorial desde el login | ButtonTutorial |
+| LoginActivityStep3 | voy al tutorial desde el login | ButtonTutorial |
+| LoginActivityStep3 | voy al workshop desde el login | ButtonAutoWorkShop |
+| LoginActivityStep3 | Reservo una charla | ButtonBookDemo |
+| LoginActivityAvatar |salgo del login a la ventana principal | next button |
+| LoginActivityAvatar |vuelvo al paso 3 del tutorial | previous button |
+| LoginActivityAvatar | elije tu avatar | buttonSelectAvatarSource |
+| LoginActivityStep3 | elije tu foto | buttonSelectCameraSource |
+| LoginActivityStep3 | elije una  foto  de la galeria| buttonGalerySource |
+| LoginActivityStep3 | elije tu foto | buttonGalerySource |
+| LoginActivityStep3 | abre el dialogo para usar el avatar o seleccionar una foto | buttonSelectAvatarSource |
+| VincularFrases | ir a la frase anterior | Favorite Phrases UpButton |
+| VincularFrases | ir a la frase siguiente | Favorite Phrases DownButton |
+| VincularFrases | volver a la pantall principal sin guardar las frases favoritas | Favorite Phrases BackButton |
+| VincularFrases | volver a la pantall principal guardando las frases favoritas | SaveFavoritePhrases |
 # Information
 
 ## Contributing

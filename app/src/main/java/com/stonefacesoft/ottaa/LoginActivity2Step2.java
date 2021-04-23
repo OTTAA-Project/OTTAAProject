@@ -26,6 +26,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.stonefacesoft.ottaa.FirebaseRequests.FirebaseDatabaseRequest;
 import com.stonefacesoft.ottaa.utils.Constants;
+import com.stonefacesoft.ottaa.utils.Firebase.AnalyticsFirebase;
 import com.stonefacesoft.ottaa.utils.InmersiveMode;
 import com.stonefacesoft.ottaa.utils.preferences.DataUser;
 import com.stonefacesoft.ottaa.utils.preferences.PreferencesUtil;
@@ -55,6 +56,7 @@ public class LoginActivity2Step2 extends AppCompatActivity implements View.OnCli
     //User variables
     private FirebaseAuth mAuth;
     private FirebaseDatabaseRequest databaseRequest;
+    private AnalyticsFirebase mAnalyticsFirebase;
 
 
     @Override
@@ -67,6 +69,7 @@ public class LoginActivity2Step2 extends AppCompatActivity implements View.OnCli
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         preferencesUtil = new PreferencesUtil(preferences);
         mAuth = FirebaseAuth.getInstance();
+        mAnalyticsFirebase=new AnalyticsFirebase(this);
 
 
         bindUI();
@@ -133,20 +136,28 @@ public class LoginActivity2Step2 extends AppCompatActivity implements View.OnCli
     @Override
     public void onClick(View view) {
         int id = view.getId();
-        if (id == R.id.nextButton) {
-            if (availableUserData()) {
-                setUpUserData();
-                Intent intent = new Intent(LoginActivity2Step2.this, LoginActivity2Step3.class);
-                startActivity(intent);
-                finish();
-            }else{
-                Toast.makeText(this,"Estos datos son necesarios para la prediccion",Toast.LENGTH_LONG).show();
-            }
-        } else if (id == R.id.backButton) {
-            Intent intent2 = new Intent(LoginActivity2Step2.this, LoginActivity2Step2.class);
-            startActivity(intent2);
-        } else if (id == R.id.buttonCalendarDialog) {
-            calendarDialog();
+        switch (view.getId()) {
+            case R.id.nextButton:
+                if (availableUserData()) {
+                    mAnalyticsFirebase.customEvents("Touch","LoginActivityStep2","NextButtonIsAvailable");
+                    setUpUserData();
+                    Intent intent = new Intent(LoginActivity2Step2.this, LoginActivity2Step3.class);
+                    startActivity(intent);
+                    finish();
+                } else {
+                    mAnalyticsFirebase.customEvents("Touch","LoginActivityStep2","NextButtonIsnotAvailable");
+                    Toast.makeText(this, "Estos datos son necesarios para la prediccion", Toast.LENGTH_LONG).show();
+                }
+                break;
+            case R.id.back_button:
+                mAnalyticsFirebase.customEvents("Touch","LoginActivityStep2","BackButton");
+                Intent intent2 = new Intent(LoginActivity2Step2.this, LoginActivity2Step2.class);
+                startActivity(intent2);
+                break;
+            case R.id.buttonCalendarDialog:
+                mAnalyticsFirebase.customEvents("Touch","LoginActivityStep2","calendarButton");
+                calendarDialog();
+                break;
         }
     }
 
@@ -157,13 +168,13 @@ public class LoginActivity2Step2 extends AppCompatActivity implements View.OnCli
         }
     }
 
-    public void calendarDialog(){
-        Calendar calendar=Calendar.getInstance();
+    public void calendarDialog() {
+        Calendar calendar = Calendar.getInstance();
         final Calendar cldr = Calendar.getInstance();
         int day = cldr.get(Calendar.DAY_OF_MONTH);
         int month = cldr.get(Calendar.MONTH);
         int year = cldr.get(Calendar.YEAR);
-        DatePickerDialog datePickerDialog = new DatePickerDialog(this,R.style.MyDatePickerStyle ,this, year, month, day);
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this, R.style.MyDatePickerStyle, this, year, month, day);
         datePickerDialog.show();
 
     }
@@ -209,7 +220,7 @@ public class LoginActivity2Step2 extends AppCompatActivity implements View.OnCli
 
     private void setUserAgePrediction() {
         int age = userData.getUserAge();
-        Log.d(TAG, "setUserAgePrediction: "+ age);
+        Log.d(TAG, "setUserAgePrediction: " + age);
         String[] ageArray = getResources().getStringArray(R.array.list_Edad_valores);
         if (age < 12) {
             preferencesUtil.applyStringValue(Constants.EDAD, ageArray[0]);
@@ -219,7 +230,7 @@ public class LoginActivity2Step2 extends AppCompatActivity implements View.OnCli
             databaseRequest.subirEdadUsuario(ageArray[1], mAuth);
         } else {
             preferencesUtil.applyStringValue(Constants.EDAD, ageArray[2]);
-            Log.d(TAG, "setUserAgePrediction: "+ageArray[2] );
+            Log.d(TAG, "setUserAgePrediction: " + ageArray[2]);
             databaseRequest.subirEdadUsuario(ageArray[2], mAuth);
         }
     }

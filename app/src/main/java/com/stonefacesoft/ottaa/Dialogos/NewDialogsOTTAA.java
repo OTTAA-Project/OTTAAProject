@@ -79,7 +79,7 @@ public class NewDialogsOTTAA implements FirebaseSuccessListener {
     private int position;
     private ReturnPositionItem positionItemAdapter;
 
-    AnalyticsFirebase analyticsFirebase;
+    private AnalyticsFirebase analyticsFirebase;
 
 
     public NewDialogsOTTAA(Activity activity) {
@@ -250,6 +250,7 @@ public class NewDialogsOTTAA implements FirebaseSuccessListener {
         foward.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                analyticsFirebase.customEvents("Touch","NewsDialogOTTAA","Previous Phrase");
                 position=positionItemAdapter.subtract();
                 mRecyclerViewFrases.smoothScrollToPosition(position);
 
@@ -258,6 +259,7 @@ public class NewDialogsOTTAA implements FirebaseSuccessListener {
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                analyticsFirebase.customEvents("Touch","NewsDialogOTTAA","Next Phrase");
                 position=positionItemAdapter.add();
                 mRecyclerViewFrases.smoothScrollToPosition(position);
 
@@ -266,6 +268,7 @@ public class NewDialogsOTTAA implements FirebaseSuccessListener {
         sort.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                analyticsFirebase.customEvents("Touch","NewsDialogOTTAA","select Favorite Phrases");
                 SharedPreferences defaultSharedPreferences=PreferenceManager.getDefaultSharedPreferences(mActivity);
                 defaultSharedPreferences.edit().putInt("favoritePhrase",1).apply();
                 showCustomPhrases();
@@ -295,6 +298,7 @@ public class NewDialogsOTTAA implements FirebaseSuccessListener {
             @Override
             public void onClick(View v) {
                if(positionItemAdapter!=null) {
+                   analyticsFirebase.customEvents("Touch","NewsDialogOTTAA","Previous Phrase");
                    position = positionItemAdapter.subtract();
                     mRecyclerViewFrases.smoothScrollToPosition(position);
                }
@@ -304,6 +308,7 @@ public class NewDialogsOTTAA implements FirebaseSuccessListener {
             @Override
             public void onClick(View v) {
                if(positionItemAdapter!=null) {
+                   analyticsFirebase.customEvents("Touch","NewsDialogOTTAA","Next Phrase");
                    position = positionItemAdapter.add();
                    mRecyclerViewFrases.smoothScrollToPosition(position);
                }
@@ -312,6 +317,7 @@ public class NewDialogsOTTAA implements FirebaseSuccessListener {
         sort.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                analyticsFirebase.customEvents("Touch","NewsDialogOTTAA","select Most Used Phrases");
                 SharedPreferences defaultSharedPreferences=PreferenceManager.getDefaultSharedPreferences(mActivity);
                 defaultSharedPreferences.edit().putInt("favoritePhrase",0).apply();
                 showHeartDialog();
@@ -320,6 +326,7 @@ public class NewDialogsOTTAA implements FirebaseSuccessListener {
         addPhrases.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                analyticsFirebase.customEvents("Touch","NewsDialogOTTAA","addPhrases");
                 Intent intent=new Intent(mActivity, VincularFrases.class);
                 mActivity.startActivityForResult(intent, IntentCode.CUSTOMPHRASES.getCode());
                 dialog.dismiss();
