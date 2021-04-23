@@ -40,6 +40,7 @@ import com.google.firebase.storage.UploadTask;
 import com.stonefacesoft.ottaa.FirebaseRequests.FirebaseUtils;
 import com.stonefacesoft.ottaa.utils.ConnectionDetector;
 import com.stonefacesoft.ottaa.utils.Constants;
+import com.stonefacesoft.ottaa.utils.Firebase.AnalyticsFirebase;
 import com.stonefacesoft.ottaa.utils.InmersiveMode;
 import com.stonefacesoft.ottaa.utils.IntentCode;
 import com.theartofdev.edmodo.cropper.CropImage;
@@ -69,9 +70,9 @@ public class LoginActivity2Avatar extends AppCompatActivity implements View.OnCl
                 String name = snapshot.getValue().toString();
                 Log.d(TAG, "onDataChange:" + name);
                 name = name.replace("avatar", "ic_avatar");
-                setAvatarByName(mContext,name);
+                setAvatarByName(mContext, name);
             } else {
-                setAvatarByName(mContext,"ic_avatar11");
+                setAvatarByName(mContext, "ic_avatar11");
             }
         }
 
@@ -94,6 +95,7 @@ public class LoginActivity2Avatar extends AppCompatActivity implements View.OnCl
     private String avatarName;
     private boolean uploadAvatar;
     private DatabaseReference childDatabase;
+    private AnalyticsFirebase mFirebaseAnalytics;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,6 +105,8 @@ public class LoginActivity2Avatar extends AppCompatActivity implements View.OnCl
         setContentView(R.layout.login_activity_avatar);
 
         mAuth = FirebaseAuth.getInstance();
+
+        mFirebaseAnalytics = new AnalyticsFirebase(this);
 
         bindUI();
 
@@ -155,6 +159,7 @@ public class LoginActivity2Avatar extends AppCompatActivity implements View.OnCl
         int id = view.getId();
         if (id == R.id.nextButton) {
             //TODO El proceso es lento para ir a principal avisar al usuario que esta yendo a principal
+
             buttonNext.setEnabled(false);
             if (uploadAvatar) {
                 if (avatarId == -1) {
@@ -163,20 +168,24 @@ public class LoginActivity2Avatar extends AppCompatActivity implements View.OnCl
                     uploadFirebaseAvatarName();
                 }
             }
+            mFirebaseAnalytics.customEvents("Touch", "LoginActivity2Avatar", "Next3");
             Intent intent = new Intent(LoginActivity2Avatar.this, Principal.class);
             startActivity(intent);
             finish();
         } else if (id == R.id.backButton) {
+            mFirebaseAnalytics.customEvents("Touch", "LoginActivity2Avatar", "Back3");
             Intent intent2 = new Intent(LoginActivity2Avatar.this, LoginActivity2Step3.class);
             startActivity(intent2);
         } else if (id == R.id.buttonSelectAvatarSource) {
+            mFirebaseAnalytics.customEvents("Touch", "LoginActivity2Avatar", "buttonSelectAvatarSource");
             //Scale Animation to show the other buttons
             doScaleAnimation();
         } else if (id == R.id.buttonSourceCamera) {
             //TODO Quality is low, maybe use a different approch, also for EditPicto
-
+            mFirebaseAnalytics.customEvents("Touch", "LoginActivity2Avatar", "ButtonSourceCamera");
             takePictureSetup();
         } else if (id == R.id.buttonSourceGallery) {
+            mFirebaseAnalytics.customEvents("Touch", "LoginActivity2Avatar", "ButtonSourceGallery");
             Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
             photoPickerIntent.setType("image/*");
             startActivityForResult(photoPickerIntent, IntentCode.PICK_IMAGE.getCode());
@@ -186,6 +195,7 @@ public class LoginActivity2Avatar extends AppCompatActivity implements View.OnCl
                 avatarId = id;
                 avatarName = view.getTag().toString();
                 Log.d(TAG, "onClick: " + avatarName);
+                mFirebaseAnalytics.customEvents("Touch", "LoginActivity2Avatar", "Avatar: " + avatarName);
                 Glide.with(this).load(((ImageView) view).getDrawable()).into(imageViewAvatar);
             }
         }
@@ -321,14 +331,15 @@ public class LoginActivity2Avatar extends AppCompatActivity implements View.OnCl
         if (connectionDetector.isConnectedToInternet()) {
             childDatabase = FirebaseUtils.getInstance().getmDatabase().child(Constants.AVATAR).child(mAuth.getCurrentUser().getUid());
             childDatabase.addListenerForSingleValueEvent(firebaseEventListener);
-        }else{
-            setAvatarByName(this,"ic_avatar11");
+        } else {
+            setAvatarByName(this, "ic_avatar11");
         }
     }
+
     /**
      * this method shows the avatar picture on the ImageViewAvatar
-     * */
-    public void setAvatarByName(Context mContext,String name){
+     */
+    public void setAvatarByName(Context mContext, String name) {
         Drawable drawable = mContext.getResources().getDrawable(mContext.getResources().getIdentifier(name, "drawable", mContext.getPackageName()));
         Glide.with(mContext).load(drawable).into(imageViewAvatar);
     }

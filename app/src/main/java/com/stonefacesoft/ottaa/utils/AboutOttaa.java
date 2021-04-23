@@ -28,6 +28,7 @@ import com.stonefacesoft.ottaa.FirebaseRequests.FirebaseUtils;
 import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.idioma.ConfigurarIdioma;
 import com.stonefacesoft.ottaa.idioma.myContextWrapper;
+import com.stonefacesoft.ottaa.utils.Firebase.AnalyticsFirebase;
 import com.stonefacesoft.ottaa.utils.preferences.PreferencesUtil;
 /*
 * @version 2.0
@@ -48,23 +49,16 @@ public class AboutOttaa extends AppCompatActivity {
     private Button buttonContactSupport;
     private Toolbar toolbar;
     private PreferencesUtil preferencesUtil;
+    private AnalyticsFirebase mAnalyticsFirebase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_about_ottaa2);
-/*        toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), prefs.class);
-                startActivity(intent);
-            }
-        });*/
+
         SharedPreferences preferences=PreferenceManager.getDefaultSharedPreferences(this);
         preferencesUtil=new PreferencesUtil(preferences);
-
+        mAnalyticsFirebase=new AnalyticsFirebase(this);
 
         buttonContactSupport = findViewById(R.id.buttonContactSupport);
         textViewAccountType =findViewById(R.id.accountType);
@@ -84,6 +78,7 @@ public class AboutOttaa extends AppCompatActivity {
         buttonContactSupport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mAnalyticsFirebase.customEvents("Touch","AboutOttaa","buttonContactSupport");
                 sendMail();
             }
         });

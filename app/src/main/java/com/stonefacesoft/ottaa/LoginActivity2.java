@@ -45,6 +45,7 @@ import com.google.firebase.storage.StorageReference;
 import com.stonefacesoft.ottaa.FirebaseRequests.BajarJsonFirebase;
 import com.stonefacesoft.ottaa.FirebaseRequests.FirebaseDatabaseRequest;
 import com.stonefacesoft.ottaa.Interfaces.FirebaseSuccessListener;
+import com.stonefacesoft.ottaa.utils.Firebase.AnalyticsFirebase;
 import com.stonefacesoft.ottaa.utils.InmersiveMode;
 import com.stonefacesoft.ottaa.utils.IntentCode;
 import com.stonefacesoft.ottaa.utils.ObservableInteger;
@@ -80,6 +81,7 @@ public class LoginActivity2 extends AppCompatActivity implements View.OnClickLis
     private ProgressDialog dialog;
     private String locale;
     private FirebaseAuth.AuthStateListener mAuthListener;
+    private AnalyticsFirebase mAnalyticsFirebase;
 
 
 
@@ -89,6 +91,7 @@ public class LoginActivity2 extends AppCompatActivity implements View.OnClickLis
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_activity_1);
+        mAnalyticsFirebase=new AnalyticsFirebase(this);
 
         bindUI();
 
@@ -146,6 +149,7 @@ public class LoginActivity2 extends AppCompatActivity implements View.OnClickLis
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.googleSignInButton:
+                mAnalyticsFirebase.customEvents("Touch","LoginActivity2","signIn");
                 signIn();
                 break;
                 //TODO put an easter egg when you click the Bubas

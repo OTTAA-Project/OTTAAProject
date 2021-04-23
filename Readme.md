@@ -183,8 +183,27 @@ You can be part of this life-changer tech, join us in this social impact open so
 | Cual es el picto | BotonScore                           | Score Dialog               |
 | Cual es el picto | Activar/Desactivar Ayuda             | Help Action                |
 | Cual es el picto | Silenciar Cancion                    | Mute                       |
-
-
+| LoginActivity    | Seleccionar el boton de singin       | singIn                     |
+| LoginActivityStep2 | Voy al paso 3 del tutorial | Next1 |
+| LoginActivityStep2 |vuelvo al login| Back1 |
+| LoginActivityStep2 | llamo al calendario | calendarButton |
+| LoginActivityStep3 | paso al activity siguiente| Next2 |
+| LoginActivityStep3 | paso al activity anterior | Back2  |
+| LoginActivityStep3 | voy al tutorial desde el login | ButtonTutorial |
+| LoginActivityStep3 | voy al tutorial desde el login | ButtonTutorial |
+| LoginActivityStep3 | voy al workshop desde el login | ButtonAutoWorkShop |
+| LoginActivityStep3 | Reservo una charla | ButtonBookDemo |
+| LoginActivityAvatar |salgo del login a la ventana principal | Next3 |
+| LoginActivityAvatar |vuelvo al paso 3 del tutorial | Back3 |
+| LoginActivityAvatar | elije tu avatar | buttonSelectAvatarSource |
+| LoginActivityStep3 | elije tu foto | buttonSelectCameraSource |
+| LoginActivityStep3 | elije una  foto  de la galeria| buttonGalerySource |
+| LoginActivityStep3 | elije tu foto | buttonGalerySource |
+| LoginActivityStep3 | abre el dialogo para usar el avatar o seleccionar una foto | buttonSelectAvatarSource |
+| VincularFrases | ir a la frase anterior | Favorite Phrases UpButton |
+| VincularFrases | ir a la frase siguiente | Favorite Phrases DownButton |
+| VincularFrases | volver a la pantall principal sin guardar las frases favoritas | Favorite Phrases BackButton |
+| VincularFrases | volver a la pantall principal guardando las frases favoritas | SaveFavoritePhrases |
 # Information
 
 ## Contributing

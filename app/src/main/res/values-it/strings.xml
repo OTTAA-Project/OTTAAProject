@@ -460,4 +460,5 @@
     <string name="check_if_the_info_is_correct_nif_not_change_it_as_you_wish_this_will_help_us_to_personalize_the_app_for_you">Controlla se le informazioni sono corrette,<br />se no, cambiale come vuoi. Questo ci aiuterà a personalizzare l\'app per te.</string>
     <string name="_30_minutes_demo_n_guided_tour_to_main_features_n_new_features_explained_n_absolutely_free">○ Dimostrazione di 30 minuti\n○ Visita guidata alle funzioni principali\n○ Spiegazione delle nuove funzioni\n○ Assolutamente GRATUITO</string>
     <string name="book_a_demo_with_one_of_our_specialist_to_help_you_better_understand_our_aac">Prenota una demo con uno dei nostri specialisti per aiutarti a comprendere meglio la nostra CAA</string>
+    <string name="prediction_data">Questi dati sono necessari per la previsione</string>
 </resources>

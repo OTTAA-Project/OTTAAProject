@@ -353,7 +353,7 @@ public class GaleriaPictos3 extends AppCompatActivity implements View.OnClickLis
                     if (!barridoPantalla.isBarridoActivado())
                         analyticsFirebase.customEvents("Touch", "Galeria Pictos", "Select Pictogram with button talk");
                     else
-                        analyticsFirebase.customEvents("Accesibility", "Galeria Pictos", "Select Pictogram with button talk");
+                        analyticsFirebase.customEvents("Accessibility", "Galeria Pictos", "Select Pictogram with button talk");
 
                     viewpager_galeria_pictos.OnClickItem();
                 }
