@@ -30,6 +30,7 @@ import com.stonefacesoft.ottaa.Games.GameCard;
 import com.stonefacesoft.ottaa.Games.GameSelector;
 import com.stonefacesoft.ottaa.Interfaces.Make_Click_At_Time;
 import com.stonefacesoft.ottaa.JSONutils.Json;
+import com.stonefacesoft.ottaa.Prediction.Posicion;
 import com.stonefacesoft.ottaa.Viewpagers.viewpager_galeria_juegos;
 import com.stonefacesoft.ottaa.idioma.ConfigurarIdioma;
 import com.stonefacesoft.ottaa.idioma.myContextWrapper;
@@ -39,6 +40,7 @@ import com.stonefacesoft.ottaa.utils.Accesibilidad.scrollActions.ScrollFuntionGa
 import com.stonefacesoft.ottaa.utils.Firebase.AnalyticsFirebase;
 import com.stonefacesoft.ottaa.utils.InmersiveMode;
 import com.stonefacesoft.ottaa.utils.IntentCode;
+import com.stonefacesoft.ottaa.utils.ReturnPositionItem;
 
 import java.util.ArrayList;
 
@@ -60,7 +62,6 @@ public class MainJuegos extends AppCompatActivity implements View.OnClickListene
     private FloatingActionButton backpress_button;
     private ScrollFuntionGames function_scroll;
 
-
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle toggle;
     private NavigationView navigationView;
@@ -70,7 +71,6 @@ public class MainJuegos extends AppCompatActivity implements View.OnClickListene
     private BarridoPantalla barridoPantalla;
     private Button btnBarrido;
     private GameControl gameControl;
-
 
     private static final String TAG = "MainJuegos";
 
@@ -121,6 +121,7 @@ public class MainJuegos extends AppCompatActivity implements View.OnClickListene
                 }
             }, 5000);
         }
+        view_game.setUpPositionItem(3);
     }
 
     @Override
@@ -130,11 +131,11 @@ public class MainJuegos extends AppCompatActivity implements View.OnClickListene
 
         switch (view.getId()){
             case R.id.up_button:
-                view_game.scrollPosition(true);
+                view_game.scrollPosition(false);
                 analyticsFirebase.customEvents("Touch","Juegos","Previous Button");
                 break;
             case R.id.down_button:
-                view_game.scrollPosition(false);
+                view_game.scrollPosition(true);
                 analyticsFirebase.customEvents("Touch","Juegos","Next Button");
                 break;
             case R.id.btnTalk:
@@ -155,10 +156,14 @@ public class MainJuegos extends AppCompatActivity implements View.OnClickListene
     private void initComponents(){
         card1=findViewById(R.id.card1);
         card2=findViewById(R.id.card2);
+        card3=findViewById(R.id.card3);
+        //TODO Gonza esto esta creando de nuevo lo que se crea en viewpagergaleriagrupos
         card1.prepareCardView( R.string.whichpictogram, R.string.which_description_name, R.drawable.whats_picto, createOnClickListener(this, GameSelector.class, "notigames"));
         card2.prepareCardView( R.string.join_pictograms, R.string.join_pictograms_description, R.drawable.match_picto, createOnClickListener(this, GameSelector.class, "seleccionar_palabras"));
+        card3.prepareCardView( R.string.memory_game, R.string.memory_game_string, R.drawable.whats_picto, createOnClickListener(this, GameSelector.class, "descripciones"));
         card1.setmTxtScore(json.devolverCantidadGruposUsados(0)+"/"+json.getmJSONArrayTodosLosGrupos().length());
         card2.setmTxtScore(json.devolverCantidadGruposUsados(1)+"/"+json.getmJSONArrayTodosLosGrupos().length());//todo in recycler fill with the position
+        card3.setmTxtScore(json.devolverCantidadGruposUsados(1)+"/"+json.getmJSONArrayTodosLosGrupos().length());//todo in recycler fill with the position
         view_game=new viewpager_galeria_juegos(this);
         up_button=findViewById(R.id.up_button);
         down_button=findViewById(R.id.down_button);
@@ -189,6 +194,7 @@ public class MainJuegos extends AppCompatActivity implements View.OnClickListene
         view_game.updateAdapter();
         card1.setmTxtScore(json.devolverCantidadGruposUsados(0)+"/"+json.getmJSONArrayTodosLosGrupos().length());
         card2.setmTxtScore(json.devolverCantidadGruposUsados(1)+"/"+json.getmJSONArrayTodosLosGrupos().length());//todo in recycler fill with the position
+        card3.setmTxtScore(json.devolverCantidadGruposUsados(2)+"/"+json.getmJSONArrayTodosLosGrupos().length());//todo in recycler fill with the position
     }
 
 

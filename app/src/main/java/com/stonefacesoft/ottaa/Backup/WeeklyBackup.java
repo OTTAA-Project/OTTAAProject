@@ -162,7 +162,6 @@ public class WeeklyBackup implements FirebaseSuccessListener {
                     lstBackups = new ArrayList<>();
                     lstBackupsMilis = new ArrayList<>();
 
-                    //TODO ver de sacar el for snapshot
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                         mBackupDates = snapshot.getKey();
                         if (!mBackupDates.contains("UltimoBackup")) {

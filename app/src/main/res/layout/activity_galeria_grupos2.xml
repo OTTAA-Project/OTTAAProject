@@ -124,7 +124,6 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintRightButtons"
         android:layout_width="0dp"
@@ -153,7 +152,6 @@
             app:layout_constraintVertical_bias="0.0" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="0dp"
@@ -207,7 +205,6 @@
         android:id="@+id/cornerImageViewLeft"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:tint="@color/NaranjaOTTAA"
         android:layout_marginStart="12dp"
         android:layout_marginBottom="12dp"
         android:rotation="180"
@@ -215,7 +212,8 @@
         android:scaleY="3"
         android:src="@drawable/ic_corner"
         app:layout_constraintBottom_toTopOf="@id/containerBottomMasPictos"
-        app:layout_constraintStart_toEndOf="@id/constraintLeftButtons" />
+        app:layout_constraintStart_toEndOf="@id/constraintLeftButtons"
+        app:tint="@color/NaranjaOTTAA" />
 
     <ImageView
         android:id="@+id/cornerImageViewRight"
@@ -226,7 +224,7 @@
         android:scaleX="3"
         android:scaleY="3"
         android:src="@drawable/ic_corner"
-        android:tint="@color/NaranjaOTTAA"
+        app:tint="@color/NaranjaOTTAA"
         app:layout_constraintBottom_toTopOf="@id/containerBottomMasPictos"
         app:layout_constraintEnd_toStartOf="@id/constraintRightButtons" />
 

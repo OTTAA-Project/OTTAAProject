@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="Sexo">
+        <item>Elegí tu genero</item>
+        <item>Masculino</item>
+        <item>Femenino</item>
+        <item>Fluid</item>
+        <item>Binary</item>
+        <item>Other</item>
+    </string-array>
+    <string-array name="listSexo" translatable="false">
+        <item>@string/MaleUser</item>
+        <item>@string/FemaleUser</item>
+        <item>@string/FluidUser</item>
+        <item>@string/BinaryUser</item>
+        <item>@string/OtherUser</item>
+    </string-array>
+    <string-array name="list_sexo_valores" translatable="false">
+        <item>MASCULINO</item>
+        <item>FEMENINO</item>
+        <item>FLUIDO</item>
+        <item>BINARIO</item>
+        <item>OTRO</item>
+    </string-array>
+</resources>

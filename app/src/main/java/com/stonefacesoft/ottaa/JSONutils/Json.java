@@ -879,6 +879,7 @@ public class Json implements FindPictogram {
             e.printStackTrace();
         }
         try {
+            if(!img.isEmpty())
             setImagen(mJSONArrayTodosLosGrupos.getJSONObject(mJSONArrayTodosLosGrupos.length() - 1), img);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -1671,7 +1672,6 @@ public class Json implements FindPictogram {
                 }
             });
         }
-        //TODO chequear que esto funcione
         Log.d(TAG, "elegirHijos2: Ordenado");
         return new JSONArray(relacion.toString());
     }
@@ -1806,7 +1806,6 @@ public class Json implements FindPictogram {
     private void addPictoToGroupAll(JSONArray arrayGrupos, int padre) throws JSONException {
         String strAll = "ALL";
         JSONObject jsonObjectGrupoAll = getJsonObjectFromTextoEnIngles(strAll.toLowerCase(), arrayGrupos);
-        //TODO testear si esta bien
         jsonObjectGrupoAll.getJSONArray("relacion").put(arrayGrupos.getJSONObject(padre).getJSONArray("relacion").length() - 1);
 
     }

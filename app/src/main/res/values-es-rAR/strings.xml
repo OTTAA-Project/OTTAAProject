@@ -266,7 +266,7 @@
     <string name="youAreNotUpdatedMessage1">Ahora</string>
     <string name="update">Actualizar</string>
     <string name="bienvenido">¡Bienvenido a OTTAA Project!</string>
-    <string name="licencia_expirada1">Accedé hoy a todas las útiles funciones que OTTAA Project tiene para ofrecer por solo 750 ARS por mes</string>
+    <string name="licencia_expirada1">Accedé hoy a todas las útiles funciones que OTTAA Project tiene para ofrecer por solo 990 ARS por mes</string>
     <string name="licencia_expirada2">Para adquirir una subscripción, hacé click en Adquirir Licencia</string>
     <string name="btn_renovar_licencia">Quiero suscribirme</string>
     <string name="btn_volver_ingresar">Volver a Ingresar</string>
@@ -350,7 +350,7 @@
     <string name="edit_sync_pict">Estamos sincronizando tus pictogramas / grupos</string>
     <string name="usar_pistas">Usar pistas</string>
     <string name="tutorial_shared1">Compartir</string>
-    <string name="cuenta">Cuenta</string>
+    <string name="cuenta">Cuenta : </string>
     <string name="pref_summary_backup_principal">Hubo un problema con la base de datos, restaure OTTAA a un punto guardado previamente para restaurar sus datos.</string>
     <string name="please_select_date">Porfavor seleccione una fecha</string>
     <string name="pref_summary_backup">Esta función le permite restablecer OTTAA a un punto anterior para recuperar datos perdidos.</string>
@@ -479,5 +479,10 @@
     <string name="speed_summary">Personaliza la velocidad del barrido de pantalla o el tiempo entre clicks</string>
     <string name="select_device_version">Pictogramas sugeridos</string>
     <string name="favorite_phrases">Frases Favoritas</string>
+    <string name="memory_game">Juego de memoria</string>
+    <string name="memory_game_string">Prueba tu memoria</string>
+    <string name="hola_nnos_conozcamos_un_poco">Hola, <br />Nos conozcamos un poco</string>
+    <string name="give_me_the_link">¡Dame el enlace!</string>
+    <string name="email_me">Email</string>
 
 </resources>

@@ -97,7 +97,7 @@
         android:background="#00000000"
         app:layout_constraintDimensionRatio="1:1"
         />
-<!-- Todo imageView + puntaje : acordarse que tenga una linea en caso de no usarse  y si no la carita con el puntaje-->
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

@@ -1,29 +1,21 @@
 package com.stonefacesoft.ottaa.customComponents;
 
 import android.content.Context;
-import android.content.res.TypedArray;
-import android.graphics.drawable.Drawable;
-import android.util.AttributeSet;
-import android.widget.ImageView;
-import android.widget.TextView;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
-
-import com.stonefacesoft.ottaa.R;
 
 public class Custom_ImageDescription {
     private Context mContext;
     private String description;
     private String title;
     private int idImage;
-    private int color;
-    public Custom_ImageDescription(Context mContext,String title,String description,int idImage,int idColor){
+    private int backgroundColor;
+    private int textColor;
+    public Custom_ImageDescription(Context mContext,String title,String description,int idImage,int backgroundColor,int textColor){
         this.mContext=mContext;
         this.description=description;
         this.idImage=idImage;
         this.title=title;
-        this.color=idColor;
+        this.backgroundColor=backgroundColor;
+        this.textColor=textColor;
     }
 
     public String getDescription() {
@@ -38,7 +30,11 @@ public class Custom_ImageDescription {
         return title;
     }
 
-    public int getColor() {
-        return color;
+    public int getBackgroundColor() {
+        return backgroundColor;
+    }
+
+    public int getTextColor() {
+        return textColor;
     }
 }

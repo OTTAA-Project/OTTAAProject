@@ -54,6 +54,7 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.facebook.BuildConfig;
 import com.facebook.FacebookSdk;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationRequest;
@@ -138,8 +139,10 @@ import java.util.Objects;
 import static com.facebook.FacebookSdk.setAutoLogAppEventsEnabled;
 
 /**
- * Main Activity Class
- * VERSION 82
+ *
+ * VERSION 83 merge dev dev-hotfix83
+ * VERSION 83 new design login doc into newdesign
+ * VERSION 83 Ready to test
  */
 public class Principal extends AppCompatActivity implements View
         .OnClickListener,
@@ -358,14 +361,11 @@ public class Principal extends AppCompatActivity implements View
                 firebaseDialog.destruirDialogo();
             try {
                 json.setmJSONArrayPictosSugeridos(json.readJSONArrayFromFile(Constants.ARCHIVO_PICTOS_DATABASE));
-            } catch (JSONException e) {
+            } catch (JSONException | FiveMbException e) {
                 e.printStackTrace();
-            } catch (FiveMbException e) {
-                e.printStackTrace();
-                /*
+            } /*
                 WeeklyBackup wb = new WeeklyBackup(this);
                 wb.weeklyBackupDialog(false, R.string.pref_summary_backup_principal, false);*/
-            }
 
         }
     }
@@ -408,13 +408,11 @@ public class Principal extends AppCompatActivity implements View
                     }
                     mBajarJsonFirebase.descargarGruposyPictosNuevos();
                 }
-            } catch (JSONException e) {
+            } catch (JSONException | FiveMbException e) {
                 e.printStackTrace();
-            } catch (FiveMbException e) {
-                e.printStackTrace();/*
+            } /*
                 WeeklyBackup wb = new WeeklyBackup(this);
                 wb.weeklyBackupDialog(false, R.string.pref_summary_backup_principal, false);*/
-            }
         } else {
             Log.e(TAG, "onDatosEncontrados: No existen datos");
         }
@@ -517,7 +515,7 @@ public class Principal extends AppCompatActivity implements View
         } else {
             Log.e(TAG, "onCreate: CurrentUser == null");
             Intent mainIntent = new Intent().setClass(
-                    Principal.this, LoginActivity.class);
+                    Principal.this, LoginActivity2.class);
             startActivity(mainIntent);
             finish();
         }
@@ -814,7 +812,6 @@ public class Principal extends AppCompatActivity implements View
         gesture=new Gesture(drawerLayout);
         if (TutoFlag) {
             sharedPrefs.edit().putBoolean("PrimerUso",false).apply();
-            startActivity(new Intent(this,Viewpager_tutorial.class));
         }
         navigationControls=new PrincipalControls(this);
 
@@ -1242,8 +1239,6 @@ public class Principal extends AppCompatActivity implements View
     }
 
 
-    //TODO re hacer la presnetacion personalizada
-
     /**
      * Implementa este metodo de TTS interface, cuando se inicializa el TTS lo setea por defecto
      * @param initStatus
@@ -1282,6 +1277,7 @@ public class Principal extends AppCompatActivity implements View
             drawerLayout.closeDrawer(GravityCompat.START);
         }
         if (doubleBackToExitPressedOnce) {
+            android.os.Process.killProcess(android.os.Process.myPid());
             super.onBackPressed();
             return;
         }
@@ -1892,7 +1888,6 @@ public class Principal extends AppCompatActivity implements View
     }
 
     //Bandera global del tutorial
-    //TODO hacer que en version tablet la letra sea mas grande
     private boolean TutoFlag;
 
     private void AnimarHablar() {
@@ -2032,8 +2027,8 @@ public class Principal extends AppCompatActivity implements View
                     break;
                 case 8:
                     analitycsFirebase.customEvents("Accessibility","Principal","Games");
-                     intent2 = new Intent(Principal.this, MainJuegos.class);
-                     startActivity(intent2);
+                    intent2 = new Intent(Principal.this, MainJuegos.class);
+                    startActivity(intent2);
                     break;
 
             }
@@ -2390,7 +2385,7 @@ public class Principal extends AppCompatActivity implements View
             //actualizo la voz del tts
 
             if (!sharedPrefsDefault.getBoolean("bool_ubicacion", false)) {
-                //TODO esto se reemplaza con Places
+                //NOTA esto se reemplaza con Places
                 // json.setPosicion(Posicion.NADA);
                 // json.inicializarGPS();
                 Reset();
@@ -2840,7 +2835,7 @@ public class Principal extends AppCompatActivity implements View
                 user.logOut();
                 break;
             case R.id.report:
-                //todo firebase analitycs
+                //NOTA firebase analitycs
                 analitycsFirebase.customEvents("Touch","Principal","Report");
                 if(sharedPrefsDefault.getInt("premium",0)==1) {
                     Intent i = new Intent(getApplicationContext(), ActivityInformes.class);
@@ -2851,9 +2846,9 @@ public class Principal extends AppCompatActivity implements View
                 }
                 break;
             case R.id.about:
-                //todo firebase analitycs
+                //NOTA firebase analitycs
                 analitycsFirebase.customEvents("Touch","Principal","About that");
-                Intent intent = new Intent(getApplicationContext(), AboutOttaa.class);
+               Intent intent = new Intent(getApplicationContext(), AboutOttaa.class);
                 startActivity(intent);
                 break;
         }
@@ -2869,14 +2864,14 @@ public class Principal extends AppCompatActivity implements View
     }
     public  void loadDrawable(GlideAttatcher attatcher, Pictogram pictogram, ImageView imageView){
         if(pictogram.getEditedPictogram().isEmpty()){
-            attatcher.loadCircleDrawable(this.getResources().getDrawable(this.getContext().getResources().getIdentifier(pictogram.getPictogram(),
+            attatcher.UseCornerRadius(true).loadDrawable(this.getResources().getDrawable(this.getContext().getResources().getIdentifier(pictogram.getPictogram(),
                     "drawable", this.getPackageName())),imageView);
         }else{
             File picto=new File(pictogram.getEditedPictogram());
             if(picto.exists())
-                attatcher.loadCircleDrawable(picto,imageView);
+                attatcher.UseCornerRadius(true).loadDrawable(picto,imageView);
             else
-                attatcher.loadCircleDrawable(Uri.parse(pictogram.getUrl()),imageView);
+                attatcher.UseCornerRadius(true).loadDrawable(Uri.parse(pictogram.getUrl()),imageView);
         }
     }
 }

@@ -23,7 +23,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.stonefacesoft.ottaa.FirebaseRequests.BajarJsonFirebase;
 import com.stonefacesoft.ottaa.FirebaseRequests.SubirArchivosFirebase;
 import com.stonefacesoft.ottaa.JSONutils.Json;
-import com.stonefacesoft.ottaa.LoginActivity;
+import com.stonefacesoft.ottaa.LoginActivity2;
 import com.stonefacesoft.ottaa.Principal;
 import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.utils.Constants;
@@ -56,17 +56,12 @@ public class SplashActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        Fabric.with(this, new Crashlytics());
-
-        //setAutoLogAppEventsEnabled(true);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.spl_screen_nuevo);
         initComponents();
         txtCargando.setText(getApplicationContext().getText(R.string.starting_software));
         changeName=new ChangeText();
         new sharedPreferencesLoad(this).execute();
-
-
 
     }
 
@@ -80,7 +75,7 @@ public class SplashActivity extends Activity {
             new borrarPictos().execute();
         } else {
             // Llamamos a la Actividad principal de la aplicacion
-            Intent mainIntent = new Intent().setClass(SplashActivity.this, LoginActivity.class);
+            Intent mainIntent = new Intent().setClass(SplashActivity.this, LoginActivity2.class);
             startActivity(mainIntent);
             finish();
         }
@@ -106,7 +101,6 @@ public class SplashActivity extends Activity {
                 }
                 inputStream.close();
             } catch (IOException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
             try {
@@ -297,7 +291,7 @@ public class SplashActivity extends Activity {
                 Json.getInstance().initJsonArrays();
             } catch (JSONException | FiveMbException e) {
                 Log.e(TAG, "borrarPictosViejos: Error" + e.getMessage());
-            } //TODO este es el mas importante para hacer el weekly
+            }
 
             return null;
         }
@@ -323,7 +317,7 @@ public class SplashActivity extends Activity {
             }
         }, 2500);
        }else{
-           Intent mainIntent = new Intent().setClass(SplashActivity.this, LoginActivity.class);
+           Intent mainIntent = new Intent().setClass(SplashActivity.this, LoginActivity2.class);
            startActivity(mainIntent);
            finish();
        }
@@ -372,6 +366,7 @@ public class SplashActivity extends Activity {
         txtCargando = findViewById(R.id.txtCargando);
         beat = AnimationUtils.loadAnimation(SplashActivity.this, R.anim.heartbeat);
 
+
     }
 
     class ChangeText extends Handler{
@@ -380,7 +375,8 @@ public class SplashActivity extends Activity {
             if(super.hasMessages(value))
                 super.removeMessages(value);
         }
-        private void removeAllMessages(){
+        private void removeAllMessages()
+        {
             removeCreatedMessages(position);
         }
         @Override

@@ -54,6 +54,17 @@ public final class Constants {
         BAY_AREA_LANDMARKS.put("Casa", new LatLng(25.2171093, 55.2794741));
     }
 
+    //Constants FOR RESULT
+    public static final int RC_SIGN_IN = 400;
+
+
+
+
+
+
+
+
+
 
     //2 mins
 //    public static final long UN_MES = 120;
@@ -118,8 +129,13 @@ public final class Constants {
     public static final String Grupos = "Grupos";
     public static final String Frases = "Frases";
     public static final String FrasesFavoritas = "FrasesFavoritas";
+
+    //Datos del usuario
     public static final String JUEGOS = "Juegos";
     public static final String PAGO = "Pago";
+    public static final String GENERO = "pref_sexo";
+    public static final String SKILLHAND = "skillHand";
+    public static final String FECHACUMPLE = "birth_date";
     public static final String FECHAPAGO = "FechaPago";
     public static final String FECHAVENCIMIENTO="FechaVencimiento";
     public static final String PREMIUM = "premium";
@@ -136,6 +152,7 @@ public final class Constants {
     public static final String USUARIOS = "Usuarios";
     public static final String EDADUSUARIO = "EdadUsuario";
     public static final String NOMBRE = "Nombre";
+    public static final String AVATAR = "Avatar";
     //Constants ubicacion places
 
     public static final int TYPE_AIRPORT = 2;

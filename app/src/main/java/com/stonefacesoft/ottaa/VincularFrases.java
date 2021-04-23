@@ -14,6 +14,7 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.stonefacesoft.ottaa.FirebaseRequests.SubirArchivosFirebase;
 import com.stonefacesoft.ottaa.RecyclerViews.PhrasesRecyclerView;
 import com.stonefacesoft.ottaa.utils.Constants;
+import com.stonefacesoft.ottaa.utils.Firebase.AnalyticsFirebase;
 import com.stonefacesoft.ottaa.utils.IntentCode;
 import com.stonefacesoft.ottaa.utils.preferences.User;
 
@@ -22,6 +23,7 @@ public class VincularFrases extends AppCompatActivity implements View.OnClickLis
     private PhrasesRecyclerView recyclerView;
     private User firebaseUser;
     private SubirArchivosFirebase subirArchivos;
+    private AnalyticsFirebase mAnalyticsFirebase;
 
 
     @Override
@@ -40,6 +42,7 @@ public class VincularFrases extends AppCompatActivity implements View.OnClickLis
         initComponents();
     }
     public void initComponents(){
+        mAnalyticsFirebase=new AnalyticsFirebase(this);
         viewPager2=findViewById(R.id.viewPager_groups);
         viewPager2.setVisibility(View.GONE);
         recyclerView=new PhrasesRecyclerView(this,firebaseUser.getmAuth());
@@ -62,15 +65,19 @@ public class VincularFrases extends AppCompatActivity implements View.OnClickLis
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.up_button:
-                    recyclerView.scrollTo(false);
+                mAnalyticsFirebase.customEvents("Touch","VincularFrases","Favorite Phrases UpButton");
+                recyclerView.scrollTo(false);
                 break;
             case R.id.down_button:
-                    recyclerView.scrollTo(true);
+                mAnalyticsFirebase.customEvents("Touch","VincularFrases","Favorite Phrases DownButton");
+                recyclerView.scrollTo(true);
                 break;
             case R.id.back_button:
+                mAnalyticsFirebase.customEvents("Touch","VincularFrases","Favorite Phrases BackButton");
                 onBackPressed();
                 break;
             case R.id.edit_button:
+                mAnalyticsFirebase.customEvents("Touch","VincularFrases","SaveFavoritePhrases");
                 recyclerView.savePhrases();
                 subirArchivos.uploadFavoritePhrases(subirArchivos.getmDatabase(firebaseUser.getmAuth(), Constants.FrasesFavoritas),subirArchivos.getmStorageRef(firebaseUser.getmAuth(),Constants.FrasesFavoritas));
                 onBackPressed();

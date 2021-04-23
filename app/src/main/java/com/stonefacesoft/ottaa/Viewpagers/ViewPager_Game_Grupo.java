@@ -21,6 +21,7 @@ import androidx.viewpager2.widget.ViewPager2;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.stonefacesoft.ottaa.Games.MatchPictograms;
+import com.stonefacesoft.ottaa.Games.MemoryGame;
 import com.stonefacesoft.ottaa.Games.WhichIsThePicto;
 import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.R;
@@ -59,6 +60,7 @@ public class ViewPager_Game_Grupo {
     private static int id;
     private final FloatingActionButton actionButton;
     private final ImageView editPicto;
+    private static int positionItem;
 
 
     public ViewPager_Game_Grupo(AppCompatActivity mActivity, textToSpeech myTTS, int id) {
@@ -177,9 +179,9 @@ public class ViewPager_Game_Grupo {
                 case 1:
                     intent = new Intent(mActivity, MatchPictograms.class);
                     break;
-//                     case 2:
-//                         intent=new Intent(mActivity, DescribirPictograma.class);
-//                         break;
+                case 2:
+                    intent = new Intent(mActivity, MemoryGame.class);
+                    break;
             }
 
             try {
@@ -195,8 +197,9 @@ public class ViewPager_Game_Grupo {
 
     }
 
-    public void moveToLastPosition() {
-
+    public void refreshView() {
+        viewPager.refreshDrawableState();
+        viewPager.setCurrentItem(positionItem);
     }
 
     public static class fragmentGrupo extends Fragment {
@@ -263,6 +266,7 @@ public class ViewPager_Game_Grupo {
                         public void onClick(View view) {
                             Intent intent=null;
                            // intent.putExtra("Boton", position);
+                            positionItem=position;
                             try {
                                 myTTS.hablarSinMostrarFrase(json.getNombre(array.getJSONObject(position)));
                                 switch (id){
@@ -272,9 +276,9 @@ public class ViewPager_Game_Grupo {
                                     case 1:
                                         intent = new Intent(mActivity, MatchPictograms.class);
                                         break;
-//                                    case 2:
-//                                        intent=new Intent(mActivity, DescribirPictograma.class);
-//                                        break;
+                                  case 2:
+                                        intent=new Intent(mActivity, MemoryGame.class);
+                                        break;
                                 }
                                 try {
                                     intent.putExtra("PictoID", array.getJSONObject(position).getInt("id"));
@@ -302,15 +306,15 @@ public class ViewPager_Game_Grupo {
             Log.d(TAG, "loadDrawable: "+ picto.toString());
             Drawable drawable=json.getIcono(picto);
             if(drawable!=null)
-                attatcher.loadCircleDrawable(drawable,imageView);
+                attatcher.UseCornerRadius(true).loadDrawable(drawable,imageView);
             else
-                attatcher.loadCircleDrawable(mActivity.getResources().getDrawable(R.drawable.ic_cloud_download_orange),imageView);
+                attatcher.UseCornerRadius(true).loadDrawable(mActivity.getResources().getDrawable(R.drawable.ic_cloud_download_orange),imageView);
         }else{
             File picto=new File(pictogram.getEditedPictogram());
             if(picto.exists())
-                attatcher.loadCircleDrawable(picto,imageView);
+                attatcher.UseCornerRadius(true).loadDrawable(picto,imageView);
             else
-                attatcher.loadCircleDrawable(Uri.parse(pictogram.getUrl()),imageView);
+                attatcher.UseCornerRadius(true).loadDrawable(Uri.parse(pictogram.getUrl()),imageView);
         }
     }
 }

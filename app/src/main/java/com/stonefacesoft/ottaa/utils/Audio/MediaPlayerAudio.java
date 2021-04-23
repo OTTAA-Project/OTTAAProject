@@ -8,17 +8,19 @@ import com.stonefacesoft.ottaa.R;
 
 import java.io.File;
 
-public class MediaPlayerAudio {
+public class MediaPlayerAudio implements MediaPlayer.OnPreparedListener {
     private MediaPlayer player;
     private Context mContext;
     private float audioLevel=0.5f;
     private boolean muted;
+    private boolean complete;
      public MediaPlayerAudio(Context mContext){
          this.mContext=mContext;
 
      }
 
      private void playSound(boolean completo){
+        if(player!=null){
          setPlayerSound();
          player.start();
          if(!completo)
@@ -26,54 +28,65 @@ public class MediaPlayerAudio {
          player.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
              @Override
              public void onCompletion(MediaPlayer mediaPlayer) {
-                 if(!player.isLooping())
-                 mediaPlayer.reset();
+                 if(!player.isLooping()){
+                    mediaPlayer.reset();
+                    mediaPlayer.release();
+                    player=null;
+                 }
 
              }
          });
+        }
      }
 
      public void playYesSound(){
          player=MediaPlayer.create(mContext, R.raw.yay);
-         playSound(false);
+         complete=false;
+         player.setOnPreparedListener(this);
      }
 
      public void playYupi1Sound(){
          player=MediaPlayer.create(mContext,R.raw.yupi_1);
-         playSound(true);
+         complete=true;
+         player.setOnPreparedListener(this);
      }
      public void playYupi2Sound(){
          player=MediaPlayer.create(mContext,R.raw.yupi_2);
-         playSound(true);
+         complete=true;
+         player.setOnPreparedListener(this);
      }
 
      public void playYouWin(){
          player=MediaPlayer.create(mContext,R.raw.you_win);
-         playSound(true);
+         complete=true;
+         player.setOnPreparedListener(this);
+
      }
 
      public void playTadaSound(){
          player=MediaPlayer.create(mContext,R.raw.tada);
-         playSound(true);
+         complete=true;
+         player.setOnPreparedListener(this);
      }
 
 
     public void playNoSound(){
         player=MediaPlayer.create(mContext, R.raw.wrong);
-           playSound(true);
+        complete=true;
+        player.setOnPreparedListener(this);
     }
 
     public void playOhOhSound(){
         player=MediaPlayer.create(mContext, R.raw.ohoh);
-           playSound(true);
+        complete=true;
+        player.setOnPreparedListener(this);
     }
     public void stop(){
          if(player!=null)
          player.stop();
     }
 
-    public  void playMusic(){
-         player=MediaPlayer.create(mContext,R.raw.funckygroove);
+    public  void playMusic(){ player=MediaPlayer.create(mContext,R.raw.funckygroove);
         playSound(true);
         player.setLooping(true);
     }
@@ -91,10 +104,12 @@ public class MediaPlayerAudio {
          player.stop();
     }
     private void setPlayerSound(){
+        if(player!=null){
          if(muted)
              player.setVolume(0f,0f);
          else
              player.setVolume(audioLevel,audioLevel);
+        }
     }
 
     public boolean isMuted() {
@@ -111,5 +126,10 @@ public class MediaPlayerAudio {
          player=MediaPlayer.create(mContext, Uri.fromFile(f));
         playSound(true);
         player.setLooping(false);
+    }
+
+    @Override
+    public void onPrepared(MediaPlayer mp) {
+        playSound(complete);
     }
 }

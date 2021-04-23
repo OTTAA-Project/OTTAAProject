@@ -1,6 +1,5 @@
 package com.stonefacesoft.ottaa.utils.Accesibilidad.scrollActions;
 
-import android.content.Context;
 import android.os.Message;
 
 import androidx.annotation.NonNull;
@@ -9,12 +8,14 @@ import com.stonefacesoft.ottaa.Games.GameSelector;
 import com.stonefacesoft.ottaa.Games.MatchPictograms;
 import com.stonefacesoft.ottaa.Games.WhichIsThePicto;
 import com.stonefacesoft.ottaa.MainJuegos;
+import com.stonefacesoft.ottaa.Views.Games.GameViewSelectPictograms;
 
 public class ScrollFuntionGames extends ScrollFunction{
     private MainJuegos mainJuegos;
     private WhichIsThePicto whichIsThePicto ;
     private MatchPictograms matchPictograms;
     private GameSelector gameSelector;
+    private GameViewSelectPictograms gameViewSelectPictograms;
 
 
     public ScrollFuntionGames(MainJuegos mainJuegos) {
@@ -32,6 +33,10 @@ public class ScrollFuntionGames extends ScrollFunction{
     public ScrollFuntionGames(MatchPictograms mainJuegos) {
         super(mainJuegos);
         this.matchPictograms=mainJuegos;
+    }
+    public ScrollFuntionGames(GameViewSelectPictograms mainJuegos) {
+        super(mainJuegos);
+        this.gameViewSelectPictograms=mainJuegos;
     }
     @Override
     public void handleMessage(@NonNull Message msg) {
@@ -53,5 +58,7 @@ public class ScrollFuntionGames extends ScrollFunction{
             whichIsThePicto.OnClickBarrido();
         else if(matchPictograms!=null)
             matchPictograms.OnClickBarrido();
+        else if(gameViewSelectPictograms!=null)
+            gameViewSelectPictograms.OnClickBarrido();
     }
 }

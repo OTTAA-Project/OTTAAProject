@@ -474,14 +474,12 @@ public class DescribirPictograma extends AppCompatActivity implements View
     private void CalcularPuntaje(boolean Acerto) {
         if (Acerto) {
             game.incrementCorrect();
-
             Drawable drawable=game.devolverCarita();
             drawable.setTint(getResources().getColor(R.color.colorWhite));
             mMenu.getItem(0).setIcon(drawable).setVisible(true);
 
         } else{
             game.incrementWrong();
-
             Drawable drawable=game.devolverCarita();
             drawable.setTint(getResources().getColor(R.color.colorWhite));
             mMenu.getItem(0).setIcon(drawable).setVisible(true);

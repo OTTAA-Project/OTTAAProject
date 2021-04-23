@@ -1,23 +1,27 @@
 package com.stonefacesoft.ottaa.utils;
 
-import android.app.Activity;
+import android.app.ActionBar;
 import android.os.Handler;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
-import android.view.VelocityTracker;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 public class InmersiveMode implements View.OnTouchListener {
+    private static final String TAG = "InmersiveMode";
+    public static final int NOACTIONBAR = 141;
+    public static final int WITHACTIONBAR = 142;
+
     private View decorView;
     private AppCompatActivity mActivity;
     private boolean immersive;
     private Handler handler;
-    private final GestureDetector detector;
+    private GestureDetector detector;
 
-    public InmersiveMode(AppCompatActivity view){
-        this.mActivity=view;
+    public InmersiveMode(AppCompatActivity appCompatActivity){
+        this.mActivity=appCompatActivity;
         this.handler=new Handler();
         this.decorView = this.mActivity.getWindow().getDecorView();
         hideUI();
@@ -30,11 +34,12 @@ public class InmersiveMode implements View.OnTouchListener {
                 }
                 else{
                     immersive = true;
-
                 }
             }
         });
+
         detector=new GestureDetector(mActivity,new GestureListener());
+
         decorView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
@@ -43,9 +48,11 @@ public class InmersiveMode implements View.OnTouchListener {
             }
         });
     }
+
     private void hideUI() {
         immersive = true;
-        mActivity.getSupportActionBar().hide();
+        if (mActivity.getSupportActionBar() != null)
+            mActivity.getSupportActionBar().hide();
         decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                 | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                 | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
@@ -53,6 +60,7 @@ public class InmersiveMode implements View.OnTouchListener {
                 | View.SYSTEM_UI_FLAG_FULLSCREEN
                 | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
     }
+
     public void toggleState() {
         if (immersive) {
             showUI();
@@ -61,10 +69,10 @@ public class InmersiveMode implements View.OnTouchListener {
         }
     }
 
-
     private void showUI() {
         immersive = false;
-        mActivity.getSupportActionBar().show();
+        if (mActivity.getSupportActionBar() != null)
+            mActivity.getSupportActionBar().show();
         decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
 
     }

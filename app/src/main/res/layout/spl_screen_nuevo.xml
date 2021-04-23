@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:mContext=".Spl_ScreenActivity">
+    tools:context=".welcome.SplashActivity"
+    >
 
     <ImageView
         android:id="@+id/logo_inicial"
@@ -23,7 +24,6 @@
 
     <ProgressBar
         android:id="@+id/progress_circular"
-
         style="?android:attr/progressBarStyle"
         android:indeterminateTint="@color/NaranjaOTTAA"
         android:layout_width="0dp"

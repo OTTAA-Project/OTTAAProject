@@ -190,7 +190,7 @@ public class GaleriaGrupos2 extends AppCompatActivity implements OnStartDragList
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 if (firebaseAuth.getCurrentUser() == null) {
                     Intent mainIntent = new Intent().setClass(
-                        GaleriaGrupos2.this, LoginActivity.class);
+                        GaleriaGrupos2.this, LoginActivity2.class);
                     startActivity(mainIntent);
                     Toast.makeText(GaleriaGrupos2.this, R.string.expired_sesions, Toast.LENGTH_SHORT).show();
                     finish();

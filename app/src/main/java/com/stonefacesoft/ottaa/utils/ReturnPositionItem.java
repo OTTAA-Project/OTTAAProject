@@ -19,6 +19,8 @@ public class ReturnPositionItem {
         position--;
         if(position<0)
             position=size-1;
+        if(position==-1)
+            return 0;
         return position;
     }
 

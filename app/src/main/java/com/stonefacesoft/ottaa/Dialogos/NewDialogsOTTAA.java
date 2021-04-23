@@ -2,8 +2,11 @@ package com.stonefacesoft.ottaa.Dialogos;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
@@ -21,7 +24,14 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.stonefacesoft.ottaa.Adapters.CustomFavoritePhrasesAdapter;
@@ -34,7 +44,9 @@ import com.stonefacesoft.ottaa.FirebaseRequests.BajarJsonFirebase;
 import com.stonefacesoft.ottaa.Interfaces.FirebaseSuccessListener;
 import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.VincularFrases;
+import com.stonefacesoft.ottaa.utils.CustomToast;
 import com.stonefacesoft.ottaa.utils.DatosDeUso;
+import com.stonefacesoft.ottaa.utils.Firebase.AnalyticsFirebase;
 import com.stonefacesoft.ottaa.utils.IntentCode;
 import com.stonefacesoft.ottaa.utils.ReturnPositionItem;
 import com.stonefacesoft.ottaa.utils.exceptions.FiveMbException;
@@ -43,9 +55,16 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import static android.content.Context.CLIPBOARD_SERVICE;
 
 public class NewDialogsOTTAA implements FirebaseSuccessListener {
+
+    //TODO hacer esta clase abstracta e implementar cada dialogo NewFeature, hearth, ETC... APLICAR DISENO ORIENTADO A OBJETOS
+    private static final String TAG = "NewDialogs";
 
     private Activity mActivity;
     private GestionarBitmap mGestionarBitmap;
@@ -60,11 +79,15 @@ public class NewDialogsOTTAA implements FirebaseSuccessListener {
     private int position;
     private ReturnPositionItem positionItemAdapter;
 
+    private AnalyticsFirebase analyticsFirebase;
+
 
     public NewDialogsOTTAA(Activity activity) {
         this.mActivity = activity;
         this.dialog = new Dialog(mActivity);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+
+        analyticsFirebase = new AnalyticsFirebase(mActivity);
 
     }
 
@@ -227,6 +250,7 @@ public class NewDialogsOTTAA implements FirebaseSuccessListener {
         foward.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                analyticsFirebase.customEvents("Touch","NewsDialogOTTAA","Previous Phrase");
                 position=positionItemAdapter.subtract();
                 mRecyclerViewFrases.smoothScrollToPosition(position);
 
@@ -235,6 +259,7 @@ public class NewDialogsOTTAA implements FirebaseSuccessListener {
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                analyticsFirebase.customEvents("Touch","NewsDialogOTTAA","Next Phrase");
                 position=positionItemAdapter.add();
                 mRecyclerViewFrases.smoothScrollToPosition(position);
 
@@ -243,6 +268,7 @@ public class NewDialogsOTTAA implements FirebaseSuccessListener {
         sort.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                analyticsFirebase.customEvents("Touch","NewsDialogOTTAA","select Favorite Phrases");
                 SharedPreferences defaultSharedPreferences=PreferenceManager.getDefaultSharedPreferences(mActivity);
                 defaultSharedPreferences.edit().putInt("favoritePhrase",1).apply();
                 showCustomPhrases();
@@ -271,22 +297,27 @@ public class NewDialogsOTTAA implements FirebaseSuccessListener {
         foward.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                position=positionItemAdapter.subtract();
-                mRecyclerViewFrases.smoothScrollToPosition(position);
-
+               if(positionItemAdapter!=null) {
+                   analyticsFirebase.customEvents("Touch","NewsDialogOTTAA","Previous Phrase");
+                   position = positionItemAdapter.subtract();
+                    mRecyclerViewFrases.smoothScrollToPosition(position);
+               }
             }
         });
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                position=positionItemAdapter.add();
-                mRecyclerViewFrases.smoothScrollToPosition(position);
-
+               if(positionItemAdapter!=null) {
+                   analyticsFirebase.customEvents("Touch","NewsDialogOTTAA","Next Phrase");
+                   position = positionItemAdapter.add();
+                   mRecyclerViewFrases.smoothScrollToPosition(position);
+               }
             }
         });
         sort.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                analyticsFirebase.customEvents("Touch","NewsDialogOTTAA","select Most Used Phrases");
                 SharedPreferences defaultSharedPreferences=PreferenceManager.getDefaultSharedPreferences(mActivity);
                 defaultSharedPreferences.edit().putInt("favoritePhrase",0).apply();
                 showHeartDialog();
@@ -295,6 +326,7 @@ public class NewDialogsOTTAA implements FirebaseSuccessListener {
         addPhrases.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                analyticsFirebase.customEvents("Touch","NewsDialogOTTAA","addPhrases");
                 Intent intent=new Intent(mActivity, VincularFrases.class);
                 mActivity.startActivityForResult(intent, IntentCode.CUSTOMPHRASES.getCode());
                 dialog.dismiss();
@@ -488,8 +520,7 @@ public class NewDialogsOTTAA implements FirebaseSuccessListener {
             try {
                 mAdapter = new FrasesFavoritasAdapter(R.layout.item_favoritos_row, mActivity, mArrayListFavoritos, dialog);
             } catch (FiveMbException e) {
-                e.printStackTrace();
-                //TODO poner algo aca
+                Log.e(TAG, "onPostExecute: ERROR"+e.getMessage());
             }
 
             if (mAdapter.getItemCount() == 0) {
@@ -588,8 +619,123 @@ public class NewDialogsOTTAA implements FirebaseSuccessListener {
 
 
 
+    //A dialog that show the user how to do the Autoworkshop
+    public void showAutoWorkshopDialog() {
+        //Init the layout
+        initDialog(R.layout.dialog_auto_workshop, false);
 
+        Button dialogButton = dialog.findViewById(R.id.btn_dialog);
+        dialogButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
 
+        });
 
+        Button emailButton = dialog.findViewById(R.id.buttonEmailLink);
+        emailButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                triggerEmail();
+            }
+
+        });
+
+        Button copyButton = dialog.findViewById(R.id.buttonCopyLink);
+        copyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                    copyToClipboard();
+            }
+        });
+        dialog.show();
+    }
+
+    //A dialog that show the user options to Book a demo
+    public void showBookDemoDialog() {
+        //Init the layout
+        initDialog(R.layout.dialog_book_demo, false);
+
+        Button dialogButton = dialog.findViewById(R.id.btn_dialog);
+        dialogButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        Button demoButton = dialog.findViewById(R.id.buttonBookDemo);
+        demoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openCalendly();
+            }
+        });
+
+        dialog.show();
+    }
+
+    private void copyToClipboard(){
+        ClipboardManager clipboard = (ClipboardManager) mActivity.getSystemService(CLIPBOARD_SERVICE);
+        ClipData clip = ClipData.newPlainText("label", "https://forms.gle/vp6EDqxq55vEB6YC9");
+        clipboard.setPrimaryClip(clip);
+        CustomToast customToast = new CustomToast(mActivity);
+        customToast.mostrarFrase("Copiado correctamente!"); //TODO extraer resource
+    }
+
+    private void triggerEmail(){
+        CustomToast customToast = new CustomToast(mActivity);
+        customToast.mostrarFrase("Email enviado"); //TODO extraer resource
+        doHTTPRequest();
+    }
+
+    private void openCalendly(  ) {
+        Intent browse = new Intent( Intent.ACTION_VIEW , Uri.parse("https://calendly.com/ottaa-project-support/demo-ottaa-project"));
+        mActivity.startActivity(browse);
+    }
+
+    private void doHTTPRequest() {
+        // Instantiate the RequestQueue.
+        RequestQueue queue = Volley.newRequestQueue(mActivity);
+        String url = "https://us-central1-ottaa-project.cloudfunctions.net/add2list";
+
+        // Request a string response from the provided URL.
+        // Display the first 500 characters of the response string.
+        //Log.e(TAG, "onResponse: "+response);
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
+                this::parseReponse, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e(TAG, "onResponse: Volley Error: " + error.getMessage());
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                //TODO revisar que este assert este bien
+                assert user != null;
+                params.put("UserID", user.getEmail());
+                params.put("first_name", user.getDisplayName());
+                if (user.getPhoneNumber()!=null)
+                    params.put("phone", user.getPhoneNumber());
+                return params;
+            }
+        };
+        // Add the request to the RequestQueue.
+        queue.add(stringRequest);
+    }
+
+    private void parseReponse(String response) {
+        try {
+            Log.d(TAG, "parseResponse: OK");
+            JSONObject jsonObject = new JSONObject(response);
+
+        } catch (JSONException err) {
+            Log.e(TAG, "parseResponse: Error: " + err.toString());
+        }
+
+    }
 
 }
