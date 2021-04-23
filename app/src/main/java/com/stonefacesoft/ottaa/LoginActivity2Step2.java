@@ -145,7 +145,7 @@ public class LoginActivity2Step2 extends AppCompatActivity implements View.OnCli
                     finish();
                     mAnalyticsFirebase.customEvents("Touch", "LoginActivityStep2", "Next1 ");
                 } else {
-                    Toast.makeText(this, "Estos datos son necesarios para la prediccion", Toast.LENGTH_LONG).show();
+                    Toast.makeText(this,this.getResources().getText( R.string.prediction_data), Toast.LENGTH_LONG).show();
                 }
                 break;
             case R.id.back_button:
