@@ -42,7 +42,8 @@
             android:gravity="bottom"
             android:textColor="@color/White"
             android:textSize="25sp"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            />
 
         <TextView
             android:layout_width="0dp"
@@ -146,7 +147,6 @@
                 android:hint="@string/your_name"
                 android:inputType="text"
                 android:autofillHints="Your name"
-                android:imeOptions="flagNoExtractUi"
                 />
 
             <TextView
@@ -207,7 +207,7 @@
                     app:layout_constraintEnd_toStartOf="@id/buttonCalendarDialog"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintHorizontal_weight="4"
-
+                    android:windowSoftInputMode="stateAlwaysHidden|adjustResize"
                     />
 
                 <ImageButton
