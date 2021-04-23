@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -18,20 +19,48 @@
         custom:layout_constraintTop_toTopOf="parent"
         custom:popupTheme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
 
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:id="@+id/orangeBanner2"
+        custom:layout_constraintStart_toStartOf="parent"
+        custom:layout_constraintTop_toTopOf="parent"
+        custom:layout_constraintBottom_toBottomOf="parent"
+        custom:layout_constraintEnd_toStartOf="@id/constraint_gamecard"
+        android:layout_marginEnd="@dimen/medium_margin"
+        android:scaleType="fitXY"
+        android:src="@drawable/ic_ola_naranja_rot"/>
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:id="@+id/placeholder"
+        custom:layout_constraintStart_toStartOf="parent"
+        custom:layout_constraintTop_toBottomOf="@id/toolbar"
+        custom:layout_constraintEnd_toEndOf="@id/personaJuegos"
+        custom:layout_constraintBottom_toTopOf="@id/personaJuegos"
+        custom:layout_constraintVertical_weight="3"
+        android:text="A jugar!"
+        android:gravity="bottom"
+        android:textColor="@color/White"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_marginStart="@dimen/medium_margin"
+        android:layout_marginBottom="@dimen/medium_margin"/>
 
     <ImageView
         android:id="@+id/personaJuegos"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_margin="@dimen/activity_horizontal_margin"
         android:contentDescription="Persona que nos muestra los juegos disponibles"
-        android:src="@drawable/person_games"
+        android:src="@drawable/ic_3_people"
         custom:layout_constraintBottom_toBottomOf="parent"
         custom:layout_constraintEnd_toStartOf="@+id/constraint_gamecard"
         custom:layout_constraintStart_toStartOf="parent"
-        custom:layout_constraintTop_toBottomOf="@id/toolbar"
+        custom:layout_constraintTop_toBottomOf="@id/placeholder"
+        custom:layout_constraintVertical_weight="4"
+        android:layout_marginStart="@dimen/medium_margin"/>
 
-        />
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -39,8 +68,7 @@
         custom:layout_constraintStart_toEndOf="@id/personaJuegos"
         custom:layout_constraintEnd_toEndOf="parent"
         custom:layout_constraintTop_toTopOf="parent"
-        custom:layout_constraintBottom_toBottomOf="parent"
-        >
+        custom:layout_constraintBottom_toBottomOf="parent">
 
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/viewpager"
@@ -305,19 +333,21 @@
             android:layout_height="match_parent" />
 
     </androidx.cardview.widget.CardView>
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/back_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        custom:layout_constraintBottom_toBottomOf="parent"
-        custom:layout_constraintStart_toStartOf="parent"
         android:layout_margin="15dp"
-        android:tint="@color/White"
-        custom:borderWidth="0dp"
-        custom:maxImageSize="@dimen/sizeFloattingButtonIconMed"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="16dp"
         android:backgroundTint="@color/NaranjaOTTAA"
         android:src="@drawable/ic_cancel_black_24dp"
-        />
+        android:tint="@color/White"
+        custom:borderWidth="0dp"
+        custom:layout_constraintTop_toTopOf="parent"
+        custom:layout_constraintStart_toStartOf="parent"
+        custom:maxImageSize="@dimen/sizeFloattingButtonIconMed" />
 
     <Button
         android:id="@+id/btnBarrido"
