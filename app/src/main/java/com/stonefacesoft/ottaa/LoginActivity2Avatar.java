@@ -168,12 +168,12 @@ public class LoginActivity2Avatar extends AppCompatActivity implements View.OnCl
                     uploadFirebaseAvatarName();
                 }
             }
-            mFirebaseAnalytics.customEvents("Touch", "LoginActivity2Avatar", "next button ");
+            mFirebaseAnalytics.customEvents("Touch", "LoginActivity2Avatar", "Next3");
             Intent intent = new Intent(LoginActivity2Avatar.this, Principal.class);
             startActivity(intent);
             finish();
         } else if (id == R.id.backButton) {
-            mFirebaseAnalytics.customEvents("Touch", "LoginActivity2Avatar", "previous button");
+            mFirebaseAnalytics.customEvents("Touch", "LoginActivity2Avatar", "Back3");
             Intent intent2 = new Intent(LoginActivity2Avatar.this, LoginActivity2Step3.class);
             startActivity(intent2);
         } else if (id == R.id.buttonSelectAvatarSource) {

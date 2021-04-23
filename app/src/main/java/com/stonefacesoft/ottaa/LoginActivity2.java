@@ -149,7 +149,7 @@ public class LoginActivity2 extends AppCompatActivity implements View.OnClickLis
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.googleSignInButton:
-                mAnalyticsFirebase.customEvents("Touch","LoginActivity2","singin");
+                mAnalyticsFirebase.customEvents("Touch","LoginActivity2","signIn");
                 signIn();
                 break;
                 //TODO put an easter egg when you click the Bubas

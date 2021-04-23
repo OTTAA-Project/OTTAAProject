@@ -67,12 +67,12 @@ public class LoginActivity2Step3 extends AppCompatActivity implements View.OnCli
     public void onClick(View view) {
         int id = view.getId();
         if (id == R.id.nextButton) {
-            mAnalyticsFirebase.customEvents("Touch","LoginActivityStep3","Next Button");
+            mAnalyticsFirebase.customEvents("Touch","LoginActivityStep3","Next2");
             Intent intent = new Intent(LoginActivity2Step3.this, LoginActivity2Avatar.class);
             startActivity(intent);
             finish();
         } else if (id == R.id.backButton) {
-            mAnalyticsFirebase.customEvents("Touch","LoginActivityStep3","Back Button");
+            mAnalyticsFirebase.customEvents("Touch","LoginActivityStep3","Back2");
             Intent intent2 = new Intent(LoginActivity2Step3.this, LoginActivity2Step2.class);
             startActivity(intent2);
         } else if (id == R.id.buttonTutorial) {

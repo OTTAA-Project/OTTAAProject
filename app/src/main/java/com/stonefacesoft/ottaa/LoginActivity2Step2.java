@@ -69,7 +69,7 @@ public class LoginActivity2Step2 extends AppCompatActivity implements View.OnCli
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         preferencesUtil = new PreferencesUtil(preferences);
         mAuth = FirebaseAuth.getInstance();
-        mAnalyticsFirebase=new AnalyticsFirebase(this);
+        mAnalyticsFirebase = new AnalyticsFirebase(this);
 
 
         bindUI();
@@ -139,23 +139,22 @@ public class LoginActivity2Step2 extends AppCompatActivity implements View.OnCli
         switch (view.getId()) {
             case R.id.nextButton:
                 if (availableUserData()) {
-                    mAnalyticsFirebase.customEvents("Touch","LoginActivityStep2","NextButtonIsAvailable");
                     setUpUserData();
                     Intent intent = new Intent(LoginActivity2Step2.this, LoginActivity2Step3.class);
                     startActivity(intent);
                     finish();
+                    mAnalyticsFirebase.customEvents("Touch", "LoginActivityStep2", "Next1 ");
                 } else {
-                    mAnalyticsFirebase.customEvents("Touch","LoginActivityStep2","NextButtonIsnotAvailable");
                     Toast.makeText(this, "Estos datos son necesarios para la prediccion", Toast.LENGTH_LONG).show();
                 }
                 break;
             case R.id.back_button:
-                mAnalyticsFirebase.customEvents("Touch","LoginActivityStep2","BackButton");
+                mAnalyticsFirebase.customEvents("Touch", "LoginActivityStep2", "Back1");
                 Intent intent2 = new Intent(LoginActivity2Step2.this, LoginActivity2Step2.class);
                 startActivity(intent2);
                 break;
             case R.id.buttonCalendarDialog:
-                mAnalyticsFirebase.customEvents("Touch","LoginActivityStep2","calendarButton");
+                mAnalyticsFirebase.customEvents("Touch", "LoginActivityStep2", "calendarButton");
                 calendarDialog();
                 break;
         }

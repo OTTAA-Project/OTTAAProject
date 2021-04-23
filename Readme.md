@@ -184,18 +184,17 @@ You can be part of this life-changer tech, join us in this social impact open so
 | Cual es el picto | Activar/Desactivar Ayuda             | Help Action                |
 | Cual es el picto | Silenciar Cancion                    | Mute                       |
 | LoginActivity    | Seleccionar el boton de singin       | singIn                     |
-| LoginActivityStep2 | Los datos del usuario nombre,fecha de nacimiento y genero fueron cargados correctamente  paso a la siguiente pantalla| NextButtonIsAvailable |
-| LoginActivityStep2 | Falta completar alguno de los datos del nombre,genero y edad | NextButtonIsnotAvailable |
-| LoginActivityStep2 |vuelvo al login| BackButton |
+| LoginActivityStep2 | Voy al paso 3 del tutorial | Next1 |
+| LoginActivityStep2 |vuelvo al login| Back1 |
 | LoginActivityStep2 | llamo al calendario | calendarButton |
-| LoginActivityStep3 | paso al activity siguiente| Next Button |
-| LoginActivityStep3 | paso al activity anterior | back Button |
+| LoginActivityStep3 | paso al activity siguiente| Next2 |
+| LoginActivityStep3 | paso al activity anterior | Back2  |
 | LoginActivityStep3 | voy al tutorial desde el login | ButtonTutorial |
 | LoginActivityStep3 | voy al tutorial desde el login | ButtonTutorial |
 | LoginActivityStep3 | voy al workshop desde el login | ButtonAutoWorkShop |
 | LoginActivityStep3 | Reservo una charla | ButtonBookDemo |
-| LoginActivityAvatar |salgo del login a la ventana principal | next button |
-| LoginActivityAvatar |vuelvo al paso 3 del tutorial | previous button |
+| LoginActivityAvatar |salgo del login a la ventana principal | Next3 |
+| LoginActivityAvatar |vuelvo al paso 3 del tutorial | Back3 |
 | LoginActivityAvatar | elije tu avatar | buttonSelectAvatarSource |
 | LoginActivityStep3 | elije tu foto | buttonSelectCameraSource |
 | LoginActivityStep3 | elije una  foto  de la galeria| buttonGalerySource |
