@@ -43,7 +43,10 @@
             android:gravity="bottom"
             android:textColor="@color/White"
             android:textSize="20sp"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            android:focusable="true"
+
+            />
 
         <TextView
             android:layout_width="0dp"
@@ -142,7 +145,9 @@
                 app:layout_constraintVertical_weight="1"
                 android:hint="@string/your_name"
                 android:inputType="text"
-                android:autofillHints="Your name" />
+                android:autofillHints="Your name"
+                android:windowSoftInputMode="stateAlwaysHidden|adjustResize"
+                />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -198,7 +203,9 @@
                     app:layout_constraintEnd_toStartOf="@id/buttonCalendarDialog"
                     app:layout_constraintHorizontal_weight="4"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:windowSoftInputMode="stateAlwaysHidden|adjustResize"
+                    />
 
                 <ImageButton
                     android:layout_width="0dp"

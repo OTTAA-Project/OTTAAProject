@@ -1,18 +1,23 @@
 package com.stonefacesoft.ottaa;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -75,7 +80,6 @@ public class LoginActivity2Step2 extends AppCompatActivity implements View.OnCli
         bindUI();
 
         animateEntrance();
-
         fillUserData();
 
     }
@@ -92,6 +96,7 @@ public class LoginActivity2Step2 extends AppCompatActivity implements View.OnCli
         buttonPrevious.setOnClickListener(this);
 
         editTextName = findViewById(R.id.editTextName);
+        editTextName.setInputType(InputType.TYPE_NULL);
         editTextBirthday = findViewById(R.id.editTextBirthday);
         editTextBirthday.setInputType(InputType.TYPE_CLASS_DATETIME);
 
@@ -163,7 +168,13 @@ public class LoginActivity2Step2 extends AppCompatActivity implements View.OnCli
     private void fillUserData() {
         if (mAuth.getCurrentUser() != null) {
             editTextName.setText(mAuth.getCurrentUser().getDisplayName());
-            //TODO el teclado no permite ver lo que se esta escribiendo
+            Handler handler=new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    editTextName.setInputType(InputType.TYPE_CLASS_TEXT);
+                }
+            },2500);
         }
     }
 
@@ -272,6 +283,7 @@ public class LoginActivity2Step2 extends AppCompatActivity implements View.OnCli
 
         }
 
+
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
             if (convert) {
@@ -328,6 +340,21 @@ public class LoginActivity2Step2 extends AppCompatActivity implements View.OnCli
             convert = true;
         }
     }
+
+
+    public void toogleKeyBoard(TextView view){
+
+        InputMethodManager imm =(InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        if(imm.isActive()){
+            imm.hideSoftInputFromWindow(view.getWindowToken(),0);
+        }else{
+            imm.showSoftInput(view,InputMethodManager.SHOW_IMPLICIT);
+        }
+    }
+
+
+
+
 }
 
 
