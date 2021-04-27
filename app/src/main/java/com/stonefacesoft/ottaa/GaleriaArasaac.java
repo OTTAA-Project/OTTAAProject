@@ -1,20 +1,14 @@
 package com.stonefacesoft.ottaa;
 
-import android.app.DownloadManager;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.PowerManager;
 import android.preference.PreferenceManager;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -40,7 +34,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -207,51 +200,7 @@ public class GaleriaArasaac extends AppCompatActivity implements SearchView.OnQu
 
     ///////////////////////////////  Descargar Archivo  ////////////////////////////////////////////
 
-    private void descargarImagen(String url) {
-        DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
-        request.setDescription("Se esta descargando la imagen deseada para el pictograma seleccionado.");
-        request.setTitle("Imagen OTTAA Project");
-        // in order for this if to run, you must use the android 3.2 to compile your app
-        if (Build.VERSION.SDK_INT >= 21) {
-            request.allowScanningByMediaScanner();
-            request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
-        }
 
-        String timeStamp = new SimpleDateFormat("ddMMyyyy_HHmmss").format(new Date());
-        File mediaFile;
-        String mImageName = "MI_" + timeStamp + ".png";
-        request.setDestinationInExternalPublicDir(Environment.getExternalStorageDirectory()
-                + "/Android/data/"
-                + getApplicationContext().getPackageName()
-                + "/Files", mImageName);
-
-        // get download service and enqueue file
-        DownloadManager manager = (DownloadManager) getSystemService(Context.DOWNLOAD_SERVICE);
-        manager.enqueue(request);
-    }
-
-    public void showCustomAlert(CharSequence Testo) {
-        //Retrieve the layout inflator
-        LayoutInflater inflater = getLayoutInflater();
-        //Assign the custom layout to view
-        //Parameter 1 - Custom layout XML
-        //Parameter 2 - Custom layout ID present in linearlayout tag of XML
-        View layout = inflater.inflate(R.layout.custom_toast, findViewById(R.id.toast_layout_root));
-        TextView tv = layout.findViewById(R.id.text);
-        tv.setTextColor(getResources().getColor(R.color.colorWhite));
-        tv.setTextSize(sharedPrefsDefault.getInt("subtitulo_tamanio", 25));
-        tv.setText(Testo);
-        //Return the application mContext
-        Toast toast = new Toast(getApplicationContext());
-        //Set custom_toast gravity to bottom
-        toast.setGravity(Gravity.BOTTOM, 0, 50);
-        //Set custom_toast duration
-        toast.setDuration(Toast.LENGTH_SHORT);
-        //Set the custom layout to Toast
-        toast.setView(layout);
-        //Display custom_toast
-        toast.show();
-    }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     @Override
