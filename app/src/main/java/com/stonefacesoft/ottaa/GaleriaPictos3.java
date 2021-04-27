@@ -27,6 +27,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.stonefacesoft.ottaa.FirebaseRequests.SubirArchivosFirebase;
 import com.stonefacesoft.ottaa.Interfaces.Make_Click_At_Time;
 import com.stonefacesoft.ottaa.JSONutils.Json;
+import com.stonefacesoft.ottaa.RecyclerViews.FindAllPictograms_Recycler_View;
 import com.stonefacesoft.ottaa.RecyclerViews.Picto_Recycler_View_Sort;
 import com.stonefacesoft.ottaa.RecyclerViews.Picto_Recycler_view;
 import com.stonefacesoft.ottaa.RecyclerViews.Picto_Vincular_Recycler_View;
@@ -54,6 +55,7 @@ public class GaleriaPictos3 extends AppCompatActivity implements View.OnClickLis
     private SubirArchivosFirebase uploadFile;
     private boolean esVincular;
     private boolean showViewPager;
+    private boolean isSearchingAllPictograms; // use this flag in order to search one pictogram
     private boolean isSorter;
     private SharedPreferences sharedPrefsDefault;
     private Toolbar toolbar;
@@ -66,6 +68,7 @@ public class GaleriaPictos3 extends AppCompatActivity implements View.OnClickLis
     private textToSpeech myTTS;
     //RecyclerViewComponents
     private Picto_Vincular_Recycler_View mVincularRecyclerView;
+    private FindAllPictograms_Recycler_View findAllPictograms_recycler_view;
     private Picto_Recycler_view mPictoRecyclerView;
     private Picto_Recycler_View_Sort mPictoSortRecyclerView;
     private JSONArray pictosDelGrupoFiltrado;
@@ -107,30 +110,7 @@ public class GaleriaPictos3 extends AppCompatActivity implements View.OnClickLis
     }
 
     private void cargarAdapter() {
-        if (esVincular) {
-            mVincularRecyclerView = new Picto_Vincular_Recycler_View(this, mAuth);
-            mVincularRecyclerView.setSharedPrefsDefault(sharedPrefsDefault);
-            mVincularRecyclerView.setArray();
-            mVincularRecyclerView.setMyTTS(myTTS);
-            mVincularRecyclerView.showRecyclerView(showViewPager);
-        } else if (isSorter) {
-            mPictoSortRecyclerView = new Picto_Recycler_View_Sort(this, mAuth);
-            mPictoSortRecyclerView.setSharedPrefsDefault(sharedPrefsDefault);
-            mPictoSortRecyclerView.setArray(boton);
-            mPictoSortRecyclerView.setMyTTS(myTTS);
-            mPictoSortRecyclerView.setUploadFirebaseFile(uploadFile);
-            mPictoSortRecyclerView.showRecyclerView(showViewPager);
-        } else {
-
-            mPictoRecyclerView = new Picto_Recycler_view(this, mAuth);
-            mPictoRecyclerView.setSharedPrefsDefault(sharedPrefsDefault);
-            mPictoRecyclerView.setArray(boton);
-            mPictoRecyclerView.setMyTTS(myTTS);
-            mPictoRecyclerView.setUploadFirebaseFile(uploadFile);
-            mPictoRecyclerView.showRecyclerView(showViewPager);
-
-
-        }
+        isVincular(esVincular).isSorted(isSorter).isDefault();
     }
 
     @Override
@@ -535,5 +515,53 @@ public class GaleriaPictos3 extends AppCompatActivity implements View.OnClickLis
 
     public ScrollFunctionGaleriaPictos getFunction_scroll() {
         return function_scroll;
+    }
+
+     /// load the adapter at this section
+    public GaleriaPictos3 isVincular(boolean isVincular) {
+        if (isVincular) {
+            mVincularRecyclerView = new Picto_Vincular_Recycler_View(this, mAuth);
+            mVincularRecyclerView.setSharedPrefsDefault(sharedPrefsDefault);
+            mVincularRecyclerView.setArray();
+            mVincularRecyclerView.setMyTTS(myTTS);
+            mVincularRecyclerView.showRecyclerView(showViewPager);
+        }
+        return this;
+    }
+
+    public GaleriaPictos3 isSorted(boolean isSorter) {
+        if (isSorter) {
+            mPictoSortRecyclerView = new Picto_Recycler_View_Sort(this, mAuth);
+            mPictoSortRecyclerView.setSharedPrefsDefault(sharedPrefsDefault);
+            mPictoSortRecyclerView.setArray(boton);
+            mPictoSortRecyclerView.setMyTTS(myTTS);
+            mPictoSortRecyclerView.setUploadFirebaseFile(uploadFile);
+            mPictoSortRecyclerView.showRecyclerView(showViewPager);
+        }
+        return this;
+    }
+
+    public GaleriaPictos3 isDefault() {
+        if (!isSorter && !esVincular && !isSearchingAllPictograms) {
+            mPictoRecyclerView = new Picto_Recycler_view(this, mAuth);
+            mPictoRecyclerView.setSharedPrefsDefault(sharedPrefsDefault);
+            mPictoRecyclerView.setArray(boton);
+            mPictoRecyclerView.setMyTTS(myTTS);
+            mPictoRecyclerView.setUploadFirebaseFile(uploadFile);
+            mPictoRecyclerView.showRecyclerView(showViewPager);
+        }
+        return this;
+    }
+
+    public GaleriaPictos3 isSearchingAllPictograms(boolean isSearchingAllPictograms) {
+        if (isSearchingAllPictograms) {
+            findAllPictograms_recycler_view = new FindAllPictograms_Recycler_View(this, mAuth);
+            findAllPictograms_recycler_view.setSharedPrefsDefault(sharedPrefsDefault);
+           // findAllPictograms_recycler_view.setArray(boton);
+            findAllPictograms_recycler_view.setMyTTS(myTTS);
+            findAllPictograms_recycler_view.setUploadFirebaseFile(uploadFile);
+            findAllPictograms_recycler_view.showRecyclerView(showViewPager);
+        }
+        return this;
     }
 }

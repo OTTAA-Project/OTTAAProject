@@ -12,7 +12,7 @@ import com.stonefacesoft.ottaa.utils.exceptions.FiveMbException;
 import org.json.JSONArray;
 import org.json.JSONException;
 
-class FindAllPictograms_Recycler_View extends Custom_recyclerView {
+public class FindAllPictograms_Recycler_View extends Custom_recyclerView {
 
     private Json json;
     private JSONArray childs;
