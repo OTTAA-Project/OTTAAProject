@@ -36,6 +36,7 @@ import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.stonefacesoft.ottaa.Activities.FindAllPictograms;
 import com.stonefacesoft.ottaa.Dialogos.Progress_dialog_options;
 import com.stonefacesoft.ottaa.FirebaseRequests.FirebaseUtils;
 import com.stonefacesoft.ottaa.FirebaseRequests.SubirArchivosFirebase;
@@ -226,7 +227,7 @@ public class GaleriaGrupos2 extends AppCompatActivity implements OnStartDragList
         viewpager=new viewpager_galeria_grupo(this,myTTS);
 
         viewpager.showViewPager(showViewPager);
-        showView(editButton,showViewPager);
+        //showView(editButton,showViewPager);
         deviceControl=new GaleriaGruposControls(this);
     }
 
@@ -471,7 +472,7 @@ public class GaleriaGrupos2 extends AppCompatActivity implements OnStartDragList
                 sharedPrefsDefault.edit().putBoolean("showViewPager",showViewPager).apply();
                 viewpager.showViewPager(showViewPager);
                 recycler_view_grupo.showRecyclerView(showViewPager);
-                showView(editButton,showViewPager);
+               // showView(editButton,showViewPager);
                 break;
             case R.id.order_items:
                 analyticsFirebase.customEvents("Touch","Galeria Grupos","Sort Groups");
@@ -643,8 +644,14 @@ public class GaleriaGrupos2 extends AppCompatActivity implements OnStartDragList
                 break;
             case R.id.edit_button:
                 if(!isOrdenar){
-                    analyticsFirebase.customEvents("Touch","Galeria Grupos","Edit Group");
-                    viewpager.editItem(sharedPrefsDefault.getInt("premium", 0) == 1);
+                    if(showViewPager){
+                        analyticsFirebase.customEvents("Touch","Galeria Grupos","Edit Group");
+                        viewpager.editItem(sharedPrefsDefault.getInt("premium", 0) == 1);
+                    }else{
+                        Intent intent=new Intent(this, FindAllPictograms.class);
+                        intent.putExtra("isSearchingAll",true);
+                        startActivityForResult(intent,IntentCode.SEARCH_ALL_PICTOGRAMS.getCode());
+                    }
                 }
                 else{
                     recycler_view_sort_grupo.guardarOrden();

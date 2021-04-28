@@ -1,12 +1,16 @@
 package com.stonefacesoft.ottaa.RecyclerViews;
 
 import android.content.SharedPreferences;
-import android.graphics.Rect;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.widget.PopupMenu;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.stonefacesoft.ottaa.FirebaseRequests.SubirArchivosFirebase;
@@ -20,12 +24,6 @@ import com.stonefacesoft.ottaa.utils.textToSpeech;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SearchView;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.ItemTouchHelper;
-import androidx.recyclerview.widget.RecyclerView;
 /**
  * @author Gonzalo Juarez
  * @since 23/06/2020
@@ -52,6 +50,7 @@ public abstract class Custom_recyclerView implements SearchView.OnQueryTextListe
     protected  int cantColumnas;
     protected  int cantFilas;
     protected AnalyticsFirebase analyticsFirebase;
+
 
     public Custom_recyclerView(AppCompatActivity mActivity, FirebaseAuth mAuth){
         this.mActivity=mActivity;
@@ -128,6 +127,7 @@ public abstract class Custom_recyclerView implements SearchView.OnQueryTextListe
 
 
 
+
     @Override
     public boolean onQueryTextSubmit(String query) {
         analyticsFirebase.customEvents("Touch","Editar Grupos","Search Pictogram");
@@ -161,13 +161,14 @@ public abstract class Custom_recyclerView implements SearchView.OnQueryTextListe
     public boolean onQueryTextChange(String s) {
         if (mSearchView.getQuery().length() == 0||mSearchView.getQuery().equals(" ")) {
             onPictosNoFiltrados();
+            return true;
         }
         return false;
     }
     /**
      * Analize the array and looking for the word
      * */
-    private void recorrerListado(int k, int tam, String query) {
+    protected void recorrerListado(int k, int tam, String query) {
         for (int i = k; i < tam; i++) {
 
             try {

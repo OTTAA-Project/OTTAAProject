@@ -27,7 +27,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.stonefacesoft.ottaa.FirebaseRequests.SubirArchivosFirebase;
 import com.stonefacesoft.ottaa.Interfaces.Make_Click_At_Time;
 import com.stonefacesoft.ottaa.JSONutils.Json;
-import com.stonefacesoft.ottaa.RecyclerViews.FindAllPictograms_Recycler_View;
 import com.stonefacesoft.ottaa.RecyclerViews.Picto_Recycler_View_Sort;
 import com.stonefacesoft.ottaa.RecyclerViews.Picto_Recycler_view;
 import com.stonefacesoft.ottaa.RecyclerViews.Picto_Vincular_Recycler_View;
@@ -55,7 +54,6 @@ public class GaleriaPictos3 extends AppCompatActivity implements View.OnClickLis
     private SubirArchivosFirebase uploadFile;
     private boolean esVincular;
     private boolean showViewPager;
-    private boolean isSearchingAllPictograms; // use this flag in order to search one pictogram
     private boolean isSorter;
     private SharedPreferences sharedPrefsDefault;
     private Toolbar toolbar;
@@ -68,7 +66,6 @@ public class GaleriaPictos3 extends AppCompatActivity implements View.OnClickLis
     private textToSpeech myTTS;
     //RecyclerViewComponents
     private Picto_Vincular_Recycler_View mVincularRecyclerView;
-    private FindAllPictograms_Recycler_View findAllPictograms_recycler_view;
     private Picto_Recycler_view mPictoRecyclerView;
     private Picto_Recycler_View_Sort mPictoSortRecyclerView;
     private JSONArray pictosDelGrupoFiltrado;
@@ -298,28 +295,10 @@ public class GaleriaPictos3 extends AppCompatActivity implements View.OnClickLis
 
                 break;
             case R.id.up_button:
-                if (barridoPantalla.isBarridoActivado())
-                    analyticsFirebase.customEvents("Accessibility", "Galeria Pictos", "Previous Button");
-                if (showViewPager)
-                    viewpager_galeria_pictos.scrollPosition(false);
-                else if (!showViewPager && !isSorter && !esVincular)
-                    mPictoRecyclerView.scrollTo(false);
-                else if (isSorter)
-                    mPictoSortRecyclerView.scrollTo(false);
-                else if (esVincular)
-                    mVincularRecyclerView.scrollTo(false);
+                scrollNextButton(false);
                 break;
             case R.id.down_button:
-                if (barridoPantalla.isBarridoActivado())
-                    analyticsFirebase.customEvents("Touch", "Galeria Pictos", "Next Button");
-                if (showViewPager)
-                    viewpager_galeria_pictos.scrollPosition(true);
-                else if (!showViewPager && !isSorter && !esVincular)
-                    mPictoRecyclerView.scrollTo(true);
-                else if (isSorter)
-                    mPictoSortRecyclerView.scrollTo(true);
-                else if (esVincular)
-                    mVincularRecyclerView.scrollTo(true);
+                scrollNextButton(true);
                 break;
             case R.id.back_button:
                 if (barridoPantalla.isBarridoActivado())
@@ -364,7 +343,7 @@ public class GaleriaPictos3 extends AppCompatActivity implements View.OnClickLis
             isSorter = extras.getBoolean("esOrdenar", false);
             boton = extras.getInt("Boton", 0);
             nombre = extras.getString("Nombre");
-            if (esVincular || isSorter)
+            if (esVincular || isSorter )
                 showViewPager = false;
         }
         myTTS = new textToSpeech(this);
@@ -517,7 +496,7 @@ public class GaleriaPictos3 extends AppCompatActivity implements View.OnClickLis
         return function_scroll;
     }
 
-     /// load the adapter at this section
+    /// load the adapter at this section
     public GaleriaPictos3 isVincular(boolean isVincular) {
         if (isVincular) {
             mVincularRecyclerView = new Picto_Vincular_Recycler_View(this, mAuth);
@@ -542,7 +521,7 @@ public class GaleriaPictos3 extends AppCompatActivity implements View.OnClickLis
     }
 
     public GaleriaPictos3 isDefault() {
-        if (!isSorter && !esVincular && !isSearchingAllPictograms) {
+        if (!isSorter && !esVincular ) {
             mPictoRecyclerView = new Picto_Recycler_view(this, mAuth);
             mPictoRecyclerView.setSharedPrefsDefault(sharedPrefsDefault);
             mPictoRecyclerView.setArray(boton);
@@ -553,14 +532,45 @@ public class GaleriaPictos3 extends AppCompatActivity implements View.OnClickLis
         return this;
     }
 
-    public GaleriaPictos3 isSearchingAllPictograms(boolean isSearchingAllPictograms) {
-        if (isSearchingAllPictograms) {
-            findAllPictograms_recycler_view = new FindAllPictograms_Recycler_View(this, mAuth);
-            findAllPictograms_recycler_view.setSharedPrefsDefault(sharedPrefsDefault);
-           // findAllPictograms_recycler_view.setArray(boton);
-            findAllPictograms_recycler_view.setMyTTS(myTTS);
-            findAllPictograms_recycler_view.setUploadFirebaseFile(uploadFile);
-            findAllPictograms_recycler_view.showRecyclerView(showViewPager);
+
+    // recyclerViewMethods
+    public void scrollNextButton(boolean isNextButton) {
+        isNextButton(isNextButton).scrollViewPager(isNextButton).scrollSorter(isNextButton).scrollVincular(isNextButton).scrollDefault(isNextButton);
+    }
+
+    public GaleriaPictos3 scrollViewPager(boolean nextButton) {
+        if (showViewPager)
+            viewpager_galeria_pictos.scrollPosition(nextButton);
+        return this;
+    }
+
+    public GaleriaPictos3 scrollSorter(boolean nextButton) {
+        if (isSorter) {
+            mPictoSortRecyclerView.scrollTo(nextButton);
+        }
+        return this;
+    }
+
+    public GaleriaPictos3 scrollDefault(boolean nextButton) {
+        if (!showViewPager && !isSorter && !esVincular ) {
+            mPictoRecyclerView.scrollTo(nextButton);
+        }
+        return this;
+    }
+
+    public GaleriaPictos3 scrollVincular(boolean nextButton) {
+        if (esVincular) {
+            mVincularRecyclerView.scrollTo(nextButton);
+        }
+        return this;
+    }
+
+
+    public GaleriaPictos3 isNextButton(boolean nextButton) {
+        if (barridoPantalla.isBarridoActivado()) {
+            analyticsFirebase.customEvents("Touch", "Galeria Pictos", "Next Button");
+        } else {
+            analyticsFirebase.customEvents("Touch", "Galeria Pictos", "Previous Button");
         }
         return this;
     }
