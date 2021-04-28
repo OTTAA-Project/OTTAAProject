@@ -24,7 +24,7 @@ public class AnalyticsFirebase {
     /**
      * Use this this class to track all diferents events
      * */
-    private FirebaseAnalytics mFirebaseAnalytics;
+    private final FirebaseAnalytics mFirebaseAnalytics;
     private Context mContext;
     private Activity mActivity;
     private Bundle bundle;

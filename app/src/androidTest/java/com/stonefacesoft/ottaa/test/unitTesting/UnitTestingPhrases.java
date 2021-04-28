@@ -32,7 +32,7 @@ import org.junit.runner.RunWith;
 @LargeTest
 @RunWith(AndroidJUnit4.class)
 public class UnitTestingPhrases extends TestCase {
-    private Context context = ApplicationProvider.getApplicationContext();
+    private final Context context = ApplicationProvider.getApplicationContext();
     private Historial historial;
     private NLG nlg;
     private JSONObject picto0,picto1,picto2,picto3;

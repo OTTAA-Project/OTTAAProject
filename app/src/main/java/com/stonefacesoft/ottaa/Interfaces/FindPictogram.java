@@ -6,5 +6,5 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public interface FindPictogram {
-    public JSONObject findPictogram(JSONArray listado, int id);
+    JSONObject findPictogram(JSONArray listado, int id);
 }

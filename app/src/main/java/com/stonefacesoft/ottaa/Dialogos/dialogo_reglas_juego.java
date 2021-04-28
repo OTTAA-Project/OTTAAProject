@@ -10,7 +10,7 @@ import com.stonefacesoft.ottaa.R;
 public class dialogo_reglas_juego extends DialogUtils {
     private TextView title,description;
     private Button btn1,btn2;
-    private int level=0;
+    private final int level=0;
 
 
     public dialogo_reglas_juego(Context context) {

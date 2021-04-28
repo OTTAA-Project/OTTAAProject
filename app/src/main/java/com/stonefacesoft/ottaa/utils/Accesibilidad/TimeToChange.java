@@ -6,8 +6,8 @@ import androidx.annotation.NonNull;
 
 public class TimeToChange extends android.os.Handler {
     public static final int CHANGE_BUTTON=0;
-    private BarridoPantalla barridoPantalla;
-    private int tiempo;
+    private final BarridoPantalla barridoPantalla;
+    private final int tiempo;
 
     public TimeToChange(BarridoPantalla barridoPantalla,int tiempo){
         this.barridoPantalla=barridoPantalla;

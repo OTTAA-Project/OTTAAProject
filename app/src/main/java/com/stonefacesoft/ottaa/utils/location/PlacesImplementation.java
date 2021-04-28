@@ -29,10 +29,10 @@ import java.util.Arrays;
 import java.util.List;
 
 public class PlacesImplementation {
-    private Context mContext;
+    private final Context mContext;
     private PlacesClient client;
-    private String TAG = "PlacesImplementation";
-    private LocationManager locationManager;
+    private final String TAG = "PlacesImplementation";
+    private final LocationManager locationManager;
     private ArrayList<Place> places;
     private int positionPlace = -1;
     private int positionType = -1;
@@ -42,7 +42,7 @@ public class PlacesImplementation {
 
     public PlacesImplementation(Context mContext) {
         this.mContext = mContext;
-        this.locationManager = (LocationManager) mContext.getSystemService(mContext.LOCATION_SERVICE);
+        this.locationManager = (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
     }
 
     public void iniciarClientePlaces() {

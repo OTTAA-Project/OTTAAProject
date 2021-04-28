@@ -10,7 +10,7 @@ import java.io.File;
 
 public class MediaPlayerAudio implements MediaPlayer.OnPreparedListener {
     private MediaPlayer player;
-    private Context mContext;
+    private final Context mContext;
     private float audioLevel=0.5f;
     private boolean muted;
     private boolean complete;

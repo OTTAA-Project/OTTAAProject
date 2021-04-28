@@ -14,11 +14,11 @@ public class InmersiveMode implements View.OnTouchListener {
     public static final int NOACTIONBAR = 141;
     public static final int WITHACTIONBAR = 142;
 
-    private View decorView;
-    private AppCompatActivity mActivity;
+    private final View decorView;
+    private final AppCompatActivity mActivity;
     private boolean immersive;
-    private Handler handler;
-    private GestureDetector detector;
+    private final Handler handler;
+    private final GestureDetector detector;
 
     public InmersiveMode(AppCompatActivity appCompatActivity){
         this.mActivity=appCompatActivity;

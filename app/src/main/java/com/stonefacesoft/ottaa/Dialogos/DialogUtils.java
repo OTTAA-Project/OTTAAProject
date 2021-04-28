@@ -20,7 +20,7 @@ public class DialogUtils extends Dialog_abstract_class {
     protected Custom_button unknow_option,yes_button,no_button;
     protected ProgressBar bar_progress;
     protected TextView title,message;
-    private String TAG="Dialog Utils";
+    private final String TAG="Dialog Utils";
 
     public DialogUtils(Context context){
         this.mContext=context;

@@ -42,14 +42,14 @@ import java.util.List;
 
 public class GaleriaPictosAdapter extends RecyclerView.Adapter<GaleriaPictosAdapter.PictosViewHolder> implements ItemTouchHelperAdapter, ListPreloader.PreloadModelProvider {
 
-    private Context mContext;
-    private int layoutID;
+    private final Context mContext;
+    private final int layoutID;
     private JSONArray mArrayPictos;
     private Json json;
-    private SubirArchivosFirebase uploadFirebaseFile;
-    private FirebaseAuth mAuth;
+    private final SubirArchivosFirebase uploadFirebaseFile;
+    private final FirebaseAuth mAuth;
     private static final String TAG = "GaleriaPictosAdapter";
-    private GlideAttatcher glideAttatcher; // esto se encarga de adjuntar el glide
+    private final GlideAttatcher glideAttatcher; // esto se encarga de adjuntar el glide
     private int cantCambios;
 
 
@@ -238,8 +238,8 @@ public class GaleriaPictosAdapter extends RecyclerView.Adapter<GaleriaPictosAdap
         //De esta forma el onBindViewHolder ejecuta el AsyncTask y esto va cargando asyncronamente mientras se desplaza
         private String mStringTexto="";
         private Drawable mDrawableIcono;
-        private PictosViewHolder mHolder;
-        private int mPosition;
+        private final PictosViewHolder mHolder;
+        private final int mPosition;
 
         cargarPictosAsync(PictosViewHolder holder, int position) {
             this.mHolder = holder;

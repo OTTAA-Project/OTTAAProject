@@ -12,10 +12,10 @@ import java.util.ArrayList;
 public class TalkAction {
     private boolean useNlg;
     private NLG  nlg;
-    private Context mContext;
+    private final Context mContext;
     private ArrayList<JSONObject> history;
     private String Phrase;
-    private Json json;
+    private final Json json;
 
     public TalkAction(Context mContext,Json json){
         this.mContext=mContext;

@@ -21,7 +21,7 @@ import androidx.viewpager2.widget.ViewPager2;
  * @version 1.0 23/06/2020
  */
 public class ViewPagerTransformationEffects  implements ViewPager2.PageTransformer {
-    private int idAnimation;
+    private final int idAnimation;
 
     public ViewPagerTransformationEffects(int idAnimation){
         this.idAnimation=idAnimation;

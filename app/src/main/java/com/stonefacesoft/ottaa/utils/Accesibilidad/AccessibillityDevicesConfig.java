@@ -8,7 +8,7 @@ import java.util.logging.Handler;
 import java.util.logging.LogRecord;
 
 public class AccessibillityDevicesConfig  extends Handler {
-    private MotionEvent mouseEvent;
+    private final MotionEvent mouseEvent;
     private Principal principal;
 
     public AccessibillityDevicesConfig(MotionEvent motionEvent,Principal principal){

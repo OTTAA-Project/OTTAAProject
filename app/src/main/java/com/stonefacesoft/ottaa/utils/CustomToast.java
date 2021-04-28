@@ -1,5 +1,6 @@
 package com.stonefacesoft.ottaa.utils;
 
+import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -7,9 +8,13 @@ import android.preference.PreferenceManager;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.stonefacesoft.ottaa.AnalyticsApplication;
 import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.utils.Firebase.AnalyticsFirebase;
 
@@ -19,32 +24,35 @@ import com.stonefacesoft.ottaa.utils.Firebase.AnalyticsFirebase;
 
 public class CustomToast extends Application {
 
+    //TODO animate entrance
+
     private static final String TAG = "CustomToast";
     LayoutInflater inflater;
     private final SharedPreferences sharedPrefsDefault;
     private final TextView tv;
+    private final ImageView imageView;
     private final Context mContext;
     private final View layout;
     private final Toast toast;
 
     public CustomToast(Context context) {
 
-        //Retrieve the layout inflator
         this.mContext = context;
         sharedPrefsDefault = PreferenceManager.getDefaultSharedPreferences(mContext.getApplicationContext());
 
-        //Assign the custom layout to view
-        //Parameter 1 - Custom layout XML
-        //Parameter 2 - Custom layout ID present in linearlayout tag of XML
+        //LayoutInflater inflater = LayoutInflater.from(mContext.getApplicationContext());
+        //View layout1 = inflater.inflate(R.layout.custom_toast,null,true);
+        //this.layout = inflater.inflate(R.layout.custom_toast, layout1.findViewById(R.id.toast_layout_root));
 
-
-        LayoutInflater inflater = LayoutInflater.from(mContext.getApplicationContext());
-
-        View layout1 = inflater.inflate(R.layout.custom_toast,null,true);
-        this.layout = inflater.inflate(R.layout.custom_toast, layout1.findViewById(R.id.toast_layout_root));
+        //LayoutInflater inflater = (LayoutInflater) mContext.getSystemService( Context.LAYOUT_INFLATER_SERVICE );
+        LayoutInflater inflater = LayoutInflater.from(context);
+        //this.layout = inflater.inflate(R.layout.custom_toast, (ViewGroup) ((Activity)context).findViewById(R.id.toast_layout_root));
+        this.layout = inflater.inflate(R.layout.custom_toast, null);
 
         this.layout.setAlpha((float) 0.85);
         this.tv = layout.findViewById(R.id.text);
+        this.imageView = layout.findViewById(R.id.imageViewAvatarToast);
+//        TODO add the avatar image selected from the USER
         this.toast = new Toast(mContext);
     }
 

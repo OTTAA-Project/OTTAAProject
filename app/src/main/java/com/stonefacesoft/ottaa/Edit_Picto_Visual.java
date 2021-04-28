@@ -123,9 +123,6 @@ public class Edit_Picto_Visual extends AppCompatActivity implements View.OnClick
 
     //ID del picto editado y el texto del mismo
 
-    //Declaracion
-    ArchivoImagenes archi;
-
     EditText etOutLoud;
     //    EditText etNombrePicto;
     ImageButton btnHablar;
@@ -446,7 +443,7 @@ public class Edit_Picto_Visual extends AppCompatActivity implements View.OnClick
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 if (firebaseAuth.getCurrentUser() == null) {
                     Intent mainIntent = new Intent().setClass(
-                            Edit_Picto_Visual.this, LoginActivity.class);
+                            Edit_Picto_Visual.this, LoginActivity2.class);
                     startActivity(mainIntent);
                     finish();
 
@@ -856,14 +853,9 @@ public class Edit_Picto_Visual extends AppCompatActivity implements View.OnClick
                 try {
                     if (json.getHijosGrupo2(jsonObject).length() > 0)
                         return true;
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                } catch (FiveMbException e) {
-//                    WeeklyBackup wb = new WeeklyBackup(mContext);
-//                    wb.weeklyBackupDialog(false, R.string.pref_summary_backup_principal, false);
+                } catch (JSONException | FiveMbException e) {
                     e.printStackTrace();
                 }
-
                 myTTS.mostrarAlerta(getString(R.string.alert_anadir_pictos));
             } else {
                 return true;
@@ -1298,9 +1290,7 @@ public class Edit_Picto_Visual extends AppCompatActivity implements View.OnClick
                         mArrayListAGuardar = json.readJSONArrayFromFile(Constants.ARCHIVO_GRUPOS);
                     } catch (JSONException | FiveMbException e) {
                         e.printStackTrace();
-                    } //                        WeeklyBackup wb = new WeeklyBackup(mContext);
-                    //                        wb.weeklyBackupDialog(false, R.string.pref_summary_backup_principal, false);
-
+                    }
                     //aca tiene que ir la interfaz de traduccion
 
                     try {
@@ -1318,16 +1308,12 @@ public class Edit_Picto_Visual extends AppCompatActivity implements View.OnClick
                         mArrayListGrupos = json.readJSONArrayFromFile(Constants.ARCHIVO_GRUPOS);
                     } catch (JSONException | FiveMbException e) {
                         e.printStackTrace();
-                    } //                        WeeklyBackup wb = new WeeklyBackup(mContext);
-                    //                        wb.weeklyBackupDialog(false, R.string.pref_summary_backup_principal, false);
-
+                    }
                     try {
                         mArrayListAGuardar = json.readJSONArrayFromFile(Constants.ARCHIVO_PICTOS);
                     } catch (JSONException | FiveMbException e) {
                         e.printStackTrace();
-                    } //                        WeeklyBackup wb = new WeeklyBackup(mContext);
-                    //                        wb.weeklyBackupDialog(false, R.string.pref_summary_backup_principal, false);
-
+                    }
                     mArrayListAGuardar = json.crearPicto(mArrayListGrupos, mArrayListAGuardar, padre, Picto.getCustom_Texto(), traducirTexto.getTexto(), mCurrentPhotoPath, tipo, urlfoto, pushKey);
                     databack.putExtra("esNuevo", true);
                     json.setmJSONArrayTodosLosPictos(mArrayListAGuardar);
@@ -1358,9 +1344,7 @@ public class Edit_Picto_Visual extends AppCompatActivity implements View.OnClick
                         json.guardarJson(Constants.ARCHIVO_GRUPOS);
                     } catch (JSONException | FiveMbException e) {
                         e.printStackTrace();
-                    } //                        WeeklyBackup wb = new WeeklyBackup(mContext);
-                    //                        wb.weeklyBackupDialog(false, R.string.pref_summary_backup_principal, false);
-
+                    }
                     uploadFile.subirGruposFirebase(uploadFile.getmDatabase(mAuth, Constants.Grupos), uploadFile.getmStorageRef(mAuth, Constants.Grupos));
                     databack.putExtra("ID", picto);
                     databack.putExtra("esNuevo", false);
@@ -1377,9 +1361,7 @@ public class Edit_Picto_Visual extends AppCompatActivity implements View.OnClick
                         json.guardarJson(Constants.ARCHIVO_PICTOS);
                     } catch (JSONException | FiveMbException e) {
                         e.printStackTrace();
-                    } //                        WeeklyBackup wb = new WeeklyBackup(mContext);
-                    //                        wb.weeklyBackupDialog(false, R.string.pref_summary_backup_principal, false);
-
+                    }
                     uploadFile.subirPictosFirebase(uploadFile.getmDatabase(mAuth, Constants.PICTOS), uploadFile.getmStorageRef(mAuth, Constants.PICTOS));
                     databack.putExtra("ID", picto);
                     databack.putExtra("esNuevo", false);

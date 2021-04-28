@@ -24,15 +24,15 @@ import androidx.annotation.NonNull;
 
 public class SubirBackupFirebase {
 
-    private DatabaseReference mDatabase;
-    private StorageReference mStorageRef;
-    private FirebaseAuth mAuth;
+    private final DatabaseReference mDatabase;
+    private final StorageReference mStorageRef;
+    private final FirebaseAuth mAuth;
     private FileInputStream mPictosStream, mGruposStream,mFrasesStream,mFotosStream;
-    private Context mContext;
-    private String TAGFrases = "SubirBackFireb_frases";
-    private String TAGPictos = "SubirBackFireb_pictos";
-    private String TAGGrupos = "SubirBackFireb_grupos";
-    private String TAGFotos = "SubirBackFireb_fotos";
+    private final Context mContext;
+    private final String TAGFrases = "SubirBackFireb_frases";
+    private final String TAGPictos = "SubirBackFireb_pictos";
+    private final String TAGGrupos = "SubirBackFireb_grupos";
+    private final String TAGFotos = "SubirBackFireb_fotos";
 
 
 

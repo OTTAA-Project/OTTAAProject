@@ -20,7 +20,7 @@ import org.junit.runner.RunWith;
 
 @RunWith(AndroidJUnit4.class)
 public class UnitTestingGoogleTranslate extends TestCase implements translateInterface {
-    private Context mContext= ApplicationProvider.getApplicationContext();
+    private final Context mContext= ApplicationProvider.getApplicationContext();
     private traducirTexto translateText;
     private SharedPreferences preferences;
     private String result;

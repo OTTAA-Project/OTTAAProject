@@ -30,7 +30,7 @@ import static org.hamcrest.Matchers.is;
 
 @RunWith(JUnit4.class)
 public class UnitTestingTags extends TestCase {
-    private Context mContext= ApplicationProvider.getApplicationContext();
+    private final Context mContext= ApplicationProvider.getApplicationContext();
     private Groups group;
     private Pictograms pictograms;
     private Json json;

@@ -32,13 +32,13 @@ public class DownloadPictures {
     private String StoragePath;
     private String texto;
     private String id;
-    private FirebaseUtils firebaseUtils;
-    private AppCompatActivity mActivity;
-    private User firebaseUser;
+    private final FirebaseUtils firebaseUtils;
+    private final AppCompatActivity mActivity;
+    private final User firebaseUser;
     private bajarFotos bajar;
     private File mDirectorio;
-    private GaleriaGrupos2.ShowDismissDialog showDismissDialog;
-    private FirebaseSuccessListener mFbSuccessListenerInterfaz;
+    private final GaleriaGrupos2.ShowDismissDialog showDismissDialog;
+    private final FirebaseSuccessListener mFbSuccessListenerInterfaz;
 
 
     public DownloadPictures(  AppCompatActivity mActivity, GaleriaGrupos2.ShowDismissDialog showDismissDialog,FirebaseSuccessListener mFbSuccessListenerInterfaz){
@@ -71,10 +71,7 @@ public class DownloadPictures {
                     String child=snapshot.getValue().toString();
                     bajar.setFileDirectory(mDirectorio);
                     Log.e("UserUid", "onDataChange: "+ child );
-                    if(!dataSnapshot.getChildren().iterator().hasNext())
-                        bajar.bajarFoto(child,true,firebaseUtils);
-                    else
-                        bajar.bajarFoto(child,false,firebaseUtils);
+                    bajar.bajarFoto(child, !dataSnapshot.getChildren().iterator().hasNext(),firebaseUtils);
                 }
 
 
@@ -91,7 +88,7 @@ public class DownloadPictures {
         bajar.setInterfaz(mFbSuccessListenerInterfaz);
         Log.e("GalGr_bajarFotos: ", "" + mDirectorio);
         mDirectorio = new UriFiles(mActivity.getApplicationContext()).dir();
-        String text[]=new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_EXTERNAL_STORAGE};
+        String[] text =new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_EXTERNAL_STORAGE};
         requestActivityPermission();
     }
 

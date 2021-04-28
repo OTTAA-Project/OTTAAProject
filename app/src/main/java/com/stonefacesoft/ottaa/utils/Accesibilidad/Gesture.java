@@ -6,7 +6,7 @@ import android.view.MotionEvent;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 public class Gesture extends GestureDetector.SimpleOnGestureListener {
-    private DrawerLayout drawer;
+    private final DrawerLayout drawer;
     public Gesture(DrawerLayout drawerLayout){
         this.drawer=drawerLayout;
     }

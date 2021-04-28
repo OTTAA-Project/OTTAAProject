@@ -32,8 +32,8 @@ public class MatchPicto extends RelativeLayout {
         private Paint mPaint;
 
         private boolean mDrawArrow = false;
-        private Point mPointFrom = new Point();   // current (during animation) arrow start point
-        private Point mPointTo = new Point();     // current (during animation)  arrow end point
+        private final Point mPointFrom = new Point();   // current (during animation) arrow start point
+        private final Point mPointTo = new Point();     // current (during animation)  arrow end point
 
         public MatchPicto(Context context) {
             super(context);

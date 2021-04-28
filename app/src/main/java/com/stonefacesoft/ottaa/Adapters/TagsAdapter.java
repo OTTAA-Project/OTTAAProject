@@ -22,15 +22,15 @@ public class TagsAdapter extends RecyclerView.Adapter<TagsAdapter.TagsViewHolder
 
 
     //ArrayList de elementos a cargar dentro del RecyclerView
-    private ArrayList<JSONObject> mArrayListElementos;
+    private final ArrayList<JSONObject> mArrayListElementos;
     //Layout que carga el custom row, por ejemplo row_view
-    private int mLayoutResourceId;
+    private final int mLayoutResourceId;
     //Context
-    private Context mContext;
+    private final Context mContext;
     //Obtengo el arraylist de los tags seleccionados para pintarlos
-    private ArrayList<JSONObject> mArrayListSelectedTags;
+    private final ArrayList<JSONObject> mArrayListSelectedTags;
     //Instancia clase json para traer los valores
-    private Json json;
+    private final Json json;
     private final String TAG="TagsAdapter";
 
 

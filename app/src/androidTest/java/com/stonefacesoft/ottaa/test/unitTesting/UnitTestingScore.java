@@ -28,7 +28,7 @@ import static org.hamcrest.Matchers.is;
 @LargeTest
 @RunWith(AndroidJUnit4.class)
 public class UnitTestingScore extends TestCase {
-    private Context context = ApplicationProvider.getApplicationContext();
+    private final Context context = ApplicationProvider.getApplicationContext();
     private CalculaPuntos score;
     /**
      * Declaration
@@ -55,7 +55,6 @@ public class UnitTestingScore extends TestCase {
         String text=score.getAciertos()+"";
         assertThat(score.getAciertos(),is(5));
         assertThat(score.getDesaciertos(),is(2));
-        ;
     }
 
     @Override

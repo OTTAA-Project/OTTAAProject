@@ -17,9 +17,9 @@ import java.util.ArrayList;
 import androidx.core.content.ContextCompat;
 
 public class Backup {
-   private Context mContext;
+   private final Context mContext;
    private long lastConnection;
-   private String name;
+   private final String name;
    private ArrayList<String> photos;
 
    public Backup(Context mContext,String name){

@@ -9,8 +9,8 @@ public class Picture {
     private String StoragePath;
     private String texto;
     private String id;
-    private FirebaseUtils firebaseUtils;
-    private Context mContext;
+    private final FirebaseUtils firebaseUtils;
+    private final Context mContext;
 
     public Picture(String id, Context mContext){
         this.mContext=mContext;

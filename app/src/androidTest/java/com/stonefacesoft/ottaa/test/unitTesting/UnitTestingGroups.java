@@ -22,7 +22,7 @@ import org.junit.runner.RunWith;
 @RunWith(AndroidJUnit4.class)
 
 public class UnitTestingGroups extends TestCase {
-    private Context mContext= ApplicationProvider.getApplicationContext();
+    private final Context mContext= ApplicationProvider.getApplicationContext();
     private Groups groups;
     private Pictograms pictograms;
     private Json json;

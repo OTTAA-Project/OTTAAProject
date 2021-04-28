@@ -14,7 +14,7 @@ import java.util.Locale;
  * **/
 
 public class ConfigurarIdioma {
-    private Context mContex;
+    private final Context mContex;
     public ConfigurarIdioma(Context context,String loc)
     {
 
@@ -26,7 +26,7 @@ public class ConfigurarIdioma {
         mContex=context;
         resources.updateConfiguration(config, resources.getDisplayMetrics());
         myContextWrapper wrapper=new myContextWrapper(context);
-        wrapper.wrap(mContex,loc);
+        myContextWrapper.wrap(mContex,loc);
         Log.d("configurarIdioma_loc",loc);
 
     }

@@ -19,7 +19,7 @@ public class GameControl extends Controls{
     private MatchPictograms matchPictograms;
     private GameSelector gameSelector;
     private GameViewSelectPictograms gameViewSelectPictograms;
-    private String TAG="GameControl";
+    private final String TAG="GameControl";
 
 
     public GameControl(MainJuegos game) {

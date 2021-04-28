@@ -10,7 +10,7 @@ import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class UriFiles {
 
-    private Context mContext;
+    private final Context mContext;
     private String path;
 
     public UriFiles(Context mContext){

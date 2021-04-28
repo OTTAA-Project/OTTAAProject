@@ -68,8 +68,7 @@ public class SplashActivity extends Activity {
 
     private void accessDashboard() {
         if (sharedPrefsDefault.getBoolean("usuario logueado", false)) {
-            //metodo para borrar los pictos viejos
-            //TODO si ya estan borrados abviar este paso y entrar a main
+            //metodo para borrar los pictos viejos si ya estan borrados abviar este paso y entrar a main
             sharedPrefs = getSharedPreferences(sharedPrefsDefault.getString(getString(R.string.str_userMail), "error"), Context.MODE_PRIVATE);
 
             new borrarPictos().execute();
@@ -259,23 +258,6 @@ public class SplashActivity extends Activity {
 
 
         }
-    }
-
-    private void borrarPictosRelacion(JSONArray pictosUsuario, ArrayList<Integer> pictos){
-        for (int i = 0; i < pictos.size(); i++) {
-
-            int pos = Json.getInstance().getPosPicto(pictosUsuario, pictos.get(i));
-            boolean estaEditado = false;
-
-            try {
-                estaEditado = Json.getInstance().estaEditado(pictosUsuario.getJSONObject(pos));
-            } catch (JSONException e) {
-                Log.e(TAG, "borrarPictosViejos: Error" + e.getMessage());
-            }
-            if (pos != -1 && !estaEditado)
-                pictosUsuario.remove(pos);
-        }
-
     }
 
     public class preLoadSplashScreen extends AsyncTask<Void, Void, Void> {

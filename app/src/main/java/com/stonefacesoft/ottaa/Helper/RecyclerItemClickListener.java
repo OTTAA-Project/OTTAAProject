@@ -17,8 +17,8 @@ import butterknife.OnTouch;
 
 public class RecyclerItemClickListener implements RecyclerView.OnItemTouchListener{
 
-    private OnItemClickListener mListener;
-    private GestureDetector mGestureDetector;
+    private final OnItemClickListener mListener;
+    private final GestureDetector mGestureDetector;
     private boolean isDouble;//boolean para saber si entro en el double tap
     private boolean isRunning;//boolean para saber si el handler esta corriendo
     private boolean isLongPress; //para saber si se esta presionan

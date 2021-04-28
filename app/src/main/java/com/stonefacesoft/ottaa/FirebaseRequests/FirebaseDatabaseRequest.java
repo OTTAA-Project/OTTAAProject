@@ -23,12 +23,12 @@ import com.stonefacesoft.ottaa.utils.preferences.DataUser;
  * */
 
 public class FirebaseDatabaseRequest {
-    private DatabaseReference mDatabase;
+    private final DatabaseReference mDatabase;
     private StorageReference mStorageReference;
-    private FirebaseAuth mAuth;
-    private SharedPreferences sharedPrefsDefault;
-    private Context mContext;
-    private FirebaseUtils firebaseUtils;
+    private final FirebaseAuth mAuth;
+    private final SharedPreferences sharedPrefsDefault;
+    private final Context mContext;
+    private final FirebaseUtils firebaseUtils;
 
     public FirebaseDatabaseRequest(Context mContext) {
         mAuth = FirebaseAuth.getInstance();

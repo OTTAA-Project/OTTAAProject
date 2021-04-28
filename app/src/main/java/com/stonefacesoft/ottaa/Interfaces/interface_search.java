@@ -4,9 +4,9 @@ public interface interface_search {
     /**
     * Load the searched pictograms
     * */
-    public void onPictosFiltrados();
+    void onPictosFiltrados();
     /**
      * Load all pictograms
      * */
-    public void onPictosNoFiltrados();
+    void onPictosNoFiltrados();
 }

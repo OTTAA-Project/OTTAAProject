@@ -14,8 +14,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 public class CustomFavoritePhrases {
-    private Context mContext;
-    private Json json;
+    private final Context mContext;
+    private final Json json;
     private JSONArray favoritePhrases;
 
     /**

@@ -51,10 +51,10 @@ public class gridViewAdapter extends ArrayAdapter {
     private final ArrayList<int[][]> posicionPicto;
     private final boolean esInet;
     private final DrawableManager drawableManager;
-    private ArrayList<JSONObject> pictosSeleccionados1;
-    private SharedPreferences sharedPrefsDefault;
-    private String lang;
-    private GlideAttatcher glideAttatcher;
+    private final ArrayList<JSONObject> pictosSeleccionados1;
+    private final SharedPreferences sharedPrefsDefault;
+    private final String lang;
+    private final GlideAttatcher glideAttatcher;
 
     public gridViewAdapter(Context context, int layoutResourceId, ArrayList data, Json json, boolean esInet) throws FiveMbException {
         super(context, layoutResourceId, data);

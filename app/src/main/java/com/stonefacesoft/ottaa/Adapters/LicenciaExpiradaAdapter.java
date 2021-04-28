@@ -16,13 +16,13 @@ import androidx.viewpager.widget.PagerAdapter;
  * Created by Hector on 30/8/2018.
  */
 public class LicenciaExpiradaAdapter extends PagerAdapter {
-    int images[];
-    int textos[];
+    int[] images;
+    int[] textos;
     LayoutInflater layoutInflater;
     Context context;
 
 
-    public LicenciaExpiradaAdapter(Context context, int images[], int textos[]) {
+    public LicenciaExpiradaAdapter(Context context, int[] images, int[] textos) {
         this.context = context;
         this.images = images;
         this.textos = textos;

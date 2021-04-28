@@ -5,7 +5,7 @@ import android.content.SharedPreferences;
 import java.util.Set;
 
 public class PreferencesUtil {
-    private SharedPreferences preferences;
+    private final SharedPreferences preferences;
     public PreferencesUtil(SharedPreferences preferences){
         this.preferences=preferences;
     }

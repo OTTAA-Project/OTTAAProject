@@ -44,12 +44,12 @@ import java.util.ArrayList;
 public class DibujarGraficoEstadisticos {
     int cant=0;
     Context context;
-    private CombinedChart mChart;
-    private PieChart pieChart;
+    private final CombinedChart mChart;
+    private final PieChart pieChart;
     protected String[] mMonths,mTurno,mDia ;
-    private DatosDeUso mDatosDeUso;
-    private CombinedChart bubbleChart;
-    private SharedPreferences mSharedPrefsDefault;
+    private final DatosDeUso mDatosDeUso;
+    private final CombinedChart bubbleChart;
+    private final SharedPreferences mSharedPrefsDefault;
     /**Constructor
      * @param context contexto de donde viene para crear el mDatosDeUso
      * @param datosDeUso datos de donde voy a tomar la informacion
@@ -388,7 +388,7 @@ public class DibujarGraficoEstadisticos {
         }
         for(int i=0;i<size;i++)
         {
-            float array[]=new float[] {prueba[i][0],prueba[i][1]};
+            float[] array =new float[] {prueba[i][0],prueba[i][1]};
             entries.add(new BarEntry(i+1,array));
         }
 
@@ -438,7 +438,7 @@ public class DibujarGraficoEstadisticos {
     {
         ArrayList<BubbleEntry> entries = new ArrayList<BubbleEntry>();
         int[][] matriz = mDatosDeUso.getCantidadFrasesPorDia();
-        Color color[]=new Color[3];
+        Color[] color =new Color[3];
         if (mDatosDeUso.getCantidadFrasesPorDia().length > 0)
         {for (int index = 0; index < 7; index++) {
             float y = 0;

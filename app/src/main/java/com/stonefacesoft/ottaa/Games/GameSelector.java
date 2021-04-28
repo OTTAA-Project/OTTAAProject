@@ -209,9 +209,9 @@ public class GameSelector extends AppCompatActivity implements View.OnClickListe
 
     public class CargarGruposJson extends AsyncTask<Void, Void, Void> {
 
-        private ProgressBar mProgressBarCargandoGrupos;
-        private TextView mTextViewCargandoGrupos;
-        private Context mContext;
+        private final ProgressBar mProgressBarCargandoGrupos;
+        private final TextView mTextViewCargandoGrupos;
+        private final Context mContext;
 
         public CargarGruposJson(ProgressBar mProgressBarCargandoGrupos, TextView mTextViewCargandoGrupos, Context context) {
             this.mProgressBarCargandoGrupos = mProgressBarCargandoGrupos;
@@ -237,10 +237,7 @@ public class GameSelector extends AppCompatActivity implements View.OnClickListe
                 mJsonArrayTodosLosGrupos = json.readJSONArrayFromFile(Constants.ARCHIVO_GRUPOS);
             } catch (JSONException | FiveMbException e) {
                 e.printStackTrace();
-            } //                WeeklyBackup wb = new WeeklyBackup(mContext);
-            //                wb.weeklyBackupDialog(false, R.string.pref_summary_backup_principal, false);
-
-
+            }
             return null;
         }
 
@@ -265,11 +262,7 @@ public class GameSelector extends AppCompatActivity implements View.OnClickListe
             mProgressBarCargandoGrupos.setVisibility(View.GONE);
             mTextViewCargandoGrupos.setVisibility(View.GONE);
             isCargando = false;
-            /*
-            if (falloAlLeerGrupos) {
-                WeeklyBackup wb = new WeeklyBackup(GaleriaGrupos2.this);
-                wb.weeklyBackupDialog(false, R.string.pref_summary_backup_principal, false);
-            }*/
+
         }
     }
 

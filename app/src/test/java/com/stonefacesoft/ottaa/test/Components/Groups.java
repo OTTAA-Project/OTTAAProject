@@ -7,7 +7,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class Groups {
-    private Json json;
+    private final Json json;
 
     public Groups(Json json){
         this.json=json;

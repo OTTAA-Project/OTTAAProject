@@ -154,7 +154,6 @@ public class Principal extends AppCompatActivity implements View
     public Uri bajarGrupos;
     private NLG nlg;
     private boolean nlgFlag;
-    private Indicadores indicadores;
     static private boolean isConnected;
 
     private Button Registro;
@@ -246,7 +245,7 @@ public class Principal extends AppCompatActivity implements View
 
 
     /* Client used to interact with Google APIs. */
-
+    //TODO remove this Picto change to CustomPicto
     private Picto Agregar;
 
     //InputStream
@@ -363,10 +362,7 @@ public class Principal extends AppCompatActivity implements View
                 json.setmJSONArrayPictosSugeridos(json.readJSONArrayFromFile(Constants.ARCHIVO_PICTOS_DATABASE));
             } catch (JSONException | FiveMbException e) {
                 e.printStackTrace();
-            } /*
-                WeeklyBackup wb = new WeeklyBackup(this);
-                wb.weeklyBackupDialog(false, R.string.pref_summary_backup_principal, false);*/
-
+            }
         }
     }
 
@@ -410,9 +406,7 @@ public class Principal extends AppCompatActivity implements View
                 }
             } catch (JSONException | FiveMbException e) {
                 e.printStackTrace();
-            } /*
-                WeeklyBackup wb = new WeeklyBackup(this);
-                wb.weeklyBackupDialog(false, R.string.pref_summary_backup_principal, false);*/
+            }
         } else {
             Log.e(TAG, "onDatosEncontrados: No existen datos");
         }
@@ -432,7 +426,7 @@ public class Principal extends AppCompatActivity implements View
         super.onCreate(savedInstanceState);
         sharedPrefsDefault =PreferenceManager.getDefaultSharedPreferences(this);
         if(sharedPrefsDefault.getBoolean("skillHand",false))
-        setContentView(R.layout.activity_main_rigth);
+            setContentView(R.layout.activity_principal_v4_right);
         else
             setContentView(R.layout.activity_main);
 
@@ -696,14 +690,7 @@ public class Principal extends AppCompatActivity implements View
         image1.setVisibility(View.VISIBLE);
         image1.setPadding(20, 20, 20, 20);
         image1.setImageDrawable(getResources().getDrawable(R.drawable.antipatico));
-        //Manda el mail con las estadisticas de uso todos los vierness
-        try {
-            indicadores = new Indicadores(getContext());
-        } catch (FiveMbException e) {/*
-            WeeklyBackup wb = new WeeklyBackup(this);
-            wb.weeklyBackupDialog(false, R.string.pref_summary_backup_principal, false);*/
 
-        }
         //Vibraicion inicial
         long[] patron = {0, 10, 20, 15, 20, 20};
         vibe.vibrate(patron, -1);
@@ -861,10 +848,6 @@ public class Principal extends AppCompatActivity implements View
                 Log.e(TAG, "onDescargaCompleta: Error al refrescar los pictos" + e.toString());
             } catch (FiveMbException e) {
                 e.printStackTrace();
-                /*
-                WeeklyBackup wb = new WeeklyBackup(this);
-                wb.weeklyBackupDialog(false, R.string.pref_summary_backup_principal, false);
-                */
             }
             if (firebaseDialog !=null){
                firebaseDialog.destruirDialogo();
@@ -1431,10 +1414,6 @@ public class Principal extends AppCompatActivity implements View
 
             } catch (FiveMbException e) {
                 e.printStackTrace();
-                /*
-                WeeklyBackup wb = new WeeklyBackup(this);
-                wb.weeklyBackupDialog(false, R.string.pref_summary_backup_principal, false);
-                */
             }
 
             try {
@@ -1687,10 +1666,7 @@ public class Principal extends AppCompatActivity implements View
 
                 } catch (JSONException | FiveMbException e) {
                     e.printStackTrace();
-                } /*
-                    WeeklyBackup wb = new WeeklyBackup(getParent());
-                    wb.weeklyBackupDialog(false, R.string.pref_summary_backup_principal, false);*/
-
+                }
                 try {
 
                     json.desvincularJson(pictoPadre, pos);
@@ -2371,7 +2347,7 @@ public class Principal extends AppCompatActivity implements View
             }
 
             if(sharedPrefsDefault.getBoolean("skillHand",false)){
-                    setContentView(R.layout.activity_main_rigth);
+                    setContentView(R.layout.activity_principal_v4_right);
                     recreate();
             }
             else{
@@ -2399,7 +2375,7 @@ public class Principal extends AppCompatActivity implements View
 //                    startActivity(intent);
 //                    this.finish();
                     if(sharedPrefsDefault.getBoolean("skillHand",false)){
-                        setContentView(R.layout.activity_main_rigth);
+                        setContentView(R.layout.activity_principal_v4_right);
                         recreate();
                     }
                     else{

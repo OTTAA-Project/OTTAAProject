@@ -23,7 +23,7 @@ import org.junit.runner.RunWith;
 
 @RunWith(AndroidJUnit4.class)
 public class UnitTestingPremiumUser extends TestCase {
-    private Context mContext= ApplicationProvider.getApplicationContext();
+    private final Context mContext= ApplicationProvider.getApplicationContext();
     private FirebaseUtils firebaseUtils;
     private User user;
     private Preferences preferences;

@@ -166,12 +166,7 @@ public class GaleriaArasaac extends AppCompatActivity implements SearchView.OnQu
         try {
             gridAdapter = new gridViewAdapter(this, R.layout.grid_item_layout, pictosDelGrupo, json, true);
 
-
-
-
         } catch (Exception e) {
-//            WeeklyBackup wb = new WeeklyBackup(this);
-//            wb.weeklyBackupDialog(false, R.string.pref_summary_backup_principal, false);
             e.printStackTrace();
         }
         gridView.setAdapter(gridAdapter);

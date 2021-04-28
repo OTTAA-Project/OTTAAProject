@@ -26,7 +26,7 @@ public enum IntentCode {
 
 
 
-    private int code;
+    private final int code;
 
     IntentCode(int code) {
         this.code = code;
