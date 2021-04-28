@@ -1966,29 +1966,24 @@ public class Principal extends AppCompatActivity implements View
 
             switch (barridoPantalla.getPosicionBarrido()) {
                 case 0:
-
                     click(opcion1);
                     break;
                 case 1:
                     click(opcion2);
-
                     break;
                 case 2:
                     click(opcion3);
                     break;
                 case 3:
                     click(opcion4);
-
                     break;
                 case 4:
-
                     //  speak();
                     volver();
                     break;
                 case 5:
                     analitycsFirebase.customEvents("Accessibility","Principal","Talk");
                     hablarModoExperimental();
-
                     break;
                 case 6:
                     analitycsFirebase.customEvents("Accessibility","Principal","More Options");
@@ -2216,6 +2211,10 @@ public class Principal extends AppCompatActivity implements View
                         }
 
                    break;
+                case R.id.buttonAvatar:
+                    myTTS.hablar("Soy el avatar");
+                    //TODO aca va el avatar
+                    break;
                 default:
                     Log.d(TAG, "onClick: Oracion:" + Oracion);
                     if(barridoPantalla.isBarridoActivado()&&(barridoPantalla.isScrollMode()||barridoPantalla.isAvanzarYAceptar()))
