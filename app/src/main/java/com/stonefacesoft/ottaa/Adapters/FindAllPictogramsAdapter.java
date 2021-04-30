@@ -171,8 +171,10 @@ public class FindAllPictogramsAdapter extends RecyclerView.Adapter<FindAllPictog
     }
 
     public void loadDrawable(GlideAttatcher attatcher, Pictogram pictogram, ImageView imageView,ImageView kindOfView) {
+        boolean showKindOfView=false;
         if (pictogram.getEditedPictogram().isEmpty()) {
             Drawable drawable = json.getIcono(pictogram.toJsonObject());
+            showKindOfView=false;
             if (drawable != null)
                 attatcher.UseCornerRadius(true).loadDrawable(drawable, imageView);
             else
@@ -183,10 +185,15 @@ public class FindAllPictogramsAdapter extends RecyclerView.Adapter<FindAllPictog
                 attatcher.UseCornerRadius(true).loadDrawable(picto, imageView);
             else{
                 attatcher.UseCornerRadius(true).loadDrawable(Uri.parse(pictogram.getUrl()), imageView);
-                kindOfView.setVisibility(View.VISIBLE);
-                attatcher.UseCornerRadius(true).loadDrawable(mContext.getResources().getDrawable(R.drawable.ic_cloud_download_orange),kindOfView);
-                
+                showKindOfView=true;
             }
+
+        }
+        if(showKindOfView){
+            kindOfView.setVisibility(View.VISIBLE);
+            attatcher.UseCornerRadius(true).loadDrawable(mContext.getResources().getDrawable(R.drawable.ic_cloud_download_orange),kindOfView);
+        }else{
+            kindOfView.setVisibility(View.GONE);
         }
     }
 
@@ -220,11 +227,7 @@ public class FindAllPictogramsAdapter extends RecyclerView.Adapter<FindAllPictog
             mPictoImageColor = itemView.findViewById(R.id.color_Picto);
             mKindOfPictogram = itemView.findViewById(R.id.kind_of_Picto);
             itemView.setBackgroundColor(mContext.getResources().getColor(R.color.White));
-
         }
-
-
-
     }
 
     private class VincularAsync extends AsyncTask<Void, Void, Void> {

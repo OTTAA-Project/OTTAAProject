@@ -79,6 +79,7 @@ public class Json implements FindPictogram {
     private ArrayList<JSONObject> mArrayListTodasLasFotosBackup;
     //Json singleton
     private static volatile Json _instance;
+
     private JSONArray mJSONArrayPictosSugeridos;
     private JSONArray mJSONArrayTodosLosGrupos;
     private JSONArray mJSONArrayTodasLasFrases;
@@ -157,6 +158,7 @@ public class Json implements FindPictogram {
 
         mJSONArrayTodosLosPictos = readJSONArrayFromFile(Constants.ARCHIVO_PICTOS);
         mJSONArrayTodosLosGrupos = readJSONArrayFromFile(Constants.ARCHIVO_GRUPOS);
+        GroupManagerClass.getInstance().setmGroup(mJSONArrayTodosLosGrupos);
         mJSONArrayTodasLasFrases = readJSONArrayFromFile(Constants.ARCHIVO_FRASES);
         mJSONArrayPictosSugeridos = readJSONArrayFromFile(Constants.ARCHIVO_PICTOS_DATABASE);
         mJSonArrayFrasesFavoritas=readJSONArrayFromFile(Constants.ARCHIVO_FRASES_FAVORITAS);
@@ -215,12 +217,13 @@ public class Json implements FindPictogram {
         this.mJSONArrayTodasLasFotosBackup = mJSONArrayTodasLasFotosBackup;
     }
 
-    public JSONArray getmJSONArrayTodosLosGrupos() {
-        return mJSONArrayTodosLosGrupos;
+    public synchronized JSONArray getmJSONArrayTodosLosGrupos() {
+        return GroupManagerClass.getInstance().getmGroup();
     }
 
-    public void setmJSONArrayTodosLosGrupos(JSONArray mJSONArrayTodosLosGrupos) {
+    public synchronized void setmJSONArrayTodosLosGrupos(JSONArray mJSONArrayTodosLosGrupos) {
         this.mJSONArrayTodosLosGrupos = mJSONArrayTodosLosGrupos;
+        GroupManagerClass.getInstance().setmGroup(this.mJSONArrayTodosLosGrupos);
     }
 
     public JSONArray getmJSONArrayTodasLasFrases() {
@@ -431,6 +434,10 @@ public class Json implements FindPictogram {
         }
 
         return null;
+    }
+
+    public void addAraasacPictogramFromInternet(JSONObject pictogram){
+        mJSONArrayTodosLosPictos.put(pictogram);
     }
 
 
@@ -792,18 +799,18 @@ public class Json implements FindPictogram {
     }
     public void aumentarFrecGrupo(JSONObject padre){
         try {
-            int pos= getPosPicto(mJSONArrayTodosLosGrupos,getId(padre));
+            int pos= getPosPicto(GroupManagerClass.getInstance().getmGroup(),getId(padre));
             int frec=padre.getInt("frec");
             frec++;
             padre.put("frec",frec);
-            mJSONArrayTodosLosGrupos.put(pos,padre);
+            GroupManagerClass.getInstance().getmGroup().put(pos,padre);
         } catch (JSONException e) {
             e.printStackTrace();
             int pos;
             try {
-                pos = getPosPicto(mJSONArrayTodosLosGrupos,getId(padre));
+                pos = getPosPicto(GroupManagerClass.getInstance().getmGroup(),getId(padre));
                 padre.put("frec",0);
-                mJSONArrayTodosLosGrupos.put(pos,padre);
+                GroupManagerClass.getInstance().getmGroup().put(pos,padre);
             } catch (JSONException ex) {
                 ex.printStackTrace();
             }
@@ -874,13 +881,13 @@ public class Json implements FindPictogram {
         long date1=date.getTime();
         int id=(int) date1 ;
         try {
-            mJSONArrayTodosLosGrupos.put(mJSONArrayTodosLosGrupos.length(), crearJson(id, textoEsp, textoEn, new JSONArray(), img, tipo));
+            GroupManagerClass.getInstance().getmGroup().put(GroupManagerClass.getInstance().getmGroup().length(), crearJson(id, textoEsp, textoEn, new JSONArray(), img, tipo));
         } catch (JSONException e) {
             e.printStackTrace();
         }
         try {
             if(!img.isEmpty())
-            setImagen(mJSONArrayTodosLosGrupos.getJSONObject(mJSONArrayTodosLosGrupos.length() - 1), img);
+            setImagen(GroupManagerClass.getInstance().getmGroup().getJSONObject(GroupManagerClass.getInstance().getmGroup().length() - 1), img);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -910,7 +917,7 @@ public class Json implements FindPictogram {
         JSONArray hijo = new JSONArray();
         try {
             Log.d(TAG, "getHijosGrupo2: " + pos);
-            JSONObject object = mJSONArrayTodosLosGrupos.getJSONObject(pos);
+            JSONObject object = GroupManagerClass.getInstance().getmGroup().getJSONObject(pos);
 
             if (object.has("relacion")) {
                 Log.d(TAG, "getHijosGrupo2: Hay relacion");
@@ -972,7 +979,24 @@ public class Json implements FindPictogram {
         }
     }
 
-    private JSONObject crearJson(int id, String textoEsp, String textoEn, JSONArray relacion, String img, int tipo) {
+    public void addPictogramToAll(JSONObject object) {
+        try {
+
+            for (int i = 0; i < mJSONArrayTodosLosGrupos.length(); i++) {
+                if (mJSONArrayTodosLosGrupos.getJSONObject(i).optJSONObject("texto").optString("en").equalsIgnoreCase("ALL") || mJSONArrayTodosLosGrupos.getJSONObject(i).optJSONObject("texto").optString("en").equalsIgnoreCase("EveryThing")) {
+                    JSONArray relacion = mJSONArrayTodosLosGrupos.getJSONObject(i).getJSONArray("relacion");
+                    relacion.put(relacion.length(),object);
+                    break;
+                }
+            }
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public JSONObject crearJson(int id, String textoEsp, String textoEn, JSONArray relacion, String img, int tipo) {
         JSONObject picto = new JSONObject();
 //        JSONObject nombre = new JSONObject();
         JSONObject texto = new JSONObject();
@@ -1371,11 +1395,11 @@ public class Json implements FindPictogram {
     }
 
     public JSONObject getGrupoFromId(int idABuscar) {
-        for (int i = 0; i < mJSONArrayTodosLosGrupos.length(); i++) {
+        for (int i = 0; i < GroupManagerClass.getInstance().getmGroup().length(); i++) {
             try {
 
-                if (mJSONArrayTodosLosGrupos.getJSONObject(i).getInt("id") == idABuscar) {
-                    return mJSONArrayTodosLosGrupos.getJSONObject(i);
+                if (GroupManagerClass.getInstance().getmGroup().getJSONObject(i).getInt("id") == idABuscar) {
+                    return GroupManagerClass.getInstance().getmGroup().getJSONObject(i);
                 }
 
             } catch (JSONException e) {
@@ -1431,7 +1455,7 @@ public class Json implements FindPictogram {
                 jsonArrayAGuardar = mJSONArrayTodosLosPictos;
                 break;
             case Constants.ARCHIVO_GRUPOS:
-                jsonArrayAGuardar = mJSONArrayTodosLosGrupos;
+                jsonArrayAGuardar = GroupManagerClass.getInstance().getmGroup();
                 break;
             case Constants.ARCHIVO_FRASES:
                 jsonArrayAGuardar = mJSONArrayTodasLasFrases;
@@ -2052,10 +2076,10 @@ public class Json implements FindPictogram {
         float puntaje=0;
         int cantInt=0;
         int cantAciertos=0;
-        for (int i = 0; i <mJSONArrayTodosLosGrupos.length() ; i++) {
+        for (int i = 0; i <GroupManagerClass.getInstance().getmGroup().length() ; i++) {
             try {
-                cantAciertos+=getAciertos(mJSONArrayTodosLosGrupos.getJSONObject(i),id);
-                cantInt+=getIntentos(mJSONArrayTodosLosGrupos.getJSONObject(i),id);
+                cantAciertos+=getAciertos(GroupManagerClass.getInstance().getmGroup().getJSONObject(i),id);
+                cantInt+=getIntentos(GroupManagerClass.getInstance().getmGroup().getJSONObject(i),id);
             } catch (JSONException e) {
                 e.printStackTrace();
             }

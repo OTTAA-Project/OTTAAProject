@@ -31,7 +31,6 @@ public class BuscarArasaac {
         String URL;
 
         String lang = sharedPrefsDefault.getString(context.getString(R.string.str_idioma),"en").toUpperCase();
-        //Todo remove key from galeriaAraasac
         URL = "http://arasaac.org/api/index.php?callback=json&language="+ lang +"&word=" + texto +
                 "&catalog=colorpictos&thumbnailsize=150&TXTlocate=4&KEY="+context.getResources().getString(R.string.galeria_araasac_api_key);
 

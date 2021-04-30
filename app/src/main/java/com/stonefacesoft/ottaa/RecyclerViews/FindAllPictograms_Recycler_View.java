@@ -14,8 +14,8 @@ import com.stonefacesoft.ottaa.BuscarArasaac;
 import com.stonefacesoft.ottaa.Helper.ItemTouchHelperAdapter;
 import com.stonefacesoft.ottaa.Helper.RecyclerItemClickListener;
 import com.stonefacesoft.ottaa.R;
+import com.stonefacesoft.ottaa.utils.Constants;
 import com.stonefacesoft.ottaa.utils.IntentCode;
-import com.stonefacesoft.ottaa.utils.exceptions.FiveMbException;
 import com.stonefacesoft.pictogramslibrary.Classes.Pictogram;
 
 import org.json.JSONArray;
@@ -30,21 +30,16 @@ public class FindAllPictograms_Recycler_View extends Custom_recyclerView impleme
     private int id;
 
 
-    public FindAllPictograms_Recycler_View(AppCompatActivity appCompatActivity, FirebaseAuth mAuth){
-        super(appCompatActivity,mAuth);
-        buscarArasaac=new BuscarArasaac();
+    public FindAllPictograms_Recycler_View(AppCompatActivity appCompatActivity, FirebaseAuth mAuth) {
+        super(appCompatActivity, mAuth);
+        buscarArasaac = new BuscarArasaac();
     }
 
-    public void setArray(){
-        try {
-            array=json.getHijosGrupo2(json.getGrupoFromId(24));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        } catch (FiveMbException mbException) {
-            mbException.printStackTrace();
-        }
+    public void setArray() {
+
+        array = new JSONArray();
         createRecyclerLayoutManager();
-        findAllPictogramsAdapter=new FindAllPictogramsAdapter(mActivity, R.layout.pictogram,array,true);
+        findAllPictogramsAdapter = new FindAllPictogramsAdapter(mActivity, R.layout.pictorecyclerviewitem, array, true);
         mRecyclerView.setAdapter(findAllPictogramsAdapter);
         mRecyclerView.addOnItemTouchListener(listener());
     }
@@ -62,7 +57,7 @@ public class FindAllPictograms_Recycler_View extends Custom_recyclerView impleme
         mRecyclerView.getAdapter().notifyDataSetChanged();
     }
 
-    public void filtrarPictogramas(){
+    public void filtrarPictogramas() {
         findAllPictogramsAdapter.setmVincularArray(arrayAux);
         findAllPictogramsAdapter.setEsFiltrado(true);
         mRecyclerView.getAdapter().notifyDataSetChanged();
@@ -70,10 +65,10 @@ public class FindAllPictograms_Recycler_View extends Custom_recyclerView impleme
 
     @Override
     public boolean onQueryTextSubmit(String query) {
-        analyticsFirebase.customEvents("Touch","Editar Grupos","Search Pictogram");
+        analyticsFirebase.customEvents("Touch", "Editar Grupos", "Search Pictogram");
         if (mSearchView.getQuery().length() > 0) {
             mSearchView.setIconified(true);
-            arrayAux=new JSONArray();
+            arrayAux = new JSONArray();
             int cant = array.length() / 200;
             int cont = 0;
             do {
@@ -86,7 +81,7 @@ public class FindAllPictograms_Recycler_View extends Custom_recyclerView impleme
             //Nos aseguramos que es vincular o no, si lo es seteamos el array nuevo de pictos filtrados
             //para que el adapter trabaje con ese array.
             new HTTPRequest(query).execute();
-            mSearchView.setQuery(query,false);
+            mSearchView.setQuery(query, false);
             return true;
         }
         return false;
@@ -107,80 +102,30 @@ public class FindAllPictograms_Recycler_View extends Custom_recyclerView impleme
 
     }
 
-    private class HTTPRequest extends AsyncTask<Void, Void, Void> {
-
-        //        private ProgressDialog progressDialog = new ProgressDialog(GaleriaArasaac.this);
-        String texto;
-
-        public HTTPRequest(String texto)
-        {
-            this.texto = texto;
-        }
-        // can use UI thread here
-        protected void onPreExecute() {
-//            progressDialog = ProgressDialog.show(GaleriaArasaac.this, "", "Saving changes...",
-//                    true,false);
-//            progressDialog.setMessage(getResources().getString(R.string.pref_cargando_DB));
-//            progressDialog.show();
-        }
-
-        @Override
-        protected Void doInBackground(Void... voids) {
-            arasaac = buscarArasaac.HacerBusqueda(mActivity,texto);
-            return null;
-        }
-
-        /**
-         * Una vez que paso el tiempo de espera ilumino la parte adecuando
-         * @param unused
-         */
-        protected void onPostExecute(final Void unused) {
-            try {
-                if (arasaac != null && arasaac.getJSONArray("symbols") != null) {
-                    JSONArray jsonArray = arasaac.getJSONArray("symbols");
-                    for (int i = 0; i < jsonArray.length(); i++) {
-                        JSONObject pictogram=jsonArray.getJSONObject(i);
-                        Pictogram picto=new Pictogram();
-                        String url = pictogram.getString("imagePNGURL");
-                        String text = pictogram.getString("name");
-                        int tipo = pictogram.getInt("wordTYPE");
-                        picto.setLocale(sharedPrefsDefault.getString(mActivity.getResources().getString(R.string.str_idioma),"en"));
-                        picto.setName_en(text);
-                        picto.setName(text);
-                        picto.setUrl(url);
-                        picto.setEditedPictogram(url);
-                        picto.setType(tipo);
-                        picto.setId((int)System.currentTimeMillis());
-                        arrayAux.put(arrayAux.length(),picto.toJsonObject());
-                      //  array.put(array.length(),(JSONObject) jsonArray.get(i));
-                    }
-                    onPictosFiltrados();
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-                Toast.makeText(mActivity, R.string.problema_inet, Toast.LENGTH_LONG).show();
-                onPictosFiltrados();
-            }
-        }
-    }
-
-    private RecyclerItemClickListener listener(){
-        return new RecyclerItemClickListener(mRecyclerView,mActivity,new RecyclerItemClickListener.OnItemClickListener(){
+    private RecyclerItemClickListener listener() {
+        return new RecyclerItemClickListener(mRecyclerView, mActivity, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
                 try {
-                    JSONObject object=findAllPictogramsAdapter.getmArrayPictos().getJSONObject(position);
-                    Log.d("FindAllPictograms", "onItemClick: "+object.toString());
-                    int idPicto=json.getId(findAllPictogramsAdapter.getmArrayPictos().getJSONObject(position));
-                    if(id!=idPicto){
-                        id=idPicto;
+                    JSONObject object = findAllPictogramsAdapter.getmArrayPictos().getJSONObject(position);
+                    Log.d("FindAllPictograms", "onItemClick: " + object.toString());
+                    int idPicto = json.getId(findAllPictogramsAdapter.getmArrayPictos().getJSONObject(position));
+                    if (id != idPicto) {
+                        id = idPicto;
                         myTTS.hablar(json.getNombre(findAllPictogramsAdapter.getmArrayPictos().getJSONObject(position)));
-                    }
-                    else {
+                    } else {
+                        object.put("relacion",new JSONArray());
+                        json.addAraasacPictogramFromInternet(object);
+                        JSONObject relacion = new JSONObject();
+                        relacion.put("id",json.getId(object));
+                        relacion.put("frec",0);
+                        json.addPictogramToAll(relacion);
+                        //  databack.putExtra("Boton", button);
+                        json.guardarJson(Constants.ARCHIVO_GRUPOS);
+                        json.guardarJson(Constants.ARCHIVO_PICTOS);
                         Intent databack = new Intent();
                         databack.putExtra("ID", id);
-                      //  databack.putExtra("Boton", button);
-                        mActivity.setResult(IntentCode.GALERIA_PICTOS.getCode(), databack);
+                        mActivity.setResult(IntentCode.SEARCH_ALL_PICTOGRAMS.getCode(), databack);
                         mActivity.finish();
                     }
                 } catch (JSONException e) {
@@ -196,17 +141,75 @@ public class FindAllPictograms_Recycler_View extends Custom_recyclerView impleme
 
             @Override
             public void onLongClickListener(View view, int position) {
-                int idPicto= 0;
+                int idPicto = 0;
                 try {
                     idPicto = json.getId(findAllPictogramsAdapter.getmArrayPictos().getJSONObject(position));
-                    if(id!=idPicto){
-                        id=idPicto;
+                    if (id != idPicto) {
+                        id = idPicto;
                         myTTS.hablar(json.getNombre(findAllPictogramsAdapter.getmArrayPictos().getJSONObject(position)));
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
-        } );
+        });
+    }
+
+    private class HTTPRequest extends AsyncTask<Void, Void, Void> {
+
+        //        private ProgressDialog progressDialog = new ProgressDialog(GaleriaArasaac.this);
+        String texto;
+
+        public HTTPRequest(String texto) {
+            this.texto = texto;
+        }
+
+        // can use UI thread here
+        protected void onPreExecute() {
+//            progressDialog = ProgressDialog.show(GaleriaArasaac.this, "", "Saving changes...",
+//                    true,false);
+//            progressDialog.setMessage(getResources().getString(R.string.pref_cargando_DB));
+//            progressDialog.show();
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            arasaac = buscarArasaac.HacerBusqueda(mActivity, texto);
+            return null;
+        }
+
+        /**
+         * Una vez que paso el tiempo de espera ilumino la parte adecuando
+         *
+         * @param unused
+         */
+        protected void onPostExecute(final Void unused) {
+            try {
+                if (arasaac != null && arasaac.getJSONArray("symbols") != null) {
+                    JSONArray jsonArray = arasaac.getJSONArray("symbols");
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject pictogram = jsonArray.getJSONObject(i);
+                        Pictogram picto = new Pictogram();
+                        String url = pictogram.getString("imagePNGURL");
+                        String text = pictogram.getString("name");
+                        int tipo = pictogram.getInt("wordTYPE");
+                        picto.setLocale(sharedPrefsDefault.getString(mActivity.getResources().getString(R.string.str_idioma), "en"));
+                        picto.setName_en(text);
+                        picto.setName(text);
+                        picto.setUrl(url);
+                        picto.setEditedPictogram(url);
+                        picto.setType(tipo);
+                        picto.setId((int) System.currentTimeMillis());
+                        arrayAux.put(arrayAux.length(), picto.toJsonObject());
+                        //  array.put(array.length(),(JSONObject) jsonArray.get(i));
+                    }
+                    onPictosFiltrados();
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+                Toast.makeText(mActivity, R.string.problema_inet, Toast.LENGTH_LONG).show();
+                onPictosFiltrados();
+            }
+        }
     }
 }

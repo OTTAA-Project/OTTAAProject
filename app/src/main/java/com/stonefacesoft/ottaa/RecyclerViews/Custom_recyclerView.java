@@ -109,8 +109,10 @@ public abstract class Custom_recyclerView implements SearchView.OnQueryTextListe
     * false : View.Visible
     */
     public void showRecyclerView(boolean show){
-        if(!show)
+        if(!show){
             mRecyclerView.setVisibility(View.VISIBLE);
+
+        }
         else
             mRecyclerView.setVisibility(View.GONE);
     }
@@ -195,6 +197,12 @@ public abstract class Custom_recyclerView implements SearchView.OnQueryTextListe
         uploadFirebaseFile.subirGruposFirebase(uploadFirebaseFile.getmDatabase(mAuth, Constants.Grupos), uploadFirebaseFile.getmStorageRef(mAuth, Constants.Grupos));
 
     }
+
+    public void subirPictos(){
+        uploadFirebaseFile.subirPictosFirebase(uploadFirebaseFile.getmDatabase(mAuth, Constants.PICTOS), uploadFirebaseFile.getmStorageRef(mAuth, Constants.PICTOS));
+
+    }
+
     /**
      * return the main JsonArray
      * */
