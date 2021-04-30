@@ -98,6 +98,7 @@ import com.stonefacesoft.ottaa.utils.Accesibilidad.BarridoPantalla;
 import com.stonefacesoft.ottaa.utils.Accesibilidad.Gesture;
 import com.stonefacesoft.ottaa.utils.Accesibilidad.devices.PrincipalControls;
 import com.stonefacesoft.ottaa.utils.Accesibilidad.scrollActions.ScrollFunctionMainActivity;
+import com.stonefacesoft.ottaa.utils.Avatar;
 import com.stonefacesoft.ottaa.utils.ConnectionDetector;
 import com.stonefacesoft.ottaa.utils.Constants;
 import com.stonefacesoft.ottaa.utils.Firebase.AnalyticsFirebase;
@@ -105,6 +106,7 @@ import com.stonefacesoft.ottaa.utils.Firebase.CrashlyticsUtils;
 import com.stonefacesoft.ottaa.utils.HandlerComunicationClass;
 import com.stonefacesoft.ottaa.utils.InmersiveMode;
 import com.stonefacesoft.ottaa.utils.IntentCode;
+import com.stonefacesoft.ottaa.utils.MovableFloatingActionButton;
 import com.stonefacesoft.ottaa.utils.ObservableInteger;
 import com.stonefacesoft.ottaa.utils.TalkActions.Historial;
 import com.stonefacesoft.ottaa.utils.TraducirFrase;
@@ -340,6 +342,9 @@ public class Principal extends AppCompatActivity implements View
     }
 
     private Gesture gesture;
+
+    Avatar avatar;
+    MovableFloatingActionButton movableFloatingActionButton;
 
 
     @Override
@@ -802,6 +807,9 @@ public class Principal extends AppCompatActivity implements View
         }
         navigationControls=new PrincipalControls(this);
 
+        movableFloatingActionButton = new MovableFloatingActionButton(this);
+        movableFloatingActionButton = findViewById(R.id.movableButton);
+        avatar = new Avatar(this,movableFloatingActionButton);
     }
 
 
@@ -2191,29 +2199,31 @@ public class Principal extends AppCompatActivity implements View
                 case R.id.action_share:
                     //Analytics
                     //Registo que uso un funcion que nos interesa que use
-                    analitycsFirebase.customEvents("Touch","Principal","Share");
-                        if (historial.getListadoPictos().size() > 0) {
-                            if (!sharedPrefsDefault.getBoolean(getString(R.string.mBoolModoExperimental), false)) {
-                                if (myTTS != null) {
-                                    CompartirArchivos compartirArchivos = new CompartirArchivos(getContext(), myTTS);
-                                    compartirArchivos.setHistorial(historial.getListadoPictos());
-                                    compartirArchivos.seleccionarFormato(Oracion);
-                                }
-                            } else if (sharedPrefsDefault.getBoolean(getString(R.string.mBoolModoExperimental), false)) {
-                                Log.d(TAG, "onClick: " + historial.getListadoPictos().toString());
-                                traducirfrase = new traducirTexto(getApplication(), sharedPrefsDefault);
-                                if (Oracion.isEmpty() && historial.getListadoPictos().size() > 0)
-                                    CargarOracion(historial.getListadoPictos().get(0));
-                                Oracion = EjecutarNLG(true);
-                                traducirfrase.traducirIdioma(this, Oracion, "en", sharedPrefsDefault.getString(getString(R.string.str_idioma), "en"), true);
+                    analitycsFirebase.customEvents("Touch", "Principal", "Share");
+                    if (historial.getListadoPictos().size() > 0) {
+                        if (!sharedPrefsDefault.getBoolean(getString(R.string.mBoolModoExperimental), false)) {
+                            if (myTTS != null) {
+                                CompartirArchivos compartirArchivos = new CompartirArchivos(getContext(), myTTS);
+                                compartirArchivos.setHistorial(historial.getListadoPictos());
+                                compartirArchivos.seleccionarFormato(Oracion);
                             }
-                            // if(myTTS().devolverPathAudio().exists())
+                        } else if (sharedPrefsDefault.getBoolean(getString(R.string.mBoolModoExperimental), false)) {
+                            Log.d(TAG, "onClick: " + historial.getListadoPictos().toString());
+                            traducirfrase = new traducirTexto(getApplication(), sharedPrefsDefault);
+                            if (Oracion.isEmpty() && historial.getListadoPictos().size() > 0)
+                                CargarOracion(historial.getListadoPictos().get(0));
+                            Oracion = EjecutarNLG(true);
+                            traducirfrase.traducirIdioma(this, Oracion, "en", sharedPrefsDefault.getString(getString(R.string.str_idioma), "en"), true);
                         }
+                        // if(myTTS().devolverPathAudio().exists())
+                    }
+                    myTTS.hablar(avatar.animateTalk("¡Felicitaciones!... Has creado 10 frases el día de hoy, sigue así."));
+
 
                    break;
-                case R.id.buttonAvatar:
-                    myTTS.hablar("Soy el avatar");
-                    //TODO aca va el avatar
+                case R.id.movableButton:
+                    avatar.finishTalking();
+                    //TODO here is the onClick event for the avatar.
                     break;
                 default:
                     Log.d(TAG, "onClick: Oracion:" + Oracion);

@@ -56,8 +56,6 @@ public class MovableFloatingActionButton extends LinearLayout implements View.On
         }
         else if (action == MotionEvent.ACTION_MOVE) {
 
-            //TODO poner que cuando se mueva mas alla del medio, se altere el orden de los botones quedando siempre el boton del microfono del lado externo, puede llegar a hacerse pasandolo como si estuviera en arabe
-
             int viewWidth = view.getWidth();
             int viewHeight = view.getHeight();
 
