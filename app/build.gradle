@@ -21,8 +21,8 @@ android {
         applicationId "com.stonefacesoft.ottaa"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 83
-        versionName "6.5.0" //
+        versionCode 84
+        versionName "6.5.1" //
         // Enabling multidex support.
         multiDexEnabled = true
         resConfigs "ar,en,es,it"
@@ -156,9 +156,6 @@ dependencies {
     implementation 'io.github.kobakei:ratethisapp:1.2.0'
     implementation group: 'com.google.apis', name: 'google-api-services-translate', version: 'v2-rev48-1.22.0'
     implementation group: 'com.google.api-client', name: 'google-api-client-gson', version: '1.25.0'
-
-    implementation 'com.google.guava:guava:30.1.1-jre'
-
     implementation 'androidx.navigation:navigation-fragment:2.3.5'
     implementation 'androidx.navigation:navigation-ui:2.3.5'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
@@ -236,8 +233,8 @@ dependencies {
     //Firebase chrashlitics
     implementation 'com.google.firebase:firebase-crashlytics:17.4.1'
     implementation 'com.google.firebase:firebase-analytics:18.0.3'
-    implementation("com.google.guava:guava:30.0-android")
-
+    //Guava library
+    implementation("com.google.guava:guava:30.1.1-android")
     //Facebook
     implementation 'com.facebook.android:facebook-android-sdk:8.1.0'
     implementation 'com.facebook.android:facebook-core:8.1.0'

@@ -361,7 +361,8 @@ public class SplashActivity extends Activity {
 
     private void initComponents(){
         mProgressBar = findViewById(R.id.progress_circular);
-        mProgressBar.setIndeterminate(true);
+        if(mProgressBar!=null)
+            mProgressBar.setIndeterminate(true);
         //seteamos el texview
         txtCargando = findViewById(R.id.txtCargando);
         beat = AnimationUtils.loadAnimation(SplashActivity.this, R.anim.heartbeat);
