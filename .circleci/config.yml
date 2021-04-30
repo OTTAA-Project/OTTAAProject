@@ -144,7 +144,6 @@ jobs:
           username: $DOCKER_USER
           password: $DOCKER_PASSWORD
     steps:
-      - *chmodGradle
       - run:
           name: Build debug APK and release Apk
           command: |
