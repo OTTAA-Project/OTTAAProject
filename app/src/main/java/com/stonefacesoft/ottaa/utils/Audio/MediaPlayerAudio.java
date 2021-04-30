@@ -28,7 +28,7 @@ public class MediaPlayerAudio implements MediaPlayer.OnPreparedListener {
          player.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
              @Override
              public void onCompletion(MediaPlayer mediaPlayer) {
-                 if(!player.isLooping()){
+                 if(player!=null&&!player.isLooping()){
                     mediaPlayer.reset();
                     mediaPlayer.release();
                     player=null;
