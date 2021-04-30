@@ -144,6 +144,9 @@ jobs:
           username: $DOCKER_USER
           password: $DOCKER_PASSWORD
     steps:
+      - checkout
+      - restore_cache: *cache_key
+      - *chmodGradle
       - run:
           name: Build debug APK and release Apk
           command: |
