@@ -13,7 +13,6 @@ workflows:
                 - dev
                 - hotfix
                 - master
-                - circleciSettings
       - InstrumentationTest:
           filters:
             branches:
