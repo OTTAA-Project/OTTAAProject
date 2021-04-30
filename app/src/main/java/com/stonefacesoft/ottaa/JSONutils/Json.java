@@ -23,17 +23,22 @@ import com.stonefacesoft.ottaa.Prediction.Sexo;
 import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.utils.Constants;
 import com.stonefacesoft.ottaa.utils.exceptions.FiveMbException;
+import com.stonefacesoft.pictogramslibrary.JsonUtils.JSONObjectManager;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -616,14 +621,7 @@ public class Json implements FindPictogram {
                 try {
                     JSONObject icon = object.getJSONObject("imagen");
                     if (icon.has("pictoEditado") && !icon.getString("pictoEditado").isEmpty()) {
-                        try {
-                            picto =icon.getString("pictoEditado");
-                            return AbrirBitmap(picto);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        } catch (Exception ex) {
-                            Log.e(TAG, "getIcono: " + ex.getMessage());
-                        }
+                            return AbrirBitmap(icon);
                     } else if (!icon.has("pictoEditado")||(icon.has("pictoEditado")&&icon.getString("pictoEditado").isEmpty())) {
                         try {
                             picto =icon.getString("picto");
@@ -667,16 +665,47 @@ public class Json implements FindPictogram {
         return d;
     }
 
-    public Drawable AbrirBitmap(String Path) {
+    public Drawable getUrlBitmap(String uri)throws Exception{
+        Drawable  d = null;
+        Bitmap bitmap = null;
+            Log.d(TAG, "getBitmap : isEmpty");
+            URL url = new URL( uri);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            if(connection.getResponseCode()!=200){
+                Canvas canvas = new Canvas(bitmap);
+                d.setBounds(0, 0, bitmap.getWidth(), bitmap.getHeight());
+                d.draw(canvas);
+
+                return d;
+            }
+            InputStream is = connection.getInputStream();
+            BufferedInputStream bis = new BufferedInputStream(is);
+            try{
+                bitmap = BitmapFactory.decodeStream(bis);
+            }catch (OutOfMemoryError ex){
+                bitmap = null;
+            }
+            bis.close();
+            is.close();
+
+        return d;
+    }
+
+    public Drawable AbrirBitmap(JSONObject icon) {
         UriFiles auxPathFiles=new UriFiles(mContext);
+        JSONObjectManager jsonObjectManager = new JSONObjectManager();
+        String path = jsonObjectManager.JsonObjectGetString(icon,"pictoEditado","JsonPictoEditado");
+        String url = jsonObjectManager.JsonObjectGetString(icon,"urlFoto","JsonURLFoto");
+
         Drawable d = mContext.getResources().getDrawable(R.drawable.ic_agregar);
-        if (!Path.isEmpty()) {
+        if(!path.isEmpty()){
             try {
-                d=getBitmap(Path);
+                d=getUrlBitmap(path);
             } catch (Exception ex) {
                 ex.printStackTrace();
                 d = mContext.getResources().getDrawable(R.drawable.ic_baseline_cloud_download_24_big);
-             }
+
+        }
         }
         return d;
     }

@@ -188,8 +188,7 @@ public class GestionarBitmap  {
         if (imagenes.size() > 0 && imagenes.get(0) != null) {
 
             Bitmap mBufferPictos = Bitmap.createScaledBitmap(imagenes.get(0), 250, 250, false);
-            Bitmap logo=drawableToBitmap(mContext.getResources().getDrawable(R.drawable.logo_ottaa));
-            logo=redimensionarImagenMaximo(logo,mBufferPictos.getWidth(),mBufferPictos.getHeight()/4);
+            Bitmap logo = setUpLogo(mBufferPictos);
             mImagenFinalWidth = (mBufferPictos.getWidth()+mDeltax) * imagenes.size()+mDeltax;
             mImagenFinalHeight = 3*mDeltay+mBufferPictos.getHeight()+logo.getHeight();
             //tamano = 0;
@@ -220,8 +219,8 @@ public class GestionarBitmap  {
 
             int mPosicionLogoX,mPosicionLogoY;
 
-            mPosicionLogoX = mImagenFinalWidth-mDeltax-logo.getWidth();
-            mPosicionLogoY = mImagenFinalHeight-mDeltay-logo.getHeight();
+            mPosicionLogoX = mImagenFinalWidth-2*mDeltax-(logo.getWidth()*2);
+            mPosicionLogoY = mImagenFinalHeight-mDeltay-(logo.getHeight()*2);
             comboImage.drawBitmap(logo,mPosicionLogoX,mPosicionLogoY,pinturas);
 
         }
@@ -495,5 +494,10 @@ public class GestionarBitmap  {
     }
     public void setColor(int color){
         this.color=color;
+    }
+    public Bitmap setUpLogo(Bitmap mBufferPictos){
+        Bitmap logo=drawableToBitmap(mContext.getResources().getDrawable(R.drawable.logo_ottaa));
+        logo=redimensionarImagenMaximo(logo,mBufferPictos.getWidth()/4,mBufferPictos.getHeight()/6);
+        return logo;
     }
 }
