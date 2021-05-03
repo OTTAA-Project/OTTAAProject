@@ -83,35 +83,48 @@ references:
     run:
       name: Decode Google Services Json
       command: echo $GOOGLE_SERVICES_JSON | base64 -di > app/google-services.json
+
   export_file: &prepare_file
     run:
       name: get api keys
       command: echo 'export api_keys="$API_KEYS"' >> $BASH_ENV
+
   decode_file: &decode_file
     run:
       name: decode File
       command: echo $API_KEYS | base64 -di > app/src/main/res/values/api_keys.xml
+
   run_testing: &run_testing
     run:
       name: run test
       command: ./gradlew test
+
   run_lint_testing: &run_lint_test
     run:
       name: run test
       command: ./gradlew lint test
+
   chmod_change_setup: &chmodGradle
     run:
       name: Chmod Permission
       command: sudo chmod +x ./gradlew
+
   run_instrumentation_test: &run_integration_test
     run:
       name: instrumentation test
       command: ./gradlew /connectedAndroidTest
+
   run_gcloudservice:
     run: |
       echo $GCLOUD_SERVICE_KEY | gcloud auth activate-service-account --key-file=-
       gcloud --quiet config set project ${GOOGLE_PROJECT_ID}
       gcloud --quiet config set compute/zone ${GOOGLE_COMPUTE_ZONE}
+
+  disable_predex: &disablepredexing
+    run:
+      name: Disable predex
+      command: ./gradlew -PdisablePreDex
+
 
 jobs:
   unitTesting:
@@ -151,6 +164,7 @@ jobs:
       - *get_google_services_json
       - *prepare_file
       - *decode_file
+      - *disablepredexing
       - run:
           name: Build debug APK and release Apk
           command: |
@@ -170,7 +184,7 @@ jobs:
             sudo gcloud firebase test android run \
               --app app/build/outputs/apk/debug/app-debug.apk \
               --test app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk \
-              --results-bucket cloud-test-${GOOGLE_PROJECT_ID}./gradlew connectedCheck
+              --results-bucket cloud-test-${GOOGLE_PROJECT_ID}
       - run:
           name: Install gsutil dependency and copy test results data
           command: |
