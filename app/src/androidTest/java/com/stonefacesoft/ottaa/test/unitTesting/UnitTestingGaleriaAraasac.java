@@ -51,7 +51,7 @@ public class UnitTestingGaleriaAraasac extends TestCase {
         onView(withId(R.id.action_search)).perform(click());
         onView(withId(R.id.search_src_text))
                 .perform(typeText("car"));
-        onView(withId(R.id.action_search)).perform(pressKey(KeyEvent.KEYCODE_ENTER));
+        onView(withId(R.id.action_search)).perform(pressKey(KeyEvent.KEYCODE_SEARCH));
         try {
             Thread.sleep(10000);
         } catch (InterruptedException e) {

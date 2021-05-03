@@ -7,7 +7,6 @@ import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
 
-import com.stonefacesoft.ottaa.Custom_Picto;
 import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.test.Components.Pictograms;
 
@@ -15,7 +14,6 @@ import junit.framework.TestCase;
 import junit.framework.TestResult;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Assert;
 import org.junit.Before;
@@ -66,15 +64,8 @@ public class UnitTestingGetPictogramsById extends TestCase {
         Log.e("TAG", "createRelationShip: "+picto1.toString() );
         Log.e("TAG", "createRelationShip: "+pictograms.ordenarObjetos(picto1) );
         Assert.assertNotNull(pictograms.ordenarObjetos(picto1));//
-        try {
-            Custom_Picto picto=new Custom_Picto(context);
-            picto.setIdPictogram(pictograms.getJson().getId(picto1));
-            picto.setCustom_Texto(pictograms.getJson().getNombre(picto1,"es"));
-            picto.setCustom_Color(pictograms.getJson().getTipo(picto1));
+        assertTrue(!pictograms.getJson().getHijosGrupo2(0).toString().isEmpty());
 
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
      //   Log.e("TAG", "createRelationShip: "+pictograms.ordenarObjetos(picto1).toString() );
 
 //                    Log.e("TAG", "createRelationShip: "+getOpciones.toString() );
