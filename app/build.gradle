@@ -44,6 +44,7 @@ android {
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             zipAlignEnabled true
+            testCoverageEnabled true
         }
         sourceSets.debug.resources.srcDirs = ['src/debug/res']
 
@@ -89,6 +90,9 @@ android {
         unitTests.all{
             jvmArgs '-XX:MaxPermSize=256m'
         }
+        execution 'ANDROIDX_TEST_ORCHESTRATOR'
+
+
     }
 
     compileOptions {
