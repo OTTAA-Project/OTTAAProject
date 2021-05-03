@@ -41,7 +41,7 @@ public class UnitTestingCreatePictograms extends TestCase {
         addGroup();
     }
     @Test
-    public void addPictogram(){
+    public void UnitTestingCreatePictograms(){
         try {
               mJsonArrayAllGroups=json.getmJSONArrayTodosLosGrupos();
               int idPadre=json.getId(mJsonArrayAllGroups.getJSONObject(0));
@@ -49,8 +49,6 @@ public class UnitTestingCreatePictograms extends TestCase {
               idPadre=json.getId(mJsonArrayAllGroups.getJSONObject(1));
               json.crearPicto(mJsonArrayAllGroups,json.getmJSONArrayTodosLosPictos(),idPadre,"primo","cousin","ic_logo",1,"","");
               json.setmJSONArrayTodosLosGrupos(mJsonArrayAllGroups);
-              System.out.println(json.getmJSONArrayTodosLosPictos().toString());
-              System.out.println(json.getmJSONArrayTodosLosGrupos());
               String text=getNombre(json.getmJSONArrayTodosLosPictos().getJSONObject(0),"es");
               Assert.assertTrue("Locale Pictograms",text!=null);
               text=getNombre(json.getmJSONArrayTodosLosPictos().getJSONObject(0),"en");
