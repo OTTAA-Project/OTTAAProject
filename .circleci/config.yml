@@ -172,9 +172,6 @@ jobs:
               --test app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk \
               --results-bucket cloud-test-${GOOGLE_PROJECT_ID}./gradlew connectedCheck
       - run:
-          name: enable test orchestor
-          command: ./gradlew connectedCheck
-      - run:
           name: Install gsutil dependency and copy test results data
           command: |
             sudo pip install -U crcmod
