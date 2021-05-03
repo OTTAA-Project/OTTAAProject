@@ -48,10 +48,10 @@ public class UnitTestingTags extends TestCase {
     }
 
     @Test public void runTagsTesting(){
-        picto0=pictograms.createPictograms(0,"es","yo","I",1);
-        picto1=pictograms.createPictograms(1,"es","Quiero","Want",3);
-        picto2=pictograms.createPictograms(2,"es","Jugar con","play with",3);
-        picto3=pictograms.createPictograms(3,"es","juguete","toy",2);
+        picto0 = pictograms.createPictograms(0,"es","yo","I",1);
+        picto1 = pictograms.createPictograms(1,"es","Quiero","Want",3);
+        picto2 = pictograms.createPictograms(2,"es","Jugar con","play with",3);
+        picto3 = pictograms.createPictograms(3,"es","juguete","toy",2);
 
         json.setEdad(picto0, Edad.JOVEN);
         json.setHorario(picto0, Horario.TARDE);
@@ -73,17 +73,12 @@ public class UnitTestingTags extends TestCase {
 
         JSONArray array=pictograms.ordenarObjetos(picto1);
         System.out.println(pictograms.ordenarObjetos(picto1));
+
         try {
             assertThat(json.getId(array.getJSONObject(0)),is(3));
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        try {
-            Thread.sleep(60000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
 
     }
 
