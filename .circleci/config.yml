@@ -185,7 +185,7 @@ jobs:
               --type instrumentation \
               --app app/build/outputs/apk/debug/app-debug.apk \
               --test app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk \
-              --directoriest-to-pull /sdcard \
+              --directories-to-pull /sdcard \
               --environment-variables coverage=true,coverageFile=“/sdcard/coverage.ec”
               --results-bucket cloud-test-${GOOGLE_PROJECT_ID}
       - run:
