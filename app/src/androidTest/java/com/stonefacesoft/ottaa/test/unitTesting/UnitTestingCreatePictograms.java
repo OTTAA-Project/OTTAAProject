@@ -84,8 +84,6 @@ public class UnitTestingCreatePictograms extends TestCase {
     public String getNombre(JSONObject object, String idioma) {
         try {
             return object.getJSONObject("texto").getString(idioma);
-
-
         } catch (Exception e) {
             e.printStackTrace();
             Log.e("Error_Json_getNombre", "2 :" + e.toString());
