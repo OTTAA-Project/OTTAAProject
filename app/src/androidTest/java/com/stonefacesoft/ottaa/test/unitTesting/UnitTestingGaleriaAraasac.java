@@ -1,5 +1,6 @@
 package com.stonefacesoft.ottaa.test.unitTesting;
 
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.SearchView;
 
@@ -9,6 +10,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.rule.ActivityTestRule;
 
 import com.stonefacesoft.ottaa.GaleriaArasaac;
+import com.stonefacesoft.ottaa.R;
 
 import junit.framework.TestCase;
 import junit.framework.TestResult;
@@ -18,8 +20,13 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.action.ViewActions.pressKey;
+import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static com.stonefacesoft.ottaa.test.JUnitSuiteClasses.testRunning;
 import static org.hamcrest.Matchers.allOf;
 
@@ -37,9 +44,9 @@ public class UnitTestingGaleriaAraasac extends TestCase {
 
     @Test
     public void UnitTestingGaleriaAraasac(){
-      /*
+
         try {
-            Thread.sleep(7000);
+            Thread.sleep(14000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -56,14 +63,14 @@ public class UnitTestingGaleriaAraasac extends TestCase {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        onView(withId(R.id.action_search)).perform(pressKey(KeyEvent.KEYCODE_SEARCH));
+        onView(withId(R.id.action_search)).perform(pressKey(KeyEvent.KEYCODE_ENTER));
         try {
-            Thread.sleep(1000);
+            Thread.sleep(11000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
         //      onView(withId(R.id.action_search)).perform(pressKey(KeyEvent.KEYCODE_ENTER));
-        */
+
     }
 
     public static ViewAction typeSearchViewText(final String text){
