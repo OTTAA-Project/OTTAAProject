@@ -50,11 +50,21 @@ public class UnitTestingGaleriaAraasac extends TestCase {
             e.printStackTrace();
         }
         onView(withId(R.id.action_search)).perform(click());
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         onView(withId(R.id.search_src_text))
                 .perform(typeText("car"));
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         onView(withId(R.id.action_search)).perform(pressKey(KeyEvent.KEYCODE_SEARCH));
         try {
-            Thread.sleep(10000);
+            Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

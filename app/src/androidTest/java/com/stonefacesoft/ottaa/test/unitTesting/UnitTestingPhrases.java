@@ -55,7 +55,7 @@ public class UnitTestingPhrases extends TestCase {
     }
     @Test
     public void UnitTestingPhrases(){
-        /*
+
         try {
             picto0=pictograms.generatePictogram(0,"es","yo","I",1);
             picto1=pictograms.generatePictogram(0,"es","Quiero","Want",3);
@@ -74,25 +74,25 @@ public class UnitTestingPhrases extends TestCase {
 
 
             pictograms.getJson().crearFrase(phrase.toString(),historial.getListadoPictos(),System.currentTimeMillis());
-       //     String nlgPhrase=talkWithtNLG();
-        //    pictograms.getJson().crearFrase(nlgPhrase,historial.getListadoPictos(),System.currentTimeMillis());
-         //   System.out.println(pictograms.getJson().getmJSONArrayTodasLasFrases().toString());
-        //    Log.e("UnitTesting", "UnitTestingPhrases: "+pictograms.getJson().getmJSONArrayTodasLasFrases().toString() );
-           // assertTrue(pictograms.getJson().getmJSONArrayTodasLasFrases().toString().length()>0);
-           // assertTrue(!nlgPhrase.isEmpty());
-            // assertEquals(nlgPhrase,"I Want play with a toy.");
+            String nlgPhrase=talkWithtNLG();
+            pictograms.getJson().crearFrase(nlgPhrase,historial.getListadoPictos(),System.currentTimeMillis());
+            System.out.println(pictograms.getJson().getmJSONArrayTodasLasFrases().toString());
+            Log.e("UnitTesting", "UnitTestingPhrases: "+pictograms.getJson().getmJSONArrayTodasLasFrases().toString() );
+            assertTrue(pictograms.getJson().getmJSONArrayTodasLasFrases().toString().length()>0);
+            assertTrue(!nlgPhrase.isEmpty());
+            assertEquals(nlgPhrase,"I Want play with a toy.");
 
             historial.removePictograms(false);
             removeItem(picto3);
 
             pictograms.getJson().crearFrase(phrase.toString(),historial.getListadoPictos(),System.currentTimeMillis());
-         //   nlgPhrase=talkWithtNLG();
-         //   pictograms.getJson().crearFrase(nlgPhrase,historial.getListadoPictos(),System.currentTimeMillis());
-         //   System.out.println("UnitTestingPhrases: "+pictograms.getJson().getmJSONArrayTodasLasFrases().toString());
+            nlgPhrase=talkWithtNLG();
+            pictograms.getJson().crearFrase(nlgPhrase,historial.getListadoPictos(),System.currentTimeMillis());
+            System.out.println("UnitTestingPhrases: "+pictograms.getJson().getmJSONArrayTodasLasFrases().toString());
 
         } catch (JSONException e) {
             e.printStackTrace();
-        }*/
+        }
 
     }
 
