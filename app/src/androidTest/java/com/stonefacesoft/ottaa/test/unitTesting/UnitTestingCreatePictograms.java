@@ -38,6 +38,12 @@ public class UnitTestingCreatePictograms extends TestCase {
         sharedPreferences.edit().putString(mContext.getResources().getString(R.string.str_idioma),"es").apply();
         mJsonArrayAllGroups=json.getmJSONArrayTodosLosGrupos();
         mJsonArrayAllPictograms=json.getmJSONArrayTodosLosPictos();
+        if(mJsonArrayAllGroups==null)
+            mJsonArrayAllGroups = new JSONArray();
+        if(mJsonArrayAllPictograms == null)
+            mJsonArrayAllPictograms = new JSONArray();
+        json.setmJSONArrayTodosLosPictos(mJsonArrayAllPictograms);
+        json.setmJSONArrayTodosLosGrupos(mJsonArrayAllGroups);
         addGroup();
     }
     @Test
