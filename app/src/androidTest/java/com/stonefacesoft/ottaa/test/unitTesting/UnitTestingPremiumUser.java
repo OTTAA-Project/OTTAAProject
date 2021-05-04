@@ -20,6 +20,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import static com.stonefacesoft.ottaa.test.JUnitSuiteClasses.testRunning;
+
 
 @RunWith(AndroidJUnit4.class)
 public class UnitTestingPremiumUser extends TestCase {
@@ -78,5 +80,10 @@ public class UnitTestingPremiumUser extends TestCase {
     @Override
     public TestResult run() {
         return super.run();
+    }
+
+    @Override
+    public int countTestCases() {
+        return testRunning++;
     }
 }

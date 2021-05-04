@@ -19,6 +19,9 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import static com.stonefacesoft.ottaa.test.JUnitSuiteClasses.testRunning;
+
 /**
  * In this class  I was testing the following classes
  * JSON ,CustomPicto and the preddiction algorithm
@@ -42,10 +45,10 @@ public class UnitTestingGetPictogramsById extends TestCase {
 
     @Test
     public void createRelationShip(){
-        picto1=pictograms.createPictograms(0,"es","Hola","Hello",5);
-        picto2=pictograms.createPictograms(1,"es","Adios","Good Bye",5);
-        picto3=pictograms.createPictograms(2,"es","Como estas?","How are you",5);
-        picto4=pictograms.createPictograms(3,"es","Que queres comer","What do you want to eat?",5);
+        picto1=pictograms.generatePictogram(0,"es","Hola","Hello",5);
+        picto2=pictograms.generatePictogram(1,"es","Adios","Good Bye",5);
+        picto3=pictograms.generatePictogram(2,"es","Como estas?","How are you",5);
+        picto4=pictograms.generatePictogram(3,"es","Que queres comer","What do you want to eat?",5);
         Log.e("TAG", "createUnitTestingGetPictograms: "+picto1.toString() );
 
         pictograms.relacionarObjeto(picto1,picto2);
@@ -81,4 +84,10 @@ public class UnitTestingGetPictogramsById extends TestCase {
     public TestResult run() {
         return super.run();
     }
+
+    @Override
+    public int countTestCases() {
+        return testRunning++;
+    }
+
 }

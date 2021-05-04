@@ -27,6 +27,7 @@ import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.matcher.ViewMatchers.isAssignableFrom;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static com.stonefacesoft.ottaa.test.JUnitSuiteClasses.testRunning;
 import static org.hamcrest.Matchers.allOf;
 
 
@@ -92,5 +93,10 @@ public class UnitTestingGaleriaAraasac extends TestCase {
     @Override
     public TestResult run() {
         return super.run();
+    }
+
+    @Override
+    public int countTestCases() {
+        return testRunning++;
     }
 }

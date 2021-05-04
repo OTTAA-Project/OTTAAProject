@@ -22,6 +22,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import static com.stonefacesoft.ottaa.test.JUnitSuiteClasses.testRunning;
+
 
 @RunWith(AndroidJUnit4.class)
 public class UnitTestingCreatePictograms extends TestCase {
@@ -88,13 +90,14 @@ public class UnitTestingCreatePictograms extends TestCase {
 
     }
     public String getNombre(JSONObject object, String idioma) {
+        String name = null;
         try {
-            return object.getJSONObject("texto").getString(idioma);
+            name = object.getJSONObject("texto").getString(idioma);
         } catch (Exception e) {
             e.printStackTrace();
-            Log.e("Error_Json_getNombre", "2 :" + e.toString());
+            Assert.fail("Json object exception in the class addPictogram at line 95");
         }
-        return null;
+        return name;
     }
 
     @Override
@@ -105,5 +108,10 @@ public class UnitTestingCreatePictograms extends TestCase {
     @Override
     public TestResult run() {
         return super.run();
+    }
+
+    @Override
+    public int countTestCases() {
+        return testRunning++;
     }
 }

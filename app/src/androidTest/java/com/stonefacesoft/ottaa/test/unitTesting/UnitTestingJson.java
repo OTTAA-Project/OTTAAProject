@@ -17,6 +17,8 @@ import org.json.JSONException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import static com.stonefacesoft.ottaa.test.JUnitSuiteClasses.testRunning;
+
 @RunWith(AndroidJUnit4.class)
 public class UnitTestingJson extends TestCase {
     Context context= ApplicationProvider.getApplicationContext();
@@ -51,6 +53,11 @@ public class UnitTestingJson extends TestCase {
     @Override
     public TestResult run() {
         return super.run();
+    }
+
+    @Override
+    public int countTestCases() {
+        return testRunning++;
     }
 
 

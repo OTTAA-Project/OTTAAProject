@@ -19,6 +19,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import static com.stonefacesoft.ottaa.test.JUnitSuiteClasses.testRunning;
+
 @RunWith(AndroidJUnit4.class)
 
 public class UnitTestingGroups extends TestCase {
@@ -64,10 +66,10 @@ public class UnitTestingGroups extends TestCase {
         group3=groups.createGroup(2,"es","animales","animals",0);
         groupAll=groups.createGroup(24,"es","Todo","all",0);
 
-        picto0=pictograms.createPictograms(0,"es","yo","I",1);
-        picto1=pictograms.createPictograms(1,"es","Quiero","Want",3);
-        picto2=pictograms.createPictograms(2,"es","Jugar con","play with",3);
-        picto3=pictograms.createPictograms(3,"es","juguete","toy",2);
+        picto0=pictograms.generatePictogram(0,"es","yo","I",1);
+        picto1=pictograms.generatePictogram(1,"es","Quiero","Want",3);
+        picto2=pictograms.generatePictogram(2,"es","Jugar con","play with",3);
+        picto3=pictograms.generatePictogram(3,"es","juguete","toy",2);
 
         json.getmJSONArrayTodosLosGrupos().put(group1);
         json.getmJSONArrayTodosLosGrupos().put(group2);
@@ -90,6 +92,11 @@ public class UnitTestingGroups extends TestCase {
     @Override
     public TestResult run() {
         return super.run();
+    }
+
+    @Override
+    public int countTestCases() {
+        return testRunning++;
     }
 
 }

@@ -48,7 +48,7 @@ public class Pictograms {
     }
 
     public JSONObject
-    createPictograms(int id, String locale, String localeName, String englisName, int tipo) {
+    generatePictogram(int id, String locale, String localeName, String englisName, int tipo) {
         JSONObject dataObject = new JSONObject();
         try {
             dataObject.put("id", id);

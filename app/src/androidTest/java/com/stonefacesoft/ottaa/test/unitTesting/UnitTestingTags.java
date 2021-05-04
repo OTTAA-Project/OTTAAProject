@@ -18,14 +18,13 @@ import junit.framework.TestResult;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
-
+import static com.stonefacesoft.ottaa.test.JUnitSuiteClasses.testRunning;
 
 
 @RunWith(JUnit4.class)
@@ -48,10 +47,10 @@ public class UnitTestingTags extends TestCase {
     }
 
     @Test public void runTagsTesting(){
-        picto0 = pictograms.createPictograms(0,"es","yo","I",1);
-        picto1 = pictograms.createPictograms(1,"es","Quiero","Want",3);
-        picto2 = pictograms.createPictograms(2,"es","Jugar con","play with",3);
-        picto3 = pictograms.createPictograms(3,"es","juguete","toy",2);
+        picto0 = pictograms.generatePictogram(0,"es","yo","I",1);
+        picto1 = pictograms.generatePictogram(1,"es","Quiero","Want",3);
+        picto2 = pictograms.generatePictogram(2,"es","Jugar con","play with",3);
+        picto3 = pictograms.generatePictogram(3,"es","juguete","toy",2);
 
         json.setEdad(picto0, Edad.JOVEN);
         json.setHorario(picto0, Horario.TARDE);
@@ -75,7 +74,7 @@ public class UnitTestingTags extends TestCase {
         System.out.println(pictograms.ordenarObjetos(picto1));
 
         try {
-            assertThat(json.getId(array.getJSONObject(0)),is(3));
+            Assert.assertTrue(json.getId(array.getJSONObject(0))==3);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -90,6 +89,11 @@ public class UnitTestingTags extends TestCase {
     @Override
     public TestResult run() {
         return super.run();
+    }
+
+    @Override
+    public int countTestCases() {
+        return testRunning++;
     }
 
 }
