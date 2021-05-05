@@ -34,6 +34,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.stonefacesoft.ottaa.Custom_Picto;
 import com.stonefacesoft.ottaa.Dialogos.DialogGameProgressInform;
+import com.stonefacesoft.ottaa.Games.Model.WhichIsThePictoModel;
 import com.stonefacesoft.ottaa.Interfaces.Lock_Unlocked_Pictograms;
 import com.stonefacesoft.ottaa.Interfaces.Make_Click_At_Time;
 import com.stonefacesoft.ottaa.JSONutils.Json;
@@ -80,9 +81,10 @@ public class WhichIsThePicto extends AppCompatActivity implements View
     private Custom_Picto Opcion2;
     private Custom_Picto Opcion3;
     private Custom_Picto Opcion4;
-    private int[] valores = new int[]{-1, -1, -1, -1};
+
     private boolean primerUso;
     private int ganadorAnterior = -1;
+    private WhichIsThePictoModel model;
 
     //RatingStar
     private RatingBar Puntaje;
@@ -187,7 +189,10 @@ public class WhichIsThePicto extends AppCompatActivity implements View
         Intent intent = getIntent();
         PictoID = intent.getIntExtra("PictoID", 0);
         mPositionPadre = intent.getIntExtra("PositionPadre", 0);
-
+        model = new WhichIsThePictoModel();
+        model.setSize(2);
+        model.createArray();
+        model.refreshValueIndex();
         dialogo = new CustomToast(this);
         mediaPlayer = new MediaPlayerAudio(this);
         music = new MediaPlayerAudio(this);
@@ -347,7 +352,7 @@ public class WhichIsThePicto extends AppCompatActivity implements View
     }
 
     private int elegirGanador(int... pictos) {
-        int ganador = devolverOpcionGanadora((int) (Math.random() * 4));
+        int ganador = devolverOpcionGanadora(model.elegirGanador());
         switch (ganador) {
             case 0:
                 viewGanador = Opcion1;
@@ -416,10 +421,10 @@ public class WhichIsThePicto extends AppCompatActivity implements View
             try {
                 //Cargas los pictos desde el json
                 //Seteamos el texto de las opciones
-                cargarDatosOpcion(valores[0], Opcion1, 0);
-                cargarDatosOpcion(valores[1], Opcion2, 1);
-                cargarDatosOpcion(valores[2], Opcion3, 2);
-                cargarDatosOpcion(valores[3], Opcion4, 3);
+                cargarDatosOpcion(model.getValue(0), Opcion1, 0);
+                cargarDatosOpcion(model.getValue(1), Opcion2, 1);
+             //   cargarDatosOpcion(model.getValue(2), Opcion3, 2);
+             //   cargarDatosOpcion(model.getValue(3), Opcion4, 3);
 
 
             } catch (Exception e) {
@@ -522,7 +527,7 @@ public class WhichIsThePicto extends AppCompatActivity implements View
             //animarGanador(picto);
             decirPicto.postDelayed(animarGano, 3000);
             //Seteo el puntaje
-            valores = new int[]{-1, -1, -1, -1};
+            model.refreshValueIndex();
             CalcularPuntaje(true);
             setMenuScoreIcon();
             cantVecInc = 0;
@@ -554,20 +559,13 @@ public class WhichIsThePicto extends AppCompatActivity implements View
     }
 
     private int devolverValor(int value) {
-        if (!tieneValor(value))
+        if (!model.hasTheValue(value))
             return value;
         else
             devolverValor(Math.round((float) Math.random() * mJsonArrayTodosLosPictos.length()));
         return -1;
     }
 
-    private boolean tieneValor(int valor) {
-        for (int i = 0; i < valores.length; i++) {
-            if (valores[i] == valor)
-                return true;
-        }
-        return false;
-    }
     //Metodos tts we can implements them because the tts start later
     //Anima el picto correctamente seleccionado
 
@@ -575,12 +573,14 @@ public class WhichIsThePicto extends AppCompatActivity implements View
     private void cargarDatosValors(int position) {
         int valor = (int) (Math.random() * mJsonArrayTodosLosPictos.length());
         boolean tieneValor = false;
-        for (int i = 0; i < valores.length; i++) {
-            if (valores[i] == valor)
+        if(model.validatePosition(position)){
+        for (int i = 0; i < model.getValueIndex().length; i++) {
+            if (model.isTheValue(i,valor))
                 tieneValor = true;
         }
         if (!tieneValor)
-            valores[position] = valor;
+            model.loadValue(position,valor);
+        }
 
     }
 
@@ -592,7 +592,7 @@ public class WhichIsThePicto extends AppCompatActivity implements View
                     option.setCustom_Img(json.getIcono(mJsonArrayTodosLosPictos.getJSONObject(position)));
                     option.setCustom_Color(cargarColor(json.getTipo(mJsonArrayTodosLosPictos.getJSONObject(position))));
                     option.setCustom_Texto(json.getNombre(mJsonArrayTodosLosPictos.getJSONObject(position)));
-                    valores[pos] = position;
+                    model.loadValue(pos,position);
                 } else {
                     position = devolverValor(Math.round((float) Math.random() * mJsonArrayTodosLosPictos.length()));
                     cargarDatosValors(pos);
@@ -600,17 +600,17 @@ public class WhichIsThePicto extends AppCompatActivity implements View
                 }
             } else {
                 position = devolverValor(Math.round((float) Math.random() * mJsonArrayTodosLosPictos.length()));
-                valores[pos] = position;
+                model.loadValue(pos,position);
                 cargarDatosOpcion(position, option, pos);
             }
         } catch (JSONException e) {
             e.printStackTrace();
             position = devolverValor(Math.round((float) Math.random() * mJsonArrayTodosLosPictos.length()));
-            valores[pos] = position;
+            model.loadValue(pos,position);
             cargarDatosOpcion(position, option, pos);
 
         } finally {
-            if (pos == 3) {
+            if (pos == 3|| pos == model.getValueIndex().length-1) {
                 elegirGanador();
                 Seleccion1.setCustom_Img(getResources().getDrawable(R.drawable.agregar_picto_transp));
                 Log.d(TAG, "cargarDatosOpcion: " + viewGanador.getCustom_Texto());
@@ -690,7 +690,6 @@ public class WhichIsThePicto extends AppCompatActivity implements View
     }
 
     private void setIcon(MenuItem item, boolean status, int dEnabled, int dDisabled) {
-
         if (status) {
             item.setIcon(getResources().getDrawable(dEnabled));
         } else {
