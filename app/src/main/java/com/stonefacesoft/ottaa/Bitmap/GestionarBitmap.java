@@ -33,7 +33,10 @@ import java.util.ArrayList;
 
 
 /**
+ * @author Gonzalo Juarez
+ * @version 2.0
  * Created by gonzalo on 1/29/18.
+ * edited on 5/5/2021
  */
 
 public class GestionarBitmap  {
@@ -188,7 +191,9 @@ public class GestionarBitmap  {
         if (imagenes.size() > 0 && imagenes.get(0) != null) {
 
             Bitmap mBufferPictos = Bitmap.createScaledBitmap(imagenes.get(0), 250, 250, false);
-            Bitmap logo = setUpLogo(mBufferPictos);
+            Bitmap logo=drawableToBitmap(mContext.getResources().getDrawable(R.drawable.logo_ottaa));
+            int height = mBufferPictos.getHeight()/4;
+            logo=redimensionarImagenMaximo(logo,height*2,height);
             mImagenFinalWidth = (mBufferPictos.getWidth()+mDeltax) * imagenes.size()+mDeltax;
             mImagenFinalHeight = 3*mDeltay+mBufferPictos.getHeight()+logo.getHeight();
             //tamano = 0;
@@ -197,7 +202,7 @@ public class GestionarBitmap  {
 
             Canvas comboImage = new Canvas(mImagenFinal);
             Paint pintura=new Paint();
-            pintura.setColor(mContext.getResources().getColor(color));
+            pintura.setColor(mContext.getResources().getColor(R.color.FondoApp));
             pintura.setStrokeWidth(20);
 
 
@@ -209,6 +214,8 @@ public class GestionarBitmap  {
                 //Bitmap imgRedimensionada=redimensionarImagenMaximo(imagenes.get(j),mBufferPictos.getWidth(), mBufferPictos.getHeight());
                 //comboImage.drawLine(despx,0,despx,mImagenFinal.getHeight(),pintura);
                 comboImage.drawBitmap(redimensionarImagenMaximo(imagenes.get(j), mBufferPictos.getWidth(), mBufferPictos.getHeight()), despx, mDeltay, null);
+
+
                 //    tamano += imagenes.get(0 ).getWidth();
 
             }
@@ -219,8 +226,8 @@ public class GestionarBitmap  {
 
             int mPosicionLogoX,mPosicionLogoY;
 
-            mPosicionLogoX = mImagenFinalWidth-2*mDeltax-(logo.getWidth()*2);
-            mPosicionLogoY = mImagenFinalHeight-mDeltay-(logo.getHeight()*2);
+            mPosicionLogoX = mImagenFinalWidth-mDeltax-logo.getWidth();
+            mPosicionLogoY = mImagenFinalHeight-mDeltay-logo.getHeight();
             comboImage.drawBitmap(logo,mPosicionLogoX,mPosicionLogoY,pinturas);
 
         }

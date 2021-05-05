@@ -903,7 +903,7 @@ public class GaleriaGrupos2 extends AppCompatActivity implements OnStartDragList
             editButton.setVisibility(View.INVISIBLE);
         }else {
             editButton.setVisibility(View.VISIBLE);
-            setButtonIcon(editButton,getResources().getDrawable(R.drawable.ic_search));
+            setButtonIcon(editButton,getResources().getDrawable(R.drawable.ic_baseline_search_24));
         }
     }
 

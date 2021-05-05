@@ -25,7 +25,7 @@
             android:layout_gravity="center"
             android:layout_margin="50dp"
             android:id="@+id/ImageArasaac"
-            android:src="@drawable/arasaac"
+            android:src="@drawable/ic_logo_arasaac_texto"
             android:visibility="invisible"/>
         <TextView
             android:layout_width="wrap_content"
