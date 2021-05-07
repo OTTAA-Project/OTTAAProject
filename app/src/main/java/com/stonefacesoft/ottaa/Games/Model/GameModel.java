@@ -54,4 +54,7 @@ public class GameModel {
         return (int) Math.floor(Math.random()*size+0);
     }
 
+    public int getSize() {
+        return size;
+    }
 }

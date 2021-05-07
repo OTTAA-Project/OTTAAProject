@@ -4,6 +4,8 @@ public class MemoryGameModelModel extends GameModel {
     private String selectedPictogramName;
     private int matrixIdPictogram[][] = new int[0][0];
     private int controlIndexSelect[];
+    private String[] history;
+
 
     public int[][] getMatrixIdPictogram() {
         return matrixIdPictogram;
@@ -28,7 +30,7 @@ public class MemoryGameModelModel extends GameModel {
                         matrixIdPictogram[i][j] = index;
                         controlIndexSelect[index]++; //le indico que ese valor fue seleccionado
                     } else {
-                        loadValue(); //
+                        addRandomIndex();
                     }
 
                 }
@@ -42,10 +44,28 @@ public class MemoryGameModelModel extends GameModel {
         }
     }
 
+    public void resetHistory(){
+        for (int i = 0; i <history.length ; i++) {
+            history[i] = "";
+        }
+    }
+
     @Override
     public void createArray() {
         super.createArray();
         controlIndexSelect = new int[size];
+        history = new String[size];
         matrixIdPictogram = new int[2][size];
+    }
+
+    public void addHistoryValue(int index,String name){
+        history[index] = name;
+    }
+    public boolean theViewHasBeenSelected(String text){
+        for (int i = 0; i <history.length ; i++) {
+            if(history[i].contentEquals(text))
+                return true;
+        }
+        return false;
     }
 }

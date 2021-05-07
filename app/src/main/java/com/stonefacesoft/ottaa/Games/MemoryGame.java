@@ -10,6 +10,7 @@ import android.view.View;
 import androidx.annotation.Nullable;
 
 import com.stonefacesoft.ottaa.Dialogos.DialogGameProgressInform;
+import com.stonefacesoft.ottaa.Games.Model.MemoryGameModelModel;
 import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.Views.Games.GameViewSelectPictograms;
 import com.stonefacesoft.ottaa.utils.Games.AnimGameScore;
@@ -23,14 +24,20 @@ public class MemoryGame extends GameViewSelectPictograms {
 
 
     private final Handler resetOption = new Handler();
-    private final String[] history = new String[4];
     private int foundPictos = 0;
+    protected MemoryGameModelModel model;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         showDescription(getString(R.string.memory_game));
+        model = new MemoryGameModelModel();
         setUpGame(2);
+        game.setGamelevel(0);
+        game.setMaxLevel(3);
+        game.setMaxStreak(4);
+        model = new MemoryGameModelModel();
+        changeLevel();
         startGame();
         animGameScore = new AnimGameScore(this, mAnimationWin);
     }
@@ -144,14 +151,10 @@ public class MemoryGame extends GameViewSelectPictograms {
                 //hacerClickOpcion(false);
                 break;
             case R.id.action_parar:
-                settings.enableSound(settings.changeStatus(settings.isSoundOn()));
-                music.setMuted(settings.isSoundOn());
-                sharedPrefsDefault.edit().putBoolean("muteSound", settings.isSoundOn()).apply();
-//                    if(mute)
-//                        sound_on_off.setImageDrawable(getResources().getDrawable(R.drawable.ic_volume_off_white_24dp));
-//                    else
-//                        sound_on_off.setImageDrawable(getResources().getDrawable(R.drawable.ic_volume_up_white_24dp));
-                break;
+                gamesSettings.enableSound(gamesSettings.changeStatus(gamesSettings.isSoundOn()));
+                music.setMuted(gamesSettings.isSoundOn());
+                sharedPrefsDefault.edit().putBoolean("muteSound", gamesSettings.isSoundOn()).apply();
+              break;
             case R.id.btnBarrido:
                 onClick(barridoPantalla.getmListadoVistas().get(barridoPantalla.getPosicionBarrido()));
         }
@@ -162,7 +165,7 @@ public class MemoryGame extends GameViewSelectPictograms {
     }
 
     protected void hacerClickOpcion(boolean esPicto) {
-        if (settings.isHelpFunction())
+        if (gamesSettings.isHelpFunction())
             handlerHablar.postDelayed(animarHablar, 1000);
 
     }
@@ -178,17 +181,17 @@ public class MemoryGame extends GameViewSelectPictograms {
         switch (item.getItemId()) {
             case R.id.action_parar:
                 analyticsFirebase.customEvents("Touch", "Memory Game", "Mute");
-                settings.enableSound(settings.changeStatus(settings.isSoundOn()));
-                sharedPrefsDefault.edit().putBoolean("muteSound", settings.isSoundOn()).apply();
-                music.setMuted(settings.isSoundOn());
-                setIcon(item, settings.isSoundOn(), R.drawable.ic_volume_off_white_24dp, R.drawable.ic_volume_up_white_24dp);
+                gamesSettings.enableSound(gamesSettings.changeStatus(gamesSettings.isSoundOn()));
+                sharedPrefsDefault.edit().putBoolean("muteSound", gamesSettings.isSoundOn()).apply();
+                music.setMuted(gamesSettings.isSoundOn());
+                setIcon(item, gamesSettings.isSoundOn(), R.drawable.ic_volume_off_white_24dp, R.drawable.ic_volume_up_white_24dp);
                 return true;
             case R.id.check:
                 analyticsFirebase.customEvents("Touch", "Memory Game", "Help Action");
-                settings.enableHelpFunction(settings.changeStatus(settings.isHelpFunction()));
-                sharedPrefsDefault.edit().putBoolean(getString(R.string.str_pistas), settings.isHelpFunction()).apply();
-                setIcon(mMenu.getItem(1), settings.isHelpFunction(), R.drawable.ic_live_help_white_24dp, R.drawable.ic_unhelp);
-                if (settings.isHelpFunction()) {
+                gamesSettings.enableHelpFunction(gamesSettings.changeStatus(gamesSettings.isHelpFunction()));
+                sharedPrefsDefault.edit().putBoolean(getString(R.string.str_pistas), gamesSettings.isHelpFunction()).apply();
+                setIcon(mMenu.getItem(1), gamesSettings.isHelpFunction(), R.drawable.ic_live_help_white_24dp, R.drawable.ic_unhelp);
+                if (gamesSettings.isHelpFunction()) {
                     handlerHablar.postDelayed(animarHablar, 4000);
                     dialogo.mostrarFrase(getString(R.string.help_function));
                 } else {
@@ -204,10 +207,10 @@ public class MemoryGame extends GameViewSelectPictograms {
                 return true;
             case R.id.repeat:
                 analyticsFirebase.customEvents("Touch", "Memory Game", "Repeat");
-                settings.enableRepeatFunction(settings.changeStatus(settings.isRepeat()));
-                sharedPrefsDefault.edit().putBoolean("repetir", settings.isHelpFunction()).apply();
-                setIcon(item, settings.isHelpFunction(), R.drawable.ic_repeat_white_24dp, R.drawable.ic_unrepeat_ic_2);
-                if (settings.isHelpFunction()) {
+                gamesSettings.enableRepeatFunction(gamesSettings.changeStatus(gamesSettings.isRepeat()));
+                sharedPrefsDefault.edit().putBoolean("repetir", gamesSettings.isHelpFunction()).apply();
+                setIcon(item, gamesSettings.isHelpFunction(), R.drawable.ic_repeat_white_24dp, R.drawable.ic_unrepeat_ic_2);
+                if (gamesSettings.isHelpFunction()) {
                     dialogo.mostrarFrase(getString(R.string.repeat_function_activated));
                 } else {
                     dialogo.mostrarFrase(getString(R.string.repeat_function_disabled));
@@ -218,23 +221,14 @@ public class MemoryGame extends GameViewSelectPictograms {
     }
 
 
-
-
-    public void resetHistory() {
-        for (int i = 0; i < history.length; i++) {
-            history[i] = "";
-        }
-    }
-
     /**
      *
      */
 
 
     public void setOption(PictoView option, int row, int column) {
-
-        Log.d("TAG", "setOption: " + pictogramas[model.getMatrixIdPictogram()[row][column]].toString());
         try {
+            Log.d("TAG", "setOption: " + pictogramas[model.getMatrixIdPictogram()[row][column]].toString());
             option.setCustom_Texto(pictogramas[model.getMatrixIdPictogram()[row][column]].getJSONObject("texto").getString(json.getIdioma()));
         } catch (JSONException e) {
             e.printStackTrace();
@@ -260,7 +254,7 @@ public class MemoryGame extends GameViewSelectPictograms {
                 playCorrectSound();
                 CorrectAction();
             } else {
-                player.playOhOhSound();
+                playWrongSong();
                 WrongAction();
             }
         }
@@ -272,7 +266,7 @@ public class MemoryGame extends GameViewSelectPictograms {
         foundPictos = 0;
         model.refresMatrix();
         model.resetMatrix();
-        resetHistory();
+        model.resetHistory();
         selectRandomOptions();
         model.addRandomIndex();
         setGuessDrawable(guess1);
@@ -291,6 +285,7 @@ public class MemoryGame extends GameViewSelectPictograms {
         setInvisibleText(opcion2);
         setInvisibleText(opcion3);
         setInvisibleText(opcion4);
+        showGuessItem();
     }
 
     @Override
@@ -320,13 +315,7 @@ public class MemoryGame extends GameViewSelectPictograms {
         guess4.setEnabled(true);
     }
 
-    private boolean theViewHasBeenSelected(String text) {
-        for (int i = 0; i < history.length; i++) {
-            if (history[i].contentEquals(text))
-                return true;
-        }
-        return false;
-    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -339,17 +328,20 @@ public class MemoryGame extends GameViewSelectPictograms {
     protected void CorrectAction() {
         game.incrementCorrect();
         unlockOptions();
-        history[foundPictos] = lastButton.getCustom_Texto();
+        model.addHistoryValue(foundPictos,lastButton.getCustom_Texto());
         foundPictos++;
         setMenuScoreIcon();
         animateChildrens(lastButton, lastPictogram, true);
         lastPictogram = null;
         lastButton = null;
-        if (foundPictos == pictogramas.length) {
+        if (foundPictos == model.getSize()) {
             resetOption.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-
+                    if(game.isChangeLevel()){
+                        game.changeLevelGame();
+                        changeLevel();
+                    }
                     startGame();
                 }
             }, 2500);
@@ -377,13 +369,13 @@ public class MemoryGame extends GameViewSelectPictograms {
 
     private void selectLastButton(PictoView view) {
         lastButton = view;
-        if (theViewHasBeenSelected(lastButton.getCustom_Texto()))
+        if (model.theViewHasBeenSelected(lastButton.getCustom_Texto()))
             lastButton = null;
     }
 
     private void selectLastPictogram(PictoView view) {
         lastPictogram = view;
-        if (theViewHasBeenSelected(lastPictogram.getCustom_Texto()))
+        if (model.theViewHasBeenSelected(lastPictogram.getCustom_Texto()))
             lastPictogram = null;
     }
 
@@ -398,6 +390,62 @@ public class MemoryGame extends GameViewSelectPictograms {
     }
 
     public void changeLevel(){
-        switch (game.getGamelevel())
+        switch (game.getGamelevel()){
+            case 0:
+                model.setSize(2);
+                break;
+            case 1:
+                model.setSize(3);
+                break;
+            case 2:
+                model.setSize(4);
+                break;
+        }
+        model.createArray();
+    }
+
+    public void showGuessItem(){
+        switch (game.getGamelevel()){
+            case 0:
+                opcion3.setVisibility(View.INVISIBLE);
+                opcion4.setVisibility(View.INVISIBLE);
+                guess3.setVisibility(View.INVISIBLE);
+                guess4.setVisibility(View.INVISIBLE);
+                break;
+            case 1:
+                opcion3.setVisibility(View.VISIBLE);
+                guess3.setVisibility(View.VISIBLE);
+                opcion4.setVisibility(View.INVISIBLE);
+                guess4.setVisibility(View.INVISIBLE);
+                break;
+            case 2:
+                opcion4.setVisibility(View.VISIBLE);
+                guess4.setVisibility(View.VISIBLE);
+                break;
+        }
+    }
+
+    @Override
+    protected void speakOption(PictoView option) {
+        super.speakOption(option);
+        mUtilsTTS.hablar(option.getCustom_Texto());
+    }
+
+    @Override
+    protected void bloquearOpcionPictograma(int opc, PictoView btn) {
+        switch (opc){
+            case 0:
+                animarPictoGanador(opcion1, btn);
+                break;
+            case 1:
+                animarPictoGanador(opcion2, btn);
+                break;
+            case 2:
+                animarPictoGanador(opcion3, btn);
+                break;
+            case 3:
+                animarPictoGanador(opcion4, btn);
+                break;
+        }
     }
 }

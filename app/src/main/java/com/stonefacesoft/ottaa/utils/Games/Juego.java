@@ -32,6 +32,7 @@ import org.json.JSONObject;
 public class Juego {
 
     private final String TAG = "Juego";
+    private int timesRight;
 
     private final Context mContext;
     private final int game;
@@ -126,6 +127,7 @@ public class Juego {
 
     public  void incrementCorrect(){
             correctStreak++;
+            timesRight++;
         if(correctStreak>=bestStreak){
             bestStreak=correctStreak;
             saveBestStreak();
@@ -292,7 +294,7 @@ public class Juego {
     }
 
     public boolean isChangeLevel(){
-        return (correctStreak%maxStreak)==0;
+        return (timesRight%maxStreak)==0;
     }
 
     public void setMaxLevel(int maxLevel) {

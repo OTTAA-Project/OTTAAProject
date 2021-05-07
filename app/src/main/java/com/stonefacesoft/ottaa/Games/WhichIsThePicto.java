@@ -34,7 +34,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.stonefacesoft.ottaa.Custom_Picto;
 import com.stonefacesoft.ottaa.Dialogos.DialogGameProgressInform;
-import com.stonefacesoft.ottaa.Games.Model.Settings;
+import com.stonefacesoft.ottaa.utils.Games.GamesSettings;
 import com.stonefacesoft.ottaa.Games.Model.WhichIsThePictoModel;
 import com.stonefacesoft.ottaa.Interfaces.Lock_Unlocked_Pictograms;
 import com.stonefacesoft.ottaa.Interfaces.Make_Click_At_Time;
@@ -141,7 +141,7 @@ public class WhichIsThePicto extends AppCompatActivity implements View
 
     //  private FirebaseAnalytics firebaseAnalytics;
     private GameControl gameControl;
-    private Settings settings;
+    private GamesSettings gamesSettings;
     private boolean mTutorialFlag = true;
 
     @Override
@@ -199,9 +199,9 @@ public class WhichIsThePicto extends AppCompatActivity implements View
         primerUso = true;
         //Implemento el manejador de preferencias
         sharedPrefsDefault = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        settings = new Settings();
-        settings.enableSound(sharedPrefsDefault.getBoolean("muteSound", false)).enableHelpFunction(sharedPrefsDefault.getBoolean(getString(R.string.str_pistas), true));
-        music.setMuted(settings.isSoundOn());
+        gamesSettings = new GamesSettings();
+        gamesSettings.enableSound(sharedPrefsDefault.getBoolean("muteSound", false)).enableHelpFunction(sharedPrefsDefault.getBoolean(getString(R.string.str_pistas), true));
+        music.setMuted(gamesSettings.isSoundOn());
         if (mUtilsTTS == null) {
             mUtilsTTS = new UtilsGamesTTS(this, mTTS, dialogo, sharedPrefsDefault, this);
         }
@@ -247,7 +247,7 @@ public class WhichIsThePicto extends AppCompatActivity implements View
             analitycsFirebase.levelNameGame(TAG + "_" + json.getNombre(mJsonArrayTodosLosGrupos.getJSONObject(mPositionPadre)));
             game = new Juego(this, 0, id);
             game.setGamelevel(0);
-            game.setMaxStreak(20);
+            game.setMaxStreak(3);
             game.setMaxLevel(2);
             game.startUseTime();
             loadLevel();
@@ -625,8 +625,8 @@ public class WhichIsThePicto extends AppCompatActivity implements View
         mMenu.getItem(1).setOnMenuItemClickListener(this::onMenuItemClick);
         mMenu.getItem(3).setOnMenuItemClickListener(this::onMenuItemClick);
 
-        setIcon(mMenu.getItem(3), settings.isSoundOn(), R.drawable.ic_volume_off_white_24dp, R.drawable.ic_volume_up_white_24dp);
-        setIcon(mMenu.getItem(1), settings.isHelpFunction(), R.drawable.ic_live_help_white_24dp, R.drawable.ic_unhelp);
+        setIcon(mMenu.getItem(3), gamesSettings.isSoundOn(), R.drawable.ic_volume_off_white_24dp, R.drawable.ic_volume_up_white_24dp);
+        setIcon(mMenu.getItem(1), gamesSettings.isHelpFunction(), R.drawable.ic_live_help_white_24dp, R.drawable.ic_unhelp);
 
         return super.onCreateOptionsMenu(menu);
     }
@@ -636,10 +636,10 @@ public class WhichIsThePicto extends AppCompatActivity implements View
     public boolean onMenuItemClick(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_parar:
-                settings.enableSound(settings.changeStatus(settings.isSoundOn()));
-                sharedPrefsDefault.edit().putBoolean("muteSound", settings.isSoundOn()).apply();
-                music.setMuted(settings.isSoundOn());
-                setIcon(item, settings.isSoundOn(), R.drawable.ic_volume_off_white_24dp, R.drawable.ic_volume_up_white_24dp);
+                gamesSettings.enableSound(gamesSettings.changeStatus(gamesSettings.isSoundOn()));
+                sharedPrefsDefault.edit().putBoolean("muteSound", gamesSettings.isSoundOn()).apply();
+                music.setMuted(gamesSettings.isSoundOn());
+                setIcon(item, gamesSettings.isSoundOn(), R.drawable.ic_volume_off_white_24dp, R.drawable.ic_volume_up_white_24dp);
                 analitycsFirebase.customEvents("Touch", "WhichIsThePicto", "Mute");
                 return true;
             case R.id.score:
@@ -649,11 +649,11 @@ public class WhichIsThePicto extends AppCompatActivity implements View
                 analitycsFirebase.customEvents("Touch", "WhichIsThePicto", "Score Dialog");
                 return true;
             case R.id.check:
-                settings.enableHelpFunction(settings.changeStatus(settings.isHelpFunction()));
+                gamesSettings.enableHelpFunction(gamesSettings.changeStatus(gamesSettings.isHelpFunction()));
                 analitycsFirebase.customEvents("Touch", "WhichIsThePicto", "Help Action");
-                sharedPrefsDefault.edit().putBoolean(getString(R.string.str_pistas), settings.isHelpFunction()).apply();
-                setIcon(item, settings.isHelpFunction(), R.drawable.ic_live_help_white_24dp, R.drawable.ic_unhelp);
-                if (settings.isHelpFunction()) {
+                sharedPrefsDefault.edit().putBoolean(getString(R.string.str_pistas), gamesSettings.isHelpFunction()).apply();
+                setIcon(item, gamesSettings.isHelpFunction(), R.drawable.ic_live_help_white_24dp, R.drawable.ic_unhelp);
+                if (gamesSettings.isHelpFunction()) {
                     handlerHablar.postDelayed(animarHablar, 4000);
                     dialogo.mostrarFrase(getString(R.string.help_function));
                 } else {

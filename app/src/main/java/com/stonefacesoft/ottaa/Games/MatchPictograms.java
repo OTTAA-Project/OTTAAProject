@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
@@ -17,6 +16,7 @@ import androidx.annotation.Nullable;
 
 import com.stonefacesoft.ottaa.Custom_Picto;
 import com.stonefacesoft.ottaa.Dialogos.DialogGameProgressInform;
+import com.stonefacesoft.ottaa.Games.Model.MatchPictogramsModel;
 import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.Views.Games.GameViewSelectPictograms;
@@ -28,6 +28,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class MatchPictograms extends GameViewSelectPictograms {
+    private MatchPictogramsModel model;
+    private boolean repetirLeccion;
 
 
     private final Runnable animarHablar = new Runnable() {
@@ -47,13 +49,15 @@ public class MatchPictograms extends GameViewSelectPictograms {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         showDescription(getString(R.string.join_pictograms));
+        model = new MatchPictogramsModel();
+        model.setSize(2);
+        model.refreshValueIndex();
         setUpGame(1);
+        game.setGamelevel(0);
         selectRandomOptions();
         numeros.clear();
-        cargarValores(0);
-        cargarValores(1);
-        cargarValores(2);
-        cargarValores(3);
+        loadLevePictograms();
+        numeros.clear();
         guess1.setCustom_Img(getDrawable(R.drawable.ic_help_outline_black_24dp));
         guess2.setCustom_Img(getDrawable(R.drawable.ic_help_outline_black_24dp));
         guess3.setCustom_Img(getDrawable(R.drawable.ic_help_outline_black_24dp));
@@ -111,9 +115,9 @@ public class MatchPictograms extends GameViewSelectPictograms {
                     hacerClickOpcion(false);
                     break;
                 case R.id.action_parar:
-                    settings.enableSound(settings.changeStatus(settings.isSoundOn()));
-                    music.setMuted(settings.isSoundOn());
-                    sharedPrefsDefault.edit().putBoolean("muteSound",settings.isSoundOn()).apply();
+                    gamesSettings.enableSound(gamesSettings.changeStatus(gamesSettings.isSoundOn()));
+                    music.setMuted(gamesSettings.isSoundOn());
+                    sharedPrefsDefault.edit().putBoolean("muteSound", gamesSettings.isSoundOn()).apply();
 //                    if(mute)
 //                        sound_on_off.setImageDrawable(getResources().getDrawable(R.drawable.ic_volume_off_white_24dp));
 //                    else
@@ -173,31 +177,41 @@ public class MatchPictograms extends GameViewSelectPictograms {
                 opcion2.setCustom_Texto(json.getNombre(pictogramas[1]));
                 break;
             case 2:
-                opcion3.setCustom_Img(json.getIcono(pictogramas[2]));
-                opcion3.setInvisibleCustomTexto();
-                opcion3.setCustom_Texto(json.getNombre(pictogramas[2]));
-
+               if(game.getGamelevel()==1) {
+                   opcion3.setCustom_Img(json.getIcono(pictogramas[2]));
+                   opcion3.setInvisibleCustomTexto();
+                   opcion3.setCustom_Texto(json.getNombre(pictogramas[2]));
+               }
                 break;
             case 3:
+                if(game.getGamelevel()==2){
                 opcion4.setCustom_Img(json.getIcono(pictogramas[3]));
                 opcion4.setInvisibleCustomTexto();
                 opcion4.setCustom_Texto(json.getNombre(pictogramas[3]));
+                }
                 break;
         }
 
     }
 
     protected void cargarValores(int pos) {
-        int valor = (int) Math.round((Math.random() * 3 + 0));
-        if (!numeros.contains(valor)) {
+        int valor = model.elegirGanador();
+        cargarTextoBoton(valor,pos);
+        if(!numeros.contains(valor))
             numeros.add(valor);
-            Log.d("Valor", "cargarValores: " + valor);
-            cargarTextoBoton(valor, pos);
-
-        } else {
-            cargarValores(pos);
+        else {
+            cargarValores(pos,0);
         }
 
+    }
+
+    protected void cargarValores(int pos,int n){
+        if(n<2){
+            int valor = model.elegirGanador();
+            cargarTextoBoton(valor,pos);
+            if(!numeros.contains(valor))
+                cargarValores(pos,n++);
+        }
 
     }
 
@@ -221,46 +235,18 @@ public class MatchPictograms extends GameViewSelectPictograms {
     }
 
 
+
+
     protected void esCorrecto(boolean esPicto) {
         if(lastPictogram!=null&&lastButton!=null) {
             try {
-
                 if (lastPictogram.getCustom_Texto().equals(lastButton.getCustom_Texto())) {
-                    game.incrementCorrect();
-                    playCorrectSound();
-                    lastPictogram.setVisibleText();
-                    if (!useHappySound) {
-                        useHappySound = true;
-                    }
-                    valoresCorrectos[lastPosicion] = 1;
-                    bloquearOpcionPictograma(lastPosicion, lastButton);
-                    lastButton=null;
-                    lastPictogram=null;
-                        Handler handler = new Handler();
-                        handler.postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                //btn.setVisibility(View.INVISIBLE);
-                                decirPictoAleatorio();
-                            }
-                        }, 2500);
-
-
+                    CorrectAction();
                 } else {
-                    useHappySound = false;
-                    player.playOhOhSound();
-                    valoresCorrectos[lastPosicion] = 0;
-                    game.incrementWrong();
-                    setMenuScoreIcon();
-                    animGameScore.animateCorrect(lastButton,game.getSmiley(Juego.DISSATISFIED));
-                    if(esPicto)
-                        lastPictogram=null;
-                    else
-                        lastButton=null;
-
+                    WrongAction(esPicto);
                 }
                 if (verificarSiHayQueHacerReinicio()) {
-                    if (settings.isRepeat()) {
+                    if (gamesSettings.isRepeat()) {
                         repetirLeccion = !repetirLeccion;
                     }
                     cargarPuntos();
@@ -273,17 +259,13 @@ public class MatchPictograms extends GameViewSelectPictograms {
     }
 
     protected boolean verificarSiHayQueHacerReinicio(){
-        for (int i = 0; i <valoresCorrectos.length ; i++) {
-            if(valoresCorrectos[i]==-1||valoresCorrectos[i]==0)
-                return false;
-        }
-        return true;
+        return model.restartValue();
     }
 
 
 
     public void reiniciar(){
-        player.pauseAudio();
+        pauseAudio();
         habilitarPictoGrama(guess1,false);
         habilitarPictoGrama(guess2,false);
         habilitarPictoGrama(guess3,false);
@@ -315,10 +297,7 @@ public class MatchPictograms extends GameViewSelectPictograms {
             selectRandomPictogram(2);
             selectRandomPictogram(3);
             numeros.clear();
-            cargarValores(0);
-            cargarValores(1);
-            cargarValores(2);
-            cargarValores(3);
+            loadLevePictograms();
         }else{
             numeros.clear();
             Handler handler=new Handler();
@@ -330,15 +309,13 @@ public class MatchPictograms extends GameViewSelectPictograms {
             },5000);
 
         }
-        for (int i = 0; i <valoresCorrectos.length ; i++) {
-            valoresCorrectos[i]=-1;
-        }
+       model.refreshValueIndex();
     }
 
 
 
     protected void hacerClickOpcion(boolean esPicto){
-        if(settings.isHelpFunction())
+        if(gamesSettings.isHelpFunction())
             handlerHablar.postDelayed(animarHablar,1000);
         if(lastButton!=null&&lastPictogram!=null) {
             if (!repetirLeccion)
@@ -347,41 +324,37 @@ public class MatchPictograms extends GameViewSelectPictograms {
             if ( lastButton.getCustom_Texto().equals(name)) {
                 game.incrementCorrect();
                 if (repetirLeccion) {
-
-                    valoresCorrectos[GetPosicionLastButton()]=1;
+                    model.setCorrectValue(GetPosicionLastButton(),1);
                     if(!verificarSiHayQueHacerReinicio()){
 
                         Handler handler = new Handler();
                         handler.postDelayed(new Runnable() {
                             @Override
                             public void run() {
-
                                 decirPictoAleatorio();
                             }
                         }, 2500);
                     }else{
                         lastButton=null;
-                        if (settings.isRepeat()) {
+                        if (gamesSettings.isRepeat()) {
                             repetirLeccion = !repetirLeccion;
                         }
                         cargarPuntos();
                         reiniciar();
                     }
                 }
-                player.playYupi2Sound();
+                playCorrectSound();
             } else {
 
                 animGameScore.animateCorrect(lastButton,game.getSmiley(Juego.DISSATISFIED));
                 game.incrementWrong();
-                player.playOhOhSound();
+                playWrongSong();
             }
         }
     }
 
     protected void speakOption(PictoView option){
-        //este es el onclick del pictograma
-
-        player.pauseAudio();
+        super.speakOption(option);
         if(!repetirLeccion) {
             mUtilsTTS.hablar(option.getCustom_Texto());
         }
@@ -464,8 +437,7 @@ public class MatchPictograms extends GameViewSelectPictograms {
 
 
 
-        player.stop();
-            music.stop();
+        stopAudio();
         Intent databack = new Intent();
         databack.putExtra("Boton", mPositionPadre);
         setResult(3, databack);
@@ -565,17 +537,17 @@ public class MatchPictograms extends GameViewSelectPictograms {
         switch (item.getItemId()){
             case R.id.action_parar:
                 analyticsFirebase.customEvents("Touch","Match Pictograms","Mute");
-                settings.enableSound(settings.changeStatus(settings.isSoundOn()));
-                sharedPrefsDefault.edit().putBoolean("muteSound",settings.isSoundOn()).apply();
-                music.setMuted(settings.isSoundOn());
-                setIcon(item,settings.isSoundOn(),R.drawable.ic_volume_off_white_24dp,R.drawable.ic_volume_up_white_24dp);
+                gamesSettings.enableSound(gamesSettings.changeStatus(gamesSettings.isSoundOn()));
+                sharedPrefsDefault.edit().putBoolean("muteSound", gamesSettings.isSoundOn()).apply();
+                music.setMuted(gamesSettings.isSoundOn());
+                setIcon(item, gamesSettings.isSoundOn(),R.drawable.ic_volume_off_white_24dp,R.drawable.ic_volume_up_white_24dp);
                 return true;
             case R.id.check:
                 analyticsFirebase.customEvents("Touch","Match Pictograms","Help Action");
-                settings.enableHelpFunction(settings.changeStatus(settings.isHelpFunction()));
-                sharedPrefsDefault.edit().putBoolean(getString(R.string.str_pistas), settings.isHelpFunction()).apply();
-                setIcon(mMenu.getItem(1),settings.isHelpFunction(),R.drawable.ic_live_help_white_24dp,R.drawable.ic_unhelp);
-                if (settings.isHelpFunction()) {
+                gamesSettings.enableHelpFunction(gamesSettings.changeStatus(gamesSettings.isHelpFunction()));
+                sharedPrefsDefault.edit().putBoolean(getString(R.string.str_pistas), gamesSettings.isHelpFunction()).apply();
+                setIcon(mMenu.getItem(1), gamesSettings.isHelpFunction(),R.drawable.ic_live_help_white_24dp,R.drawable.ic_unhelp);
+                if (gamesSettings.isHelpFunction()) {
                     handlerHablar.postDelayed(animarHablar, 4000);
                     dialogo.mostrarFrase(getString(R.string.help_function));
                 } else {
@@ -591,11 +563,11 @@ public class MatchPictograms extends GameViewSelectPictograms {
                 return true;
             case R.id.repeat:
                 analyticsFirebase.customEvents("Touch","Match Pictograms","Repeat");
-                settings.enableRepeatFunction(settings.changeStatus(settings.isRepeat()));
-                sharedPrefsDefault.edit().putBoolean("repetir",settings.isRepeat()).apply();
+                gamesSettings.enableRepeatFunction(gamesSettings.changeStatus(gamesSettings.isRepeat()));
+                sharedPrefsDefault.edit().putBoolean("repetir", gamesSettings.isRepeat()).apply();
 
-                setIcon(item,settings.isRepeat(),R.drawable.ic_repeat_white_24dp,R.drawable.ic_unrepeat_ic_2);
-                if(settings.isRepeat()){
+                setIcon(item, gamesSettings.isRepeat(),R.drawable.ic_repeat_white_24dp,R.drawable.ic_unrepeat_ic_2);
+                if(gamesSettings.isRepeat()){
                     dialogo.mostrarFrase(getString(R.string.repeat_function_activated));
                 }
                 else {
@@ -604,5 +576,69 @@ public class MatchPictograms extends GameViewSelectPictograms {
                 return true;
         }
         return false;
+    }
+
+    @Override
+    protected void CorrectAction() {
+        game.incrementCorrect();
+        playCorrectSound();
+        lastPictogram.setVisibleText();
+        if (!useHappySound) {
+            useHappySound = true;
+        }
+        model.setCorrectValue(lastPosicion,1);
+        bloquearOpcionPictograma(lastPosicion, lastButton);
+        lastButton=null;
+        lastPictogram=null;
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                //btn.setVisibility(View.INVISIBLE);
+                decirPictoAleatorio();
+            }
+        }, 2500);
+    }
+
+    @Override
+    protected void WrongAction(boolean isPictogram) {
+        useHappySound = false;
+        playWrongSong();
+        model.setCorrectValue(lastPosicion,0);
+        game.incrementWrong();
+        setMenuScoreIcon();
+        animGameScore.animateCorrect(lastButton,game.getSmiley(Juego.DISSATISFIED));
+        if(isPictogram)
+            lastPictogram=null;
+        else
+            lastButton=null;
+    }
+
+    @Override
+    protected void decirPictoAleatorio() {
+        if (animarPicto != null && animarPicto.getVisibility() == View.VISIBLE)
+            animarPicto.setVisibility(View.INVISIBLE);
+        if (numeros.size() < 4) {
+            int valor = (int) Math.round(Math.random() * 3 + 0);
+            if (!numeros.contains(valor)) {
+                numeros.add(valor);
+                name = json.getNombre(pictogramas[valor]);
+                mUtilsTTS.hablar(name);
+            } else {
+                decirPictoAleatorio();
+            }
+        }
+    }
+    public void loadLevePictograms(){
+        cargarValores(0);
+        cargarValores(1);
+        switch (game.getGamelevel()){
+            case 1:
+                cargarValores(2);
+                break;
+            case 2:
+                cargarValores(3);
+                break;
+        }
     }
 }

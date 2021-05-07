@@ -1,24 +1,24 @@
-package com.stonefacesoft.ottaa.Games.Model;
+package com.stonefacesoft.ottaa.utils.Games;
 
-public class Settings {
+public class GamesSettings {
     private boolean repeat;
     private boolean soundOn;
     private boolean helpFunction;
 
 
-    public Settings(){
+    public GamesSettings(){
 
     }
 
-    public Settings enableRepeatFunction(boolean enable){
+    public GamesSettings enableRepeatFunction(boolean enable){
         this.repeat = enable;
         return this;
     }
-    public Settings enableSound(boolean enable){
+    public GamesSettings enableSound(boolean enable){
         this.soundOn = enable;
         return this;
     }
-    public Settings enableHelpFunction(boolean enable){
+    public GamesSettings enableHelpFunction(boolean enable){
         helpFunction = enable;
         return this;
     }

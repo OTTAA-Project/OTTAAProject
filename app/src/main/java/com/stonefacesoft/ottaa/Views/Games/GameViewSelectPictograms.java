@@ -25,8 +25,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import com.stonefacesoft.ottaa.Games.Model.MemoryGameModelModel;
-import com.stonefacesoft.ottaa.Games.Model.Settings;
+import com.stonefacesoft.ottaa.utils.Games.GamesSettings;
 import com.stonefacesoft.ottaa.Interfaces.Make_Click_At_Time;
 import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.R;
@@ -57,7 +56,6 @@ public class GameViewSelectPictograms extends AppCompatActivity implements View.
 
     protected final String TAG="GameViewSelectPictogram";
 
-
     protected PictoView guess1;
     protected PictoView guess2;
     protected PictoView guess3;
@@ -66,8 +64,6 @@ public class GameViewSelectPictograms extends AppCompatActivity implements View.
     protected PictoView animarPicto;
     protected ScrollFuntionGames function_scroll;
 
-
-
     protected SharedPreferences sharedPrefsDefault;
     protected CustomToast dialogo;
     //Declaracion de variables del TTS
@@ -75,7 +71,7 @@ public class GameViewSelectPictograms extends AppCompatActivity implements View.
     protected UtilsTTS mUtilsTTS;
     protected int PictoID;
     protected int mPositionPadre;
-    protected int[] valoresCorrectos;
+
 
     protected Json json;
     protected JSONArray hijos;
@@ -90,7 +86,7 @@ public class GameViewSelectPictograms extends AppCompatActivity implements View.
     protected String name;
 
 
-    protected boolean repetirLeccion;
+
 
     protected boolean useHappySound;
 
@@ -114,8 +110,8 @@ public class GameViewSelectPictograms extends AppCompatActivity implements View.
     protected GameControl gameControl;
     protected Intent intent;
     protected MenuItem scoreItem;
-    protected Settings settings;
-    protected MemoryGameModelModel model;
+    protected GamesSettings gamesSettings;
+
 
 
 
@@ -137,7 +133,6 @@ public class GameViewSelectPictograms extends AppCompatActivity implements View.
         super.onCreate(savedInstanceState);
         analyticsFirebase=new AnalyticsFirebase(this);
         intent = getIntent();
-        model = new MemoryGameModelModel();
         boolean status_bar = intent.getBooleanExtra("status_bar", false);
         if (!status_bar) {
             supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -147,7 +142,7 @@ public class GameViewSelectPictograms extends AppCompatActivity implements View.
         dialogo=new CustomToast(this);
         PictoID = intent.getIntExtra("PictoID", 0);
         mPositionPadre = intent.getIntExtra("PositionPadre", 0);
-        settings = new Settings();
+        gamesSettings = new GamesSettings();
         json = Json.getInstance();
         json.setmContext(this);
         toolbar=findViewById(R.id.toolbar);
@@ -232,25 +227,20 @@ public class GameViewSelectPictograms extends AppCompatActivity implements View.
         guess4.setOnClickListener(this);
         dialogo=new CustomToast(this);
         pictogramas=new JSONObject[4];
-        valoresCorrectos=new int[4];
-        for (int i = 0; i <4 ; i++) {
-            valoresCorrectos[i]=-1;
-        }
-
         sharedPrefsDefault= PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        settings.enableSound(sharedPrefsDefault.getBoolean("muteSound",false));
-        settings.enableRepeatFunction(sharedPrefsDefault.getBoolean("repetir",false));
+        gamesSettings.enableSound(sharedPrefsDefault.getBoolean("muteSound",false));
+        gamesSettings.enableRepeatFunction(sharedPrefsDefault.getBoolean("repetir",false));
 //        if(mute)
 //            sound_on_off.setImageDrawable(getResources().getDrawable(R.drawable.ic_volume_off_white_24dp));
 //        else
 //            sound_on_off.setImageDrawable(getResources().getDrawable(R.drawable.ic_volume_up_white_24dp));
-        settings.enableHelpFunction(sharedPrefsDefault.getBoolean(getString(R.string.str_pistas),true));
+        gamesSettings.enableHelpFunction(sharedPrefsDefault.getBoolean(getString(R.string.str_pistas),true));
         mUtilsTTS=new UtilsTTS(getApplicationContext(),mTTS,dialogo,sharedPrefsDefault);
         player=new MediaPlayerAudio(this);
         music=new MediaPlayerAudio(this);
         player.setVolumenAudio(0.15f);
         music.setVolumenAudio(0.05f);
-        music.setMuted(settings.isSoundOn());
+        music.setMuted(gamesSettings.isSoundOn());
         music.playMusic();
 
         mAnimationWin=setUpAnimationWin(R.id.ganarImagen);
@@ -274,23 +264,7 @@ public class GameViewSelectPictograms extends AppCompatActivity implements View.
      * This method select a random pictogram
      * */
     protected void selectRandomPictogram(int pos) {
-        int value=(int)Math.round((Math.random()*hijos.length()-1)+0);
 
-        if(!numeros.contains(value)) {
-            numeros.add(value);
-            try {
-                pictogramas[pos] = hijos.getJSONObject(value);
-                if(!json.getNombre(pictogramas[pos]).toLowerCase().equals("error"))
-                    cargarOpcion(pos);
-                else
-                    selectRandomPictogram(pos);
-            } catch (JSONException e) {
-                e.printStackTrace();
-                selectRandomPictogram(pos);
-            }
-        }else{
-            selectRandomPictogram(pos);
-        }
     }
 
     protected void cargarOpcion(int pos){
@@ -298,32 +272,11 @@ public class GameViewSelectPictograms extends AppCompatActivity implements View.
     }
 
     protected void cargarValores(int pos) {
-        int valor = (int) Math.round((Math.random() * 3 + 0));
-        if (!numeros.contains(valor)) {
-            numeros.add(valor);
-            Log.d("Valor", "cargarValores: " + valor);
-            cargarTextoBoton(valor, pos);
-
-        } else {
-            cargarValores(pos);
-        }
-
 
     }
 
     protected void decirPictoAleatorio(){
-        if (animarPicto != null && animarPicto.getVisibility() == View.VISIBLE)
-            animarPicto.setVisibility(View.INVISIBLE);
-        if (numeros.size() < 4) {
-            int valor = (int) Math.round(Math.random() * 3 + 0);
-            if (!numeros.contains(valor)) {
-                numeros.add(valor);
-                name = json.getNombre(pictogramas[valor]);
-                mUtilsTTS.hablar(name);
-            } else {
-                decirPictoAleatorio();
-            }
-        }
+
     }
 
     protected void cargarTextoBoton(double valor,int pos){
@@ -338,179 +291,42 @@ public class GameViewSelectPictograms extends AppCompatActivity implements View.
 
     }
 
+    protected void WrongAction(boolean isPictogram){
+
+    }
+
     protected void CorrectAction(){
 
     }
 
 
     protected void esCorrecto(boolean esPicto) {
-        if(lastPictogram!=null&&lastButton!=null) {
-            try {
 
-                if (lastPictogram.getCustom_Texto().equals(lastButton.getCustom_Texto())) {
-                    game.incrementCorrect();
-                    playCorrectSound();
-                    lastPictogram.setVisibleText();
-                    if (!useHappySound) {
-                        useHappySound = true;
-                    }
-                    valoresCorrectos[lastPosicion] = 1;
-                    bloquearOpcionPictograma(lastPosicion, lastButton);
-                    lastButton=null;
-                    lastPictogram=null;
-                    Handler handler = new Handler();
-                    handler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            //btn.setVisibility(View.INVISIBLE);
-                            decirPictoAleatorio();
-                        }
-                    }, 2500);
-
-
-                } else {
-                    useHappySound = false;
-                    player.playOhOhSound();
-                    valoresCorrectos[lastPosicion] = 0;
-                    game.incrementWrong();
-                    animGameScore.animateCorrect(lastButton,game.getSmiley(Juego.DISSATISFIED));
-                    if(esPicto)
-                        lastPictogram=null;
-                    else
-                        lastButton=null;
-
-                }
-                if (verificarSiHayQueHacerReinicio()) {
-                    if (settings.isRepeat()) {
-                        repetirLeccion = !repetirLeccion;
-                    }
-                    cargarPuntos();
-                    reiniciarLeccion();
-                }
-            } catch (Exception ex) {
-
-            }
-        }
     }
 
     protected boolean verificarSiHayQueHacerReinicio(){
-        for (int i = 0; i <valoresCorrectos.length ; i++) {
-            if(valoresCorrectos[i]==-1||valoresCorrectos[i]==0)
-                return false;
-        }
-        return true;
+        return false;
     }
 
 
 
 
     public void reiniciar(){
-        player.pauseAudio();
-        habilitarPictoGrama(guess1,false);
-        habilitarPictoGrama(guess2,false);
-        habilitarPictoGrama(guess3,false);
-        habilitarPictoGrama(guess4,false);
-        if(repetirLeccion){
-            mUtilsTTS.hablarConDialogo(getString(R.string.repeat_pictograms));
-            opcion1.setVisibility(View.INVISIBLE);
-            opcion2.setVisibility(View.INVISIBLE);
-            opcion3.setVisibility(View.INVISIBLE);
-            opcion4.setVisibility(View.INVISIBLE);
-        }
 
-        if(!repetirLeccion){
-            guess1.setVisibility(View.VISIBLE);
-            guess2.setVisibility(View.VISIBLE);
-            guess3.setVisibility(View.VISIBLE);
-            guess4.setVisibility(View.VISIBLE);
-            guess1.setCustom_Img(getDrawable(R.drawable.ic_help_outline_black_24dp));
-            guess2.setCustom_Img(getDrawable(R.drawable.ic_help_outline_black_24dp));
-            guess3.setCustom_Img(getDrawable(R.drawable.ic_help_outline_black_24dp));
-            guess4.setCustom_Img(getDrawable(R.drawable.ic_help_outline_black_24dp));
-            numeros.clear();
-            habilitarPictoGrama(opcion1,true);
-            habilitarPictoGrama(opcion2,true);
-            habilitarPictoGrama(opcion3,true);
-            habilitarPictoGrama(opcion4,true);
-            selectRandomPictogram(0);
-            selectRandomPictogram(1);
-            selectRandomPictogram(2);
-            selectRandomPictogram(3);
-            numeros.clear();
-            cargarValores(0);
-            cargarValores(1);
-            cargarValores(2);
-            cargarValores(3);
-        }else{
-            numeros.clear();
-            Handler handler=new Handler();
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    decirPictoAleatorio();
-                }
-            },5000);
-
-        }
-        for (int i = 0; i <valoresCorrectos.length ; i++) {
-            valoresCorrectos[i]=-1;
-        }
     }
 
-    //Aca cambia el
     protected void bloquearOpcionPictograma(int opc, PictoView btn){
-        switch (opc){
-            case 0:
-                animarPictoGanador(opcion1, btn);
 
-                break;
-            case 1:
-                animarPictoGanador(opcion2, btn);
-
-                break;
-            case 2:
-                animarPictoGanador(opcion3, btn);
-
-                break;
-            case 3:
-                animarPictoGanador(opcion4, btn);
-
-                break;
-
-
-        }
     }
 
     protected void hacerClickOpcion(boolean esPicto){
     }
 
     protected void speakOption(PictoView option){
-        //este es el onclick del pictograma
-
         player.pauseAudio();
-        if(!repetirLeccion) {
-            mUtilsTTS.hablar(option.getCustom_Texto());
-        }
     }
     protected void reiniciarLeccion(){
-        Handler handler = new Handler();
 
-        if (!repetirLeccion) {
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-
-                    reiniciar();
-                }
-            }, 2500);
-        } else {
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    reiniciar();
-                }
-            }, 2500);
-        }
     }
 
     protected void cargarPuntos(){
@@ -557,20 +373,6 @@ public class GameViewSelectPictograms extends AppCompatActivity implements View.
     }
 
     protected int GetPosicionLastButton(){
-        switch (lastButton.getId()){
-            case R.id.Guess1:
-                guess1.setAlpha(0);
-                return 0;
-            case R.id.Guess2:
-                guess2.setAlpha(0);
-                return 1;
-            case R.id.Guess3:
-                guess3.setAlpha(0);
-                return 2;
-            case R.id.Guess4:
-                guess4.setAlpha(0);
-                return 3;
-        }
         return 0;
     }
 
@@ -593,9 +395,9 @@ public class GameViewSelectPictograms extends AppCompatActivity implements View.
         menu.getItem(0).setOnMenuItemClickListener(this);
         menu.getItem(3).setOnMenuItemClickListener(this);
 
-        setIcon(mMenu.getItem(3),settings.isSoundOn(),R.drawable.ic_volume_off_white_24dp,R.drawable.ic_volume_up_white_24dp);
-        setIcon(mMenu.getItem(1),settings.isHelpFunction(),R.drawable.ic_live_help_white_24dp,R.drawable.ic_unhelp);
-        setIcon(mMenu.getItem(2),settings.isRepeat(),R.drawable.ic_repeat_white_24dp,R.drawable.ic_unrepeat_ic_2);
+        setIcon(mMenu.getItem(3), gamesSettings.isSoundOn(),R.drawable.ic_volume_off_white_24dp,R.drawable.ic_volume_up_white_24dp);
+        setIcon(mMenu.getItem(1), gamesSettings.isHelpFunction(),R.drawable.ic_live_help_white_24dp,R.drawable.ic_unhelp);
+        setIcon(mMenu.getItem(2), gamesSettings.isRepeat(),R.drawable.ic_repeat_white_24dp,R.drawable.ic_unrepeat_ic_2);
 
         return super.onCreateOptionsMenu(menu);
     }
@@ -811,6 +613,19 @@ public class GameViewSelectPictograms extends AppCompatActivity implements View.
         imageView.setImageAlpha(230);
         imageView.setVisibility(View.INVISIBLE);
         return imageView;
+    }
+
+    protected void playWrongSong(){
+        player.playOhOhSound();
+    }
+
+    protected void pauseAudio(){
+        player.pauseAudio();
+    }
+
+    protected void stopAudio(){
+        music.stop();
+        player.stop();
     }
 
 }
