@@ -49,4 +49,9 @@ public class GameModel {
     public void loadValue(){
 
     }
+
+    public int elegirGanador(){
+        return (int) Math.floor(Math.random()*size+0);
+    }
+
 }

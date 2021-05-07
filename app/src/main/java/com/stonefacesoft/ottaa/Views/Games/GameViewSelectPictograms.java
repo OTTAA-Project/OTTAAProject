@@ -2,7 +2,6 @@ package com.stonefacesoft.ottaa.Views.Games;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.ColorFilter;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -25,8 +24,9 @@ import android.widget.ImageView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.graphics.drawable.DrawableCompat;
 
+import com.stonefacesoft.ottaa.Games.Model.MemoryGameModelModel;
+import com.stonefacesoft.ottaa.Games.Model.Settings;
 import com.stonefacesoft.ottaa.Interfaces.Make_Click_At_Time;
 import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.R;
@@ -89,11 +89,11 @@ public class GameViewSelectPictograms extends AppCompatActivity implements View.
 
     protected String name;
 
-    protected boolean isRepeatlection=false;
+
     protected boolean repetirLeccion;
-    protected boolean isChecked;
+
     protected boolean useHappySound;
-    protected boolean mute;
+
 
 
     protected int lastPosicion;
@@ -114,6 +114,8 @@ public class GameViewSelectPictograms extends AppCompatActivity implements View.
     protected GameControl gameControl;
     protected Intent intent;
     protected MenuItem scoreItem;
+    protected Settings settings;
+    protected MemoryGameModelModel model;
 
 
 
@@ -135,6 +137,7 @@ public class GameViewSelectPictograms extends AppCompatActivity implements View.
         super.onCreate(savedInstanceState);
         analyticsFirebase=new AnalyticsFirebase(this);
         intent = getIntent();
+        model = new MemoryGameModelModel();
         boolean status_bar = intent.getBooleanExtra("status_bar", false);
         if (!status_bar) {
             supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -144,6 +147,7 @@ public class GameViewSelectPictograms extends AppCompatActivity implements View.
         dialogo=new CustomToast(this);
         PictoID = intent.getIntExtra("PictoID", 0);
         mPositionPadre = intent.getIntExtra("PositionPadre", 0);
+        settings = new Settings();
         json = Json.getInstance();
         json.setmContext(this);
         toolbar=findViewById(R.id.toolbar);
@@ -234,19 +238,19 @@ public class GameViewSelectPictograms extends AppCompatActivity implements View.
         }
 
         sharedPrefsDefault= PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        mute=sharedPrefsDefault.getBoolean("muteSound",false);
-        isRepeatlection=sharedPrefsDefault.getBoolean("repetir",false);
+        settings.enableSound(sharedPrefsDefault.getBoolean("muteSound",false));
+        settings.enableRepeatFunction(sharedPrefsDefault.getBoolean("repetir",false));
 //        if(mute)
 //            sound_on_off.setImageDrawable(getResources().getDrawable(R.drawable.ic_volume_off_white_24dp));
 //        else
 //            sound_on_off.setImageDrawable(getResources().getDrawable(R.drawable.ic_volume_up_white_24dp));
-        isChecked=sharedPrefsDefault.getBoolean(getString(R.string.str_pistas),true);
+        settings.enableHelpFunction(sharedPrefsDefault.getBoolean(getString(R.string.str_pistas),true));
         mUtilsTTS=new UtilsTTS(getApplicationContext(),mTTS,dialogo,sharedPrefsDefault);
         player=new MediaPlayerAudio(this);
         music=new MediaPlayerAudio(this);
         player.setVolumenAudio(0.15f);
         music.setVolumenAudio(0.05f);
-        music.setMuted(mute);
+        music.setMuted(settings.isSoundOn());
         music.playMusic();
 
         mAnimationWin=setUpAnimationWin(R.id.ganarImagen);
@@ -377,7 +381,7 @@ public class GameViewSelectPictograms extends AppCompatActivity implements View.
 
                 }
                 if (verificarSiHayQueHacerReinicio()) {
-                    if (isRepeatlection) {
+                    if (settings.isRepeat()) {
                         repetirLeccion = !repetirLeccion;
                     }
                     cargarPuntos();
@@ -589,9 +593,9 @@ public class GameViewSelectPictograms extends AppCompatActivity implements View.
         menu.getItem(0).setOnMenuItemClickListener(this);
         menu.getItem(3).setOnMenuItemClickListener(this);
 
-        setIcon(mMenu.getItem(3),mute,R.drawable.ic_volume_off_white_24dp,R.drawable.ic_volume_up_white_24dp);
-        setIcon(mMenu.getItem(1),isChecked,R.drawable.ic_live_help_white_24dp,R.drawable.ic_unhelp);
-        setIcon(mMenu.getItem(2),isRepeatlection,R.drawable.ic_repeat_white_24dp,R.drawable.ic_unrepeat_ic_2);
+        setIcon(mMenu.getItem(3),settings.isSoundOn(),R.drawable.ic_volume_off_white_24dp,R.drawable.ic_volume_up_white_24dp);
+        setIcon(mMenu.getItem(1),settings.isHelpFunction(),R.drawable.ic_live_help_white_24dp,R.drawable.ic_unhelp);
+        setIcon(mMenu.getItem(2),settings.isRepeat(),R.drawable.ic_repeat_white_24dp,R.drawable.ic_unrepeat_ic_2);
 
         return super.onCreateOptionsMenu(menu);
     }

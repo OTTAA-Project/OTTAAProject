@@ -36,6 +36,7 @@ public class Juego {
     private final Context mContext;
     private final int game;
     private final int levelId;
+    private int gamelevel;
     private CalculaPuntos puntos;//Todo propiedad puntos , getScore
     private long useTime = 0;
     private int cantEntradas;
@@ -47,12 +48,15 @@ public class Juego {
     private final User user;
     private SubirArchivosFirebase subirArchivosFirebase;
     private JSONObject object = new JSONObject();
+    private int maxStreak;
+    private int maxLevel;
 
     public static final int VERY_DISSATISFIED = 0;
     public static final int DISSATISFIED = 1;
     public static final int NEUTRAL = 2;
     public static final int SATISFIED = 3;
     public static final int VERY_SSATISFIED = 4;
+
 
     private final int[] iconArrayActive = {
             R.drawable.ic_sentiment_very_dissatisfied_white_24dp,
@@ -94,7 +98,12 @@ public class Juego {
        bestStreak=getBestStreak();
 
    }
-   public void setUseTime(long useTime){
+
+    public void setMaxStreak(int maxStreak) {
+        this.maxStreak = maxStreak;
+    }
+
+    public void setUseTime(long useTime){
        this.useTime+=useTime;
    }
 
@@ -131,6 +140,9 @@ public class Juego {
         correctStreak=0;
         puntos.sumarCantidVecesIncorretas();
    }
+
+
+
    public int getCorrectStreak(){
        return correctStreak;
    }
@@ -266,5 +278,24 @@ public class Juego {
         return iconArrayActive[wantedSmiley];
     }
 
+    public void setGamelevel(int gamelevel) {
+        this.gamelevel = gamelevel;
+    }
 
+    public int getGamelevel() {
+        return gamelevel;
+    }
+
+    public void changeLevelGame(){
+       if(this.gamelevel<maxLevel)
+           this.gamelevel++;
+    }
+
+    public boolean isChangeLevel(){
+        return (correctStreak%maxStreak)==0;
+    }
+
+    public void setMaxLevel(int maxLevel) {
+        this.maxLevel = maxLevel;
+    }
 }

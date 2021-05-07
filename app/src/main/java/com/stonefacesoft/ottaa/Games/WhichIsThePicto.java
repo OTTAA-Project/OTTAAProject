@@ -34,6 +34,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.stonefacesoft.ottaa.Custom_Picto;
 import com.stonefacesoft.ottaa.Dialogos.DialogGameProgressInform;
+import com.stonefacesoft.ottaa.Games.Model.Settings;
 import com.stonefacesoft.ottaa.Games.Model.WhichIsThePictoModel;
 import com.stonefacesoft.ottaa.Interfaces.Lock_Unlocked_Pictograms;
 import com.stonefacesoft.ottaa.Interfaces.Make_Click_At_Time;
@@ -61,20 +62,21 @@ import java.util.ArrayList;
 public class WhichIsThePicto extends AppCompatActivity implements View
         .OnClickListener, Toolbar.OnMenuItemClickListener, Lock_Unlocked_Pictograms, Make_Click_At_Time, View.OnTouchListener {
 
+    private static final String TAG = "WhichIsThePicto";
+    //Handler para animar la respuesat correcta luego de un tiempo si no se presiona
+    private final Handler handlerHablar = new Handler();
+    private final Handler handlerGano = new Handler();
+    private final Handler decirPicto = new Handler();
     private SharedPreferences sharedPrefsDefault;
     //
     private CustomToast dialogo;
     //Declaracion de variables del TTS
     private TextToSpeech mTTS;
     private UtilsGamesTTS mUtilsTTS;
-
-
     //Question Button
     private Custom_Picto Seleccion1;
-
     //Winner imageview
     private ImageView mAnimationWin;
-
     private Context context;
     // Answer button
     private Custom_Picto Opcion1;
@@ -82,62 +84,17 @@ public class WhichIsThePicto extends AppCompatActivity implements View
     private Custom_Picto Opcion3;
     private Custom_Picto Opcion4;
 
+
+    //Pistas
     private boolean primerUso;
     private int ganadorAnterior = -1;
     private WhichIsThePictoModel model;
-
     //RatingStar
     private RatingBar Puntaje;
-
-
-    //Pistas
-
-
     //Declaramos el media player
     private MediaPlayerAudio mediaPlayer, music;
-    //Handler para animar la respuesat correcta luego de un tiempo si no se presiona
-    private final Handler handlerHablar = new Handler();
-    private final Handler handlerGano = new Handler();
-    private final Handler decirPicto = new Handler();
-
     //View para animar respuesta correcta en niveles
     private Custom_Picto viewGanador;
-    private ImageButton imageButton;
-
-    //Pictos en juego
-    private int[] pictos;
-    private int mPositionPadre;
-
-    private boolean isChecked;
-
-    //Jsons
-    private Json json;
-    private JSONArray mJsonArrayTodosLosPictos;
-    private JSONArray mJsonArrayTodosLosGrupos;
-
-    // Datos que le paso por el intent!!!
-    private int PictoID;                // picto actual
-    private static final String TAG = "WhichIsThePicto";
-    //Handler para animar el Hablar cuando pasa cierto tiempo
-    private int cantVecInc;
-    private boolean mute;
-
-    private Toolbar toolbar;
-
-    private AnimGameScore animGameScore;
-
-    private Menu mMenu;
-    private MenuItem scoreItem;
-
-    private Juego game;
-    private ImageView imageView;
-    private AnalyticsFirebase analitycsFirebase;
-    private Button btnBarrido;
-    private BarridoPantalla barridoPantalla;
-    private ScrollFuntionGames function_scroll;
-    private GameControl gameControl;
-
-
     private final Runnable animarHablar = new Runnable() {
         @Override
         public void run() {
@@ -146,17 +103,46 @@ public class WhichIsThePicto extends AppCompatActivity implements View
                 handlerHablar.postDelayed(this, 4000);
         }
     };
-
-    //  private FirebaseAnalytics firebaseAnalytics;
-
+    private ImageButton imageButton;
     private final Runnable talkGanador = new Runnable() {
         @Override
         public void run() {
             imageButton.callOnClick();
         }
     };
-    private boolean mTutorialFlag = true;
+    //Pictos en juego
+    private int[] pictos;
+    private int mPositionPadre;
+    //Jsons
+    private Json json;
+    private JSONArray mJsonArrayTodosLosPictos;
+    private JSONArray mJsonArrayTodosLosGrupos;
+    // Datos que le paso por el intent!!!
+    private int PictoID;                // picto actual
+    //Handler para animar el Hablar cuando pasa cierto tiempo
+    private int cantVecInc;
+    private Toolbar toolbar;
+    private AnimGameScore animGameScore;
+    private Menu mMenu;
+    private MenuItem scoreItem;
+    private Juego game;
+    //Handler para animar el Hablar cuando pasa cierto tiempo
+    private final Runnable animarGano = new Runnable() {
+        @Override
+        public void run() {
+            PrimerNivel();
+        }
+    };
+    private ImageView imageView;
+    private AnalyticsFirebase analitycsFirebase;
+    private Button btnBarrido;
+    private BarridoPantalla barridoPantalla;
+    private ScrollFuntionGames function_scroll;
 
+    //  private FirebaseAnalytics firebaseAnalytics;
+    private GameControl gameControl;
+    private Settings settings;
+    private boolean mTutorialFlag = true;
 
     @Override
     protected void onStop() {
@@ -182,7 +168,6 @@ public class WhichIsThePicto extends AppCompatActivity implements View
 
     }
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //Ocultamos la barra de notificaciones
@@ -190,9 +175,6 @@ public class WhichIsThePicto extends AppCompatActivity implements View
         PictoID = intent.getIntExtra("PictoID", 0);
         mPositionPadre = intent.getIntExtra("PositionPadre", 0);
         model = new WhichIsThePictoModel();
-        model.setSize(2);
-        model.createArray();
-        model.refreshValueIndex();
         dialogo = new CustomToast(this);
         mediaPlayer = new MediaPlayerAudio(this);
         music = new MediaPlayerAudio(this);
@@ -217,9 +199,9 @@ public class WhichIsThePicto extends AppCompatActivity implements View
         primerUso = true;
         //Implemento el manejador de preferencias
         sharedPrefsDefault = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        mute = sharedPrefsDefault.getBoolean("muteSound", false);
-        isChecked = sharedPrefsDefault.getBoolean(getString(R.string.str_pistas), true);
-        music.setMuted(mute);
+        settings = new Settings();
+        settings.enableSound(sharedPrefsDefault.getBoolean("muteSound", false)).enableHelpFunction(sharedPrefsDefault.getBoolean(getString(R.string.str_pistas), true));
+        music.setMuted(settings.isSoundOn());
         if (mUtilsTTS == null) {
             mUtilsTTS = new UtilsGamesTTS(this, mTTS, dialogo, sharedPrefsDefault, this);
         }
@@ -264,7 +246,11 @@ public class WhichIsThePicto extends AppCompatActivity implements View
             int id = json.getId(mJsonArrayTodosLosGrupos.getJSONObject(mPositionPadre));
             analitycsFirebase.levelNameGame(TAG + "_" + json.getNombre(mJsonArrayTodosLosGrupos.getJSONObject(mPositionPadre)));
             game = new Juego(this, 0, id);
+            game.setGamelevel(0);
+            game.setMaxStreak(20);
+            game.setMaxLevel(2);
             game.startUseTime();
+            loadLevel();
         } catch (JSONException e) {
             e.printStackTrace();
         } catch (FiveMbException e) {
@@ -281,15 +267,14 @@ public class WhichIsThePicto extends AppCompatActivity implements View
 
 
         mTutorialFlag = sharedPrefsDefault.getBoolean("PrimerUsoJuegos", true);
-        PrimerNivel();
 
         animGameScore = new AnimGameScore(this, mAnimationWin);
         function_scroll = new ScrollFuntionGames(this);
         iniciarBarrido();
         gameControl = new GameControl(this);
-
+        PrimerNivel();
+        hideView();
     }
-
 
     @Override
     public void onBackPressed() {
@@ -329,7 +314,6 @@ public class WhichIsThePicto extends AppCompatActivity implements View
         AlertDialog dialog = dialogo1.create();
         dialog.show();
     }
-
 
     private void PrimerNivel() {
         liberaMemoria();
@@ -413,32 +397,18 @@ public class WhichIsThePicto extends AppCompatActivity implements View
         //animarReset();
         if (mJsonArrayTodosLosPictos != null) {
             Seleccion1.setCustom_Img(getResources().getDrawable(R.drawable.ic_help_outline_black_24dp));
-            cargarDatosValors(0);
-            cargarDatosValors(1);
-            cargarDatosValors(2);
-            cargarDatosValors(3);
-
+            loadValue();
             try {
-                //Cargas los pictos desde el json
-                //Seteamos el texto de las opciones
                 cargarDatosOpcion(model.getValue(0), Opcion1, 0);
                 cargarDatosOpcion(model.getValue(1), Opcion2, 1);
-             //   cargarDatosOpcion(model.getValue(2), Opcion3, 2);
-             //   cargarDatosOpcion(model.getValue(3), Opcion4, 3);
-
-
+                if (game.getGamelevel() >= 1)
+                    cargarDatosOpcion(model.getValue(2), Opcion3, 2);
+                if (game.getGamelevel() >= 2)
+                    cargarDatosOpcion(model.getValue(3), Opcion4, 3);
             } catch (Exception e) {
             }
         }
     }
-
-    //Handler para animar el Hablar cuando pasa cierto tiempo
-    private final Runnable animarGano = new Runnable() {
-        @Override
-        public void run() {
-            PrimerNivel();
-        }
-    };
 
     @Override
     public void onClick(View view) {
@@ -497,6 +467,10 @@ public class WhichIsThePicto extends AppCompatActivity implements View
             Drawable drawable = game.devolverCarita();
             drawable.setTint(getResources().getColor(R.color.colorWhite));
             mMenu.getItem(0).setIcon(drawable).setVisible(true);
+            if (game.isChangeLevel()) {
+                game.changeLevelGame();
+                loadLevel();
+            }
 
         } else {
             game.incrementWrong();
@@ -525,6 +499,7 @@ public class WhichIsThePicto extends AppCompatActivity implements View
             picto.setCustom_Color(getResources().getColor(R.color.LightGreen));
             handlerHablar.removeCallbacks(animarHablar);
             //animarGanador(picto);
+
             decirPicto.postDelayed(animarGano, 3000);
             //Seteo el puntaje
             model.refreshValueIndex();
@@ -532,6 +507,7 @@ public class WhichIsThePicto extends AppCompatActivity implements View
             setMenuScoreIcon();
             cantVecInc = 0;
             animGameScore.animateCorrect(picto, game.getSmiley(Juego.SATISFIED));
+
         } else {
             mediaPlayer.playOhOhSound();
             picto.setCustom_Img(getResources().getDrawable(R.drawable.ic_mal));
@@ -573,13 +549,13 @@ public class WhichIsThePicto extends AppCompatActivity implements View
     private void cargarDatosValors(int position) {
         int valor = (int) (Math.random() * mJsonArrayTodosLosPictos.length());
         boolean tieneValor = false;
-        if(model.validatePosition(position)){
-        for (int i = 0; i < model.getValueIndex().length; i++) {
-            if (model.isTheValue(i,valor))
-                tieneValor = true;
-        }
-        if (!tieneValor)
-            model.loadValue(position,valor);
+        if (model.validatePosition(position)) {
+            for (int i = 0; i < model.getValueIndex().length; i++) {
+                if (model.isTheValue(i, valor))
+                    tieneValor = true;
+            }
+            if (!tieneValor)
+                model.loadValue(position, valor);
         }
 
     }
@@ -592,7 +568,7 @@ public class WhichIsThePicto extends AppCompatActivity implements View
                     option.setCustom_Img(json.getIcono(mJsonArrayTodosLosPictos.getJSONObject(position)));
                     option.setCustom_Color(cargarColor(json.getTipo(mJsonArrayTodosLosPictos.getJSONObject(position))));
                     option.setCustom_Texto(json.getNombre(mJsonArrayTodosLosPictos.getJSONObject(position)));
-                    model.loadValue(pos,position);
+                    model.loadValue(pos, position);
                 } else {
                     position = devolverValor(Math.round((float) Math.random() * mJsonArrayTodosLosPictos.length()));
                     cargarDatosValors(pos);
@@ -600,17 +576,17 @@ public class WhichIsThePicto extends AppCompatActivity implements View
                 }
             } else {
                 position = devolverValor(Math.round((float) Math.random() * mJsonArrayTodosLosPictos.length()));
-                model.loadValue(pos,position);
+                model.loadValue(pos, position);
                 cargarDatosOpcion(position, option, pos);
             }
         } catch (JSONException e) {
             e.printStackTrace();
             position = devolverValor(Math.round((float) Math.random() * mJsonArrayTodosLosPictos.length()));
-            model.loadValue(pos,position);
+            model.loadValue(pos, position);
             cargarDatosOpcion(position, option, pos);
 
         } finally {
-            if (pos == 3|| pos == model.getValueIndex().length-1) {
+            if (pos == 3 || pos == model.getValueIndex().length - 1) {
                 elegirGanador();
                 Seleccion1.setCustom_Img(getResources().getDrawable(R.drawable.agregar_picto_transp));
                 Log.d(TAG, "cargarDatosOpcion: " + viewGanador.getCustom_Texto());
@@ -649,8 +625,8 @@ public class WhichIsThePicto extends AppCompatActivity implements View
         mMenu.getItem(1).setOnMenuItemClickListener(this::onMenuItemClick);
         mMenu.getItem(3).setOnMenuItemClickListener(this::onMenuItemClick);
 
-        setIcon(mMenu.getItem(3), mute, R.drawable.ic_volume_off_white_24dp, R.drawable.ic_volume_up_white_24dp);
-        setIcon(mMenu.getItem(1), isChecked, R.drawable.ic_live_help_white_24dp, R.drawable.ic_unhelp);
+        setIcon(mMenu.getItem(3), settings.isSoundOn(), R.drawable.ic_volume_off_white_24dp, R.drawable.ic_volume_up_white_24dp);
+        setIcon(mMenu.getItem(1), settings.isHelpFunction(), R.drawable.ic_live_help_white_24dp, R.drawable.ic_unhelp);
 
         return super.onCreateOptionsMenu(menu);
     }
@@ -660,10 +636,10 @@ public class WhichIsThePicto extends AppCompatActivity implements View
     public boolean onMenuItemClick(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_parar:
-                mute = !mute;
-                sharedPrefsDefault.edit().putBoolean("muteSound", mute).apply();
-                music.setMuted(mute);
-                setIcon(item, mute, R.drawable.ic_volume_off_white_24dp, R.drawable.ic_volume_up_white_24dp);
+                settings.enableSound(settings.changeStatus(settings.isSoundOn()));
+                sharedPrefsDefault.edit().putBoolean("muteSound", settings.isSoundOn()).apply();
+                music.setMuted(settings.isSoundOn());
+                setIcon(item, settings.isSoundOn(), R.drawable.ic_volume_off_white_24dp, R.drawable.ic_volume_up_white_24dp);
                 analitycsFirebase.customEvents("Touch", "WhichIsThePicto", "Mute");
                 return true;
             case R.id.score:
@@ -673,11 +649,11 @@ public class WhichIsThePicto extends AppCompatActivity implements View
                 analitycsFirebase.customEvents("Touch", "WhichIsThePicto", "Score Dialog");
                 return true;
             case R.id.check:
-                isChecked = !isChecked;
+                settings.enableHelpFunction(settings.changeStatus(settings.isHelpFunction()));
                 analitycsFirebase.customEvents("Touch", "WhichIsThePicto", "Help Action");
-                sharedPrefsDefault.edit().putBoolean(getString(R.string.str_pistas), isChecked).apply();
-                setIcon(item, isChecked, R.drawable.ic_live_help_white_24dp, R.drawable.ic_unhelp);
-                if (isChecked) {
+                sharedPrefsDefault.edit().putBoolean(getString(R.string.str_pistas), settings.isHelpFunction()).apply();
+                setIcon(item, settings.isHelpFunction(), R.drawable.ic_live_help_white_24dp, R.drawable.ic_unhelp);
+                if (settings.isHelpFunction()) {
                     handlerHablar.postDelayed(animarHablar, 4000);
                     dialogo.mostrarFrase(getString(R.string.help_function));
                 } else {
@@ -779,13 +755,55 @@ public class WhichIsThePicto extends AppCompatActivity implements View
     }
 
     private void setMenuScoreIcon() {
-        Drawable drawable=null;
+        Drawable drawable = null;
         if (game != null)
-            drawable=game.devolverCarita();
+            drawable = game.devolverCarita();
         if (game.getScore() == 0) {
             drawable = getResources().getDrawable(R.drawable.ic_sentiment_very_satisfied_white_24dp);
         }
         drawable.setTint(this.getResources().getColor(R.color.colorWhite));
         scoreItem.setIcon(drawable);
     }
+
+    public void hideView() {
+        if (game.getGamelevel() == 0) {
+            Opcion3.setVisibility(View.INVISIBLE);
+            Opcion4.setVisibility(View.INVISIBLE);
+        } else if (game.getGamelevel() == 1) {
+            Opcion4.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    public void loadLevel() {
+        switch (game.getGamelevel()) {
+            case 0:
+                model.setSize(2);
+                model.createArray();
+                model.refreshValueIndex();
+                break;
+            case 1:
+                model.setSize(3);
+                model.createArray();
+                model.refreshValueIndex();
+                Opcion3.setVisibility(View.VISIBLE);
+                break;
+            case 2:
+                model.setSize(4);
+                model.createArray();
+                model.refreshValueIndex();
+                Opcion4.setVisibility(View.VISIBLE);
+                break;
+        }
+    }
+
+    public void loadValue() {
+        cargarDatosValors(0);
+        cargarDatosValors(1);
+        if (game.getGamelevel() >= 1)
+            cargarDatosValors(2);
+        if (game.getGamelevel() >= 2)
+            cargarDatosValors(3);
+
+    }
+
 }

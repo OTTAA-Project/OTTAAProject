@@ -107,7 +107,6 @@
             >
 
         </com.stonefacesoft.pictogramslibrary.view.PictoView>
-
         <com.stonefacesoft.pictogramslibrary.view.PictoView
             android:id="@+id/Guess4"
             android:layout_width="0dp"
@@ -116,25 +115,8 @@
             android:layout_marginStart="@dimen/activity_horizontal_margin"
             android:layout_marginEnd="@dimen/activity_horizontal_margin"
             app:layout_constraintBottom_toBottomOf="@id/Guess1"
-            app:layout_constraintEnd_toStartOf="@id/Guess5"
-            app:layout_constraintStart_toEndOf="@id/Guess3"
-            app:layout_constraintTop_toTopOf="@id/Guess1"
-            custom:Imagen="1"
-            custom:Texto="Hola"
-            android:tag="Guess4"
-            >
-
-        </com.stonefacesoft.pictogramslibrary.view.PictoView>
-        <com.stonefacesoft.pictogramslibrary.view.PictoView
-            android:id="@+id/Guess5"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:padding="5dp"
-            android:layout_marginStart="@dimen/activity_horizontal_margin"
-            android:layout_marginEnd="@dimen/activity_horizontal_margin"
-            app:layout_constraintBottom_toBottomOf="@id/Guess1"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/Guess4"
+            app:layout_constraintStart_toEndOf="@id/Guess3"
             app:layout_constraintTop_toTopOf="@id/Guess1"
             custom:Imagen="1"
             custom:Texto="Hola"
@@ -209,7 +191,6 @@
             >
 
         </com.stonefacesoft.pictogramslibrary.view.PictoView>
-
         <com.stonefacesoft.pictogramslibrary.view.PictoView
             android:id="@+id/Option4"
             android:layout_width="0dp"
@@ -220,25 +201,8 @@
             android:layout_marginStart="@dimen/activity_horizontal_margin"
             android:layout_marginEnd="@dimen/activity_horizontal_margin"
             app:layout_constraintBottom_toBottomOf="@id/Option1"
-            app:layout_constraintEnd_toStartOf="@id/Option5"
-            app:layout_constraintStart_toEndOf="@id/Option3"
-            app:layout_constraintTop_toTopOf="@id/Option1"
-            android:tag="Option4"
-            >
-
-        </com.stonefacesoft.pictogramslibrary.view.PictoView>
-        <com.stonefacesoft.pictogramslibrary.view.PictoView
-            android:id="@+id/Option5"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:padding="5dp"
-            custom:Imagen="2"
-            custom:Texto="Hola"
-            android:layout_marginStart="@dimen/activity_horizontal_margin"
-            android:layout_marginEnd="@dimen/activity_horizontal_margin"
-            app:layout_constraintBottom_toBottomOf="@id/Option1"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/Option4"
+            app:layout_constraintStart_toEndOf="@id/Option3"
             app:layout_constraintTop_toTopOf="@id/Option1"
             android:tag="Option4"
             >

@@ -13,6 +13,8 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 
+import androidx.annotation.Nullable;
+
 import com.stonefacesoft.ottaa.Custom_Picto;
 import com.stonefacesoft.ottaa.Dialogos.DialogGameProgressInform;
 import com.stonefacesoft.ottaa.JSONutils.Json;
@@ -24,8 +26,6 @@ import com.stonefacesoft.pictogramslibrary.view.PictoView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import androidx.annotation.Nullable;
 
 public class MatchPictograms extends GameViewSelectPictograms {
 
@@ -111,9 +111,9 @@ public class MatchPictograms extends GameViewSelectPictograms {
                     hacerClickOpcion(false);
                     break;
                 case R.id.action_parar:
-                    mute=!mute;
-                    music.setMuted(mute);
-                    sharedPrefsDefault.edit().putBoolean("muteSound",mute).apply();
+                    settings.enableSound(settings.changeStatus(settings.isSoundOn()));
+                    music.setMuted(settings.isSoundOn());
+                    sharedPrefsDefault.edit().putBoolean("muteSound",settings.isSoundOn()).apply();
 //                    if(mute)
 //                        sound_on_off.setImageDrawable(getResources().getDrawable(R.drawable.ic_volume_off_white_24dp));
 //                    else
@@ -260,7 +260,7 @@ public class MatchPictograms extends GameViewSelectPictograms {
 
                 }
                 if (verificarSiHayQueHacerReinicio()) {
-                    if (isRepeatlection) {
+                    if (settings.isRepeat()) {
                         repetirLeccion = !repetirLeccion;
                     }
                     cargarPuntos();
@@ -338,7 +338,7 @@ public class MatchPictograms extends GameViewSelectPictograms {
 
 
     protected void hacerClickOpcion(boolean esPicto){
-        if(isChecked)
+        if(settings.isHelpFunction())
             handlerHablar.postDelayed(animarHablar,1000);
         if(lastButton!=null&&lastPictogram!=null) {
             if (!repetirLeccion)
@@ -361,7 +361,7 @@ public class MatchPictograms extends GameViewSelectPictograms {
                         }, 2500);
                     }else{
                         lastButton=null;
-                        if (isRepeatlection) {
+                        if (settings.isRepeat()) {
                             repetirLeccion = !repetirLeccion;
                         }
                         cargarPuntos();
@@ -565,17 +565,17 @@ public class MatchPictograms extends GameViewSelectPictograms {
         switch (item.getItemId()){
             case R.id.action_parar:
                 analyticsFirebase.customEvents("Touch","Match Pictograms","Mute");
-                mute=!mute;
-                sharedPrefsDefault.edit().putBoolean("muteSound",mute).apply();
-                music.setMuted(mute);
-                setIcon(item,mute,R.drawable.ic_volume_off_white_24dp,R.drawable.ic_volume_up_white_24dp);
+                settings.enableSound(settings.changeStatus(settings.isSoundOn()));
+                sharedPrefsDefault.edit().putBoolean("muteSound",settings.isSoundOn()).apply();
+                music.setMuted(settings.isSoundOn());
+                setIcon(item,settings.isSoundOn(),R.drawable.ic_volume_off_white_24dp,R.drawable.ic_volume_up_white_24dp);
                 return true;
             case R.id.check:
                 analyticsFirebase.customEvents("Touch","Match Pictograms","Help Action");
-                isChecked=!isChecked;
-                sharedPrefsDefault.edit().putBoolean(getString(R.string.str_pistas), isChecked).apply();
-                setIcon(mMenu.getItem(1),isChecked,R.drawable.ic_live_help_white_24dp,R.drawable.ic_unhelp);
-                if (isChecked) {
+                settings.enableHelpFunction(settings.changeStatus(settings.isHelpFunction()));
+                sharedPrefsDefault.edit().putBoolean(getString(R.string.str_pistas), settings.isHelpFunction()).apply();
+                setIcon(mMenu.getItem(1),settings.isHelpFunction(),R.drawable.ic_live_help_white_24dp,R.drawable.ic_unhelp);
+                if (settings.isHelpFunction()) {
                     handlerHablar.postDelayed(animarHablar, 4000);
                     dialogo.mostrarFrase(getString(R.string.help_function));
                 } else {
@@ -591,11 +591,11 @@ public class MatchPictograms extends GameViewSelectPictograms {
                 return true;
             case R.id.repeat:
                 analyticsFirebase.customEvents("Touch","Match Pictograms","Repeat");
-                isRepeatlection=!isRepeatlection;
-                sharedPrefsDefault.edit().putBoolean("repetir",isRepeatlection).apply();
+                settings.enableRepeatFunction(settings.changeStatus(settings.isRepeat()));
+                sharedPrefsDefault.edit().putBoolean("repetir",settings.isRepeat()).apply();
 
-                setIcon(item,isRepeatlection,R.drawable.ic_repeat_white_24dp,R.drawable.ic_unrepeat_ic_2);
-                if(isRepeatlection){
+                setIcon(item,settings.isRepeat(),R.drawable.ic_repeat_white_24dp,R.drawable.ic_unrepeat_ic_2);
+                if(settings.isRepeat()){
                     dialogo.mostrarFrase(getString(R.string.repeat_function_activated));
                 }
                 else {
