@@ -2211,10 +2211,10 @@ public class Principal extends AppCompatActivity implements View
                         }
 
                    break;
-                case R.id.buttonAvatar:
-                    myTTS.hablar("Soy el avatar");
-                    //TODO aca va el avatar
-                    break;
+//                case R.id.buttonAvatar:
+//                    //myTTS.hablar("Soy el avatar");
+//                    //TODO aca va el avatar
+//                    break;
                 default:
                     Log.d(TAG, "onClick: Oracion:" + Oracion);
                     if(barridoPantalla.isBarridoActivado()&&(barridoPantalla.isScrollMode()||barridoPantalla.isAvanzarYAceptar()))
