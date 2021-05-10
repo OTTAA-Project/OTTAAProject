@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
@@ -200,20 +201,21 @@ public class MatchPictograms extends GameViewSelectPictograms {
         if(!numeros.contains(valor))
             numeros.add(valor);
         else {
-            cargarValores(pos,0);
+            if(model.getSize()==2){
+                if(numeros.size()==1)
+                    Log.e(TAG, "cargarValores: "+numeros.get(0) );
+                for (int i = 0; i < model.getValueIndex().length ; i++) {
+                        if(!numeros.contains(model.getValueIndex()[i]))
+                            cargarTextoBoton(model.getValueIndex()[i],pos);
+                }
+            }
+            else
+              cargarValores(pos);
         }
 
     }
 
-    protected void cargarValores(int pos,int n){
-        if(n<2){
-            int valor = model.elegirGanador();
-            cargarTextoBoton(valor,pos);
-            if(!numeros.contains(valor))
-                cargarValores(pos,n++);
-        }
 
-    }
 
 
 
