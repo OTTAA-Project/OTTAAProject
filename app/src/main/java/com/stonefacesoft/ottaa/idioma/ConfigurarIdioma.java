@@ -15,15 +15,14 @@ import java.util.Locale;
 
 public class ConfigurarIdioma {
     private Context mContex;
-    public ConfigurarIdioma(Context context,String loc)
-    {
+    public ConfigurarIdioma(Context context,String loc) {
 
         Locale locale=new Locale(loc);
         Configuration config=new Configuration();
         Resources resources=context.getResources();
         config.locale=locale;
        // context.getApplicationContext().getResources().updateConfiguration(config,context.getResources().getDisplayMetrics());
-        mContex=context;
+        this.mContex=context;
         resources.updateConfiguration(config, resources.getDisplayMetrics());
         myContextWrapper wrapper=new myContextWrapper(context);
         wrapper.wrap(mContex,loc);

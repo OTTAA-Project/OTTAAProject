@@ -1,12 +1,14 @@
 package com.stonefacesoft.ottaa.Adapters;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +28,7 @@ import com.stonefacesoft.ottaa.Helper.ItemTouchHelperAdapter;
 import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.utils.Constants;
+import com.stonefacesoft.ottaa.utils.JSONutils;
 import com.stonefacesoft.pictogramslibrary.Classes.Pictogram;
 import com.stonefacesoft.pictogramslibrary.utils.GlideAttatcher;
 
@@ -259,9 +262,8 @@ public class GaleriaPictosAdapter extends RecyclerView.Adapter<GaleriaPictosAdap
 
             Bitmap mBitmap;
             try {
-
-
-                mStringTexto = json.getNombre(mArrayPictos.getJSONObject(mPosition));
+                SharedPreferences sharedPrefsDefault = PreferenceManager.getDefaultSharedPreferences(mContext);
+                mStringTexto = JSONutils.getNombre(mArrayPictos.getJSONObject(mPosition),sharedPrefsDefault.getString(mContext.getString(R.string.str_idioma), "en"));
                 mDrawableIcono = json.getIcono(mArrayPictos.getJSONObject(mPosition));
 
                 if (mDrawableIcono == null)
@@ -292,7 +294,7 @@ public class GaleriaPictosAdapter extends RecyclerView.Adapter<GaleriaPictosAdap
                     loadDrawable(glideAttatcher,pictogram,mHolder.mPictoImageView);
                     mHolder.mPictoImageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
                     try {
-                        mHolder.mPictoImageColor.setColorFilter(cargarColor(json.getTipo(mArrayPictos.getJSONObject(mPosition))));
+                        mHolder.mPictoImageColor.setColorFilter(cargarColor(JSONutils.getTipo(mArrayPictos.getJSONObject(mPosition))));
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }

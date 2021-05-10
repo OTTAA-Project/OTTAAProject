@@ -10,6 +10,7 @@ import com.stonefacesoft.ottaa.Adapters.GaleriaPictosAdapter;
 import com.stonefacesoft.ottaa.Helper.SimpleItemTouchHelperCallback;
 import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.utils.Constants;
+import com.stonefacesoft.ottaa.utils.JSONutils;
 
 import org.json.JSONArray;
 
@@ -44,7 +45,7 @@ public class Picto_Recycler_View_Sort extends Custom_recyclerView{
 
     public void guardarOrden() {
         JSONArray grupos = json.getmJSONArrayTodosLosGrupos();
-        json.setHijosGrupo2(grupos, galeriaPictos2.getmArrayPictos(), button);
+        JSONutils.setHijosGrupo2(grupos, galeriaPictos2.getmArrayPictos(), button);
         if (!json.guardarJson(Constants.Grupos))
             Log.e(TAG, "Error al guardar los grupos guardarOrden: ");
     }

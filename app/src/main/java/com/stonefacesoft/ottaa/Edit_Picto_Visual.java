@@ -76,6 +76,7 @@ import com.stonefacesoft.ottaa.utils.Constants;
 import com.stonefacesoft.ottaa.utils.Custom_button;
 import com.stonefacesoft.ottaa.utils.Firebase.AnalyticsFirebase;
 import com.stonefacesoft.ottaa.utils.IntentCode;
+import com.stonefacesoft.ottaa.utils.JSONutils;
 import com.stonefacesoft.ottaa.utils.exceptions.FiveMbException;
 import com.stonefacesoft.ottaa.utils.textToSpeech;
 import com.stonefacesoft.ottaa.utils.traducirTexto;
@@ -123,8 +124,6 @@ public class Edit_Picto_Visual extends AppCompatActivity implements View.OnClick
 
     //ID del picto editado y el texto del mismo
 
-    //Declaracion
-    ArchivoImagenes archi;
 
     EditText etOutLoud;
     //    EditText etNombrePicto;
@@ -309,7 +308,7 @@ public class Edit_Picto_Visual extends AppCompatActivity implements View.OnClick
                 ex.printStackTrace();
                 Log.e(TAG, "onCreate: Error" + ex.getMessage());
             }
-            texto = json.getNombre(jsonObject);
+            texto = JSONutils.getNombre(jsonObject,sharedPrefsDefault.getString(mContext.getString(R.string.str_idioma), "en"));
             Log.d(TAG, "onCreate: Nombre: " + texto);
 
             try {
@@ -324,7 +323,8 @@ public class Edit_Picto_Visual extends AppCompatActivity implements View.OnClick
             jsonObject = json.getPictoFromId2(PictoID);
             if (jsonObject != null) {
                 draw = json.getIcono(jsonObject);
-                tipo = json.getTipo(jsonObject);
+                tipo = JSONutils.getTipo(jsonObject);
+
             }
         }
 
@@ -1342,10 +1342,10 @@ public class Edit_Picto_Visual extends AppCompatActivity implements View.OnClick
                 finish();
             } else {
 
-                json.setNombre(jsonObject, Picto.getCustom_Texto(), traducirTexto.getTexto(), traducirTexto.getmSource(), traducirTexto.getmTarget());
-                json.setTipo(jsonObject, tipo);
+                JSONutils.setNombre(jsonObject, Picto.getCustom_Texto(), traducirTexto.getTexto(), traducirTexto.getmSource(), traducirTexto.getmTarget());
+                JSONutils.setTipo(jsonObject, tipo);
                 if (mCurrentPhotoPath != null) {
-                    json.setImagen(jsonObject, mCurrentPhotoPath, urlfoto, pushKey);
+                    JSONutils.setImagen(jsonObject, mCurrentPhotoPath, urlfoto, pushKey);
                 }
                 if (esGrupo) {
                     analyticsFirebase.customEvents("Pictogram", "Editar Grupos", "Edit Group");
@@ -1451,14 +1451,6 @@ public class Edit_Picto_Visual extends AppCompatActivity implements View.OnClick
         super.onTrimMemory(level);
 
     }
-
-
-
-
-
-    public void setTourguide(){}
-
-
 
 }
 

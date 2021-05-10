@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.utils.Constants;
+import com.stonefacesoft.ottaa.utils.JSONutils;
 import com.stonefacesoft.ottaa.utils.exceptions.FiveMbException;
 import com.stonefacesoft.pictogramslibrary.utils.GlideAttatcher;
 
@@ -75,7 +76,7 @@ public class gridViewAdapter extends ArrayAdapter {
 
         data1.addAll(data);//tomo todosu el listado
         try {
-            data2 = json.getHijosGrupo2(json.readJSONArrayFromFile(Constants.ARCHIVO_GRUPOS).getJSONObject(Json.getIDfromNombre("ALL", json.readJSONArrayFromFile(Constants.ARCHIVO_GRUPOS))));
+            data2 = json.getHijosGrupo2(json.readJSONArrayFromFile(Constants.ARCHIVO_GRUPOS).getJSONObject(JSONutils.getIDfromNombre("ALL", json.readJSONArrayFromFile(Constants.ARCHIVO_GRUPOS))));
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -136,15 +137,15 @@ public class gridViewAdapter extends ArrayAdapter {
             try {
                 new CargarRow(position, holder).execute();
                 holder.imageTitle.setText(data.get(position).getString("name"));
-                holder.colorItem.setColorFilter(cargarColor(json.getWorlType(data.get(position))));
+                holder.colorItem.setColorFilter(cargarColor(JSONutils.getWordType(data.get(position))));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }else
         {
             new CargarImg(position, holder).execute();
-            holder.imageTitle.setText(json.getNombre(data.get(position)));
-            holder.colorItem.setColorFilter(cargarColor(json.getWorlType(data.get(position))));
+            holder.imageTitle.setText(JSONutils.getNombre(data.get(position),sharedPrefsDefault.getString(context.getString(R.string.str_idioma), "en")));
+            holder.colorItem.setColorFilter(cargarColor(JSONutils.getWordType(data.get(position))));
 
         }
 //        }

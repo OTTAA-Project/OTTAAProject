@@ -38,6 +38,7 @@ import com.stonefacesoft.ottaa.utils.CustomToast;
 import com.stonefacesoft.ottaa.utils.Firebase.AnalyticsFirebase;
 import com.stonefacesoft.ottaa.utils.Games.AnimGameScore;
 import com.stonefacesoft.ottaa.utils.Games.Juego;
+import com.stonefacesoft.ottaa.utils.JSONutils;
 import com.stonefacesoft.ottaa.utils.Ttsutils.UtilsTTS;
 import com.stonefacesoft.pictogramslibrary.utils.GlideAttatcher;
 import com.stonefacesoft.pictogramslibrary.view.PictoView;
@@ -276,7 +277,7 @@ public class GameViewSelectPictograms extends AppCompatActivity implements View.
             numeros.add(value);
             try {
                 pictogramas[pos] = hijos.getJSONObject(value);
-                if(!json.getNombre(pictogramas[pos]).toLowerCase().equals("error"))
+                if(!JSONutils.getNombre(pictogramas[pos],sharedPrefsDefault.getString(getApplicationContext().getString(R.string.str_idioma), "en")).toLowerCase().equals("error"))
                     cargarOpcion(pos);
                 else
                     selectRandomPictogram(pos);
@@ -314,7 +315,7 @@ public class GameViewSelectPictograms extends AppCompatActivity implements View.
             int valor = (int) Math.round(Math.random() * 3 + 0);
             if (!numeros.contains(valor)) {
                 numeros.add(valor);
-                name = json.getNombre(pictogramas[valor]);
+                name = JSONutils.getNombre(pictogramas[valor],sharedPrefsDefault.getString(getApplicationContext().getString(R.string.str_idioma), "en"));
                 mUtilsTTS.hablar(name);
             } else {
                 decirPictoAleatorio();

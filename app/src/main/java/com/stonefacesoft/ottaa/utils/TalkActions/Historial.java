@@ -6,6 +6,7 @@ import android.util.Log;
 import com.stonefacesoft.ottaa.Custom_Picto;
 import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.NLG;
+import com.stonefacesoft.ottaa.utils.JSONutils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -28,7 +29,7 @@ public class Historial {
         this.mContext = mContext;
         this.json = json;
         listOfPictograms = new ArrayList<>();
-        nlg = new NLG(mContext);
+        nlg = new NLG();
     }
 
     public ArrayList<JSONObject> getListadoPictos() {
@@ -84,7 +85,7 @@ public class Historial {
         String Phrase="";
         nlg.NuevaFrase();
         for (int i = 0; i < listOfPictograms.size(); i++) {
-            nlg.CargarFrase(listOfPictograms.get(i));
+            nlg.CargarFrase(listOfPictograms.get(i), JSONutils.getTipo(listOfPictograms.get(i)));
         }
         Phrase=nlg.ArmarFrase();
         Log.d(TAG, "talkWithtNLG: "+ Phrase );

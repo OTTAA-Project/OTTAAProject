@@ -38,32 +38,8 @@ public final class Constants {
             GEOFENCE_EXPIRATION_IN_HOURS * 60 * 60 * 1000;
     public static final float GEOFENCE_RADIUS_IN_METERS = 100; // 1 mile, 1.6 km
 
-    /**
-     * Map for storing information about airports in the San Francisco bay area.
-     */
-    public static final HashMap<String, LatLng> BAY_AREA_LANDMARKS = new HashMap<String, LatLng>();
-
-    static {
-        // Escuela.
-        BAY_AREA_LANDMARKS.put("Escuela", new LatLng(25.101077, 55.1725988));
-
-        // Googleplex.
-        BAY_AREA_LANDMARKS.put("Mall", new LatLng(25.1196675, 55.201025));
-
-        // Casa.
-        BAY_AREA_LANDMARKS.put("Casa", new LatLng(25.2171093, 55.2794741));
-    }
-
     //Constants FOR RESULT
     public static final int RC_SIGN_IN = 400;
-
-
-
-
-
-
-
-
 
 
     //2 mins

@@ -34,7 +34,7 @@ public class UnitTestingJson extends TestCase {
             json.initJsonArrays();
 
             pictos=json.getmJSONArrayTodosLosPictos();
-            json.crearGrupo("hola","hello","",0);
+            //json.crearGrupo("hola","hello","",0);
 
             Log.e("TAG", "JsonTesting: "+json.getmJSONArrayTodosLosGrupos().toString() );
         } catch (JSONException e) {

@@ -2,12 +2,14 @@ package com.stonefacesoft.ottaa.Adapters;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +22,7 @@ import com.stonefacesoft.ottaa.FirebaseRequests.SubirArchivosFirebase;
 import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.utils.Games.Juego;
+import com.stonefacesoft.ottaa.utils.JSONutils;
 import com.stonefacesoft.pictogramslibrary.Classes.Pictogram;
 import com.stonefacesoft.pictogramslibrary.utils.GlideAttatcher;
 
@@ -139,7 +142,8 @@ public class GaleriaJuegosAdapter extends RecyclerView.Adapter <GaleriaJuegosAda
             Bitmap mBitmap;
             try {
                 json = Json.getInstance();
-                mStringTexto = json.getNombre(json.getmJSONArrayTodosLosGrupos().getJSONObject(mPosition));
+                SharedPreferences sharedPrefsDefault = PreferenceManager.getDefaultSharedPreferences(mContext);
+                mStringTexto = JSONutils.getNombre(json.getmJSONArrayTodosLosGrupos().getJSONObject(mPosition),sharedPrefsDefault.getString(mContext.getString(R.string.str_idioma), "en"));
                 mDrawableIcono = json.getIcono(json.getmJSONArrayTodosLosGrupos().getJSONObject(mPosition));
                 if (mDrawableIcono == null)
                     mDrawableIcono = AppCompatResources.getDrawable(mContext, R.drawable.ic_cloud_download_orange);

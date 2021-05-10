@@ -45,7 +45,6 @@ import com.stonefacesoft.ottaa.Interfaces.FirebaseSuccessListener;
 import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.VincularFrases;
 import com.stonefacesoft.ottaa.utils.CustomToast;
-import com.stonefacesoft.ottaa.utils.DatosDeUso;
 import com.stonefacesoft.ottaa.utils.Firebase.AnalyticsFirebase;
 import com.stonefacesoft.ottaa.utils.IntentCode;
 import com.stonefacesoft.ottaa.utils.ReturnPositionItem;
@@ -68,7 +67,6 @@ public class NewDialogsOTTAA implements FirebaseSuccessListener {
 
     private Activity mActivity;
     private GestionarBitmap mGestionarBitmap;
-    private DatosDeUso mDatosDeUso;
     private Dialog dialog;
     private RecyclerView mRecyclerViewFrases, mRecyclerViewTags;
     private ArrayList<FavModel> mArrayListFavoritos = new ArrayList<>();
@@ -485,25 +483,25 @@ public class NewDialogsOTTAA implements FirebaseSuccessListener {
         protected Void doInBackground(Void... voids) {
 
             mGestionarBitmap = new GestionarBitmap(mActivity);
-            try {
-                mDatosDeUso = new DatosDeUso(mActivity);
-                List frases = mDatosDeUso.getArrayListFrasesMasUsadas(4);
-                for (int i = 0; i < frases.size(); i++) {
-                    FavModel model = new FavModel();
-                    if (mGestionarBitmap.getBitmapDeFrase(mDatosDeUso.getFrasesOrdenadas().get(i)) != null) {
-
-                        model.setImagen(mGestionarBitmap.getBitmapDeFrase(mDatosDeUso.getFrasesOrdenadas().get(i)));
-                        try {
-                            model.setTexto(mDatosDeUso.getFrasesOrdenadas().get(i).getString("frase"));
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                        mArrayListFavoritos.add(model);
-                    }
-                }
-            } catch (FiveMbException e) {
-                e.printStackTrace();
-            }
+//            try {
+//                mDatosDeUso = new DatosDeUso(mActivity);
+//                List frases = mDatosDeUso.getArrayListFrasesMasUsadas(4);
+//                for (int i = 0; i < frases.size(); i++) {
+//                    FavModel model = new FavModel();
+//                    if (mGestionarBitmap.getBitmapDeFrase(mDatosDeUso.getFrasesOrdenadas().get(i)) != null) {
+//
+//                        model.setImagen(mGestionarBitmap.getBitmapDeFrase(mDatosDeUso.getFrasesOrdenadas().get(i)));
+//                        try {
+//                            model.setTexto(mDatosDeUso.getFrasesOrdenadas().get(i).getString("frase"));
+//                        } catch (JSONException e) {
+//                            e.printStackTrace();
+//                        }
+//                        mArrayListFavoritos.add(model);
+//                    }
+//                }
+//            } catch (FiveMbException e) {
+//                e.printStackTrace();
+//            }
 
 
 

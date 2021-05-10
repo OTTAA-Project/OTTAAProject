@@ -52,9 +52,8 @@ public class UnitTestingTags extends TestCase {
         picto2 = pictograms.generatePictogram(2,"es","Jugar con","play with",3);
         picto3 = pictograms.generatePictogram(3,"es","juguete","toy",2);
 
-        json.setEdad(picto0, Edad.JOVEN);
-        json.setHorario(picto0, Horario.TARDE);
-        json.setPosicion(picto0, Posicion.CASA);
+        //json.setEdad(picto0, Edad.JOVEN);
+        //json.setHorario(picto0, Horario.TARDE);
 
         pictograms.relacionarObjeto(picto1,picto0);
         pictograms.relacionarObjeto(picto1,picto2);

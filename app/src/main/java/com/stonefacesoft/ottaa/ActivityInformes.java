@@ -306,7 +306,8 @@ public class ActivityInformes extends AppCompatActivity implements CloudFunction
         // Display the first 500 characters of the response string.
         //Log.e(TAG, "onResponse: "+response);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
-                this::parseReponse, new Response.ErrorListener() {
+                this::
+                        parseReponse, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e(TAG, "onResponse: Volley Error: " + error.getMessage());
@@ -316,7 +317,6 @@ public class ActivityInformes extends AppCompatActivity implements CloudFunction
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                //TODO revisar que este assert este bien
                 assert user != null;
                 params.put("UserID", user.getEmail());
                 return params;

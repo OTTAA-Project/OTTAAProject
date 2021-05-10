@@ -24,11 +24,9 @@ import simplenlg.realiser.english.Realiser;
  */
 public class NLG {
 
-    Lexicon lexicon = Lexicon.getDefaultLexicon();
-    NLGFactory nlgFactory = new NLGFactory(lexicon);
-    Realiser realiser = new Realiser(lexicon);
-
-    Context mContext;
+    Lexicon lexicon ;
+    NLGFactory nlgFactory ;
+    Realiser realiser ;
 
     //Flags para armar la frase
     private boolean HayVerbo;
@@ -53,14 +51,12 @@ public class NLG {
 
     private static final String TAG = "NLG";
 
-    Json json;
-
-    public NLG(Context context){
-        this.mContext = context;
-        Json.getInstance().setmContext(mContext);
-        this.json = Json.getInstance();
-
+    public NLG(){
+        this.lexicon = Lexicon.getDefaultLexicon();
+        this.nlgFactory = new NLGFactory(lexicon);
+        this.realiser = new Realiser(lexicon);
     }
+
     public void NuevaFrase(){
         HayVerbo = false;
         HayObjeto = false;
@@ -84,14 +80,12 @@ public class NLG {
 
     //Se carga cada palabra y se analiza que parte forma de una oracion simple, y se prepara para ser
     // procesada por el NLG, cuando se necesite la frase lista se llama a ArmarFrase que la frase lista.
-    public boolean CargarFrase (JSONObject opcion) {
+    public boolean CargarFrase (JSONObject opcion, int tipo) {
         try {
             if (opcion == null) {
                 return false;
             }
-            Log.d(TAG, "CargarFrase: nombre: " + json.getNombre(opcion));
-
-            switch (json.getTipo(opcion)) {
+            switch (tipo) {
                 case 3:
                     Log.d(TAG, "CargarFrase: Green 'Actions'");
                     if (HayVerbo) {

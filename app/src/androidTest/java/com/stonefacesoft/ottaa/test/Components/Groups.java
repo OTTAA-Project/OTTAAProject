@@ -23,7 +23,7 @@ public class Groups {
     }
 
     public void deleteRelationship(JSONObject father,int idChild){
-        json.desvincularJson(father,idChild);
+        //json.desvincularJson(father,idChild);
     }
 
     public JSONObject createGroup(int id, String locale, String localeName, String englisName, int tipo) {

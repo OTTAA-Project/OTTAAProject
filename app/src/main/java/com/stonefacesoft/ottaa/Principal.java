@@ -105,6 +105,7 @@ import com.stonefacesoft.ottaa.utils.Firebase.CrashlyticsUtils;
 import com.stonefacesoft.ottaa.utils.HandlerComunicationClass;
 import com.stonefacesoft.ottaa.utils.InmersiveMode;
 import com.stonefacesoft.ottaa.utils.IntentCode;
+import com.stonefacesoft.ottaa.utils.JSONutils;
 import com.stonefacesoft.ottaa.utils.ObservableInteger;
 import com.stonefacesoft.ottaa.utils.TalkActions.Historial;
 import com.stonefacesoft.ottaa.utils.TraducirFrase;
@@ -154,7 +155,7 @@ public class Principal extends AppCompatActivity implements View
     public Uri bajarGrupos;
     private NLG nlg;
     private boolean nlgFlag;
-    private Indicadores indicadores;
+
     static private boolean isConnected;
 
     private Button Registro;
@@ -247,7 +248,7 @@ public class Principal extends AppCompatActivity implements View
 
     /* Client used to interact with Google APIs. */
 
-    private Picto Agregar;
+    private Custom_Picto Agregar;
 
     //InputStream
     private FileInputStream pictos, grupos, frasesGuardadas;
@@ -696,14 +697,7 @@ public class Principal extends AppCompatActivity implements View
         image1.setVisibility(View.VISIBLE);
         image1.setPadding(20, 20, 20, 20);
         image1.setImageDrawable(getResources().getDrawable(R.drawable.antipatico));
-        //Manda el mail con las estadisticas de uso todos los vierness
-        try {
-            indicadores = new Indicadores(getContext());
-        } catch (FiveMbException e) {/*
-            WeeklyBackup wb = new WeeklyBackup(this);
-            wb.weeklyBackupDialog(false, R.string.pref_summary_backup_principal, false);*/
 
-        }
         //Vibraicion inicial
         long[] patron = {0, 10, 20, 15, 20, 20};
         vibe.vibrate(patron, -1);
@@ -711,7 +705,11 @@ public class Principal extends AppCompatActivity implements View
         //Inicializo hora del sistema
         int tiempoFormateado = Integer.parseInt(df.format(SystemTime.getTime()));
 
-        Agregar = new Picto(0, getResources().getDrawable(R.drawable.agregar_picto_transp), "", "", R.color.Black);
+        Agregar = new Custom_Picto(this);
+        Agregar.setCustom_Color(R.color.Black);
+        Agregar.setCustom_Texto("");
+        Agregar.setCustom_Img(getDrawable(R.drawable.agregar_picto_transp));
+        Agregar.setIdPictogram(0);
 
         // Se fija si esta habilitado o desabilitado editPicto
         editarPicto = sharedPrefsDefault.getBoolean(getString(R.string.str_editar_picto), true);
@@ -745,7 +743,7 @@ public class Principal extends AppCompatActivity implements View
         boolean primerUso = sharedPrefs.getBoolean("PrimerUso", false);
 
         CargarOpciones(json, pictoPadre, cuentaMasPictos);   // y despues cargamos las opciones con el orden correspondiente
-        nlg = new NLG(getApplicationContext());
+        nlg = new NLG();
         ResetSeleccion();
         mute = sharedPrefsDefault.getBoolean("mBoolMute", true);
         sharedPrefsDefault.edit().putBoolean("usuario logueado", true).apply();
@@ -942,10 +940,10 @@ public class Principal extends AppCompatActivity implements View
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                intent.putExtra("Texto", json.getNombre(onLongOpcion));
+                intent.putExtra("Texto", JSONutils.getNombre(onLongOpcion,sharedPrefsDefault.getString(getString(R.string.str_idioma), "en")));
                 intent.putExtra("Sel", 1);
-                intent.putExtra("Nombre", json.getNombre(onLongOpcion));
-                intent.putExtra("Color", cargarColor(json.getTipo(onLongOpcion)));
+                intent.putExtra("Nombre", JSONutils.getNombre(onLongOpcion,sharedPrefsDefault.getString(getString(R.string.str_idioma), "en")));
+                intent.putExtra("Color", cargarColor(JSONutils.getTipo(onLongOpcion)));
                 myTTS.hablar(getString(R.string.editar_pictogram));
 
                 //Abrir pantalla de edicion de pictograma
@@ -1302,7 +1300,7 @@ public class Principal extends AppCompatActivity implements View
 
 
     void CargarOracion(JSONObject jsonObject) {
-        Oracion = Oracion + json.getNombre(jsonObject) + " ";
+        Oracion = Oracion + JSONutils.getNombre(jsonObject,sharedPrefsDefault.getString(getString(R.string.str_idioma), "en")) + " ";
         Log.d(TAG, "CargarOracion: " + Oracion);
     }
 
@@ -1379,25 +1377,25 @@ public class Principal extends AppCompatActivity implements View
      * Inicializa la barra de seleccion poniendo la imagen por defecto
      */
     private void inicializar_seleccion() {
-        Seleccion1.setImageDrawable(Agregar.getIcono());
+        Seleccion1.setImageDrawable(Agregar.getCustom_Imagen());
         Seleccion1.startAnimation(AnimationUtils.loadAnimation(this, R.anim.overshoot_arriba));
-        Seleccion2.setImageDrawable(Agregar.getIcono());
+        Seleccion2.setImageDrawable(Agregar.getCustom_Imagen());
         Seleccion2.startAnimation(AnimationUtils.loadAnimation(this, R.anim.overshoot_arriba));
-        Seleccion3.setImageDrawable(Agregar.getIcono());
+        Seleccion3.setImageDrawable(Agregar.getCustom_Imagen());
         Seleccion3.startAnimation(AnimationUtils.loadAnimation(this, R.anim.overshoot_arriba));
-        Seleccion4.setImageDrawable(Agregar.getIcono());
+        Seleccion4.setImageDrawable(Agregar.getCustom_Imagen());
         Seleccion4.startAnimation(AnimationUtils.loadAnimation(this, R.anim.overshoot_arriba));
-        Seleccion5.setImageDrawable(Agregar.getIcono());
+        Seleccion5.setImageDrawable(Agregar.getCustom_Imagen());
         Seleccion5.startAnimation(AnimationUtils.loadAnimation(this, R.anim.overshoot_arriba));
-        Seleccion6.setImageDrawable(Agregar.getIcono());
+        Seleccion6.setImageDrawable(Agregar.getCustom_Imagen());
         Seleccion6.startAnimation(AnimationUtils.loadAnimation(this, R.anim.overshoot_arriba));
-        Seleccion7.setImageDrawable(Agregar.getIcono());
+        Seleccion7.setImageDrawable(Agregar.getCustom_Imagen());
         Seleccion7.startAnimation(AnimationUtils.loadAnimation(this, R.anim.overshoot_arriba));
-        Seleccion8.setImageDrawable(Agregar.getIcono());
+        Seleccion8.setImageDrawable(Agregar.getCustom_Imagen());
         Seleccion8.startAnimation(AnimationUtils.loadAnimation(this, R.anim.overshoot_arriba));
-        Seleccion9.setImageDrawable(Agregar.getIcono());
+        Seleccion9.setImageDrawable(Agregar.getCustom_Imagen());
         Seleccion9.startAnimation(AnimationUtils.loadAnimation(this, R.anim.overshoot_arriba));
-        Seleccion10.setImageDrawable(Agregar.getIcono());
+        Seleccion10.setImageDrawable(Agregar.getCustom_Imagen());
         Seleccion10.startAnimation(AnimationUtils.loadAnimation(this, R.anim.overshoot_arriba));
     }
 
@@ -1409,8 +1407,6 @@ public class Principal extends AppCompatActivity implements View
         Animation alphaAnimation = AnimationUtils.loadAnimation(getApplicationContext(),
                 R.anim.alpha_show);
 
-        Log.d(TAG, "CargarOpciones: pictoPadre" + json.getNombre(padre));
-        Log.d(TAG, "CargarOpciones: Padre" + padre);
         //ESta linea se encarga de bajar los archivos en cache
         File rootPath = new File(this.getCacheDir(), "Archivos_OTTAA");
         final File pictosUsuarioFile = new File(rootPath, "pictos.txt");
@@ -1676,7 +1672,7 @@ public class Principal extends AppCompatActivity implements View
                         //
                         JSONArray pictosSugeridos = json.readJSONArrayFromFile(Constants.ARCHIVO_PICTOS_DATABASE);
                         //pregunto por la posicion y el id
-                        json.desvincularJson(pictosSugeridos.getJSONObject(pictoPadre.getInt("id")), pos);
+                        JSONutils.desvincularJson(pictosSugeridos.getJSONObject(pictoPadre.getInt("id")), pos);
                         //
                         json.setmJSONArrayPictosSugeridos(pictosSugeridos);
                         //guardo las opciones
@@ -1693,7 +1689,7 @@ public class Principal extends AppCompatActivity implements View
 
                 try {
 
-                    json.desvincularJson(pictoPadre, pos);
+                    JSONutils.desvincularJson(pictoPadre, pos);
                     json.setJsonEditado2(json.getmJSONArrayTodosLosPictos(), pictoPadre);
                     if (!json.guardarJson(Constants.ARCHIVO_PICTOS))
                         Log.e(TAG, "onClick: Error al guardar pictos sugeridos");

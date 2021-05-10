@@ -105,5 +105,11 @@ public class ConnectionDetector {
    }
 
 
+    public boolean isOnline() {
+        ConnectivityManager connMgr = (ConnectivityManager) m_context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        return (networkInfo != null && networkInfo.isConnected());
+    }
+
 
 }

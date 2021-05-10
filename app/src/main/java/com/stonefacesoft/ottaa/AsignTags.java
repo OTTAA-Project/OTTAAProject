@@ -17,6 +17,7 @@ import com.stonefacesoft.ottaa.Prediction.Horario;
 import com.stonefacesoft.ottaa.Prediction.Posicion;
 import com.stonefacesoft.ottaa.Prediction.Sexo;
 import com.stonefacesoft.ottaa.utils.Constants;
+import com.stonefacesoft.ottaa.utils.JSONutils;
 import com.stonefacesoft.ottaa.utils.exceptions.FiveMbException;
 
 import org.json.JSONArray;
@@ -82,7 +83,7 @@ public class AsignTags {
                  "{\"id\":1037,\"texto\":{\"en\":\"fluid\",\"es\":\"" + Sexo.FLUIDO + "\"},\"tipo\":\"" + Constants.SEXO + "\",\"imagen\":{\"picto\":\"hombre\"}}," +
                 "{\"id\":1038,\"texto\":{\"en\":\"others\",\"es\":\"" + Sexo.OTRO + "\"},\"tipo\":\"" + Constants.SEXO + "\",\"imagen\":{\"picto\":\"hombre\"}}]\n";
 
-        arrayListTodosLosTags = json.stringToArrayList(tags);
+        arrayListTodosLosTags = JSONutils.stringToArrayList(tags);
 
 
     }
@@ -210,16 +211,16 @@ public class AsignTags {
             }
 
             for (int i = 0; i < tagHora.size(); i++) {
-                json.setHorario(picto, tagHora.get(i));
+                JSONutils.setHorario(picto, tagHora.get(i));
             }
             for (int i = 0; i < tagEdad.size(); i++) {
-                json.setEdad(picto, tagEdad.get(i));
+                JSONutils.setEdad(picto, tagEdad.get(i));
             }
             for (int i = 0; i < tagSexo.size(); i++) {
-                json.setSexo(picto, tagSexo.get(i));
+                JSONutils.setSexo(picto, tagSexo.get(i));
             }
             for (int i = 0; i < tagPosicion.size(); i++) {
-                json.setPosicion(picto, tagPosicion.get(i));
+                JSONutils.setPosicion(picto, tagPosicion.get(i));
             }
 
         }
@@ -411,16 +412,16 @@ public class AsignTags {
             }
 
             for (int i = 0; i < tagHora.size(); i++) {
-                json.setHorario(picto, tagHora.get(i));
+                JSONutils.setHorario(picto, tagHora.get(i));
             }
             for (int i = 0; i < tagEdad.size(); i++) {
-                json.setEdad(picto, tagEdad.get(i));
+                JSONutils.setEdad(picto, tagEdad.get(i));
             }
             for (int i = 0; i < tagSexo.size(); i++) {
-                json.setSexo(picto, tagSexo.get(i));
+                JSONutils.setSexo(picto, tagSexo.get(i));
             }
             for (int i = 0; i < tagPosicion.size(); i++) {
-                json.setPosicion(picto, tagPosicion.get(i));
+                JSONutils.setPosicion(picto, tagPosicion.get(i));
             }
         }
 

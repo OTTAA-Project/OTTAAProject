@@ -40,6 +40,7 @@ import com.stonefacesoft.ottaa.utils.CustomToast;
 import com.stonefacesoft.ottaa.utils.Firebase.AnalyticsFirebase;
 import com.stonefacesoft.ottaa.utils.Games.AnimGameScore;
 import com.stonefacesoft.ottaa.utils.Games.Juego;
+import com.stonefacesoft.ottaa.utils.JSONutils;
 import com.stonefacesoft.ottaa.utils.Ttsutils.UtilsTTS;
 import com.stonefacesoft.ottaa.utils.exceptions.FiveMbException;
 
@@ -572,9 +573,9 @@ public class DescribirPictograma extends AppCompatActivity implements View
             if (mDescripcion.getJSONObject(position) != null) {
                 JSONObject jsonObject=json.getPictoFromId2(mDescripcion.getJSONObject(position).getInt("id"));
                 //json.getDescription(mDescripcion.getJSONObject(position)).getString("es")
-                     option.setCustom_Texto(json.getNombre(jsonObject));
+                     option.setCustom_Texto(JSONutils.getNombre(jsonObject,sharedPrefsDefault.getString(getString(R.string.str_idioma), "en")));
                     option.setCustom_Img(json.getIcono(jsonObject));
-                    option.setCustom_Color(cargarColor(json.getTipo(jsonObject)));
+                    option.setCustom_Color(cargarColor(JSONutils.getTipo(jsonObject)));
                     option.setCustom_description(json.getDescription(mDescripcion.getJSONObject(position)).getString("es"));
                     valores[pos]=position;
                 /*}else{

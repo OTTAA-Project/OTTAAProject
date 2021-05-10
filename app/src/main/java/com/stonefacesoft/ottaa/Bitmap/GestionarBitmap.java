@@ -19,7 +19,6 @@ import android.util.Log;
 import androidx.appcompat.content.res.AppCompatResources;
 
 import com.stonefacesoft.ottaa.JSONutils.Json;
-import com.stonefacesoft.ottaa.Picto;
 import com.stonefacesoft.ottaa.R;
 
 import org.json.JSONException;
@@ -37,7 +36,6 @@ import java.util.ArrayList;
  */
 
 public class GestionarBitmap  {
-    private Picto pictograma;
     private ArrayList<Bitmap> imagenes;//Arreglo para obtener todos los bitmaps
     private ArrayList<JSONObject> idjson;//arreglo para obtener el json
     private int tamano;//permite determinar donde se va a ubicar la imagen

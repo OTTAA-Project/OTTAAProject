@@ -7,7 +7,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class SearchObjects {
-    JSONArray ArrayList;
 
     private static final String TAG = "SearchObjects";
 
@@ -47,7 +46,7 @@ public class SearchObjects {
 
     }
 
-    public JSONObject getObject(JSONArray array, int position){
+    public JSONObject getObject(JSONArray array, int position) {
         try {
             return array.getJSONObject(position);
         } catch (JSONException e) {
@@ -55,7 +54,4 @@ public class SearchObjects {
         }
         return null;
     }
-
-
-
 }

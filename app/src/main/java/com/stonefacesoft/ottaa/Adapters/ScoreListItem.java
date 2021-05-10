@@ -2,6 +2,8 @@ package com.stonefacesoft.ottaa.Adapters;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +14,7 @@ import android.widget.TextView;
 import com.stonefacesoft.ottaa.utils.Games.CalculaPuntos;
 import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.R;
-import com.stonefacesoft.ottaa.utils.DatosDeUso;
+import com.stonefacesoft.ottaa.utils.JSONutils;
 import com.stonefacesoft.ottaa.utils.exceptions.FiveMbException;
 import com.stonefacesoft.ottaa.utils.textToSpeech;
 
@@ -25,7 +27,6 @@ public class ScoreListItem extends RecyclerView.Adapter<ScoreListItem.ScoreViewH
     private int mLayoutResourceId;
     private Context mContext;
     private int id;
-    private DatosDeUso mDatosDeUso;
     private Dialog dialogDismiss;
     private textToSpeech myTTs;
     private Json json;
@@ -36,11 +37,7 @@ public class ScoreListItem extends RecyclerView.Adapter<ScoreListItem.ScoreViewH
         json=Json.getInstance();
         json.setmContext(this.mContext);
         this.id=id;
-        try {
-            this.mDatosDeUso = new DatosDeUso(mContext);
-        } catch (FiveMbException e) {
-            e.printStackTrace();
-        }
+
         this.myTTs = new textToSpeech(mContext);
     }
 
@@ -57,11 +54,9 @@ public class ScoreListItem extends RecyclerView.Adapter<ScoreListItem.ScoreViewH
     public void onBindViewHolder(@NonNull ScoreViewHolder holder, int position) {
         try {
             holder.imagenFav.setImageDrawable(json.getIcono(json.getmJSONArrayTodosLosGrupos().getJSONObject(position)));
-            holder.title.setText(json.getNombre(json.getmJSONArrayTodosLosGrupos().getJSONObject(position)));
-            CalculaPuntos calculaPuntos=new CalculaPuntos();
-            calculaPuntos.setAciertos(json.getAciertos(json.getmJSONArrayTodosLosGrupos().getJSONObject(position),id));
-            calculaPuntos.setIntentos(json.getIntentos(json.getmJSONArrayTodosLosGrupos().getJSONObject(position),id));
-            holder.mRatingBar.setRating(calculaPuntos.calcularValor());
+            SharedPreferences sharedPrefsDefault = PreferenceManager.getDefaultSharedPreferences(mContext);
+            holder.title.setText(JSONutils.getNombre(json.getmJSONArrayTodosLosGrupos().getJSONObject(position),sharedPrefsDefault.getString(mContext.getString(R.string.str_idioma), "en")));
+
         } catch (JSONException e) {
             e.printStackTrace();
         }

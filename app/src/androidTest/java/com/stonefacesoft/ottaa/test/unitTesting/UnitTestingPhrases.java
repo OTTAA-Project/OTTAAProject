@@ -10,6 +10,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.NLG;
 import com.stonefacesoft.ottaa.test.Components.Pictograms;
+import com.stonefacesoft.ottaa.utils.JSONutils;
 import com.stonefacesoft.ottaa.utils.TalkActions.Historial;
 
 import junit.framework.TestCase;
@@ -44,7 +45,7 @@ public class UnitTestingPhrases extends TestCase {
 
     @Before
     public void createUnitTestingClass(){
-        nlg=new NLG(context);
+        nlg=new NLG();
         json= Json.getInstance();
         json.setmContext(context);
         pictograms=new Pictograms(context,json);
@@ -122,7 +123,7 @@ public class UnitTestingPhrases extends TestCase {
 
         nlg.NuevaFrase();
         for (int i = 0; i < historial.getListadoPictos().size(); i++) {
-            nlg.CargarFrase(historial.getListadoPictos().get(i));
+            nlg.CargarFrase(historial.getListadoPictos().get(i), JSONutils.getTipo(historial.getListadoPictos().get(i)));
         }
         Phrase=nlg.ArmarFrase();
         Log.e("Historial", "talkWithtNLG: "+ Phrase );

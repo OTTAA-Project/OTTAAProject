@@ -18,11 +18,11 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.stonefacesoft.ottaa.Custom_Picto;
 import com.stonefacesoft.ottaa.Dialogos.Dialog_options_level_game;
 import com.stonefacesoft.ottaa.JSONutils.Json;
-import com.stonefacesoft.ottaa.Picto;
 import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.utils.Audio.MediaPlayerAudio;
 import com.stonefacesoft.ottaa.utils.CustomToast;
 import com.stonefacesoft.ottaa.utils.Games.CalculaPuntos;
+import com.stonefacesoft.ottaa.utils.JSONutils;
 import com.stonefacesoft.ottaa.utils.Ttsutils.UtilsTTS;
 
 import org.json.JSONArray;
@@ -80,7 +80,7 @@ public class ArmarFrases extends AppCompatActivity implements View.OnClickListen
     private FloatingActionButton hablar;
 
     private Dialog_options_level_game dialog_options;
-    private Picto Agregar;
+    private Custom_Picto Agregar;
 
     private int[] idPictos=new int[]{-1,-1,-1,-1};
 
@@ -103,9 +103,14 @@ public class ArmarFrases extends AppCompatActivity implements View.OnClickListen
 
     private void initComponents(){
         player=new MediaPlayerAudio(this);
-        Agregar = new Picto(0, getResources().getDrawable(R.drawable.agregar_picto_transp), "", "", R.color.Black);
+        Agregar = new Custom_Picto(this);
+        Agregar.setCustom_Color(R.color.Black);
+        Agregar.setCustom_Texto("");
+        Agregar.setCustom_Img(getDrawable(R.drawable.agregar_picto_transp));
+        Agregar.setIdPictogram(0);
+
         numeros=new ArrayList();
-        mDefaultSharedPreferences= PreferenceManager.getDefaultSharedPreferences(this);
+        mDefaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         toast=new CustomToast(this);
         mUtilsTTS=new UtilsTTS(this,mTTS,toast,mDefaultSharedPreferences);
         listadoPictos=new ArrayList<>();
@@ -194,20 +199,20 @@ public class ArmarFrases extends AppCompatActivity implements View.OnClickListen
     private void cargarOpcion(JSONObject picto,int i){
         switch (i){
             case 0:
-                Opcion1.setCustom_Texto(json.getNombre(picto));
+                Opcion1.setCustom_Texto(JSONutils.getNombre(picto,mDefaultSharedPreferences.getString(getString(R.string.str_idioma), "en")));
                 Opcion1.setCustom_Img(json.getIcono(picto));
 
                 break;
             case 1:
-                Opcion2.setCustom_Texto(json.getNombre(picto));
+                Opcion2.setCustom_Texto(JSONutils.getNombre(picto,mDefaultSharedPreferences.getString(getString(R.string.str_idioma), "en")));
                 Opcion2.setCustom_Img(json.getIcono(picto));
                 break;
             case 2:
-                Opcion3.setCustom_Texto(json.getNombre(picto));
+                Opcion3.setCustom_Texto(JSONutils.getNombre(picto,mDefaultSharedPreferences.getString(getString(R.string.str_idioma), "en")));
                 Opcion3.setCustom_Img(json.getIcono(picto));
                 break;
             case 3:
-                Opcion4.setCustom_Texto(json.getNombre(picto));
+                Opcion4.setCustom_Texto(JSONutils.getNombre(picto,mDefaultSharedPreferences.getString(getString(R.string.str_idioma), "en")));
                 Opcion4.setCustom_Img(json.getIcono(picto));
                 break;
         }
@@ -313,7 +318,7 @@ public class ArmarFrases extends AppCompatActivity implements View.OnClickListen
             JSONObject object = json.getPictoFromId2(json.getId(pictogramas.getJSONObject(pos)));
             Log.e(TAG, "pos :" + pos);
             setDrawable(pos,json.getIcono(object));
-            fraseCompleta[pos] = json.getNombre(object);
+            fraseCompleta[pos] = JSONutils.getNombre(object,mDefaultSharedPreferences.getString(getString(R.string.str_idioma), "en"));
             idPictos[pos]=json.getId(object);
         } catch (JSONException ex) {
 
@@ -325,7 +330,7 @@ public class ArmarFrases extends AppCompatActivity implements View.OnClickListen
             JSONObject object = json.getPictoFromId2(json.getId(pictogramas.getJSONObject(location)));
             Log.e(TAG, "pos :" + location);
             setDrawable(positionFinal,json.getIcono(object));
-            fraseCompleta[positionFinal] = json.getNombre(object);
+            fraseCompleta[positionFinal] = JSONutils.getNombre(object,mDefaultSharedPreferences.getString(getString(R.string.str_idioma), "en"));
             idPictos[positionFinal]=json.getId(object);
         } catch (JSONException ex) {
 
@@ -387,25 +392,25 @@ public class ArmarFrases extends AppCompatActivity implements View.OnClickListen
     }
 
     private void inicializar_seleccion() {
-        seleccion1.setImageDrawable(Agregar.getIcono());
+        seleccion1.setImageDrawable(Agregar.getCustom_Imagen());
         seleccion1.startAnimation(AnimationUtils.loadAnimation(this, R.anim.overshoot_arriba));
-        seleccion2.setImageDrawable(Agregar.getIcono());
+        seleccion2.setImageDrawable(Agregar.getCustom_Imagen());
         seleccion2.startAnimation(AnimationUtils.loadAnimation(this, R.anim.overshoot_arriba));
-        seleccion3.setImageDrawable(Agregar.getIcono());
+        seleccion3.setImageDrawable(Agregar.getCustom_Imagen());
         seleccion3.startAnimation(AnimationUtils.loadAnimation(this, R.anim.overshoot_arriba));
-        seleccion4.setImageDrawable(Agregar.getIcono());
+        seleccion4.setImageDrawable(Agregar.getCustom_Imagen());
         seleccion4.startAnimation(AnimationUtils.loadAnimation(this, R.anim.overshoot_arriba));
-        seleccion5.setImageDrawable(Agregar.getIcono());
+        seleccion5.setImageDrawable(Agregar.getCustom_Imagen());
         seleccion5.startAnimation(AnimationUtils.loadAnimation(this, R.anim.overshoot_arriba));
-        seleccion6.setImageDrawable(Agregar.getIcono());
+        seleccion6.setImageDrawable(Agregar.getCustom_Imagen());
         seleccion6.startAnimation(AnimationUtils.loadAnimation(this, R.anim.overshoot_arriba));
-        seleccion7.setImageDrawable(Agregar.getIcono());
+        seleccion7.setImageDrawable(Agregar.getCustom_Imagen());
         seleccion7.startAnimation(AnimationUtils.loadAnimation(this, R.anim.overshoot_arriba));
-        seleccion8.setImageDrawable(Agregar.getIcono());
+        seleccion8.setImageDrawable(Agregar.getCustom_Imagen());
         seleccion8.startAnimation(AnimationUtils.loadAnimation(this, R.anim.overshoot_arriba));
-        seleccion9.setImageDrawable(Agregar.getIcono());
+        seleccion9.setImageDrawable(Agregar.getCustom_Imagen());
         seleccion9.startAnimation(AnimationUtils.loadAnimation(this, R.anim.overshoot_arriba));
-        seleccion10.setImageDrawable(Agregar.getIcono());
+        seleccion10.setImageDrawable(Agregar.getCustom_Imagen());
         seleccion10.startAnimation(AnimationUtils.loadAnimation(this, R.anim.overshoot_arriba));
         idPictos=new int[]{-1,-1,-1,-1};
     }
@@ -438,16 +443,16 @@ public class ArmarFrases extends AppCompatActivity implements View.OnClickListen
     private void cambiarDrawable(int position){
         switch (position){
             case 0:
-                seleccion1.setImageDrawable(Agregar.getIcono());
+                seleccion1.setImageDrawable(Agregar.getCustom_Imagen());
                 break;
             case 1:
-                seleccion2.setImageDrawable(Agregar.getIcono());
+                seleccion2.setImageDrawable(Agregar.getCustom_Imagen());
                 break;
             case 2:
-                seleccion3.setImageDrawable(Agregar.getIcono());
+                seleccion3.setImageDrawable(Agregar.getCustom_Imagen());
                 break;
             case 3:
-                seleccion4.setImageDrawable(Agregar.getIcono());
+                seleccion4.setImageDrawable(Agregar.getCustom_Imagen());
                 break;
             default:
 

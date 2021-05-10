@@ -45,7 +45,7 @@ public class Pictograms {
         json.getmJSONArrayTodosLosPictos().put(object);
     }
 
-    public JSONObject  createPictograms(int id, String locale, String localeName, String englisName, int tipo) {
+    public JSONObject createPictograms(int id, String locale, String localeName, String englisName, int tipo) {
         JSONObject dataObject=new JSONObject();
         try {
             dataObject.put("id",id);
@@ -58,7 +58,6 @@ public class Pictograms {
             imagen.put("picto","ic_action_previous");
             dataObject.put("imagen",imagen);
             dataObject.put("relacion",new JSONArray());
-
 
         } catch (JSONException e) {
             e.printStackTrace();

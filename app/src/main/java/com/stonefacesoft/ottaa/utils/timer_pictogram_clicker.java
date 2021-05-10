@@ -6,7 +6,6 @@ import android.os.Handler;
 import android.preference.PreferenceManager;
 
 import com.stonefacesoft.ottaa.Custom_Picto;
-import com.stonefacesoft.ottaa.Picto;
 import com.stonefacesoft.ottaa.R;
 
 
