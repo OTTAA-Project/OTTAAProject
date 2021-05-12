@@ -3,18 +3,21 @@ package com.stonefacesoft.ottaa.utils;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 
+import com.stonefacesoft.ottaa.JSONutils.SearchObjects;
 import com.stonefacesoft.ottaa.Prediction.Clima;
 import com.stonefacesoft.ottaa.Prediction.Edad;
 import com.stonefacesoft.ottaa.Prediction.Horario;
 import com.stonefacesoft.ottaa.Prediction.Posicion;
 import com.stonefacesoft.ottaa.Prediction.Sexo;
 import com.stonefacesoft.ottaa.R;
+import com.stonefacesoft.ottaa.utils.exceptions.FiveMbException;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public class JSONutils {
 
@@ -265,7 +268,6 @@ public class JSONutils {
         }
     }
 
-    //TODO falta el testing
     public static void crearRelacion(JSONArray relacion, int id) throws JSONException {
         JSONObject aux = new JSONObject();
         aux.put("id", id);
@@ -273,8 +275,7 @@ public class JSONutils {
         relacion.put(aux);
     }
 
-    //TODO falta el testing
-    public void aumentarFrec(JSONObject padre, JSONObject opcion) {
+    public static void aumentarFrec(JSONObject padre, JSONObject opcion) {
         boolean nuevo = true;
         try {
             JSONArray array = padre.getJSONArray("relacion");
@@ -295,4 +296,278 @@ public class JSONutils {
         }
     }
 
+    public static JSONObject crearJson(int id, String locale, String textoEsp, String textoEn, JSONArray relacion, String img, int tipo) {
+        JSONObject picto = new JSONObject();
+        JSONObject texto = new JSONObject();
+        JSONObject imagen = new JSONObject();
+
+        try {
+            texto.put(locale, textoEsp);
+            texto.put("en", textoEn);
+            imagen.put("picto", img);
+            picto.put("id", id);
+            picto.put("texto", texto);
+            picto.put("tipo", tipo);
+            picto.put("imagen", imagen);
+            picto.put("relacion", relacion);
+
+        } catch (JSONException error) {
+            error.getMessage();
+        }
+        return picto;
+    }
+
+    public static void relacionarConGrupo2(JSONArray jsonArrayAVincular, int padre, int picto) throws JSONException {
+        JSONutils.crearRelacion(jsonArrayAVincular.getJSONObject(padre).getJSONArray("relacion"), picto);
+    }
+
+    public static int getId(JSONObject jsonObject) throws JSONException {
+        return jsonObject.getInt("id");
+    }
+
+    public static void addToAllRelacion2(JSONArray arrayListGrupos, int padre) {
+        try {
+            for (int i = 0; i < arrayListGrupos.length(); i++) {
+                if (arrayListGrupos.getJSONObject(i).optJSONObject("texto").optString("en").equalsIgnoreCase("ALL") || arrayListGrupos.getJSONObject(i).optJSONObject("texto").optString("en").equalsIgnoreCase("EveryThing")) {
+                    JSONArray relacion = arrayListGrupos.getJSONObject(i).getJSONArray("relacion");
+                    relacion.put(arrayListGrupos.getJSONObject(padre).getJSONArray("relacion").get(arrayListGrupos.getJSONObject(padre).getJSONArray("relacion").length() - 1));
+                    break;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static JSONArray crearPicto(JSONArray mArrayListGrupo, JSONArray mArrayListTodosLosPictos, String locale, int padre, String textoEsp, String textoEn, String img, int tipo, String url, String pushKey) {
+        Date date = new Date(System.currentTimeMillis());
+        long date1 = date.getTime();
+        int id = (int) date1;
+
+        mArrayListTodosLosPictos.put(JSONutils.crearJson(id, locale , textoEsp, textoEn, new JSONArray(), img, tipo));
+        try {
+            JSONutils.relacionarConGrupo2(mArrayListGrupo, padre, id);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        try {
+            JSONutils.setImagen(mArrayListTodosLosPictos.getJSONObject(mArrayListTodosLosPictos.length() - 1), img, url, pushKey);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        addToAllRelacion2(mArrayListGrupo, padre);
+        return mArrayListTodosLosPictos;
+    }
+
+    public static JSONArray crearGrupo(JSONArray jsonArrayGrupos, String locale, String textoEsp, String textoEn, String img, int tipo, String url, String pushKey) throws JSONException {
+        Date date = new Date(System.currentTimeMillis());
+        long date1=date.getTime();
+        int id=(int) date1 ;
+        jsonArrayGrupos.put(jsonArrayGrupos.length(), JSONutils.crearJson(id, locale, textoEsp, textoEn, new JSONArray(), img, tipo));
+        JSONutils.setImagen(jsonArrayGrupos.getJSONObject(jsonArrayGrupos.length() - 1), img, url, pushKey);
+        return jsonArrayGrupos;
+    }
+
+    public static JSONArray getHijosGrupo2(JSONArray jsonArrayTodosLosPictos,JSONObject jsonObject) throws JSONException {
+
+        JSONArray relacion = jsonObject.getJSONArray("relacion");
+        JSONArray hijo = new JSONArray();
+        for (int i = 0; i < relacion.length(); i++) {
+            try {
+                if (!relacion.getJSONObject(i).isNull("id"))
+                    hijo.put(hijo.length(), getPictoFromId2(jsonArrayTodosLosPictos,relacion.getJSONObject(i).getInt("id")));
+            } catch (JSONException ex) {
+                ex.getMessage();
+            }
+        }
+        return hijo;
+    }
+
+    public static JSONObject getPictoFromId2(JSONArray jsonArray, int idABuscar) {
+        try{
+            int position = new SearchObjects().searchItemById(jsonArray, idABuscar);
+            if(position!=-1)
+                return jsonArray.getJSONObject(position);
+        }catch (JSONException ex) {
+            ex.printStackTrace();
+        }
+        int position=new SearchObjects().searchItemById(jsonArray,1024);
+        for (int i = position; i <jsonArray.length() ; i++) {
+            try {
+                JSONObject object=jsonArray.getJSONObject(i);
+                if(getId(object)==idABuscar)
+                    return jsonArray.getJSONObject(i);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
+    }
+
+    public static JSONArray getHijosGrupo2(JSONObject object, JSONArray jsonArrayTodosLosPictos) {
+        JSONArray array = null;
+        JSONArray hijo = new JSONArray();
+        try {
+            if (object.has("relacion")) {
+                array = object.getJSONArray("relacion");
+                for (int i = 0; i < array.length(); i++) {
+                    try {
+                        JSONObject child=getPictoFromId2(jsonArrayTodosLosPictos, array.getJSONObject(i).getInt("id"));
+                        if(child!=null)
+                            hijo.put(child);
+                    } catch (JSONException ex) {
+                        ex.getMessage();
+                    }
+                }
+            }
+            return hijo;
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return hijo;
+        }
+    }
+
+    /**
+     * This method run the array an edit the group or the pictogram
+     * @param arrayListAEditar JsonArray to modify the pictogram
+     * @param jsonObjectAEditar pictogram or group to modify
+     * */
+    public static JSONArray setJsonEditado2(JSONArray arrayListAEditar, JSONObject jsonObjectAEditar) throws JSONException {
+        for (int i = 0; i < arrayListAEditar.length(); i++) {
+            JSONObject object = arrayListAEditar.getJSONObject(i);
+            if (object.getInt("id") == jsonObjectAEditar.getInt("id")) {
+                arrayListAEditar.put(i, jsonObjectAEditar);
+                break;
+            }
+        }
+        return arrayListAEditar;
+    }
+
+    public static double score(JSONObject json, boolean esSugerencia, JSONArray jsonArrayTodosLosPictos, String agenda, String sexo, String hora, String edad, String posicion) {
+        int frec = 0, agendaUsuario = 0, gps = 0, horaDelDia = 0, id = 0, present = 0, sexoUsuario,
+                edadUsuario = 0;
+        final double pesoFrec = 2, pesoAgenda = 8, pesoGps = 12, pesoHora = 50, pesoPresent = 100,
+                pesoSexo = 3, pesoEdad = 5;
+        double score;
+        JSONObject original = null;
+        try {
+            frec = json.getInt("frec");
+            id = json.getInt("id");
+            original = getPictoFromId2(jsonArrayTodosLosPictos,id);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        agendaUsuario = tieneAgenda(original, agenda);
+        horaDelDia = tieneHora(original, hora);
+        gps = tienePosicion(original, posicion);
+        sexoUsuario = tieneSexo(original, sexo);
+        edadUsuario = tieneEdad(original, edad);
+
+        if (esSugerencia) {
+            gps = 0;
+            agendaUsuario = 0;
+            horaDelDia = 0;
+        }
+        score = (frec * pesoFrec) + (agendaUsuario * pesoAgenda) + (gps * pesoGps) + (horaDelDia *
+                pesoHora) + (sexoUsuario * pesoSexo) + (edadUsuario * pesoEdad);
+
+        return score;
+    }
+
+//    public void setAgenda(JSONObject ob) {
+//        JSONArray arrayAgenda = new JSONArray();
+//        try {
+//            if (ob.getJSONArray(Constants.CALENDARIO) != null) {
+//                arrayAgenda = ob.getJSONArray(Constants.CALENDARIO);
+//            }
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+//        try {
+//            arrayAgenda.put(arrayAgenda.length(), JSONutils.getNombre(ob,sharedPrefsDefault.getString(mContext.getString(R.string.str_idioma), "en")).toUpperCase());
+//            ob.put(Constants.CALENDARIO, arrayAgenda);
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
+//    }
+
+    private static int tieneSexo(JSONObject json, String sexo) {
+        try {
+            JSONArray array = json.getJSONArray(Constants.SEXO);
+            for (int i = 0; i < array.length(); i++) {
+                if (sexo.equalsIgnoreCase(array.get(i).toString())) {
+                    return 1;
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+
+    private static int tieneAgenda(JSONObject json, String agenda) {
+        try {
+            JSONArray array = json.getJSONArray(Constants.CALENDARIO);
+            for (int i = 0; i < array.length(); i++) {
+                if (agenda.equals(array.get(i).toString())) {
+                    return 1;
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    private static int tieneHora(JSONObject json, String hora) {
+        try {
+            JSONArray array = json.getJSONArray(Constants.HORA);
+            for (int i = 0; i < array.length(); i++) {
+                if (hora.toString().equals(array.get(i).toString())) {
+                    return 1;
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    private static int tieneEdad(JSONObject json, String edad) {
+        try {
+            JSONArray array = json.getJSONArray(Constants.EDAD);
+            for (int i = 0; i < array.length(); i++) {
+                if (edad.equals(array.get(i).toString())) {
+                    return 1;
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return 0;
+        }
+        return 0;
+    }
+
+    /**
+     * Return 1 if the position exist.
+     * Else return -1
+     * Use that method to make a consult about the location
+     * */
+    private static int tienePosicion(JSONObject json, String posicion) {
+        try {
+            JSONArray array = json.getJSONArray(Constants.UBICACION);
+            for (int i = 0; i < array.length(); i++) {
+                if (posicion.equals(array.get(i).toString())) {
+                    return 1;
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return 0;
+        }
+        return 0;
+    }
 }

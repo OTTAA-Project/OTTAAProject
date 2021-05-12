@@ -76,7 +76,7 @@ public class gridViewAdapter extends ArrayAdapter {
 
         data1.addAll(data);//tomo todosu el listado
         try {
-            data2 = json.getHijosGrupo2(json.readJSONArrayFromFile(Constants.ARCHIVO_GRUPOS).getJSONObject(JSONutils.getIDfromNombre("ALL", json.readJSONArrayFromFile(Constants.ARCHIVO_GRUPOS))));
+            data2 = JSONutils.getHijosGrupo2(json.getmJSONArrayTodosLosPictos(),json.readJSONArrayFromFile(Constants.ARCHIVO_GRUPOS).getJSONObject(JSONutils.getIDfromNombre("ALL", json.readJSONArrayFromFile(Constants.ARCHIVO_GRUPOS))));
         } catch (JSONException e) {
             e.printStackTrace();
         }

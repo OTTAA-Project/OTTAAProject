@@ -262,14 +262,12 @@ public class WhichIsThePicto extends AppCompatActivity implements View
 
             game = new Juego(this, 0, id);
             game.startUseTime();
-        } catch (JSONException e) {
+        } catch (JSONException | FiveMbException e) {
             e.printStackTrace();
-        } catch (FiveMbException e) {
-
         }
 
         try {
-            mJsonArrayTodosLosPictos = json.getHijosGrupo2(mJsonArrayTodosLosGrupos.getJSONObject(mPositionPadre));
+            mJsonArrayTodosLosPictos = JSONutils.getHijosGrupo2(json.getmJSONArrayTodosLosPictos(),mJsonArrayTodosLosGrupos.getJSONObject(mPositionPadre));
         } catch (Exception e) {
             Toast.makeText(context, getApplicationContext().getResources().getString(R.string.no_hay_pictos), Toast.LENGTH_SHORT).show();
         }

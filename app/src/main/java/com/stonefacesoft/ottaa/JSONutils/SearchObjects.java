@@ -2,6 +2,8 @@ package com.stonefacesoft.ottaa.JSONutils;
 
 import android.util.Log;
 
+import com.stonefacesoft.ottaa.utils.JSONutils;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -10,11 +12,11 @@ public class SearchObjects {
 
     private static final String TAG = "SearchObjects";
 
-    public int searchItemById(JSONArray arreglo, int busqueda, Json json) {
-        return busquedaBinariaRecursiva(arreglo, busqueda, 0, arreglo.length() - 1, json);
+    public int searchItemById(JSONArray arreglo, int busqueda) {
+        return busquedaBinariaRecursiva(arreglo, busqueda, 0, arreglo.length() - 1);
     }
 
-    public int busquedaBinariaRecursiva(JSONArray arreglo, int busqueda, int izquierda, int derecha, Json json) {
+    public int busquedaBinariaRecursiva(JSONArray arreglo, int busqueda, int izquierda, int derecha) {
 
         // Si izquierda es mayor que derecha significa que no encontramos nada
         if (izquierda > derecha) {
@@ -25,10 +27,9 @@ public class SearchObjects {
         int indiceDelElementoDelMedio = (int) Math.floor((izquierda + derecha) / 2);
         int elementoDelMedio = -1;
         try {
-            elementoDelMedio = json.getId(getObject(arreglo, indiceDelElementoDelMedio));
-            Log.d(TAG, "busquedaBinariaRecursiva() returned: valor:" + elementoDelMedio + " id:" + busqueda + " posicion:" + indiceDelElementoDelMedio);
+            elementoDelMedio = JSONutils.getId(getObject(arreglo, indiceDelElementoDelMedio));
         } catch (JSONException e) {
-            Log.e(TAG, "busquedaBinariaRecursiva: Error: " + e.getMessage());
+            e.getMessage();
         }
 
         // Ver si est en la mitad
@@ -38,10 +39,10 @@ public class SearchObjects {
         // Si no, entonces vemos si est a la izquierda o derecha
              if(busqueda < elementoDelMedio){
                 derecha = indiceDelElementoDelMedio - 1;
-                return busquedaBinariaRecursiva(arreglo, busqueda, izquierda, derecha,json);
+                return busquedaBinariaRecursiva(arreglo, busqueda, izquierda, derecha);
             }else{
                 izquierda = indiceDelElementoDelMedio + 1;
-                return busquedaBinariaRecursiva(arreglo, busqueda, izquierda, derecha,json);
+                return busquedaBinariaRecursiva(arreglo, busqueda, izquierda, derecha);
             }
 
     }
@@ -51,7 +52,7 @@ public class SearchObjects {
             return array.getJSONObject(position);
         } catch (JSONException e) {
             Log.e(TAG, "getObject: Error: " + e.getMessage());
+            return null;
         }
-        return null;
     }
 }

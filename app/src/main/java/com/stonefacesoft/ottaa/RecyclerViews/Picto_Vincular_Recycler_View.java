@@ -4,6 +4,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.stonefacesoft.ottaa.Adapters.VincularPictosAdapter;
 import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.R;
+import com.stonefacesoft.ottaa.utils.JSONutils;
 import com.stonefacesoft.ottaa.utils.exceptions.FiveMbException;
 
 import org.json.JSONArray;
@@ -23,11 +24,9 @@ public class Picto_Vincular_Recycler_View extends Custom_recyclerView  {
 
     public void setArray(){
         try {
-            array=json.getHijosGrupo2(json.getGrupoFromId(24));
+            array= JSONutils.getHijosGrupo2(json.getmJSONArrayTodosLosPictos(),json.getGrupoFromId(24));
             arrayVincular=new JSONArray();
         } catch (JSONException e) {
-            e.printStackTrace();
-        } catch (FiveMbException e) {
             e.printStackTrace();
         }
         createRecyclerLayoutManager();
@@ -47,11 +46,9 @@ public class Picto_Vincular_Recycler_View extends Custom_recyclerView  {
     public void pictogramasNoFiltrados(){
         galeriaPictos2.setEsFiltrado(false);
         try {
-            array=json.getHijosGrupo2(json.getGrupoFromId(24));
+            array=JSONutils.getHijosGrupo2(json.getmJSONArrayTodosLosPictos(),json.getGrupoFromId(24));
             arrayAux=new JSONArray();
         } catch (JSONException e) {
-            e.printStackTrace();
-        } catch (FiveMbException e) {
             e.printStackTrace();
         }
         galeriaPictos2.setmVincularArray(array);

@@ -37,6 +37,7 @@ import com.stonefacesoft.ottaa.utils.Accesibilidad.scrollActions.ScrollFunctionG
 import com.stonefacesoft.ottaa.utils.Constants;
 import com.stonefacesoft.ottaa.utils.Firebase.AnalyticsFirebase;
 import com.stonefacesoft.ottaa.utils.IntentCode;
+import com.stonefacesoft.ottaa.utils.JSONutils;
 import com.stonefacesoft.ottaa.utils.textToSpeech;
 
 import org.json.JSONArray;
@@ -422,7 +423,7 @@ public class GaleriaPictos3 extends AppCompatActivity implements View.OnClickLis
         if (mSelectedPictos != null) {
             for (int i = 0; i < mSelectedPictos.length(); i++) {
                 try {
-                    json.relacionarConGrupo2(todosLosGrupos, boton, mSelectedPictos.getJSONObject(i).getInt("id"));
+                    JSONutils.relacionarConGrupo2(todosLosGrupos, boton, mSelectedPictos.getJSONObject(i).getInt("id"));
                     Log.d(TAG, "guardarVincular: " + mSelectedPictos);
                 } catch (JSONException e) {
                     Log.e(TAG, "guardarVincular: Error: " + e.getMessage());

@@ -1629,7 +1629,7 @@ public class Principal extends AppCompatActivity implements View
             historial.addPictograma(opcion);
         try {
             int pos = json.getPosPicto(json.getmJSONArrayTodosLosPictos(), pictoPadre.getInt("id"));
-            json.aumentarFrec(pictoPadre, opcion);
+            JSONutils.aumentarFrec(pictoPadre, opcion);
             json.getmJSONArrayTodosLosPictos().put(pos, pictoPadre);
 
             json.guardarJson(Constants.ARCHIVO_PICTOS);
@@ -1690,7 +1690,7 @@ public class Principal extends AppCompatActivity implements View
                 try {
 
                     JSONutils.desvincularJson(pictoPadre, pos);
-                    json.setJsonEditado2(json.getmJSONArrayTodosLosPictos(), pictoPadre);
+                    JSONutils.setJsonEditado2(json.getmJSONArrayTodosLosPictos(), pictoPadre);
                     if (!json.guardarJson(Constants.ARCHIVO_PICTOS))
                         Log.e(TAG, "onClick: Error al guardar pictos sugeridos");
 

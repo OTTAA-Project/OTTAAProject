@@ -53,9 +53,9 @@ public class UnitTestingCreatePictograms extends TestCase {
         try {
               mJsonArrayAllGroups=json.getmJSONArrayTodosLosGrupos();
               int idPadre=json.getId(mJsonArrayAllGroups.getJSONObject(0));
-              json.crearPicto(mJsonArrayAllGroups,json.getmJSONArrayTodosLosPictos(),idPadre,"hijo","son","ic_abeja",1,"","");
+              //json.crearPicto(mJsonArrayAllGroups,json.getmJSONArrayTodosLosPictos(),idPadre,"hijo","son","ic_abeja",1,"","");
               idPadre=json.getId(mJsonArrayAllGroups.getJSONObject(1));
-              json.crearPicto(mJsonArrayAllGroups,json.getmJSONArrayTodosLosPictos(),idPadre,"primo","cousin","ic_logo",1,"","");
+              //json.crearPicto(mJsonArrayAllGroups,json.getmJSONArrayTodosLosPictos(),idPadre,"primo","cousin","ic_logo",1,"","");
               json.setmJSONArrayTodosLosGrupos(mJsonArrayAllGroups);
               String text=getNombre(json.getmJSONArrayTodosLosPictos().getJSONObject(0),"es");
               Assert.assertTrue("Locale Pictograms",text!=null);
@@ -69,22 +69,7 @@ public class UnitTestingCreatePictograms extends TestCase {
             Assert.fail("Json object exception in the class addPictogram");
         }
     }
-    public void addGroup(){
-        try {
-            mJsonArrayAllGroups=json.getmJSONArrayTodosLosGrupos();
-            json.crearGrupo(mJsonArrayAllGroups,"animales","animals","Ic_Abeja",0,"","");
-            try {
-                Thread.sleep(7000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            json.crearGrupo(mJsonArrayAllGroups,"casa","house","Ic_mama",0,"","");
-            Log.d( "addGroup: ",mJsonArrayAllGroups.toString());
-            json.setmJSONArrayTodosLosGrupos(mJsonArrayAllGroups);
-        } catch (JSONException e) {
 
-        }
-    }
 
     public void preparePictograms(){
 

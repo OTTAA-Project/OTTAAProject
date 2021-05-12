@@ -14,13 +14,6 @@ public class Groups {
 
     }
 
-    public void joinGroups(int idFather,int idChild){
-        try {
-            json.relacionarConGrupo2(json.getmJSONArrayTodosLosGrupos(),idFather,idChild);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
 
     public void deleteRelationship(JSONObject father,int idChild){
         //json.desvincularJson(father,idChild);

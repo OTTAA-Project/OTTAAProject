@@ -253,7 +253,7 @@ public class AsignTags {
                     JSONObject jsonPicto = json.getPictoFromId2(jsonGrupo.getInt("id"));
                     if (jsonPicto != null) {
                         setTagsToPicto(jsonPicto, esAgenda);
-                        json.setJsonEditado2(json.getmJSONArrayTodosLosPictos(), jsonPicto);
+                        JSONutils.setJsonEditado2(json.getmJSONArrayTodosLosPictos(), jsonPicto);
                     } else {
                         array.remove(i);
                         int pos = json.getPosPicto(json.getmJSONArrayTodosLosGrupos(), jsonGrupo.getInt("id"));

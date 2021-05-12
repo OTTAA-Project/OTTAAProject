@@ -207,14 +207,14 @@ public class Picto_Recycler_view extends Custom_recyclerView {
                 try {
                     JSONutils.setHijosGrupo2(pictosGrupos, array, button);
                     JSONutils.desvincularJson(pictosGrupos.getJSONObject(button), id);
-                    array = json.getHijosGrupo2(pictosGrupos.getJSONObject(button));
+                    array = JSONutils.getHijosGrupo2(json.getmJSONArrayTodosLosPictos(),pictosGrupos.getJSONObject(button));
                     galeriaPictos2.setmArrayPictos(array);
                     galeriaPictos2.notifyDataSetChanged();
                     json.setmJSONArrayTodosLosGrupos(pictosGrupos);
                     if (!json.guardarJson(Constants.ARCHIVO_GRUPOS))
                         Log.e(TAG, "Error al guardar el json");
                     subirGrupos();
-                } catch (JSONException | FiveMbException e) {
+                } catch (JSONException e) {
                     e.printStackTrace();
                 }
 
