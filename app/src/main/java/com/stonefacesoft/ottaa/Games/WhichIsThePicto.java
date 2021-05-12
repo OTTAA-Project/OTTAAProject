@@ -246,8 +246,8 @@ public class WhichIsThePicto extends AppCompatActivity implements View
             int id = json.getId(mJsonArrayTodosLosGrupos.getJSONObject(mPositionPadre));
             analitycsFirebase.levelNameGame(TAG + "_" + json.getNombre(mJsonArrayTodosLosGrupos.getJSONObject(mPositionPadre)));
             game = new Juego(this, 0, id);
-            game.setGamelevel(0);
-            game.setMaxStreak(3);
+            game.setGamelevel(sharedPrefsDefault.getInt("whichIsThePictoLevel",0));
+            game.setMaxStreak(20);
             game.setMaxLevel(2);
             game.startUseTime();
             loadLevel();
@@ -296,6 +296,7 @@ public class WhichIsThePicto extends AppCompatActivity implements View
         music.stop();
         Intent databack = new Intent();
         databack.putExtra("Boton", mPositionPadre);
+        sharedPrefsDefault.edit().putInt("whichIsThePictoLevel",game.getGamelevel()).apply();
         setResult(3, databack);
         this.finish();
     }
@@ -463,7 +464,7 @@ public class WhichIsThePicto extends AppCompatActivity implements View
     private float CalcularPuntaje(boolean Acerto) {
         if (Acerto) {
             game.incrementCorrect();
-
+            game.incrementTimesRight();
             Drawable drawable = game.devolverCarita();
             drawable.setTint(getResources().getColor(R.color.colorWhite));
             mMenu.getItem(0).setIcon(drawable).setVisible(true);

@@ -127,7 +127,7 @@ public class Juego {
 
     public  void incrementCorrect(){
             correctStreak++;
-            timesRight++;
+
         if(correctStreak>=bestStreak){
             bestStreak=correctStreak;
             saveBestStreak();
@@ -141,6 +141,10 @@ public class Juego {
         }
         correctStreak=0;
         puntos.sumarCantidVecesIncorretas();
+   }
+
+   public void incrementTimesRight(){
+       timesRight++;
    }
 
 
@@ -295,6 +299,10 @@ public class Juego {
 
     public boolean isChangeLevel(){
         return (timesRight%maxStreak)==0;
+    }
+
+    public int getTimesRight() {
+        return timesRight;
     }
 
     public void setMaxLevel(int maxLevel) {

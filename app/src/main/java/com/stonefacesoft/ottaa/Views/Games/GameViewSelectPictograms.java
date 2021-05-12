@@ -356,16 +356,6 @@ public class GameViewSelectPictograms extends AppCompatActivity implements View.
 
         //la variable temporal galeria grupos se la usa para modificar puntaje
 
-        player.stop();
-        music.stop();
-        Intent databack = new Intent();
-        databack.putExtra("Boton", mPositionPadre);
-        setResult(3, databack);
-        game.endUseTime();
-        game.guardarObjetoJson();
-        game.subirDatosJuegosFirebase();
-        this.finish();
-
     }
 
     protected int GetPosicionLastButton(){

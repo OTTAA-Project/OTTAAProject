@@ -1,5 +1,6 @@
 package com.stonefacesoft.ottaa.Games;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
@@ -34,8 +35,8 @@ public class MemoryGame extends GameViewSelectPictograms {
         model = new MemoryGameModelModel();
         setUpGame(2);
         game.setGamelevel(0);
-        game.setMaxLevel(3);
-        game.setMaxStreak(4);
+        game.setMaxLevel(sharedPrefsDefault.getInt("MemoryGameLevel",0));
+        game.setMaxStreak(20);
         model = new MemoryGameModelModel();
         changeLevel();
         startGame();
@@ -173,6 +174,21 @@ public class MemoryGame extends GameViewSelectPictograms {
     protected void esCorrecto(boolean esPicto) {
         super.esCorrecto(esPicto);
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        sharedPrefsDefault.edit().putInt("MemoryGameLevel",game.getGamelevel()).apply();
+        player.stop();
+        music.stop();
+        Intent databack = new Intent();
+        databack.putExtra("Boton", mPositionPadre);
+        setResult(3, databack);
+        game.endUseTime();
+        game.guardarObjetoJson();
+        game.subirDatosJuegosFirebase();
+        this.finish();
     }
 
     @Override
@@ -326,6 +342,7 @@ public class MemoryGame extends GameViewSelectPictograms {
     @Override
     protected void CorrectAction() {
         game.incrementCorrect();
+        game.incrementTimesRight();
         unlockOptions();
         model.addHistoryValue(foundPictos,lastButton.getCustom_Texto());
         foundPictos++;
