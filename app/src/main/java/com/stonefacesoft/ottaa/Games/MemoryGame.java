@@ -50,7 +50,7 @@ public class MemoryGame extends GameViewSelectPictograms {
             try {
                 JSONObject object = hijos.getJSONObject(value);
                 pictogramas[pos] = hijos.getJSONObject(value);
-            } catch (JSONException e) {
+            } catch (JSONException e) {https://www.google.com/search?q=terryfi&oq=terryfi&aqs=chrome..69i57.1869j0j7&sourceid=chrome&ie=UTF-8
                 e.printStackTrace();
                 selectRandomPictogram(pos);
             }
@@ -61,10 +61,9 @@ public class MemoryGame extends GameViewSelectPictograms {
 
     @Override
     protected void selectRandomOptions() {
-        selectRandomPictogram(0);
-        selectRandomPictogram(1);
-        selectRandomPictogram(2);
-        selectRandomPictogram(3);
+        for (int i = 0; i <model.getSize() ; i++) {
+            selectRandomPictogram(i);
+        }
     }
 
     protected void cargarOpcion(int pos) {

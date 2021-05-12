@@ -1,11 +1,14 @@
 package com.stonefacesoft.ottaa.Games.Model;
 
+import java.util.Random;
+
 public class GameModel {
     protected String name;
     protected int level;
     protected int accuracy;
     protected int valueIndex[] = new int[]{};
     protected int size;
+    private Random random;
 
     public String getName() {
         return name;
@@ -51,10 +54,20 @@ public class GameModel {
     }
 
     public int elegirGanador(){
-        return (int) Math.floor(Math.random()*size+0);
+        if(random == null)
+            createRandom();
+        return  random.nextInt(size);
+    }
+
+    public void createRandom(){
+        random = new Random();
+
     }
 
     public int getSize() {
         return size;
+    }
+    public boolean reiniciarJuego(int value){
+        return value==size;
     }
 }

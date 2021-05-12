@@ -159,11 +159,7 @@ public class GameViewSelectPictograms extends AppCompatActivity implements View.
      *  This method selects the pictograms when the game starts
      * */
     protected void selectRandomOptions(){
-        selectRandomPictogram(0);
-        selectRandomPictogram(1);
-        selectRandomPictogram(2);
-        selectRandomPictogram(3);
-        numeros.clear();
+
     }
 
 
