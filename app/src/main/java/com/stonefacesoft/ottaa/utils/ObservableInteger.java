@@ -29,4 +29,8 @@ public class ObservableInteger {
     public interface OnIntegerChangeListener {
         void onIntegerChanged(int newValue);
     }
+
+    public OnIntegerChangeListener getListener() {
+        return listener;
+    }
 }

@@ -1,5 +1,9 @@
 package com.stonefacesoft.ottaa.utils.Games;
 
+import com.stonefacesoft.pictogramslibrary.JsonUtils.JSONObjectManager;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -88,6 +92,18 @@ public class CalculaPuntosTest {
 
     @Test
     public void getPuntaje() {
+        JSONObjectManager jsonObjectManager = new JSONObjectManager();
+        JSONObject object = jsonObjectManager.createJsonObject();
+        try {
+            object.put("aciertos",calculaPuntos.getAciertos());
+            object.put("desaciertos",calculaPuntos.getDesaciertos());
+            object.put("score",calculaPuntos.calcularValor());
+            object.put("intentos",calculaPuntos.getScore());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        assertEquals(object.toString(),calculaPuntos.getPuntaje().toString());
 
     }
 }
