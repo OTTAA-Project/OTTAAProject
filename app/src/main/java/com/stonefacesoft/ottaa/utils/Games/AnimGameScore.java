@@ -34,7 +34,7 @@ public class AnimGameScore {
 
     }
 /*
-    public void setMenuView(Menu menu) {
+    public void setMenuView(Menu menu) {calculaPuntos.setIntentos(600);
         this.mMenu = menu;
     }*/
 

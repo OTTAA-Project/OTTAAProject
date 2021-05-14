@@ -1,6 +1,5 @@
 package com.stonefacesoft.ottaa.utils.TalkActions;
 
-import android.content.Context;
 import android.util.Log;
 
 import com.stonefacesoft.ottaa.Custom_Picto;
@@ -19,14 +18,12 @@ public class Historial {
     private Custom_Picto picto;
     private ArrayList<JSONObject> listOfPictograms;
     private JSONObject father;
-    private final Context mContext;
     private final Json json;
     private final NLG nlg;
     private final String TAG = "Historial";
 
 
-    public Historial(Context mContext, Json json) {
-        this.mContext = mContext;
+    public Historial(Json json) {
         this.json = json;
         listOfPictograms = new ArrayList<>();
         nlg = new NLG();
@@ -46,7 +43,6 @@ public class Historial {
 
 
     public void clear(){
-
         listOfPictograms=new ArrayList<>();
     }
 
@@ -78,9 +74,6 @@ public class Historial {
         return getFather();
     }
 
-    public void talkSmart(){
-
-    }
     public String talkWithtNLG(){
         String Phrase="";
         nlg.NuevaFrase();

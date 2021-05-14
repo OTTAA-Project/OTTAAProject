@@ -6,7 +6,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Calendar;
-import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 /**
  * @author  Gonzalo Juarez
@@ -115,28 +114,6 @@ public class Reloj {
         m1=timeToMinutes(time+hours,h1);
         s1=timeToSeconds(time+hours,h1,m1);
         return m1+" m "+s1 +" s";
-    }
-
-    public String getNormalTime(){
-        long h1,m1,s1;
-        long time,hours;
-        time=getLastUsedTime();
-        hours=Calendar.getInstance().getTimeInMillis();
-        h1=timeToHour(time+hours);
-        m1=timeToMinutes(time+hours,h1);
-        s1=timeToSeconds(time+hours,h1,m1);
-
-        return String.format("%02d h %02d m %02d s", (h1), (m1), (s1));
-    }
-    public String getNormalTime(long time){
-        long h1,m1,s1;
-        long hours;
-        hours=Calendar.getInstance().getTimeInMillis();
-        h1=timeToHour(time+hours);
-        m1=timeToMinutes(time+hours,h1);
-        s1=timeToSeconds(time+hours,h1,m1);
-
-        return String.format(Locale.getDefault()+"%02d h %02d m %02d s", (h1), (m1), (s1));
     }
 
 

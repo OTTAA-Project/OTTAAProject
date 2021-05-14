@@ -24,4 +24,7 @@ public class ReturnPositionItem {
         return position;
     }
 
+    public int getPosition() {
+        return position;
+    }
 }

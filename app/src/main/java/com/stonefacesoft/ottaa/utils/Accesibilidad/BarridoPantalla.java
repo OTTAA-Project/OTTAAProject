@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.utils.Constants;
+import com.stonefacesoft.ottaa.utils.ReturnPositionItem;
 
 import java.util.ArrayList;
 /**
@@ -41,7 +42,7 @@ public class BarridoPantalla {
     }
 
     private ArrayList<View> mListadoVistas;
-    private int posicion=0;
+   // private int posicion=0;
     private boolean cambioPosicion;
     private Context mContext;
     private boolean mEstaActivado;
@@ -57,6 +58,7 @@ public class BarridoPantalla {
     private FloatingActionButton button;
     private Handler waitTime;//screenScanningRun,waitTime;
     private TimeToChange timeToChange;
+    private ReturnPositionItem returnPositionItem;
 
 
 
@@ -89,7 +91,7 @@ public class BarridoPantalla {
         isSipAndPuff=mDefaultSharedPreferences.getBoolean("sip_and_puff",false);
         scrollMode=mDefaultSharedPreferences.getBoolean(this.mContext.getResources().getString(R.string.usar_scroll),false);
         scrollModeClicker =mDefaultSharedPreferences.getBoolean(this.mContext.getResources().getString(R.string.usar_scroll_click),false);
-        posicion = 0;
+        returnPositionItem = new ReturnPositionItem(listadoObjetos.size());
         pago = consultarPago();
         cambiarEstadoBarrido();
         button.setSize(FloatingActionButton.SIZE_AUTO);
@@ -136,11 +138,9 @@ public class BarridoPantalla {
     public void recorrerBarridoAutomatico() {
         if(mListadoVistas.size()>0) {
             int color = mDefaultSharedPreferences.getInt("Color_Picker", Color.BLUE);
-            Log.e("position", "position: " + posicion);
-            posicion=devolverPosicion();
-            if (posicion != -1) {
-                moveCursor();
-            }
+            Log.e("position", "position: " + returnPositionItem.getPosition());
+            changeSelectedChild();
+            moveCursor();
             timeToChange.cambiarBoton();
         }
     }
@@ -185,11 +185,10 @@ public class BarridoPantalla {
     }
 
     public int getPosicionBarrido() {
-        return posicion;
+        return returnPositionItem.getPosition();
     }
 
     public void activarDesactivarBarrido() {
-        posicion = 0;
         pago = consultarPago();
         if (consultarPago())
             activarBarrido();
@@ -206,13 +205,13 @@ public class BarridoPantalla {
     }
 
     public void avanzarBarrido() {
-        devolverPosicion(posicion,true);
+        changeSelectedChild(true);
         recorrerBarridoManual();
 
     }
 
     public void volverAtrasBarrido() {
-        devolverPosicion(posicion,false);
+        changeSelectedChild(false);
         recorrerBarridoManual();
     }
 
@@ -240,7 +239,6 @@ public class BarridoPantalla {
 
         // cambiarMargin();
       //  limpiarBarrido();
-        posicion = 0;
         timeToChange=new TimeToChange(this,tiempo);
         activarDesactivarBarrido();
 
@@ -249,38 +247,27 @@ public class BarridoPantalla {
     /*
      * Use this method to return the position of object that&acutes is visible
      * */
-    private int devolverPosicion() {
+    private int changeSelectedChild() {
+        returnPositionItem.add();
         try{
-            posicion++;
-            if (posicion>mListadoVistas.size())
-                posicion = 0;
-            else if (posicion < 0)
-                posicion = mListadoVistas.size() ;
-            if (mListadoVistas.get(posicion).getVisibility() == View.VISIBLE) {
-                return posicion;
+            if (mListadoVistas.get(returnPositionItem.getPosition()).getVisibility() == View.VISIBLE) {
+                return returnPositionItem.getPosition();
             } else{
-               devolverPosicion();
+               changeSelectedChild();
             }
         }catch (Exception ex){
             return 0;
         }
-        return posicion;
+        return returnPositionItem.getPosition();
     }
 
-    private void devolverPosicion(int pos,boolean add) {
-
+    private void changeSelectedChild(boolean add) {
             if(add)
-                pos++;
+                returnPositionItem.add();
             else
-                pos--;
-
-            if (pos>=mListadoVistas.size())
-                pos = 0;
-            else if (pos < 0)
-                pos = mListadoVistas.size() -1;
-            posicion=pos;
-            if (mListadoVistas.get(pos).getVisibility() != View.VISIBLE) {
-                devolverPosicion(pos,add);
+                returnPositionItem.subtract();
+            if (mListadoVistas.get(returnPositionItem.getPosition()).getVisibility() != View.VISIBLE) {
+                changeSelectedChild(add);
             }
     }
 
@@ -300,10 +287,7 @@ public class BarridoPantalla {
     private void moveCursor(){
         if(button.getVisibility()==View.INVISIBLE||button.getVisibility()==View.GONE)
        changeButtonVisibility();
-
-        if(posicion!=-1) {
-                getExactCenterPoint(mListadoVistas.get(posicion));
-            }
+        getExactCenterPoint(mListadoVistas.get(returnPositionItem.getPosition()));
 //
     }
 

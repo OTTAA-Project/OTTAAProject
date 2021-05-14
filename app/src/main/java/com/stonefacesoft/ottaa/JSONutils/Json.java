@@ -12,8 +12,6 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.util.Size;
 
-import com.google.gson.JsonObject;
-import com.stonefacesoft.ottaa.Bitmap.UriFiles;
 import com.stonefacesoft.ottaa.Interfaces.FindPictogram;
 import com.stonefacesoft.ottaa.Prediction.Clima;
 import com.stonefacesoft.ottaa.Prediction.Edad;
@@ -42,7 +40,6 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
 
 /**
  * @author morro
@@ -336,7 +333,7 @@ public class Json implements FindPictogram {
     }
 
     private double score(JSONObject json, boolean esSugerencia) {
-        return JSONutils.score(json,esSugerencia,getmJSONArrayTodosLosPictos(),getAgenda(), obtenerSexo(),calcularHora().toString(),obtenerEdad(),calcularPosicion() );
+        return JSONutils.score(json,esSugerencia,getmJSONArrayTodosLosPictos(),getAgenda(), obtenerSexo(),calcularHora().toString(),obtenerEdad(),calcularPosicion()+"");
     }
 
     //TODO hasta aca revisado

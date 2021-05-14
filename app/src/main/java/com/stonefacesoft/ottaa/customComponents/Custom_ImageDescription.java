@@ -1,16 +1,14 @@
 package com.stonefacesoft.ottaa.customComponents;
 
-import android.content.Context;
-
 public class Custom_ImageDescription {
-    private Context mContext;
+
     private String description;
     private String title;
     private int idImage;
     private int backgroundColor;
     private int textColor;
-    public Custom_ImageDescription(Context mContext,String title,String description,int idImage,int backgroundColor,int textColor){
-        this.mContext=mContext;
+    public Custom_ImageDescription(String title,String description,int idImage,int backgroundColor,int textColor){
+
         this.description=description;
         this.idImage=idImage;
         this.title=title;

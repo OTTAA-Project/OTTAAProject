@@ -578,7 +578,7 @@ public class Principal extends AppCompatActivity implements View
 
         //Seteo en false salvo que sea la primera vez q se usa
         TutoFlag = sharedPrefs.getBoolean("PrimerUso", true);
-        historial=new Historial(this,json);
+        historial=new Historial(json);
         //Implemento el vibrador
         Vibrator vibe = (Vibrator) Principal.this.getSystemService(Context.VIBRATOR_SERVICE);
 

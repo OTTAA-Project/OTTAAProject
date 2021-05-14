@@ -1,6 +1,5 @@
 package com.stonefacesoft.ottaa.utils;
 
-import android.graphics.drawable.Drawable;
 import android.util.Log;
 
 import com.stonefacesoft.ottaa.JSONutils.SearchObjects;
@@ -9,8 +8,6 @@ import com.stonefacesoft.ottaa.Prediction.Edad;
 import com.stonefacesoft.ottaa.Prediction.Horario;
 import com.stonefacesoft.ottaa.Prediction.Posicion;
 import com.stonefacesoft.ottaa.Prediction.Sexo;
-import com.stonefacesoft.ottaa.R;
-import com.stonefacesoft.ottaa.utils.exceptions.FiveMbException;
 
 import org.json.JSONArray;
 import org.json.JSONException;
