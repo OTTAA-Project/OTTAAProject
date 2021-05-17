@@ -16,9 +16,6 @@ import static org.junit.Assert.assertEquals;
 public class HistorialTest  {
     private Historial historial =  new Historial(Json.getInstance());
 
-
-
-
     @Test
     public void getListadoPictos() {
        createTestPhrase();
@@ -39,11 +36,7 @@ public class HistorialTest  {
     public void removePictogram() {
       createTestPhrase();
       historial.removePictogram();
-        try {
-            assertEquals(118,Json.getInstance().getId(historial.getFather()));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+      assertEquals(historial.getListadoPictos().get(2),historial.getFather());
     }
 
     @Test
@@ -56,12 +49,9 @@ public class HistorialTest  {
     @Test
     public void getFather() {
         createTestPhrase();
-        try {
-            System.out.println("id:"+ historial.getFather().toString());
-            assertEquals(474,historial.getFather().getInt("id"));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        System.out.println("Ideal Father : " + historial.getListadoPictos().get(3));
+        System.out.println("Real Father : " + historial.getFather());
+        assertEquals(historial.getListadoPictos().get(3),historial.getFather());
     }
 
     @Test
@@ -69,12 +59,12 @@ public class HistorialTest  {
         createTestPhrase();
         historial.removePictograms(true);
         assertEquals(0,historial.getListadoPictos().size());
-
     }
 
 
     @Test
     public void talkWithtNLG() {
+        historial.clear();
         createTestPhrase();
         assertEquals("I want to eat an apple.",historial.talkWithtNLG());
     }
@@ -145,7 +135,6 @@ public class HistorialTest  {
     }
 
     public void createTestPhrase(){
-        JSONArray childs = createPictogramJSONArray();
         try {
             historial.addPictograma(createPictogramJSONArray().getJSONObject(0));
             historial.addPictograma(createPictogramJSONArray().getJSONObject(1));

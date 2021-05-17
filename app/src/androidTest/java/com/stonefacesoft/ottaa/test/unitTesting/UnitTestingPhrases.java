@@ -49,7 +49,7 @@ public class UnitTestingPhrases extends TestCase {
         json= Json.getInstance();
         json.setmContext(context);
         pictograms=new Pictograms(context,json);
-        historial=new Historial(context,pictograms.getJson());
+        historial=new Historial(pictograms.getJson());
         phrase=new StringBuilder();
 
 

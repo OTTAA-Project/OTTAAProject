@@ -61,9 +61,9 @@ public class RelojTest  {
 
     @Test
     public void getTiempoUso() {
-        long initTime = System.currentTimeMillis();
+        long initTime = 1621281600000L; //Monday 17 may 17:00
         reloj.setHorainicio(initTime);
-        long endTime = System.currentTimeMillis();
+        long endTime = 1621282994000L; //Monday 17 may 17:23
         reloj.setHorafin(endTime);
         assertEquals(endTime-initTime,reloj.getTiempoUso());
     }
@@ -87,10 +87,21 @@ public class RelojTest  {
 
     @Test
     public void timeToHour() {
+        long initTime = 1621281600000L; //Monday 17 may 17:00
+        reloj.setHorainicio(initTime);
+        long endTime = 1621282994000L; //Monday 17 may 17:23
+        reloj.setHorafin(endTime);
+
+        assertEquals(0,reloj.timeToHour(reloj.getTiempoUso()));
     }
 
     @Test
     public void timeToMinutes() {
+        long initTime = 1621281600000L; //Monday 17 may 17:00
+        reloj.setHorainicio(initTime);
+        long endTime = 1621282994000L; //Monday 17 may 17:23
+        reloj.setHorafin(endTime);
+        assertEquals(23,reloj.timeToMinutes(reloj.getTiempoUso(),reloj.timeToHour(reloj.getTiempoUso())));
     }
 
     @Test

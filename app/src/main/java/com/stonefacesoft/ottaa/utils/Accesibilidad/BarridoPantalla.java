@@ -71,7 +71,9 @@ public class BarridoPantalla {
         }
     };
 
-    public BarridoPantalla(){}
+    public BarridoPantalla(){
+        settings = new ScreenScanningSettings();
+    }
 
 
     public BarridoPantalla(Context mContext, ArrayList<View> listadoObjetos, Activity mActivity) {
@@ -341,6 +343,9 @@ public class BarridoPantalla {
         return button;
     }
 
+    public void createPositionItem(int size){
+        returnPositionItem = new ReturnPositionItem(size);
+    }
 
 
 

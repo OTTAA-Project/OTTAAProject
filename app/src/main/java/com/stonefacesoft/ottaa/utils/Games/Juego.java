@@ -44,7 +44,7 @@ public class Juego {
     private boolean streak;
     private final Reloj reloj;
     private final Json json;
-    private final User user;
+    private User user;
     private SubirArchivosFirebase subirArchivosFirebase;
     private JSONObject object = new JSONObject();
 
@@ -71,8 +71,6 @@ public class Juego {
        this.game = id;
        this.levelId=levelId;
        this.reloj=new Reloj();
-       this.user =new User(this.mContext);
-
        crearObjetoJson();
        JSONObject score=json.getObjectPuntaje(object);
        if(score!=null){
@@ -94,6 +92,11 @@ public class Juego {
        bestStreak=getBestStreak();
 
    }
+
+   public void createUser(){
+       this.user =new User(this.mContext);
+   }
+
    public void setUseTime(long useTime){
        this.useTime+=useTime;
    }
@@ -135,6 +138,8 @@ public class Juego {
        return correctStreak;
    }
 
+
+
     public int getBestStreak() {
         try {
             bestStreak=object.getInt("best_streak");
@@ -149,9 +154,7 @@ public class Juego {
         return game;
     }
 
-    public int[] getIconArrayActive() {
-        return iconArrayActive;
-    }
+
     public Drawable devolverCaritaPosicion(int position){
        return mContext.getResources().getDrawable(iconArrayActive[position]);
     }
@@ -247,6 +250,8 @@ public class Juego {
     }
 
     public void subirDatosJuegosFirebase(){
+       if(user == null)
+           createUser();
        if(subirArchivosFirebase==null)
            this.subirArchivosFirebase=new SubirArchivosFirebase(this.mContext);
         subirArchivosFirebase.subirJuegos(subirArchivosFirebase.getmDatabase(user.getmAuth(),Constants.JUEGOS),subirArchivosFirebase.getmStorageRef(user.getmAuth(),Constants.JUEGOS));

@@ -124,4 +124,12 @@ public class NumberPickerPreference  implements View.OnClickListener , NumberPic
         PreferenceManager.getDefaultSharedPreferences(mContext).edit().putInt(key,mPicker.getValue()).apply();
 
     }
+
+    public Integer getmNumberMax() {
+        return mNumberMax;
+    }
+
+    public Integer getmNumberMin() {
+        return mNumberMin;
+    }
 }

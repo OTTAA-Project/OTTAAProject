@@ -15,12 +15,12 @@ import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.idioma.ConfigurarIdioma;
 import com.stonefacesoft.ottaa.idioma.myContextWrapper;
 import com.stonefacesoft.ottaa.utils.Accesibilidad.BarridoPantalla;
-import com.stonefacesoft.ottaa.utils.PreferencesManager;
+
 
 import java.util.ArrayList;
 
 public class GeneralClassWithScreenScanning extends AppCompatActivity {
-    private PreferencesManager sharedPrefsDefault;
+    private SharedPreferences sharedPrefsDefault;
     private BarridoPantalla barridoPantalla;
     private FloatingActionButton btnBarrido;
 
