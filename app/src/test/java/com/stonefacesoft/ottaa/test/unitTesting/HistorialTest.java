@@ -2,7 +2,6 @@ package com.stonefacesoft.ottaa.test.unitTesting;
 
 import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.NLG;
-import com.stonefacesoft.ottaa.utils.JSONutils;
 import com.stonefacesoft.ottaa.utils.TalkActions.Historial;
 
 import org.json.JSONArray;
@@ -22,7 +21,8 @@ public class HistorialTest  {
 
     @Test
     public void getListadoPictos() {
-        assertEquals(4, createTestPhrase().size());
+       createTestPhrase();
+        assertEquals(4, historial.getListadoPictos().size());
     }
 
     @Test
@@ -37,29 +37,28 @@ public class HistorialTest  {
 
     @Test
     public void removePictogram() {
+      createTestPhrase();
+      historial.removePictogram();
         try {
-            historial.addPictograma(createPictogramJSONArray().getJSONObject(0));
+            assertEquals(118,Json.getInstance().getId(historial.getFather()));
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        historial.removePictogram();
-        assertEquals(0,historial.getListadoPictos().size());
     }
 
     @Test
     public void clear() {
-        ArrayList phrase = createTestPhrase();
-        phrase = new ArrayList();
-        assertEquals(0,phrase.size());
+        createGrupoJSONArray();
+        historial.clear();
+        assertEquals(0,historial.getListadoPictos().size());
     }
 
     @Test
     public void getFather() {
-        ArrayList<JSONObject> phrase = createTestPhrase();
+        createTestPhrase();
         try {
-            assertEquals(474,phrase.get(phrase.size()-1).getInt("id"));
-            phrase.remove(phrase.size()-1);
-            assertEquals(118,phrase.get(phrase.size()-1).getInt("id"));
+            System.out.println("id:"+ historial.getFather().toString());
+            assertEquals(474,historial.getFather().getInt("id"));
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -67,32 +66,17 @@ public class HistorialTest  {
 
     @Test
     public void removePictograms() {
-        boolean removeAllPictograms=false;
-        ArrayList<JSONObject> phrase = createTestPhrase();
-        if(!removeAllPictograms){
-            phrase.remove(phrase.size()-1);
-            try {
-                assertEquals(118,phrase.get(phrase.size()-1).getInt("id"));
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            removeAllPictograms = true;
-        }
-        if(removeAllPictograms){
-            phrase = new ArrayList<>();
-            assertEquals(0,phrase.size());
-        }
+        createTestPhrase();
+        historial.removePictograms(true);
+        assertEquals(0,historial.getListadoPictos().size());
+
     }
 
 
     @Test
     public void talkWithtNLG() {
-        NLG nlg = createNLG();
-        ArrayList<JSONObject> phrase = createTestPhrase();
-        for (int i = 0; i < phrase.size() ; i++) {
-            nlg.CargarFrase(phrase.get(i), JSONutils.getTipo(phrase.get(i)));
-        }
-        assertEquals("I want to eat an apple.",nlg.ArmarFrase().replace("null",""));
+        createTestPhrase();
+        assertEquals("I want to eat an apple.",historial.talkWithtNLG());
     }
 
 
@@ -111,12 +95,14 @@ public class HistorialTest  {
             jsonObject.put("imagen",imagen);
             JSONArray jsonArray = new JSONArray();
             JSONObject relatedId1 = new JSONObject();
-            relatedId1.put("id",22).put("frec",10);
+            relatedId1.put("id",22);
             JSONObject relatedId2 = new JSONObject();
             relatedId2.put("id",118);
             JSONObject relatedId3 = new JSONObject();
             relatedId3.put("id",474);
-            jsonArray.put(relatedId1).put(relatedId2).put(relatedId3);
+            jsonArray.put(relatedId1);
+            jsonArray.put(relatedId2);
+            jsonArray.put(relatedId3);
             jsonObject.put("relacion",jsonArray);
 
         } catch (JSONException e) {
@@ -158,17 +144,16 @@ public class HistorialTest  {
         }
     }
 
-    public ArrayList<JSONObject> createTestPhrase(){
-        JSONArray array = createPictogramJSONArray();
-        ArrayList<JSONObject> list = createListOfPictograms(null);
-        for (int i = 0; i < array.length() ; i++) {
-            try {
-                addChild(list,array.getJSONObject(i));
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+    public void createTestPhrase(){
+        JSONArray childs = createPictogramJSONArray();
+        try {
+            historial.addPictograma(createPictogramJSONArray().getJSONObject(0));
+            historial.addPictograma(createPictogramJSONArray().getJSONObject(1));
+            historial.addPictograma(createPictogramJSONArray().getJSONObject(2));
+            historial.addPictograma(createPictogramJSONArray().getJSONObject(3));
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
-        return list;
     }
 
     public NLG createNLG(){
