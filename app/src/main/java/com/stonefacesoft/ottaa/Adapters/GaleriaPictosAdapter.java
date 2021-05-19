@@ -63,7 +63,10 @@ public class GaleriaPictosAdapter extends RecyclerView.Adapter<GaleriaPictosAdap
         this.mArrayPictos = mArrayPictos;
         this.uploadFirebaseFile = new SubirArchivosFirebase(mContext);
         this.mAuth = auth;
-         glideAttatcher=new GlideAttatcher(mContext);
+    }
+    public GaleriaPictosAdapter loadGlideAttacher(){
+        glideAttatcher=new GlideAttatcher(mContext);
+        return this;
     }
 
 
