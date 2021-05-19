@@ -8,15 +8,16 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.R;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-
-import androidx.recyclerview.widget.RecyclerView;
 
 public class TagsAdapter extends RecyclerView.Adapter<TagsAdapter.TagsViewHolder> {
 
@@ -147,5 +148,48 @@ public class TagsAdapter extends RecyclerView.Adapter<TagsAdapter.TagsViewHolder
             }
         }
 
+    }
+
+
+    private JSONArray createPictogramJSONArray(){
+        JSONArray jsonArray = new JSONArray();
+        jsonArray.put(createPictograms(643,"es","Yo","I",1));
+        jsonArray.put(createPictograms(22,"es","quiero","want",3));
+        jsonArray.put(createPictograms(118,"es","comer","eat",3));
+        jsonArray.put(createPictograms(474,"es","manzana","apple",2));
+        return jsonArray;
+    }
+
+    public JSONObject createPictograms(int id, String locale, String localeName, String englishName, int tipo) {
+
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("id",id);
+            jsonObject.put("tipo",tipo);
+            JSONObject texto=new JSONObject();
+            texto.put("en",englishName);
+            texto.put(locale,localeName);
+            jsonObject.put("texto",texto);
+            JSONObject imagen=new JSONObject();
+            imagen.put("picto","ic_action_previous");
+            jsonObject.put("imagen",imagen);
+            JSONArray jsonArray = new JSONArray();
+            JSONObject relatedId1 = new JSONObject();
+            relatedId1.put("id",22).put("frec",10);
+            JSONObject relatedId2 = new JSONObject();
+            relatedId2.put("id",118);
+            JSONObject relatedId3 = new JSONObject();
+            relatedId3.put("id",474);
+            jsonArray.put(relatedId1).put(relatedId2).put(relatedId3);
+            jsonObject.put("relacion",jsonArray);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jsonObject;
+    }
+
+    public ArrayList<JSONObject> vinculatePictograms(){
+        return new ArrayList();
     }
 }

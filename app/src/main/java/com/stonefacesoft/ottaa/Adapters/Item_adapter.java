@@ -200,4 +200,12 @@ public class Item_adapter extends RecyclerView.Adapter<Item_adapter.ItemAdapterV
     public int devolverPosition() {
         return position;
     }
+
+    public String getDefaultValue() {
+        return defaultValue;
+    }
+
+    public String getKey() {
+        return key;
+    }
 }

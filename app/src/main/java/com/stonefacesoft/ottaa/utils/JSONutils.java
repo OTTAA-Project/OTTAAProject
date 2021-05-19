@@ -490,7 +490,7 @@ public class JSONutils {
 //        }
 //    }
 
-    private static int tieneSexo(JSONObject json, String sexo) {
+    public static int tieneSexo(JSONObject json, String sexo) {
         try {
             JSONArray array = json.getJSONArray(Constants.SEXO);
             for (int i = 0; i < array.length(); i++) {
@@ -519,7 +519,7 @@ public class JSONutils {
         return 0;
     }
 
-    private static int tieneHora(JSONObject json, String hora) {
+    public static int tieneHora(JSONObject json, String hora) {
         try {
             JSONArray array = json.getJSONArray(Constants.HORA);
             for (int i = 0; i < array.length(); i++) {
@@ -533,7 +533,7 @@ public class JSONutils {
         return 0;
     }
 
-    private static int tieneEdad(JSONObject json, String edad) {
+    public static int tieneEdad(JSONObject json, String edad) {
         try {
             JSONArray array = json.getJSONArray(Constants.EDAD);
             for (int i = 0; i < array.length(); i++) {
@@ -553,7 +553,7 @@ public class JSONutils {
      * Else return -1
      * Use that method to make a consult about the location
      * */
-    private static int tienePosicion(JSONObject json, String posicion) {
+    public static int tienePosicion(JSONObject json, String posicion) {
         try {
             JSONArray array = json.getJSONArray(Constants.UBICACION);
             for (int i = 0; i < array.length(); i++) {

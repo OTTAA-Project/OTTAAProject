@@ -25,7 +25,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-
+// Todo modularizar esta clase en partes
 public class AsignTags {
 
     private static final String TAG = "AsignTags";
@@ -94,6 +94,14 @@ public class AsignTags {
         this.mDialogInterface = interfaz;
     }
 
+    public DialogInterfaceTags getmDialogInterface() {
+        return mDialogInterface;
+    }
+
+    public TagInterfazJson getmTagInterface() {
+        return mTagInterface;
+    }
+
     public void setInterfazTag(TagInterfazJson interfaz) {
         this.mTagInterface = interfaz;
     }
@@ -109,6 +117,10 @@ public class AsignTags {
         this.picto = pictoExtra;
         this.esGrupo = esGrupoExtra;
 
+    }
+
+    public JSONObject getPicto() {
+        return picto;
     }
 
     public TagsAdapter getTagsAdapter() {
@@ -179,52 +191,6 @@ public class AsignTags {
     }
 
 
-    public void setTagsToPicto(JSONObject picto, boolean esAgenda) throws JSONException {
-        //Borrar los array de tags
-
-
-        //   picto.remove(Constants.HORA);
-        //   picto.remove(Constants.EDAD);
-        //   picto.remove(Constants.UBICACION);
-        //   picto.remove(Constants.SEXO);
-
-
-        if (picto != null) {
-
-            ArrayList<Horario> tagHora = new ArrayList<>();
-            ArrayList<Edad> tagEdad = new ArrayList<>();
-            ArrayList<Sexo> tagSexo = new ArrayList<>();
-            ArrayList<Posicion> tagPosicion = new ArrayList<>();
-            for (int i = 0; i < mArrayListSelectedTAGS.size(); i++) {
-                if (getHorario(mArrayListSelectedTAGS.get(i).getInt("id")) != null) {
-                    tagHora.add(getHorario(mArrayListSelectedTAGS.get(i).getInt("id")));
-                }
-                if (getEdad(mArrayListSelectedTAGS.get(i).getInt("id")) != null) {
-                    tagEdad.add(getEdad(mArrayListSelectedTAGS.get(i).getInt("id")));
-                }
-                if (getSexo(mArrayListSelectedTAGS.get(i).getInt("id")) != null) {
-                    tagSexo.add(getSexo(mArrayListSelectedTAGS.get(i).getInt("id")));
-                }
-                if (getPosicion(mArrayListSelectedTAGS.get(i).getInt("id")) != null) {
-                    tagPosicion.add(getPosicion(mArrayListSelectedTAGS.get(i).getInt("id")));
-                }
-            }
-
-            for (int i = 0; i < tagHora.size(); i++) {
-                JSONutils.setHorario(picto, tagHora.get(i));
-            }
-            for (int i = 0; i < tagEdad.size(); i++) {
-                JSONutils.setEdad(picto, tagEdad.get(i));
-            }
-            for (int i = 0; i < tagSexo.size(); i++) {
-                JSONutils.setSexo(picto, tagSexo.get(i));
-            }
-            for (int i = 0; i < tagPosicion.size(); i++) {
-                JSONutils.setPosicion(picto, tagPosicion.get(i));
-            }
-
-        }
-    }
 
     public void setTagToGrupo(JSONObject grupo, Context context, boolean esAgenda) {
 
@@ -252,7 +218,7 @@ public class AsignTags {
 
                     JSONObject jsonPicto = json.getPictoFromId2(jsonGrupo.getInt("id"));
                     if (jsonPicto != null) {
-                        setTagsToPicto(jsonPicto, esAgenda);
+                        setTagsToPictogram(jsonPicto);
                         JSONutils.setJsonEditado2(json.getmJSONArrayTodosLosPictos(), jsonPicto);
                     } else {
                         array.remove(i);
@@ -392,37 +358,7 @@ public class AsignTags {
                 picto.remove(Constants.UBICACION);
             if (tieneTag(Constants.SEXO, picto))
                 picto.remove(Constants.SEXO);
-            ArrayList<Horario> tagHora = new ArrayList<>();
-            ArrayList<Edad> tagEdad = new ArrayList<>();
-            ArrayList<Sexo> tagSexo = new ArrayList<>();
-            ArrayList<Posicion> tagPosicion = new ArrayList<>();
-            for (int i = 0; i < mArrayListSelectedTAGS.size(); i++) {
-                if (getHorario(mArrayListSelectedTAGS.get(i).getInt("id")) != null) {
-                    tagHora.add(getHorario(mArrayListSelectedTAGS.get(i).getInt("id")));
-                }
-                if (getEdad(mArrayListSelectedTAGS.get(i).getInt("id")) != null) {
-                    tagEdad.add(getEdad(mArrayListSelectedTAGS.get(i).getInt("id")));
-                }
-                if (getSexo(mArrayListSelectedTAGS.get(i).getInt("id")) != null) {
-                    tagSexo.add(getSexo(mArrayListSelectedTAGS.get(i).getInt("id")));
-                }
-                if (getPosicion(mArrayListSelectedTAGS.get(i).getInt("id")) != null) {
-                    tagPosicion.add(getPosicion(mArrayListSelectedTAGS.get(i).getInt("id")));
-                }
-            }
-
-            for (int i = 0; i < tagHora.size(); i++) {
-                JSONutils.setHorario(picto, tagHora.get(i));
-            }
-            for (int i = 0; i < tagEdad.size(); i++) {
-                JSONutils.setEdad(picto, tagEdad.get(i));
-            }
-            for (int i = 0; i < tagSexo.size(); i++) {
-                JSONutils.setSexo(picto, tagSexo.get(i));
-            }
-            for (int i = 0; i < tagPosicion.size(); i++) {
-                JSONutils.setPosicion(picto, tagPosicion.get(i));
-            }
+          setTagsToPictogram(picto);
         }
 
     }
@@ -430,7 +366,6 @@ public class AsignTags {
     private Horario getHorario(int id) {
         switch (id) {
             case 379:
-
                 return Horario.MANANA;
             case 818:
                 return Horario.MEDIODIA;
@@ -508,8 +443,57 @@ public class AsignTags {
         return object.has(texto);
     }
 
+    public ArrayList<JSONObject> getArrayListTodosLosTags() {
+        return arrayListTodosLosTags;
+    }
 
+    public void setmArrayListSelectedTAGS(ArrayList<JSONObject> mArrayListSelectedTAGS) {
+        this.mArrayListSelectedTAGS = mArrayListSelectedTAGS;
+    }
 
+    public ArrayList<JSONObject> getmArrayListSelectedTAGS() {
+        return mArrayListSelectedTAGS;
+    }
 
+    public ArrayList<JSONObject> getmArrayListTagsPorTipo() {
+        return mArrayListTagsPorTipo;
+    }
+
+    public void setTagsToPictogram(JSONObject picto) throws JSONException{
+        if (picto != null) {
+            ArrayList<Horario> tagHora = new ArrayList<>();
+            ArrayList<Edad> tagEdad = new ArrayList<>();
+            ArrayList<Sexo> tagSexo = new ArrayList<>();
+            ArrayList<Posicion> tagPosicion = new ArrayList<>();
+            for (int i = 0; i < mArrayListSelectedTAGS.size(); i++) {
+                if (getHorario(mArrayListSelectedTAGS.get(i).getInt("id")) != null) {
+                    tagHora.add(getHorario(mArrayListSelectedTAGS.get(i).getInt("id")));
+                }
+                if (getEdad(mArrayListSelectedTAGS.get(i).getInt("id")) != null) {
+                    tagEdad.add(getEdad(mArrayListSelectedTAGS.get(i).getInt("id")));
+                }
+                if (getSexo(mArrayListSelectedTAGS.get(i).getInt("id")) != null) {
+                    tagSexo.add(getSexo(mArrayListSelectedTAGS.get(i).getInt("id")));
+                }
+                if (getPosicion(mArrayListSelectedTAGS.get(i).getInt("id")) != null) {
+                    tagPosicion.add(getPosicion(mArrayListSelectedTAGS.get(i).getInt("id")));
+                }
+            }
+
+            for (int i = 0; i < tagHora.size(); i++) {
+                JSONutils.setHorario(picto, tagHora.get(i));
+            }
+            for (int i = 0; i < tagEdad.size(); i++) {
+                JSONutils.setEdad(picto, tagEdad.get(i));
+            }
+            for (int i = 0; i < tagSexo.size(); i++) {
+                JSONutils.setSexo(picto, tagSexo.get(i));
+            }
+            for (int i = 0; i < tagPosicion.size(); i++) {
+                JSONutils.setPosicion(picto, tagPosicion.get(i));
+            }
+
+        }
+    }
 
 }
