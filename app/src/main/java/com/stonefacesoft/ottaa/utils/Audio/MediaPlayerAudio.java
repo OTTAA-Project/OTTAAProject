@@ -132,4 +132,8 @@ public class MediaPlayerAudio implements MediaPlayer.OnPreparedListener {
     public void onPrepared(MediaPlayer mp) {
         playSound(complete);
     }
+
+    public MediaPlayer getPlayer() {
+        return player;
+    }
 }

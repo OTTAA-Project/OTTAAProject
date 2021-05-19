@@ -106,19 +106,39 @@ public class RelojTest  {
 
     @Test
     public void timeToSeconds() {
+        long initTime = 1621281600000L; //Monday 17 may 17:00
+        reloj.setHorainicio(initTime);
+        long endTime = 1621282994000L; //Monday 17 may 17:23
+        reloj.setHorafin(endTime);
+        long hour = reloj.timeToHour(reloj.getTiempoUso());
+        long minutes = reloj.timeToMinutes(reloj.getTiempoUso(),hour);
+        assertEquals(14,reloj.timeToSeconds(reloj.getTiempoUso(),hour,minutes));
     }
 
     @Test
     public void timeToMiliseconds() {
+        long initTime = 1621281600000L; //Monday 17 may 17:00
+        reloj.setHorainicio(initTime);
+        long endTime = 1621282994079L; //Monday 17 may 17:23:14 : 79
+        reloj.setHorafin(endTime);
+        long hour = reloj.timeToHour(reloj.getTiempoUso());
+        long minutes = reloj.timeToMinutes(reloj.getTiempoUso(),hour);
+        long seconds = reloj.timeToSeconds(reloj.getTiempoUso(),hour,minutes);
+        System.out.printf(reloj.timeToMiliseconds(reloj.getTiempoUso(),hour,minutes,seconds)+"");
+        assertEquals(79,reloj.timeToMiliseconds(reloj.getTiempoUso(),hour,minutes,seconds));
     }
+
 
     @Test
     public void getTimeInMinutes() {
+        long initTime = 1621281600000L; //Monday 17 may 17:00
+        reloj.setHorainicio(initTime);
+        long endTime = 1621282994000L; //Monday 17 may 17:23
+        reloj.setHorafin(endTime);
+        System.out.println(reloj.getTimeInMinutes());
     }
 
-    @Test
-    public void getNormalTime() {
-    }
+
 
 
 }

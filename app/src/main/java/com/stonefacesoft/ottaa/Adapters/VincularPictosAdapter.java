@@ -20,7 +20,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.recyclerview.widget.RecyclerView;
 
-
 import com.bumptech.glide.ListPreloader;
 import com.bumptech.glide.RequestBuilder;
 import com.stonefacesoft.ottaa.JSONutils.Json;
@@ -37,8 +36,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-import com.stonefacesoft.pictogramslibrary.utils.GlideAttatcher;
 
 public class VincularPictosAdapter extends RecyclerView.Adapter<VincularPictosAdapter.VincularViewHolder> implements ListPreloader.PreloadModelProvider {
 
@@ -61,9 +58,14 @@ public class VincularPictosAdapter extends RecyclerView.Adapter<VincularPictosAd
         this.esFiltrado = filtro;
         this.mSelectedPictos = new JSONArray();
         this.listadoIdPictos = new ArrayList<>();
+
+
+
+    }
+
+    public VincularPictosAdapter initGlideAttatcher(){
         this.glideAttatcher=new GlideAttatcher(this.mContext);
-
-
+        return this;
     }
 
     @Override
@@ -328,6 +330,8 @@ public class VincularPictosAdapter extends RecyclerView.Adapter<VincularPictosAd
                 attatcher.UseCornerRadius(true).loadDrawable(Uri.parse(pictogram.getUrl()),imageView);
         }
     }
+
+
 
 
 }

@@ -1040,7 +1040,7 @@ public class Edit_Picto_Visual extends AppCompatActivity implements View.OnClick
 
 
         textoPicto = Picto.getCustom_Texto();
-        traducirTexto = new traducirTexto(getApplicationContext(), sharedPrefsDefault);
+        traducirTexto = new traducirTexto(getApplicationContext());
         traducirTexto.traducirIdioma(this, Picto.getCustom_Texto(), sharedPrefsDefault.getString(getString(R.string.str_idioma), "en"), "en", ConnectionDetector.isNetworkAvailable(this));
         if (ConnectionDetector.isNetworkAvailable(Edit_Picto_Visual.this)) {
             // pd.setTitle(getString(R.string.translating_languaje));

@@ -2226,7 +2226,7 @@ public class Principal extends AppCompatActivity implements View
                                 }
                             } else if (sharedPrefsDefault.getBoolean(getString(R.string.mBoolModoExperimental), false)) {
                                 Log.d(TAG, "onClick: " + historial.getListadoPictos().toString());
-                                traducirfrase = new traducirTexto(getApplication(), sharedPrefsDefault);
+                                traducirfrase = new traducirTexto(getApplication());
                                 if (Oracion.isEmpty() && historial.getListadoPictos().size() > 0)
                                     CargarOracion(historial.getListadoPictos().get(0));
                                 Oracion = EjecutarNLG(true);

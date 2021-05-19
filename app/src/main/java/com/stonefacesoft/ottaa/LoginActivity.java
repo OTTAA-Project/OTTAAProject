@@ -76,7 +76,6 @@ import com.stonefacesoft.ottaa.utils.Constants;
 import com.stonefacesoft.ottaa.utils.IntentCode;
 import com.stonefacesoft.ottaa.utils.ObservableInteger;
 import com.stonefacesoft.ottaa.utils.exceptions.FiveMbException;
-import com.stonefacesoft.ottaa.utils.login_package.GoogleLogin;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
@@ -159,7 +158,7 @@ public class LoginActivity extends AppCompatActivity implements View
     private static final String TAG = "LoginActivity";
     private Button conditionsAndTerms;
     private Context mContext;
-    private GoogleLogin login;
+
 
     private SharedPreferences userPreferences;
 

@@ -1,7 +1,6 @@
 package com.stonefacesoft.ottaa.utils;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.util.Log;
@@ -25,7 +24,7 @@ import java.util.Map;
 public class traducirTexto {
 
     private Context mContext;
-    private SharedPreferences sharedPrefsDefault;
+
     private String texto="";
     private String mTarget="";
     private String mSource="";
@@ -33,10 +32,8 @@ public class traducirTexto {
     private translateInterface anInterface;
     private final String TAG="TraducirTexto";
 
-    public traducirTexto(Context context, SharedPreferences sharedPreferences) {
+    public traducirTexto(Context context) {
         mContext=context;
-        sharedPrefsDefault=sharedPreferences;
-
     }
 
 
