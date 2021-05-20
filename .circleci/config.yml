@@ -13,6 +13,7 @@ workflows:
                 - dev
                 - hotfix
                 - master
+                - circleciSettings
       - InstrumentationTest:
           filters:
             branches:
@@ -124,6 +125,7 @@ references:
     run:
       name: Disable predex
       command: ./gradlew -PdisablePreDex
+
 
 
 jobs:
