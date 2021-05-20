@@ -1,7 +1,6 @@
 package com.stonefacesoft.ottaa.test.unitTesting;
 
 import android.content.Context;
-import android.util.Log;
 
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
@@ -13,7 +12,6 @@ import com.stonefacesoft.ottaa.test.Components.Pictograms;
 import junit.framework.TestCase;
 import junit.framework.TestResult;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
@@ -44,20 +42,7 @@ public class UnitTestingGroups extends TestCase {
     @Test
     public void UnitTestingGroups(){
         createObjects();
-        try {
-            groups.joinGroups(json.getId(group1),json.getId(picto3));
-            groups.joinGroups(json.getId(group2),json.getId(picto0));
-            groups.joinGroups(json.getId(group3),json.getId(picto1));
-            groups.joinGroups(json.getId(group3),json.getId(picto0));
-            groups.joinGroups(json.getId(group3),json.getId(picto2));
-            Log.e("TAG", "UnitTestingGroups: "+json.getmJSONArrayTodosLosGrupos().toString() );
 
-            groups.deleteRelationship(group3,json.getId(picto2));
-            Log.e("TAG", "UnitTestingGroups: "+json.getmJSONArrayTodosLosGrupos().toString() );
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
     }
 
     private void createObjects(){

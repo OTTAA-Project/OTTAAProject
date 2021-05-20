@@ -51,14 +51,7 @@ public class UnitTestingGetPictogramsById extends TestCase {
         picto4=pictograms.generatePictogram(3,"es","Que queres comer","What do you want to eat?",5);
         Log.e("TAG", "createUnitTestingGetPictograms: "+picto1.toString() );
 
-        pictograms.relacionarObjeto(picto1,picto2);
-        pictograms.relacionarObjeto(picto1,picto2);
-        pictograms.relacionarObjeto(picto1,picto3);
-        pictograms.relacionarObjeto(picto1,picto3);
-        pictograms.relacionarObjeto(picto1,picto3);
-        pictograms.relacionarObjeto(picto1,picto3);
-        pictograms.relacionarObjeto(picto1,picto3);
-        pictograms.relacionarObjeto(picto1,picto4);
+
 
         pictograms.addPictogram(picto1);
         pictograms.addPictogram(picto2);

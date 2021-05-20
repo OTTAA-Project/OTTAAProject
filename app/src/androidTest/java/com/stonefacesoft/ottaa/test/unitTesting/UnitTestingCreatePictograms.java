@@ -2,7 +2,6 @@ package com.stonefacesoft.ottaa.test.unitTesting;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
 
 import androidx.preference.PreferenceManager;
 import androidx.test.core.app.ApplicationProvider;
@@ -46,7 +45,7 @@ public class UnitTestingCreatePictograms extends TestCase {
             mJsonArrayAllPictograms = new JSONArray();
         json.setmJSONArrayTodosLosPictos(mJsonArrayAllPictograms);
         json.setmJSONArrayTodosLosGrupos(mJsonArrayAllGroups);
-        addGroup();
+
     }
     @Test
     public void UnitTestingCreatePictograms(){

@@ -234,8 +234,13 @@ public class Principal extends AppCompatActivity implements View
 
     private boolean doubleBackToExitPressedOnce = false;
     private boolean click = true;
+
+    public String getOracion() {
+        return Oracion;
+    }
+
     //String que carga el texto para el TTS
-    private String Oracion;
+    private String Oracion ="";
 
     private int versionCode, ultimaVersion;
     private long primeraConexion;
@@ -1299,8 +1304,8 @@ public class Principal extends AppCompatActivity implements View
      */
 
 
-    void CargarOracion(JSONObject jsonObject) {
-        Oracion = Oracion + JSONutils.getNombre(jsonObject,sharedPrefsDefault.getString(getString(R.string.str_idioma), "en")) + " ";
+    void CargarOracion(JSONObject jsonObject,String idioma) {
+        Oracion = Oracion + JSONutils.getNombre(jsonObject,idioma) + " ";
         Log.d(TAG, "CargarOracion: " + Oracion);
     }
 
@@ -1588,13 +1593,13 @@ public class Principal extends AppCompatActivity implements View
         inicializar_seleccion();
         if(!historial.getListadoPictos().isEmpty()){
             for (int i = 0; i <historial.getListadoPictos().size() ; i++) {
-                CargarOracion(historial.getListadoPictos().get(i));
+                CargarOracion(historial.getListadoPictos().get(i),sharedPrefsDefault.getString(getString(R.string.str_idioma), "en"));
             }
         }
     }
 
     private void cargarSelec(JSONObject jsonObject) {
-        CargarOracion(jsonObject);
+        CargarOracion(jsonObject,sharedPrefsDefault.getString(getString(R.string.str_idioma), "en"));
         CargarSeleccion(jsonObject);
         CantClicks++;
     }
@@ -2228,7 +2233,7 @@ public class Principal extends AppCompatActivity implements View
                                 Log.d(TAG, "onClick: " + historial.getListadoPictos().toString());
                                 traducirfrase = new traducirTexto(getApplication());
                                 if (Oracion.isEmpty() && historial.getListadoPictos().size() > 0)
-                                    CargarOracion(historial.getListadoPictos().get(0));
+                                    CargarOracion(historial.getListadoPictos().get(0),sharedPrefsDefault.getString(getString(R.string.str_idioma), "en"));
                                 Oracion = EjecutarNLG(true);
                                 traducirfrase.traducirIdioma(this, Oracion, "en", sharedPrefsDefault.getString(getString(R.string.str_idioma), "en"), true);
                             }
@@ -2870,5 +2875,7 @@ public class Principal extends AppCompatActivity implements View
                 attatcher.UseCornerRadius(true).loadDrawable(Uri.parse(pictogram.getUrl()),imageView);
         }
     }
+
+
 }
 

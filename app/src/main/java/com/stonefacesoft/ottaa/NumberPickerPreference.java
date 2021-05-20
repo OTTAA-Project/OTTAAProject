@@ -105,6 +105,10 @@ public class NumberPickerPreference  implements View.OnClickListener , NumberPic
         tipo=n;
     }
 
+    public int getTipo() {
+        return tipo;
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()){

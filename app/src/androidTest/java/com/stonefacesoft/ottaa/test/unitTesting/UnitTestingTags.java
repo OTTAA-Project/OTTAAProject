@@ -6,9 +6,6 @@ import androidx.test.core.app.ApplicationProvider;
 
 import com.stonefacesoft.ottaa.AsignTags;
 import com.stonefacesoft.ottaa.JSONutils.Json;
-import com.stonefacesoft.ottaa.Prediction.Edad;
-import com.stonefacesoft.ottaa.Prediction.Horario;
-import com.stonefacesoft.ottaa.Prediction.Posicion;
 import com.stonefacesoft.ottaa.test.Components.Groups;
 import com.stonefacesoft.ottaa.test.Components.Pictograms;
 
@@ -54,14 +51,6 @@ public class UnitTestingTags extends TestCase {
 
         //json.setEdad(picto0, Edad.JOVEN);
         //json.setHorario(picto0, Horario.TARDE);
-
-        pictograms.relacionarObjeto(picto1,picto0);
-        pictograms.relacionarObjeto(picto1,picto2);
-        pictograms.relacionarObjeto(picto1,picto3);
-        pictograms.relacionarObjeto(picto1,picto3);
-        pictograms.relacionarObjeto(picto1,picto3);
-        pictograms.relacionarObjeto(picto1,picto3);
-
 
 
         json.getmJSONArrayTodosLosPictos().put(picto0);

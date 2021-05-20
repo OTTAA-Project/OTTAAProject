@@ -5,11 +5,9 @@ import android.content.Context;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
-
 import com.stonefacesoft.ottaa.JSONutils.Json;
-import com.stonefacesoft.ottaa.utils.TalkActions.Historial;
-import com.stonefacesoft.ottaa.utils.exceptions.FiveMbException;
 import com.stonefacesoft.ottaa.test.Components.Pictograms;
+import com.stonefacesoft.ottaa.utils.TalkActions.Historial;
 
 import junit.framework.TestCase;
 import junit.framework.TestResult;
@@ -41,24 +39,20 @@ public class UnitTestingFavoritePhrases extends TestCase {
     private Json json;
     private JSONObject picto0,picto1,picto2,picto3,picto4,picto5,picto6,picto7,picto8,picto9;
     private Pictograms picto;
-    private DatosDeUso datosDeUso;
+
 
     @Before
     public void prepareTesting(){
         json=Json.getInstance();
         json.setmContext(mContext);
         picto=new Pictograms(mContext,json);
-        try {
-            datosDeUso=new DatosDeUso(mContext);
-        } catch (FiveMbException e) {
-            e.printStackTrace();
-        }
+
     }
 
     @Test
     public void startTesting(){
         addPictograms();
-        Historial historial=new Historial(mContext,json);
+        Historial historial=new Historial(json);
         historial.addPictograma(picto0);
         historial.addPictograma(picto1);
         addFrase(1,historial);
@@ -74,8 +68,7 @@ public class UnitTestingFavoritePhrases extends TestCase {
         historial.addPictograma(picto6);
         historial.addPictograma(picto7);
         addFrase(8,historial);
-        System.out.println("Phrases list"+datosDeUso.getArrayListFrasesMasUsadas(2).toString()+"\n");
-        System.out.println("Phrases list"+datosDeUso.getArrayListFrasesMasUsadas(5).toString()+"\n");
+
     }
 
     public void addPictograms(){

@@ -85,11 +85,11 @@ public class Custom_Picto extends LinearLayout {
      */
     public void setCustom_Color(Integer color) {
         this.Custom_Color = color;
-
-        Color.setColorFilter(color);
-
-        invalidate();
-        requestLayout();
+        if(getContext()!=null){
+            Color.setColorFilter(color);
+            invalidate();
+            requestLayout();
+        }
     }
 
     /**
@@ -107,9 +107,11 @@ public class Custom_Picto extends LinearLayout {
      */
     public void setCustom_Texto(String t) {
         this.Custom_Texto = t;
+        if(getContext()!=null){
         tv.setText(t);
         invalidate();
         requestLayout();
+        }
     }
 
     public ImageView getImg() {
