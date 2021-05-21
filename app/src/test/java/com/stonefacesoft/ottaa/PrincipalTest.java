@@ -1,7 +1,5 @@
 package com.stonefacesoft.ottaa;
 
-import junit.framework.TestCase;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -9,7 +7,7 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class PrincipalTest  {
 
@@ -26,7 +24,7 @@ public class PrincipalTest  {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        assertEquals("Yo quiero comer manzana ",principal.getOracion());
+        assertEquals("Yo quiero comer manzana",principal.getOracion());
     }
 
     @Test
