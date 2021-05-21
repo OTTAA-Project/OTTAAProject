@@ -412,7 +412,7 @@ the user can be expelled from the community in the following situation :
 
 ## Junit Testing
 
-[![OTTAA Project](https://circleci.com/gh/circleci/circleci-docs.svg?style=svg)](https://circleci.com/gh/OTTAA-Project/OTTAAProject?branch=circleciSettings)
+[![OTTAA Project](https://circleci.com/gh/OTTAA-Project/OTTAAProject?style=svg)](https://circleci.com/gh/OTTAA-Project/OTTAAProject?branch=circleciSettings)
 
 ## Instrumentation Testing
 
