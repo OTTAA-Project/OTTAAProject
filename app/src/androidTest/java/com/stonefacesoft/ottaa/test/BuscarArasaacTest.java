@@ -4,13 +4,13 @@ import com.stonefacesoft.ottaa.BuscarArasaac;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.junit.Test;
+import org.junit.Ignore;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class BuscarArasaacTest {
 
-    @Test
+    @Ignore
     public void hacerBusqueda() {
         JSONObject jsonObjectExpected;
 

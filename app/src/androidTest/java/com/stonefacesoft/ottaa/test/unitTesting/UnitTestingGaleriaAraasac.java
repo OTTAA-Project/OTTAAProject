@@ -16,6 +16,7 @@ import junit.framework.TestCase;
 import junit.framework.TestResult;
 
 import org.hamcrest.Matcher;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -42,7 +43,7 @@ public class UnitTestingGaleriaAraasac extends TestCase {
     @Rule
     public ActivityTestRule<GaleriaArasaac> activityTestRule=new ActivityTestRule<>(GaleriaArasaac.class);
 
-    @Test
+    @Ignore @Test
     public void UnitTestingGaleriaAraasac(){
 
         try {
