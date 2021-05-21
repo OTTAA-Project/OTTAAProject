@@ -410,15 +410,16 @@ the user can be expelled from the community in the following situation :
 
 ## Master
 
-[![CircleCI](https://circleci.com/gh/OTTAA-Project/OTTAAProject.svg?style=svg&circle-token=ottaa-status)](https://circleci.com/gh/OTTAA-Project/OTTAAProject/?branch=master)
+[![CircleCI](https://circleci.com/gh/OTTAA-Project/OTTAAProject/tree/master.svg?style=svg)](https://circleci.com/gh/OTTAA-Project/OTTAAProject/?master)
 
 ## Dev
 
-[![CircleCI](https://circleci.com/gh/OTTAA-Project/OTTAAProject.svg?style=shield&circle-token=ottaa-status)](https://circleci.com/gh/OTTAA-Project/OTTAAProject/?branch=dev)
+[![CircleCI](https://circleci.com/gh/OTTAA-Project/OTTAAProject/tree/dev.svg?style=svg)](https://circleci.com/gh/OTTAA-Project/OTTAAProject/?dev)
+
 
 ## CircleCi Settings
 
-[![CircleCI](https://circleci.com/gh/OTTAA-Project/OTTAAProject.svg?style=shield&circle-token=ottaa-status)](https://circleci.com/gh/OTTAA-Project/OTTAAProject/?branch=circleciSettings)
+[![CircleCI](https://circleci.com/gh/OTTAA-Project/OTTAAProject/tree/circleciSettings.svg?style=svg)](https://circleci.com/gh/OTTAA-Project/OTTAAProject/?circleciSettings)
 
 
 
