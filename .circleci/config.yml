@@ -115,7 +115,7 @@ references:
       name: instrumentation test
       command: ./gradlew /connectedAndroidTest
 
-  run_gcloudservice:
+  run_gcloudservice: &run_gcloudservice
     run: |
       echo $GCLOUD_SERVICE_KEY | gcloud auth activate-service-account --key-file=-
       gcloud --quiet config set project ${GOOGLE_PROJECT_ID}
@@ -136,6 +136,7 @@ references:
         mkdir -p ~/test-results/junit/
         find . -type f -regex ".*/build/test-results/.*xml" -exec cp {} ~/test-results/junit/ \;
       when: always
+
 
 jobs:
   unitTesting:
