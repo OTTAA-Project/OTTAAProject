@@ -128,15 +128,14 @@ references:
 
   store_test_result: &store_test_result
     store_test_results:
-        path: app/build/test-results
+      path: app/build/test-results
   prepare_test_result: &prepare_test_result
     run:
       name: Save test results
       command: |
-      mkdir -p app/build/test-results/junit/
-      find . -type f -regex ".*/build/test-results/.*xml" -exec cp {} ~/test-results/junit/ \;
-
-
+        mkdir -p ~/test-results/junit/
+        find . -type f -regex ".*/build/test-results/.*xml" -exec cp {} ~/test-results/junit/ \;
+      when: always
 
 jobs:
   unitTesting:
