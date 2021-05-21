@@ -128,7 +128,13 @@ references:
 
   store_test_result: &store_test_result
     store_test_results:
-        path: ~/tmp/test-results
+        path: app/build/test-results
+  prepare_test_result: &prepare_test_result
+    run:
+      name: Save test results
+      command: |
+      mkdir -p app/build/test-results/junit/
+      find . -type f -regex ".*/build/test-results/.*xml" -exec cp {} ~/test-results/junit/ \;
 
 
 
@@ -150,6 +156,7 @@ jobs:
       - *decode_file
       - *run_testing
       - *run_lint_test
+      - *prepare_test_result
       - store_artifacts:
           path: app/build/reports
           destination: reports
