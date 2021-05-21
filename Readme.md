@@ -416,6 +416,9 @@ the user can be expelled from the community in the following situation :
 
 ## Instrumentation Testing
 
+[![CircleCI](https://circleci.com/gh/OTTAA-Project/OTTAAProject.svg?style=shield&circle-token=ottaa-status)](https://circleci.com/gh/OTTAA-Project/OTTAAProject)
+
+
 ## Ux Testing
 
 
