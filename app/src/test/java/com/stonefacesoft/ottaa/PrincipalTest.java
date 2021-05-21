@@ -24,7 +24,7 @@ public class PrincipalTest  {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        assertEquals("Yo quiero comer manzana ",principal.getOracion());
+        assertEquals("Yo quiero comer manzana  ",principal.getOracion());
     }
 
     @Test

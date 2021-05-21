@@ -408,18 +408,19 @@ the user can be expelled from the community in the following situation :
 
 # Testing
 
+## Master
+
+[![CircleCI](https://circleci.com/gh/OTTAA-Project/OTTAAProject.svg?style=svg&circle-token=ottaa-status)](https://circleci.com/gh/OTTAA-Project/OTTAAProject/?branch=master)
+
+## Dev
+
+[![CircleCI](https://circleci.com/gh/OTTAA-Project/OTTAAProject.svg?style=shield&circle-token=ottaa-status)](https://circleci.com/gh/OTTAA-Project/OTTAAProject/?branch=dev)
+
+## CircleCi Settings
+
+[![CircleCI](https://circleci.com/gh/OTTAA-Project/OTTAAProject.svg?style=shield&circle-token=ottaa-status)](https://circleci.com/gh/OTTAA-Project/OTTAAProject/?branch=circleciSettings)
 
 
-## Junit Testing
-
-[![CircleCI](https://circleci.com/gh/OTTAA-Project/OTTAAProject.svg?style=svg&circle-token=ottaa-status)](https://circleci.com/gh/OTTAA-Project/OTTAAProject)
-
-## Instrumentation Testing
-
-[![CircleCI](https://circleci.com/gh/OTTAA-Project/OTTAAProject.svg?style=shield&circle-token=ottaa-status)](https://circleci.com/gh/OTTAA-Project/OTTAAProject)
-
-
-## Ux Testing
 
 
 
