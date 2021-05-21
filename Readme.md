@@ -38,12 +38,13 @@ You can be part of this life-changer tech, join us in this social impact open so
 
   >* [Android Support Library](https://developer.android.com) - Google's Support Library
 
+
 ### Tools Needed
 
 
  Official Android developer tools
 
-  ![Android Studio](https://upload.wikimedia.org/wikipedia/commons/thumb/3/34/Android_Studio_icon.svg/64px-Android_Studio_icon.svg.png)
+  ![Android Studio](https://upload.wikimedia.org/wikipedia/commons/thumb/9/92/Android_Studio_Trademark.svg/128px-Android_Studio_Trademark.svg.png)
     [Android Studio](https://developer.android.com/studio)
 
  Repository
@@ -60,7 +61,8 @@ You can be part of this life-changer tech, join us in this social impact open so
 
    ![Testproject](https://blog.testproject.io/wp-content/themes/testprojectblog/img/t-plogo.png)
     [Testproject](http://testproject.io)
-
+   ![CircleCi](https://images.g2crowd.com/uploads/product/image/large_detail/large_detail_f12938338549ef6246b98aaa6418267e/circleci.png)
+ [CircleCi](http://app.circleci.com/)
 
 ## Documentation
  * [Documentation](https://ottaaproject.com/javadoc)
@@ -403,6 +405,19 @@ the user can be expelled from the community in the following situation :
 
 * **Repeated conduct**
 * **Posting of pornographic content**
+
+# Testing
+
+
+
+## Junit Testing
+
+[![CircleCI](https://circleci.com/gh/circleci/circleci-docs.svg?style=svg)](https://circleci.com/gh/OTTAA-Project/OTTAAProject)
+
+## Instrumentation Testing
+
+## Ux Testing
+
 
 
 
