@@ -263,11 +263,8 @@ jobs:
       - *install_gsutil_dependency
   TestProject:
     <<: *android_config
-    docker:
-      - image: circleci/android:api-29
-        auth:
-          username: $DOCKER_USER
-          password: $DOCKER_PASSWORD
+    machine:
+      - image: ubuntu-2004:202010-01
     steps:
       - checkout
       - *install_jdk_11
