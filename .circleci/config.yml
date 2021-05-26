@@ -19,6 +19,12 @@ workflows:
             branches:
               only:
                 - master
+      - TestProject:
+          filters:
+            branches:
+              only:
+                - master
+                - circleciSettings
 references:
   # cache
   cache_key: &cache_key
@@ -156,6 +162,41 @@ references:
       command: |
         sudo gcloud auth activate-service-account --key-file=${HOME}/gcloud-service-key.json
         sudo gcloud --quiet config set project ${GOOGLE_PROJECT_ID}
+  run_firebase_test_lab: &run_firebase_test_lab
+    run:
+      name: Test with firebase test lab
+      command: >
+        sudo gcloud firebase test android run \
+          --app app/build/outputs/apk/debug/app-debug.apk \
+          --test app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk \
+          --results-bucket cloud-test-${GOOGLE_PROJECT_ID}
+
+  install_gsutil_dependency: &install_gsutil_dependency
+    run:
+      name: Install gsutil dependency and copy test results data
+      command: |
+        sudo pip install -U crcmod
+        sudo gsutil -m cp -r -U `sudo gsutil ls gs://cloud-test-ottaa-project | tail -1`* ${CIRCLE_ARTIFACTS}/ | true
+
+  install_jdk_11: &install_jdk_11
+    run:
+      name: Update dependencies and Install Jdk 11
+      command: |
+        sudo apt-get  -y update
+        sudo apt install -y openjdk-11-jdk
+        java -version
+
+  update_grandlew_code: &update_gradlew_code
+    run:
+      name: Build the code with test project
+      command: |
+        chmod -x gradlew
+        ./gradlew build -x test
+
+
+
+
+
 
 
 jobs:
@@ -198,16 +239,17 @@ jobs:
       - *build_apk_debug_release
       - *store_google_account
       - *authorize_gcloud
-      - run:
-          name: Test with Firebase Test Lab
-          command: >
-            sudo gcloud firebase test android run \
-              --app app/build/outputs/apk/debug/app-debug.apk \
-              --test app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk \
-              --results-bucket cloud-test-${GOOGLE_PROJECT_ID}
-
-      - run:
-          name: Install gsutil dependency and copy test results data
-          command: |
-            sudo pip install -U crcmod
-            sudo gsutil -m cp -r -U `sudo gsutil ls gs://cloud-test-ottaa-project | tail -1`* ${CIRCLE_ARTIFACTS}/ | true
+      - *run_firebase_test_lab
+      - *install_gsutil_dependency
+  TestProject:
+    <<: *android_config
+    docker:
+      - image: ubuntu-2004:202010-01
+        auth:
+          username: $DOCKER_USER
+          password: $DOCKER_PASSWORD
+    steps:
+      - checkout
+      - *install_jdk_11
+      - *update_gradlew_code
+      - *run_testing
