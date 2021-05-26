@@ -61,7 +61,8 @@ You can be part of this life-changer tech, join us in this social impact open so
 
    ![Testproject](https://blog.testproject.io/wp-content/themes/testprojectblog/img/t-plogo.png)
     [Testproject](http://testproject.io)
-   ![CircleCi](https://images.g2crowd.com/uploads/product/image/large_detail/large_detail_f12938338549ef6246b98aaa6418267e/circleci.png)
+
+  ![CircleCi](https://avatars.githubusercontent.com/u/1231870?s=100&v=4)
  [CircleCi](http://app.circleci.com/)
 
 ## Documentation
@@ -408,21 +409,11 @@ the user can be expelled from the community in the following situation :
 
 # Testing
 
-## Master
+* Master
+    [![CircleCI](https://circleci.com/gh/OTTAA-Project/OTTAAProject/tree/master.svg?style=svg)](https://circleci.com/gh/OTTAA-Project/OTTAAProject/?master)
 
-[![CircleCI](https://circleci.com/gh/OTTAA-Project/OTTAAProject/tree/master.svg?style=svg)](https://circleci.com/gh/OTTAA-Project/OTTAAProject/?master)
-
-## Dev
-
-[![CircleCI](https://circleci.com/gh/OTTAA-Project/OTTAAProject/tree/dev.svg?style=svg)](https://circleci.com/gh/OTTAA-Project/OTTAAProject/?dev)
-
-
-## CircleCi Settings
-
-[![CircleCI](https://circleci.com/gh/OTTAA-Project/OTTAAProject/tree/circleciSettings.svg?style=svg)](https://circleci.com/gh/OTTAA-Project/OTTAAProject/?circleciSettings)
-
-
-
+* Dev
+    [![CircleCI](https://circleci.com/gh/OTTAA-Project/OTTAAProject/tree/dev.svg?style=svg)](https://circleci.com/gh/OTTAA-Project/OTTAAProject/?dev)
 
 
 
