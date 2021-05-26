@@ -23,7 +23,7 @@ workflows:
           filters:
             branches:
               only:
-                -
+
 references:
   # cache
   cache_key: &cache_key
