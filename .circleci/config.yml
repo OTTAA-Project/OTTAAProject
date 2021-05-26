@@ -190,7 +190,7 @@ references:
     run:
       name: Build the code with test project
       command: |
-        chmod -x gradlew
+        chmod +x gradlew
         ./gradlew build -x test
 
   start_test_project_agent: &start_test_project_agent
