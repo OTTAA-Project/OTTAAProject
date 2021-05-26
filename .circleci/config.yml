@@ -244,10 +244,7 @@ jobs:
   TestProject:
     <<: *android_config
     docker:
-      - image: ubuntu-2004:202010-01
-        auth:
-          username: $DOCKER_USER
-          password: $DOCKER_PASSWORD
+      - image: circleci/android:api-29
     steps:
       - checkout
       - *install_jdk_11
