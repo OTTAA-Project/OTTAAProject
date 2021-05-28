@@ -33,7 +33,10 @@ import java.util.ArrayList;
 
 
 /**
+ * @author Gonzalo Juarez
+ * @version 2.0
  * Created by gonzalo on 1/29/18.
+ * edited on 5/5/2021
  */
 
 public class GestionarBitmap  {
@@ -189,7 +192,8 @@ public class GestionarBitmap  {
 
             Bitmap mBufferPictos = Bitmap.createScaledBitmap(imagenes.get(0), 250, 250, false);
             Bitmap logo=drawableToBitmap(mContext.getResources().getDrawable(R.drawable.logo_ottaa));
-            logo=redimensionarImagenMaximo(logo,mBufferPictos.getWidth(),mBufferPictos.getHeight()/4);
+            int height = mBufferPictos.getHeight()/4;
+            logo=redimensionarImagenMaximo(logo,height*2,height);
             mImagenFinalWidth = (mBufferPictos.getWidth()+mDeltax) * imagenes.size()+mDeltax;
             mImagenFinalHeight = 3*mDeltay+mBufferPictos.getHeight()+logo.getHeight();
             //tamano = 0;
@@ -198,7 +202,7 @@ public class GestionarBitmap  {
 
             Canvas comboImage = new Canvas(mImagenFinal);
             Paint pintura=new Paint();
-            pintura.setColor(mContext.getResources().getColor(color));
+            pintura.setColor(mContext.getResources().getColor(R.color.FondoApp));
             pintura.setStrokeWidth(20);
 
 
@@ -210,6 +214,8 @@ public class GestionarBitmap  {
                 //Bitmap imgRedimensionada=redimensionarImagenMaximo(imagenes.get(j),mBufferPictos.getWidth(), mBufferPictos.getHeight());
                 //comboImage.drawLine(despx,0,despx,mImagenFinal.getHeight(),pintura);
                 comboImage.drawBitmap(redimensionarImagenMaximo(imagenes.get(j), mBufferPictos.getWidth(), mBufferPictos.getHeight()), despx, mDeltay, null);
+
+
                 //    tamano += imagenes.get(0 ).getWidth();
 
             }
@@ -495,5 +501,10 @@ public class GestionarBitmap  {
     }
     public void setColor(int color){
         this.color=color;
+    }
+    public Bitmap setUpLogo(Bitmap mBufferPictos){
+        Bitmap logo=drawableToBitmap(mContext.getResources().getDrawable(R.drawable.logo_ottaa));
+        logo=redimensionarImagenMaximo(logo,mBufferPictos.getWidth()/4,mBufferPictos.getHeight()/6);
+        return logo;
     }
 }

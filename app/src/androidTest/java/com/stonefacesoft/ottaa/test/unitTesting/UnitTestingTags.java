@@ -74,7 +74,7 @@ public class UnitTestingTags extends TestCase {
         JSONArray array=pictograms.ordenarObjetos(picto1);
         System.out.println(pictograms.ordenarObjetos(picto1));
         try {
-            assertThat(json.getId(array.getJSONObject(0)),is(0));
+            assertThat(json.getId(array.getJSONObject(0)),is(3));
         } catch (JSONException e) {
             e.printStackTrace();
         }

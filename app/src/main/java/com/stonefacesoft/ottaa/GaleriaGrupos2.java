@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -21,6 +22,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -36,6 +38,7 @@ import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.stonefacesoft.ottaa.Activities.FindAllPictograms;
 import com.stonefacesoft.ottaa.Dialogos.Progress_dialog_options;
 import com.stonefacesoft.ottaa.FirebaseRequests.FirebaseUtils;
 import com.stonefacesoft.ottaa.FirebaseRequests.SubirArchivosFirebase;
@@ -209,9 +212,6 @@ public class GaleriaGrupos2 extends AppCompatActivity implements OnStartDragList
         backpress_button=findViewById(R.id.back_button);
          editButton=findViewById(R.id.edit_button);
         btnTalk=findViewById(R.id.btnTalk);
-        if(isOrdenar){
-            editButton.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_save_white_24));
-        }
         btnBarrido.setOnClickListener(this);
         btnBarrido.setOnTouchListener(this);
         editButton.setOnClickListener(this);
@@ -223,10 +223,11 @@ public class GaleriaGrupos2 extends AppCompatActivity implements OnStartDragList
 
         iniciarBarrido();
         crearRecyclerView();
+        changeEditButtonIcon();
         viewpager=new viewpager_galeria_grupo(this,myTTS);
 
         viewpager.showViewPager(showViewPager);
-        showView(editButton,showViewPager);
+        //showView(editButton,showViewPager);
         deviceControl=new GaleriaGruposControls(this);
     }
 
@@ -245,6 +246,7 @@ public class GaleriaGrupos2 extends AppCompatActivity implements OnStartDragList
             recycler_view_sort_grupo.setSharedPrefsDefault(sharedPrefsDefault);
             recycler_view_sort_grupo.showRecyclerView(showViewPager);
         }
+
     }
 
     /**
@@ -292,7 +294,7 @@ public class GaleriaGrupos2 extends AppCompatActivity implements OnStartDragList
 //        } catch (JSONException e) {
 //            e.printStackTrace();
 //        } catch (FiveMbException e) {
-//            e.printStackTrace();
+//            e.printStackTrace();son.setmJSONArrayTodosLosGrupos
 //            WeeklyBackup wb = new WeeklyBackup(this);
 //            wb.weeklyBackupDialog(false, R.string.pref_summary_backup_principal, false);
 //        }
@@ -342,13 +344,29 @@ public class GaleriaGrupos2 extends AppCompatActivity implements OnStartDragList
 
             }
         }
-        if (requestCode == IntentCode.EDITARPICTO.getCode()||requestCode==IntentCode.ORDENAR.getCode()) {
+        if (requestCode == IntentCode.EDITARPICTO.getCode()||requestCode==IntentCode.ORDENAR.getCode()|| resultCode == IntentCode.SEARCH_ALL_PICTOGRAMS.getCode()) {
             if(recycler_view_grupo!=null){
                 recycler_view_grupo.sincronizeData();
                 recycler_view_grupo.changeData();
                 recycler_view_grupo.guardarDatosGrupo();
             }
             viewpager.updateData();
+            if(resultCode == IntentCode.SEARCH_ALL_PICTOGRAMS.getCode()){
+                if (data != null) {
+                    if (data.getExtras() != null) {
+                        Bundle extras = data.getExtras();
+                        int Picto = extras.getInt("ID");
+                        Log.e("GaleriaGrupo ", " PictoID: " + Picto);
+                        if (Picto != 0 && Picto != -1) {
+                            Intent databack = new Intent();
+                            databack.putExtra("ID", Picto);
+                            setResult(IntentCode.GALERIA_GRUPOS.getCode(), databack);
+                            finish();
+                        }
+                    }
+
+                }
+            }
 
         }
 
@@ -471,7 +489,8 @@ public class GaleriaGrupos2 extends AppCompatActivity implements OnStartDragList
                 sharedPrefsDefault.edit().putBoolean("showViewPager",showViewPager).apply();
                 viewpager.showViewPager(showViewPager);
                 recycler_view_grupo.showRecyclerView(showViewPager);
-                showView(editButton,showViewPager);
+                changeEditButtonIcon();
+               // showView(editButton,showViewPager);
                 break;
             case R.id.order_items:
                 analyticsFirebase.customEvents("Touch","Galeria Grupos","Sort Groups");
@@ -643,8 +662,14 @@ public class GaleriaGrupos2 extends AppCompatActivity implements OnStartDragList
                 break;
             case R.id.edit_button:
                 if(!isOrdenar){
-                    analyticsFirebase.customEvents("Touch","Galeria Grupos","Edit Group");
-                    viewpager.editItem(sharedPrefsDefault.getInt("premium", 0) == 1);
+                    if(showViewPager){
+                        analyticsFirebase.customEvents("Touch","Galeria Grupos","Edit Group");
+                        viewpager.editItem(sharedPrefsDefault.getInt("premium", 0) == 1);
+                    }else{
+                        Intent intent=new Intent(this, FindAllPictograms.class);
+                        intent.putExtra("isSearchingAll",true);
+                        startActivityForResult(intent,IntentCode.SEARCH_ALL_PICTOGRAMS.getCode());
+                    }
                 }
                 else{
                     recycler_view_sort_grupo.guardarOrden();
@@ -864,6 +889,22 @@ public class GaleriaGrupos2 extends AppCompatActivity implements OnStartDragList
             view.setVisibility(View.VISIBLE);
         else
             view.setVisibility(View.INVISIBLE);
+    }
+
+    private void setButtonIcon(ImageView view, Drawable drawable){
+        view.setImageDrawable(drawable);
+    }
+
+    private void changeEditButtonIcon(){
+        if(showViewPager){
+            setButtonIcon(editButton,getResources().getDrawable(R.drawable.ic_edit_white_24dp));
+        }else if(isOrdenar) {
+            setButtonIcon(editButton, getResources().getDrawable(R.drawable.ic_baseline_save_white_24));
+            editButton.setVisibility(View.INVISIBLE);
+        }else {
+            editButton.setVisibility(View.VISIBLE);
+            setButtonIcon(editButton,getResources().getDrawable(R.drawable.ic_baseline_search_24));
+        }
     }
 
     public BarridoPantalla getBarridoPantalla() {
