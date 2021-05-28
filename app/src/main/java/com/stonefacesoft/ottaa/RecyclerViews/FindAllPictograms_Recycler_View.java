@@ -69,7 +69,7 @@ public class FindAllPictograms_Recycler_View extends Custom_recyclerView impleme
     @Override
     public boolean onQueryTextSubmit(String query) {
         if(!progress_dialog_options.isShowing()){
-            progress_dialog_options.setMessage(mActivity.getResources().getString(R.string.searching_araasac)+" "+query);
+            progress_dialog_options.setMessage(mActivity.getResources().getString(R.string.searching_araasac)+" araasac");
             progress_dialog_options.mostrarDialogo();
         }
         analyticsFirebase.customEvents("Touch", "Editar Grupos", "Search Pictogram");
