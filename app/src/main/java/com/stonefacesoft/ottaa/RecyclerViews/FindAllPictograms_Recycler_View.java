@@ -2,7 +2,6 @@ package com.stonefacesoft.ottaa.RecyclerViews;
 
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -14,22 +13,27 @@ import com.stonefacesoft.ottaa.BuscarArasaac;
 import com.stonefacesoft.ottaa.Dialogos.Progress_dialog_options;
 import com.stonefacesoft.ottaa.Helper.ItemTouchHelperAdapter;
 import com.stonefacesoft.ottaa.Helper.RecyclerItemClickListener;
+import com.stonefacesoft.ottaa.Interfaces.translateInterface;
 import com.stonefacesoft.ottaa.R;
+import com.stonefacesoft.ottaa.utils.ConnectionDetector;
 import com.stonefacesoft.ottaa.utils.Constants;
 import com.stonefacesoft.ottaa.utils.IntentCode;
+import com.stonefacesoft.ottaa.utils.traducirTexto;
 import com.stonefacesoft.pictogramslibrary.Classes.Pictogram;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class FindAllPictograms_Recycler_View extends Custom_recyclerView implements ItemTouchHelperAdapter {
+public class FindAllPictograms_Recycler_View extends Custom_recyclerView implements ItemTouchHelperAdapter, translateInterface {
 
     private BuscarArasaac buscarArasaac;
     private FindAllPictogramsAdapter findAllPictogramsAdapter;
     private JSONObject arasaac;
     private int id;
     private Progress_dialog_options progress_dialog_options;
+    private JSONObject selectedObject;
+    private com.stonefacesoft.ottaa.utils.traducirTexto traducirTexto;
 
     public FindAllPictograms_Recycler_View(AppCompatActivity appCompatActivity, FirebaseAuth mAuth) {
         super(appCompatActivity, mAuth);
@@ -114,28 +118,24 @@ public class FindAllPictograms_Recycler_View extends Custom_recyclerView impleme
             @Override
             public void onItemClick(View view, int position) {
                 try {
-                    JSONObject object = findAllPictogramsAdapter.getmArrayPictos().getJSONObject(position);
-                    Log.d("FindAllPictograms", "onItemClick: " + object.toString());
+                    selectedObject = findAllPictogramsAdapter.getmArrayPictos().getJSONObject(position);
                     int idPicto = json.getId(findAllPictogramsAdapter.getmArrayPictos().getJSONObject(position));
                     if (id != idPicto) {
                         id = idPicto;
                         myTTS.hablar(json.getNombre(findAllPictogramsAdapter.getmArrayPictos().getJSONObject(position)));
                     } else {
-                        object.put("relacion",new JSONArray());
-                        json.addAraasacPictogramFromInternet(object);
-                        JSONObject relacion = new JSONObject();
-                        relacion.put("id",json.getId(object));
-                        relacion.put("frec",0);
-                        json.addPictogramToAll(relacion);
-                        //  databack.putExtra("Boton", button);
-                        json.guardarJson(Constants.ARCHIVO_GRUPOS);
-                        json.guardarJson(Constants.ARCHIVO_PICTOS);
-                        subirPictos();
-                        subirGrupos();
-                        Intent databack = new Intent();
-                        databack.putExtra("ID", id);
-                        mActivity.setResult(IntentCode.SEARCH_ALL_PICTOGRAMS.getCode(), databack);
-                        mActivity.finish();
+                        traducirTexto = new traducirTexto(mActivity, sharedPrefsDefault);
+                        String textoPicto =json.getNombre(selectedObject);
+                        traducirTexto.traducirIdioma(FindAllPictograms_Recycler_View.this::onTextoTraducido,textoPicto, sharedPrefsDefault.getString(mActivity.getResources().getString(R.string.str_idioma), "en"), "en", ConnectionDetector.isNetworkAvailable(mActivity));
+                        if (ConnectionDetector.isNetworkAvailable(mActivity)) {
+                            // pd.setTitle(getString(R.string.translating_languaje));
+                            progress_dialog_options.setCancelable(false);
+                            progress_dialog_options.mostrarDialogo();
+                            progress_dialog_options.setMessage(mActivity.getResources().getString(R.string.translating_languaje) + textoPicto);
+                            //pd.show();
+
+                        }
+
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -162,6 +162,36 @@ public class FindAllPictograms_Recycler_View extends Custom_recyclerView impleme
                 }
             }
         });
+    }
+
+    @Override
+    public void onTextoTraducido(boolean traduccion) {
+        if(traduccion){
+            try {
+                if(progress_dialog_options.isShowing()){
+                    progress_dialog_options.destruirDialogo();
+                }
+                selectedObject.put("relacion",new JSONArray());
+                json.setNombre(selectedObject,json.getNombre(selectedObject),traducirTexto.getTexto(),sharedPrefsDefault.getString(mActivity.getResources().getString(R.string.str_idioma),"en"),"en");
+                json.addAraasacPictogramFromInternet(selectedObject);
+                JSONObject relacion = new JSONObject();
+                relacion.put("id",json.getId(selectedObject));
+                relacion.put("frec",0);
+                json.addPictogramToAll(relacion);
+                //  databack.putExtra("Boton", button);
+                json.guardarJson(Constants.ARCHIVO_GRUPOS);
+                json.guardarJson(Constants.ARCHIVO_PICTOS);
+                subirPictos();
+                subirGrupos();
+                Intent databack = new Intent();
+                databack.putExtra("ID", id);
+                mActivity.setResult(IntentCode.SEARCH_ALL_PICTOGRAMS.getCode(), databack);
+                mActivity.finish();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+        }
     }
 
     private class HTTPRequest extends AsyncTask<Void, Void, Void> {
