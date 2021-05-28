@@ -2104,6 +2104,8 @@ public class Json implements FindPictogram {
         }
         return null;
     }
+
+
     private boolean consultarPago() {
         return sharedPrefsDefault.getInt("premium", 0) == 1;
     }
