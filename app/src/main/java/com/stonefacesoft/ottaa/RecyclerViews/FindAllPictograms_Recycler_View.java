@@ -130,6 +130,8 @@ public class FindAllPictograms_Recycler_View extends Custom_recyclerView impleme
                         //  databack.putExtra("Boton", button);
                         json.guardarJson(Constants.ARCHIVO_GRUPOS);
                         json.guardarJson(Constants.ARCHIVO_PICTOS);
+                        subirPictos();
+                        subirGrupos();
                         Intent databack = new Intent();
                         databack.putExtra("ID", id);
                         mActivity.setResult(IntentCode.SEARCH_ALL_PICTOGRAMS.getCode(), databack);
