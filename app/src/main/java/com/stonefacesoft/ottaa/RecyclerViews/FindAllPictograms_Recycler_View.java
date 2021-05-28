@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.stonefacesoft.ottaa.Adapters.FindAllPictogramsAdapter;
 import com.stonefacesoft.ottaa.BuscarArasaac;
+import com.stonefacesoft.ottaa.Dialogos.Progress_dialog_options;
 import com.stonefacesoft.ottaa.Helper.ItemTouchHelperAdapter;
 import com.stonefacesoft.ottaa.Helper.RecyclerItemClickListener;
 import com.stonefacesoft.ottaa.R;
@@ -28,11 +29,13 @@ public class FindAllPictograms_Recycler_View extends Custom_recyclerView impleme
     private FindAllPictogramsAdapter findAllPictogramsAdapter;
     private JSONObject arasaac;
     private int id;
-
+    private Progress_dialog_options progress_dialog_options;
 
     public FindAllPictograms_Recycler_View(AppCompatActivity appCompatActivity, FirebaseAuth mAuth) {
         super(appCompatActivity, mAuth);
         buscarArasaac = new BuscarArasaac();
+        progress_dialog_options = new Progress_dialog_options(appCompatActivity,mActivity.getResources().getString(R.string.pref_login_wait),mActivity.getResources().getString(R.string.searching_araasac));
+
     }
 
     public void setArray() {
@@ -65,6 +68,10 @@ public class FindAllPictograms_Recycler_View extends Custom_recyclerView impleme
 
     @Override
     public boolean onQueryTextSubmit(String query) {
+        if(!progress_dialog_options.isShowing()){
+            progress_dialog_options.setMessage(mActivity.getResources().getString(R.string.searching_araasac)+" "+query);
+            progress_dialog_options.mostrarDialogo();
+        }
         analyticsFirebase.customEvents("Touch", "Editar Grupos", "Search Pictogram");
         if (mSearchView.getQuery().length() > 0) {
             mSearchView.setIconified(true);
@@ -210,6 +217,13 @@ public class FindAllPictograms_Recycler_View extends Custom_recyclerView impleme
                 Toast.makeText(mActivity, R.string.problema_inet, Toast.LENGTH_LONG).show();
                 onPictosFiltrados();
             }
+            if(progress_dialog_options!=null)
+                progress_dialog_options.destruirDialogo();
         }
+
+    }
+
+    public Progress_dialog_options getProgress_dialog_options() {
+        return progress_dialog_options;
     }
 }

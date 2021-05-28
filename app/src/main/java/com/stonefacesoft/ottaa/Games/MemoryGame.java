@@ -19,7 +19,6 @@ import com.stonefacesoft.ottaa.utils.Games.Juego;
 import com.stonefacesoft.pictogramslibrary.view.PictoView;
 
 import org.json.JSONException;
-import org.json.JSONObject;
 
 public class MemoryGame extends GameViewSelectPictograms {
 
@@ -34,9 +33,9 @@ public class MemoryGame extends GameViewSelectPictograms {
         showDescription(getString(R.string.memory_game));
         model = new MemoryGameModelModel();
         setUpGame(2);
-        game.setGamelevel(0);
-        game.setMaxLevel(sharedPrefsDefault.getInt("MemoryGameLevel",0));
-        game.setMaxStreak(20);
+        game.setGamelevel(sharedPrefsDefault.getInt("MemoryGameLevel",0));
+        game.setMaxLevel(3);
+        game.setMaxStreak(30);
         model = new MemoryGameModelModel();
         changeLevel();
         startGame();
@@ -49,7 +48,6 @@ public class MemoryGame extends GameViewSelectPictograms {
         if (!numeros.contains(value)) {
             numeros.add(value);
             try {
-                JSONObject object = hijos.getJSONObject(value);
                 pictogramas[pos] = hijos.getJSONObject(value);
             } catch (JSONException e) {https://www.google.com/search?q=terryfi&oq=terryfi&aqs=chrome..69i57.1869j0j7&sourceid=chrome&ie=UTF-8
                 e.printStackTrace();

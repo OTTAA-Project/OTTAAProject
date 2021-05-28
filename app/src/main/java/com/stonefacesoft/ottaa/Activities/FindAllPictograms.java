@@ -25,6 +25,7 @@ public class FindAllPictograms extends AppCompatActivity {
     private textToSpeech myTTS;
     private SubirArchivosFirebase uploadFile;
     private FirebaseUtils firebaseUtils;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,5 +52,11 @@ public class FindAllPictograms extends AppCompatActivity {
         findAllPictograms_recycler_view.setArray();
         findAllPictograms_recycler_view.setUploadFirebaseFile(uploadFile);
         findAllPictograms_recycler_view.showRecyclerView(false);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        findAllPictograms_recycler_view.getProgress_dialog_options().destruirDialogo();
     }
 }
