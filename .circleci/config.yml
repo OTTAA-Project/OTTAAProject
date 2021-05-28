@@ -23,6 +23,7 @@ workflows:
           filters:
             branches:
               only:
+                - circleciSettings
 
 references:
   # cache
