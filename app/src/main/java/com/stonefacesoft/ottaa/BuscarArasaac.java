@@ -1,8 +1,5 @@
 package com.stonefacesoft.ottaa;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.util.Log;
 
 import org.apache.http.client.HttpClient;

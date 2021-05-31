@@ -2,16 +2,13 @@ package com.stonefacesoft.ottaa.RecyclerViews;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.stonefacesoft.ottaa.Adapters.VincularPictosAdapter;
-import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.utils.JSONutils;
-import com.stonefacesoft.ottaa.utils.exceptions.FiveMbException;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SearchView;
 
 public class Picto_Vincular_Recycler_View extends Custom_recyclerView  {
     private JSONArray arrayVincular;

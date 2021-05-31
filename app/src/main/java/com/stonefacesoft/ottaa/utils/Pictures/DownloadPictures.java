@@ -1,7 +1,6 @@
 package com.stonefacesoft.ottaa.utils.Pictures;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.util.Log;
@@ -12,8 +11,6 @@ import androidx.core.content.ContextCompat;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.stonefacesoft.ottaa.Bitmap.UriFiles;
 import com.stonefacesoft.ottaa.Bitmap.bajarFotos;

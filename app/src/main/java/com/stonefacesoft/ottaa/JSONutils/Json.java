@@ -12,8 +12,6 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.util.Size;
 
-import com.google.gson.JsonObject;
-import com.stonefacesoft.ottaa.Bitmap.UriFiles;
 import com.stonefacesoft.ottaa.Interfaces.FindPictogram;
 import com.stonefacesoft.ottaa.Prediction.Clima;
 import com.stonefacesoft.ottaa.Prediction.Edad;
@@ -42,7 +40,6 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
 
 /**
  * @author morro
@@ -336,7 +333,7 @@ public class Json implements FindPictogram {
     }
 
     private double score(JSONObject json, boolean esSugerencia) {
-        return JSONutils.score(json,esSugerencia,getmJSONArrayTodosLosPictos(),getAgenda(), obtenerSexo(),calcularHora().toString(),obtenerEdad(),calcularPosicion() );
+        return JSONutils.score(json,esSugerencia,getmJSONArrayTodosLosPictos(),getAgenda(), obtenerSexo(),calcularHora().toString(),obtenerEdad(),calcularPosicion().toString() );
     }
 
     //TODO hasta aca revisado
@@ -359,92 +356,6 @@ public class Json implements FindPictogram {
         }
     }
 
-    private int tieneSexo(JSONObject json) {
-        try {
-            JSONArray array = json.getJSONArray(Constants.SEXO);
-            for (int i = 0; i < array.length(); i++) {
-                Log.d(TAG, "tieneSexo: " + array.get(i));
-                if (obtenerSexo().equalsIgnoreCase(array.get(i).toString())) {
-                    return 1;
-                }
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return 0;
-    }
-
-    private int tieneAgenda(JSONObject json) {
-        try {
-            JSONArray array = json.getJSONArray(Constants.CALENDARIO);
-            for (int i = 0; i < array.length(); i++) {
-                Log.d(TAG, "tieneAgenda: " + array.get(i) + " getAgenda: " + getAgenda());
-                if (getAgenda().equals(array.get(i).toString())) {
-                    Log.d(TAG, "tieneAgenda: Si");
-                    return 1;
-                }
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return 0;
-    }
-
-    private int tieneHora(JSONObject json) {
-        try {
-            JSONArray array = json.getJSONArray(Constants.HORA);
-            for (int i = 0; i < array.length(); i++) {
-                Log.d(TAG, "tieneHora: " + array.get(i) + " calcularHora: " + calcularHora());
-                if (calcularHora().toString().equals(array.get(i).toString())) {
-                    return 1;
-                }
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return 0;
-    }
-
-    private int tieneEdad(JSONObject json) {
-        try {
-            JSONArray array = json.getJSONArray(Constants.EDAD);
-            for (int i = 0; i < array.length(); i++) {
-                Log.d(TAG, "tieneEdad: " + array.get(i));
-                if (obtenerEdad().equals(array.get(i).toString())) {
-                    Log.d(TAG, "tieneEdad: es igual");
-                    return 1;
-                }
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-            return 0;
-        }
-        return 0;
-    }
-
-    /**
-     * Return 1 if the position exist.
-     * Else return -1
-     * Use that method to make a consult about the location
-     * */
-    private int tienePosicion(JSONObject json) {
-        try {
-            Log.d(TAG, "tienePosicion: ");
-            JSONArray array = json.getJSONArray(Constants.UBICACION);
-            for (int i = 0; i < array.length(); i++) {
-                Log.d(TAG, "tienePosicion: " + array.get(i) + " calcularPos: " +
-                        calcularPosicion());
-                if (calcularPosicion().toString().equals(array.get(i).toString())) {
-                    Log.d(TAG, "tienePosicion: Coincide");
-                    return 1;
-                }
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-            return 0;
-        }
-        return 0;
-    }
 
     private String obtenerSexo() {
         return sharedPrefsDefault.getString("prefSexo", "NotDefined");
@@ -901,8 +812,6 @@ public class Json implements FindPictogram {
             relacion.add(array.getJSONObject(i));
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-
-
             relacion.sort(new Comparator<JSONObject>() {
                 @Override
                 public int compare(JSONObject json1, JSONObject json2) {
@@ -915,7 +824,6 @@ public class Json implements FindPictogram {
                 }
             });
         }else{
-
             Collections.sort(relacion, new Comparator<JSONObject>() {
                 @Override
                 public int compare(JSONObject json1, JSONObject json2) {

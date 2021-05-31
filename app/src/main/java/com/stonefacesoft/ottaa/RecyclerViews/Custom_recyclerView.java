@@ -1,7 +1,6 @@
 package com.stonefacesoft.ottaa.RecyclerViews;
 
 import android.content.SharedPreferences;
-import android.graphics.Rect;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
@@ -24,7 +23,6 @@ import org.json.JSONException;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 /**
  * @author Gonzalo Juarez

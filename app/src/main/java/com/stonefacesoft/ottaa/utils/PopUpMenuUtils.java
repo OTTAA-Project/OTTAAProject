@@ -1,7 +1,5 @@
 package com.stonefacesoft.ottaa.utils;
 
-import android.app.Activity;
-import android.content.Context;
 import android.view.MenuItem;
 import android.widget.PopupMenu;
 

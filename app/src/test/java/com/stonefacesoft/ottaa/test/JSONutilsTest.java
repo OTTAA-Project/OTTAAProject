@@ -332,7 +332,7 @@ public class JSONutilsTest {
         JSONArray arrayTodosLosPicto = createPictogramJSONArray();
         arrayTodosLosPicto = JSONutils.crearPicto(jsonArrayGrupo, arrayTodosLosPicto,"es", 1, "Espanol", "English","img",1,"url","pushKey");
 
-        assertEquals(5,arrayTodosLosPicto.length());
+        assertEquals(6,arrayTodosLosPicto.length());
     }
 
     @Test
@@ -397,8 +397,76 @@ public class JSONutilsTest {
     }
 
     @Test
-    public void scoreTest() {
+    public void tieneAgendaTest(){
+        JSONArray jsonArray = createGrupoJSONArray();
+        try {
+            JSONObject jsonObject = jsonArray.getJSONObject(4);
+            assertEquals(0,JSONutils.tieneAgenda(jsonObject,"Agenda"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
+    }
+
+    @Test
+    public void tieneSexoTest(){
+        JSONArray jsonArray = createGrupoJSONArray();
+        try {
+            JSONObject jsonObject = jsonArray.getJSONObject(4);
+            assertEquals(1,JSONutils.tieneSexo(jsonObject,Sexo.MASCULINO.toString()));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void tieneHoraTest(){
+        JSONArray jsonArray = createGrupoJSONArray();
+        try {
+            JSONObject jsonObject = jsonArray.getJSONObject(4);
+            assertEquals(1,JSONutils.tieneHora(jsonObject,Horario.TARDE.toString()));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void tieneEdadTest(){
+        JSONArray jsonArray = createGrupoJSONArray();
+        try {
+            JSONObject jsonObject = jsonArray.getJSONObject(4);
+            assertEquals(1,JSONutils.tieneEdad(jsonObject,Edad.JOVEN.toString()));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void tienePosicionTest(){
+        JSONArray jsonArray = createGrupoJSONArray();
+        try {
+            JSONObject jsonObject = jsonArray.getJSONObject(4);
+            assertEquals(1,JSONutils.tienePosicion(jsonObject,Posicion.BAR.toString()));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+
+    @Test
+    public void scoreTest() {
+        //
+        JSONArray jsonArray = createGrupoJSONArray();
+        JSONObject jsonObject = createPictograms(474,"es","manzana","apple",2);
+        double scoreBase, scoreTAG;
+        scoreBase = JSONutils.score(jsonObject,false,jsonArray,"none",Sexo.MASCULINO.toString(),Horario.MEDIODIA.toString(),Edad.ADULTO.toString(),Posicion.PARQUE.toString());
+
+
+
+        //
+
+        //
     }
 
 
@@ -451,6 +519,12 @@ public class JSONutilsTest {
         jsonArray.put(createPictograms(22,"es","quiero","want",3));
         jsonArray.put(createPictograms(118,"es","comer","eat",3));
         jsonArray.put(createPictograms(474,"es","manzana","apple",2));
+        String pictoTag = "{\"id\":1,\"texto\":{\"en\":\"accompany\",\"es\":\"acompañar\"},\"tipo\":3,\"imagen\":{\"picto\":\"ic_acompanar\"},\"relacion\":[],\"agenda\":0,\"gps\":0,\"esSugerencia\":false,\"hora\":[\"TARDE\"],\"edad\":[\"JOVEN\"],\"sexo\":[\"MASCULINO\"],\"ubicacion\":[\"BAR\"]}";
+        try {
+            jsonArray.put(new JSONObject(pictoTag));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         return jsonArray;
     }
 

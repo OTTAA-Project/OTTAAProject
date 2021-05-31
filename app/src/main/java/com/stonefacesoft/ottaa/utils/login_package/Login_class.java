@@ -1,7 +1,6 @@
 package com.stonefacesoft.ottaa.utils.login_package;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -25,7 +24,6 @@ import com.google.firebase.storage.StorageReference;
 import com.stonefacesoft.ottaa.FirebaseRequests.BajarJsonFirebase;
 import com.stonefacesoft.ottaa.FirebaseRequests.FirebaseDatabaseRequest;
 import com.stonefacesoft.ottaa.Interfaces.FirebaseSuccessListener;
-import com.stonefacesoft.ottaa.LoginActivity;
 import com.stonefacesoft.ottaa.Principal;
 import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.utils.ObservableInteger;

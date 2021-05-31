@@ -1,8 +1,6 @@
 package com.stonefacesoft.ottaa.utils;
 
-import android.app.ActionBar;
 import android.os.Handler;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;

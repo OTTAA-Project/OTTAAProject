@@ -3,12 +3,8 @@ package com.stonefacesoft.ottaa.view;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.os.Handler;
 
-import com.stonefacesoft.ottaa.ActivityInformes;
-import com.stonefacesoft.ottaa.Bitmap.GestionarBitmap;
 import com.stonefacesoft.ottaa.R;
-import com.stonefacesoft.ottaa.utils.ConnectionDetector;
 
 public class ReportActivity extends AppCompatActivity {
 

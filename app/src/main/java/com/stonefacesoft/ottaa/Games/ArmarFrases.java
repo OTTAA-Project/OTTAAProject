@@ -68,8 +68,6 @@ public class ArmarFrases extends AppCompatActivity implements View.OnClickListen
 
     private String[] fraseCompleta=new String[]{"","","",""};
 
-    private String armarFrase;
-
     private SharedPreferences mDefaultSharedPreferences;
     private ArrayList<JSONObject> listadoPictos;
     private TextToSpeech mTTS;
