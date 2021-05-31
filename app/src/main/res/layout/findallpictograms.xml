@@ -3,8 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/FondoApp"
-    >
+    android:background="@color/FondoApp">
+
     <androidx.appcompat.widget.SearchView
         android:id="@+id/searchView"
         android:layout_width="0dp"
@@ -15,12 +15,15 @@
         app:layout_constraintBottom_toTopOf="@id/recyclerView"
         app:layout_constraintVertical_weight="1"
         android:background="@drawable/background_shape"
-        android:layout_marginTop="@dimen/small_margin"
-        android:layout_marginBottom="@dimen/small_margin"
-        android:layout_marginStart="@dimen/medium_margin"
-        android:layout_marginEnd="@dimen/medium_margin"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:layout_marginEnd="@dimen/activity_horizontal_margin"
         app:defaultQueryHint="@string/whatareyoulooking"
-        />
+        android:clickable="true"
+        app:iconifiedByDefault="false"
+        android:focusable="true" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="0dp"
@@ -30,7 +33,9 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/searchView"
         app:layout_constraintVertical_weight="8"
-        android:layout_margin="@dimen/medium_margin"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:layout_marginEnd="@dimen/activity_horizontal_margin"
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

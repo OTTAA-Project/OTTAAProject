@@ -2,6 +2,8 @@ package com.stonefacesoft.ottaa.Activities;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -44,6 +46,7 @@ public class FindAllPictograms extends AppCompatActivity {
         uploadFile=new SubirArchivosFirebase(this);
         setUpFindAllPictograms();
     }
+
     public void setUpFindAllPictograms(){
         findAllPictograms_recycler_view= new FindAllPictograms_Recycler_View(this,mUser.getmAuth());
         findAllPictograms_recycler_view.setSearchView(searchView);
@@ -59,4 +62,5 @@ public class FindAllPictograms extends AppCompatActivity {
         super.onDestroy();
         findAllPictograms_recycler_view.getProgress_dialog_options().destruirDialogo();
     }
+
 }
