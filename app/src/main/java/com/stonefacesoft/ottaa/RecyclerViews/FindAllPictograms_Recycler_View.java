@@ -18,6 +18,7 @@ import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.utils.ConnectionDetector;
 import com.stonefacesoft.ottaa.utils.Constants;
 import com.stonefacesoft.ottaa.utils.IntentCode;
+import com.stonefacesoft.ottaa.utils.exceptions.FiveMbException;
 import com.stonefacesoft.ottaa.utils.traducirTexto;
 import com.stonefacesoft.pictogramslibrary.Classes.Pictogram;
 
@@ -44,7 +45,13 @@ public class FindAllPictograms_Recycler_View extends Custom_recyclerView impleme
 
     public void setArray() {
 
-        array = new JSONArray();
+        try {
+            array = json.getHijosGrupo2(json.getGrupoFromId(24));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (FiveMbException mbException) {
+            mbException.printStackTrace();
+        }
         createRecyclerLayoutManager();
         findAllPictogramsAdapter = new FindAllPictogramsAdapter(mActivity, R.layout.pictorecyclerviewitem, array, true);
         mRecyclerView.setAdapter(findAllPictogramsAdapter);
@@ -91,8 +98,13 @@ public class FindAllPictograms_Recycler_View extends Custom_recyclerView impleme
             } while (cont <= cant);
             //Nos aseguramos que es vincular o no, si lo es seteamos el array nuevo de pictos filtrados
             //para que el adapter trabaje con ese array.
-            new HTTPRequest(query).execute();
-            mSearchView.setQuery(query, false);
+            if(ConnectionDetector.isNetworkAvailable(mActivity)){
+                new HTTPRequest(query).execute();
+                mSearchView.setQuery(query, false);
+            }else{
+                progress_dialog_options.destruirDialogo();
+                onPictosFiltrados();
+            }
             return true;
         }
         return false;
@@ -119,23 +131,20 @@ public class FindAllPictograms_Recycler_View extends Custom_recyclerView impleme
             public void onItemClick(View view, int position) {
                 try {
                     selectedObject = findAllPictogramsAdapter.getmArrayPictos().getJSONObject(position);
-                    int idPicto = json.getId(findAllPictogramsAdapter.getmArrayPictos().getJSONObject(position));
+                    int idPicto =  json.getId(findAllPictogramsAdapter.getmArrayPictos().getJSONObject(position));
+
                     if (id != idPicto) {
                         id = idPicto;
                         myTTS.hablar(json.getNombre(findAllPictogramsAdapter.getmArrayPictos().getJSONObject(position)));
                     } else {
-                        traducirTexto = new traducirTexto(mActivity, sharedPrefsDefault);
-                        String textoPicto =json.getNombre(selectedObject);
-                        traducirTexto.traducirIdioma(FindAllPictograms_Recycler_View.this::onTextoTraducido,textoPicto, sharedPrefsDefault.getString(mActivity.getResources().getString(R.string.str_idioma), "en"), "en", ConnectionDetector.isNetworkAvailable(mActivity));
-                        if (ConnectionDetector.isNetworkAvailable(mActivity)) {
-                            // pd.setTitle(getString(R.string.translating_languaje));
-                            progress_dialog_options.setCancelable(false);
-                            progress_dialog_options.mostrarDialogo();
-                            progress_dialog_options.setMessage(mActivity.getResources().getString(R.string.translating_languaje) + textoPicto);
-                            //pd.show();
-
+                        if(json.getPosPicto(array,idPicto)!=-1){
+                            Intent databack = new Intent();
+                            databack.putExtra("ID", id);
+                            mActivity.setResult(IntentCode.SEARCH_ALL_PICTOGRAMS.getCode(), databack);
+                            mActivity.finish();
+                        }else{
+                            translateText();
                         }
-
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -257,5 +266,18 @@ public class FindAllPictograms_Recycler_View extends Custom_recyclerView impleme
 
     public Progress_dialog_options getProgress_dialog_options() {
         return progress_dialog_options;
+    }
+    public void translateText(){
+        traducirTexto = new traducirTexto(mActivity, sharedPrefsDefault);
+        String textoPicto =json.getNombre(selectedObject);
+        traducirTexto.traducirIdioma(FindAllPictograms_Recycler_View.this::onTextoTraducido,textoPicto, sharedPrefsDefault.getString(mActivity.getResources().getString(R.string.str_idioma), "en"), "en", ConnectionDetector.isNetworkAvailable(mActivity));
+        if (ConnectionDetector.isNetworkAvailable(mActivity)) {
+            // pd.setTitle(getString(R.string.translating_languaje));
+            progress_dialog_options.setCancelable(false);
+            progress_dialog_options.mostrarDialogo();
+            progress_dialog_options.setMessage(mActivity.getResources().getString(R.string.translating_languaje) + textoPicto);
+            //pd.show();
+        }
+
     }
 }
