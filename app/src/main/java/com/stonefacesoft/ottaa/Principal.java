@@ -141,9 +141,7 @@ import static com.facebook.FacebookSdk.setAutoLogAppEventsEnabled;
 
 /**
  *
- * VERSION 83 merge dev dev-hotfix83
- * VERSION 83 new design login doc into newdesign
- * VERSION 83 Ready to test
+ * VERSION 86 Circle CI testing y JUNIT
  */
 public class Principal extends AppCompatActivity implements View
         .OnClickListener,
