@@ -81,7 +81,7 @@ public class UnitTestingFavoritePhrases extends TestCase {
         picto0=picto.createPictograms(0,"es","hola","hello",5);
         picto1=picto.createPictograms(1,"es","Buenos Dias","good Morning",5);
         picto2=picto.createPictograms(2,"es","Buenas Tardes","good Afternoon",5);
-        picto3=picto.createPictograms(3,"es","¿Como estas?","How are you?",5);
+        picto3=picto.createPictograms(3,"es","??Como estas?","How are you?",5);
         picto4=picto.createPictograms(4,"es","Tengo","have",3);
         picto5=picto.createPictograms(5,"es","Quiero","want",3);
         picto6=picto.createPictograms(6,"es","Adios","bye",3);

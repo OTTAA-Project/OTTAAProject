@@ -80,7 +80,8 @@
             custom:layout_constraintTop_toTopOf="parent"
             custom:layout_constraintBottom_toTopOf="@id/containerBottomMasPictos"
             custom:layout_constraintVertical_weight="8"
-            android:layout_marginBottom="@dimen/regular_margin"
+            android:layout_marginStart="@dimen/small_margin"
+            android:layout_marginEnd="@dimen/small_margin"
             android:layout_marginTop="@dimen/big_fat_margin"/>
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -209,7 +210,7 @@
             android:scaleX="3"
             android:scaleY="3"
             android:src="@drawable/ic_corner"
-            android:tint="@color/NaranjaOTTAA"
+            custom:tint="@color/NaranjaOTTAA"
             custom:layout_constraintBottom_toTopOf="@id/containerBottomMasPictos"
             custom:layout_constraintEnd_toStartOf="@id/constraintRightButtons" />
 

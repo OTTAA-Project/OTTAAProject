@@ -21,10 +21,8 @@ public enum IntentCode {
     NOTIGAMES(14),
     ORDENAR(15),
     CUSTOMPHRASES(16),
-    PICK_IMAGE(17);
-
-
-
+    PICK_IMAGE(17),
+    SEARCH_ALL_PICTOGRAMS(18);
 
     private final int code;
 

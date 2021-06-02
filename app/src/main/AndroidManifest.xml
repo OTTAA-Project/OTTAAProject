@@ -190,6 +190,8 @@
         <activity android:name=".PictureCropper" android:screenOrientation="sensorLandscape"></activity>
         <activity android:name=".LoginActivity2Avatar" android:screenOrientation="sensorLandscape" />
         <activity android:name=".LoginActivity2Step3" android:screenOrientation="sensorLandscape" />
+        <activity android:name=".Activities.FindAllPictograms" android:screenOrientation="sensorLandscape" />
+
 
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"

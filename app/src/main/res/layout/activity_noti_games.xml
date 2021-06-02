@@ -2,7 +2,6 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/notiGameConstraintLayout"
@@ -93,8 +92,8 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:padding="5dp"
-            custom:Imagen="2"
-            custom:Texto="Hola"
+            app:Imagen="2"
+            app:Texto="Hola"
             android:layout_marginTop="@dimen/activity_horizontal_margin"
             android:layout_marginStart="@dimen/activity_horizontal_margin"
             android:layout_marginEnd="@dimen/interpicto_margin"
@@ -110,8 +109,8 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:padding="5dp"
-            custom:Imagen="2"
-            custom:Texto="Hola"
+            app:Imagen="2"
+            app:Texto="Hola"
             android:layout_marginStart="@dimen/interpicto_margin"
             android:layout_marginEnd="@dimen/interpicto_margin"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -125,8 +124,8 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:padding="5dp"
-            custom:Imagen="2"
-            custom:Texto="Hola"
+            app:Imagen="2"
+            app:Texto="Hola"
             android:layout_marginStart="@dimen/interpicto_margin"
             android:layout_marginEnd="@dimen/interpicto_margin"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -140,16 +139,15 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:padding="5dp"
-            custom:Imagen="2"
-            custom:Texto="Hola"
+            app:Imagen="2"
+            app:Texto="Hola"
             android:layout_marginStart="@dimen/interpicto_margin"
             android:layout_marginEnd="@dimen/activity_horizontal_margin"
-            custom:layout_constraintBottom_toBottomOf="parent"
-            custom:layout_constraintEnd_toEndOf="parent"
-            custom:layout_constraintStart_toEndOf="@id/Option3"
-            custom:layout_constraintTop_toTopOf="@id/Option1">
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/Option3"
+            app:layout_constraintTop_toTopOf="@id/Option1">
         </com.stonefacesoft.ottaa.Custom_Picto>
-
         <ImageView
             android:id="@+id/ganarImagen"
             android:layout_width="100dp"
@@ -167,10 +165,10 @@
         android:layout_height="0dp"
         android:background="@android:color/transparent"
         android:visibility="gone"
-        custom:layout_constraintBottom_toBottomOf="parent"
-        custom:layout_constraintEnd_toEndOf="parent"
-        custom:layout_constraintStart_toStartOf="parent"
-        custom:layout_constraintTop_toBottomOf="@id/toolbar" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:layout_width="@dimen/sizeFloattingButtonMed"

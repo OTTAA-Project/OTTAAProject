@@ -44,6 +44,7 @@ android {
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             zipAlignEnabled true
+            testCoverageEnabled true
         }
         sourceSets.debug.resources.srcDirs = ['src/debug/res']
 
@@ -89,6 +90,9 @@ android {
         unitTests.all{
             jvmArgs '-XX:MaxPermSize=256m'
         }
+        execution 'ANDROIDX_TEST_ORCHESTRATOR'
+
+
     }
 
     compileOptions {
@@ -242,7 +246,7 @@ dependencies {
     //Image Cropper
     //TODO add this library to the Wiki
     implementation 'com.theartofdev.edmodo:android-image-cropper:2.8.0'
-    implementation 'com.github.OTTAA-Project:PictogramsLibrary:0.1.7'
+    implementation 'com.github.OTTAA-Project:PictogramsLibrary:0.1.8.4'
     //Sendgrid integration
 
 }

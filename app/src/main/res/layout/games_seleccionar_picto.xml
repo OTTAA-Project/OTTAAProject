@@ -110,7 +110,6 @@
             >
 
         </com.stonefacesoft.pictogramslibrary.view.PictoView>
-
         <com.stonefacesoft.pictogramslibrary.view.PictoView
             android:id="@+id/Guess4"
             android:layout_width="0dp"
@@ -201,7 +200,6 @@
             >
 
         </com.stonefacesoft.pictogramslibrary.view.PictoView>
-
         <com.stonefacesoft.pictogramslibrary.view.PictoView
             android:id="@+id/Option4"
             android:layout_width="0dp"
