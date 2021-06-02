@@ -1,5 +1,6 @@
 package com.stonefacesoft.ottaa.Games;
 
+
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -40,7 +41,7 @@ public class MatchPictograms extends GameViewSelectPictograms {
         }
     };
     private MatchPictogramsModel model;
-    private boolean repetirLeccion;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -200,7 +201,7 @@ public class MatchPictograms extends GameViewSelectPictograms {
 
 
     protected void esCorrecto(boolean esPicto) {
-        if (repetirLeccion) {
+        if (gamesSettings.isRepeatLection()) {
             if (lastButton.getCustom_Texto().equals(name)) {
                 CorrectAction();
             } else {
@@ -229,15 +230,16 @@ public class MatchPictograms extends GameViewSelectPictograms {
 
 
     public void reiniciar() {
+
         pauseAudio();
-        if (game.isChangeLevel()){
+        if (game.isChangeLevel()&&!gamesSettings.isRepeatLection()){
             game.changeLevelGame();
             loadModel();
         }
         for (int i = 0; i < model.getSize(); i++) {
             enableGuessOption(i);
         }
-        if (repetirLeccion) {
+        if (gamesSettings.isRepeatLection()) {
             mUtilsTTS.hablarConDialogo(getString(R.string.repeat_pictograms));
             opcion1.setVisibility(View.INVISIBLE);
             opcion2.setVisibility(View.INVISIBLE);
@@ -252,7 +254,7 @@ public class MatchPictograms extends GameViewSelectPictograms {
                 }
             }, 5000);
         }
-        if (!repetirLeccion) {
+        if (!gamesSettings.isRepeatLection()) {
             guess1.setVisibility(View.VISIBLE);
             guess2.setVisibility(View.VISIBLE);
             guess3.setVisibility(View.VISIBLE);
@@ -271,7 +273,6 @@ public class MatchPictograms extends GameViewSelectPictograms {
             numeros.clear();
             loadLevePictograms();
         }
-
         model.refreshValueIndex();
     }
 
@@ -284,7 +285,7 @@ public class MatchPictograms extends GameViewSelectPictograms {
 
     protected void speakOption(PictoView option) {
         super.speakOption(option);
-        if (!repetirLeccion) {
+        if (!gamesSettings.isRepeatLection()) {
             mUtilsTTS.hablar(option.getCustom_Texto());
         }
     }
@@ -294,7 +295,6 @@ public class MatchPictograms extends GameViewSelectPictograms {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-
                 reiniciar();
             }
         }, 2500);
@@ -492,7 +492,7 @@ public class MatchPictograms extends GameViewSelectPictograms {
     protected void CorrectAction() {
         game.incrementCorrect();
         playCorrectSound();
-        if (repetirLeccion) {
+        if (gamesSettings.isRepeatLection()) {
             model.setCorrectValue(GetPosicionLastButton(), 1);
             if (!verificarSiHayQueHacerReinicio()) {
 
@@ -505,9 +505,7 @@ public class MatchPictograms extends GameViewSelectPictograms {
                 }, 2500);
             } else {
                 lastButton = null;
-                if (gamesSettings.isRepeat()) {
-                    repetirLeccion = !repetirLeccion;
-                }
+                gamesSettings.changeRepeatLectionStatus();
                 reiniciarLeccion();
             }
         } else {
@@ -515,25 +513,21 @@ public class MatchPictograms extends GameViewSelectPictograms {
             bloquearOpcionPictograma(lastPosicion, lastButton);
             lastButton = null;
             lastPictogram = null;
-
-        }
-        if (verificarSiHayQueHacerReinicio()) {
-            if (gamesSettings.isRepeat()) {
-                repetirLeccion = !repetirLeccion;
+            if (verificarSiHayQueHacerReinicio()) {
+                if(gamesSettings.isRepeat())
+                    gamesSettings.changeRepeatLectionStatus();
+                cargarPuntos();
+                game.incrementTimesRight();
+                reiniciarLeccion();
             }
-            cargarPuntos();
-            game.incrementTimesRight();
-            reiniciarLeccion();
         }
-
-
     }
 
     @Override
     protected void WrongAction(boolean isPictogram) {
         playWrongSong();
         game.incrementWrong();
-        if (repetirLeccion) {
+        if (gamesSettings.isRepeatLection()) {
             animGameScore.animateCorrect(lastButton, game.getSmiley(Juego.DISSATISFIED));
             game.incrementWrong();
             playWrongSong();

@@ -2,6 +2,8 @@ package com.stonefacesoft.ottaa.Activities;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,6 +27,7 @@ public class FindAllPictograms extends AppCompatActivity {
     private textToSpeech myTTS;
     private SubirArchivosFirebase uploadFile;
     private FirebaseUtils firebaseUtils;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +46,7 @@ public class FindAllPictograms extends AppCompatActivity {
         uploadFile=new SubirArchivosFirebase(this);
         setUpFindAllPictograms();
     }
+
     public void setUpFindAllPictograms(){
         findAllPictograms_recycler_view= new FindAllPictograms_Recycler_View(this,mUser.getmAuth());
         findAllPictograms_recycler_view.setSearchView(searchView);
@@ -52,4 +56,11 @@ public class FindAllPictograms extends AppCompatActivity {
         findAllPictograms_recycler_view.setUploadFirebaseFile(uploadFile);
         findAllPictograms_recycler_view.showRecyclerView(false);
     }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        findAllPictograms_recycler_view.getProgress_dialog_options().destruirDialogo();
+    }
+
 }

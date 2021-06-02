@@ -79,9 +79,10 @@
             custom:layout_constraintTop_toTopOf="parent"
             custom:layout_constraintBottom_toTopOf="@id/containerBottomMasPictos"
             custom:layout_constraintVertical_weight="8"
-            android:layout_marginBottom="20dp"
-            android:layout_marginTop="@dimen/big_fat_margin"
-            />
+            android:layout_marginStart="@dimen/small_margin"
+            android:layout_marginEnd="@dimen/small_margin"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:layout_marginTop="@dimen/big_fat_margin" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLeftButtons"
