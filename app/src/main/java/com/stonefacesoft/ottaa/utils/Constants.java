@@ -4,10 +4,6 @@ package com.stonefacesoft.ottaa.utils;
  * Created by Hector on 16/02/2016.
  */
 
-import com.google.android.gms.maps.model.LatLng;
-
-import java.util.HashMap;
-
 /**
  * Constants used in this sample.
  */

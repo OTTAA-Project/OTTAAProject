@@ -505,7 +505,7 @@ public class JSONutils {
     }
 
 
-    private static int tieneAgenda(JSONObject json, String agenda) {
+    public static int tieneAgenda(JSONObject json, String agenda) {
         try {
             JSONArray array = json.getJSONArray(Constants.CALENDARIO);
             for (int i = 0; i < array.length(); i++) {

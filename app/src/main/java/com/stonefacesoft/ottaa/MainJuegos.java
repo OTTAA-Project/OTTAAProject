@@ -30,7 +30,6 @@ import com.stonefacesoft.ottaa.Games.GameCard;
 import com.stonefacesoft.ottaa.Games.GameSelector;
 import com.stonefacesoft.ottaa.Interfaces.Make_Click_At_Time;
 import com.stonefacesoft.ottaa.JSONutils.Json;
-import com.stonefacesoft.ottaa.Prediction.Posicion;
 import com.stonefacesoft.ottaa.Viewpagers.viewpager_galeria_juegos;
 import com.stonefacesoft.ottaa.idioma.ConfigurarIdioma;
 import com.stonefacesoft.ottaa.idioma.myContextWrapper;
@@ -40,7 +39,6 @@ import com.stonefacesoft.ottaa.utils.Accesibilidad.scrollActions.ScrollFuntionGa
 import com.stonefacesoft.ottaa.utils.Firebase.AnalyticsFirebase;
 import com.stonefacesoft.ottaa.utils.InmersiveMode;
 import com.stonefacesoft.ottaa.utils.IntentCode;
-import com.stonefacesoft.ottaa.utils.ReturnPositionItem;
 
 import java.util.ArrayList;
 

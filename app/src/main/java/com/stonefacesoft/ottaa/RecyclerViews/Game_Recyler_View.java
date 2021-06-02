@@ -1,31 +1,19 @@
 package com.stonefacesoft.ottaa.RecyclerViews;
 
 import android.content.Intent;
-import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.PopupMenu;
 
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.stonefacesoft.ottaa.Adapters.GaleriaGruposAdapter;
 import com.stonefacesoft.ottaa.Adapters.GaleriaJuegosAdapter;
-import com.stonefacesoft.ottaa.GaleriaPictos3;
 //import com.stonefacesoft.ottaa.Games.DescribirPictograma;
-import com.stonefacesoft.ottaa.Games.GameSelector;
 import com.stonefacesoft.ottaa.Games.MatchPictograms;
 import com.stonefacesoft.ottaa.Games.WhichIsThePicto;
 import com.stonefacesoft.ottaa.Helper.RecyclerItemClickListener;
-import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.R;
-import com.stonefacesoft.ottaa.utils.Constants;
 import com.stonefacesoft.ottaa.utils.IntentCode;
 
 import org.json.JSONException;
-
-import java.io.IOException;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;

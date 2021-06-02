@@ -3,7 +3,6 @@ package com.stonefacesoft.ottaa.FirebaseRequests;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.preference.PreferenceManager;
 
 import androidx.annotation.NonNull;

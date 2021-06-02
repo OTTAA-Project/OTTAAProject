@@ -6,14 +6,11 @@ package com.stonefacesoft.ottaa.Helper;
 
 import android.content.Context;
 import android.os.Handler;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 
 import androidx.recyclerview.widget.RecyclerView;
-
-import butterknife.OnTouch;
 
 public class RecyclerItemClickListener implements RecyclerView.OnItemTouchListener{
 

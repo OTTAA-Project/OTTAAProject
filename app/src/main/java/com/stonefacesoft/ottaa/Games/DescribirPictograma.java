@@ -24,12 +24,10 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import com.google.firebase.analytics.FirebaseAnalytics;
 import com.stonefacesoft.ottaa.Custom_Picto;
 import com.stonefacesoft.ottaa.Dialogos.DialogGameProgressInform;
 import com.stonefacesoft.ottaa.JSONutils.Json;
@@ -47,8 +45,6 @@ import com.stonefacesoft.ottaa.utils.exceptions.FiveMbException;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.IOException;
 
 
 //Merge realizado

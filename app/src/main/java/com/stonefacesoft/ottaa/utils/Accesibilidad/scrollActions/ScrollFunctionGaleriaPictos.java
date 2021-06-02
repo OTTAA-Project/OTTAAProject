@@ -3,7 +3,6 @@ package com.stonefacesoft.ottaa.utils.Accesibilidad.scrollActions;
 import android.content.Context;
 import android.os.Message;
 
-import com.stonefacesoft.ottaa.GaleriaGrupos2;
 import com.stonefacesoft.ottaa.GaleriaPictos3;
 
 import androidx.annotation.NonNull;

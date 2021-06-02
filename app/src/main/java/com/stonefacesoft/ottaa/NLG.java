@@ -1,9 +1,6 @@
 package com.stonefacesoft.ottaa;
 
-import android.content.Context;
 import android.util.Log;
-
-import com.stonefacesoft.ottaa.JSONutils.Json;
 
 import org.json.JSONException;
 import org.json.JSONObject;

@@ -10,6 +10,8 @@ import com.stonefacesoft.ottaa.utils.JSONutils;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 public class Picto_Vincular_Recycler_View extends Custom_recyclerView  {
     private JSONArray arrayVincular;
     private VincularPictosAdapter galeriaPictos2;
