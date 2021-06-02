@@ -180,7 +180,7 @@ public class AboutOttaa extends AppCompatActivity {
 
     private String getKindOfUser(){
         if(preferencesUtil.getIntegerValue(Constants.PREMIUM,0)==1)
-            return "Premiun";
+            return "Premium";
         return "free";
     }
 
