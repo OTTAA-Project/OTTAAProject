@@ -1,5 +1,6 @@
 package com.stonefacesoft.ottaa.Games;
 
+
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -229,8 +230,9 @@ public class MatchPictograms extends GameViewSelectPictograms {
 
 
     public void reiniciar() {
+
         pauseAudio();
-        if (game.isChangeLevel()){
+        if (game.isChangeLevel()&&!gamesSettings.isRepeatLection()){
             game.changeLevelGame();
             loadModel();
         }
@@ -503,7 +505,7 @@ public class MatchPictograms extends GameViewSelectPictograms {
                 }, 2500);
             } else {
                 lastButton = null;
-                 gamesSettings.changeRepeatLectionStatus();
+                gamesSettings.changeRepeatLectionStatus();
                 reiniciarLeccion();
             }
         } else {
@@ -512,16 +514,13 @@ public class MatchPictograms extends GameViewSelectPictograms {
             lastButton = null;
             lastPictogram = null;
             if (verificarSiHayQueHacerReinicio()) {
-                gamesSettings.changeRepeatLectionStatus();
+                if(gamesSettings.isRepeat())
+                    gamesSettings.changeRepeatLectionStatus();
                 cargarPuntos();
                 game.incrementTimesRight();
                 reiniciarLeccion();
             }
-
         }
-
-
-
     }
 
     @Override
