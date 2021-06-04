@@ -142,7 +142,7 @@ import static com.facebook.FacebookSdk.setAutoLogAppEventsEnabled;
 
 /**
  *
- * VERSION 86 New feature 2 ready y game levels ready.
+ * VERSION 87 Avatar,
  */
 public class Principal extends AppCompatActivity implements View
         .OnClickListener,
