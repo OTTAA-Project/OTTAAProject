@@ -75,7 +75,7 @@ public class textToSpeech {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             String fileName = Uri.parse("audio.mp3").getLastPathSegment();
             try {
-                file = File.createTempFile("audio", ".mp3", context.getExternalCacheDir());
+                file = File.createTempFile("audio", ".wav", context.getExternalCacheDir());
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -83,7 +83,6 @@ public class textToSpeech {
             String wakeUpText = oracion;
             String destFileName =file.getAbsolutePath();
             myHashRender.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, wakeUpText);
-
 
             hablar.synthesizeToFile(wakeUpText, myHashRender, file.getAbsolutePath());
           //file=new File(mContext.getCacheDir(),"audio.wav");
