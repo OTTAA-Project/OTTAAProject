@@ -111,11 +111,6 @@
             android:screenOrientation="sensorLandscape"
             android:theme="@android:style/Theme.Holo.Light" />
         <activity
-            android:name=".LoginActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="@string/title_activity_login"
-            android:screenOrientation="sensorLandscape" />
-        <activity
             android:name=".GaleriaArasaac"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_galeria_pictos"
@@ -238,10 +233,6 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-        <service
-            android:name=".LocationService"
-            android:enabled="true"
-            android:exported="false" />
 
         <uses-library
             android:name="org.apache.http.legacy"

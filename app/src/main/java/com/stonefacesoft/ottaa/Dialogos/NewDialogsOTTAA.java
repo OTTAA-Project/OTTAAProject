@@ -66,12 +66,12 @@ public class NewDialogsOTTAA implements FirebaseSuccessListener {
     //TODO hacer esta clase abstracta e implementar cada dialogo NewFeature, hearth, ETC... APLICAR DISENO ORIENTADO A OBJETOS
     private static final String TAG = "NewDialogs";
 
-    private Activity mActivity;
+    private final Activity mActivity;
     private GestionarBitmap mGestionarBitmap;
     private DatosDeUso mDatosDeUso;
-    private Dialog dialog;
+    private final Dialog dialog;
     private RecyclerView mRecyclerViewFrases, mRecyclerViewTags;
-    private ArrayList<FavModel> mArrayListFavoritos = new ArrayList<>();
+    private final ArrayList<FavModel> mArrayListFavoritos = new ArrayList<>();
     private TextView textViewNoData;
     private ProgressBar progressBar;
     private AsignTags asignTags;
@@ -79,7 +79,7 @@ public class NewDialogsOTTAA implements FirebaseSuccessListener {
     private int position;
     private ReturnPositionItem positionItemAdapter;
 
-    private AnalyticsFirebase analyticsFirebase;
+    private final AnalyticsFirebase analyticsFirebase;
 
 
     public NewDialogsOTTAA(Activity activity) {

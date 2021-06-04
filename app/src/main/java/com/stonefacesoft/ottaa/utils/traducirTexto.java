@@ -24,8 +24,8 @@ import java.util.Map;
 
 public class traducirTexto {
 
-    private Context mContext;
-    private SharedPreferences sharedPrefsDefault;
+    private final Context mContext;
+    private final SharedPreferences sharedPrefsDefault;
     private String texto="";
     private String mTarget="";
     private String mSource="";

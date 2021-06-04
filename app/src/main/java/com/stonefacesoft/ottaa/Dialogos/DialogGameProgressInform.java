@@ -14,9 +14,9 @@ public class DialogGameProgressInform extends DialogUtils {
     private RecyclerView mRecyclerView;
     private TextView Title,title_correct,title_wrong,title_cantUso,Title_racha,Correct,Wrong,cant_uso,racha;
     private ImageView imageView;
-    private Context mContext;
+    private final Context mContext;
     private ScoreListItem scoreListItem;
-    private Juego game;
+    private final Juego game;
      //NOTA recordar que el layout de este dialogo es R.layout.
     public DialogGameProgressInform(Context mContext, int layout, Juego game) {
         super(mContext, layout);

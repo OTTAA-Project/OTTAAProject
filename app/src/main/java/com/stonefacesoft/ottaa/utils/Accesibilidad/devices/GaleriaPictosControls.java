@@ -9,7 +9,7 @@ import com.stonefacesoft.ottaa.GaleriaPictos3;
 import androidx.core.view.MotionEventCompat;
 
 public class GaleriaPictosControls extends Controls{
-    private GaleriaPictos3 galeriaGrupos;
+    private final GaleriaPictos3 galeriaGrupos;
     private final String TAG="GaleriaPictosControl";
     public GaleriaPictosControls(GaleriaPictos3 galeriaPictos3) {
         super(galeriaPictos3);

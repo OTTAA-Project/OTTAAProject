@@ -8,7 +8,7 @@ import com.stonefacesoft.ottaa.GaleriaGrupos2;
 import androidx.annotation.NonNull;
 
 public class ScrollFunctionGaleriaGrupos extends ScrollFunction {
-    private GaleriaGrupos2 galeriaGrupos2;
+    private final GaleriaGrupos2 galeriaGrupos2;
     public ScrollFunctionGaleriaGrupos(Context mContext,GaleriaGrupos2 galeriaGrupos2) {
         super(mContext);
         this.galeriaGrupos2=galeriaGrupos2;

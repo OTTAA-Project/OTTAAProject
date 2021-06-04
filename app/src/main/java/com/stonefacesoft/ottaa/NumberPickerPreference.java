@@ -28,18 +28,18 @@ import com.stonefacesoft.ottaa.utils.Custom_button;
  * */
 
 public class NumberPickerPreference  implements View.OnClickListener , NumberPicker.OnScrollListener {
-    private NumberPicker mPicker;
-    private Integer mNumber = 10;
+    private final NumberPicker mPicker;
+    private final Integer mNumber = 10;
     private Integer mNumberMin=0;
     private Integer mNumberMax=10;
-    private Context mContext;
+    private final Context mContext;
     private int tipo;
-    private String title;
-    private String  key;
-    private Dialog dialog;
-    private Custom_button positiveButton;
-    private Custom_button negativeButton;
-    private TextView titulo;
+    private final String title;
+    private final String  key;
+    private final Dialog dialog;
+    private final Custom_button positiveButton;
+    private final Custom_button negativeButton;
+    private final TextView titulo;
 
 
     public NumberPickerPreference(Context context,String title,String key){

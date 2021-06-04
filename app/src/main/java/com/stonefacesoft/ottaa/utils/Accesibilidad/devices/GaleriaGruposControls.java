@@ -9,7 +9,7 @@ import com.stonefacesoft.ottaa.GaleriaGrupos2;
 import androidx.core.view.MotionEventCompat;
 
 public class GaleriaGruposControls extends Controls {
-    private GaleriaGrupos2 galeriaGrupos;
+    private final GaleriaGrupos2 galeriaGrupos;
     private final String TAG="GaleriaGroupsControls";
     public GaleriaGruposControls(GaleriaGrupos2 galeriaGrupos2) {
         super(galeriaGrupos2);

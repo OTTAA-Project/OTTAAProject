@@ -22,17 +22,17 @@ import com.stonefacesoft.ottaa.utils.preferences.PreferencesUtil;
  */
 public class Item_adapter extends RecyclerView.Adapter<Item_adapter.ItemAdapterViewHolder> {
 
-    private int mLayoutResourceId;
-    private Context mContext;
+    private final int mLayoutResourceId;
+    private final Context mContext;
     private String[] mArrayListItemsnames;
     private String[] mArrayListValues;
 
-    private Dialog dialogDismiss;
+    private final Dialog dialogDismiss;
     private int position = 0;
 
     private View.OnClickListener listener;
 
-    private PreferencesUtil sharedPreferencesUtil;
+    private final PreferencesUtil sharedPreferencesUtil;
 
     private String key, defaultValue;
 
@@ -96,10 +96,7 @@ public class Item_adapter extends RecyclerView.Adapter<Item_adapter.ItemAdapterV
     public void selecItem(Item_adapter.ItemAdapterViewHolder holder, int position) {
         if (defaultValue != null) {
             try {
-                if (sharedPreferencesUtil.getStringValue(key, defaultValue).toLowerCase().equals(mArrayListValues[position].toLowerCase()))
-                    holder.radioButton.setChecked(true);
-                else
-                    holder.radioButton.setChecked(false);
+                holder.radioButton.setChecked(sharedPreferencesUtil.getStringValue(key, defaultValue).toLowerCase().equals(mArrayListValues[position].toLowerCase()));
             } catch (Exception ex) {
 
                 if (!sharedPreferencesUtil.getBooleanKey(key, false)) {
@@ -156,8 +153,8 @@ public class Item_adapter extends RecyclerView.Adapter<Item_adapter.ItemAdapterV
 
     public class ItemAdapterViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        private RadioButton radioButton;
-        private TextView textView;
+        private final RadioButton radioButton;
+        private final TextView textView;
 
 
         public ItemAdapterViewHolder(View itemView) {

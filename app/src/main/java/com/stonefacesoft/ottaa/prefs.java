@@ -620,25 +620,6 @@ public class prefs extends PreferenceActivity implements SharedPreferences.OnSha
     }
 
 
-
-/*
-    private void backupUsuarioDialog() {
-        mBtnBackup = findPreference(getString(R.string.pref_header_backup));
-        mBtnBackup.setEnabled(false);
-        mBtnBackup.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                if (sharedPrefsDefault.getInt("premium", 0) == 1) {
-                    WeeklyBackup wb = new WeeklyBackup(prefs.this);
-                    wb.weeklyBackupDialog(true, R.string.pref_summary_backup, true);
-                }
-
-                return false;
-            }
-        });
-    }*/
-
-
     public boolean onOptionsItemSelected(MenuItem item){
         int id = item.getItemId();
         if (id == android.R.id.home) {

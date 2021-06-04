@@ -32,7 +32,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 public class ArmarFrases extends AppCompatActivity implements View.OnClickListener {
-    private String TAG="ArmarFrases";
+    private final String TAG="ArmarFrases";
     private ImageButton seleccion1;
     private ImageButton seleccion2;
     private ImageButton seleccion3;
@@ -66,7 +66,7 @@ public class ArmarFrases extends AppCompatActivity implements View.OnClickListen
 
 
 
-    private String[] fraseCompleta=new String[]{"","","",""};
+    private final String[] fraseCompleta=new String[]{"","","",""};
 
     private String armarFrase;
 
@@ -80,6 +80,7 @@ public class ArmarFrases extends AppCompatActivity implements View.OnClickListen
     private FloatingActionButton hablar;
 
     private Dialog_options_level_game dialog_options;
+    //TODO remove this Picto change to CustomPicto
     private Picto Agregar;
 
     private int[] idPictos=new int[]{-1,-1,-1,-1};

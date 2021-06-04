@@ -14,12 +14,12 @@ public class ConnectionDetector {
    private static Activity mActivity;
  
    public ConnectionDetector(Context context){
-       this.m_context = context;
+       m_context = context;
    }
 
     public static boolean isNetworkAvailable(Context mContext) {
        m_context=mContext;
-       ConnectivityManager connectivityManager=(ConnectivityManager) m_context.getSystemService(m_context.CONNECTIVITY_SERVICE);
+       ConnectivityManager connectivityManager=(ConnectivityManager) m_context.getSystemService(Context.CONNECTIVITY_SERVICE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Network[] networks = connectivityManager.getAllNetworks();
             NetworkInfo networkInfo;
@@ -47,7 +47,7 @@ public class ConnectionDetector {
 
     public static boolean isNetworkAvailable(Activity mContext) {
         mActivity=mContext;
-        ConnectivityManager connectivityManager=(ConnectivityManager) mActivity.getSystemService(m_context.CONNECTIVITY_SERVICE);
+        ConnectivityManager connectivityManager=(ConnectivityManager) mActivity.getSystemService(Context.CONNECTIVITY_SERVICE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Network[] networks = connectivityManager.getAllNetworks();
             NetworkInfo networkInfo;
@@ -86,16 +86,11 @@ public class ConnectionDetector {
         if(manager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE)!=null)
         {boolean is3g = manager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE)
                .isConnectedOrConnecting();
-        if(!is3g&&!isWifi)
-
-            return false;
+            return is3g || isWifi;
         }
         else if(manager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE)==null)
         {
-            if ( !isWifi)
-            {
-                return false;
-            }
+            return isWifi;
         }
 //For WiFi Check
 

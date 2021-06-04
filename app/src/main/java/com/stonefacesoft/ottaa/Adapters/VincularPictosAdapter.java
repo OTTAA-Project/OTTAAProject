@@ -40,14 +40,14 @@ import com.stonefacesoft.pictogramslibrary.utils.GlideAttatcher;
 public class VincularPictosAdapter extends RecyclerView.Adapter<VincularPictosAdapter.VincularViewHolder> implements ListPreloader.PreloadModelProvider {
 
     //private Context mContext;
-    private int layoutID;
+    private final int layoutID;
     private JSONArray mVincularArray;
-    private JSONArray mSelectedPictos;
+    private final JSONArray mSelectedPictos;
     private boolean esFiltrado;
-    private Json json;
-    private ArrayList<Integer> listadoIdPictos;
-    private GlideAttatcher glideAttatcher;
-    private Context mContext;
+    private final Json json;
+    private final ArrayList<Integer> listadoIdPictos;
+    private final GlideAttatcher glideAttatcher;
+    private final Context mContext;
 
     public VincularPictosAdapter(Context mContext, int layoutID, JSONArray mVincularArray, boolean filtro) {
         this.mContext = mContext;
@@ -251,10 +251,10 @@ public class VincularPictosAdapter extends RecyclerView.Adapter<VincularPictosAd
 
         private String mStringTexto;
         private Drawable mDrawableIcono;
-        private VincularViewHolder mHolder;
-        private int mPosition;
+        private final VincularViewHolder mHolder;
+        private final int mPosition;
         private JSONObject picto;
-        private Handler handler = new Handler();
+        private final Handler handler = new Handler();
 
 
 

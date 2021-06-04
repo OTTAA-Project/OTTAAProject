@@ -370,13 +370,15 @@ public class MemoryGame extends GameViewSelectPictograms {
         resetOption.postDelayed(new Runnable() {
             @Override
             public void run() {
-                lastPictogram.setCustom_Img(getDrawable(R.drawable.ic_help_outline_black_24dp));
-                lastButton.setCustom_Img(getDrawable(R.drawable.ic_help_outline_black_24dp));
-                lastPictogram.setInvisibleCustomTexto();
-                lastButton.setInvisibleCustomTexto();
-                lastPictogram = null;
-                lastButton = null;
-                unlockOptions();
+                if (lastPictogram != null && lastButton != null) {
+                    lastPictogram.setCustom_Img(getDrawable(R.drawable.ic_help_outline_black_24dp));
+                    lastButton.setCustom_Img(getDrawable(R.drawable.ic_help_outline_black_24dp));
+                    lastPictogram.setInvisibleCustomTexto();
+                    lastButton.setInvisibleCustomTexto();
+                    lastPictogram = null;
+                    lastButton = null;
+                    unlockOptions();
+                }
             }
         }, 2500);
     }

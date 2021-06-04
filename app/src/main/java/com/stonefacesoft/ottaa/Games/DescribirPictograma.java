@@ -91,7 +91,7 @@ public class DescribirPictograma extends AppCompatActivity implements View
     //Handler para animar la respuesat correcta luego de un tiempo si no se presiona
     private final Handler handlerHablar = new Handler();
     private final Handler handlerGano = new Handler();
-    private Handler decirPicto=new Handler();
+    private final Handler decirPicto=new Handler();
 
     //View para animar respuesta correcta en niveles
     private Custom_Picto viewGanador;

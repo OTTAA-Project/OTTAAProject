@@ -12,7 +12,7 @@ import java.util.Calendar;
 
 public class DatePicker extends Dialog {
 
-    private CalendarView calendarView;
+    private final CalendarView calendarView;
 
     public DatePicker(@NonNull Context context, CalendarView.OnDateChangeListener dateChangeListener) {
         super(context);

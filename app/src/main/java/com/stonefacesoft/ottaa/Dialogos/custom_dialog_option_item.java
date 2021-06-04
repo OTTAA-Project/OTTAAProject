@@ -15,10 +15,10 @@ import com.stonefacesoft.ottaa.Adapters.Item_adapter;
 import com.stonefacesoft.ottaa.R;
 
 public class custom_dialog_option_item  {
-    private Context mContext;
+    private final Context mContext;
     private RecyclerView Recycler;
     private TextView titulo;
-    private Dialog dialog;
+    private final Dialog dialog;
     private SharedPreferences mDefaultSharedPreferences;
     public custom_dialog_option_item(Context mActivity){
         this.mContext=mActivity;

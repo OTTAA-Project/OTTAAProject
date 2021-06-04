@@ -33,14 +33,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.io.File;
 
 public class GaleriaJuegosAdapter extends RecyclerView.Adapter <GaleriaJuegosAdapter.GruposViewHolder>{
-    private Context mContext;
-    private int layoutID;
+    private final Context mContext;
+    private final int layoutID;
     private Json json;
-    private SubirArchivosFirebase uploadFirebaseFile;
-    private FirebaseAuth mAuth;
+    private final SubirArchivosFirebase uploadFirebaseFile;
+    private final FirebaseAuth mAuth;
     private static final String TAG = "GaleriaGruposAdapter";
-    private int id;
-    private GlideAttatcher glideAttatcher;
+    private final int id;
+    private final GlideAttatcher glideAttatcher;
 
     public GaleriaJuegosAdapter(Context mContext, int layoutID, FirebaseAuth mAuth,int id) {
         this.mContext = mContext;
@@ -101,9 +101,10 @@ public class GaleriaJuegosAdapter extends RecyclerView.Adapter <GaleriaJuegosAda
 
     public class GruposViewHolder extends RecyclerView.ViewHolder {
 
-        private ImageView mGrupoImageView;
-        private TextView mTextGrupo, textCargarGrupos;
-        private ImageView mScoreImageView;
+        private final ImageView mGrupoImageView;
+        private final TextView mTextGrupo;
+        private final TextView textCargarGrupos;
+        private final ImageView mScoreImageView;
 
         public GruposViewHolder(View itemView) {
             super(itemView);

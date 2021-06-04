@@ -40,7 +40,6 @@ import java.util.ArrayList;
  */
 
 public class GestionarBitmap  {
-    private Picto pictograma;
     private ArrayList<Bitmap> imagenes;//Arreglo para obtener todos los bitmaps
     private ArrayList<JSONObject> idjson;//arreglo para obtener el json
     private int tamano;//permite determinar donde se va a ubicar la imagen
@@ -376,7 +375,7 @@ public class GestionarBitmap  {
                     pintura.setColor(devolverColor(4));
 
 
-                    Log.d(TAG,"listado :"+ Float.toString(listado.get(i)[j]));
+                    Log.d(TAG,"listado :"+ listado.get(i)[j]);
                     Log.d(TAG,"yo  mmy1 : "+ "yo " + y0 + " mmy1 " + mmy1);
                     mmy1 = mmy;
                 }

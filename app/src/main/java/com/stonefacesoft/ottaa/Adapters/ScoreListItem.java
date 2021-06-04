@@ -23,12 +23,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class ScoreListItem extends RecyclerView.Adapter<ScoreListItem.ScoreViewHolder>{
     private int mLayoutResourceId;
-    private Context mContext;
-    private int id;
+    private final Context mContext;
+    private final int id;
     private DatosDeUso mDatosDeUso;
     private Dialog dialogDismiss;
-    private textToSpeech myTTs;
-    private Json json;
+    private final textToSpeech myTTs;
+    private final Json json;
 
 
     public ScoreListItem( Context mContext,int id)  {
@@ -88,9 +88,9 @@ public class ScoreListItem extends RecyclerView.Adapter<ScoreListItem.ScoreViewH
 
     public class ScoreViewHolder extends RecyclerView.ViewHolder {
 
-        private ImageView imagenFav;
-        private TextView title;
-        private RatingBar mRatingBar;
+        private final ImageView imagenFav;
+        private final TextView title;
+        private final RatingBar mRatingBar;
 
         public ScoreViewHolder(View itemView) {
             super(itemView);//this class extends from recycler view

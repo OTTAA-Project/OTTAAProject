@@ -5,7 +5,7 @@ import com.google.firebase.crashlytics.FirebaseCrashlytics;
 
 
 public class CrashlyticsUtils {
-    private FirebaseCrashlytics crashlytics;
+    private final FirebaseCrashlytics crashlytics;
     private static CrashlyticsUtils myCrashliticsUtils;
 
     public static CrashlyticsUtils getInstance() {

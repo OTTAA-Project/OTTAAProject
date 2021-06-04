@@ -19,11 +19,11 @@ import java.util.ArrayList;
 
 public class FrasesFavoritasAdapter extends RecyclerView.Adapter<FrasesFavoritasAdapter.FrasesFavoritasViewHolder> {
 
-    private int mLayoutResourceId;
-    private Context mContext;
-    private ArrayList<FavModel> mFavImagesArrayList;
-    private DatosDeUso mDatosDeUso;
-    private Dialog dialogDismiss;
+    private final int mLayoutResourceId;
+    private final Context mContext;
+    private final ArrayList<FavModel> mFavImagesArrayList;
+    private final DatosDeUso mDatosDeUso;
+    private final Dialog dialogDismiss;
     private textToSpeech myTTs;
 
 
@@ -73,7 +73,7 @@ public class FrasesFavoritasAdapter extends RecyclerView.Adapter<FrasesFavoritas
 
     public class FrasesFavoritasViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        private ImageView imagenFav;
+        private final ImageView imagenFav;
         private String imagFav;
 
         public FrasesFavoritasViewHolder(View itemView) {

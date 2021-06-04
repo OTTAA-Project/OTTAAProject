@@ -15,8 +15,8 @@ import java.nio.charset.StandardCharsets;
 
 public class ReadFiles extends AsyncTask<Void,Void,String> {
     private String string;
-    private String fileName;
-    private Context mContext;
+    private final String fileName;
+    private final Context mContext;
     private final static String TAG="ReadFilesClass";
     public ReadFiles(String fileName,Context mContext){
         this.mContext=mContext;
@@ -26,10 +26,7 @@ public class ReadFiles extends AsyncTask<Void,Void,String> {
     protected String doInBackground(Void... voids) {
         File archivo = new File(mContext.getFilesDir(), fileName);
         if (archivo.length() > Constants.CINCO_MEGAS) {
-
-            //WeeklyBackup wb = new WeeklyBackup(mContext);
-            //wb.weeklyBackupDialog(false, R.string.pref_summary_backup_principal, false);
-
+            Log.d(TAG, "doInBackground: Archivo menor a 5 mb");
         } else {
             BufferedReader reader = null;
             StringBuilder builder = new StringBuilder();

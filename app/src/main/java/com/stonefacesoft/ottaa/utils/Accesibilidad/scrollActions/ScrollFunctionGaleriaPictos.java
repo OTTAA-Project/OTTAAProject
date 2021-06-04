@@ -9,7 +9,7 @@ import com.stonefacesoft.ottaa.GaleriaPictos3;
 import androidx.annotation.NonNull;
 
 public class ScrollFunctionGaleriaPictos extends ScrollFunction{
-    private GaleriaPictos3 galeriaPictos3;
+    private final GaleriaPictos3 galeriaPictos3;
     public ScrollFunctionGaleriaPictos(Context mContext,GaleriaPictos3 galeriaGrupos2) {
         super(mContext);
         this.galeriaPictos3=galeriaGrupos2;

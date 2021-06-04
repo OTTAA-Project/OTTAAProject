@@ -39,13 +39,13 @@ public class CompartirArchivos {
     private File audio;
     private ArrayList<JSONObject> historial;
     private Bitmap imagen;
-    private Context mContext;
+    private final Context mContext;
     private boolean actionShare;
     //   private Dialog dialog;
-    private Json json;
-    private GestionarBitmap gestionarBitmap;
+    private final Json json;
+    private final GestionarBitmap gestionarBitmap;
     private File file;
-    private textToSpeech myTTS;
+    private final textToSpeech myTTS;
     private final String TAG = "CompartirArchivos_";
 
     public CompartirArchivos(Context context1, textToSpeech myTTS) {

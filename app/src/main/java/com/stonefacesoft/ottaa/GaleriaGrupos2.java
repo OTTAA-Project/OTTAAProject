@@ -201,7 +201,6 @@ public class GaleriaGrupos2 extends AppCompatActivity implements OnStartDragList
                 } else {
                     //UID Usuario
                     uid = mAuth.getCurrentUser().getUid();
-                    chequearDatosParaBackup();
                 }
 
             }
@@ -279,25 +278,6 @@ public class GaleriaGrupos2 extends AppCompatActivity implements OnStartDragList
 
 
 
-    }
-
-
-    private void chequearDatosParaBackup() {
-
-//        try {
-//            if (json.readJSONArrayFromFile(Constants.ARCHIVO_GRUPOS).length() > 0) {
-//                Log.e(TAG, "chequearDatosParaBackup: Galeria grupos is not empty");
-//            } else {
-////                WeeklyBackup wb = new WeeklyBackup(GaleriaGrupos2.this);
-////            wb.weeklyBackupDialog(false, R.string.pref_summary_backup_principal, false);
-////        }
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        } catch (FiveMbException e) {
-//            e.printStackTrace();son.setmJSONArrayTodosLosGrupos
-//            WeeklyBackup wb = new WeeklyBackup(this);
-//            wb.weeklyBackupDialog(false, R.string.pref_summary_backup_principal, false);
-//        }
     }
 
     @Override
@@ -808,11 +788,7 @@ public class GaleriaGrupos2 extends AppCompatActivity implements OnStartDragList
             mProgressBarCargandoGrupos.setVisibility(View.GONE);
             mTextViewCargandoGrupos.setVisibility(View.GONE);
             isCargando = false;
-            /*
-            if (falloAlLeerGrupos) {
-                WeeklyBackup wb = new WeeklyBackup(GaleriaGrupos2.this);
-                wb.weeklyBackupDialog(false, R.string.pref_summary_backup_principal, false);
-            }*/
+
         }
     }
 

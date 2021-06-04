@@ -4,7 +4,7 @@ package com.stonefacesoft.ottaa.test.utils;
 import com.stonefacesoft.ottaa.JSONutils.Json;
 
 public class JsonTesting {
-    private Json json;
+    private final Json json;
     public JsonTesting(){
         json=Json.getInstance();
     }

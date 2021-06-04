@@ -21,8 +21,8 @@ import com.stonefacesoft.ottaa.utils.verificarPaqueteInstalado;
  * <code>facialControl.ConsultarEstado();</code>
  * */
 public class ControlFacial {
-    private Context mContext;
-    private SharedPreferences mDefaultSharedPreferences;
+    private final Context mContext;
+    private final SharedPreferences mDefaultSharedPreferences;
     private static final Intent sSettingsIntent = new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS);
     private final String slaveMode="com.crea_si.eviacam.slavemode.SlaveModeService";
     private final String packageName="com.crea_si.eviacam.service";

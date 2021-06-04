@@ -5,7 +5,7 @@ import com.stonefacesoft.ottaa.JSONutils.Json;
 import org.json.JSONObject;
 
 public class Games {
-    private Json json;
+    private final Json json;
     public Games(Json json){
         this.json=json;
     }

@@ -6,11 +6,11 @@
         <!--android:width="2dp"-->
         <!--android:color="#FF6700" />-->
     <solid
-        android:color="#666" />
+        android:color="#226" />
 
     <corners
-        android:bottomRightRadius="7dp"
-        android:bottomLeftRadius="7dp"
-        android:topLeftRadius="7dp"
-        android:topRightRadius="7dp"/>
+        android:bottomRightRadius="57dp"
+        android:bottomLeftRadius="57dp"
+        android:topLeftRadius="57dp"
+        android:topRightRadius="57dp"/>
 </shape>

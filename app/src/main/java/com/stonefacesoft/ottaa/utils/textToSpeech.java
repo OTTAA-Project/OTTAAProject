@@ -25,14 +25,14 @@ import java.util.HashMap;
 
 public class textToSpeech {
     private TextToSpeech hablar;
-    private CustomToast alerta;
-    private SharedPreferences sharedPrefsDefault;
-    private Context context;
+    private final CustomToast alerta;
+    private final SharedPreferences sharedPrefsDefault;
+    private final Context context;
     private boolean esprincipal;
     private String oracion;
     private File file;
     private String outputFile;
-    private UtilsTTS prepare;
+    private final UtilsTTS prepare;
 
     public textToSpeech(Context context) {
         this.context = context;

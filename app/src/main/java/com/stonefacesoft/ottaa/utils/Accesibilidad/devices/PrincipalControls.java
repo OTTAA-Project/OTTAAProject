@@ -9,7 +9,7 @@ import com.stonefacesoft.ottaa.Principal;
 import androidx.core.view.MotionEventCompat;
 
 public class PrincipalControls extends Controls {
-    private Principal principal;
+    private final Principal principal;
     private final String TAG="PrincipalControls";
     public PrincipalControls(Principal principal) {
         super(principal);

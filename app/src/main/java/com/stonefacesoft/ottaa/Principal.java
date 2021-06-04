@@ -140,9 +140,7 @@ import static com.facebook.FacebookSdk.setAutoLogAppEventsEnabled;
 
 /**
  *
- * VERSION 83 merge dev dev-hotfix83
- * VERSION 83 new design login doc into newdesign
- * VERSION 83 Ready to test
+ * VERSION 86 New feature 2 ready y game levels ready.
  */
 public class Principal extends AppCompatActivity implements View
         .OnClickListener,
@@ -154,7 +152,6 @@ public class Principal extends AppCompatActivity implements View
     public Uri bajarGrupos;
     private NLG nlg;
     private boolean nlgFlag;
-    private Indicadores indicadores;
     static private boolean isConnected;
 
     private Button Registro;
@@ -246,7 +243,7 @@ public class Principal extends AppCompatActivity implements View
 
 
     /* Client used to interact with Google APIs. */
-
+    //TODO remove this Picto change to CustomPicto
     private Picto Agregar;
 
     //InputStream
@@ -363,10 +360,7 @@ public class Principal extends AppCompatActivity implements View
                 json.setmJSONArrayPictosSugeridos(json.readJSONArrayFromFile(Constants.ARCHIVO_PICTOS_DATABASE));
             } catch (JSONException | FiveMbException e) {
                 e.printStackTrace();
-            } /*
-                WeeklyBackup wb = new WeeklyBackup(this);
-                wb.weeklyBackupDialog(false, R.string.pref_summary_backup_principal, false);*/
-
+            }
         }
     }
 
@@ -410,9 +404,7 @@ public class Principal extends AppCompatActivity implements View
                 }
             } catch (JSONException | FiveMbException e) {
                 e.printStackTrace();
-            } /*
-                WeeklyBackup wb = new WeeklyBackup(this);
-                wb.weeklyBackupDialog(false, R.string.pref_summary_backup_principal, false);*/
+            }
         } else {
             Log.e(TAG, "onDatosEncontrados: No existen datos");
         }
@@ -432,7 +424,7 @@ public class Principal extends AppCompatActivity implements View
         super.onCreate(savedInstanceState);
         sharedPrefsDefault =PreferenceManager.getDefaultSharedPreferences(this);
         if(sharedPrefsDefault.getBoolean("skillHand",false))
-        setContentView(R.layout.activity_main_rigth);
+            setContentView(R.layout.activity_main_rigth);
         else
             setContentView(R.layout.activity_main);
 
@@ -696,14 +688,7 @@ public class Principal extends AppCompatActivity implements View
         image1.setVisibility(View.VISIBLE);
         image1.setPadding(20, 20, 20, 20);
         image1.setImageDrawable(getResources().getDrawable(R.drawable.antipatico));
-        //Manda el mail con las estadisticas de uso todos los vierness
-        try {
-            indicadores = new Indicadores(getContext());
-        } catch (FiveMbException e) {/*
-            WeeklyBackup wb = new WeeklyBackup(this);
-            wb.weeklyBackupDialog(false, R.string.pref_summary_backup_principal, false);*/
 
-        }
         //Vibraicion inicial
         long[] patron = {0, 10, 20, 15, 20, 20};
         vibe.vibrate(patron, -1);
@@ -861,10 +846,6 @@ public class Principal extends AppCompatActivity implements View
                 Log.e(TAG, "onDescargaCompleta: Error al refrescar los pictos" + e.toString());
             } catch (FiveMbException e) {
                 e.printStackTrace();
-                /*
-                WeeklyBackup wb = new WeeklyBackup(this);
-                wb.weeklyBackupDialog(false, R.string.pref_summary_backup_principal, false);
-                */
             }
             if (firebaseDialog !=null){
                firebaseDialog.destruirDialogo();
@@ -1332,42 +1313,35 @@ public class Principal extends AppCompatActivity implements View
                 break;
             case 3:
                 loadDrawable(attatcher,pictogram,Seleccion4);
-                Seleccion4.setImageDrawable(json.getIcono(opcion));
                 Seleccion4.startAnimation(AnimationUtils.loadAnimation(this, R.anim.overshoot_arriba));
                 Seleccion5.setImageDrawable(getResources().getDrawable(R.drawable.icono_ottaa));
                 break;
             case 4:
                 loadDrawable(attatcher,pictogram,Seleccion5);
-                Seleccion5.setImageDrawable(json.getIcono(opcion));
                 Seleccion5.startAnimation(AnimationUtils.loadAnimation(this, R.anim.overshoot_arriba));
                 Seleccion6.setImageDrawable(getResources().getDrawable(R.drawable.icono_ottaa));
                 break;
             case 5:
                 loadDrawable(attatcher,pictogram,Seleccion6);
-                Seleccion6.setImageDrawable(json.getIcono(opcion));
                 Seleccion6.startAnimation(AnimationUtils.loadAnimation(this, R.anim.overshoot_arriba));
                 Seleccion7.setImageDrawable(getResources().getDrawable(R.drawable.icono_ottaa));
                 break;
             case 6:
                 loadDrawable(attatcher,pictogram,Seleccion7);
-                Seleccion7.setImageDrawable(json.getIcono(opcion));
                 Seleccion7.startAnimation(AnimationUtils.loadAnimation(this, R.anim.overshoot_arriba));
                 Seleccion8.setImageDrawable(getResources().getDrawable(R.drawable.icono_ottaa));
                 break;
             case 7:
                 loadDrawable(attatcher,pictogram,Seleccion8);
-                Seleccion8.setImageDrawable(json.getIcono(opcion));
                 Seleccion8.startAnimation(AnimationUtils.loadAnimation(this, R.anim.overshoot_arriba));
                 Seleccion9.setImageDrawable(getResources().getDrawable(R.drawable.icono_ottaa));
                 break;
             case 8:
                 loadDrawable(attatcher,pictogram,Seleccion9);
-                Seleccion9.setImageDrawable(json.getIcono(opcion));
-                Seleccion9.startAnimation(AnimationUtils.loadAnimation(this, R.anim.overshoot_arriba));
                 Seleccion10.setImageDrawable(getResources().getDrawable(R.drawable.icono_ottaa));
+                Seleccion9.startAnimation(AnimationUtils.loadAnimation(this, R.anim.overshoot_arriba));
             case 9:
                 loadDrawable(attatcher,pictogram,Seleccion10);
-                Seleccion10.setImageDrawable(json.getIcono(opcion));
                 Seleccion10.startAnimation(AnimationUtils.loadAnimation(this, R.anim.overshoot_arriba));
                 break;
         }
@@ -1431,10 +1405,6 @@ public class Principal extends AppCompatActivity implements View
 
             } catch (FiveMbException e) {
                 e.printStackTrace();
-                /*
-                WeeklyBackup wb = new WeeklyBackup(this);
-                wb.weeklyBackupDialog(false, R.string.pref_summary_backup_principal, false);
-                */
             }
 
             try {
@@ -1687,10 +1657,7 @@ public class Principal extends AppCompatActivity implements View
 
                 } catch (JSONException | FiveMbException e) {
                     e.printStackTrace();
-                } /*
-                    WeeklyBackup wb = new WeeklyBackup(getParent());
-                    wb.weeklyBackupDialog(false, R.string.pref_summary_backup_principal, false);*/
-
+                }
                 try {
 
                     json.desvincularJson(pictoPadre, pos);
@@ -1990,29 +1957,24 @@ public class Principal extends AppCompatActivity implements View
 
             switch (barridoPantalla.getPosicionBarrido()) {
                 case 0:
-
                     click(opcion1);
                     break;
                 case 1:
                     click(opcion2);
-
                     break;
                 case 2:
                     click(opcion3);
                     break;
                 case 3:
                     click(opcion4);
-
                     break;
                 case 4:
-
                     //  speak();
                     volver();
                     break;
                 case 5:
                     analitycsFirebase.customEvents("Accessibility","Principal","Talk");
                     hablarModoExperimental();
-
                     break;
                 case 6:
                     analitycsFirebase.customEvents("Accessibility","Principal","More Options");
@@ -2240,6 +2202,10 @@ public class Principal extends AppCompatActivity implements View
                         }
 
                    break;
+//                case R.id.buttonAvatar:
+//                    //myTTS.hablar("Soy el avatar");
+//                    //TODO aca va el avatar
+//                    break;
                 default:
                     Log.d(TAG, "onClick: Oracion:" + Oracion);
                     if(barridoPantalla.isBarridoActivado()&&(barridoPantalla.isScrollMode()||barridoPantalla.isAvanzarYAceptar()))
@@ -2371,7 +2337,7 @@ public class Principal extends AppCompatActivity implements View
             }
 
             if(sharedPrefsDefault.getBoolean("skillHand",false)){
-                    setContentView(R.layout.activity_main_rigth);
+                    setContentView(R.layout.activity_principal_v4_right);
                     recreate();
             }
             else{
@@ -2399,7 +2365,7 @@ public class Principal extends AppCompatActivity implements View
 //                    startActivity(intent);
 //                    this.finish();
                     if(sharedPrefsDefault.getBoolean("skillHand",false)){
-                        setContentView(R.layout.activity_main_rigth);
+                        setContentView(R.layout.activity_principal_v4_right);
                         recreate();
                     }
                     else{

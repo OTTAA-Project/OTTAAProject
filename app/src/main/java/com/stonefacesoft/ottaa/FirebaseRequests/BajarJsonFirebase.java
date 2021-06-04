@@ -379,9 +379,6 @@ public class BajarJsonFirebase implements OnFailureListener {
                         Log.e(TAG, "Error al guardar el Json");
 
                 } catch (Exception e1) {
-                /*
-                    WeeklyBackup wb = new WeeklyBackup(mContext);
-                    wb.weeklyBackupDialog(false, R.string.pref_summary_backup_principal, false);*/
                     e1.printStackTrace();
                 }
                 mFbSuccessListenerInterfaz.onDescargaCompleta(Constants.PICTOS_DESCARGADOS);

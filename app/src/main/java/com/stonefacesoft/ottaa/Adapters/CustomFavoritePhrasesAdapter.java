@@ -21,12 +21,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class CustomFavoritePhrasesAdapter extends RecyclerView.Adapter<CustomFavoritePhrasesAdapter.FavoritePhrases>{
-    private Context mContext;
-    private CustomFavoritePhrases phrases;
-    private JSONArray favoritesPhrases;
-    private textToSpeech myTTs;
-    private GlideAttatcher glideAttatcher;
-    private GestionarBitmap gestionarBitmap;
+    private final Context mContext;
+    private final CustomFavoritePhrases phrases;
+    private final JSONArray favoritesPhrases;
+    private final textToSpeech myTTs;
+    private final GlideAttatcher glideAttatcher;
+    private final GestionarBitmap gestionarBitmap;
 
     public CustomFavoritePhrasesAdapter(Context mContext) {
         this.mContext = mContext;

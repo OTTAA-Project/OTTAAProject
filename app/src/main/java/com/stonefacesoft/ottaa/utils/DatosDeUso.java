@@ -26,11 +26,11 @@ import java.util.stream.Collectors;
 public class DatosDeUso {
 
     private JSONArray frasesOrdenadas;
-    private ArrayList<JSONObject> frasesOrdenSort = new ArrayList<>();
+    private final ArrayList<JSONObject> frasesOrdenSort = new ArrayList<>();
     private JSONArray gruposOrdenados;
-    private ArrayList<JSONObject> gruposOrdenSort = new ArrayList<>();
+    private final ArrayList<JSONObject> gruposOrdenSort = new ArrayList<>();
 
-    private Json json;
+    private final Json json;
     private static final String TAG = "DatosDeUso";
 
     public DatosDeUso(Context mContext) throws FiveMbException {
@@ -295,7 +295,7 @@ public class DatosDeUso {
 
     //Array [dias de la semana] [Ma;ana, Tarde, Noche]
     public int[][] getCantidadFrasesPorDia() {
-        int matriz[][] = new int[8][3];
+        int[][] matriz = new int[8][3];
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 3; j++) {
                 matriz[i][j] = 0;

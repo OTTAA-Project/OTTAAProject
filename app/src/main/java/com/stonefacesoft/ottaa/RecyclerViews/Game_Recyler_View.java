@@ -35,7 +35,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
  * <p>Choose the level of game one by one</p>
  * */
 public class Game_Recyler_View extends Custom_recyclerView {
-    private int id;
+    private final int id;
     private GaleriaJuegosAdapter mGaleriaGruposAdapter;
 
     public Game_Recyler_View(AppCompatActivity mActivity,FirebaseAuth mAuth,int id) {

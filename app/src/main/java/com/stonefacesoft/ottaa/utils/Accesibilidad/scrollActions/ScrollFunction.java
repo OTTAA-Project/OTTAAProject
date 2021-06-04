@@ -21,11 +21,11 @@ public class ScrollFunction  extends android.os.Handler {
     private Activity mActivity;
     private MotionEvent event;
     private BarridoPantalla barridoPantalla;
-    private int position=0;
+    private final int position=0;
     private boolean clickEnabled;
     private long tiempo;
-    private Context mContext;
-    private SharedPreferences mDefaultSharedPreferences;
+    private final Context mContext;
+    private final SharedPreferences mDefaultSharedPreferences;
     private GaleriaGrupos2 galeriaGrupos2;
     public static  final int HACER_CLICK=0;
     public static final int SLEEP=2;

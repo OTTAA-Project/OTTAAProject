@@ -23,10 +23,10 @@ public class User {
     private Activity mActivity;
     private Context mContext;
     public GoogleSignInApi mGoogleSignInClient;
-    private GoogleApiClient mGoogleApiClient;
-    private SharedPreferences sharedPrefsDefault;
+    private final GoogleApiClient mGoogleApiClient;
+    private final SharedPreferences sharedPrefsDefault;
     private static FirebaseSuccessListener mFirebaseSuccess;
-    private FirebaseAuth mAuth;
+    private final FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
 
 
@@ -96,7 +96,7 @@ public class User {
                 public void onResult(@NonNull Status status) {
 
                     disconnectClient();
-                    mAuth.getInstance().signOut();
+                    FirebaseAuth.getInstance().signOut();
                     mActivity.finish();
                 }
 

@@ -58,22 +58,22 @@ import java.util.Map;
  */
 
 public class SubirArchivosFirebase {
-    private SharedPreferences sharedPrefsDefault;
+    private final SharedPreferences sharedPrefsDefault;
     private Uri selectedImageUri;
     private Bitmap imageBitmap;
-    private StorageReference mStorageRef;
-    private DatabaseReference mDatabase;
-    private FirebaseAuth mAuth;
+    private final StorageReference mStorageRef;
+    private final DatabaseReference mDatabase;
+    private final FirebaseAuth mAuth;
     private String uid;
     private String textoPicto;
     private String mTimeStamp;//tiempo, hora y dia
-    private String mNombreFirebase = "";//nombre que se la va a asignar al backup que se hace de la imagen en el firebase
+    private final String mNombreFirebase = "";//nombre que se la va a asignar al backup que se hace de la imagen en el firebase
     private FileInputStream pictos, grupos, frasesGuardadas,Juegos;
-    private Context mContext;
+    private final Context mContext;
     private String dateStr;
     private FirebaseSuccessListener mFbSuccessListenerInterfaz;
     private static final String TAG="SubirArchivos";
-    private FirebaseUtils firebaseUtils;
+    private final FirebaseUtils firebaseUtils;
 
     public SubirArchivosFirebase(Context mContext) {
         this.mContext = mContext;

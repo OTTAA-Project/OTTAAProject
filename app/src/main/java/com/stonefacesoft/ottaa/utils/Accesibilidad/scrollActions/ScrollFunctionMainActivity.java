@@ -8,7 +8,7 @@ import com.stonefacesoft.ottaa.Principal;
 import androidx.annotation.NonNull;
 
 public class ScrollFunctionMainActivity extends ScrollFunction{
-    private Principal principal;
+    private final Principal principal;
     public ScrollFunctionMainActivity(Context mContext, Principal principal) {
         super(mContext);
         this.principal=principal;
