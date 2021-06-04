@@ -185,6 +185,7 @@
         android:layout_marginBottom="@dimen/activity_vertical_margin"
         android:layout_marginTop="@dimen/activity_vertical_margin"
         android:id="@+id/constraintPictos">
+
         <com.stonefacesoft.pictogramslibrary.view.PictoView
             android:id="@+id/Option1"
             android:layout_width="0dp"
@@ -196,9 +197,7 @@
             custom:layout_constraintBottom_toBottomOf="parent"
             custom:layout_constraintEnd_toStartOf="@id/Option2"
             custom:layout_constraintStart_toStartOf="parent"
-            custom:layout_constraintTop_toTopOf="parent"
-            />
-
+            custom:layout_constraintTop_toTopOf="parent" />
 
         <com.stonefacesoft.pictogramslibrary.view.PictoView
             android:id="@+id/Option2"
@@ -255,7 +254,6 @@
             android:layout_marginTop="100dp"
             app:lottie_fileName="circle_loader.json"/>
 
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -283,7 +281,6 @@
             android:scaleType="fitCenter"
             android:src="@drawable/ic_share_black_24dp"
             android:contentDescription="Delete one picto, press and hold to delete everything" />
-
 
         <ImageButton
             android:id="@+id/btnFavoritos"
