@@ -341,7 +341,7 @@ public class Principal extends AppCompatActivity implements View
 
     private Gesture gesture;
 
-    Avatar avatar;
+    private Avatar avatar;
     MovableFloatingActionButton movableFloatingActionButton;
 
 
@@ -807,6 +807,7 @@ public class Principal extends AppCompatActivity implements View
 
         movableFloatingActionButton = new MovableFloatingActionButton(this);
         movableFloatingActionButton = findViewById(R.id.movableButton);
+        movableFloatingActionButton.setVisibility(View.VISIBLE);
         avatar = new Avatar(this,movableFloatingActionButton);
     }
 
@@ -2208,13 +2209,13 @@ public class Principal extends AppCompatActivity implements View
                         }
                         // if(myTTS().devolverPathAudio().exists())
                     }
-                    myTTS.hablar(avatar.animateTalk("¡Felicitaciones!... Has creado 10 frases el día de hoy, sigue así."));
+                  //  myTTS.hablar(avatar.animateTalk("¡Felicitaciones!... Has creado 10 frases el día de hoy, sigue así."));
 
 
                    break;
                 case R.id.movableButton:
-                    avatar.finishTalking();
-                    //TODO here is the onClick event for the avatar.
+                    setOracion(avatar.animateTalk("Soy")+ sharedPrefs.getString("name",""));
+                    myTTS.hablar(Oracion);
                     break;
                 default:
                     Log.d(TAG, "onClick: Oracion:" + Oracion);
