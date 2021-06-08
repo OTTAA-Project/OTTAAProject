@@ -350,9 +350,9 @@
     <string name="tutorial_frases">MORE USED PHRASES</string>
     <string name="tutorial_shared2">Share on your social media with audio or an image</string>
     <string name="str_avanzar_aceptar">Advance and accept</string>
-    <string name="str_edit_text">EDIT TEXT</string>
-    <string name="str_edit_frame">EDIT FRAME</string>
-    <string name="str_edit_tags">EDIT TAGS</string>
+    <string name="str_edit_text">Text</string>
+    <string name="str_edit_frame">Frame</string>
+    <string name="str_edit_tags">Tags</string>
     <string name="str_sustantivos">Nouns</string>
     <string name="str_miscelaneas">Miscellaneous</string>
     <string name="str_adjetivos">Adjectives</string>

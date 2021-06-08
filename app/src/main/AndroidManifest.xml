@@ -42,7 +42,8 @@
         <activity
             android:name=".ActivityInformes"
             android:label="@string/title_activity_informes"
-            android:theme="@style/CustomActionBarTheme.NoActionBar" />
+            android:theme="@style/CustomActionBarTheme.NoActionBar"
+            android:screenOrientation="sensorLandscape"/>
 
         <uses-library
             android:name="android.test.runner"

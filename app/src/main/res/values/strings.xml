@@ -412,9 +412,8 @@
     <string name="title_activity_about_ottaa">About OTTAA</string>
     <string name="cuenta">Account :</string>
     <string name="actualizar_ottaa">Upgrade OTTAA</string>
-    <string name="str_edit_text">EDIT TEXT</string>
-    <string name="str_edit_frame">EDIT FRAME</string>
-    <string name="str_edit_tags">EDIT TAGS</string>
+    <string name="str_edit_text">Text</string>
+    <string name="str_edit_frame">Frame</string>
     <string name="str_personas">People</string>
     <string name="str_sustantivos">Nouns</string>
     <string name="str_miscelaneas">Miscellaneous</string>
@@ -774,6 +773,7 @@
     <string name="book_a_demo_with_one_of_our_specialist_to_help_you_better_understand_our_aac">Book a demo with one of our specialist to help you better understand our AAC</string>
     <string name="prediction_data">These data are necessary for prediction</string>
     <string name="whatareyoulooking">What are you looking for?</string>
+    <string name="str_edit_tags">Tag</string>
 
 
 </resources>

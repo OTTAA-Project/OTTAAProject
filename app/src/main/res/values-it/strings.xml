@@ -336,9 +336,9 @@
     <string name="str_avanzar_aceptar">Avanzare e accettare</string>
     <string name="string_sugerencias_dialog">Ora troverai i pittogrammi suggeriti come picto trasparente, usali per creare immagini con più facilità.</string>
     <string name="title_ubicacion">Ubicacion</string>
-    <string name="str_edit_text">MODIFICA IL TESTO</string>
-    <string name="str_edit_frame">MODIFICA LA STRUTTURA</string>
-    <string name="str_edit_tags">MODIFICARE I TAG</string>
+    <string name="str_edit_text">Testo</string>
+    <string name="str_edit_frame">Cornice</string>
+    <string name="str_edit_tags">TAG</string>
     <string name="str_personas">Persone</string>
     <string name="str_sustantivos">Sostantivi</string>
     <string name="str_miscelaneas">Miscellaneo</string>
