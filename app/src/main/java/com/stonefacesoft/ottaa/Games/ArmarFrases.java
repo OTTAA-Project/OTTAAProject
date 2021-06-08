@@ -107,7 +107,7 @@ public class ArmarFrases extends AppCompatActivity implements View.OnClickListen
         Agregar = new Picto(0, getResources().getDrawable(R.drawable.agregar_picto_transp), "", "", R.color.Black);
         numeros=new ArrayList();
         mDefaultSharedPreferences= PreferenceManager.getDefaultSharedPreferences(this);
-        toast=new CustomToast(this);
+        toast=CustomToast.getInstance(this);
         mUtilsTTS=new UtilsTTS(this,mTTS,toast,mDefaultSharedPreferences);
         listadoPictos=new ArrayList<>();
         seleccion1=findViewById(R.id.Seleccion1);

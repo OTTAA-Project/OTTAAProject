@@ -342,7 +342,7 @@ public class Principal extends AppCompatActivity implements View
     private Gesture gesture;
 
     private Avatar avatar;
-    MovableFloatingActionButton movableFloatingActionButton;
+    private MovableFloatingActionButton movableFloatingActionButton;
 
 
     @Override
@@ -694,6 +694,11 @@ public class Principal extends AppCompatActivity implements View
         image1.setPadding(20, 20, 20, 20);
         image1.setImageDrawable(getResources().getDrawable(R.drawable.antipatico));
 
+        movableFloatingActionButton = findViewById(R.id.movableButton);
+        movableFloatingActionButton.setVisibility(View.VISIBLE);
+        movableFloatingActionButton.setOnClickListener(this);
+        avatar = new Avatar(this,movableFloatingActionButton);
+
         //Vibraicion inicial
         long[] patron = {0, 10, 20, 15, 20, 20};
         vibe.vibrate(patron, -1);
@@ -804,11 +809,9 @@ public class Principal extends AppCompatActivity implements View
             sharedPrefs.edit().putBoolean("PrimerUso",false).apply();
         }
         navigationControls=new PrincipalControls(this);
+        movableFloatingActionButton.setIcon(user.getmAuth());
 
-        movableFloatingActionButton = new MovableFloatingActionButton(this);
-        movableFloatingActionButton = findViewById(R.id.movableButton);
-        movableFloatingActionButton.setVisibility(View.VISIBLE);
-        avatar = new Avatar(this,movableFloatingActionButton);
+
     }
 
 
@@ -2214,8 +2217,8 @@ public class Principal extends AppCompatActivity implements View
 
                    break;
                 case R.id.movableButton:
-                    setOracion(avatar.animateTalk("Soy")+ sharedPrefs.getString("name",""));
-                    myTTS.hablar(Oracion);
+                    myTTS.hablar(avatar.animateTalk(getString(R.string.Iam)+" "+sharedPrefsDefault.getString("name","")));
+
                     break;
                 default:
                     Log.d(TAG, "onClick: Oracion:" + Oracion);
@@ -2851,5 +2854,9 @@ public class Principal extends AppCompatActivity implements View
                 attatcher.UseCornerRadius(true).loadDrawable(Uri.parse(pictogram.getUrl()),imageView);
         }
     }
+
+
+
+
 }
 

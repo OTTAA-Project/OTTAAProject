@@ -139,7 +139,7 @@ public class GameViewSelectPictograms extends AppCompatActivity implements View.
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         }
         setContentView(R.layout.games_seleccionar_picto);
-        dialogo=new CustomToast(this);
+        dialogo=CustomToast.getInstance(this);
         PictoID = intent.getIntExtra("PictoID", 0);
         mPositionPadre = intent.getIntExtra("PositionPadre", 0);
         gamesSettings = new GamesSettings();
@@ -221,7 +221,7 @@ public class GameViewSelectPictograms extends AppCompatActivity implements View.
         guess2.setOnClickListener(this);
         guess3.setOnClickListener(this);
         guess4.setOnClickListener(this);
-        dialogo=new CustomToast(this);
+        dialogo=CustomToast.getInstance(this);
         pictogramas=new JSONObject[4];
         sharedPrefsDefault= PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         gamesSettings.enableSound(sharedPrefsDefault.getBoolean("muteSound",false));

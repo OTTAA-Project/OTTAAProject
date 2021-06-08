@@ -1,6 +1,5 @@
 package com.stonefacesoft.ottaa.utils;
 
-import android.app.Activity;
 import android.content.Context;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
@@ -74,4 +73,7 @@ public class Avatar {
 
     }
 
+    public MovableFloatingActionButton getMovableFloatingActionButton() {
+        return movableFloatingActionButton;
+    }
 }

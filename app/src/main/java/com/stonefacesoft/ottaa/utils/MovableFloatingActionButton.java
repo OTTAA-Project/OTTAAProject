@@ -6,8 +6,10 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.stonefacesoft.ottaa.R;
 
 
@@ -102,6 +104,11 @@ public class MovableFloatingActionButton extends LinearLayout implements View.On
             return super.onTouchEvent(motionEvent);
         }
 
+    }
+
+    public void setIcon( FirebaseAuth mAuth){
+        ImageView button =(ImageView) findViewById(R.id.buttonAvatar);
+        new AvatarUtils(getContext(),button,mAuth).getFirebaseAvatar();
     }
 
 }
