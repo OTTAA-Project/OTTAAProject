@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageView
+        android:id="@+id/text_background"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#47B9C2"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="Background" />
+
+    <ImageView
+        android:id="@+id/icon"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:scaleType="fitCenter"
+        android:layout_marginTop="@dimen/medium_margin"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/btn_siguiente"
+        app:layout_constraintVertical_weight="2" />
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="Titulo"
+        android:textAlignment="center"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toTopOf="@id/description"
+        android:textStyle="bold"
+        android:textColor="@color/White"
+        app:layout_constraintEnd_toStartOf="@id/btn_siguiente"
+        app:layout_constraintHorizontal_weight="5"
+        app:layout_constraintStart_toEndOf="@id/btn_anterior"
+        app:layout_constraintTop_toTopOf="@id/btn_siguiente"
+        android:gravity="center"
+        app:layout_constraintVertical_weight="2" />
+
+    <TextView
+        android:id="@+id/description"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="@dimen/small_margin"
+        android:layout_marginEnd="@dimen/small_margin"
+        android:layout_marginBottom="@dimen/small_margin"
+        app:layout_constraintEnd_toStartOf="@id/btn_siguiente"
+        app:layout_constraintStart_toEndOf="@id/btn_anterior"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:text="Touch one or more pictograms to create a sentence as long as you want. The pictograms are automatically related and you will always have one more pictogram to add. "
+        android:textColor="@color/White"
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@id/title"
+        app:layout_constraintVertical_weight="5" />
+
+    <Button
+        android:id="@+id/btn_siguiente"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:gravity="center"
+        android:textColor="@color/White"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toEndOf="@id/title"
+        android:background="@color/colorTransparent"
+        android:layout_marginEnd="15dp"
+        app:layout_constraintTop_toBottomOf="@id/icon"
+        android:text="@string/next_button"
+        app:layout_constraintVertical_weight="1" />
+
+    <Button
+        android:id="@+id/btn_anterior"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="15dp"
+        android:gravity="center"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/title"
+        app:layout_constraintHorizontal_weight="1"
+        android:background="@color/colorTransparent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:text="@string/previous_button"
+        android:textColor="@color/White"
+        app:layout_constraintTop_toTopOf="@id/btn_siguiente" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

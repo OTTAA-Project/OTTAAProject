@@ -8,6 +8,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.StrictMode;
+import android.speech.tts.UtteranceProgressListener;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
@@ -36,17 +37,17 @@ import java.util.ArrayList;
  */
 
 public class CompartirArchivos {
-    private File audio;
-    private ArrayList<JSONObject> historial;
-    private Bitmap imagen;
     private final Context mContext;
-    private boolean actionShare;
     //   private Dialog dialog;
     private final Json json;
     private final GestionarBitmap gestionarBitmap;
-    private File file;
     private final textToSpeech myTTS;
     private final String TAG = "CompartirArchivos_";
+    private File audio;
+    private ArrayList<JSONObject> historial;
+    private Bitmap imagen;
+    private boolean actionShare;
+    private File file;
 
     public CompartirArchivos(Context context1, textToSpeech myTTS) {
         this.mContext = context1;
@@ -54,9 +55,7 @@ public class CompartirArchivos {
 
         Json.getInstance().setmContext(mContext);
         this.json = Json.getInstance();
-
         this.myTTS = myTTS;
-
 //        AndroidAudioConverter.load(mContext, new ILoadCallback() {
 //            @Override
 //            public void onSuccess() {
@@ -80,9 +79,9 @@ public class CompartirArchivos {
         actionShare = true;
         Intent sharingIntent = new Intent(Intent.ACTION_SEND);
         sharingIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-        Uri uri=Uri.fromFile(file);
+        Uri uri = Uri.fromFile(file);
         sharingIntent.setType("audio/*");
-        sharingIntent.putExtra(Intent.EXTRA_STREAM,uri);
+        sharingIntent.putExtra(Intent.EXTRA_STREAM, uri);
         mContext.startActivity(sharingIntent);
         //convertAudio(file);
 
@@ -210,7 +209,8 @@ public class CompartirArchivos {
 
         if (!Oracion.isEmpty()) {
             //Use this function from the tts, to storage a file temporal
-            file = myTTS.grabar(Oracion);
+
+
         } else {
             Toast.makeText(mContext, "Genere una frase para compartir.", Toast.LENGTH_SHORT).show();
             dialog.dismiss();
@@ -221,16 +221,30 @@ public class CompartirArchivos {
         compartirAudio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                MediaPlayerAudio mediaPlayerAudio=new MediaPlayerAudio(mContext);
-                mediaPlayerAudio.playedCustomFile(file);
-                compartirAudioPictogramas(file);
+                myTTS.getTTS().setOnUtteranceProgressListener(new UtteranceProgressListener() {
+                    @Override
+                    public void onStart(String utteranceId) {
+                    }
+
+                    @Override
+                    public void onDone(String utteranceId) {
+                        MediaPlayerAudio mediaPlayerAudio = new MediaPlayerAudio(mContext);
+                        mediaPlayerAudio.playedCustomFile(file);
+                        compartirAudioPictogramas(file);
+                    }
+
+                    @Override
+                    public void onError(String utteranceId) {
+
+                    }
+                });
+                file = myTTS.grabar(Oracion);
                 /*
                 try{
                     compartirAudioPictogramas(myTTS.grabar(Oracion));
                 }catch (Exception ex){
-
                 }*/
-                Toast.makeText(mContext, mContext.getResources().getText(R.string.weAreWorkingOn), Toast.LENGTH_LONG).show();
+             //   Toast.makeText(mContext, mContext.getResources().getText(R.string.weAreWorkingOn), Toast.LENGTH_LONG).show();
             }
         });
 

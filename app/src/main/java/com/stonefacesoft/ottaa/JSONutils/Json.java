@@ -675,7 +675,6 @@ public class Json implements FindPictogram {
                 Canvas canvas = new Canvas(bitmap);
                 d.setBounds(0, 0, bitmap.getWidth(), bitmap.getHeight());
                 d.draw(canvas);
-
                 return d;
             }
             InputStream is = connection.getInputStream();
@@ -700,11 +699,10 @@ public class Json implements FindPictogram {
         Drawable d = mContext.getResources().getDrawable(R.drawable.ic_agregar);
         if(!path.isEmpty()){
             try {
-                d=getUrlBitmap(path);
+                d=getBitmap(path);
             } catch (Exception ex) {
                 ex.printStackTrace();
                 d = mContext.getResources().getDrawable(R.drawable.ic_baseline_cloud_download_24_big);
-
         }
         }
         return d;

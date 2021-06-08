@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +23,7 @@ import com.bumptech.glide.RequestBuilder;
 import com.stonefacesoft.ottaa.Helper.ItemTouchHelperAdapter;
 import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.R;
+import com.stonefacesoft.ottaa.utils.ConnectionDetector;
 import com.stonefacesoft.pictogramslibrary.Classes.Pictogram;
 import com.stonefacesoft.pictogramslibrary.utils.GlideAttatcher;
 
@@ -29,7 +31,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -169,30 +170,34 @@ public class FindAllPictogramsAdapter extends RecyclerView.Adapter<FindAllPictog
         super.onViewRecycled(holder);
         glideAttatcher.clearMemory();
     }
-
-    public void loadDrawable(GlideAttatcher attatcher, Pictogram pictogram, ImageView imageView,ImageView kindOfView) {
-        boolean showKindOfView=false;
+    /**
+     *
+     * */
+    public void loadDrawable(GlideAttatcher attatcher, Pictogram pictogram, ImageView imageView, ImageView kindOfView) {
+        boolean showKindOfView = false;
         if (pictogram.getEditedPictogram().isEmpty()) {
             Drawable drawable = json.getIcono(pictogram.toJsonObject());
-            showKindOfView=false;
+            showKindOfView = false;
             if (drawable != null)
                 attatcher.UseCornerRadius(true).loadDrawable(drawable, imageView);
             else
                 attatcher.UseCornerRadius(true).loadDrawable(mContext.getResources().getDrawable(R.drawable.ic_cloud_download_orange), imageView);
         } else {
-            File picto = new File(pictogram.getEditedPictogram());
-            if (picto.exists())
-                attatcher.UseCornerRadius(true).loadDrawable(picto, imageView);
-            else{
+            if (json.getPictoFromId2(pictogram.getId()) != null)
+                if (ConnectionDetector.isNetworkAvailable(mContext))
+                    attatcher.UseCornerRadius(true).loadDrawable(Uri.parse(pictogram.getUrl()), imageView);
+                else
+                    attatcher.UseCornerRadius(true).loadDrawable(pictogram.getEditedPictogram(), imageView);
+            else {
                 attatcher.UseCornerRadius(true).loadDrawable(Uri.parse(pictogram.getUrl()), imageView);
-                showKindOfView=true;
+                showKindOfView = true;
             }
-
+            Log.d(TAG, "loadDrawable:"+"Find all Pictograms" );
         }
-        if(showKindOfView){
+        if (showKindOfView) {
             kindOfView.setVisibility(View.VISIBLE);
-            attatcher.UseCornerRadius(true).loadDrawable(mContext.getResources().getDrawable(R.drawable.ic_cloud_download_orange),kindOfView);
-        }else{
+            attatcher.UseCornerRadius(true).loadDrawable(mContext.getResources().getDrawable(R.drawable.ic_cloud_download_orange), kindOfView);
+        } else {
             kindOfView.setVisibility(View.GONE);
         }
     }
@@ -269,7 +274,7 @@ public class FindAllPictogramsAdapter extends RecyclerView.Adapter<FindAllPictog
                 try {
                     mHolder.mTextoPicto.setText(mStringTexto);
                     Pictogram pictogram = new Pictogram(mVincularArray.getJSONObject(mPosition), json.getIdioma());
-                    loadDrawable(glideAttatcher, pictogram, mHolder.mPictoImageView,mHolder.mKindOfPictogram);
+                    loadDrawable(glideAttatcher, pictogram, mHolder.mPictoImageView, mHolder.mKindOfPictogram);
                     mHolder.mPictoImageColor.setColorFilter(cargarColor(json.getTipo(picto)));
                     mHolder.itemView.setBackground(mContext.getResources().getDrawable(R.drawable.picto_shape));
 

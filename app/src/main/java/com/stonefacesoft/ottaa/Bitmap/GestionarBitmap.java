@@ -19,7 +19,6 @@ import android.util.Log;
 import androidx.appcompat.content.res.AppCompatResources;
 
 import com.stonefacesoft.ottaa.JSONutils.Json;
-import com.stonefacesoft.ottaa.Picto;
 import com.stonefacesoft.ottaa.R;
 
 import org.json.JSONException;
@@ -181,7 +180,9 @@ public class GestionarBitmap  {
         return output;
     }
 
-    //metodo para combinar imagenes
+    /**
+     * Combine image method
+     * */
     public Bitmap combineImages(int mDeltax,int mDeltay) {
         Bitmap mImagenFinal = null;
 
@@ -191,49 +192,40 @@ public class GestionarBitmap  {
 
             Bitmap mBufferPictos = Bitmap.createScaledBitmap(imagenes.get(0), 250, 250, false);
             Bitmap logo=drawableToBitmap(mContext.getResources().getDrawable(R.drawable.logo_ottaa));
-            int height = mBufferPictos.getHeight()/4;
-            logo=redimensionarImagenMaximo(logo,height*2,height);
+
+            logo=redimensionarImagenMaximo(logo,mBufferPictos.getWidth(),mBufferPictos.getHeight()/4);
             mImagenFinalWidth = (mBufferPictos.getWidth()+mDeltax) * imagenes.size()+mDeltax;
             mImagenFinalHeight = 3*mDeltay+mBufferPictos.getHeight()+logo.getHeight();
             //tamano = 0;
             mImagenFinal = Bitmap.createBitmap(mImagenFinalWidth, mImagenFinalHeight, Bitmap.Config.ARGB_8888);
-
 
             Canvas comboImage = new Canvas(mImagenFinal);
             Paint pintura=new Paint();
             pintura.setColor(mContext.getResources().getColor(R.color.FondoApp));
             pintura.setStrokeWidth(20);
 
-
             comboImage.drawRect(0,0,mImagenFinal.getWidth(),mImagenFinal.getHeight(),pintura);
-
             for (int j = 0; j < imagenes.size(); j++) {
-
                 int despx =j*((mDeltax)+mBufferPictos.getWidth())+mDeltax;
                 //Bitmap imgRedimensionada=redimensionarImagenMaximo(imagenes.get(j),mBufferPictos.getWidth(), mBufferPictos.getHeight());
                 //comboImage.drawLine(despx,0,despx,mImagenFinal.getHeight(),pintura);
                 comboImage.drawBitmap(redimensionarImagenMaximo(imagenes.get(j), mBufferPictos.getWidth(), mBufferPictos.getHeight()), despx, mDeltay, null);
-
-
-                //    tamano += imagenes.get(0 ).getWidth();
-
             }
             Paint pinturas=new Paint();
             pinturas.setAlpha(200);
             pinturas.setARGB(200,255,255,255);
-
 
             int mPosicionLogoX,mPosicionLogoY;
 
             mPosicionLogoX = mImagenFinalWidth-mDeltax-logo.getWidth();
             mPosicionLogoY = mImagenFinalHeight-mDeltay-logo.getHeight();
             comboImage.drawBitmap(logo,mPosicionLogoX,mPosicionLogoY,pinturas);
-
         }
-
         return mImagenFinal;
     }
-    //metodo para convertir un drawable en bitmap
+    /**
+     *  this method transform the drawables on bitmaps
+     */
     public Bitmap drawableToBitmap (Drawable drawable) {
         Bitmap bitmap = null;
 
