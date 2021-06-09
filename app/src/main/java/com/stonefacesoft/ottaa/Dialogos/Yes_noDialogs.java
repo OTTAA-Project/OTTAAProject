@@ -1,6 +1,5 @@
 package com.stonefacesoft.ottaa.Dialogos;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.view.View;
 

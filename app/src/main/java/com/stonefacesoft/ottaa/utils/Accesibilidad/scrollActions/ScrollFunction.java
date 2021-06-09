@@ -5,13 +5,11 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Message;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.view.MotionEvent;
 
 import androidx.annotation.NonNull;
 
 import com.stonefacesoft.ottaa.GaleriaGrupos2;
-import com.stonefacesoft.ottaa.Principal;
 import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.utils.Accesibilidad.BarridoPantalla;
 

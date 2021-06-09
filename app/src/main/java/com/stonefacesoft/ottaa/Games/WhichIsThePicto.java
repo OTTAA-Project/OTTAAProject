@@ -49,6 +49,7 @@ import com.stonefacesoft.ottaa.utils.CustomToast;
 import com.stonefacesoft.ottaa.utils.Firebase.AnalyticsFirebase;
 import com.stonefacesoft.ottaa.utils.Games.AnimGameScore;
 import com.stonefacesoft.ottaa.utils.Games.Juego;
+import com.stonefacesoft.ottaa.utils.JSONutils;
 import com.stonefacesoft.ottaa.utils.Ttsutils.UtilsGamesTTS;
 import com.stonefacesoft.ottaa.utils.exceptions.FiveMbException;
 
@@ -244,7 +245,8 @@ public class WhichIsThePicto extends AppCompatActivity implements View
         try {
             mJsonArrayTodosLosGrupos = json.readJSONArrayFromFile(Constants.ARCHIVO_GRUPOS);
             int id = json.getId(mJsonArrayTodosLosGrupos.getJSONObject(mPositionPadre));
-            analitycsFirebase.levelNameGame(TAG + "_" + json.getNombre(mJsonArrayTodosLosGrupos.getJSONObject(mPositionPadre)));
+            analitycsFirebase.levelNameGame(TAG + "_" + JSONutils.getNombre(mJsonArrayTodosLosGrupos.getJSONObject(mPositionPadre),sharedPrefsDefault.getString(getString(R.string.str_idioma), "en")));
+
             game = new Juego(this, 0, id);
             game.setGamelevel(sharedPrefsDefault.getInt("whichIsThePictoLevel",0));
             game.setMaxStreak(20);
@@ -253,12 +255,10 @@ public class WhichIsThePicto extends AppCompatActivity implements View
             loadLevel();
         } catch (JSONException e) {
             e.printStackTrace();
-        } catch (FiveMbException e) {
-
         }
 
         try {
-            mJsonArrayTodosLosPictos = json.getHijosGrupo2(mJsonArrayTodosLosGrupos.getJSONObject(mPositionPadre));
+            mJsonArrayTodosLosPictos = JSONutils.getHijosGrupo2(json.getmJSONArrayTodosLosPictos(),mJsonArrayTodosLosGrupos.getJSONObject(mPositionPadre));
         } catch (Exception e) {
             Toast.makeText(context, getApplicationContext().getResources().getString(R.string.no_hay_pictos), Toast.LENGTH_SHORT).show();
         }
@@ -565,10 +565,10 @@ public class WhichIsThePicto extends AppCompatActivity implements View
     private void cargarDatosOpcion(int position, Custom_Picto option, int pos) {
         try {
             if (mJsonArrayTodosLosPictos.getJSONObject(position) != null) {
-                if (!json.getNombre(mJsonArrayTodosLosPictos.getJSONObject(position)).equals("")) {
+                if (!JSONutils.getNombre(mJsonArrayTodosLosGrupos.getJSONObject(position),sharedPrefsDefault.getString(getString(R.string.str_idioma), "en")).equals("")) {
                     option.setCustom_Img(json.getIcono(mJsonArrayTodosLosPictos.getJSONObject(position)));
-                    option.setCustom_Color(cargarColor(json.getTipo(mJsonArrayTodosLosPictos.getJSONObject(position))));
-                    option.setCustom_Texto(json.getNombre(mJsonArrayTodosLosPictos.getJSONObject(position)));
+                    option.setCustom_Color(cargarColor(JSONutils.getTipo(mJsonArrayTodosLosPictos.getJSONObject(position))));
+                    option.setCustom_Texto(JSONutils.getNombre(mJsonArrayTodosLosGrupos.getJSONObject(position),sharedPrefsDefault.getString(getString(R.string.str_idioma), "en")));
                     model.loadValue(pos, position);
                 } else {
                     position = devolverValor(Math.round((float) Math.random() * mJsonArrayTodosLosPictos.length()));

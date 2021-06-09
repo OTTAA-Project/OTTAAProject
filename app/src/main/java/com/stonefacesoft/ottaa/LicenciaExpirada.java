@@ -37,7 +37,7 @@ import java.util.TimerTask;
  */
 
 public class LicenciaExpirada extends AppCompatActivity implements SharedPreferences.OnSharedPreferenceChangeListener {
-
+    //TODO move to util
     public static String STR_LOGOUT;
     public GoogleSignInApi mGoogleSignInClient;
     ViewPager viewPager;

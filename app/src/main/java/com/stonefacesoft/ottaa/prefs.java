@@ -836,6 +836,7 @@ public class prefs extends PreferenceActivity implements SharedPreferences.OnSha
 
     private void preparePickerDialog(String title,String key,int min,int max){
         NumberPickerPreference pickerPreference=new NumberPickerPreference(this,title,key);
+        pickerPreference.createDialog();
         pickerPreference.setmPicker(min,max);
         pickerPreference.createPicker();
     }

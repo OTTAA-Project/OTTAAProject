@@ -54,6 +54,7 @@ public class CalculaPuntos {
     public void setIntentos(int total) {
         this.total = total;
     }
+
     public int getIntentos(){
         calcularTotal();
         return total;

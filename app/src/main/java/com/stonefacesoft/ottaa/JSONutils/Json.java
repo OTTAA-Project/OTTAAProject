@@ -12,8 +12,6 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.util.Size;
 
-import com.google.gson.JsonObject;
-import com.stonefacesoft.ottaa.Bitmap.UriFiles;
 import com.stonefacesoft.ottaa.Interfaces.FindPictogram;
 import com.stonefacesoft.ottaa.Prediction.Clima;
 import com.stonefacesoft.ottaa.Prediction.Edad;
@@ -22,6 +20,7 @@ import com.stonefacesoft.ottaa.Prediction.Posicion;
 import com.stonefacesoft.ottaa.Prediction.Sexo;
 import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.utils.Constants;
+import com.stonefacesoft.ottaa.utils.JSONutils;
 import com.stonefacesoft.ottaa.utils.exceptions.FiveMbException;
 import com.stonefacesoft.pictogramslibrary.JsonUtils.JSONObjectManager;
 
@@ -46,7 +45,6 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
 
 /**
  * @author morro
@@ -70,7 +68,6 @@ import java.util.Date;
  *  <code>json.crearPicto(mArrayListGrupo, mArrayListTodosLosPictos,idPadre,textLanguage,textoEnglis,UrlImage,tipe,urlFirebase,pushKeyPictogram) </code>
  *  <h4>How to edit pictogram</h4>
  *
- *  <code> json.setmJSONArrayTodosLosPictos(  {@link #setJsonEditado2(JSONArray, JSONObject)});</code><br>
  *  {@link #setmJSONArrayTodosLosPictos(JSONArray)}
  *
  */
@@ -170,23 +167,7 @@ public class Json implements FindPictogram {
         mJSonArrayJuegos=readJSONArrayFromFile(Constants.ARCHIVO_JUEGO);
         mJSonArrayDescripciones=readJSONArrayFromFile(Constants.ARCHIVO_JUEGO_DESCRIPCION);
         mJSONArrayTodasLasFrasesJuegos = readJSONArrayFromFile(Constants.ARCHIVO_FRASES_JUEGOS);
-//        readFile(mJSONArrayTodosLosPictos,Constants.ARCHIVO_PICTOS);
-//        readFile(mJSONArrayTodosLosGrupos,Constants.ARCHIVO_GRUPOS);
-//        readFile(mJSONArrayTodasLasFrases,Constants.ARCHIVO_FRASES);
-//        readFile(mJSONArrayPictosSugeridos,Constants.ARCHIVO_PICTOS_DATABASE);
-//        readFile(mJSonArrayJuegos,Constants.ARCHIVO_JUEGO);
-//        readFile(mJSONArrayTodasLasFrasesJuegos,Constants.ARCHIVO_FRASES_JUEGOS);
 
-        //cambiarIdiomaPorIdioma();
-
-    }
-
-    private void readFile(String fileName) {
-        try {
-            readJSONArrayFromFile(fileName);
-        } catch (JSONException | FiveMbException e) {
-            e.printStackTrace();
-        }
     }
 
     /**
@@ -259,195 +240,8 @@ public class Json implements FindPictogram {
         this.mJSonArrayFrasesFavoritas = mJSonArrayFrasesFavoritas;
     }
 
-    /**
-     * @param nombre name of the pictogram or group
-     * @param jsonArray Jsonarray where searched  a group or a pictogram
-     * @return id from a pictogram or a group
-     * */
-    public static int getIDfromNombre(String nombre, JSONArray jsonArray) throws JSONException {
-        int id = -1;
-        for (int i = 0; i < jsonArray.length(); i++) {
-            JSONObject object = jsonArray.getJSONObject(i);
-            if (object.getJSONObject("texto").getString("en").equals(nombre)) {
-                id = object.getInt("id");
-                break;
-            }
-
-        }
-        return id;
-    }
-
-    /**
-     * Convert the JsonArray String to an ArrayList
-     * */
-    public ArrayList<JSONObject> stringToArrayList(String contenido) {
-        ArrayList<JSONObject> jsonADevolver = new ArrayList<>();
-        if (contenido != null) {
-            try {
-                JSONArray array = new JSONArray(contenido);
-                for (int i = 0; i < array.length(); i++) {
-                    jsonADevolver.add(array.getJSONObject(i));
-                }
-                Log.d("Json_stringToArray", "tenemos el array");
-            } catch (JSONException e) {
-                Log.e("Json_stringToArray", "ERROR NO tenemos el array");
-                e.printStackTrace();
-            }
-        } else {
-            Log.d("Json_stringToArray", "contenido = null");
-        }
-
-        return jsonADevolver;
-    }
-
-
-    public boolean tieneNombre(JSONObject object){
-        try {
-            if(object.getJSONObject("texto").has(sharedPrefsDefault.getString("idioma","en"))){
-                return true;
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-
-        }
-        return false;
-    }
-    /**
-     * @param object pictogram or group
-     * @return  The name of a pictogram or group
-     * */
-    public String getNombre(JSONObject object) {
-        try {
-            return object.getJSONObject("texto").getString(sharedPrefsDefault.getString(mContext
-                    .getString(R.string.str_idioma), "en"));
-
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            Log.e("Error_Json_getNombre", "1 :" + e.toString());
-           fallaJson = true;
-        }
-        return "error";
-    }
-
     public String getIdioma(){
         return sharedPrefsDefault.getString(mContext.getString(R.string.str_idioma), "en");
-    }
-
-    public String getNombre(JSONObject object, String idioma) {
-        try {
-            return object.getJSONObject("texto").getString(idioma);
-
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            Log.e(TAG, "getNombre: Error: 2" + e.toString());
-            fallaJson = true;
-        }
-        return null;
-    }
-    /**
-     * @param object Pictogram
-     * @return the kind of pictogram in the Fitzgerald Key
-     * */
-    public int getTipo(JSONObject object) {
-        try {
-            return object.getInt("tipo");
-        } catch (JSONException e) {
-            e.printStackTrace();
-            Log.e(TAG, "getTipo: " +e.getMessage());
-         //
-            fallaJson = true;
-        }
-        return 0;
-    }
-
-    public int getWorlType(JSONObject object) {
-        try {
-            return object.getInt("wordTYPE");
-        } catch (JSONException e) {
-            e.printStackTrace();
-            Log.e(TAG, "getWorlType: " + e.getMessage());
-            //
-            fallaJson = true;
-        }
-        return 0;
-    }
-
-
-
-    /**
-     * @deprecated  this  has been replaced by the class {@link com.stonefacesoft.ottaa.utils.Games.Juego}
-     * @return  the score in the whichIsThePicto game
-     * */
-    public double getPuntaje(JSONObject object,int id) {
-        JSONArray aux;
-        try {
-                aux = object.getJSONArray("juegos"+id);
-            return aux.getJSONObject(0).getDouble("puntaje");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return 0;
-    }
-
-    public int getAciertos(JSONObject object,int id) {
-        JSONArray aux;
-        try {
-            aux = object.getJSONArray("juegos"+id);
-            return aux.getJSONObject(0).getInt("aciertos");
-        } catch (JSONException e) {
-            Log.e(TAG, "getAciertos: " + e.getMessage());
-
-        }
-        return 0;
-    }
-
-    public int getIntentos(JSONObject object,int id) {
-        JSONArray aux;
-        try {
-            aux = object.getJSONArray("juegos"+id);
-            return aux.getJSONObject(0).getInt("intentos");
-        } catch (JSONException e) {
-            Log.e(TAG, "getIntentos: " + e.getMessage());
-            e.printStackTrace();
-
-        }
-        return 0;
-    }
-
-
-    public ArrayList<JSONObject> setHijosGrupo(ArrayList<JSONObject> mArrayListGrupoPadre, ArrayList<JSONObject> mArrayListHijos, int boton) {
-        try {
-            JSONArray jsonArray = new JSONArray(mArrayListHijos);
-            mArrayListGrupoPadre.get(boton).put("relacion", jsonArray);
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-
-        }
-        return null;
-    }
-
-
-    public JSONArray setHijosGrupo2(JSONArray mJsonArrayGrupoPadre, JSONArray mJsonArrayHijosGrupo, int boton) {
-
-        try {
-            mJsonArrayGrupoPadre.getJSONObject(boton).put("relacion", mJsonArrayHijosGrupo);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        return null;
-    }
-
-    public void addAraasacPictogramFromInternet(JSONObject pictogram){
-        mJSONArrayTodosLosPictos.put(pictogram);
-    }
-
-
-    private static JsonObject padre(JsonObject padre) {
-        return padre;
     }
 
     public ArrayList<JSONObject> getmArrayListTodasLasFotosBackup() throws FiveMbException {
@@ -472,178 +266,23 @@ public class Json implements FindPictogram {
         return mArrayListTodasLasFotosBackup;
     }
 
-    //TODO borrar este metodo
-    private void cargarPriordad(JSONObject ob, int id) {
-        try {
-            ob.put("agenda", id);
-        } catch (JSONException e) {
-            e.printStackTrace();
-
-        }
-    }
-
-    //TODO borrar este metodo
-    public void inicializarAgenda2() {
-        for (int i = 0; i < mJSONArrayTodosLosPictos.length(); i++) {
-            try {
-                cargarPriordad(mJSONArrayTodosLosPictos.getJSONObject(i), 0);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    public void setPosicion(JSONObject ob, Posicion posicion) {
-        JSONArray arrayPosicion = new JSONArray();
-        Log.d(TAG, "setPosicion: " + posicion);
-        try {
-            if (ob.getJSONArray(Constants.UBICACION) != null) {
-                arrayPosicion = ob.getJSONArray(Constants.UBICACION);
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        try {
-            arrayPosicion.put(arrayPosicion.length(), posicion);
-            ob.put(Constants.UBICACION, arrayPosicion);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-
-
-    public void cargarAgenda(String texto) {
-        //La nueva agenda setea el valor en this y lo usa de aca.
-        this.eventoActual = texto;
-//        texto = texto.toUpperCase();
-//        int grupo = getID(texto, mJSONArrayTodosLosGrupos);
-//        if (grupo > -1) {
-//            JSONObject jsonObject = mJSONArrayTodosLosGrupos.get(grupo);
-//            ArrayList<JSONObject> pictosDeGrupo = getHijosGrupo(jsonObject);
-//            for (JSONObject object : pictosDeGrupo) {
-//                cargarPriordad(object, agenda, 1);
-//            }
-//        }
-    }
-
-
-    public void setNombre(JSONObject object, String texto) {
-        try {
-            object.getJSONObject("texto").put(sharedPrefsDefault.getString(mContext.getString(R.string.str_idioma), "en"), texto);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void setNombre(JSONObject object, String textoOriginal, String textoTraducido, String idiomaOriginal, String idomaTraducion) {
-        try {
-            if (!idiomaOriginal.equals(idomaTraducion)) {
-                object.getJSONObject("texto").put(idomaTraducion, textoTraducido);
-                object.getJSONObject("texto").put(idiomaOriginal, textoOriginal);
-            } else {
-                object.getJSONObject("texto").put(idiomaOriginal, textoOriginal);
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void setPuntaje(JSONObject jsonObject,int id, double puntaje, int intentos, int aciertos) {
-        JSONArray relacion = new JSONArray();
-        JSONObject aux = new JSONObject();
-        try {
-
-            aux.put("puntaje", puntaje);
-            aux.put("intentos", intentos);
-            aux.put("aciertos", aciertos);
-            relacion.put(aux);
-            jsonObject.put("juegos"+id, relacion);
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void cargarPosicion(JSONObject ob, Posicion posicion) {
-        JSONArray pos = new JSONArray();
-        //json_cp_cargar:json_cargarPosicion
-        Log.d(TAG, "cargarPosicion: " + posicion);
-        try {
-            if (ob.getJSONArray("posicion") != null) {
-                pos = ob.getJSONArray("posicion");
-                Log.d(TAG, "cargarPosicion: Not null");
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        try {
-            pos.put(pos.length(), posicion);
-            ob.put("posicion", pos);
-            Log.d(TAG, "cargarPosicion: Json pos: " + ob.getJSONArray("posicion").get(0));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void setTipo(JSONObject object, int tipo) {
-        try {
-            object.put("tipo", tipo);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void setImagen(JSONObject object, String img, String url, String pushKey) {
-        try {
-            object.getJSONObject("imagen").put("pictoEditado", img);
-            object.getJSONObject("imagen").put("urlFoto", url);
-            object.getJSONObject("imagen").put("pushKey", pushKey);
-            Log.d(TAG, "setImagen: " + object.getJSONObject("imagen").toString());
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public String getUriEditedPictogram(JSONObject object){
-        try {
-            String picto = object.getJSONObject("imagen").getString("pictoEditado");
-            return picto;
-        } catch (JSONException e) {
-            e.printStackTrace();
-            return "";
-        }
-    }
-
     public Drawable getIcono(JSONObject object) {
-        if (object != null) {
-            String picto = null;
-            if (object.has("imagen")) {
-                try {
-                    JSONObject icon = object.getJSONObject("imagen");
-                    if (icon.has("pictoEditado") && !icon.getString("pictoEditado").isEmpty()) {
-                            return AbrirBitmap(icon);
-                    } else if (!icon.has("pictoEditado")||(icon.has("pictoEditado")&&icon.getString("pictoEditado").isEmpty())) {
-                        try {
-                            picto =icon.getString("picto");
-                            Log.d("Json_getIcono: ", "Devuelvo picto standar");
-                            return mContext.getResources().getDrawable(mContext.getResources().getIdentifier(picto,
-                                    "drawable", mContext.getPackageName()));
-                        } catch (JSONException e) {
-                            Log.e(TAG, "getIcono JsonException: ERROR al devolver picto standar " + e.toString());
-                            e.printStackTrace();
-                        } catch (Exception e) {
-                            Log.e(TAG, "getIcono: Exception ERROR al devolver picto standar " + e.toString());
+        try {
+            JSONObject jsonObjectImage = JSONutils.getImagen(object);
 
-                        }
-                        Log.e(TAG, "getIcono: Devuelvo NULL");
-                    }
+            switch (jsonObjectImage.getInt("type")) {
+                case 1:
+                    return AbrirBitmap(jsonObjectImage.getString("picto"));
 
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                case 2:
+                    return mContext.getResources().getDrawable(mContext.getResources().getIdentifier(jsonObjectImage.getString("picto"),
+                        "drawable", mContext.getPackageName()));
+                case 3:
                     return null;
-                }
-            } else
-                return null;
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
         }
         return null;
     }
@@ -665,38 +304,7 @@ public class Json implements FindPictogram {
         return d;
     }
 
-    public Drawable getUrlBitmap(String uri)throws Exception{
-        Drawable  d = null;
-        Bitmap bitmap = null;
-            Log.d(TAG, "getBitmap : isEmpty");
-            URL url = new URL( uri);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            if(connection.getResponseCode()!=200){
-                Canvas canvas = new Canvas(bitmap);
-                d.setBounds(0, 0, bitmap.getWidth(), bitmap.getHeight());
-                d.draw(canvas);
-
-                return d;
-            }
-            InputStream is = connection.getInputStream();
-            BufferedInputStream bis = new BufferedInputStream(is);
-            try{
-                bitmap = BitmapFactory.decodeStream(bis);
-            }catch (OutOfMemoryError ex){
-                bitmap = null;
-            }
-            bis.close();
-            is.close();
-
-        return d;
-    }
-
-    public Drawable AbrirBitmap(JSONObject icon) {
-        UriFiles auxPathFiles=new UriFiles(mContext);
-        JSONObjectManager jsonObjectManager = new JSONObjectManager();
-        String path = jsonObjectManager.JsonObjectGetString(icon,"pictoEditado","JsonPictoEditado");
-        String url = jsonObjectManager.JsonObjectGetString(icon,"urlFoto","JsonURLFoto");
-
+    public Drawable AbrirBitmap(String Path) {
         Drawable d = mContext.getResources().getDrawable(R.drawable.ic_agregar);
         if(!path.isEmpty()){
             try {
@@ -710,405 +318,34 @@ public class Json implements FindPictogram {
         return d;
     }
 
-    public void setImagen(JSONObject object, String img) {
-        try {
-            object.getJSONObject("imagen").put("pictoEditado", img);
 
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
 
-    public void desvincularJson(JSONObject padre, int id) {
-        JSONArray jsonArray;
-        JSONArray list = new JSONArray();
-        try {
-            jsonArray = padre.getJSONArray("relacion");
-            for (int i = 0; i < jsonArray.length(); i++) {
-                //Excluding the item at position
-                JSONObject object = jsonArray.getJSONObject(i);
-                if (object.getInt("id") != id) {
-                    list.put(jsonArray.get(i));
-                }
-            }
-            padre.put("relacion", list);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void setHorario(JSONObject ob, Horario horario) {
-        JSONArray arrayHora = new JSONArray();
-        Log.d(TAG, "setHorario: Horario" + horario);
-        try {
-            if (ob.getJSONArray(Constants.HORA) != null) {
-                arrayHora = ob.getJSONArray(Constants.HORA);
-                Log.d(TAG, "setHorario: Not null");
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        try {
-            boolean tienehora = false;
-            for (int i = 0; i < arrayHora.length(); i++) {
-                if (arrayHora.getString(i).contentEquals(horario.name())) {
-                    tienehora = true;
-                }
-            }
-            if (!tienehora)
-                arrayHora.put(arrayHora.length(), horario);
-            ob.put(Constants.HORA, arrayHora);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void setSexo(JSONObject ob, Sexo sexo) {
-        JSONArray arraySexo = new JSONArray();
-        Log.d(TAG, "setSexo: " + sexo);
-        try {
-            if (ob.getJSONArray(Constants.SEXO) != null) {
-                arraySexo = ob.getJSONArray(Constants.SEXO);
-                Log.d(TAG, "setSexo: Not null");
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        try {
-            arraySexo.put(arraySexo.length(), sexo);
-            ob.put(Constants.SEXO, arraySexo);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void setEdad(JSONObject ob, Edad edad) {
-        JSONArray arrayEdad = new JSONArray();
-        Log.d(TAG, "setEdad: " + edad);
-        try {
-            if (ob.getJSONArray(Constants.EDAD) != null) {
-                arrayEdad = ob.getJSONArray(Constants.EDAD);
-                Log.d(TAG, "setEdad: Not null");
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        try {
-            arrayEdad.put(arrayEdad.length(), edad);
-            ob.put(Constants.EDAD, arrayEdad);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void setClima(JSONObject ob, Clima clima) {
-        //TODO arreglar lo de arrayHora
-        JSONArray arrayHora = new JSONArray();
-        Log.d(TAG, "setClima: " + clima);
-        try {
-            if (ob.getJSONArray(Constants.CLIMA) != null) {
-                arrayHora = ob.getJSONArray(Constants.CLIMA);
-                Log.d(TAG, "setClima: Not null");
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-            Log.e(TAG, "setClima: " + e.getMessage());
-        }
-        try {
-            arrayHora.put(arrayHora.length(), clima);
-            ob.put(Constants.CLIMA, arrayHora);
-        } catch (JSONException e) {
-            e.printStackTrace();
-            Log.e(TAG, "setClima: " + e.getMessage());
-        }
-    }
 
     private String getAgenda() {
         return eventoActual;
     }
-    public void aumentarFrecGrupo(JSONObject padre){
-        try {
-            int pos= getPosPicto(GroupManagerClass.getInstance().getmGroup(),getId(padre));
-            int frec=padre.getInt("frec");
-            frec++;
-            padre.put("frec",frec);
-            GroupManagerClass.getInstance().getmGroup().put(pos,padre);
-        } catch (JSONException e) {
-            e.printStackTrace();
-            int pos;
-            try {
-                pos = getPosPicto(GroupManagerClass.getInstance().getmGroup(),getId(padre));
-                padre.put("frec",0);
-                GroupManagerClass.getInstance().getmGroup().put(pos,padre);
-            } catch (JSONException ex) {
-                ex.printStackTrace();
-            }
 
-        }
-        guardarJson(Constants.ARCHIVO_GRUPOS);
-    }
-
-    public void aumentarFrec(JSONObject padre, JSONObject opcion) {
-        boolean nuevo = true;
-        try {
-            Log.d(TAG, "aumentarFrec: " + "pictoPadre " + padre.getJSONObject("texto").getString
-                    (sharedPrefsDefault.getString(mContext.getString(R.string.str_idioma), "en")));
-            Log.d(TAG, "aumentarFrec: " + "opcion " + opcion.getJSONObject("texto").getString(sharedPrefsDefault.getString(mContext.getString(R.string.str_idioma), "en")));
-            JSONArray array = padre.getJSONArray("relacion");
-            for (int i = 0; i < array.length(); i++) {
-                JSONObject object = array.getJSONObject(i);
-                if (object.getInt("id") == opcion.getInt("id")) {
-                    int frec=object.getInt("frec")+1;
-                    Log.d(TAG, "aumentarFrec: "+frec);
-                    object.put("frec",  frec);
-                    nuevo = false;
-                    break;
-                }
-            }
-            if (nuevo) {
-                    crearRelacion(array, opcion.getInt("id"));
-
-            }
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+    public JSONObject getPictoFromId2(int idABuscar) {
+        return JSONutils.getPictoFromId2(getmJSONArrayTodosLosPictos(),idABuscar);
     }
 
 
-    public JSONArray crearPicto(JSONArray mArrayListGrupo, JSONArray mArrayListTodosLosPictos, int padre, String textoEsp, String textoEn, String img, int tipo, String url, String pushKey) {
-        Date date = new Date(System.currentTimeMillis());
-        long date1 = date.getTime();
-        int id = (int) date1;
-        Log.d(TAG, "crearPicto: " + id);
-        mArrayListTodosLosPictos.put(crearJson(id, textoEsp, textoEn, new JSONArray(), img, tipo));
-        try {
-            relacionarConGrupo2(mArrayListGrupo, padre, id);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        try {
-            setImagen(mArrayListTodosLosPictos.getJSONObject(mArrayListTodosLosPictos.length() - 1), img, url, pushKey);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        addToAllRelacion2(mArrayListGrupo, padre);
-        return mArrayListTodosLosPictos;
-    }
-
-    public JSONArray crearGrupo(JSONArray jsonArrayGrupos, String textoEsp, String textoEn, String img, int tipo, String url, String pushKey) throws JSONException {
-        Date date = new Date(System.currentTimeMillis());
-        long date1=date.getTime();
-        int id=(int) date1 ;
-        jsonArrayGrupos.put(jsonArrayGrupos.length(), crearJson(id, textoEsp, textoEn, new JSONArray(), img, tipo));
-        setImagen(jsonArrayGrupos.getJSONObject(jsonArrayGrupos.length() - 1), img, url, pushKey);
-        return jsonArrayGrupos;
-    }
-
-    public void crearGrupo(String textoEsp, String textoEn, String img, int tipo) {
-        Date date = new Date(System.currentTimeMillis());
-        long date1=date.getTime();
-        int id=(int) date1 ;
-        try {
-            GroupManagerClass.getInstance().getmGroup().put(GroupManagerClass.getInstance().getmGroup().length(), crearJson(id, textoEsp, textoEn, new JSONArray(), img, tipo));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        try {
-            if(!img.isEmpty())
-            setImagen(GroupManagerClass.getInstance().getmGroup().getJSONObject(GroupManagerClass.getInstance().getmGroup().length() - 1), img);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-    }
-
-
-    public JSONArray getHijosGrupo2(JSONObject jsonObject) throws JSONException, FiveMbException {
-
-        mJSONArrayTodosLosPictos = readJSONArrayFromFile(Constants.ARCHIVO_PICTOS);
-        JSONArray array = jsonObject.getJSONArray("relacion");
-        JSONArray hijo = new JSONArray();
-        for (int i = 0; i < array.length(); i++) {
-            try {
-                if (!array.getJSONObject(i).isNull("id"))
-                    hijo.put(hijo.length(), getPictoFromId2(array.getJSONObject(i).getInt("id")));
-            } catch (JSONException ex) {
-                Log.e(TAG, "getHijosGrupo2: No se encontro el hijo en la posicion "+i );
-            }
-
-        }
-        return hijo;
-    }
 
     public JSONArray getHijosGrupo2(int pos) {
 
-        JSONArray array = null;
-        JSONArray hijo = new JSONArray();
         try {
-            Log.d(TAG, "getHijosGrupo2: " + pos);
-            JSONObject object = GroupManagerClass.getInstance().getmGroup().getJSONObject(pos);
-
-            if (object.has("relacion")) {
-                Log.d(TAG, "getHijosGrupo2: Hay relacion");
-                array = object.getJSONArray("relacion");
-                for (int i = 0; i < array.length(); i++) {
-                    try {
-                        JSONObject child=getPictoFromId2(array.getJSONObject(i).getInt("id"));
-                        if(child!=null)
-                        hijo.put(child);
-                    } catch (JSONException ex) {
-                        Log.e(TAG, "getHijosGrupo2: " + ex.getMessage());
-                    }
-
-                }
-            }
-            return hijo;
+            return JSONutils.getHijosGrupo2(getmJSONArrayTodosLosPictos(),getmJSONArrayTodosLosGrupos().getJSONObject(pos));
         } catch (JSONException e) {
             e.printStackTrace();
-            return hijo;
+            return new JSONArray();
         }
-    }
-
-
-    //Ya esta
-    public ArrayList<JSONObject> crearGrupo(ArrayList<JSONObject> todosLosGrupos, String textoEsp, String textoEn, String img, int tipo, String url, String pushKey) {
-        Log.d(TAG, "crearGrupo: " + " textoEsp " + textoEsp + " textoEn " + textoEn + " img " + img + " tipo " + tipo);
-        Date date = new Date(System.currentTimeMillis());
-        long date1=date.getTime();
-        int id=(int) date1 ;
-        todosLosGrupos.add(todosLosGrupos.size(), crearJson(id, textoEsp, textoEn, new JSONArray(), img, tipo));
-        setImagen(todosLosGrupos.get(todosLosGrupos.size() - 1), img, url, pushKey);
-
-        return todosLosGrupos;
-    }
-
-    protected void crearRelacion(JSONArray relacion, int id) throws JSONException {
-        JSONObject aux = new JSONObject();
-        aux.put("id", id);
-        aux.put("frec", 1);
-        relacion.put(aux);
-        Log.d(TAG, "crearRelacion: " + relacion.length());
-
-    }
-
-    private void addToAllRelacion2(JSONArray arrayListGrupos, int padre) {
-        try {
-
-            for (int i = 0; i < arrayListGrupos.length(); i++) {
-                if (arrayListGrupos.getJSONObject(i).optJSONObject("texto").optString("en").equalsIgnoreCase("ALL") || arrayListGrupos.getJSONObject(i).optJSONObject("texto").optString("en").equalsIgnoreCase("EveryThing")) {
-                    JSONArray relacion = arrayListGrupos.getJSONObject(i).getJSONArray("relacion");
-                    relacion.put(arrayListGrupos.getJSONObject(padre).getJSONArray("relacion").get(arrayListGrupos.getJSONObject(padre).getJSONArray("relacion").length() - 1));
-                    break;
-                }
-            }
-
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void addPictogramToAll(JSONObject object) {
-        try {
-
-            for (int i = 0; i < mJSONArrayTodosLosGrupos.length(); i++) {
-                if (mJSONArrayTodosLosGrupos.getJSONObject(i).optJSONObject("texto").optString("en").equalsIgnoreCase("ALL") || mJSONArrayTodosLosGrupos.getJSONObject(i).optJSONObject("texto").optString("en").equalsIgnoreCase("EveryThing")) {
-                    JSONArray relacion = mJSONArrayTodosLosGrupos.getJSONObject(i).getJSONArray("relacion");
-                    relacion.put(relacion.length(),object);
-                    break;
-                }
-            }
-
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public JSONObject crearJson(int id, String textoEsp, String textoEn, JSONArray relacion, String img, int tipo) {
-        JSONObject picto = new JSONObject();
-//        JSONObject nombre = new JSONObject();
-        JSONObject texto = new JSONObject();
-        JSONObject imagen = new JSONObject();
-//        JSONObject jsonAux = null;
-
-        try {
-//            nombre.put("esp", "HOLA");
-//            nombre.put("en", "HELLO");
-
-            texto.put(sharedPrefsDefault.getString(mContext.getString(R.string.str_idioma), "en"),
-                    textoEsp);
-            texto.put("en", textoEn);
-
-            imagen.put("picto", img);
-//            imagen.put("pictoEditado", "/c/Users/etc");
-
-            picto.put("id", id);
-//            picto.put("nombre",nombre);
-            picto.put("texto", texto);
-            picto.put("tipo", tipo);
-            picto.put("imagen", imagen);
-            picto.put("relacion", relacion);
-
-        } catch (JSONException error) {
-            Log.e(TAG, "crearJson: Nos se pudo crear el objeto");
-        }
-
-        return picto;
-    }
-    /**
-     * This method run the array an edit the group or the pictogram
-     * @param arrayListAEditar JsonArray to modify the pictogram
-     * @param jsonObjectAEditar pictogram or group to modify
-     * */
-    public JSONArray setJsonEditado2(JSONArray arrayListAEditar, JSONObject jsonObjectAEditar) throws JSONException {
-        for (int i = 0; i < arrayListAEditar.length(); i++) {
-            JSONObject object = arrayListAEditar.getJSONObject(i);
-            if (object.getInt("id") == jsonObjectAEditar.getInt("id")) {
-                arrayListAEditar.put(i, jsonObjectAEditar);
-                break;
-            }
-        }
-        return arrayListAEditar;
-    }
-
-    public void relacionarConGrupo2(JSONArray jsonArrayAVincular, int padre, int picto) throws JSONException {
-        crearRelacion(jsonArrayAVincular.getJSONObject(padre).getJSONArray("relacion"), picto);
     }
 
     private double score(JSONObject json, boolean esSugerencia) {
-        int frec = 0, agenda = 0, gps = 0, horaDelDia = 0, id = 0, present = 0, sexoUsuario,
-                edadUsuario = 0;
-        final double pesoFrec = 2, pesoAgenda = 8, pesoGps = 12, pesoHora = 50, pesoPresent = 100,
-                pesoSexo = 3, pesoEdad = 5;
-        double score;
-        JSONObject original = null;
-        try {
-            frec = json.getInt("frec");
-            id = json.getInt("id");
-            original = getPictoFromId2(id);
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        //TODO chequear que gps tenga algun valor, antes asignaba 1
-        agenda = tieneAgenda(original);
-        horaDelDia = tieneHora(original);
-        gps = tienePosicion(original);
-        sexoUsuario = tieneSexo(original);
-        edadUsuario = tieneEdad(original);
-        if (esSugerencia) {
-            gps = 0;
-            agenda = 0;
-            horaDelDia = 0;
-        }
-        score = (frec * pesoFrec) + (agenda * pesoAgenda) + (gps * pesoGps) + (horaDelDia *
-                pesoHora) + (sexoUsuario * pesoSexo) + (edadUsuario * pesoEdad);
-
-        return score;
+        return JSONutils.score(json,esSugerencia,getmJSONArrayTodosLosPictos(),getAgenda(), obtenerSexo(),calcularHora().toString(),obtenerEdad(),calcularPosicion().toString() );
     }
 
+    //TODO hasta aca revisado
 
     public void setAgenda(JSONObject ob) {
         JSONArray arrayAgenda = new JSONArray();
@@ -1121,57 +358,16 @@ public class Json implements FindPictogram {
             e.printStackTrace();
         }
         try {
-            arrayAgenda.put(arrayAgenda.length(), getNombre(ob).toUpperCase());
+            arrayAgenda.put(arrayAgenda.length(), JSONutils.getNombre(ob,sharedPrefsDefault.getString(mContext.getString(R.string.str_idioma), "en")).toUpperCase());
             ob.put(Constants.CALENDARIO, arrayAgenda);
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
 
-    private int tieneSexo(JSONObject json) {
-        try {
-            JSONArray array = json.getJSONArray(Constants.SEXO);
-            for (int i = 0; i < array.length(); i++) {
-                Log.d(TAG, "tieneSexo: " + array.get(i));
-                if (obtenerSexo().equalsIgnoreCase(array.get(i).toString())) {
-                    return 1;
-                }
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return 0;
-    }
 
-    private int tieneAgenda(JSONObject json) {
-        try {
-            JSONArray array = json.getJSONArray(Constants.CALENDARIO);
-            for (int i = 0; i < array.length(); i++) {
-                Log.d(TAG, "tieneAgenda: " + array.get(i) + " getAgenda: " + getAgenda());
-                if (getAgenda().equals(array.get(i).toString())) {
-                    Log.d(TAG, "tieneAgenda: Si");
-                    return 1;
-                }
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return 0;
-    }
-
-    private int tieneHora(JSONObject json) {
-        try {
-            JSONArray array = json.getJSONArray(Constants.HORA);
-            for (int i = 0; i < array.length(); i++) {
-                Log.d(TAG, "tieneHora: " + array.get(i) + " calcularHora: " + calcularHora());
-                if (calcularHora().toString().equals(array.get(i).toString())) {
-                    return 1;
-                }
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return 0;
+    private String obtenerSexo() {
+        return sharedPrefsDefault.getString("prefSexo", "NotDefined");
     }
 
     public boolean tieneTag(JSONObject jsonObject, String tag) {
@@ -1217,9 +413,6 @@ public class Json implements FindPictogram {
         return false;
     }
 
-
-
-
     public void setPlaceName(String name) {
 
         this.mListPlaceName = "TYPE_"+name;
@@ -1228,7 +421,6 @@ public class Json implements FindPictogram {
     public String getCantidadDePlaces() {
         return mListPlaceName;
     }
-
 
     private Posicion calcularPosicion() {
 
@@ -1345,7 +537,6 @@ public class Json implements FindPictogram {
         }
     }
 
-
     private Horario calcularHora() {
         SimpleDateFormat df = new SimpleDateFormat("H");
         Calendar SystemTime = Calendar.getInstance();
@@ -1362,56 +553,13 @@ public class Json implements FindPictogram {
         }
     }
 
-
-    private String obtenerSexo() {
-        return sharedPrefsDefault.getString("prefSexo", "NotDefined");
-    }
-
-    private int tieneEdad(JSONObject json) {
-        try {
-            JSONArray array = json.getJSONArray(Constants.EDAD);
-            for (int i = 0; i < array.length(); i++) {
-                Log.d(TAG, "tieneEdad: " + array.get(i));
-                if (obtenerEdad().equals(array.get(i).toString())) {
-                    Log.d(TAG, "tieneEdad: es igual");
-                    return 1;
-                }
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-            return 0;
-        }
-        return 0;
-    }
-
     private String obtenerEdad() {
         return sharedPrefsDefault.getString("prefEdad", "NotDefined");
     }
 
 
-    /**
-     * Return 1 if the position exist.
-     * Else return -1
-     * Use that method to make a consult about the location
-     * */
-    private int tienePosicion(JSONObject json) {
-        try {
-            Log.d(TAG, "tienePosicion: ");
-            JSONArray array = json.getJSONArray(Constants.UBICACION);
-            for (int i = 0; i < array.length(); i++) {
-                Log.d(TAG, "tienePosicion: " + array.get(i) + " calcularPos: " +
-                        calcularPosicion());
-                if (calcularPosicion().toString().equals(array.get(i).toString())) {
-                    Log.d(TAG, "tienePosicion: Coincide");
-                    return 1;
-                }
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-            return 0;
-        }
-        return 0;
-    }
+
+
 
     public int compareTo(double frec1, double frec2) {
         // descending order
@@ -1452,28 +600,6 @@ public class Json implements FindPictogram {
             }
         }
         return -1;
-    }
-
-
-    public JSONObject getPictoFromId2(int idABuscar) {
-        try{
-            int position = new SearchObjects().searchItemById(mJSONArrayTodosLosPictos, idABuscar, this);
-            if(position!=-1)
-                return mJSONArrayTodosLosPictos.getJSONObject(position);
-            }catch (JSONException ex) {
-            ex.printStackTrace();
-        }
-        int position=new SearchObjects().searchItemById(mJSONArrayTodosLosPictos,1024,this);
-        for (int i = position; i <mJSONArrayTodosLosPictos.length() ; i++) {
-            try {
-                JSONObject object=mJSONArrayTodosLosPictos.getJSONObject(i);
-                if(getId(object)==idABuscar)
-                    return mJSONArrayTodosLosPictos.getJSONObject(i);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-        return null;
     }
 
 
@@ -1695,8 +821,6 @@ public class Json implements FindPictogram {
             relacion.add(array.getJSONObject(i));
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-
-
             relacion.sort(new Comparator<JSONObject>() {
                 @Override
                 public int compare(JSONObject json1, JSONObject json2) {
@@ -1709,7 +833,6 @@ public class Json implements FindPictogram {
                 }
             });
         }else{
-
             Collections.sort(relacion, new Comparator<JSONObject>() {
                 @Override
                 public int compare(JSONObject json1, JSONObject json2) {
@@ -1841,7 +964,7 @@ public class Json implements FindPictogram {
         try {
             int positionPadre = getPosPicto(mJSONArrayPictosSugeridos, padre.getInt("id"));
             while (tienePicto(padre.getJSONArray("relacion"), mJSONArrayPictosSugeridos.getJSONObject(positionPadre).getJSONArray("relacion").getJSONObject(pos).getInt("id"))) {
-                desvincularJson(mJSONArrayPictosSugeridos.getJSONObject(positionPadre), mJSONArrayPictosSugeridos.getJSONObject(positionPadre).getJSONArray("relacion").getJSONObject(pos).getInt("id"));
+                JSONutils.desvincularJson(mJSONArrayPictosSugeridos.getJSONObject(positionPadre), mJSONArrayPictosSugeridos.getJSONObject(positionPadre).getJSONArray("relacion").getJSONObject(pos).getInt("id"));
             }
             JSONArray opciones = mJSONArrayPictosSugeridos.getJSONObject(positionPadre).getJSONArray("relacion");
             listadoDeElegidos.put(getPictoFromId2(opciones.getJSONObject(pos).getInt("id")));
@@ -1964,7 +1087,7 @@ public class Json implements FindPictogram {
     private ArrayList<JSONObject> getIdFromHistorial(ArrayList<JSONObject> arrayList) {
         if (arrayList != null) {
             ArrayList<JSONObject> historial;
-            historial = stringToArrayList(arrayList.toString());
+            historial = JSONutils.stringToArrayList(arrayList.toString());
             if (historial.size() > 0) {
 
                 for (JSONObject jsonObject : historial) {
@@ -2018,7 +1141,7 @@ public class Json implements FindPictogram {
             JSONArray listadoHijosPad = mJSONArrayTodosLosPictos.getJSONObject(posPicto).getJSONArray("relacion");
             for (int i = 0; i < listadoHijosPad.length(); i++) {
                 if (tienePicto(listadoHijosSug, listadoHijosPad.getJSONObject(i).getInt("id"))) {
-                    desvincularJson(mJSONArrayPictosSugeridos.getJSONObject(posPadreSug), listadoHijosPad.getJSONObject(i).getInt("id"));
+                    JSONutils.desvincularJson(mJSONArrayPictosSugeridos.getJSONObject(posPadreSug), listadoHijosPad.getJSONObject(i).getInt("id"));
                 }
             }
         } catch (JSONException e) {
@@ -2101,27 +1224,6 @@ public class Json implements FindPictogram {
         return  null;
     }
 
-    public float calcularPuntajeGral(int id){
-        float puntaje=0;
-        int cantInt=0;
-        int cantAciertos=0;
-        for (int i = 0; i <GroupManagerClass.getInstance().getmGroup().length() ; i++) {
-            try {
-                cantAciertos+=getAciertos(GroupManagerClass.getInstance().getmGroup().getJSONObject(i),id);
-                cantInt+=getIntentos(GroupManagerClass.getInstance().getmGroup().getJSONObject(i),id);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-        Log.d(TAG, "Aciertos "+cantAciertos );
-        Log.d(TAG, "Intentos "+cantInt );
-        try {
-
-           return puntaje=cantAciertos/(cantInt+cantAciertos);
-        }catch (Exception ex){
-            return 0;
-        }
-    }
 
     public void agregarJuego(JSONObject object) {
         try {

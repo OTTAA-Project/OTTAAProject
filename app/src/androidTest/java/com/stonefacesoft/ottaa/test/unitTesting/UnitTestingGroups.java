@@ -1,7 +1,6 @@
 package com.stonefacesoft.ottaa.test.unitTesting;
 
 import android.content.Context;
-import android.util.Log;
 
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
@@ -13,11 +12,12 @@ import com.stonefacesoft.ottaa.test.Components.Pictograms;
 import junit.framework.TestCase;
 import junit.framework.TestResult;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import static com.stonefacesoft.ottaa.test.JUnitSuiteClasses.testRunning;
 
 @RunWith(AndroidJUnit4.class)
 
@@ -42,20 +42,7 @@ public class UnitTestingGroups extends TestCase {
     @Test
     public void UnitTestingGroups(){
         createObjects();
-        try {
-            groups.joinGroups(json.getId(group1),json.getId(picto3));
-            groups.joinGroups(json.getId(group2),json.getId(picto0));
-            groups.joinGroups(json.getId(group3),json.getId(picto1));
-            groups.joinGroups(json.getId(group3),json.getId(picto0));
-            groups.joinGroups(json.getId(group3),json.getId(picto2));
-            Log.e("TAG", "UnitTestingGroups: "+json.getmJSONArrayTodosLosGrupos().toString() );
 
-            groups.deleteRelationship(group3,json.getId(picto2));
-            Log.e("TAG", "UnitTestingGroups: "+json.getmJSONArrayTodosLosGrupos().toString() );
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
     }
 
     private void createObjects(){
@@ -64,10 +51,10 @@ public class UnitTestingGroups extends TestCase {
         group3=groups.createGroup(2,"es","animales","animals",0);
         groupAll=groups.createGroup(24,"es","Todo","all",0);
 
-        picto0=pictograms.createPictograms(0,"es","yo","I",1);
-        picto1=pictograms.createPictograms(1,"es","Quiero","Want",3);
-        picto2=pictograms.createPictograms(2,"es","Jugar con","play with",3);
-        picto3=pictograms.createPictograms(3,"es","juguete","toy",2);
+        picto0=pictograms.generatePictogram(0,"es","yo","I",1);
+        picto1=pictograms.generatePictogram(1,"es","Quiero","Want",3);
+        picto2=pictograms.generatePictogram(2,"es","Jugar con","play with",3);
+        picto3=pictograms.generatePictogram(3,"es","juguete","toy",2);
 
         json.getmJSONArrayTodosLosGrupos().put(group1);
         json.getmJSONArrayTodosLosGrupos().put(group2);
@@ -90,6 +77,11 @@ public class UnitTestingGroups extends TestCase {
     @Override
     public TestResult run() {
         return super.run();
+    }
+
+    @Override
+    public int countTestCases() {
+        return testRunning++;
     }
 
 }

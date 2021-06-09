@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.stonefacesoft.ottaa.Custom_Picto;
 import com.stonefacesoft.ottaa.JSONutils.Json;
+import com.stonefacesoft.ottaa.utils.JSONutils;
 import com.stonefacesoft.ottaa.utils.exceptions.FiveMbException;
 
 import org.json.JSONArray;
@@ -20,9 +21,6 @@ public class Pictograms {
         this.json=json;
     }
 
-    public void relacionarObjeto(JSONObject father,JSONObject child){
-        json.aumentarFrec(father,child);
-    }
 
     public JSONArray ordenarObjetos(JSONObject father){
         try {
@@ -45,7 +43,7 @@ public class Pictograms {
         json.getmJSONArrayTodosLosPictos().put(object);
     }
 
-    public JSONObject  createPictograms(int id, String locale, String localeName, String englisName, int tipo) {
+    public JSONObject createPictograms(int id, String locale, String localeName, String englisName, int tipo) {
         JSONObject dataObject=new JSONObject();
         try {
             dataObject.put("id",id);
@@ -58,7 +56,6 @@ public class Pictograms {
             imagen.put("picto","ic_action_previous");
             dataObject.put("imagen",imagen);
             dataObject.put("relacion",new JSONArray());
-
 
         } catch (JSONException e) {
             e.printStackTrace();

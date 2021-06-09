@@ -13,12 +13,18 @@ workflows:
                 - dev
                 - hotfix
                 - master
+                - circleciSettings
       - InstrumentationTest:
           filters:
             branches:
               only:
                 - master
+      - TestProject:
+          filters:
+            branches:
+              only:
                 - circleciSettings
+
 references:
   # cache
   cache_key: &cache_key
@@ -83,35 +89,135 @@ references:
     run:
       name: Decode Google Services Json
       command: echo $GOOGLE_SERVICES_JSON | base64 -di > app/google-services.json
+
   export_file: &prepare_file
     run:
       name: get api keys
       command: echo 'export api_keys="$API_KEYS"' >> $BASH_ENV
+
   decode_file: &decode_file
     run:
       name: decode File
       command: echo $API_KEYS | base64 -di > app/src/main/res/values/api_keys.xml
+
   run_testing: &run_testing
     run:
       name: run test
       command: ./gradlew test
+
   run_lint_testing: &run_lint_test
     run:
       name: run test
       command: ./gradlew lint test
+
   chmod_change_setup: &chmodGradle
     run:
       name: Chmod Permission
       command: sudo chmod +x ./gradlew
+
   run_instrumentation_test: &run_integration_test
     run:
       name: instrumentation test
       command: ./gradlew /connectedAndroidTest
-  run_gcloudservice:
+
+  run_gcloudservice: &run_gcloudservice
     run: |
       echo $GCLOUD_SERVICE_KEY | gcloud auth activate-service-account --key-file=-
       gcloud --quiet config set project ${GOOGLE_PROJECT_ID}
       gcloud --quiet config set compute/zone ${GOOGLE_COMPUTE_ZONE}
+
+  disable_predex: &disablepredexing
+    run:
+      name: Disable predex
+      command: ./gradlew -PdisablePreDex
+
+  store_test_result: &store_test_result
+    store_test_results:
+      path: app/build/test-results
+  prepare_test_result: &prepare_test_result
+    run:
+      name: Save test results
+      command: |
+        mkdir -p ~/test-results/junit/
+        find . -type f -regex ".*/build/test-results/.*xml" -exec cp {} ~/test-results/junit/ \;
+      when: always
+  store_artifacts: &store_artifacts
+    store_artifacts:
+      path: app/build/reports
+      destination: reports
+  build_apk_debug_release: &build_apk_debug_release
+    run:
+      name: Build Debug Apk and Release Apk
+      command: |
+        ./gradlew :app:assembleDebug
+        ./gradlew :app:assembleDebugAndroidTest
+  store_google_account: &store_google_account
+    run:
+      name: Store Google Service Account
+      command: echo $GCLOUD_SERVICE_KEY > ${HOME}/gcloud-service-key.json
+
+  authorize_gcloud_and_set_default: &authorize_gcloud
+    run:
+      name: Authorize gcloud and set config defaults
+      command: |
+        sudo gcloud auth activate-service-account --key-file=${HOME}/gcloud-service-key.json
+        sudo gcloud --quiet config set project ${GOOGLE_PROJECT_ID}
+  run_firebase_test_lab: &run_firebase_test_lab
+    run:
+      name: Test with firebase test lab
+      command: >
+        sudo gcloud firebase test android run \
+          --app app/build/outputs/apk/debug/app-debug.apk \
+          --test app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk \
+          --results-bucket cloud-test-${GOOGLE_PROJECT_ID}
+
+  install_gsutil_dependency: &install_gsutil_dependency
+    run:
+      name: Install gsutil dependency and copy test results data
+      command: |
+        sudo pip install -U crcmod
+        sudo gsutil -m cp -r -U `sudo gsutil ls gs://cloud-test-ottaa-project | tail -1`* ${CIRCLE_ARTIFACTS}/ | true
+
+  install_jdk_11: &install_jdk_11
+    run:
+      name: Update dependencies and Install Jdk 11
+      command: |
+        sudo apt-get  -y update
+        sudo apt install -y openjdk-11-jdk
+        java -version
+
+  update_grandlew_code: &update_gradlew_code
+    run:
+      name: Build the code with test project
+      command: |
+        chmod +x gradlew
+        ./gradlew build -x test
+
+  start_test_project_agent: &start_test_project_agent
+    run:
+      name: Start Agent and Wait for agent to register
+      command: |
+        set -x
+        docker-compose up -d
+        trap 'kill $(jobs -p)' EXIT
+        attempt_counter=0
+        max_attempts=45
+        mkdir -p build/reports/agent
+        docker-compose -f docker-compose.yml logs -f | tee build/reports/agent/log.txt&
+        until curl -s http://localhost:8585/api/status | jq '.registered' | grep true; do
+          if [ ${attempt_counter} -eq ${max_attempts} ]; then
+            echo "Agent failed to register. Terminating..."
+            exit 1
+          fi
+          attempt_counter=$(($attempt_counter+1))
+          sleep 1
+        done
+
+
+
+
+
+
 
 jobs:
   unitTesting:
@@ -131,11 +237,9 @@ jobs:
       - *decode_file
       - *run_testing
       - *run_lint_test
-      - store_artifacts:
-          path: app/build/reports
-          destination: reports
-      - store_test_results:
-          path: app/build/test-results
+      - *prepare_test_result
+      - *store_artifacts
+      - *store_test_result
   InstrumentationTest:
     <<: *android_config
     docker:
@@ -144,286 +248,26 @@ jobs:
           username: $DOCKER_USER
           password: $DOCKER_PASSWORD
     steps:
+      - checkout
+      - restore_cache: *cache_key
       - *chmodGradle
-      - run:
-          name: Build debug APK and release Apk
-          command: |
-            ./gradlew :app:assembleDebug
-            ./gradlew :app:assembleDebugAndroidTest
-      - run:
-          name: Store Google Service Account
-          command: echo $GCLOUD_SERVICE_KEY > ${HOME}/gcloud-service-key.json
-      - run:
-          name: Authorize gcloud and set config defaults
-          command: |
-            sudo gcloud auth activate-service-account --key-file=${HOME}/gcloud-service-key.json
-            sudo gcloud --quiet config set project ${GOOGLE_PROJECT_ID}
-      - run:
-          name: Test with Firebase Test Lab
-          command: >
-            sudo gcloud firebase test android run \
-              --app <local_server_path>/<app_apk>.apk \
-              --test <local_server_path>/<app_test_apk>.apk \
-              --results-bucket cloud-test-${GOOGLE_PROJECT_ID}
-      - run:
-          name: Install gsutil dependency and copy test results data
-          command: |
-            sudo pip install -U crcmod
-            sudo gsutil -m cp -r -U `sudo gsutil ls gs://[BUCKET_NAME]/[OBJECT_NAME] | tail -1` ${CIRCLE_ARTIFACTS}/ | true
-
-#
-#
-#jobs:
-#  deploy:
-#    working_directory: ~/project
-#    docker:
-#      - image: circleci/android:api-29
-#        auth:
-#          username: $DOCKER_USER
-#          password: $DOCKER_PASSWORD
-#    environment:
-#      JVM_OPTS: -Xmx3200m
-#
-#    steps:
-#      - checkout
-#      - restore_cache:
-#          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
-#      - run:
-#          name: Chmod permissions #if permission for Gradlew Dependencies fail, use this.
-#          command: sudo chmod +x ./gradlew
-#      - run:
-#          name: Export Google Services Json
-#          command: echo 'export GOOGLE_SERVICES_JSON="$GOOGLE_SERVICES_JSON"' >> $BASH_ENV
-#      - run:
-#          # Decode the base64 string
-#          name: Decode Google Services Json
-#          command: echo $GOOGLE_SERVICES_JSON | base64 -di > app/google-services.json
-#      - run:
-#          name: Export Api keys
-#          command: echo 'export api_keys="$API_KEYS"' >> $BASH_ENV
-#      - run:
-#          # Decode the base64 string
-#          name: Decode Google Services Json
-#          command: echo $API_KEYS | base64 -di > app/src/main/res/values/api_keys.xml
-#      - run:
-#          name: Download Dependencies
-#          command: ./gradlew androidDependencies
-#      - save_cache:
-#          paths:
-#            - ~/.gradle
-#          key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}
-#      - run:
-#          name: Run Tests
-#          command:
-#      - store_artifacts:
-#          path: app/build/reports
-#          destination: reports
-#      - store_test_results:
-#          path: test-results
-#      - run:
-#          name: Build debug APK and release APK
-#          command: |
-#            ./gradlew :app:assembleDebug
-#            ./gradlew :app:assembleDebugAndroidTest
-#      - run:
-#          name: Store Google Service Account
-#          command: echo $GCLOUD_SERVICE_KEY > ${HOME}/gcloud-service-key.json
-#      - run:
-#          name: Authorize gcloud and set config defaults
-#          command: |
-#            sudo gcloud auth activate-service-account --key-file=${HOME}/gcloud-service-key.json
-#            sudo gcloud --quiet config set project ${GOOGLE_PROJECT_ID}
-#      - run:
-#          name: Test with Firebase Test Lab
-#          command: >
-#            sudo gcloud firebase test android run \
-#              --app <local_server_path>/<app_apk>.apk \
-#              --test <local_server_path>/<app_test_apk>.apk \
-#              --results-bucket cloud-test-${GOOGLE_PROJECT_ID}
-#      - run:
-#          name: Install gsutil dependency and copy test results data
-#          command: |
-#            sudo pip install -U crcmod
-#            sudo gsutil -m cp -r -U `sudo gsutil ls gs://[BUCKET_NAME]/[OBJECT_NAME] | tail -1` ${CIRCLE_ARTIFACTS}/ | true
-
-
-
-#jobs:
-#  build:
-#    working_directory: ~/src
-#    docker:
-#      - image: circleci/android:api-29
-#    environment:
-#      JVM_OPTS: -Xmx3200m
-#    steps:
-#      - checkout
-#      - restore_cache:
-#          key: jars-{{ checksum "build.gradle" }}-{{ checksum "app/build.gradle" }}
-#      - run:
-#          name: Chmod permissions
-#          command: sudo chmod +x ./gradlew
-#          # Export base64 encoded google-services.json
-#          # into local bash variables
-#      - run :
-#          name: Export Google Services Json
-#          command: echo 'export GOOGLE_SERVICES_JSON="$GOOGLE_SERVICES_JSON"' >> $BASH_ENV
-#      - run:
-#          # Decode the base64 string
-#          name: Decode Google Services Json
-#          command: echo $GOOGLE_SERVICES_JSON | base64 -di > app/google-services.json
-#
-#      - run:
-#          name: Export Api keys
-#          command: echo 'export api_keys="$API_KEYS"' >> $BASH_ENV
-#      - run:              # Decode the base64 string
-#          name: Decode Google Services Json
-#          command: echo $API_KEYS | base64 -di > app/src/main/res/values/api_keys.xml
-#      - run:
-#          name: Download Dependencies
-#          command: ./gradlew androidDependencies
-#      - save_cache:
-#          paths:
-#            - ~/.gradle
-#          key: jars-{{ checksum "build.gradle" }}-{{ checksum "app/build.gradle" }}
-#      - run:
-#          name: Run Tests
-#          command: ./gradlew lint test
-#      - store_artifacts:
-#          path: app/build/reports
-#          destination: reports
-#      - store_test_results:
-#          path: app/build/test-results
-#      - run:
-#          name: Accept licenses
-#          command: yes | sdkmanager --licenses || true
-#      - run:
-#          name: Launch emulator
-#          command: export LD_LIBRARY_PATH=${ANDROID_HOME}/emulator/lib64:${ANDROID_HOME}/emulator/lib64/qt/lib && emulator64-arm -avd test -noaudio -no-boot-anim -no-window -accel auto -verbose
-#          background: true
-#      - run:
-#          name: Wait emulator
-#          command: |
-#            # wait for it to have booted
-#            cir - run:
-#                name: Setup emulator
-#                command: $ANDROID_HOME/tools/bin/sdkmanager "tools" "emulator" "platform-tools" "platforms;android-28" "build-tools;28.0.3" "extras;android;m2repository" "extras;google;m2repository"
-#
-#      - run:
-#          name: Launch emulator
-#          command: export LD_LIBRARY_PATH=${ANDROID_HOME}/emulator/lib64:${ANDROID_HOME}/emulator/lib64/qt/lib && emulator64-arm -avd test -noaudio -no-boot-anim -no-window -accel auto -verbose
-#          background: true
-#      - run:
-#          name: Wait emulator
-#          command: |
-#            # wait for it to have booted
-#            circle-android wait-for-boot
-#            # unlock the emulator screen
-#            sleep 30
-#            adb shell input keyevent 82
-#      - run:
-#          name: Run EspressoTests
-#          command: ./gradlew connectedAndroidTest
-#      - store_artifacts:
-#          path: app/build/reports
-#          destination: reports
-#      - store_test_results:
-#          path: app/build/test-resultscle-android wait-for-boot
-#            sleep 30
-#            adb shell input keyevent 82
-#      - run:
-#          name: Run EspressoTests
-#          command: ./gradlew connectedAndroidTest
-#      - store_artifacts:
-#          path: app/build/reports
-#          destination: reports
-#      - store_test_results:
-#          path: app/build/test-resultsjobs:
-#  build:
-#    working_directory: ~/src
-#    docker:
-#      - image: circleci/android:api-29
-#    environment:
-#      JVM_OPTS: -Xmx3200m
-#    steps:
-#      - checkout
-#      - restore_cache:
-#          key: jars-{{ checksum "build.gradle" }}-{{ checksum "app/build.gradle" }}
-#      - run:
-#          name: Chmod permissions
-#          command: sudo chmod +x ./gradlew
-#          # Export base64 encoded google-services.json
-#          # into local bash variables
-#      - run :
-#          name: Export Google Services Json
-#          command: echo 'export GOOGLE_SERVICES_JSON="$GOOGLE_SERVICES_JSON"' >> $BASH_ENV
-#      - run:
-#          # Decode the base64 string
-#          name: Decode Google Services Json
-#          command: echo $GOOGLE_SERVICES_JSON | base64 -di > app/google-services.json
-#
-#      - run:
-#          name: Export Api keys
-#          command: echo 'export api_keys="$API_KEYS"' >> $BASH_ENV
-#      - run:              # Decode the base64 string
-#          name: Decode Google Services Json
-#          command: echo $API_KEYS | base64 -di > app/src/main/res/values/api_keys.xml
-#      - run:
-#          name: Download Dependencies
-#          command: ./gradlew androidDependencies
-#      - save_cache:
-#          paths:
-#            - ~/.gradle
-#          key: jars-{{ checksum "build.gradle" }}-{{ checksum "app/build.gradle" }}
-#      - run:
-#          name: Run Tests
-#          command: ./gradlew lint test
-#      - store_artifacts:
-#          path: app/build/reports
-#          destination: reports
-#      - store_test_results:
-#          path: app/build/test-results
-#      - run:
-#          name: Accept licenses
-#          command: yes | sdkmanager --licenses || true
-#      - run:
-#          name: Launch emulator
-#          command: export LD_LIBRARY_PATH=${ANDROID_HOME}/emulator/lib64:${ANDROID_HOME}/emulator/lib64/qt/lib && emulator64-arm -avd test -noaudio -no-boot-anim -no-window -accel auto -verbose
-#          background: true
-#      - run:
-#          name: Wait emulator
-#          command: |
-#            # wait for it to have booted
-#            cir - run:
-#                name: Setup emulator
-#                command: $ANDROID_HOME/tools/bin/sdkmanager "tools" "emulator" "platform-tools" "platforms;android-28" "build-tools;28.0.3" "extras;android;m2repository" "extras;google;m2repository"
-#
-#      - run:
-#          name: Launch emulator
-#          command: export LD_LIBRARY_PATH=${ANDROID_HOME}/emulator/lib64:${ANDROID_HOME}/emulator/lib64/qt/lib && emulator64-arm -avd test -noaudio -no-boot-anim -no-window -accel auto -verbose
-#          background: true
-#      - run:
-#          name: Wait emulator
-#          command: |
-#            # wait for it to have booted
-#            circle-android wait-for-boot
-#            # unlock the emulator screen
-#            sleep 30
-#            adb shell input keyevent 82
-#      - run:
-#          name: Run EspressoTests
-#          command: ./gradlew connectedAndroidTest
-#      - store_artifacts:
-#          path: app/build/reports
-#          destination: reports
-#      - store_test_results:
-#          path: app/build/test-resultscle-android wait-for-boot
-#            sleep 30
-#            adb shell input keyevent 82
-#      - run:
-#          name: Run EspressoTests
-#          command: ./gradlew connectedAndroidTest
-#      - store_artifacts:
-#          path: app/build/reports
-#          destination: reports
-#      - store_test_results:
-#          path: app/build/test-results
+      - *export_google_services_json
+      - *get_google_services_json
+      - *prepare_file
+      - *decode_file
+      - *disablepredexing
+      - *build_apk_debug_release
+      - *store_google_account
+      - *authorize_gcloud
+      - *run_firebase_test_lab
+      - *install_gsutil_dependency
+  TestProject:
+    <<: *android_config
+    machine:
+      image: ubuntu-2004:202010-01
+    steps:
+      - checkout
+      - *install_jdk_11
+      - *update_gradlew_code
+      - *start_test_project_agent
+      - *run_testing

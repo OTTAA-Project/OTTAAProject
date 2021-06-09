@@ -5,12 +5,9 @@ import android.content.Context;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 
-
 import com.stonefacesoft.ottaa.JSONutils.Json;
-import com.stonefacesoft.ottaa.utils.DatosDeUso;
-import com.stonefacesoft.ottaa.utils.TalkActions.Historial;
-import com.stonefacesoft.ottaa.utils.exceptions.FiveMbException;
 import com.stonefacesoft.ottaa.test.Components.Pictograms;
+import com.stonefacesoft.ottaa.utils.TalkActions.Historial;
 
 import junit.framework.TestCase;
 import junit.framework.TestResult;
@@ -20,6 +17,8 @@ import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import static com.stonefacesoft.ottaa.test.JUnitSuiteClasses.testRunning;
 
 /**
  * Phrases
@@ -40,24 +39,20 @@ public class UnitTestingFavoritePhrases extends TestCase {
     private Json json;
     private JSONObject picto0,picto1,picto2,picto3,picto4,picto5,picto6,picto7,picto8,picto9;
     private Pictograms picto;
-    private DatosDeUso datosDeUso;
+
 
     @Before
     public void prepareTesting(){
         json=Json.getInstance();
         json.setmContext(mContext);
         picto=new Pictograms(mContext,json);
-        try {
-            datosDeUso=new DatosDeUso(mContext);
-        } catch (FiveMbException e) {
-            e.printStackTrace();
-        }
+
     }
 
     @Test
     public void startTesting(){
-        createPictograms();
-        Historial historial=new Historial(mContext,json);
+        addPictograms();
+        Historial historial=new Historial(json);
         historial.addPictograma(picto0);
         historial.addPictograma(picto1);
         addFrase(1,historial);
@@ -73,21 +68,20 @@ public class UnitTestingFavoritePhrases extends TestCase {
         historial.addPictograma(picto6);
         historial.addPictograma(picto7);
         addFrase(8,historial);
-        System.out.println("Phrases list"+datosDeUso.getArrayListFrasesMasUsadas(2).toString()+"\n");
-        System.out.println("Phrases list"+datosDeUso.getArrayListFrasesMasUsadas(5).toString()+"\n");
+
     }
 
-    public void createPictograms(){
-        picto0=picto.createPictograms(0,"es","hola","hello",5);
-        picto1=picto.createPictograms(1,"es","Buenos Dias","good Morning",5);
-        picto2=picto.createPictograms(2,"es","Buenas Tardes","good Afternoon",5);
-        picto3=picto.createPictograms(3,"es","??Como estas?","How are you?",5);
-        picto4=picto.createPictograms(4,"es","Tengo","have",3);
-        picto5=picto.createPictograms(5,"es","Quiero","want",3);
-        picto6=picto.createPictograms(6,"es","Adios","bye",3);
-        picto7=picto.createPictograms(7,"es","Hermano","brother",1);
-        picto8=picto.createPictograms(8,"es","Mama","mom",1);
-        picto9=picto.createPictograms(9,"es","Papa","dad",1);
+    public void addPictograms(){
+        picto0=picto.generatePictogram(0,"es","hola","hello",5);
+        picto1=picto.generatePictogram(1,"es","Buenos Dias","good Morning",5);
+        picto2=picto.generatePictogram(2,"es","Buenas Tardes","good Afternoon",5);
+        picto3=picto.generatePictogram(3,"es","¿Como estas?","How are you?",5);
+        picto4=picto.generatePictogram(4,"es","Tengo","have",3);
+        picto5=picto.generatePictogram(5,"es","Quiero","want",3);
+        picto6=picto.generatePictogram(6,"es","Adios","bye",3);
+        picto7=picto.generatePictogram(7,"es","Hermano","brother",1);
+        picto8=picto.generatePictogram(8,"es","Mama","mom",1);
+        picto9=picto.generatePictogram(9,"es","Papa","dad",1);
 
 
         json.getmJSONArrayTodosLosPictos().put(picto0);
@@ -140,6 +134,11 @@ public class UnitTestingFavoritePhrases extends TestCase {
     @Override
     public TestResult run() {
         return super.run();
+    }
+
+    @Override
+    public int countTestCases() {
+        return testRunning++;
     }
 
 }

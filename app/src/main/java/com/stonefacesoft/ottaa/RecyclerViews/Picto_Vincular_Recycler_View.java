@@ -1,16 +1,16 @@
 package com.stonefacesoft.ottaa.RecyclerViews;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.stonefacesoft.ottaa.Adapters.VincularPictosAdapter;
-import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.R;
-import com.stonefacesoft.ottaa.utils.exceptions.FiveMbException;
+import com.stonefacesoft.ottaa.utils.JSONutils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SearchView;
 
 public class Picto_Vincular_Recycler_View extends Custom_recyclerView  {
     private JSONArray arrayVincular;
@@ -23,15 +23,13 @@ public class Picto_Vincular_Recycler_View extends Custom_recyclerView  {
 
     public void setArray(){
         try {
-            array=json.getHijosGrupo2(json.getGrupoFromId(24));
+            array= JSONutils.getHijosGrupo2(json.getmJSONArrayTodosLosPictos(),json.getGrupoFromId(24));
             arrayVincular=new JSONArray();
         } catch (JSONException e) {
             e.printStackTrace();
-        } catch (FiveMbException e) {
-            e.printStackTrace();
         }
         createRecyclerLayoutManager();
-        galeriaPictos2=new VincularPictosAdapter(mActivity, R.layout.grid_item_layout,array,false);
+        galeriaPictos2=new VincularPictosAdapter(mActivity, R.layout.grid_item_layout,array,false).initGlideAttatcher();
         mRecyclerView.setAdapter(galeriaPictos2);
     }
 
@@ -47,11 +45,9 @@ public class Picto_Vincular_Recycler_View extends Custom_recyclerView  {
     public void pictogramasNoFiltrados(){
         galeriaPictos2.setEsFiltrado(false);
         try {
-            array=json.getHijosGrupo2(json.getGrupoFromId(24));
+            array=JSONutils.getHijosGrupo2(json.getmJSONArrayTodosLosPictos(),json.getGrupoFromId(24));
             arrayAux=new JSONArray();
         } catch (JSONException e) {
-            e.printStackTrace();
-        } catch (FiveMbException e) {
             e.printStackTrace();
         }
         galeriaPictos2.setmVincularArray(array);

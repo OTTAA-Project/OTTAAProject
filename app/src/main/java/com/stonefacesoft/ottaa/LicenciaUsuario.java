@@ -38,7 +38,7 @@ import java.util.Locale;
  * Analize if the user pay or not.
  */
 public class LicenciaUsuario {
-
+    //TODO move to utils
     private static final String TAG = "LicenciaUsuario";
     private String pago;
     private String FechaPago;

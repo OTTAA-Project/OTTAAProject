@@ -17,7 +17,7 @@ import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.utils.Constants;
 import com.stonefacesoft.ottaa.utils.IntentCode;
-import com.stonefacesoft.ottaa.utils.exceptions.FiveMbException;
+import com.stonefacesoft.ottaa.utils.JSONutils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -43,7 +43,7 @@ public class Picto_Recycler_view extends Custom_recyclerView {
         array=json.getHijosGrupo2(position);
         arrayAux=new JSONArray();
         createRecyclerLayoutManager();
-        galeriaPictos2=new GaleriaPictosAdapter(mActivity,array, R.layout.grid_item_layout,mAuth);
+        galeriaPictos2=new GaleriaPictosAdapter(mActivity,array, R.layout.grid_item_layout,mAuth).loadGlideAttacher();
         mRecyclerView.setAdapter(galeriaPictos2);
         mRecyclerView.addOnItemTouchListener(listener());
     }
@@ -91,7 +91,7 @@ public class Picto_Recycler_view extends Custom_recyclerView {
                     int idPicto=json.getId(galeriaPictos2.getmArrayPictos().getJSONObject(position));
                     if(id!=idPicto){
                         id=idPicto;
-                      myTTS.hablar(json.getNombre(galeriaPictos2.getmArrayPictos().getJSONObject(position)));
+                      myTTS.hablar(JSONutils.getNombre(galeriaPictos2.getmArrayPictos().getJSONObject(position),sharedPrefsDefault.getString(mActivity.getString(R.string.str_idioma), "en")));
                     }
                     else {
                         Intent databack = new Intent();
@@ -118,7 +118,7 @@ public class Picto_Recycler_view extends Custom_recyclerView {
                     idPicto = json.getId(galeriaPictos2.getmArrayPictos().getJSONObject(position));
                     if(id!=idPicto){
                         id=idPicto;
-                        myTTS.hablar(json.getNombre(galeriaPictos2.getmArrayPictos().getJSONObject(position)));
+                        myTTS.hablar(JSONutils.getNombre(galeriaPictos2.getmArrayPictos().getJSONObject(position),sharedPrefsDefault.getString(mActivity.getString(R.string.str_idioma), "en")));
                         ShowpopMenu(view,position);}
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -167,7 +167,7 @@ public class Picto_Recycler_view extends Custom_recyclerView {
                                 intent.putExtra("PictoID", id);
 
                                 try {
-                                    intent.putExtra("Texto", json.getNombre(galeriaPictos2.getmArrayPictos().getJSONObject(position)));
+                                    intent.putExtra("Texto", JSONutils.getNombre(galeriaPictos2.getmArrayPictos().getJSONObject(position),sharedPrefsDefault.getString(mActivity.getString(R.string.str_idioma), "en")));
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
@@ -204,16 +204,16 @@ public class Picto_Recycler_view extends Custom_recyclerView {
             public void onClick(View v) {
                 JSONArray pictosGrupos=json.getmJSONArrayTodosLosGrupos();
                 try {
-                    json.setHijosGrupo2(pictosGrupos, array, button);
-                    json.desvincularJson(pictosGrupos.getJSONObject(button), id);
-                    array = json.getHijosGrupo2(pictosGrupos.getJSONObject(button));
+                    JSONutils.setHijosGrupo2(pictosGrupos, array, button);
+                    JSONutils.desvincularJson(pictosGrupos.getJSONObject(button), id);
+                    array = JSONutils.getHijosGrupo2(json.getmJSONArrayTodosLosPictos(),pictosGrupos.getJSONObject(button));
                     galeriaPictos2.setmArrayPictos(array);
                     galeriaPictos2.notifyDataSetChanged();
                     json.setmJSONArrayTodosLosGrupos(pictosGrupos);
                     if (!json.guardarJson(Constants.ARCHIVO_GRUPOS))
                         Log.e(TAG, "Error al guardar el json");
                     subirGrupos();
-                } catch (JSONException | FiveMbException e) {
+                } catch (JSONException e) {
                     e.printStackTrace();
                 }
 
@@ -233,7 +233,7 @@ public class Picto_Recycler_view extends Custom_recyclerView {
     }
     public void guardarDatosGrupo() {
         JSONArray pictosGrupos = json.getmJSONArrayTodosLosGrupos();
-        json.setHijosGrupo2(pictosGrupos, array, button);
+        JSONutils.setHijosGrupo2(pictosGrupos, array, button);
         json.setmJSONArrayTodosLosGrupos(pictosGrupos);
         if (!json.guardarJson(Constants.ARCHIVO_GRUPOS))
             Log.e(TAG, "Error al guardar el json");

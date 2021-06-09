@@ -76,6 +76,9 @@ public class Item_adapter extends RecyclerView.Adapter<Item_adapter.ItemAdapterV
         this.listener = listener;
     }
 
+    public View.OnClickListener getListener() {
+        return listener;
+    }
 
     @Override
     public Item_adapter.ItemAdapterViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -196,5 +199,13 @@ public class Item_adapter extends RecyclerView.Adapter<Item_adapter.ItemAdapterV
 
     public int devolverPosition() {
         return position;
+    }
+
+    public String getDefaultValue() {
+        return defaultValue;
+    }
+
+    public String getKey() {
+        return key;
     }
 }

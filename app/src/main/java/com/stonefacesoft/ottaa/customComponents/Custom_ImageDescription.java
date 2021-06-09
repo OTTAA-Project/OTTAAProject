@@ -1,7 +1,5 @@
 package com.stonefacesoft.ottaa.customComponents;
 
-import android.content.Context;
-
 public class Custom_ImageDescription {
     private final Context mContext;
     private final String description;

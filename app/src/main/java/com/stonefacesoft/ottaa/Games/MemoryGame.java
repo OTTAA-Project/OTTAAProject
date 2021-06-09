@@ -16,6 +16,7 @@ import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.Views.Games.GameViewSelectPictograms;
 import com.stonefacesoft.ottaa.utils.Games.AnimGameScore;
 import com.stonefacesoft.ottaa.utils.Games.Juego;
+import com.stonefacesoft.ottaa.utils.JSONutils;
 import com.stonefacesoft.pictogramslibrary.view.PictoView;
 
 import org.json.JSONException;
@@ -69,23 +70,23 @@ public class MemoryGame extends GameViewSelectPictograms {
         switch (pos) {
             case 0:
                 opcion1.setCustom_Img(json.getIcono(pictogramas[0]));
-                opcion1.setCustom_Texto(json.getNombre(pictogramas[0]));
+                opcion1.setCustom_Texto(JSONutils.getNombre(pictogramas[0],sharedPrefsDefault.getString(getString(R.string.str_idioma), "en")));
                 opcion1.setInvisibleCustomTexto();
                 break;
             case 1:
                 opcion2.setCustom_Img(json.getIcono(pictogramas[1]));
-                opcion2.setCustom_Texto(json.getNombre(pictogramas[1]));
+                opcion2.setCustom_Texto(JSONutils.getNombre(pictogramas[1],sharedPrefsDefault.getString(getString(R.string.str_idioma), "en")));
                 opcion1.setInvisibleCustomTexto();
                 break;
             case 2:
 
                 opcion3.setCustom_Img(json.getIcono(pictogramas[2]));
-                opcion3.setCustom_Texto(json.getNombre(pictogramas[2]));
+                opcion3.setCustom_Texto(JSONutils.getNombre(pictogramas[2],sharedPrefsDefault.getString(getString(R.string.str_idioma), "en")));
                 opcion1.setInvisibleCustomTexto();
                 break;
             case 3:
                 opcion4.setCustom_Img(json.getIcono(pictogramas[3]));
-                opcion4.setCustom_Texto(json.getNombre(pictogramas[3]));
+                opcion4.setCustom_Texto(JSONutils.getNombre(pictogramas[3],sharedPrefsDefault.getString(getString(R.string.str_idioma), "en")));
                 opcion1.setInvisibleCustomTexto();
                 break;
         }

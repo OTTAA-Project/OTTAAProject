@@ -19,7 +19,6 @@ import android.util.Log;
 import androidx.appcompat.content.res.AppCompatResources;
 
 import com.stonefacesoft.ottaa.JSONutils.Json;
-import com.stonefacesoft.ottaa.Picto;
 import com.stonefacesoft.ottaa.R;
 
 import org.json.JSONException;

@@ -44,11 +44,15 @@ public class NumberPickerPreference  implements View.OnClickListener , NumberPic
 
     public NumberPickerPreference(Context context,String title,String key){
         mContext=context;
-        dialog=new Dialog(mContext);
         this.key=key;
+        this.title=title;
+
+    }
+
+    public void createDialog(){
+        dialog=new Dialog(mContext);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-        this.title=title;
         dialog.setContentView(R.layout.dialog_number_picker_selector);
         titulo=dialog.findViewById(R.id.titulo);
         titulo.setText(title);
@@ -76,7 +80,6 @@ public class NumberPickerPreference  implements View.OnClickListener , NumberPic
         });
 
         dialog.setCancelable(true);
-
     }
 
 
@@ -102,6 +105,10 @@ public class NumberPickerPreference  implements View.OnClickListener , NumberPic
         tipo=n;
     }
 
+    public int getTipo() {
+        return tipo;
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()){
@@ -123,5 +130,13 @@ public class NumberPickerPreference  implements View.OnClickListener , NumberPic
     public void onScrollStateChange(NumberPicker view, int scrollState) {
         PreferenceManager.getDefaultSharedPreferences(mContext).edit().putInt(key,mPicker.getValue()).apply();
 
+    }
+
+    public Integer getmNumberMax() {
+        return mNumberMax;
+    }
+
+    public Integer getmNumberMin() {
+        return mNumberMin;
     }
 }

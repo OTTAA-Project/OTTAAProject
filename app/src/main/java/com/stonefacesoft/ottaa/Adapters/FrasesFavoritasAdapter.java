@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.stonefacesoft.ottaa.FavModel;
 import com.stonefacesoft.ottaa.R;
-import com.stonefacesoft.ottaa.utils.DatosDeUso;
 import com.stonefacesoft.ottaa.utils.exceptions.FiveMbException;
 import com.stonefacesoft.ottaa.utils.textToSpeech;
 
@@ -22,7 +21,6 @@ public class FrasesFavoritasAdapter extends RecyclerView.Adapter<FrasesFavoritas
     private final int mLayoutResourceId;
     private final Context mContext;
     private final ArrayList<FavModel> mFavImagesArrayList;
-    private final DatosDeUso mDatosDeUso;
     private final Dialog dialogDismiss;
     private textToSpeech myTTs;
 
@@ -32,7 +30,6 @@ public class FrasesFavoritasAdapter extends RecyclerView.Adapter<FrasesFavoritas
         this.mLayoutResourceId = mLayoutResourceId;
         this.mContext = mContext;
         this.mFavImagesArrayList = mFavImagesArrayList;
-        this.mDatosDeUso = new DatosDeUso(mContext);
         this.dialogDismiss = dialogToDismiss;
         this.myTTs = new textToSpeech(mContext);
     }

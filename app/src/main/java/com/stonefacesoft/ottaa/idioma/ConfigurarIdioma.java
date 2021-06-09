@@ -23,7 +23,7 @@ public class ConfigurarIdioma {
         Resources resources=context.getResources();
         config.locale=locale;
        // context.getApplicationContext().getResources().updateConfiguration(config,context.getResources().getDisplayMetrics());
-        mContex=context;
+        this.mContex=context;
         resources.updateConfiguration(config, resources.getDisplayMetrics());
         myContextWrapper wrapper=new myContextWrapper(context);
         myContextWrapper.wrap(mContex,loc);

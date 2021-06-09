@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.R;
 
@@ -15,8 +17,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-
-import androidx.recyclerview.widget.RecyclerView;
 
 public class TagsAdapter extends RecyclerView.Adapter<TagsAdapter.TagsViewHolder> {
 
@@ -43,6 +43,20 @@ public class TagsAdapter extends RecyclerView.Adapter<TagsAdapter.TagsViewHolder
         Json.getInstance().setmContext(mContext);
         json = Json.getInstance();
     }
+
+    public TagsAdapter(){
+
+    }
+
+    public void setmArrayListSelectedTags(ArrayList<JSONObject> mArrayListSelectedTags) {
+        this.mArrayListSelectedTags = mArrayListSelectedTags;
+    }
+
+    public void setmArrayListElementos(ArrayList<JSONObject> mArrayListElementos) {
+        this.mArrayListElementos = mArrayListElementos;
+    }
+
+
 
     //Inflamos la vista que vamos a usar para cada elemento
     @Override
@@ -148,4 +162,6 @@ public class TagsAdapter extends RecyclerView.Adapter<TagsAdapter.TagsViewHolder
         }
 
     }
+
+
 }

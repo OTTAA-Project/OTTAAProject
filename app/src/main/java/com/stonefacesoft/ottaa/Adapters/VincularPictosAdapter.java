@@ -1,11 +1,13 @@
 package com.stonefacesoft.ottaa.Adapters;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,13 +20,12 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.recyclerview.widget.RecyclerView;
 
-
 import com.bumptech.glide.ListPreloader;
 import com.bumptech.glide.RequestBuilder;
 import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.R;
+import com.stonefacesoft.ottaa.utils.JSONutils;
 import com.stonefacesoft.pictogramslibrary.Classes.Pictogram;
-import com.stonefacesoft.pictogramslibrary.utils.GlideAttatcher;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -34,8 +35,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-import com.stonefacesoft.pictogramslibrary.utils.GlideAttatcher;
 
 public class VincularPictosAdapter extends RecyclerView.Adapter<VincularPictosAdapter.VincularViewHolder> implements ListPreloader.PreloadModelProvider {
 
@@ -58,9 +57,14 @@ public class VincularPictosAdapter extends RecyclerView.Adapter<VincularPictosAd
         this.esFiltrado = filtro;
         this.mSelectedPictos = new JSONArray();
         this.listadoIdPictos = new ArrayList<>();
+
+
+
+    }
+
+    public VincularPictosAdapter initGlideAttatcher(){
         this.glideAttatcher=new GlideAttatcher(this.mContext);
-
-
+        return this;
     }
 
     @Override
@@ -273,7 +277,8 @@ public class VincularPictosAdapter extends RecyclerView.Adapter<VincularPictosAd
             try {
                 picto = json.getPictoFromId2(mVincularArray.getJSONObject(mPosition).getInt("id"));
                 //json.getPictoFromCustomArrayById2(json.getmJSONArrayTodosLosPictos(),mVincularArray.getJSONObject(mPosition).getInt("id"));
-                mStringTexto = json.getNombre(picto);
+                SharedPreferences sharedPrefsDefault = PreferenceManager.getDefaultSharedPreferences(mContext);
+                mStringTexto = JSONutils.getNombre(picto,sharedPrefsDefault.getString(mContext.getString(R.string.str_idioma), "en"));
             } catch (JSONException e) {
                 e.printStackTrace();
             } catch (Exception ex) {
@@ -293,7 +298,7 @@ public class VincularPictosAdapter extends RecyclerView.Adapter<VincularPictosAd
                     Pictogram pictogram=new Pictogram(mVincularArray.getJSONObject(mPosition),json.getIdioma());
                     loadDrawable(glideAttatcher,pictogram,mHolder.mPictoImageView);
                     try {
-                        mHolder.mPictoImageColor.setColorFilter(cargarColor(json.getTipo(mVincularArray.getJSONObject(mPosition))));
+                        mHolder.mPictoImageColor.setColorFilter(cargarColor(JSONutils.getTipo(mVincularArray.getJSONObject(mPosition))));
                         if(mHolder.isSelected(mPosition)!=-1)
                             mHolder.itemView.setBackground(mContext.getResources().getDrawable(R.drawable.picto_shape_select));
                         else
@@ -324,6 +329,8 @@ public class VincularPictosAdapter extends RecyclerView.Adapter<VincularPictosAd
                 attatcher.UseCornerRadius(true).loadDrawable(Uri.parse(pictogram.getUrl()),imageView);
         }
     }
+
+
 
 
 }
