@@ -14,7 +14,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.stonefacesoft.ottaa.AnalyticsApplication;
 import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.utils.Firebase.AnalyticsFirebase;
 

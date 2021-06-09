@@ -569,7 +569,7 @@ public class MatchPictograms extends GameViewSelectPictograms {
             int valor = model.elegirGanador();
             if (!numeros.contains(valor)) {
                 numeros.add(valor);
-                name = json.getNombre(pictogramas[valor]);
+                name = JSONutils.getNombre(pictogramas[valor],json.getIdioma());
                 mUtilsTTS.hablar(name);
             } else {
                 decirPictoAleatorio();

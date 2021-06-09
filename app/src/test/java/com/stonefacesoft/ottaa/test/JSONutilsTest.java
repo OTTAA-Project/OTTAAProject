@@ -459,11 +459,16 @@ public class JSONutilsTest {
         //
         JSONArray jsonArray = createGrupoJSONArray();
         JSONObject jsonObject = createPictograms(474,"es","manzana","apple",2);
+        try {
+            jsonObject.put("frec",2);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        jsonArray.put(jsonObject);
         double scoreBase, scoreTAG;
         scoreBase = JSONutils.score(jsonObject,false,jsonArray,"none",Sexo.MASCULINO.toString(),Horario.MEDIODIA.toString(),Edad.ADULTO.toString(),Posicion.PARQUE.toString());
-
-
-
+        System.out.println(scoreBase);
+        assertEquals(false,false);
         //
 
         //

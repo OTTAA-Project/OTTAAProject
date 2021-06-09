@@ -102,7 +102,7 @@ public class Juego {
        this.user =new User(this.mContext);
    }
 
-   public void setUseTime(long useTime){
+
 
     public void setMaxStreak(int maxStreak) {
         this.maxStreak = maxStreak;

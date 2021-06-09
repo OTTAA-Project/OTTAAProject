@@ -26,6 +26,7 @@ import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.utils.JSONutils;
 import com.stonefacesoft.pictogramslibrary.Classes.Pictogram;
+import com.stonefacesoft.pictogramslibrary.utils.GlideAttatcher;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -45,7 +46,7 @@ public class VincularPictosAdapter extends RecyclerView.Adapter<VincularPictosAd
     private boolean esFiltrado;
     private final Json json;
     private final ArrayList<Integer> listadoIdPictos;
-    private final GlideAttatcher glideAttatcher;
+    private  GlideAttatcher glideAttatcher;
     private final Context mContext;
 
     public VincularPictosAdapter(Context mContext, int layoutID, JSONArray mVincularArray, boolean filtro) {

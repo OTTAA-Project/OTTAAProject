@@ -1,5 +1,6 @@
 package com.stonefacesoft.ottaa;
 
+import android.content.Context;
 import android.util.Log;
 
 import org.apache.http.client.HttpClient;
@@ -16,7 +17,7 @@ public class BuscarArasaac {
 
     JSONObject arasaac;
 
-    public JSONObject HacerBusqueda(String texto, String lang){
+    public JSONObject HacerBusqueda(String texto, String lang, Context context){
 
         HttpClient Client = new DefaultHttpClient();
 

@@ -52,7 +52,7 @@ public class GaleriaPictosAdapter extends RecyclerView.Adapter<GaleriaPictosAdap
     private final SubirArchivosFirebase uploadFirebaseFile;
     private final FirebaseAuth mAuth;
     private static final String TAG = "GaleriaPictosAdapter";
-    private final GlideAttatcher glideAttatcher; // esto se encarga de adjuntar el glide
+    private GlideAttatcher glideAttatcher; // esto se encarga de adjuntar el glide
     private int cantCambios;
 
 

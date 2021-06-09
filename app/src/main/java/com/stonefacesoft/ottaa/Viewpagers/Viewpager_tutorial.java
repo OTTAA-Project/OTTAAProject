@@ -181,7 +181,7 @@ public class Viewpager_tutorial extends AppCompatActivity {
         }
     }
     public void setImageDescriptions(int position,int id,String description,String title,int color,int textColot){
-        imageDescriptions[position]=new Custom_ImageDescription(title,description,id,color,textColot);
+        imageDescriptions[position]=new Custom_ImageDescription(getApplicationContext(),title,description,id,color,textColot);
     }
 
     public  void finishActivity(){

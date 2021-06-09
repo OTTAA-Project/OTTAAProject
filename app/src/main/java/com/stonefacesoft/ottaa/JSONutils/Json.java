@@ -304,11 +304,11 @@ public class Json implements FindPictogram {
         return d;
     }
 
-    public Drawable AbrirBitmap(String Path) {
+    public Drawable AbrirBitmap(String path) {
         Drawable d = mContext.getResources().getDrawable(R.drawable.ic_agregar);
         if(!path.isEmpty()){
             try {
-                d=getUrlBitmap(path);
+                d=getBitmap(path);
             } catch (Exception ex) {
                 ex.printStackTrace();
                 d = mContext.getResources().getDrawable(R.drawable.ic_baseline_cloud_download_24_big);
@@ -1317,5 +1317,25 @@ public class Json implements FindPictogram {
 
     public JSONArray getmJSonArrayFrasesFavoritas() {
         return mJSonArrayFrasesFavoritas;
+    }
+
+    public void addAraasacPictogramFromInternet(JSONObject pictogram){
+        mJSONArrayTodosLosPictos.put(pictogram);
+    }
+    public void addPictogramToAll(JSONObject object) {
+        try {
+
+            for (int i = 0; i < mJSONArrayTodosLosGrupos.length(); i++) {
+                if (mJSONArrayTodosLosGrupos.getJSONObject(i).optJSONObject("texto").optString("en").equalsIgnoreCase("ALL") || mJSONArrayTodosLosGrupos.getJSONObject(i).optJSONObject("texto").optString("en").equalsIgnoreCase("EveryThing")) {
+                    JSONArray relacion = mJSONArrayTodosLosGrupos.getJSONObject(i).getJSONArray("relacion");
+                    relacion.put(relacion.length(),object);
+                    break;
+                }
+            }
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

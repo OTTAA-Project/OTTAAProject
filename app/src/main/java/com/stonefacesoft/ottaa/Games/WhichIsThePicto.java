@@ -253,7 +253,7 @@ public class WhichIsThePicto extends AppCompatActivity implements View
             game.setMaxLevel(2);
             game.startUseTime();
             loadLevel();
-        } catch (JSONException e) {
+        } catch (JSONException | FiveMbException e) {
             e.printStackTrace();
         }
 

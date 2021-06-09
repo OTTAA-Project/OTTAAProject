@@ -370,7 +370,7 @@ public class GaleriaArasaac extends AppCompatActivity implements SearchView.OnQu
 
         @Override
         protected Void doInBackground(Void... voids) {
-            arasaac = buscarArasaac.HacerBusqueda(texto, sharedPrefsDefault.getString(getApplicationContext().getString(R.string.str_idioma),"en"));
+            arasaac = buscarArasaac.HacerBusqueda(texto, sharedPrefsDefault.getString(getApplicationContext().getString(R.string.str_idioma),"en"),GaleriaArasaac.this);
             return null;
         }
 

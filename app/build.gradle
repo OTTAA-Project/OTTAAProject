@@ -253,7 +253,7 @@ dependencies {
     //Image Cropper
     //TODO add this library to the Wiki
     implementation 'com.theartofdev.edmodo:android-image-cropper:2.8.0'
-    implementation 'com.github.OTTAA-Project:PictogramsLibrary:0.1.8.4'
+    implementation 'com.github.OTTAA-Project:PictogramsLibrary:0.1.8.6'
     //Sendgrid integration
 
 }

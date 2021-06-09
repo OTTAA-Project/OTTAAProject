@@ -16,7 +16,7 @@ public class IntentCodeTest {
 
     @Test
     public void values() {
-        assertEquals(18,IntentCode.values().length);
+        assertEquals(18,IntentCode.SEARCH_ALL_PICTOGRAMS.getCode());
     }
 
     @Test

@@ -22,6 +22,7 @@ import com.bumptech.glide.RequestBuilder;
 import com.stonefacesoft.ottaa.Helper.ItemTouchHelperAdapter;
 import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.R;
+import com.stonefacesoft.ottaa.utils.JSONutils;
 import com.stonefacesoft.pictogramslibrary.Classes.Pictogram;
 import com.stonefacesoft.pictogramslibrary.utils.GlideAttatcher;
 
@@ -253,7 +254,7 @@ public class FindAllPictogramsAdapter extends RecyclerView.Adapter<FindAllPictog
 
             try {
                 processPictogram(mVincularArray.getJSONObject(mPosition));
-                mStringTexto = json.getNombre(picto);
+                mStringTexto = JSONutils.getNombre(picto,json.getIdioma());
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -270,7 +271,7 @@ public class FindAllPictogramsAdapter extends RecyclerView.Adapter<FindAllPictog
                     mHolder.mTextoPicto.setText(mStringTexto);
                     Pictogram pictogram = new Pictogram(mVincularArray.getJSONObject(mPosition), json.getIdioma());
                     loadDrawable(glideAttatcher, pictogram, mHolder.mPictoImageView,mHolder.mKindOfPictogram);
-                    mHolder.mPictoImageColor.setColorFilter(cargarColor(json.getTipo(picto)));
+                    mHolder.mPictoImageColor.setColorFilter(cargarColor(JSONutils.getTipo(picto)));
                     mHolder.itemView.setBackground(mContext.getResources().getDrawable(R.drawable.picto_shape));
 
                 } catch (Exception ex) {

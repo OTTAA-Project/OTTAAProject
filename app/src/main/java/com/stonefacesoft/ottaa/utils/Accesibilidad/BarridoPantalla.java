@@ -44,18 +44,18 @@ public class BarridoPantalla {
     private ArrayList<View> mListadoVistas;
    // private int posicion=0;
     private boolean cambioPosicion;
-    private final Context mContext;
+    private Context mContext;
     private boolean mEstaActivado;
     private boolean avanzarYAceptar;
     private boolean scrollMode;
     private boolean scrollModeClicker;
     private boolean isBarridoPantalla;
-    private final boolean isSipAndPuff;
+    private boolean isSipAndPuff;
 
-    private final SharedPreferences mDefaultSharedPreferences;
+    private SharedPreferences mDefaultSharedPreferences;
 
     private boolean pago;
-    private final FloatingActionButton button;
+    private FloatingActionButton button;
     private Handler waitTime;//screenScanningRun,waitTime;
     private TimeToChange timeToChange;
     private ReturnPositionItem returnPositionItem;
