@@ -175,7 +175,7 @@ public class WhichIsThePicto extends AppCompatActivity implements View
         PictoID = intent.getIntExtra("PictoID", 0);
         mPositionPadre = intent.getIntExtra("PositionPadre", 0);
         model = new WhichIsThePictoModel();
-        dialogo = new CustomToast(this);
+        dialogo = CustomToast.getInstance(this);
         mediaPlayer = new MediaPlayerAudio(this);
         music = new MediaPlayerAudio(this);
         mediaPlayer.setVolumenAudio(0.15f);

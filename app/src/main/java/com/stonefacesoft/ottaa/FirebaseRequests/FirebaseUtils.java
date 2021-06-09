@@ -18,8 +18,9 @@ public class FirebaseUtils {
         return myFirebaseUtils;
     }
 
-    public void setmContext(Context mContext){
+    public FirebaseUtils setmContext(Context mContext){
         this.mContext=mContext;
+        return this;
     }
 
     private FirebaseUtils() {

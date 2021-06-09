@@ -20,6 +20,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -27,6 +29,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.stonefacesoft.ottaa.Adapters.LicenciaExpiradaAdapter;
+import com.stonefacesoft.ottaa.utils.RemoteConfigUtils;
 import com.stonefacesoft.ottaa.utils.preferences.User;
 
 import java.util.Timer;
@@ -55,7 +58,7 @@ public class LicenciaExpirada extends AppCompatActivity implements SharedPrefere
     private TextView mFrasesTxt;
     private long Actual;
     private User loginGoogle;
-
+    private RemoteConfigUtils remoteConfigUtils;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,6 +79,8 @@ public class LicenciaExpirada extends AppCompatActivity implements SharedPrefere
 
         Button mLicenciaBtn = findViewById(R.id.btnLicencia);
         Button mLoginActivityBtn = findViewById(R.id.btnLoginActivity);
+        remoteConfigUtils = RemoteConfigUtils.getInstance();
+
 
         mSignOutButton = findViewById(R.id.mSignOutBtn);
         mSignOutButton.setClickable(true);
@@ -127,11 +132,29 @@ public class LicenciaExpirada extends AppCompatActivity implements SharedPrefere
             public void onClick(View v) {
                 // Intent mainIntent = new Intent().setClass(LicenciaExpirada.this, CheckoutExampleActivity.class);
                 //startActivity(mainIntent);
-                String url = "https://www.mercadopago.com/mla/debits/new?preapproval_plan_id=2c93808476d74ecd0176dcef1d880e11";
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                remoteConfigUtils.setActivateDeactivateConfig(LicenciaExpirada.this, new OnCompleteListener<Boolean>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Boolean> task) {
+
+                        if (task.isSuccessful()) {
+                            String url = "";
+                            boolean updated = task.getResult();
+                            if(remoteConfigUtils.isRegionPriceEnabled()){
+                                url = remoteConfigUtils.paymentUtriPremium();
+                            }else{
+                                url = remoteConfigUtils.paymentUtri();
+                            }
+                            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                            startActivity(Intent.createChooser(intent, "Browse with"));
+                        }
+
+                    }
+                });
+
+
                 // Note the Chooser below. If no applications match,
                 // Android displays a system message.So here there is no need for try-catch.
-                startActivity(Intent.createChooser(intent, "Browse with"));
+
             }
         });
 
@@ -143,7 +166,19 @@ public class LicenciaExpirada extends AppCompatActivity implements SharedPrefere
 //                Actual = java.lang.Long.parseLong(dataSnapshot.getValue().toString());
 //                SimpleDateFormat formatter = new SimpleDateFormat("EEEE, MMMM d, yyyy ");
 //                String dateString = formatter.format(new Date(Actual * 1000L));
-                mEndDateTxtView.setText(getString(R.string.licencia_expirada1));
+                    remoteConfigUtils.setActivateDeactivateConfig(LicenciaExpirada.this, new OnCompleteListener<Boolean>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Boolean> task) {
+                            if (task.isSuccessful()) {
+                                if(remoteConfigUtils.isRegionPriceEnabled()){
+                                    mEndDateTxtView.setText(remoteConfigUtils.changePrice(getString(R.string.licencia_expirada1),"price_premium"));
+                                }else{
+                                    mEndDateTxtView.setText(remoteConfigUtils.changePrice(getString(R.string.licencia_expirada1),"price"));
+                                }
+                            }
+                        }
+                    });
+
             }
 
             @Override
@@ -151,7 +186,6 @@ public class LicenciaExpirada extends AppCompatActivity implements SharedPrefere
 
             }
         });
-
 
     }
 

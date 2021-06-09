@@ -341,8 +341,8 @@ public class Principal extends AppCompatActivity implements View
 
     private Gesture gesture;
 
-    Avatar avatar;
-    MovableFloatingActionButton movableFloatingActionButton;
+    private Avatar avatar;
+    private MovableFloatingActionButton movableFloatingActionButton;
 
 
     @Override
@@ -694,6 +694,11 @@ public class Principal extends AppCompatActivity implements View
         image1.setPadding(20, 20, 20, 20);
         image1.setImageDrawable(getResources().getDrawable(R.drawable.antipatico));
 
+        movableFloatingActionButton = findViewById(R.id.movableButton);
+        movableFloatingActionButton.setVisibility(View.VISIBLE);
+        movableFloatingActionButton.setOnClickListener(this);
+        avatar = new Avatar(this,movableFloatingActionButton);
+
         //Vibraicion inicial
         long[] patron = {0, 10, 20, 15, 20, 20};
         vibe.vibrate(patron, -1);
@@ -804,10 +809,9 @@ public class Principal extends AppCompatActivity implements View
             sharedPrefs.edit().putBoolean("PrimerUso",false).apply();
         }
         navigationControls=new PrincipalControls(this);
+        movableFloatingActionButton.setIcon(user.getmAuth());
 
-        movableFloatingActionButton = new MovableFloatingActionButton(this);
-        movableFloatingActionButton = findViewById(R.id.movableButton);
-        avatar = new Avatar(this,movableFloatingActionButton);
+
     }
 
 
@@ -2208,13 +2212,13 @@ public class Principal extends AppCompatActivity implements View
                         }
                         // if(myTTS().devolverPathAudio().exists())
                     }
-                    myTTS.hablar(avatar.animateTalk("¡Felicitaciones!... Has creado 10 frases el día de hoy, sigue así."));
+                  //  myTTS.hablar(avatar.animateTalk("¡Felicitaciones!... Has creado 10 frases el día de hoy, sigue así."));
 
 
                    break;
                 case R.id.movableButton:
-                    avatar.finishTalking();
-                    //TODO here is the onClick event for the avatar.
+                    myTTS.hablar(avatar.animateTalk(getString(R.string.Iam)+" "+sharedPrefsDefault.getString("name","")));
+
                     break;
                 default:
                     Log.d(TAG, "onClick: Oracion:" + Oracion);
@@ -2850,5 +2854,9 @@ public class Principal extends AppCompatActivity implements View
                 attatcher.UseCornerRadius(true).loadDrawable(Uri.parse(pictogram.getUrl()),imageView);
         }
     }
+
+
+
+
 }
 

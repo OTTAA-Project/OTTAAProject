@@ -680,12 +680,12 @@ public class NewDialogsOTTAA implements FirebaseSuccessListener {
         ClipboardManager clipboard = (ClipboardManager) mActivity.getSystemService(CLIPBOARD_SERVICE);
         ClipData clip = ClipData.newPlainText("label", "https://forms.gle/vp6EDqxq55vEB6YC9");
         clipboard.setPrimaryClip(clip);
-        CustomToast customToast = new CustomToast(mActivity);
+        CustomToast customToast = CustomToast.getInstance(mActivity);
         customToast.mostrarFrase("Copiado correctamente!"); //TODO extraer resource
     }
 
     private void triggerEmail(){
-        CustomToast customToast = new CustomToast(mActivity);
+        CustomToast customToast = CustomToast.getInstance(mActivity);
         customToast.mostrarFrase("Email enviado"); //TODO extraer resource
         doHTTPRequest();
     }

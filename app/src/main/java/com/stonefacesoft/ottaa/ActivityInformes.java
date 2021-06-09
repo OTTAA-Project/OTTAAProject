@@ -103,7 +103,7 @@ public class ActivityInformes extends AppCompatActivity implements CloudFunction
             cardViewUsoGrupo.setVisibility(View.INVISIBLE);
 
             imageInternet.setVisibility(View.VISIBLE);
-            CustomToast customToast = new CustomToast(this);
+            CustomToast customToast = CustomToast.getInstance(this);
             customToast.mostrarFrase(getResources().getString(R.string.problema_inet));
 
         }

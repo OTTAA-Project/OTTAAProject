@@ -36,7 +36,7 @@ public class textToSpeech {
 
     public textToSpeech(Context context) {
         this.context = context;
-        alerta = new CustomToast(context);
+        alerta = CustomToast.getInstance(context);
         this.sharedPrefsDefault = PreferenceManager.getDefaultSharedPreferences(context);
         prepare=new UtilsTTS(this.context,hablar,alerta,sharedPrefsDefault);
         hablar=prepare.getmTTS();
