@@ -279,7 +279,7 @@ public class VincularPictosAdapter extends RecyclerView.Adapter<VincularPictosAd
                 picto = json.getPictoFromId2(mVincularArray.getJSONObject(mPosition).getInt("id"));
                 //json.getPictoFromCustomArrayById2(json.getmJSONArrayTodosLosPictos(),mVincularArray.getJSONObject(mPosition).getInt("id"));
                 SharedPreferences sharedPrefsDefault = PreferenceManager.getDefaultSharedPreferences(mContext);
-                mStringTexto = JSONutils.getNombre(picto,sharedPrefsDefault.getString(mContext.getString(R.string.str_idioma), "en"));
+                mStringTexto = JSONutils.getNombre(picto,JSONutils.getLanguaje());
             } catch (JSONException e) {
                 e.printStackTrace();
             } catch (Exception ex) {

@@ -66,7 +66,6 @@ public class WhichIsThePicto extends AppCompatActivity implements View
     private static final String TAG = "WhichIsThePicto";
     //Handler para animar la respuesat correcta luego de un tiempo si no se presiona
     private final Handler handlerHablar = new Handler();
-    private final Handler handlerGano = new Handler();
     private final Handler decirPicto = new Handler();
     private SharedPreferences sharedPrefsDefault;
     //
@@ -289,8 +288,7 @@ public class WhichIsThePicto extends AppCompatActivity implements View
         game.guardarObjetoJson();
         game.subirDatosJuegosFirebase();
 
-        //TODO Gonza corregir esto que tira error
-        handlerHablar.removeCallbacks(animarGano);
+        handlerHablar.removeCallbacks(animarHablar);
         decirPicto.removeCallbacks(talkGanador);
         mediaPlayer.stop();
         music.stop();
@@ -317,8 +315,6 @@ public class WhichIsThePicto extends AppCompatActivity implements View
     }
 
     private void PrimerNivel() {
-        liberaMemoria();
-
         if (sharedPrefsDefault.getBoolean(getString(R.string.str_pistas), false))
             handlerHablar.postDelayed(animarHablar, 10000);
         cargarPictos();
@@ -565,10 +561,10 @@ public class WhichIsThePicto extends AppCompatActivity implements View
     private void cargarDatosOpcion(int position, Custom_Picto option, int pos) {
         try {
             if (mJsonArrayTodosLosPictos.getJSONObject(position) != null) {
-                if (!JSONutils.getNombre(mJsonArrayTodosLosGrupos.getJSONObject(position),sharedPrefsDefault.getString(getString(R.string.str_idioma), "en")).equals("")) {
+                if (!JSONutils.getNombre(mJsonArrayTodosLosPictos.getJSONObject(position),sharedPrefsDefault.getString(getString(R.string.str_idioma), "en")).equals("")) {
                     option.setCustom_Img(json.getIcono(mJsonArrayTodosLosPictos.getJSONObject(position)));
                     option.setCustom_Color(cargarColor(JSONutils.getTipo(mJsonArrayTodosLosPictos.getJSONObject(position))));
-                    option.setCustom_Texto(JSONutils.getNombre(mJsonArrayTodosLosGrupos.getJSONObject(position),sharedPrefsDefault.getString(getString(R.string.str_idioma), "en")));
+                    option.setCustom_Texto(JSONutils.getNombre(mJsonArrayTodosLosPictos.getJSONObject(position),sharedPrefsDefault.getString(getString(R.string.str_idioma), "en")));
                     model.loadValue(pos, position);
                 } else {
                     position = devolverValor(Math.round((float) Math.random() * mJsonArrayTodosLosPictos.length()));
@@ -587,7 +583,7 @@ public class WhichIsThePicto extends AppCompatActivity implements View
             cargarDatosOpcion(position, option, pos);
 
         } finally {
-            if (pos == 3 || pos == model.getValueIndex().length - 1) {
+            if (pos == model.getValueIndex().length - 1) {
                 elegirGanador();
                 Seleccion1.setCustom_Img(getResources().getDrawable(R.drawable.agregar_picto_transp));
                 Log.d(TAG, "cargarDatosOpcion: " + viewGanador.getCustom_Texto());

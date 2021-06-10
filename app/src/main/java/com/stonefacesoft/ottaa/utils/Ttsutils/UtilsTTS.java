@@ -11,6 +11,7 @@ import android.util.Log;
 import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.utils.CustomToast;
 import com.stonefacesoft.ottaa.utils.Firebase.CrashlyticsUtils;
+import com.stonefacesoft.ottaa.utils.JSONutils;
 import com.stonefacesoft.ottaa.utils.verificarPaqueteInstalado;
 
 import java.util.Locale;
@@ -75,7 +76,7 @@ public class UtilsTTS {
             Log.d("texToSpeech_refreshtts", "GetCountry: " + localeTTS.getCountry());
             Log.d("texToSpeech_refreshtts", "GetLanguage: " + localeTTS.getLanguage());
 
-            switch (sharedPrefsDefault.getString(mContext.getString(R.string.str_idioma), "en")) {
+            switch (JSONutils.getLanguaje()) {
                 case "ar":
                     Log.d("texToSpeech_refreshtts", "ARABE");
 //                    TODO chequear primero si ya esta insltalada

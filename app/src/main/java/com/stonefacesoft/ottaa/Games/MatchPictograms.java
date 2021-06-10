@@ -2,11 +2,9 @@ package com.stonefacesoft.ottaa.Games;
 
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -33,7 +31,7 @@ import org.json.JSONException;
 
 public class MatchPictograms extends GameViewSelectPictograms {
 
-    private SharedPreferences mDefaultSharedPreferences;
+   // private SharedPreferences mDefaultSharedPreferences;
 
     private final Runnable animarHablar = new Runnable() {
         @Override
@@ -53,6 +51,7 @@ public class MatchPictograms extends GameViewSelectPictograms {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         showDescription(getString(R.string.join_pictograms));
+      //  mDefaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         model = new MatchPictogramsModel();
         setUpGame(1);
         game.setGamelevel(sharedPrefsDefault.getInt("MatchPictogramsLevel",0));
@@ -69,8 +68,6 @@ public class MatchPictograms extends GameViewSelectPictograms {
         guess3.setCustom_Img(getDrawable(R.drawable.ic_help_outline_black_24dp));
         guess4.setCustom_Img(getDrawable(R.drawable.ic_help_outline_black_24dp));
         animGameScore = new AnimGameScore(this, mAnimationWin);
-
-        mDefaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
     }
 
 
@@ -151,7 +148,7 @@ public class MatchPictograms extends GameViewSelectPictograms {
             numeros.add(value);
             try {
                 pictogramas[pos] = hijos.getJSONObject(value);
-                if(!JSONutils.getNombre(pictogramas[pos],mDefaultSharedPreferences.getString(getString(R.string.str_idioma), "en")).toLowerCase().equals("error"))
+                if(!JSONutils.getNombre(pictogramas[pos],JSONutils.getLanguaje()).toLowerCase().equals("error"))
                 cargarOpcion(pos);
                 else
                     selectRandomPictogram(pos);
@@ -170,23 +167,23 @@ public class MatchPictograms extends GameViewSelectPictograms {
             case 0:
                 opcion1.setCustom_Img(json.getIcono(pictogramas[0]));
                 opcion1.setInvisibleCustomTexto();
-                opcion1.setCustom_Texto(JSONutils.getNombre(pictogramas[0],mDefaultSharedPreferences.getString(getString(R.string.str_idioma), "en")));
+                opcion1.setCustom_Texto(JSONutils.getNombre(pictogramas[0],JSONutils.getLanguaje()));
                 break;
             case 1:
                 opcion2.setCustom_Img(json.getIcono(pictogramas[1]));
                 opcion2.setInvisibleCustomTexto();
-                opcion2.setCustom_Texto(JSONutils.getNombre(pictogramas[1],mDefaultSharedPreferences.getString(getString(R.string.str_idioma), "en")));
+                opcion2.setCustom_Texto(JSONutils.getNombre(pictogramas[1],JSONutils.getLanguaje()));
                 break;
             case 2:
                 opcion3.setCustom_Img(json.getIcono(pictogramas[2]));
                 opcion3.setInvisibleCustomTexto();
-                opcion3.setCustom_Texto(JSONutils.getNombre(pictogramas[2],mDefaultSharedPreferences.getString(getString(R.string.str_idioma), "en")));
+                opcion3.setCustom_Texto(JSONutils.getNombre(pictogramas[2],JSONutils.getLanguaje()));
 
                 break;
             case 3:
                 opcion4.setCustom_Img(json.getIcono(pictogramas[3]));
                 opcion4.setInvisibleCustomTexto();
-                opcion4.setCustom_Texto(JSONutils.getNombre(pictogramas[3],mDefaultSharedPreferences.getString(getString(R.string.str_idioma), "en")));
+                opcion4.setCustom_Texto(JSONutils.getNombre(pictogramas[3],JSONutils.getLanguaje()));
                 break;
         }
 
@@ -201,16 +198,16 @@ public class MatchPictograms extends GameViewSelectPictograms {
     protected void cargarTextoBoton(double valor, int pos) {
         switch (pos) {
             case 0:
-                guess1.setCustom_Texto(JSONutils.getNombre(pictogramas[(int) valor],mDefaultSharedPreferences.getString(getString(R.string.str_idioma), "en")));
+                guess1.setCustom_Texto(JSONutils.getNombre(pictogramas[(int) valor],JSONutils.getLanguaje()));
                 break;
             case 1:
-                guess2.setCustom_Texto(JSONutils.getNombre(pictogramas[(int) valor],mDefaultSharedPreferences.getString(getString(R.string.str_idioma), "en")));
+                guess2.setCustom_Texto(JSONutils.getNombre(pictogramas[(int) valor],JSONutils.getLanguaje()));
                 break;
             case 2:
-                guess3.setCustom_Texto(JSONutils.getNombre(pictogramas[(int) valor],mDefaultSharedPreferences.getString(getString(R.string.str_idioma), "en")));
+                guess3.setCustom_Texto(JSONutils.getNombre(pictogramas[(int) valor],JSONutils.getLanguaje()));
                 break;
             case 3:
-                guess4.setCustom_Texto(JSONutils.getNombre(pictogramas[(int) valor],mDefaultSharedPreferences.getString(getString(R.string.str_idioma), "en")));
+                guess4.setCustom_Texto(JSONutils.getNombre(pictogramas[(int) valor],JSONutils.getLanguaje()));
                 break;
         }
     }

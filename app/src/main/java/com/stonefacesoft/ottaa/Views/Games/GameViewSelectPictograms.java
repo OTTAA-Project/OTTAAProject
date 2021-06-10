@@ -25,7 +25,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import com.stonefacesoft.ottaa.utils.Games.GamesSettings;
 import com.stonefacesoft.ottaa.Interfaces.Make_Click_At_Time;
 import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.R;
@@ -36,8 +35,8 @@ import com.stonefacesoft.ottaa.utils.Audio.MediaPlayerAudio;
 import com.stonefacesoft.ottaa.utils.CustomToast;
 import com.stonefacesoft.ottaa.utils.Firebase.AnalyticsFirebase;
 import com.stonefacesoft.ottaa.utils.Games.AnimGameScore;
+import com.stonefacesoft.ottaa.utils.Games.GamesSettings;
 import com.stonefacesoft.ottaa.utils.Games.Juego;
-import com.stonefacesoft.ottaa.utils.JSONutils;
 import com.stonefacesoft.ottaa.utils.Ttsutils.UtilsTTS;
 import com.stonefacesoft.pictogramslibrary.utils.GlideAttatcher;
 import com.stonefacesoft.pictogramslibrary.view.PictoView;
@@ -116,6 +115,7 @@ public class GameViewSelectPictograms extends AppCompatActivity implements View.
 
 
 
+
     protected final Runnable animarHablar = new Runnable() {
         @Override
         public void run() {
@@ -146,6 +146,8 @@ public class GameViewSelectPictograms extends AppCompatActivity implements View.
         gamesSettings = new GamesSettings();
         json = Json.getInstance();
         json.setmContext(this);
+        json.initSharedPrefs();
+        json.getIdioma();
         toolbar=findViewById(R.id.toolbar);
         mjJsonArrayTodosLosGrupos=json.getmJSONArrayTodosLosGrupos();
         setSupportActionBar(toolbar);

@@ -11,15 +11,15 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.utils.JSONutils;
 import com.stonefacesoft.ottaa.utils.textToSpeech;
 
 import org.json.JSONException;
-
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 
 public class ScoreListItem extends RecyclerView.Adapter<ScoreListItem.ScoreViewHolder>{
     private int mLayoutResourceId;
@@ -53,7 +53,7 @@ public class ScoreListItem extends RecyclerView.Adapter<ScoreListItem.ScoreViewH
         try {
             holder.imagenFav.setImageDrawable(json.getIcono(json.getmJSONArrayTodosLosGrupos().getJSONObject(position)));
             SharedPreferences sharedPrefsDefault = PreferenceManager.getDefaultSharedPreferences(mContext);
-            holder.title.setText(JSONutils.getNombre(json.getmJSONArrayTodosLosGrupos().getJSONObject(position),sharedPrefsDefault.getString(mContext.getString(R.string.str_idioma), "en")));
+            holder.title.setText(JSONutils.getNombre(json.getmJSONArrayTodosLosGrupos().getJSONObject(position),JSONutils.getLanguaje()));
 
         } catch (JSONException e) {
             e.printStackTrace();

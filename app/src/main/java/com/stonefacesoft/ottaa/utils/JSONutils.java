@@ -23,6 +23,8 @@ public class JSONutils {
      * @param jsonArray Jsonarray where searched  a group or a pictogram
      * @return id from a pictogram or a group
      * */
+    private static String language = "en";
+
     //TODO ver porque tiene q ser static
     public static int getIDfromNombre(String nombreEnIngles, JSONArray jsonArray) throws JSONException {
         int id = -1;
@@ -566,5 +568,13 @@ public class JSONutils {
             return 0;
         }
         return 0;
+    }
+
+    public static String getLanguaje(){
+        return language;
+    }
+
+    public static void setLanguage(String name){
+        language = language;
     }
 }

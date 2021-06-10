@@ -266,7 +266,7 @@ public class GaleriaPictosAdapter extends RecyclerView.Adapter<GaleriaPictosAdap
             Bitmap mBitmap;
             try {
                 SharedPreferences sharedPrefsDefault = PreferenceManager.getDefaultSharedPreferences(mContext);
-                mStringTexto = JSONutils.getNombre(mArrayPictos.getJSONObject(mPosition),sharedPrefsDefault.getString(mContext.getString(R.string.str_idioma), "en"));
+                mStringTexto = JSONutils.getNombre(mArrayPictos.getJSONObject(mPosition),JSONutils.getLanguaje());
                 mDrawableIcono = json.getIcono(mArrayPictos.getJSONObject(mPosition));
 
                 if (mDrawableIcono == null)

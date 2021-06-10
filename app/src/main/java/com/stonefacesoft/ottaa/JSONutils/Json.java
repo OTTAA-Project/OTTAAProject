@@ -22,22 +22,17 @@ import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.utils.Constants;
 import com.stonefacesoft.ottaa.utils.JSONutils;
 import com.stonefacesoft.ottaa.utils.exceptions.FiveMbException;
-import com.stonefacesoft.pictogramslibrary.JsonUtils.JSONObjectManager;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -103,7 +98,6 @@ public class Json implements FindPictogram {
     //Declaro el manejador de preferencia
     protected static SharedPreferences sharedPrefsDefault;
     private String mListPlaceName;
-
     private int cantFallas;
     //JSONArray
 
@@ -149,7 +143,6 @@ public class Json implements FindPictogram {
     public void setmContext(Context context) {
         this.mContext = context;
         sharedPrefsDefault = PreferenceManager.getDefaultSharedPreferences(mContext);
-
     }
 
     /**
@@ -241,7 +234,12 @@ public class Json implements FindPictogram {
     }
 
     public String getIdioma(){
-        return sharedPrefsDefault.getString(mContext.getString(R.string.str_idioma), "en");
+        return JSONutils.getLanguaje();
+    }
+
+    public Json initSharedPrefs(){
+        sharedPrefsDefault = PreferenceManager.getDefaultSharedPreferences(mContext);
+        return getInstance();
     }
 
     public ArrayList<JSONObject> getmArrayListTodasLasFotosBackup() throws FiveMbException {
@@ -358,7 +356,7 @@ public class Json implements FindPictogram {
             e.printStackTrace();
         }
         try {
-            arrayAgenda.put(arrayAgenda.length(), JSONutils.getNombre(ob,sharedPrefsDefault.getString(mContext.getString(R.string.str_idioma), "en")).toUpperCase());
+            arrayAgenda.put(arrayAgenda.length(), JSONutils.getNombre(ob,JSONutils.getLanguaje()).toUpperCase());
             ob.put(Constants.CALENDARIO, arrayAgenda);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -926,7 +924,7 @@ public class Json implements FindPictogram {
                     jsonElegidos.getJSONObject(jsonElegidos.length() - 1).put("esSugerencia", false);
 
                 } else if (ultimaUbic >= 0) {
-                    if ((sharedPrefsDefault.getString(mContext.getString(R.string.str_idioma), "en").equals("es") || sharedPrefsDefault.getString(mContext.getString(R.string.str_idioma), "en").equals("ca") || sharedPrefsDefault.getString(mContext.getResources().getString(R.string.str_idioma), "en").equals("en")) && mJSONArrayPictosSugeridos.length() != 0 && sharedPrefsDefault.getBoolean("bool_sugerencias", false)) {
+                    if ((JSONutils.getLanguaje().equals("es")||JSONutils.getLanguaje().equals("ca")||JSONutils.getLanguaje().equals("en")) && mJSONArrayPictosSugeridos.length() != 0 && sharedPrefsDefault.getBoolean("bool_sugerencias", false)) {
                         if (mostrarSugerencias(padre, ultimaUbic, jsonElegidos)) {
                             int posPadre = getPosPicto(mJSONArrayPictosSugeridos, padre.getInt("id"));
                             Constants.VUELTAS_CARRETE = ((relacion.length() + mJSONArrayPictosSugeridos.getJSONObject(posPadre).getJSONArray("relacion").length()) / 4);

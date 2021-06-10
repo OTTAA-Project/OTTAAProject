@@ -50,6 +50,7 @@ import com.stonefacesoft.ottaa.utils.Constants;
 import com.stonefacesoft.ottaa.utils.Firebase.AnalyticsFirebase;
 import com.stonefacesoft.ottaa.utils.HandlerComunicationClass;
 import com.stonefacesoft.ottaa.utils.IntentCode;
+import com.stonefacesoft.ottaa.utils.JSONutils;
 import com.stonefacesoft.ottaa.utils.ObservableInteger;
 import com.stonefacesoft.ottaa.utils.preferences.PersonalSwitchPreferences;
 import com.stonefacesoft.ottaa.utils.textToSpeech;
@@ -608,6 +609,7 @@ public class prefs extends PreferenceActivity implements SharedPreferences.OnSha
             DescargarArchivosPais(s);
             sharedPrefsDefault.edit().putString(getString(R.string.str_idioma_buffer),s).apply();
             sharedPrefsDefault.edit().putString(getString(R.string.str_idioma),s).apply();
+            JSONutils.setLanguage(sharedPrefsDefault.getString(getString(R.string.str_idioma),"en"));
 
             cambioIdioma = true;
             return null;

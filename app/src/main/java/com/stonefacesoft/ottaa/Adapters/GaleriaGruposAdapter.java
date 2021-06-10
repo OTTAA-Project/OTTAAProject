@@ -189,7 +189,7 @@ public class GaleriaGruposAdapter extends RecyclerView.Adapter<GaleriaGruposAdap
             Bitmap mBitmap;
             try {
                 SharedPreferences sharedPrefsDefault = PreferenceManager.getDefaultSharedPreferences(mContext);
-                mStringTexto = JSONutils.getNombre(mArrayGrupos.getJSONObject(mPosition),sharedPrefsDefault.getString(mContext.getString(R.string.str_idioma), "en"));
+                mStringTexto = JSONutils.getNombre(mArrayGrupos.getJSONObject(mPosition),JSONutils.getLanguaje());
                 mDrawableIcono = json.getIcono(mArrayGrupos.getJSONObject(mPosition));
                 if (mDrawableIcono == null)
                     mDrawableIcono = AppCompatResources.getDrawable(mContext, R.drawable.ic_cloud_download_orange);
