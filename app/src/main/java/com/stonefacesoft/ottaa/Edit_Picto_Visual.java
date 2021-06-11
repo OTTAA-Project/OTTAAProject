@@ -307,7 +307,7 @@ public class Edit_Picto_Visual extends AppCompatActivity implements View.OnClick
                 ex.printStackTrace();
                 Log.e(TAG, "onCreate: Error" + ex.getMessage());
             }
-            texto = JSONutils.getNombre(jsonObject,JSONutils.getLanguaje());
+            texto = JSONutils.getNombre(jsonObject, ConfigurarIdioma.getLanguaje());
             Log.d(TAG, "onCreate: Nombre: " + texto);
 
             try {
@@ -1296,7 +1296,7 @@ public class Edit_Picto_Visual extends AppCompatActivity implements View.OnClick
                     //aca tiene que ir la interfaz de traduccion
 
                     try {
-                        mArrayListAGuardar = JSONutils.crearGrupo(mArrayListAGuardar, JSONutils.getLanguaje(), Picto.getCustom_Texto(), traducirTexto.getTexto(), mCurrentPhotoPath, tipo, urlfoto, pushKey);
+                        mArrayListAGuardar = JSONutils.crearGrupo(mArrayListAGuardar, ConfigurarIdioma.getLanguaje(), Picto.getCustom_Texto(), traducirTexto.getTexto(), mCurrentPhotoPath, tipo, urlfoto, pushKey);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -1318,7 +1318,7 @@ public class Edit_Picto_Visual extends AppCompatActivity implements View.OnClick
                     } //                        WeeklyBackup wb = new WeeklyBackup(mContext);
                     //                        wb.weeklyBackupDialog(false, R.string.pref_summary_backup_principal, false);
 
-                    mArrayListAGuardar = JSONutils.crearPicto(mArrayListGrupos, mArrayListAGuardar, JSONutils.getLanguaje(), padre, Picto.getCustom_Texto(), traducirTexto.getTexto(), mCurrentPhotoPath, tipo, urlfoto, pushKey);
+                    mArrayListAGuardar = JSONutils.crearPicto(mArrayListGrupos, mArrayListAGuardar, ConfigurarIdioma.getLanguaje(), padre, Picto.getCustom_Texto(), traducirTexto.getTexto(), mCurrentPhotoPath, tipo, urlfoto, pushKey);
                     databack.putExtra("esNuevo", true);
                     json.setmJSONArrayTodosLosPictos(mArrayListAGuardar);
                     json.guardarJson(Constants.ARCHIVO_PICTOS);

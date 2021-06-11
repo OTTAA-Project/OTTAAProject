@@ -15,6 +15,14 @@ import java.util.Locale;
 
 public class ConfigurarIdioma {
     private final Context mContex;
+    private static String language = "en";
+    private static boolean enableScreenScanning;
+    public static void setLanguage(String name){
+        language = name;
+    }
+    public static String getLanguaje(){
+        return language;
+    }
     public ConfigurarIdioma(Context context,String loc)
     {
 
@@ -27,7 +35,7 @@ public class ConfigurarIdioma {
         resources.updateConfiguration(config, resources.getDisplayMetrics());
         myContextWrapper wrapper=new myContextWrapper(context);
         myContextWrapper.wrap(mContex,loc);
-        Log.d("configurarIdioma_loc",loc);
+        Log.d("ConfigurarIdioma._loc",loc);
 
     }
     public Context getmContex()

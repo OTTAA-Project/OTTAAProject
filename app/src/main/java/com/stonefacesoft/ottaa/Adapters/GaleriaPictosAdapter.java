@@ -27,6 +27,7 @@ import com.stonefacesoft.ottaa.FirebaseRequests.SubirArchivosFirebase;
 import com.stonefacesoft.ottaa.Helper.ItemTouchHelperAdapter;
 import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.R;
+import com.stonefacesoft.ottaa.idioma.ConfigurarIdioma;
 import com.stonefacesoft.ottaa.utils.Constants;
 import com.stonefacesoft.ottaa.utils.JSONutils;
 import com.stonefacesoft.pictogramslibrary.Classes.Pictogram;
@@ -266,7 +267,7 @@ public class GaleriaPictosAdapter extends RecyclerView.Adapter<GaleriaPictosAdap
             Bitmap mBitmap;
             try {
                 SharedPreferences sharedPrefsDefault = PreferenceManager.getDefaultSharedPreferences(mContext);
-                mStringTexto = JSONutils.getNombre(mArrayPictos.getJSONObject(mPosition),JSONutils.getLanguaje());
+                mStringTexto = JSONutils.getNombre(mArrayPictos.getJSONObject(mPosition), ConfigurarIdioma.getLanguaje());
                 mDrawableIcono = json.getIcono(mArrayPictos.getJSONObject(mPosition));
 
                 if (mDrawableIcono == null)
@@ -293,7 +294,7 @@ public class GaleriaPictosAdapter extends RecyclerView.Adapter<GaleriaPictosAdap
             try {
                 if (mArrayPictos.getJSONObject(mPosition) != null) {
                     mHolder.mTextoPicto.setText(mStringTexto);
-                    Pictogram pictogram=new Pictogram(mArrayPictos.getJSONObject(mPosition),json.getIdioma());
+                    Pictogram pictogram=new Pictogram(mArrayPictos.getJSONObject(mPosition),ConfigurarIdioma.getLanguaje());
                     loadDrawable(glideAttatcher,pictogram,mHolder.mPictoImageView);
                     mHolder.mPictoImageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
                     try {

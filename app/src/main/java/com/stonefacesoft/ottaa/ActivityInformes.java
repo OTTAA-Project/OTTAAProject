@@ -81,8 +81,6 @@ public class ActivityInformes extends AppCompatActivity implements CloudFunction
         //Toolbar toolbar = findViewById(R.id.toolbar);
         //setSupportActionBar(toolbar);
         binding();
-
-//        TODO Poner el avatar en la foto y poner el nombre del usuario
         if (connectionDetector.isConnectedToInternet()) {
             imageInternet.setVisibility(View.INVISIBLE);
             doHTTPRequestFirst();

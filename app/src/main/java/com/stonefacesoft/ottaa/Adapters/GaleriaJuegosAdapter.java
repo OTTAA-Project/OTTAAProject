@@ -25,6 +25,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.stonefacesoft.ottaa.FirebaseRequests.SubirArchivosFirebase;
 import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.R;
+import com.stonefacesoft.ottaa.idioma.ConfigurarIdioma;
 import com.stonefacesoft.ottaa.utils.Games.Juego;
 import com.stonefacesoft.ottaa.utils.JSONutils;
 import com.stonefacesoft.pictogramslibrary.Classes.Pictogram;
@@ -144,7 +145,7 @@ public class GaleriaJuegosAdapter extends RecyclerView.Adapter <GaleriaJuegosAda
             try {
                 json = Json.getInstance();
                 SharedPreferences sharedPrefsDefault = PreferenceManager.getDefaultSharedPreferences(mContext);
-                mStringTexto = JSONutils.getNombre(json.getmJSONArrayTodosLosGrupos().getJSONObject(mPosition),JSONutils.getLanguaje());
+                mStringTexto = JSONutils.getNombre(json.getmJSONArrayTodosLosGrupos().getJSONObject(mPosition), ConfigurarIdioma.getLanguaje());
                 mDrawableIcono = json.getIcono(json.getmJSONArrayTodosLosGrupos().getJSONObject(mPosition));
                 if (mDrawableIcono == null)
                     mDrawableIcono = AppCompatResources.getDrawable(mContext, R.drawable.ic_cloud_download_orange);

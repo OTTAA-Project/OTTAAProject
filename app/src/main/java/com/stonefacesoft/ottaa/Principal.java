@@ -141,6 +141,8 @@ import java.util.Objects;
 
 import static com.facebook.FacebookSdk.setAutoLogAppEventsEnabled;
 
+;
+
 /**
  *
  * VERSION 86 Circle CI testing y JUNIT
@@ -462,8 +464,8 @@ public class Principal extends AppCompatActivity implements View
 
         //TODO modificar esto desde firebase para habilitar el modo moderador
         sharedPrefsDefault.edit().putBoolean("esmoderador", false).apply();
-        JSONutils.setLanguage(sharedPrefsDefault.getString(getString(R.string.str_idioma),"en"));
-        new ConfigurarIdioma(getApplicationContext(),JSONutils.getLanguaje());
+        ConfigurarIdioma.setLanguage(sharedPrefsDefault.getString(getString(R.string.str_idioma),"en"));
+        new ConfigurarIdioma(getApplicationContext(),ConfigurarIdioma.getLanguaje());
         sharedPrefs = getSharedPreferences(sharedPrefsDefault.getString(getString(R.string.str_userMail), "error"), Context.MODE_PRIVATE);
         barridoSwitch = sharedPrefsDefault.getBoolean("tipo_barrido", false);
 
@@ -511,9 +513,9 @@ public class Principal extends AppCompatActivity implements View
 //            mDatabaseBackupFotos = mDatabase.child("Usuarios").child(mAuth.getCurrentUser().getUid()).child("Backup").child(timeStamp).child("Backup_fotos_" + sharedPrefsDefault.getString(getApplicationContext().getString(R.string.str_idioma), "en"));
 
             /**Referencias database grupos pictos frases Archivos_Usuario*/
-            mPictosDatabaseRef =firebaseUtils.getmDatabase().child("Pictos").child(user.getmAuth().getCurrentUser().getUid()).child("URL_pictos_" + JSONutils.getLanguaje());
-            mFrasesDatabaseRef = firebaseUtils.getmDatabase().child("Frases").child(user.getmAuth().getCurrentUser().getUid()).child("URL_frases_" + JSONutils.getLanguaje());
-            mGruposDatabaseRef = firebaseUtils.getmDatabase().child("Grupos").child(user.getmAuth().getCurrentUser().getUid()).child("URL_grupos_" +JSONutils.getLanguaje());
+            mPictosDatabaseRef =firebaseUtils.getmDatabase().child("Pictos").child(user.getmAuth().getCurrentUser().getUid()).child("URL_pictos_" + ConfigurarIdioma.getLanguaje());
+            mFrasesDatabaseRef = firebaseUtils.getmDatabase().child("Frases").child(user.getmAuth().getCurrentUser().getUid()).child("URL_frases_" + ConfigurarIdioma.getLanguaje());
+            mGruposDatabaseRef = firebaseUtils.getmDatabase().child("Grupos").child(user.getmAuth().getCurrentUser().getUid()).child("URL_grupos_" +ConfigurarIdioma.getLanguaje());
             consultarPago();
 
             subirArchivos.subirFotosOffline();
@@ -1309,7 +1311,7 @@ public class Principal extends AppCompatActivity implements View
      */
     void CargarSeleccion(JSONObject opcion) {
         GlideAttatcher attatcher=new GlideAttatcher(this);
-        Pictogram pictogram=new Pictogram(opcion,JSONutils.getLanguaje());
+        Pictogram pictogram=new Pictogram(opcion,ConfigurarIdioma.getLanguaje());
         switch (CantClicks) {
             case 0:
                 loadDrawable(attatcher,pictogram,Seleccion1);
@@ -1511,12 +1513,12 @@ public class Principal extends AppCompatActivity implements View
                 firebaseDialog.setTitle(getApplicationContext().getResources().getString(R.string.edit_sync));
                 firebaseDialog.setMessage(getApplicationContext().getResources().getString(R.string.edit_sync_pict));
                 firebaseDialog.mostrarDialogo();
-                mBajarJsonFirebase.bajarPictos(JSONutils.getLanguaje(), rootPath, observableInteger);
-                mBajarJsonFirebase.bajarGrupos(JSONutils.getLanguaje(), rootPath, observableInteger);
-                mBajarJsonFirebase.bajarFrases(JSONutils.getLanguaje(), rootPath, observableInteger);
-                mBajarJsonFirebase.bajarJuego(JSONutils.getLanguaje(),rootPath);
-                mBajarJsonFirebase.bajarFrasesFavoritas(JSONutils.getLanguaje(),rootPath);
-                mBajarJsonFirebase.bajarDescripcionJuegos(JSONutils.getLanguaje(),rootPath);
+                mBajarJsonFirebase.bajarPictos(ConfigurarIdioma.getLanguaje(), rootPath, observableInteger);
+                mBajarJsonFirebase.bajarGrupos(ConfigurarIdioma.getLanguaje(), rootPath, observableInteger);
+                mBajarJsonFirebase.bajarFrases(ConfigurarIdioma.getLanguaje(), rootPath, observableInteger);
+                mBajarJsonFirebase.bajarJuego(ConfigurarIdioma.getLanguaje(),rootPath);
+                mBajarJsonFirebase.bajarFrasesFavoritas(ConfigurarIdioma.getLanguaje(),rootPath);
+                mBajarJsonFirebase.bajarDescripcionJuegos(ConfigurarIdioma.getLanguaje(),rootPath);
             }
 
                // json.resetearError();
@@ -2648,7 +2650,7 @@ public class Principal extends AppCompatActivity implements View
 
     private void addOption(JSONObject opcion, PictoView picto, Animation animation) {
         Log.d(TAG, "addOption: "+opcion.toString() );
-        Pictogram pictogram=new Pictogram(opcion,JSONutils.getLanguaje());
+        Pictogram pictogram=new Pictogram(opcion,ConfigurarIdioma.getLanguaje());
         picto.setUpGlideAttatcher(this);
         picto.setUpContext(this);
         picto.setPictogramsLibraryPictogram(pictogram);

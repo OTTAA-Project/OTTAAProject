@@ -27,6 +27,7 @@ import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.LicenciaExpirada;
 import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.customComponents.Custom_Grupo;
+import com.stonefacesoft.ottaa.idioma.ConfigurarIdioma;
 import com.stonefacesoft.ottaa.utils.Constants;
 import com.stonefacesoft.ottaa.utils.IntentCode;
 import com.stonefacesoft.ottaa.utils.JSONutils;
@@ -222,7 +223,7 @@ public class viewpager_galeria_grupo {
             try {
                 SharedPreferences sharedPrefsDefault = PreferenceManager.getDefaultSharedPreferences(mActivity);
                 grupo.setCustom_Texto(JSONutils.getNombre(array.getJSONObject(position),sharedPrefsDefault.getString(mActivity.getString(R.string.str_idioma), "en")));
-                Pictogram pictogram=new Pictogram(array.getJSONObject(position),json.getIdioma());
+                Pictogram pictogram=new Pictogram(array.getJSONObject(position), ConfigurarIdioma.getLanguaje());
                 GlideAttatcher attatcher=new GlideAttatcher(mActivity);
                 loadDrawable(attatcher,pictogram,grupo.getImg());
                 grupo.setTagDrawable(0,json.tieneTag(array.getJSONObject(position),Constants.UBICACION)?R.drawable.ic_location_on_black_24dp:R.drawable.ic_location_off_black_24dp);

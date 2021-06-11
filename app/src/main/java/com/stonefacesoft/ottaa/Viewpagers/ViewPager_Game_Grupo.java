@@ -28,6 +28,7 @@ import com.stonefacesoft.ottaa.Games.WhichIsThePicto;
 import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.customComponents.Custom_Grupo_Juego;
+import com.stonefacesoft.ottaa.idioma.ConfigurarIdioma;
 import com.stonefacesoft.ottaa.utils.Games.Juego;
 import com.stonefacesoft.ottaa.utils.IntentCode;
 import com.stonefacesoft.ottaa.utils.JSONutils;
@@ -251,7 +252,7 @@ public class ViewPager_Game_Grupo {
                 ImageView cancelButton=view.findViewById(R.id.edit_button);
 
                 try {
-                    Pictogram pictogram=new Pictogram(array.getJSONObject(position),json.getIdioma());
+                    Pictogram pictogram=new Pictogram(array.getJSONObject(position), ConfigurarIdioma.getLanguaje());
                     GlideAttatcher attatcher=new GlideAttatcher(mActivity);
                     loadDrawable(attatcher,pictogram,grupo.getImg());
 

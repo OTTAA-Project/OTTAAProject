@@ -45,6 +45,7 @@ import com.google.firebase.storage.StorageReference;
 import com.stonefacesoft.ottaa.FirebaseRequests.BajarJsonFirebase;
 import com.stonefacesoft.ottaa.FirebaseRequests.FirebaseDatabaseRequest;
 import com.stonefacesoft.ottaa.Interfaces.FirebaseSuccessListener;
+import com.stonefacesoft.ottaa.idioma.ConfigurarIdioma;
 import com.stonefacesoft.ottaa.utils.Firebase.AnalyticsFirebase;
 import com.stonefacesoft.ottaa.utils.InmersiveMode;
 import com.stonefacesoft.ottaa.utils.IntentCode;
@@ -373,6 +374,7 @@ public class LoginActivity2 extends AppCompatActivity implements View.OnClickLis
     public void downloadFiles() {
         locale = Locale.getDefault().getLanguage();
         sharedPrefsDefault.edit().putString(getString(R.string.str_idioma), locale).apply();
+        ConfigurarIdioma.setLanguage(sharedPrefsDefault.getString(getString(R.string.str_idioma),"en"));
         File rootPath = new File(getApplicationContext().getCacheDir(), "Archivos_OTTAA");
         if (!rootPath.exists()) {
             rootPath.mkdirs();//si no existe el directorio lo creamos

@@ -23,7 +23,8 @@ public class JSONutils {
      * @param jsonArray Jsonarray where searched  a group or a pictogram
      * @return id from a pictogram or a group
      * */
-    private static String language = "en";
+    private final static String TAG = "JSONUtils";
+
 
     //TODO ver porque tiene q ser static
     public static int getIDfromNombre(String nombreEnIngles, JSONArray jsonArray) throws JSONException {
@@ -471,7 +472,7 @@ public class JSONutils {
         }
         score = (frec * pesoFrec) + (agendaUsuario * pesoAgenda) + (gps * pesoGps) + (horaDelDia *
                 pesoHora) + (sexoUsuario * pesoSexo) + (edadUsuario * pesoEdad);
-
+        Log.d(TAG, "score: "+score +" HoraDia:"+ horaDelDia +", gps:"+ gps+", Sexo Usuario : "+sexoUsuario+", Edad Usuario:"+edadUsuario );
         return score;
     }
 
@@ -570,11 +571,6 @@ public class JSONutils {
         return 0;
     }
 
-    public static String getLanguaje(){
-        return language;
-    }
 
-    public static void setLanguage(String name){
-        language = language;
-    }
+
 }

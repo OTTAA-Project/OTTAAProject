@@ -22,9 +22,9 @@ import com.google.firebase.storage.StorageReference;
 import com.stonefacesoft.ottaa.Interfaces.FirebaseSuccessListener;
 import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.R;
+import com.stonefacesoft.ottaa.idioma.ConfigurarIdioma;
 import com.stonefacesoft.ottaa.utils.Constants;
 import com.stonefacesoft.ottaa.utils.FilesUtils;
-import com.stonefacesoft.ottaa.utils.JSONutils;
 import com.stonefacesoft.ottaa.utils.ObservableInteger;
 import com.stonefacesoft.ottaa.utils.exceptions.FiveMbException;
 
@@ -121,9 +121,9 @@ public class BajarJsonFirebase implements OnFailureListener {
                     if (!rootPath.exists()) {
                         rootPath.mkdirs();//si no existe el directorio lo creamos
                     }
-                    mStorageRefGrupos = FirebaseStorage.getInstance().getReference().child("Archivos_Usuarios").child("Grupos").child("grupos_" + mAuth.getCurrentUser().getEmail() + "_" +JSONutils.getLanguaje()+ "." + "txt");
-                    mStorageRefPictos = FirebaseStorage.getInstance().getReference().child("Archivos_Usuarios").child("Pictos").child("pictos_" + mAuth.getCurrentUser().getEmail() + "_" +JSONutils.getLanguaje() + "." + "txt");
-                    mStorageRefFrases = FirebaseStorage.getInstance().getReference().child("Archivos_Usuarios").child("Frases").child("frases_" + mAuth.getCurrentUser().getEmail() + "_" +JSONutils.getLanguaje() + "." + "txt");
+                    mStorageRefGrupos = FirebaseStorage.getInstance().getReference().child("Archivos_Usuarios").child("Grupos").child("grupos_" + mAuth.getCurrentUser().getEmail() + "_" +ConfigurarIdioma.getLanguaje()+ "." + "txt");
+                    mStorageRefPictos = FirebaseStorage.getInstance().getReference().child("Archivos_Usuarios").child("Pictos").child("pictos_" + mAuth.getCurrentUser().getEmail() + "_" +ConfigurarIdioma.getLanguaje() + "." + "txt");
+                    mStorageRefFrases = FirebaseStorage.getInstance().getReference().child("Archivos_Usuarios").child("Frases").child("frases_" + mAuth.getCurrentUser().getEmail() + "_" +ConfigurarIdioma.getLanguaje() + "." + "txt");
                     final File pictosUsuarioFile = new File(rootPath, "pictos.txt");
                     final File gruposUsuarioFile = new File(rootPath, "grupos.txt");
                     final File frasesUsuarioFile = new File(rootPath, "frases.txt");
@@ -184,9 +184,9 @@ public class BajarJsonFirebase implements OnFailureListener {
                                     if (!rootPath.exists()) {
                                         rootPath.mkdirs();//si no existe el directorio lo creamos
                                     }
-                                    mStorageRefGrupos = FirebaseStorage.getInstance().getReference().child("Archivos_Usuarios").child("Grupos").child("grupos_" + mAuth.getCurrentUser().getEmail() + "_" +JSONutils.getLanguaje()+ "." + "txt");
-                                    mStorageRefPictos = FirebaseStorage.getInstance().getReference().child("Archivos_Usuarios").child("Pictos").child("pictos_" + mAuth.getCurrentUser().getEmail() + "_" +JSONutils.getLanguaje()+ "." + "txt");
-                                    mStorageRefFrases = FirebaseStorage.getInstance().getReference().child("Archivos_Usuarios").child("Frases").child("frases_" + mAuth.getCurrentUser().getEmail() + "_" +JSONutils.getLanguaje()+ "." + "txt");
+                                    mStorageRefGrupos = FirebaseStorage.getInstance().getReference().child("Archivos_Usuarios").child("Grupos").child("grupos_" + mAuth.getCurrentUser().getEmail() + "_" +ConfigurarIdioma.getLanguaje()+ "." + "txt");
+                                    mStorageRefPictos = FirebaseStorage.getInstance().getReference().child("Archivos_Usuarios").child("Pictos").child("pictos_" + mAuth.getCurrentUser().getEmail() + "_" +ConfigurarIdioma.getLanguaje()+ "." + "txt");
+                                    mStorageRefFrases = FirebaseStorage.getInstance().getReference().child("Archivos_Usuarios").child("Frases").child("frases_" + mAuth.getCurrentUser().getEmail() + "_" +ConfigurarIdioma.getLanguaje()+ "." + "txt");
 
 
                                     //    mStorageRefFrasesJuegos=FirebaseStorage.getInstance().getReference().child("Archivos_Paises").child("frases-juegos").child("frases_"+sharedPrefsDefault.getString("idioma","es")+".txt");

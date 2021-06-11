@@ -24,6 +24,7 @@ import com.bumptech.glide.ListPreloader;
 import com.bumptech.glide.RequestBuilder;
 import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.R;
+import com.stonefacesoft.ottaa.idioma.ConfigurarIdioma;
 import com.stonefacesoft.ottaa.utils.JSONutils;
 import com.stonefacesoft.pictogramslibrary.Classes.Pictogram;
 import com.stonefacesoft.pictogramslibrary.utils.GlideAttatcher;
@@ -279,7 +280,7 @@ public class VincularPictosAdapter extends RecyclerView.Adapter<VincularPictosAd
                 picto = json.getPictoFromId2(mVincularArray.getJSONObject(mPosition).getInt("id"));
                 //json.getPictoFromCustomArrayById2(json.getmJSONArrayTodosLosPictos(),mVincularArray.getJSONObject(mPosition).getInt("id"));
                 SharedPreferences sharedPrefsDefault = PreferenceManager.getDefaultSharedPreferences(mContext);
-                mStringTexto = JSONutils.getNombre(picto,JSONutils.getLanguaje());
+                mStringTexto = JSONutils.getNombre(picto, ConfigurarIdioma.getLanguaje());
             } catch (JSONException e) {
                 e.printStackTrace();
             } catch (Exception ex) {
@@ -296,7 +297,7 @@ public class VincularPictosAdapter extends RecyclerView.Adapter<VincularPictosAd
             if (picto != null) {
                 try {
                     mHolder.mTextoPicto.setText(mStringTexto);
-                    Pictogram pictogram=new Pictogram(mVincularArray.getJSONObject(mPosition),json.getIdioma());
+                    Pictogram pictogram=new Pictogram(mVincularArray.getJSONObject(mPosition), ConfigurarIdioma.getLanguaje());
                     loadDrawable(glideAttatcher,pictogram,mHolder.mPictoImageView);
                     try {
                         mHolder.mPictoImageColor.setColorFilter(cargarColor(JSONutils.getTipo(mVincularArray.getJSONObject(mPosition))));

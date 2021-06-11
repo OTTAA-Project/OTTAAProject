@@ -26,6 +26,7 @@ import com.stonefacesoft.ottaa.Edit_Picto_Visual;
 import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.LicenciaExpirada;
 import com.stonefacesoft.ottaa.R;
+import com.stonefacesoft.ottaa.idioma.ConfigurarIdioma;
 import com.stonefacesoft.ottaa.utils.IntentCode;
 import com.stonefacesoft.ottaa.utils.JSONutils;
 import com.stonefacesoft.ottaa.utils.textToSpeech;
@@ -283,7 +284,7 @@ public class viewpager_galeria_pictos {
                 SharedPreferences sharedPrefsDefault = android.preference.PreferenceManager.getDefaultSharedPreferences(mActivity);
                 custom_picto.setCustom_Texto(JSONutils.getNombre(array.getJSONObject(position),sharedPrefsDefault.getString(mActivity.getString(R.string.str_idioma), "en")));
                 custom_picto.setCustom_Color(cargarColor(JSONutils.getTipo(array.getJSONObject(position))));
-                Pictogram pictogram=new Pictogram(array.getJSONObject(position),json.getIdioma());
+                Pictogram pictogram=new Pictogram(array.getJSONObject(position), ConfigurarIdioma.getLanguaje());
                 GlideAttatcher attatcher=new GlideAttatcher(mActivity);
                 loadDrawable(attatcher,pictogram,custom_picto.getImg());
                 custom_picto.setOnClickListener(new View.OnClickListener() {

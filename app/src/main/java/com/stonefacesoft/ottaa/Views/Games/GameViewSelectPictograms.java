@@ -147,7 +147,6 @@ public class GameViewSelectPictograms extends AppCompatActivity implements View.
         json = Json.getInstance();
         json.setmContext(this);
         json.initSharedPrefs();
-        json.getIdioma();
         toolbar=findViewById(R.id.toolbar);
         mjJsonArrayTodosLosGrupos=json.getmJSONArrayTodosLosGrupos();
         setSupportActionBar(toolbar);

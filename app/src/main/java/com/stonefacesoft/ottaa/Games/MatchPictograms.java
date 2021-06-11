@@ -22,6 +22,7 @@ import com.stonefacesoft.ottaa.Games.Model.MatchPictogramsModel;
 import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.Views.Games.GameViewSelectPictograms;
+import com.stonefacesoft.ottaa.idioma.ConfigurarIdioma;
 import com.stonefacesoft.ottaa.utils.Games.AnimGameScore;
 import com.stonefacesoft.ottaa.utils.Games.Juego;
 import com.stonefacesoft.ottaa.utils.JSONutils;
@@ -148,7 +149,7 @@ public class MatchPictograms extends GameViewSelectPictograms {
             numeros.add(value);
             try {
                 pictogramas[pos] = hijos.getJSONObject(value);
-                if(!JSONutils.getNombre(pictogramas[pos],JSONutils.getLanguaje()).toLowerCase().equals("error"))
+                if(!JSONutils.getNombre(pictogramas[pos], ConfigurarIdioma.getLanguaje()).toLowerCase().equals("error"))
                 cargarOpcion(pos);
                 else
                     selectRandomPictogram(pos);
@@ -167,23 +168,23 @@ public class MatchPictograms extends GameViewSelectPictograms {
             case 0:
                 opcion1.setCustom_Img(json.getIcono(pictogramas[0]));
                 opcion1.setInvisibleCustomTexto();
-                opcion1.setCustom_Texto(JSONutils.getNombre(pictogramas[0],JSONutils.getLanguaje()));
+                opcion1.setCustom_Texto(JSONutils.getNombre(pictogramas[0], ConfigurarIdioma.getLanguaje()));
                 break;
             case 1:
                 opcion2.setCustom_Img(json.getIcono(pictogramas[1]));
                 opcion2.setInvisibleCustomTexto();
-                opcion2.setCustom_Texto(JSONutils.getNombre(pictogramas[1],JSONutils.getLanguaje()));
+                opcion2.setCustom_Texto(JSONutils.getNombre(pictogramas[1],ConfigurarIdioma.getLanguaje()));
                 break;
             case 2:
                 opcion3.setCustom_Img(json.getIcono(pictogramas[2]));
                 opcion3.setInvisibleCustomTexto();
-                opcion3.setCustom_Texto(JSONutils.getNombre(pictogramas[2],JSONutils.getLanguaje()));
+                opcion3.setCustom_Texto(JSONutils.getNombre(pictogramas[2],ConfigurarIdioma.getLanguaje()));
 
                 break;
             case 3:
                 opcion4.setCustom_Img(json.getIcono(pictogramas[3]));
                 opcion4.setInvisibleCustomTexto();
-                opcion4.setCustom_Texto(JSONutils.getNombre(pictogramas[3],JSONutils.getLanguaje()));
+                opcion4.setCustom_Texto(JSONutils.getNombre(pictogramas[3],ConfigurarIdioma.getLanguaje()));
                 break;
         }
 
@@ -198,16 +199,16 @@ public class MatchPictograms extends GameViewSelectPictograms {
     protected void cargarTextoBoton(double valor, int pos) {
         switch (pos) {
             case 0:
-                guess1.setCustom_Texto(JSONutils.getNombre(pictogramas[(int) valor],JSONutils.getLanguaje()));
+                guess1.setCustom_Texto(JSONutils.getNombre(pictogramas[(int) valor],ConfigurarIdioma.getLanguaje()));
                 break;
             case 1:
-                guess2.setCustom_Texto(JSONutils.getNombre(pictogramas[(int) valor],JSONutils.getLanguaje()));
+                guess2.setCustom_Texto(JSONutils.getNombre(pictogramas[(int) valor],ConfigurarIdioma.getLanguaje()));
                 break;
             case 2:
-                guess3.setCustom_Texto(JSONutils.getNombre(pictogramas[(int) valor],JSONutils.getLanguaje()));
+                guess3.setCustom_Texto(JSONutils.getNombre(pictogramas[(int) valor],ConfigurarIdioma.getLanguaje()));
                 break;
             case 3:
-                guess4.setCustom_Texto(JSONutils.getNombre(pictogramas[(int) valor],JSONutils.getLanguaje()));
+                guess4.setCustom_Texto(JSONutils.getNombre(pictogramas[(int) valor],ConfigurarIdioma.getLanguaje()));
                 break;
         }
     }
@@ -566,7 +567,7 @@ public class MatchPictograms extends GameViewSelectPictograms {
             int valor = model.elegirGanador();
             if (!numeros.contains(valor)) {
                 numeros.add(valor);
-                name = JSONutils.getNombre(pictogramas[valor],json.getIdioma());
+                name = JSONutils.getNombre(pictogramas[valor],ConfigurarIdioma.getLanguaje());
                 mUtilsTTS.hablar(name);
             } else {
                 decirPictoAleatorio();

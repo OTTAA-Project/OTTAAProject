@@ -19,6 +19,7 @@ import com.stonefacesoft.ottaa.Prediction.Horario;
 import com.stonefacesoft.ottaa.Prediction.Posicion;
 import com.stonefacesoft.ottaa.Prediction.Sexo;
 import com.stonefacesoft.ottaa.R;
+import com.stonefacesoft.ottaa.idioma.ConfigurarIdioma;
 import com.stonefacesoft.ottaa.utils.Constants;
 import com.stonefacesoft.ottaa.utils.JSONutils;
 import com.stonefacesoft.ottaa.utils.exceptions.FiveMbException;
@@ -233,9 +234,6 @@ public class Json implements FindPictogram {
         this.mJSonArrayFrasesFavoritas = mJSonArrayFrasesFavoritas;
     }
 
-    public String getIdioma(){
-        return JSONutils.getLanguaje();
-    }
 
     public Json initSharedPrefs(){
         sharedPrefsDefault = PreferenceManager.getDefaultSharedPreferences(mContext);
@@ -356,7 +354,7 @@ public class Json implements FindPictogram {
             e.printStackTrace();
         }
         try {
-            arrayAgenda.put(arrayAgenda.length(), JSONutils.getNombre(ob,JSONutils.getLanguaje()).toUpperCase());
+            arrayAgenda.put(arrayAgenda.length(), JSONutils.getNombre(ob, ConfigurarIdioma.getLanguaje()).toUpperCase());
             ob.put(Constants.CALENDARIO, arrayAgenda);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -827,6 +825,7 @@ public class Json implements FindPictogram {
 
                         frec1 = getScore(json1, esSugerencia);
                         frec2 = getScore(json2, esSugerencia);
+                    Log.d(TAG, "compare 1 : frec 1: "+frec1 +", frec2:"+frec2);
                     return compareTo(frec1, frec2);
                 }
             });
@@ -842,6 +841,7 @@ public class Json implements FindPictogram {
                     } catch (Exception e) {
                     e.printStackTrace();
                     }
+                    Log.d(TAG, "compare 2 : frec 1: "+frec1 +", frec2:"+frec2);
                         return compareTo(frec1, frec2);
                 }
             });
@@ -924,7 +924,7 @@ public class Json implements FindPictogram {
                     jsonElegidos.getJSONObject(jsonElegidos.length() - 1).put("esSugerencia", false);
 
                 } else if (ultimaUbic >= 0) {
-                    if ((JSONutils.getLanguaje().equals("es")||JSONutils.getLanguaje().equals("ca")||JSONutils.getLanguaje().equals("en")) && mJSONArrayPictosSugeridos.length() != 0 && sharedPrefsDefault.getBoolean("bool_sugerencias", false)) {
+                    if ((ConfigurarIdioma.getLanguaje().equals("es")||ConfigurarIdioma.getLanguaje().equals("ca")||ConfigurarIdioma.getLanguaje().equals("en")) && mJSONArrayPictosSugeridos.length() != 0 && sharedPrefsDefault.getBoolean("bool_sugerencias", false)) {
                         if (mostrarSugerencias(padre, ultimaUbic, jsonElegidos)) {
                             int posPadre = getPosPicto(mJSONArrayPictosSugeridos, padre.getInt("id"));
                             Constants.VUELTAS_CARRETE = ((relacion.length() + mJSONArrayPictosSugeridos.getJSONObject(posPadre).getJSONArray("relacion").length()) / 4);
@@ -1019,7 +1019,7 @@ public class Json implements FindPictogram {
                     mJSONArrayTodasLasFrases.getJSONObject(pos).put("id", id);
                 }
                 if(!mJSONArrayTodasLasFrases.getJSONObject(pos).has("locale"))
-                    mJSONArrayTodasLasFrases.getJSONObject(pos).put("locale",getIdioma());
+                    mJSONArrayTodasLasFrases.getJSONObject(pos).put("locale",ConfigurarIdioma.getLanguaje());
                 guardarJson(Constants.ARCHIVO_FRASES);
             } else {
                 JSONObject nuevaFrase = new JSONObject();
@@ -1027,7 +1027,7 @@ public class Json implements FindPictogram {
                 nuevaFrase.put("frecuencia", 1);
                 nuevaFrase.put("complejidad", getComplejidad(historial));
                 nuevaFrase.accumulate("fecha", fecha);
-                nuevaFrase.put("locale",getIdioma());
+                nuevaFrase.put("locale",ConfigurarIdioma.getLanguaje());
                 int id=getThePhraseLastId()+1;
                 nuevaFrase.put("id",id);
                 mJSONArrayTodasLasFrases.put(nuevaFrase);

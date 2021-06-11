@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.R;
+import com.stonefacesoft.ottaa.idioma.ConfigurarIdioma;
 import com.stonefacesoft.ottaa.utils.JSONutils;
 import com.stonefacesoft.ottaa.utils.textToSpeech;
 
@@ -53,7 +54,7 @@ public class ScoreListItem extends RecyclerView.Adapter<ScoreListItem.ScoreViewH
         try {
             holder.imagenFav.setImageDrawable(json.getIcono(json.getmJSONArrayTodosLosGrupos().getJSONObject(position)));
             SharedPreferences sharedPrefsDefault = PreferenceManager.getDefaultSharedPreferences(mContext);
-            holder.title.setText(JSONutils.getNombre(json.getmJSONArrayTodosLosGrupos().getJSONObject(position),JSONutils.getLanguaje()));
+            holder.title.setText(JSONutils.getNombre(json.getmJSONArrayTodosLosGrupos().getJSONObject(position), ConfigurarIdioma.getLanguaje()));
 
         } catch (JSONException e) {
             e.printStackTrace();

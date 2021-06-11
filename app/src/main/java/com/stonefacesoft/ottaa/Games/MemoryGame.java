@@ -14,6 +14,7 @@ import com.stonefacesoft.ottaa.Dialogos.DialogGameProgressInform;
 import com.stonefacesoft.ottaa.Games.Model.MemoryGameModelModel;
 import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.Views.Games.GameViewSelectPictograms;
+import com.stonefacesoft.ottaa.idioma.ConfigurarIdioma;
 import com.stonefacesoft.ottaa.utils.Games.AnimGameScore;
 import com.stonefacesoft.ottaa.utils.Games.Juego;
 import com.stonefacesoft.ottaa.utils.JSONutils;
@@ -243,7 +244,7 @@ public class MemoryGame extends GameViewSelectPictograms {
     public void setOption(PictoView option, int row, int column) {
         try {
             Log.d("TAG", "setOption: " + pictogramas[model.getMatrixIdPictogram()[row][column]].toString());
-            option.setCustom_Texto(pictogramas[model.getMatrixIdPictogram()[row][column]].getJSONObject("texto").getString(json.getIdioma()));
+            option.setCustom_Texto(pictogramas[model.getMatrixIdPictogram()[row][column]].getJSONObject("texto").getString(ConfigurarIdioma.getLanguaje()));
         } catch (JSONException e) {
             e.printStackTrace();
         }
