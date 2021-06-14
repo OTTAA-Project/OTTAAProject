@@ -88,6 +88,7 @@ import com.stonefacesoft.ottaa.FirebaseRequests.SubirBackupFirebase;
 import com.stonefacesoft.ottaa.Interfaces.FirebaseSuccessListener;
 import com.stonefacesoft.ottaa.Interfaces.Make_Click_At_Time;
 import com.stonefacesoft.ottaa.Interfaces.PlaceSuccessListener;
+import com.stonefacesoft.ottaa.Interfaces.TTSListener;
 import com.stonefacesoft.ottaa.Interfaces.translateInterface;
 import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.Viewpagers.Viewpager_tutorial;
@@ -108,6 +109,7 @@ import com.stonefacesoft.ottaa.utils.InmersiveMode;
 import com.stonefacesoft.ottaa.utils.IntentCode;
 import com.stonefacesoft.ottaa.utils.MovableFloatingActionButton;
 import com.stonefacesoft.ottaa.utils.ObservableInteger;
+import com.stonefacesoft.ottaa.utils.RemoteConfigUtils;
 import com.stonefacesoft.ottaa.utils.TalkActions.Historial;
 import com.stonefacesoft.ottaa.utils.TraducirFrase;
 import com.stonefacesoft.ottaa.utils.exceptions.FiveMbException;
@@ -324,6 +326,8 @@ public class Principal extends AppCompatActivity implements View
     private Progress_dialog_options firebaseDialog;
 
     private ImageButton btn_share;
+
+    private RemoteConfigUtils remoteConfigUtils;
 
     private InmersiveMode inmersiveMode;
     //Handler para animar el Hablar cuando pasa cierto tiempo
@@ -695,7 +699,6 @@ public class Principal extends AppCompatActivity implements View
         image1.setImageDrawable(getResources().getDrawable(R.drawable.antipatico));
 
         movableFloatingActionButton = findViewById(R.id.movableButton);
-        movableFloatingActionButton.setVisibility(View.VISIBLE);
         movableFloatingActionButton.setOnClickListener(this);
         avatar = new Avatar(this,movableFloatingActionButton);
 
@@ -810,7 +813,8 @@ public class Principal extends AppCompatActivity implements View
         }
         navigationControls=new PrincipalControls(this);
         movableFloatingActionButton.setIcon(user.getmAuth());
-
+        remoteConfigUtils = RemoteConfigUtils.getInstance();
+        showAvatar();
 
     }
 
@@ -2855,6 +2859,46 @@ public class Principal extends AppCompatActivity implements View
         }
     }
 
+    public void showAvatar(){
+        remoteConfigUtils.setActivateDeactivateConfig(Principal.this, new OnCompleteListener<Boolean>() {
+            @Override
+            public void onComplete(@NonNull Task<Boolean> task) {
+                if (task.isSuccessful()) {
+                    if(remoteConfigUtils.enableAvatar()){
+                        movableFloatingActionButton.setVisibility(View.VISIBLE);
+                        String phrase = remoteConfigUtils.avatarMessages();
+                        myTTS.getUtilsTTS().setTtsListener(new TTSListener() {
+                            @Override
+                            public void TTSonDone() {
+                                avatar.finishTalking();
+                            }
+
+                            @Override
+                            public void TTSOnAudioAvailable() {
+
+                            }
+
+                            @Override
+                            public void TTSonError() {
+
+                            }
+                        });
+                        Handler handler = new Handler();
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                myTTS.hablarConListener(avatar.animateTalk(phrase));
+                            }
+                        },10500);
+
+                    }else{
+
+                    }
+                }
+
+            }
+        });
+    }
 
 
 

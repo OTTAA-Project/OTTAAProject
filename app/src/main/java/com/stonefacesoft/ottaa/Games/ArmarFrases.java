@@ -5,7 +5,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
-import android.speech.tts.TextToSpeech;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.AnimationUtils;
@@ -72,7 +71,6 @@ public class ArmarFrases extends AppCompatActivity implements View.OnClickListen
 
     private SharedPreferences mDefaultSharedPreferences;
     private ArrayList<JSONObject> listadoPictos;
-    private TextToSpeech mTTS;
     private UtilsTTS mUtilsTTS;
 
 
@@ -108,7 +106,7 @@ public class ArmarFrases extends AppCompatActivity implements View.OnClickListen
         numeros=new ArrayList();
         mDefaultSharedPreferences= PreferenceManager.getDefaultSharedPreferences(this);
         toast=CustomToast.getInstance(this);
-        mUtilsTTS=new UtilsTTS(this,mTTS,toast,mDefaultSharedPreferences);
+        mUtilsTTS=new UtilsTTS(this,toast,mDefaultSharedPreferences);
         listadoPictos=new ArrayList<>();
         seleccion1=findViewById(R.id.Seleccion1);
         seleccion2=findViewById(R.id.Seleccion2);

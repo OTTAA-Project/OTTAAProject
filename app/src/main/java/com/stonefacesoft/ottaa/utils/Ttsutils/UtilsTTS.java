@@ -5,14 +5,19 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
+import android.speech.tts.UtteranceProgressListener;
 import android.util.Log;
 
+import com.stonefacesoft.ottaa.Interfaces.TTSListener;
 import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.utils.CustomToast;
 import com.stonefacesoft.ottaa.utils.Firebase.CrashlyticsUtils;
 import com.stonefacesoft.ottaa.utils.verificarPaqueteInstalado;
 
+import java.io.File;
+import java.util.HashMap;
 import java.util.Locale;
 /**
  * @author Gonzalo Juarez
@@ -39,8 +44,9 @@ public class UtilsTTS {
     protected Context mContext;
     protected CustomToast alerta;
     protected boolean speak;
+    private TTSListener ttsListener;
 
-    public UtilsTTS(Context mContext, TextToSpeech mTTS, CustomToast alerta, SharedPreferences sharedPrefsDefault){
+    public UtilsTTS(Context mContext, CustomToast alerta, SharedPreferences sharedPrefsDefault){
         this.mContext=mContext;
         this.alerta=alerta;
 
@@ -172,6 +178,71 @@ public class UtilsTTS {
             mTTS.speak(frase, TextToSpeech.QUEUE_FLUSH, null);
         }
     }
+    public void hablarConDialogoListener(String frase){
+        alerta.mostrarFrase(frase);
+        mTTS.setOnUtteranceProgressListener(new UtteranceProgressListener() {
+            @Override
+            public void onStart(String utteranceId) {
+
+            }
+
+            @Override
+            public void onDone(String utteranceId) {
+                if(ttsListener!=null)
+                    ttsListener.TTSonDone();
+            }
+
+            @Override
+            public void onError(String utteranceId) {
+
+            }
+        });
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Bundle bundle = new Bundle();
+            bundle.putString(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID,frase);
+            mTTS.speak(frase, TextToSpeech.QUEUE_FLUSH, bundle, frase);
+        } else {
+
+            mTTS.speak(frase, TextToSpeech.QUEUE_FLUSH, null);
+        }
+    }
+
+    public void SyntetizeFile(String frase, File file){
+        alerta.mostrarFrase(frase);
+        mTTS.setOnUtteranceProgressListener(new UtteranceProgressListener() {
+            @Override
+            public void onStart(String utteranceId) {
+
+            }
+
+            @Override
+            public void onDone(String utteranceId) {
+                if(utteranceId.equals(frase))
+                    ttsListener.TTSonDone();
+            }
+
+            @Override
+            public void onError(String utteranceId) {
+
+            }
+
+            @Override
+            public void onAudioAvailable(String utteranceId, byte[] audio) {
+
+            }
+        });
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Bundle bundle = new Bundle();
+            bundle.putString(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID,frase);
+
+            mTTS.synthesizeToFile(frase, bundle,file, frase);
+        } else {
+            HashMap<String, String> hashTts = new HashMap<String, String>();
+            hashTts.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, frase);
+            mTTS.synthesizeToFile(frase,hashTts,file.getAbsolutePath());
+        }
+    }
+
 
     public TextToSpeech getmTTS() {
         return mTTS;
@@ -180,4 +251,10 @@ public class UtilsTTS {
     public boolean isSpeak() {
         return speak;
     }
+
+    public void setTtsListener(TTSListener ttsListener){
+        this.ttsListener = ttsListener;
+    }
+
+
 }

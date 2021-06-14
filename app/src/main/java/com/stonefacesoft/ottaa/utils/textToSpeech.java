@@ -15,7 +15,6 @@ import com.stonefacesoft.ottaa.utils.Firebase.AnalyticsFirebase;
 import com.stonefacesoft.ottaa.utils.Ttsutils.UtilsTTS;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
 
 
@@ -24,7 +23,7 @@ import java.util.HashMap;
  */
 
 public class textToSpeech {
-    private TextToSpeech hablar;
+
     private final CustomToast alerta;
     private final SharedPreferences sharedPrefsDefault;
     private final Context context;
@@ -38,8 +37,8 @@ public class textToSpeech {
         this.context = context;
         alerta = CustomToast.getInstance(context);
         this.sharedPrefsDefault = PreferenceManager.getDefaultSharedPreferences(context);
-        prepare=new UtilsTTS(this.context,hablar,alerta,sharedPrefsDefault);
-        hablar=prepare.getmTTS();
+        prepare=new UtilsTTS(this.context,alerta,sharedPrefsDefault);
+
     }
 
 
@@ -48,6 +47,14 @@ public class textToSpeech {
         Log.e("texToSpeech_hablar", "Hablar");
         this.oracion = frase;
         prepare.hablarConDialogo(oracion);
+
+    }
+
+
+    public void hablarConListener(String frase) {
+        Log.e("texToSpeech_hablar", "Hablar");
+        this.oracion = frase;
+        prepare.hablarConDialogoListener(oracion);
 
     }
 
@@ -68,32 +75,15 @@ public class textToSpeech {
 
 
     public void mute() {
-        hablar.stop();
+        prepare.getmTTS().stop();
     }
 
-    public File grabar(String oracion) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            String fileName = Uri.parse("audio.mp3").getLastPathSegment();
-            try {
-                file = File.createTempFile("audio", ".mp3", context.getExternalCacheDir());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            HashMap<String, String> myHashRender = new HashMap();
-            String wakeUpText = oracion;
-            String destFileName =file.getAbsolutePath();
-            myHashRender.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, wakeUpText);
+    public UtilsTTS getUtilsTTS(){
+        return prepare;
+    }
 
-
-            hablar.synthesizeToFile(wakeUpText, myHashRender, file.getAbsolutePath());
-          //file=new File(mContext.getCacheDir(),"audio.wav");
-            Log.e("texToSpeech_grabar_size", file.getTotalSpace() + "");
-            Log.e("texToSpeech_grabar_path", file.getAbsolutePath() + "");
-
-
-        }
-
-        return file;
+    public void grabar(File file,String phrase) {
+           prepare.SyntetizeFile(phrase,file);
     }
 
     public File devolverPathAudio() {
@@ -126,7 +116,7 @@ public class textToSpeech {
     public void compartirAudio() {
 
         String textToShare = oracion;
-
+        TextToSpeech hablar=prepare.getmTTS();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             hablar.synthesizeToFile(textToShare, null, file, file.getAbsolutePath());
@@ -161,7 +151,7 @@ public class textToSpeech {
     }
 
     public TextToSpeech getTTS() {
-        return hablar;
+        return prepare.getmTTS();
     }
 
     public void mostrarAlerta(String mensaje) {

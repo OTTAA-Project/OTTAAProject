@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Environment;
 import android.os.StrictMode;
 import android.util.Log;
 import android.view.View;
@@ -14,8 +15,8 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.stonefacesoft.ottaa.Bitmap.GestionarBitmap;
+import com.stonefacesoft.ottaa.Interfaces.TTSListener;
 import com.stonefacesoft.ottaa.JSONutils.Json;
-import com.stonefacesoft.ottaa.utils.Audio.MediaPlayerAudio;
 import com.stonefacesoft.ottaa.utils.exceptions.FiveMbException;
 import com.stonefacesoft.ottaa.utils.textToSpeech;
 
@@ -80,8 +81,9 @@ public class CompartirArchivos {
         actionShare = true;
         Intent sharingIntent = new Intent(Intent.ACTION_SEND);
         sharingIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-        Uri uri=Uri.fromFile(file);
         sharingIntent.setType("audio/*");
+        Uri uri =  Uri.fromFile(file);
+        if(file.canWrite())
         sharingIntent.putExtra(Intent.EXTRA_STREAM,uri);
         mContext.startActivity(sharingIntent);
         //convertAudio(file);
@@ -208,10 +210,7 @@ public class CompartirArchivos {
         }
 
 
-        if (!Oracion.isEmpty()) {
-            //Use this function from the tts, to storage a file temporal
-            file = myTTS.grabar(Oracion);
-        } else {
+        if (Oracion.isEmpty()){
             Toast.makeText(mContext, "Genere una frase para compartir.", Toast.LENGTH_SHORT).show();
             dialog.dismiss();
         }
@@ -221,16 +220,32 @@ public class CompartirArchivos {
         compartirAudio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                MediaPlayerAudio mediaPlayerAudio=new MediaPlayerAudio(mContext);
-                mediaPlayerAudio.playedCustomFile(file);
-                compartirAudioPictogramas(file);
-                /*
-                try{
-                    compartirAudioPictogramas(myTTS.grabar(Oracion));
-                }catch (Exception ex){
+                myTTS.getUtilsTTS().setTtsListener(new TTSListener() {
+                    @Override
+                    public void TTSonDone() {
 
-                }*/
-                Toast.makeText(mContext, mContext.getResources().getText(R.string.weAreWorkingOn), Toast.LENGTH_LONG).show();
+                    }
+
+                    @Override
+                    public void TTSOnAudioAvailable() {
+                        compartirAudioPictogramas(file);
+                    }
+
+                    @Override
+                    public void TTSonError() {
+
+                    }
+                });
+
+                    File mediaStorageDir = new File(Environment.getExternalStorageDirectory()
+                            + "/Android/data/"
+                            + mContext.getPackageName()
+                            + "/Files");
+                    //direccionn real donde se va a ubicar el archivo
+                    String path = (mediaStorageDir.getPath() + File.separator +"oracion.wav");
+                    file = new File(path);
+                myTTS.grabar(file,Oracion);
+
             }
         });
 
