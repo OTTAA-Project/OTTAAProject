@@ -40,10 +40,8 @@ public class CustomFavoritePhrases {
      public boolean addFavoritePhrase(JSONObject object){
          boolean existPhrase=isExist(object);
          if(!existPhrase){
-            if(favoritePhrases.length()<10){
                 favoritePhrases.put(object);
                 return true;
-            }
          }
             return false;
      }

@@ -1,27 +1,23 @@
-package com.stonefacesoft.ottaa;
+package com.stonefacesoft.ottaa.Activities.Phrases;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.ImageButton;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.viewpager2.widget.ViewPager2;
 
 import com.stonefacesoft.ottaa.FirebaseRequests.SubirArchivosFirebase;
+import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.RecyclerViews.PhrasesRecyclerView;
+import com.stonefacesoft.ottaa.Views.Phrases.PhrasesView;
 import com.stonefacesoft.ottaa.utils.Constants;
 import com.stonefacesoft.ottaa.utils.Firebase.AnalyticsFirebase;
 import com.stonefacesoft.ottaa.utils.IntentCode;
-import com.stonefacesoft.ottaa.utils.preferences.User;
 
-public class VincularFrases extends AppCompatActivity implements View.OnClickListener {
-    private ViewPager2 viewPager2;
+public class VincularFrases extends PhrasesView {
+
     private PhrasesRecyclerView recyclerView;
-    private User firebaseUser;
     private SubirArchivosFirebase subirArchivos;
     private AnalyticsFirebase mAnalyticsFirebase;
 
@@ -29,22 +25,14 @@ public class VincularFrases extends AppCompatActivity implements View.OnClickLis
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Intent intent = getIntent();
-        subirArchivos=new SubirArchivosFirebase(this);
-
-        boolean status_bar = intent.getBooleanExtra("status_bar", false);
-        if (!status_bar) {
-            supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
-            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        }
-        setContentView(R.layout.activity_galeria_grupos2);
-        firebaseUser=new User(this);
         initComponents();
     }
+
+    @Override
     public void initComponents(){
+        Intent intent = getIntent();
+        subirArchivos=new SubirArchivosFirebase(this);
         mAnalyticsFirebase=new AnalyticsFirebase(this);
-        viewPager2=findViewById(R.id.viewPager_groups);
-        viewPager2.setVisibility(View.GONE);
         recyclerView=new PhrasesRecyclerView(this,firebaseUser.getmAuth());
         ImageButton foward=findViewById(R.id.down_button);
         ImageButton previous=findViewById(R.id.up_button);
@@ -56,13 +44,11 @@ public class VincularFrases extends AppCompatActivity implements View.OnClickLis
         foward.setOnClickListener(this);
         previous.setOnClickListener(this);
         exit.setOnClickListener(this);
-
-
-
     }
 
     @Override
     public void onClick(View v) {
+        super.onClick(v);
         switch (v.getId()){
             case R.id.up_button:
                 mAnalyticsFirebase.customEvents("Touch","VincularFrases","Favorite Phrases UpButton");
@@ -83,7 +69,6 @@ public class VincularFrases extends AppCompatActivity implements View.OnClickLis
                 onBackPressed();
                 break;
         }
-
     }
 
     @Override
@@ -91,5 +76,6 @@ public class VincularFrases extends AppCompatActivity implements View.OnClickLis
         super.onBackPressed();
         Intent databack = new Intent();
         setResult(IntentCode.GALERIA_GRUPOS.getCode(), databack);
+        finish();
     }
 }

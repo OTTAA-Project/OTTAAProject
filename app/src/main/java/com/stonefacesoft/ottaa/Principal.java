@@ -74,6 +74,7 @@ import com.google.firebase.iid.InstanceIdResult;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.kobakei.ratethisapp.RateThisApp;
+import com.stonefacesoft.ottaa.Activities.Phrases.FavoritePhrases;
 import com.stonefacesoft.ottaa.Backup.BackupGroups;
 import com.stonefacesoft.ottaa.Backup.BackupPhotos;
 import com.stonefacesoft.ottaa.Backup.BackupPhrases;
@@ -2163,14 +2164,11 @@ public class Principal extends AppCompatActivity implements View
                 case R.id.btnFavoritos:
 
                     //octavo paso del tutorial
-
-
-                        //Registo que uso un funcion que nos interesa que use
+                    //Registo que uso un funcion que nos interesa que use
                         analitycsFirebase.customEvents("Touch","Principal","Favorite Phrases");
-
-                        NewDialogsOTTAA newDialogsOTTAA=new NewDialogsOTTAA(this);
-
-                        newDialogsOTTAA.initCustomFavoritePhrase(false);
+                        startActivity(new Intent(this, FavoritePhrases.class));
+                   //  NewDialogsOTTAA newDialogsOTTAA=new NewDialogsOTTAA(this);
+                   //   newDialogsOTTAA.initCustomFavoritePhrase(false);
 
 
                     break;

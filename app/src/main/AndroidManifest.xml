@@ -175,7 +175,7 @@
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="sensorLandscape" />
         <activity
-            android:name=".VincularFrases"
+            android:name=".Activities.Phrases.VincularFrases"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="sensorLandscape" />
         <activity
@@ -192,6 +192,7 @@
         <activity android:name=".LoginActivity2Avatar" android:screenOrientation="sensorLandscape" />
         <activity android:name=".LoginActivity2Step3" android:screenOrientation="sensorLandscape" />
         <activity android:name=".Activities.FindAllPictograms" android:screenOrientation="sensorLandscape" />
+        <activity android:name=".Activities.Phrases.FavoritePhrases" android:screenOrientation="sensorLandscape" />
 
 
         <meta-data

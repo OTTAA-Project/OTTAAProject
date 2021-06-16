@@ -43,7 +43,7 @@ import com.stonefacesoft.ottaa.FavModel;
 import com.stonefacesoft.ottaa.FirebaseRequests.BajarJsonFirebase;
 import com.stonefacesoft.ottaa.Interfaces.FirebaseSuccessListener;
 import com.stonefacesoft.ottaa.R;
-import com.stonefacesoft.ottaa.VincularFrases;
+import com.stonefacesoft.ottaa.Activities.Phrases.VincularFrases;
 import com.stonefacesoft.ottaa.utils.CustomToast;
 import com.stonefacesoft.ottaa.utils.DatosDeUso;
 import com.stonefacesoft.ottaa.utils.Firebase.AnalyticsFirebase;
