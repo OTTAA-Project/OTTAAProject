@@ -2870,7 +2870,13 @@ public class Principal extends AppCompatActivity implements View
                         myTTS.getUtilsTTS().setTtsListener(new TTSListener() {
                             @Override
                             public void TTSonDone() {
-                                avatar.finishTalking();
+                                Log.d(TAG, "TTSonDone: " );
+                                Principal.this.runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        avatar.finishTalking();
+                                    }
+                                });
                             }
 
                             @Override
@@ -2887,7 +2893,7 @@ public class Principal extends AppCompatActivity implements View
                         handler.postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                myTTS.hablarConListener(avatar.animateTalk(phrase));
+                                myTTS.hablar(avatar.animateTalk(phrase));
                             }
                         },10500);
 

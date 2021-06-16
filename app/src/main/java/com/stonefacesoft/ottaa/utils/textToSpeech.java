@@ -1,14 +1,11 @@
 package com.stonefacesoft.ottaa.utils;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.net.Uri;
-import android.os.Build;
 import android.preference.PreferenceManager;
 import android.speech.tts.TextToSpeech;
-import android.speech.tts.UtteranceProgressListener;
 import android.util.Log;
 
 import com.stonefacesoft.ottaa.utils.Firebase.AnalyticsFirebase;
@@ -51,12 +48,7 @@ public class textToSpeech {
     }
 
 
-    public void hablarConListener(String frase) {
-        Log.e("texToSpeech_hablar", "Hablar");
-        this.oracion = frase;
-        prepare.hablarConDialogoListener(oracion);
 
-    }
 
     public void hablarSinMostrarFrase(String frase) {
         Log.e("texToSpeech_hablar", "Hablar");
@@ -113,42 +105,6 @@ public class textToSpeech {
     }
 
 
-    public void compartirAudio() {
-
-        String textToShare = oracion;
-        TextToSpeech hablar=prepare.getmTTS();
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            hablar.synthesizeToFile(textToShare, null, file, file.getAbsolutePath());
-        }
-        hablar.setOnUtteranceProgressListener(new UtteranceProgressListener() {
-            @Override
-            public void onStart(String utteranceId) {
-            }
-
-            @Override
-            public void onAudioAvailable(String utteranceId, byte[] audio) {
-                final Intent shareIntent = new Intent(Intent.ACTION_SEND);
-                shareIntent.setType("*/*");
-                shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse(file.getAbsolutePath()));
-
-                if (shareIntent.resolveActivity(context.getPackageManager()) != null) {
-                    context.startActivity(shareIntent);
-                }
-                super.onAudioAvailable(utteranceId, audio);
-            }
-
-            @Override
-            public void onDone(String utteranceId) {
-
-
-            }
-
-            @Override
-            public void onError(String utteranceId) {
-            }
-        });
-    }
 
     public TextToSpeech getTTS() {
         return prepare.getmTTS();

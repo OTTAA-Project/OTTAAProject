@@ -7,7 +7,7 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Environment;
+import android.os.Handler;
 import android.os.StrictMode;
 import android.util.Log;
 import android.view.View;
@@ -24,6 +24,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 
@@ -37,17 +38,17 @@ import java.util.ArrayList;
  */
 
 public class CompartirArchivos {
-    private File audio;
-    private ArrayList<JSONObject> historial;
-    private Bitmap imagen;
     private final Context mContext;
-    private boolean actionShare;
     //   private Dialog dialog;
     private final Json json;
     private final GestionarBitmap gestionarBitmap;
-    private File file;
     private final textToSpeech myTTS;
     private final String TAG = "CompartirArchivos_";
+    private File audio;
+    private ArrayList<JSONObject> historial;
+    private Bitmap imagen;
+    private boolean actionShare;
+    private File file;
 
     public CompartirArchivos(Context context1, textToSpeech myTTS) {
         this.mContext = context1;
@@ -77,14 +78,13 @@ public class CompartirArchivos {
 
     }
 
-    public void compartirAudioPictogramas(File file) {
+    public void compartirAudioPictogramas() {
         actionShare = true;
         Intent sharingIntent = new Intent(Intent.ACTION_SEND);
         sharingIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
         sharingIntent.setType("audio/*");
-        Uri uri =  Uri.fromFile(file);
-        if(file.canWrite())
-        sharingIntent.putExtra(Intent.EXTRA_STREAM,uri);
+        Uri uri = Uri.fromFile(file);
+        sharingIntent.putExtra(Intent.EXTRA_STREAM, uri);
         mContext.startActivity(sharingIntent);
         //convertAudio(file);
 
@@ -146,45 +146,6 @@ public class CompartirArchivos {
     }
 
 
-    public void convertAudio(File file) {
-
-        /**
-         *  Update with a valid audio file!
-         *  Supported formats: {@link AndroidAudioConverter.AudioFormat}
-         */
-
-//        IConvertCallback callback = new IConvertCallback() {
-//            @Override
-//            public void onSuccess(File convertedFile) {
-//                audio = convertedFile;
-//                Log.e("paths1", convertedFile.getAbsolutePath());
-//
-//                if (actionShare) {
-//                    final Intent share = new Intent(Intent.ACTION_SEND);
-//                    share.setType("audio/.mp3");
-//                    if (audio != null) {
-//                        share.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(audio));
-//                        mContext.startActivity(Intent.createChooser(share, mContext.getResources().getString(R.string.pref_enviar)));
-//                    }
-//
-//                }
-//
-//
-//            }
-//
-//            @Override
-//            public void onFailure(Exception error) {
-//                Log.e("paths", error.getMessage());
-//            }
-//        };
-
-//        AndroidAudioConverter.with(mContext)
-//                .setFile(file)
-//                .setFormat(AudioFormat.MP3)
-//                .setCallback(callback)
-//                .convert();
-    }
-
     //metodo para elegir si comparto audio o video
     public void seleccionarFormato(final String Oracion) {
         Dialog dialog = new Dialog(this.mContext);
@@ -210,7 +171,7 @@ public class CompartirArchivos {
         }
 
 
-        if (Oracion.isEmpty()){
+        if (Oracion.isEmpty()) {
             Toast.makeText(mContext, "Genere una frase para compartir.", Toast.LENGTH_SHORT).show();
             dialog.dismiss();
         }
@@ -223,28 +184,32 @@ public class CompartirArchivos {
                 myTTS.getUtilsTTS().setTtsListener(new TTSListener() {
                     @Override
                     public void TTSonDone() {
-
+                        if(file.exists())
+                            compartirAudioPictogramas();
                     }
 
                     @Override
                     public void TTSOnAudioAvailable() {
-                        compartirAudioPictogramas(file);
+
                     }
 
                     @Override
                     public void TTSonError() {
 
                     }
+
+
                 });
 
-                    File mediaStorageDir = new File(Environment.getExternalStorageDirectory()
-                            + "/Android/data/"
-                            + mContext.getPackageName()
-                            + "/Files");
-                    //direccionn real donde se va a ubicar el archivo
-                    String path = (mediaStorageDir.getPath() + File.separator +"oracion.wav");
-                    file = new File(path);
-                myTTS.grabar(file,Oracion);
+                try {
+                    file = File.createTempFile("audio", ".wav", mContext.getExternalCacheDir());
+                   synchronized (file){
+
+                   };
+                    myTTS.grabar(file, Oracion);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
 
             }
         });
@@ -273,6 +238,16 @@ public class CompartirArchivos {
         dialog.setCanceledOnTouchOutside(true);
 
 
+    }
+
+    public void waitUserFile(){
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                compartirAudioPictogramas();
+            }
+        },150);
     }
 
 

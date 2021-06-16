@@ -128,6 +128,10 @@ public class MediaPlayerAudio implements MediaPlayer.OnPreparedListener {
         player.setLooping(false);
     }
 
+    public MediaPlayer getPlayer() {
+        return player;
+    }
+
     @Override
     public void onPrepared(MediaPlayer mp) {
         playSound(complete);
