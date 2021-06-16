@@ -134,8 +134,8 @@
     <string name="dont_delete_group">You cannot delete this group</string>
     <string name="audio_compartir">Audio</string>
     <string name="compartir_imagen">Image</string>
-    <string name="version_de_ottaa_instalada">Current OTTAA Installed</string>
-    <string name="versi_n_actual_de_ottaa">Current OTTAA Version</string>
+    <string name="version_de_ottaa_instalada">Current version installed</string>
+    <string name="versi_n_actual_de_ottaa">Latest OTTAA Version</string>
     <string name="chart_a" translatable="false">á</string>
     <string name="chart_e" translatable="false">é</string>
     <string name="chart_i" translatable="false">í</string>
@@ -145,7 +145,7 @@
     <string name="fotosBajadas">The files are already downloaded.</string>
     <string name="downloadingFoto">Downloading Picts and Groups from your country ...</string>
     <string name="error_bajarFotos">Check your internet connection, and try again.</string>
-    <string name="tryAgain">try Again</string>
+    <string name="tryAgain">Try Again</string>
     <string name="error_download">Download error:</string>
     <string name="file_download">File downloaded</string>
     <string name="searching_araasac">Searching for </string>
@@ -158,7 +158,6 @@
     <string name="edit_sync_pict">We are synchronizing your pictograms / groups</string>
     <string name="permisos_fotos_denegados">If you do not grant the permission you can not download the photos</string>
     <string name="translating_languaje">Translating…</string>
-    <string name="title_activity_login">Sign in</string>
     <string name="tts_velocidad" translatable="false">velocidad_tts</string>
     <string name="pitch_tts" translatable="false">pitch_tts</string>
     <string name="banderaUpload" translatable="false">banderaUpload</string>
@@ -201,7 +200,7 @@
     <string name="estamos_cargando_sus_pictos">Loading pictograms...</string>
     <string name="str_seleccionar_edad_usuario">Select the user\'s age</string>
     <string name="backpress_grupos">Wait while your groups are loaded.</string>
-    <string name="weAreWorkingOn">We are working on this function, it will be available soon</string>
+    <string name="weAreWorkingOn">We are working on this function, it will be available soon.</string>
     <string name="expired_sesions">Su sesion expiró, vuelva a iniciar sesion.</string>
     <string name="str_error_translateGoogle">Error ... the text could not be translated</string>
     <string name="sugerencias">Suggestions</string>
@@ -210,7 +209,7 @@
     <string name="joystick_orientation">Joystick Orientation</string>
     <string name="joystick_orientacion_tipo">Desktop Mode: Joystick oriented horizontally  Chair Mode: Joystick oriented vertically</string>
     <string name="prefedad" translatable="false">prefEdad</string>
-    <string name="user_sex_gender_description">select the user gender</string>
+    <string name="user_sex_gender_description">Select the user gender</string>
     <string name="gender_string">Gender</string>
     <string name="str_age_value_description">Age</string>
     <string name="str_pictograms">Pictograms</string>
@@ -270,7 +269,7 @@
     <string name="select_category">Select a category to play</string>
     <string name="repeat_pictograms">Alright now let\'s say each of the pictograms aloud</string>
     <string name="join_pictograms_description">Attach the pictograms correctly</string>
-    <string name="which_description_name">" Answer the questions by choosing the right pictogram. Learn by playing!"</string>
+    <string name="which_description_name">Answer the questions by choosing the right pictogram. Learn by playing!</string>
     <string name="str_corrects">Correct</string>
     <string name="str_wrong">Incorrect</string>
     <string name="str_time_use">Use Time</string>
@@ -353,9 +352,9 @@
     <string name="premium_report_description">With the premium version you will have access to a detailed report of the use you make of OTTAA Project, it allows you to measure your progress</string>
     <string name="speed_summary">Customized the velocity about the Screen-Scanning or the click-Time</string>
     <string name="tutorial01">Touch one or more pictograms to create a sentence as long as you want. The pictograms are automatically related and you will always have one more pictogram to add. </string>
-    <string name="tutorial02">Once the phrase is created, touch the OTTAA logo to speak aloud or using the share icon, you can send your phrase through the most used social networks.</string>
-    <string name="tutorial03">"In OTTAA you have access to thousands of pictograms to talk about whatever you want, find the Picto Gallery in the lower left corner of the main screen.  "</string>
-    <string name="tutorial04">Enter the games section to learn by playing. OTTAA has didactic games to learn vocabulary, concepts and much more. Also, more games will be available soon!</string>
+    <string name="tutorial02">Once the phrase is created, touch the OTTAA logo to speak aloud, or using the share icon, you can send your phrase through the most used social networks.</string>
+    <string name="tutorial03">"In OTTAA you have access to thousands of pictograms to talk about whatever you want, find the Picto Gallery in the lower-left corner of the main screen.  "</string>
+    <string name="tutorial04">Enter the games section to learn by playing. OTTAA has didactic games to learn vocabulary, concepts, and much more. Also, more games will be available soon!</string>
     <string name="next_button">Next</string>
     <string name="previous_button">Previous</string>
     <string name="playandlearn">Play and Learn</string>
@@ -367,11 +366,11 @@
     <string name="select_device_version">select your devices version</string>
     <string name="suggested_pictograms">Suggested Pictograms</string>
     <string name="screen_scanning_mode">screen-scanning mode</string>
-    <string name="title_activity_informes">ActivityInformes</string>
+    <string name="title_activity_informes" translatable="false">ActivityInformes</string>
     <string name="memory_game">Memory Game</string>
     <string name="memory_game_string">Test Your Memory</string>
     <string name="check_if_the_info_is_correct_nif_not_change_it_as_you_wish_this_will_help_us_to_personalize_the_app_for_you">Check if the info is correct,\nif not, change it as you wish. This will help us to personalize the app for you.</string>
-    <string name="text_name">Name:</string>
+    <string name="text_name">Nome:</string>
     <string name="text_gender">Gender:</string>
     <string name="your_name">Your Name</string>
     <string name="fecha_de_nacimiento">Date of Birth:</string>
@@ -388,11 +387,11 @@
     <string name="nuestro_workshop_gratiuto_te_permite_aprender_a_usar_ottaa">Our free workshop allows you to learn how to use OTTAA</string>
     <string name="email_me">Email me</string>
     <string name="give_me_the_link">Give me the link!</string>
-    <string name="vamos_a_pedirte_cierta_informaci_n_para_nmejorar_tu_experiencia_con_ottaa">We will ask you for certain information\nto improve your experience with OTTAA.</string>
+    <string name="vamos_a_pedirte_cierta_informaci_n_para_nmejorar_tu_experiencia_con_ottaa">We will ask you for certain information to improve your experience with OTTAA.</string>
     <string name="hola_nnos_conozcamos_un_poco">Hello,\nLet\'s get to know each other a little bit.</string>
-    <string name="con_videos_explicativos_n_con_6_modulos_especializados_n_autonomo_y_a_tu_ritmo_n_es_totalmente_gratuito_n_40_minutos_de_duracion">○With Explanatory Videos\n○With 6 specialized modules\n○Autonomous and at your own pace\n○Completely free of charge\n○40 minutes long</string>
+    <string name="con_videos_explicativos_n_con_6_modulos_especializados_n_autonomo_y_a_tu_ritmo_n_es_totalmente_gratuito_n_40_minutos_de_duracion">○With Explanatory Videos ○With 6 specialized modules ○Autonomous and at your own pace ○Completely free of charge ○40 minutes long</string>
     <string name="elige_un_personaje_que_nmejor_te_represente">Choose a character that best represents you.</string>
-    <string name="te_ofrecemos_varias_opciones_para_naprender_a_utilizarla_y_sacarle_el_maximo_provecho">We offer you several options to\nlearn how to use it and get the most out of it.</string>
+    <string name="te_ofrecemos_varias_opciones_para_naprender_a_utilizarla_y_sacarle_el_maximo_provecho">We offer you several options to learn how to use it and get the most out of it.</string>
     <string name="ottaa_es_una_potente_nherramienta_de_comunicaci_n">OTTAA is a powerful\ncommunication tool.</string>
     <string name="bienvenido_nesto_es_ottaa">Welcome,this is OTTAA</string>
     <string name="_30_minutes_demo_n_guided_tour_to_main_features_n_new_features_explained_n_absolutely_free">"         ○30 minutes demo ○Guided tour to main features ○New features explained ○Absolutely FREE     "</string>

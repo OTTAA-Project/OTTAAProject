@@ -73,7 +73,6 @@
     <string name="problema_inet">نحن آسفون تحتاج الإنترنت لاستخدام هذه الميزة.</string>
     <string name="title_activity_configuracion">إعدادات</string>
     <string name="title_activity_galeria_pictos">معرض الصور</string>
-    <string name="title_activity_login">تسجيل الدخول</string>
     <string name="title_activity_tutorial">الدورة التعليمية</string>
     <string name="toca_la_lupa_para_buscar_en_arasaac">المس زر البحث لتحميل بيكتو من أراساك</string>
     <string name="pref_header_cerrar_sesion">خروج</string>

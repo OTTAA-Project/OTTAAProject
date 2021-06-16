@@ -2,4 +2,26 @@
 <resources>
 
 
+    <string name="premium_report_description">Com a versão premium, você terá acesso a um relatório detalhado do uso que você faz do Projeto OTTAA, que permite medir seu progresso.</string>
+    <string name="your_name">Seu nome</string>
+    <string name="whichpictogram">Qual é o Picto?</string>
+    <string name="which_description_name">Responda às perguntas escolhendo o pictograma correto. Aprenda brincando!</string>
+    <string name="whatareyoulooking">O que você está procurando?</string>
+    <string name="weAreWorkingOn">Estamos trabalhando nessa função, ela estará disponível em breve.</string>
+    <string name="we_are_helping_thousand_of_speech_impaired_children_to_communicate_improving_their_life_quality">Estamos ajudando milhares de crianças com deficiência de fala a se comunicarem, melhorando sua qualidade de vida.</string>
+    <string name="version_de_ottaa_instalada">Versão atual instalada</string>
+    <string name="versi_n_actual_de_ottaa">Versão OTTAA mais recente</string>
+    <string name="vamos_a_pedirte_cierta_informaci_n_para_nmejorar_tu_experiencia_con_ottaa">Pediremos algumas informações para melhorar sua experiência com a OTTAA.</string>
+    <string name="user_sex_gender_description">Selecione o gênero do usuário</string>
+    <string name="tutorial04">Entre na seção de jogos para aprender jogando. OTTAA possui jogos didáticos para aprender vocabulário, conceitos e muito mais. Além disso, mais jogos estarão disponíveis em breve!</string>
+    <string name="tutorial03">Na OTTAA você tem acesso a milhares de pictogramas para falar sobre o que quiser, encontre a Galeria Picto no canto inferior esquerdo da tela principal.</string>
+    <string name="tutorial02">Uma vez criada a frase, toque no logotipo da OTTAA para falar em voz alta, ou através do ícone de compartilhamento, você pode enviar sua frase através das redes sociais mais utilizadas.</string>
+    <string name="tutorial01">Toque em um ou mais pictogramas para criar uma frase tão longa quanto desejar. Os pictogramas são relacionados automaticamente e você sempre terá mais um pictograma para adicionar.</string>
+    <string name="tryAgain">Tente novamente</string>
+    <string name="translating_languaje">Traduzindo ...</string>
+    <string name="title_activity_about_ottaa">Sobre OTTAA</string>
+    <string name="text_name">Nome:</string>
+    <string name="text_gender">Gênero:</string>
+    <string name="test_game_vocabulary">Tenha acesso a jogos educativos que permitem avaliar o vocabulário de uma forma divertida.</string>
+    <string name="te_ofrecemos_varias_opciones_para_naprender_a_utilizarla_y_sacarle_el_maximo_provecho">Oferecemos várias opções para aprender como usá-lo e obter o máximo dele.</string>
 </resources>

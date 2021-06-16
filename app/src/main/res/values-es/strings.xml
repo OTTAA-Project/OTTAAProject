@@ -105,7 +105,7 @@
     <string name="dont_delete_group">No se puede borrar este grupo</string>
     <string name="warning_del">Ups!</string>
     <string name="version_de_ottaa_instalada">Version de OTTAA instalada</string>
-    <string name="versi_n_actual_de_ottaa">Versión actual de OTTAA</string>
+    <string name="versi_n_actual_de_ottaa">Última versión de OTTAA</string>
     <string name="fotosBajadas">Todas sus fotos ya están descargadas</string>
     <string name="tryAgain">Intentelo de nuevo</string>
     <string name="title_activity_about_ottaa">Acerca de OTTAA</string>
@@ -172,7 +172,7 @@
     <string name="str_select_age_sex">Para poder tener una mejor prediccion , es necesario que seleccione el sexo y la edad del usuario con el fin de poder ordenar los pictogramas</string>
     <string name="loadingdata">Cargando datos del usuario</string>
     <string name="starting_software">Iniciando...</string>
-    <string name="weAreWorkingOn">Estamos trabajando en esta función, muy pronto estara disponible</string>
+    <string name="weAreWorkingOn">Estamos trabajando en esta función, muy pronto estara disponible.</string>
     <string name="str_constant_airport">Aeropuerto</string>
     <string name="str_constant_atm">Cajero Automatico</string>
     <string name="str_constant_bakery">Panaderia</string>
@@ -198,7 +198,7 @@
     <string name="str_puntaje">Puntaje</string>
     <string name="select_category">Seleccione una categoría para poder jugar</string>
     <string name="repeat_pictograms">"Muy Bien ahora vamos a decir en voz alta cada uno de los pictogramas "</string>
-    <string name="which_description_name">" Responde las preguntas eligiendo el pictograma adecuado. ¡Aprende jugando!"</string>
+    <string name="which_description_name">Responde las preguntas eligiendo el pictograma correcto. ¡Aprende jugando!</string>
     <string name="str_corrects">Correctas</string>
     <string name="str_wrong">Incorrectas</string>
     <string name="str_time_use">Tiempo de uso</string>
@@ -254,13 +254,13 @@
     <string name="select_now_how_you_would_like_to_learn_how_to_use_ottaa_you_can_go_back_to_this_screen_later_on">Seleccione ahora cómo desea aprender a utilizar  OTTAA, puede volver a esta pantalla más adelante.</string>
     <string name="te_ofrecemos_varias_opciones_para_naprender_a_utilizarla_y_sacarle_el_maximo_provecho">Te ofrecemos varias opciones para\naprender a utilizarla y sacarle el maximo provecho.</string>
     <string name="ottaa_es_una_potente_nherramienta_de_comunicaci_n">OTTAA es una potente\nherramienta de comunicación.</string>
-    <string name="we_are_helping_thousand_of_speech_impaired_children_to_communicate_improving_their_life_quality">Ayudamos a miles de niños con problemas de habla a comunicarse, mejorando su calidad de vida</string>
+    <string name="we_are_helping_thousand_of_speech_impaired_children_to_communicate_improving_their_life_quality">Ayudamos a miles de niños con problemas de habla a comunicarse, mejorando su calidad de vida.</string>
     <string name="bienvenido_nesto_es_ottaa">Bienvenido,esto es OTTAA</string>
     <string name="hello_nplease_register_to_continue">Hola!\nPor favor Registrese para continuar</string>
     <string name="fecha_de_nacimiento">Fecha de nacimiento</string>
-    <string name="your_name">Su Nombre</string>
+    <string name="your_name">Tu Nombre</string>
     <string name="text_gender">Genero :</string>
-    <string name="text_name">Nombre</string>
+    <string name="text_name">Nombre:</string>
     <string name="check_if_the_info_is_correct_nif_not_change_it_as_you_wish_this_will_help_us_to_personalize_the_app_for_you">Comprueba si la información es correcta,\nsi no, cámbiala como quieras. Esto nos ayudará a personalizar la aplicación para ti.</string>
     <string name="_30_minutes_demo_n_guided_tour_to_main_features_n_new_features_explained_n_absolutely_free">○ Demostración de 30 minutos\n○ Visita guiada a las funciones principales\n○ Explicación de las nuevas funciones\n○ Absolutamente GRATIS</string>
     <string name="book_a_demo_with_one_of_our_specialist_to_help_you_better_understand_our_aac">Reserve una demostración con uno de nuestros especialistas para ayudarlo a comprender mejor nuestra CAA</string>
