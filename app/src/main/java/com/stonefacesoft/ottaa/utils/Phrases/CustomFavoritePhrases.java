@@ -17,6 +17,7 @@ public class CustomFavoritePhrases {
     private final Context mContext;
     private final Json json;
     private JSONArray favoritePhrases;
+    private static CustomFavoritePhrases customFavoritePhrases;
 
     /**
      * the systems show the users favorite phrases
@@ -28,7 +29,13 @@ public class CustomFavoritePhrases {
      *  Cada una de las frases debe estar filtrada por idioma
      * */
 
-     public CustomFavoritePhrases(Context mContext){
+    public synchronized static CustomFavoritePhrases getInstance(Context mContext){
+        if(customFavoritePhrases == null)
+            customFavoritePhrases = new CustomFavoritePhrases(mContext);
+        return customFavoritePhrases;
+    }
+
+     private CustomFavoritePhrases(Context mContext){
          this.mContext=mContext;
          json=Json.getInstance();
          json.setmContext(this.mContext);

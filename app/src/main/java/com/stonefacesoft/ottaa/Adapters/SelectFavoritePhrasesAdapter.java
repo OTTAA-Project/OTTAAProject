@@ -34,7 +34,7 @@ public class SelectFavoritePhrasesAdapter extends RecyclerView.Adapter<SelectFav
 
     public SelectFavoritePhrasesAdapter(Context mContext) {
         this.mContext = mContext;
-        phrases=new CustomFavoritePhrases(this.mContext);
+        phrases=CustomFavoritePhrases.getInstance(mContext);
         favoritesPhrases=phrases.getJson().getmJSONArrayTodasLasFrases();
         myTTs=new textToSpeech(this.mContext);
         glideAttatcher=new GlideAttatcher(this.mContext);

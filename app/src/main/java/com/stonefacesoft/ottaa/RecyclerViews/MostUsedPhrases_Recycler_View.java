@@ -57,6 +57,11 @@ public class MostUsedPhrases_Recycler_View extends Custom_recyclerView {
     }
 
     @Override
+    public void sincronizeData() {
+        getPositionItem.updateSize(mostUsedFavoritePhrasesAdapter.getItemCount());
+    }
+
+    @Override
     public void scrollTo(boolean add) {
         if(getPositionItem==null)
             getPositionItem = new ReturnPositionItem(mRecyclerView.getAdapter().getItemCount());

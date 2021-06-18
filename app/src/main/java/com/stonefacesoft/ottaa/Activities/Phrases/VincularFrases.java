@@ -3,7 +3,6 @@ package com.stonefacesoft.ottaa.Activities.Phrases;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ImageButton;
 
 import androidx.annotation.Nullable;
 
@@ -30,20 +29,12 @@ public class VincularFrases extends PhrasesView {
 
     @Override
     public void initComponents(){
+        super.initComponents();
         Intent intent = getIntent();
         subirArchivos=new SubirArchivosFirebase(this);
         mAnalyticsFirebase=new AnalyticsFirebase(this);
         recyclerView=new PhrasesRecyclerView(this,firebaseUser.getmAuth());
-        ImageButton foward=findViewById(R.id.down_button);
-        ImageButton previous=findViewById(R.id.up_button);
-        ImageButton exit=findViewById(R.id.back_button);
-        ImageButton btnEditar=findViewById(R.id.edit_button);
-        btnEditar.setVisibility(View.VISIBLE);
         btnEditar.setImageDrawable(getApplicationContext().getResources().getDrawable(R.drawable.ic_baseline_save_white_24));
-        btnEditar.setOnClickListener(this);
-        foward.setOnClickListener(this);
-        previous.setOnClickListener(this);
-        exit.setOnClickListener(this);
     }
 
     @Override

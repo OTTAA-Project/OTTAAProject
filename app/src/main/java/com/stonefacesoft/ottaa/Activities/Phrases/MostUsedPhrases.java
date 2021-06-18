@@ -17,7 +17,7 @@ public class MostUsedPhrases extends PhrasesView {
 
     @Override
     public void initComponents() {
-        super.initComponents();
+
     }
 
     @Override

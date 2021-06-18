@@ -141,16 +141,16 @@ dependencies {
 //    }
     // Optional -- Mockito framework
     //androidx library
-    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'androidx.appcompat:appcompat:1.3.0'
     implementation 'androidx.browser:browser:1.3.0'
     implementation 'androidx.cardview:cardview:1.0.0'
-    implementation "androidx.core:core:1.3.2"
+    implementation "androidx.core:core:1.5.0"
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     implementation 'androidx.gridlayout:gridlayout:1.0.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.multidex:multidex:2.0.1'
     implementation 'androidx.preference:preference:1.1.1'
-    implementation 'androidx.recyclerview:recyclerview:1.2.0'
+    implementation 'androidx.recyclerview:recyclerview:1.2.1'
     // places library
     implementation 'com.google.android.libraries.places:places:2.4.0'
     //play services library
@@ -187,7 +187,7 @@ dependencies {
     // AndroidJUnitRunner and JUnit Rules
     androidTestImplementation 'androidx.test:runner:1.3.0'
     androidTestImplementation 'androidx.test:rules:1.3.0'
-    androidTestUtil 'androidx.test:orchestrator:1.1.0'
+    androidTestUtil 'androidx.test:orchestrator:1.3.0'
 
 
     // Assertions
@@ -225,14 +225,14 @@ dependencies {
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 
     // firebase library
-    implementation 'com.google.firebase:firebase-auth:20.0.4'
-    implementation 'com.google.firebase:firebase-config:20.0.4'
-    implementation 'com.google.firebase:firebase-core:18.0.3'
-    implementation 'com.google.firebase:firebase-database:19.7.0'
-    implementation 'com.google.firebase:firebase-messaging:21.1.0'
-    implementation 'com.google.firebase:firebase-inappmessaging-display:19.1.5'
-    implementation 'com.google.firebase:firebase-perf:19.1.1'
-    implementation 'com.google.firebase:firebase-storage:19.2.2'
+    implementation 'com.google.firebase:firebase-auth:21.0.1'
+    implementation 'com.google.firebase:firebase-config:21.0.0'
+    implementation 'com.google.firebase:firebase-core:19.0.0'
+    implementation 'com.google.firebase:firebase-database:20.0.0'
+    implementation 'com.google.firebase:firebase-messaging:22.0.0'
+    implementation 'com.google.firebase:firebase-inappmessaging-display:20.0.0'
+    implementation 'com.google.firebase:firebase-perf:20.0.1'
+    implementation 'com.google.firebase:firebase-storage:20.0.0'
     implementation 'com.firebaseui:firebase-ui-database:5.0.0'
 
     // Glide
@@ -242,8 +242,8 @@ dependencies {
     implementation 'com.google.android.material:material:1.3.0'
 
     //Firebase chrashlitics
-    implementation 'com.google.firebase:firebase-crashlytics:17.4.1'
-    implementation 'com.google.firebase:firebase-analytics:18.0.3'
+    implementation 'com.google.firebase:firebase-crashlytics:18.0.1'
+    implementation 'com.google.firebase:firebase-analytics:19.0.0'
     //Guava library
     implementation("com.google.guava:guava:30.1.1-android")
     //Facebook

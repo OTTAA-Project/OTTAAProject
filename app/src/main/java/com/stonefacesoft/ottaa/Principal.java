@@ -69,8 +69,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.database.annotations.Nullable;
-import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.iid.InstanceIdResult;
+import com.google.firebase.installations.FirebaseInstallations;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.kobakei.ratethisapp.RateThisApp;
@@ -787,10 +786,14 @@ public class Principal extends AppCompatActivity implements View
         }
         cargarOpcionesEnFalla = new HandlerComunicationClass(this);
         //dialog.dismiss();
-        FirebaseInstanceId.getInstance().getInstanceId().addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
+        FirebaseInstallations.getInstance().getId().addOnCompleteListener(new OnCompleteListener<String>() {
             @Override
-            public void onComplete(@NonNull Task<InstanceIdResult> task) {
-                Log.d(TAG, "onComplete: InstanceID" + FirebaseInstanceId.getInstance().getId());
+            public void onComplete(@NonNull Task<String> task) {
+                if (task.isSuccessful()) {
+                    Log.d("Installations", "Installation ID: " + task.getResult());
+                } else {
+                    Log.e("Installations", "Unable to get Installation ID");
+                }
             }
         });
 //        if (!sharedPrefsDefault.getBoolean("configurarPrediccion", false) && !sharedPrefs.getBoolean("PrimerUso", true)) {
