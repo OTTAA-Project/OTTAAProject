@@ -9,7 +9,7 @@ import androidx.annotation.Nullable;
 
 import com.stonefacesoft.ottaa.FavModel;
 import com.stonefacesoft.ottaa.R;
-import com.stonefacesoft.ottaa.RecyclerViews.Favorite_Phrases_recycler_view;
+import com.stonefacesoft.ottaa.RecyclerViews.MostUsedPhrases_Recycler_View;
 import com.stonefacesoft.ottaa.Views.Phrases.PhrasesView;
 import com.stonefacesoft.ottaa.utils.IntentCode;
 
@@ -17,7 +17,7 @@ import java.util.ArrayList;
 
 public class FavoritePhrases extends PhrasesView {
 
-    private Favorite_Phrases_recycler_view favorite_phrases_recycler_view;
+    private MostUsedPhrases_Recycler_View favorite_phrases_recycler_view;
     private ArrayList<FavModel> favoritePhrases;
 
     @Override
@@ -29,7 +29,7 @@ public class FavoritePhrases extends PhrasesView {
     @Override
     public void initComponents() {
         super.initComponents();
-        favorite_phrases_recycler_view = new Favorite_Phrases_recycler_view(this,firebaseUser.getmAuth());
+        favorite_phrases_recycler_view = new MostUsedPhrases_Recycler_View(this,firebaseUser.getmAuth());
         ImageButton foward=findViewById(R.id.down_button);
         ImageButton previous=findViewById(R.id.up_button);
         ImageButton exit=findViewById(R.id.back_button);

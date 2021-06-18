@@ -5,13 +5,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.stonefacesoft.ottaa.Adapters.CustomFavoritePhrasesAdapter;
+import com.stonefacesoft.ottaa.Adapters.MostUsedFavoritePhrasesAdapter;
+import com.stonefacesoft.ottaa.Interfaces.ProgressBarListener;
 import com.stonefacesoft.ottaa.utils.ReturnPositionItem;
 
-public class Favorite_Phrases_recycler_view extends Custom_recyclerView{
-    private CustomFavoritePhrasesAdapter adapter;
+public class MostUsedPhrases_Recycler_View extends Custom_recyclerView {
+    private MostUsedFavoritePhrasesAdapter mostUsedFavoritePhrasesAdapter;
 
-    public Favorite_Phrases_recycler_view(AppCompatActivity mActivity, FirebaseAuth mAuth) {
+    public MostUsedPhrases_Recycler_View(AppCompatActivity mActivity, FirebaseAuth mAuth) {
         super(mActivity, mAuth);
         setArray();
     }
@@ -20,14 +21,33 @@ public class Favorite_Phrases_recycler_view extends Custom_recyclerView{
         array=json.getmJSonArrayFrasesFavoritas();
         arrayAux = json.getmJSonArrayFrasesFavoritas();
         createRecyclerLayoutManager();
-        adapter=new CustomFavoritePhrasesAdapter(mActivity);
-        mRecyclerView.setAdapter(adapter);
+        mostUsedFavoritePhrasesAdapter =new MostUsedFavoritePhrasesAdapter(mActivity, new ProgressBarListener() {
+            @Override
+            public void initProgressDialog() {
+
+            }
+
+            @Override
+            public void setMessageProgressDialog(String messageProgressDialog) {
+
+            }
+
+            @Override
+            public void setTittleProgressDialog(String tittleProgressDialog) {
+
+            }
+
+            @Override
+            public void dismisProgressBar() {
+                mRecyclerView.setAdapter(mostUsedFavoritePhrasesAdapter);
+            }
+        });
 
     }
 
-
     @Override
     public void onPictosFiltrados() {
+
 
     }
 

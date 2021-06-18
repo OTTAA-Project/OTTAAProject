@@ -9,6 +9,7 @@ import com.stonefacesoft.ottaa.Views.Phrases.PhrasesView;
 
 public class MostUsedPhrases extends PhrasesView {
 
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
