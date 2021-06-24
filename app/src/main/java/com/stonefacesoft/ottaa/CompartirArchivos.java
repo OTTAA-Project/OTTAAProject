@@ -16,7 +16,6 @@ import android.widget.Toast;
 
 import com.stonefacesoft.ottaa.Bitmap.GestionarBitmap;
 import com.stonefacesoft.ottaa.JSONutils.Json;
-import com.stonefacesoft.ottaa.utils.Audio.MediaPlayerAudio;
 import com.stonefacesoft.ottaa.utils.exceptions.FiveMbException;
 import com.stonefacesoft.ottaa.utils.textToSpeech;
 
@@ -24,6 +23,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 
@@ -129,7 +129,7 @@ public class CompartirArchivos {
             if (gestionarBitmap.getImagenes().size() > 0) {
                 gestionarBitmap.setNombre("imagen.png");
                 gestionarBitmap.setTexto(Oracion);
-                gestionarBitmap.generarImagenesMasUsadas();
+                gestionarBitmap.createImage();
             }
             File file = gestionarBitmap.getImgs();
             if (file.exists()) {
@@ -224,27 +224,31 @@ public class CompartirArchivos {
                 myTTS.getTTS().setOnUtteranceProgressListener(new UtteranceProgressListener() {
                     @Override
                     public void onStart(String utteranceId) {
+
                     }
 
                     @Override
                     public void onDone(String utteranceId) {
-                        MediaPlayerAudio mediaPlayerAudio = new MediaPlayerAudio(mContext);
-                        mediaPlayerAudio.playedCustomFile(file);
-                        compartirAudioPictogramas(file);
+
                     }
 
                     @Override
                     public void onError(String utteranceId) {
 
                     }
+
+                    @Override
+                    public void onAudioAvailable(String utteranceId, byte[] audio) {
+                        super.onAudioAvailable(utteranceId, audio);
+                    }
                 });
-                file = myTTS.grabar(Oracion);
-                /*
-                try{
-                    compartirAudioPictogramas(myTTS.grabar(Oracion));
-                }catch (Exception ex){
-                }*/
-             //   Toast.makeText(mContext, mContext.getResources().getText(R.string.weAreWorkingOn), Toast.LENGTH_LONG).show();
+                try {
+                    file = File.createTempFile("audio.wav",mContext.getExternalCacheDir().getAbsolutePath());
+                    myTTS.grabar(file, Oracion);
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
 
