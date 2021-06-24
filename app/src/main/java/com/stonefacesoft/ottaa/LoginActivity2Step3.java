@@ -75,6 +75,7 @@ public class LoginActivity2Step3 extends AppCompatActivity implements View.OnCli
             mAnalyticsFirebase.customEvents("Touch","LoginActivityStep3","Back2");
             Intent intent2 = new Intent(LoginActivity2Step3.this, LoginActivity2Step2.class);
             startActivity(intent2);
+            finish();
         } else if (id == R.id.buttonTutorial) {
             mAnalyticsFirebase.customEvents("Touch","LoginActivityStep3","ButtonTutorial");
             Intent intent3 = new Intent(LoginActivity2Step3.this, Viewpager_tutorial.class);
