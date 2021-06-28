@@ -35,6 +35,8 @@ public class VincularFrases extends PhrasesView {
         mAnalyticsFirebase=new AnalyticsFirebase(this);
         recyclerView=new PhrasesRecyclerView(this,firebaseUser.getmAuth());
         btnEditar.setImageDrawable(getApplicationContext().getResources().getDrawable(R.drawable.ic_baseline_save_white_24));
+        if(barridoPantalla.isBarridoActivado())
+            recyclerView.setScrollVertical(false);
     }
 
     @Override

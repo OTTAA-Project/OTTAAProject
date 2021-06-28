@@ -31,6 +31,8 @@ public class FavoritePhrases extends PhrasesView {
     public void initComponents() {
         super.initComponents();
         favorite_phrases_recycler_view = new Favorite_Phrases_recycler_view(this,firebaseUser.getmAuth());
+        if(barridoPantalla.isBarridoActivado())
+            favorite_phrases_recycler_view.setScrollVertical(false);
   //      most_used_recycler_view = new MostUsedPhrases_Recycler_View(this,firebaseUser.getmAuth());
 
     }

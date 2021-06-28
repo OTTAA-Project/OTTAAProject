@@ -73,6 +73,7 @@ import com.google.firebase.installations.FirebaseInstallations;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.kobakei.ratethisapp.RateThisApp;
+import com.stonefacesoft.ottaa.Activities.Phrases.AllPhrases;
 import com.stonefacesoft.ottaa.Activities.Phrases.FavoritePhrases;
 import com.stonefacesoft.ottaa.Backup.BackupGroups;
 import com.stonefacesoft.ottaa.Backup.BackupPhotos;
@@ -140,9 +141,6 @@ import java.util.Locale;
 import java.util.Objects;
 
 import static com.facebook.FacebookSdk.setAutoLogAppEventsEnabled;
-
-;
-
 /**
  *
  * VERSION 86 Circle CI testing y JUNIT
@@ -1971,266 +1969,52 @@ public class Principal extends AppCompatActivity implements View
     public void onClick(View v) {
         View vista=findViewById(v.getId());
         Log.d(TAG, "onClick: " + vista.getId());
-
-        if (barridoPantalla.isBarridoActivado() && !barridoPantalla.isAvanzarYAceptar()) {
-
-            switch (barridoPantalla.getPosicionBarrido()) {
-                case 0:
-                    click(opcion1);
-                    break;
-                case 1:
-                    click(opcion2);
-                    break;
-                case 2:
-                    click(opcion3);
-                    break;
-                case 3:
-                    click(opcion4);
-                    break;
-                case 4:
-                    //  speak();
-                    volver();
-                    break;
-                case 5:
-                    analitycsFirebase.customEvents("Accessibility","Principal","Talk");
-                    hablarModoExperimental();
-                    break;
-                case 6:
-                    analitycsFirebase.customEvents("Accessibility","Principal","More Options");
-                    cargarMasPictos();
-                    break;
-                case 7:
-
-                    analitycsFirebase.customEvents("Accessibility","Principal","Group Galery");
-                    Intent intent2 = new Intent(Principal.this, GaleriaGrupos2.class);
-                    intent2.putExtra("Boton", 0);
-                    startActivityForResult(intent2, IntentCode.GALERIA_GRUPOS.getCode());
-                    break;
-                case 8:
-                    analitycsFirebase.customEvents("Accessibility","Principal","Games");
-                    intent2 = new Intent(Principal.this, MainJuegos.class);
-                    startActivity(intent2);
-                    break;
-
-            }
-
-        } else if (vibrar) {
-            switch (v.getId()) {
-                case R.id.Option1:
-                    if (opcion1 != null) {
-                        try {
-                            AlertBorrar(json.getId(opcion1));
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    break;
-
-                case R.id.Option2:
-                    if (opcion2 != null) {
-                        try {
-                            AlertBorrar(json.getId(opcion2));
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    break;
-
-                case R.id.Option3:
-                    if (opcion3 != null) {
-                        try {
-                            AlertBorrar(json.getId(opcion3));
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    break;
-
-                case R.id.Option4:
-                    if (opcion4 != null) {
-                        try {
-                            AlertBorrar(json.getId(opcion4));
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    break;
-
-                default:
-
-                    break;
-            }
-        } else {
-            switch (v.getId()) {
-                case R.id.Option1:
-
-                    if (opcion1 == null&&!barridoPantalla.isBarridoActivado()) {
-                        analitycsFirebase.customEvents("Touch","Principal","Add Pictogram");
-                        Intent intent2 = new Intent(Principal.this, GaleriaGrupos2.class);
-                        intent2.putExtra("Boton", 0);
-                        startActivityForResult(intent2, IntentCode.GALERIA_GRUPOS.getCode());
-                    }
-                    function_clickOption(opcion1,Opcion1_clicker);
-
-                    break;
-
-                case R.id.Option2:
-
-                      if (opcion2 == null&&!barridoPantalla.isBarridoActivado()) {
-                          analitycsFirebase.customEvents("Touch","Principal","Add Pictogram");
-                          Intent intent2 = new Intent(Principal.this, GaleriaGrupos2.class);
-                          intent2.putExtra("Boton", 0);
-                          startActivityForResult(intent2, IntentCode.GALERIA_GRUPOS.getCode());
-                      }
-                      function_clickOption(opcion2, Opcion2_clicker);
-
-
-                    break;
-
-                case R.id.Option3:
-                        if (opcion3 == null&&!barridoPantalla.isBarridoActivado()) {
-                            analitycsFirebase.customEvents("Touch","Principal","Add Pictogram");
-                            Intent intent2 = new Intent(Principal.this, GaleriaGrupos2.class);
-                            intent2.putExtra("Boton", 0);
-                            startActivityForResult(intent2, IntentCode.GALERIA_GRUPOS.getCode());
-                        }
-                        function_clickOption(opcion3, Opcion3_clicker);
-
-                    break;
-
-                case R.id.Option4:
-                        if (opcion4 == null&&!barridoPantalla.isBarridoActivado()) {
-                            analitycsFirebase.customEvents("Touch","Principal","Add Pictogram");
-                            Intent intent2 = new Intent(Principal.this, GaleriaGrupos2.class);
-                            intent2.putExtra("Boton", 0);
-                            startActivityForResult(intent2, IntentCode.GALERIA_GRUPOS.getCode());
-                        }
-                        function_clickOption(opcion4, Opcion4_clicker);
-
-                    break;
-
-                case R.id.Seleccion3:
-
-                    hablarModoExperimental();
-                    boolean hijos = true;
-                    break;
-
-                case R.id.btn_borrar:
-
-                    analitycsFirebase.customEvents("Erase","Principal","Delete one pictogram");
-                    volver();
-
-                    break;
-
-                case R.id.btnMasPictos:
-                    ///////////noveno paso del tutorial
-
-
-                    ///////////
-
-                    //Registo que uso un funcion que nos interesa que use
-                    analitycsFirebase.customEvents("Touch","Principal","More Pictograms");
-                    cargarMasPictos();
-
-                    break;
-
-                case R.id.btnTodosLosPictos:
-                    ////decimo paso del tutorial
-                    /// Termino el tutorial
-                    if(barridoPantalla.isBarridoActivado()&&barridoPantalla.isAvanzarYAceptar()){
-                        Intent intent2 = new Intent(Principal.this, GaleriaGrupos2.class);
-                        intent2.putExtra("Boton", 0);
-                        startActivityForResult(intent2, IntentCode.GALERIA_GRUPOS.getCode());
-                    }
-                    if(!barridoPantalla.isBarridoActivado()) {
-                        //Registo que uso un funcion que nos interesa que use
-                        if(barridoPantalla.isBarridoActivado())
-                            analitycsFirebase.customEvents("Accessibility","Principal","Group Galery");
-                        else
-                            analitycsFirebase.customEvents("Touch","Principal","Group Galery");
-                        Intent intent2 = new Intent(Principal.this, GaleriaGrupos2.class);
-                        intent2.putExtra("Boton", 0);
-                        startActivityForResult(intent2, IntentCode.GALERIA_GRUPOS.getCode());
-                    }else{
-                      if(function_scroll.isClickEnabled()){
-                          function_scroll.descansar();
-                          break;
-                      }else{
-                          function_scroll.wakeUp();
-                      }
-                    }
-                    break;
-                case R.id.constraintRightButtons:
-
-                    break;
-
-                case R.id.btnFavoritos:
-
-                    //octavo paso del tutorial
-                    //Registo que uso un funcion que nos interesa que use
-                        analitycsFirebase.customEvents("Touch","Principal","Favorite Phrases");
-                        startActivity(new Intent(this, FavoritePhrases.class));
-                   //  NewDialogsOTTAA newDialogsOTTAA=new NewDialogsOTTAA(this);
-                   //   newDialogsOTTAA.initCustomFavoritePhrase(false);
-
-
-                    break;
-                case R.id.btnBarrido:
-                    Log.d(TAG, "onClick: Btn barrido");
-                    if (barridoPantalla.isBarridoActivado() && barridoPantalla.isAvanzarYAceptar()) {
-
-                        if (barridoPantalla.getmListadoVistas().get(barridoPantalla.getPosicionBarrido()).getId() == R.id.btnTalk) {
-                            analitycsFirebase.customEvents("Accessibility","Principal","Talk with screen scanning");
-                            hablarModoExperimental();
-                        }
-
-                    }else if(barridoPantalla.isBarridoActivado()&&!barridoPantalla.isAvanzarYAceptar()){
-                        barridoPantalla.getmListadoVistas().get(barridoPantalla.getPosicionBarrido()).callOnClick();
-                    }
-
-                    break;
-                case R.id.action_reiniciar:
-                        Intent intent = new Intent(this, MainJuegos.class);
-                        this.startActivity(intent);
-
-
-                    break;
-                case R.id.action_share:
-                    //Analytics
-                    //Registo que uso un funcion que nos interesa que use
-                    analitycsFirebase.customEvents("Touch","Principal","Share");
-                        if (historial.getListadoPictos().size() > 0) {
-                            if (!sharedPrefsDefault.getBoolean(getString(R.string.mBoolModoExperimental), false)) {
-                                if (myTTS != null) {
-                                    CompartirArchivos compartirArchivos = new CompartirArchivos(getContext(), myTTS);
-                                    compartirArchivos.setHistorial(historial.getListadoPictos());
-                                    compartirArchivos.seleccionarFormato(Oracion);
-                                }
-                            } else if (sharedPrefsDefault.getBoolean(getString(R.string.mBoolModoExperimental), false)) {
-                                Log.d(TAG, "onClick: " + historial.getListadoPictos().toString());
-                                traducirfrase = new traducirTexto(getApplication());
-                                if (Oracion.isEmpty() && historial.getListadoPictos().size() > 0)
-                                    CargarOracion(historial.getListadoPictos().get(0),sharedPrefsDefault.getString(getString(R.string.str_idioma), "en"));
-                                Oracion = EjecutarNLG(true);
-                                traducirfrase.traducirIdioma(this, Oracion, "en", sharedPrefsDefault.getString(getString(R.string.str_idioma), "en"), true);
-                            }
-                            // if(myTTS().devolverPathAudio().exists())
-                        }
-
-
-                   break;
-                case R.id.movableButton:
-                    avatar.finishTalking();
-                    //TODO here is the onClick event for the avatar.
-                    break;
-                default:
-                    Log.d(TAG, "onClick: Oracion:" + Oracion);
-                    if(barridoPantalla.isBarridoActivado()&&(barridoPantalla.isScrollMode()||barridoPantalla.isAvanzarYAceptar()))
-                        analitycsFirebase.customEvents("Accessibility","Principal","Talk with accessibility device");
-                    hablarModoExperimental();
-                    hijos = true;
-                    break;
-            }
+        switch (v.getId()){
+            case R.id.Option1:
+                onClickOption(opcion1,Opcion1_clicker);
+                break;
+            case R.id.Option2:
+                onClickOption(opcion2,Opcion2_clicker);
+                break;
+            case R.id.Option3:
+                onClickOption(opcion3,Opcion3_clicker);
+                break;
+            case R.id.Option4:
+                onClickOption(opcion4,Opcion4_clicker);
+                break;
+            case R.id.btnFavoritos:
+                analyticsAction("Accessibility","Touch","Principal","Favorite Phrases");
+                startFavoritePhrases();
+                break;
+            case R.id.action_share:
+                analitycsFirebase.customEvents("Touch","Principal","Favorite Phrases");
+                shareAction();
+                break;
+            case R.id.btn_borrar:
+                analyticsAction("Accessibility","Erase","Principal","Delete one Pictogram");
+                volver();
+                break;
+            case R.id.btnTalk:
+                analyticsAction("Accessibility","Touch","Principal","Talk");
+                hablarModoExperimental();
+                break;
+            case R.id.btnMasPictos:
+                analyticsAction("Accessibility","Touch","Principal","More Options");
+                cargarMasPictos();
+                break;
+            case R.id.action_reiniciar:
+                startGames();
+                break;
+            case R.id.btnTodosLosPictos:
+                analyticsAction("Accessibility","Touch","Principal","Group Gallery");
+                startGroupGallery();
+                break;
+            case R.id.btnBarrido:
+                barridoPantalla.getmListadoVistas().get(barridoPantalla.getPosicionBarrido()).callOnClick();
+                break;
+            default:
+                hablarModoExperimental();
+                break;
         }
 
         new Handler().postDelayed(new Runnable() {      // Esto sirve para esperar un tiempo dsp del primer
@@ -2527,10 +2311,6 @@ public class Principal extends AppCompatActivity implements View
     }
 
 
-
-
-
-
     @Override
     public void onTrimMemory(int level) {
         switch (level) {
@@ -2554,6 +2334,7 @@ public class Principal extends AppCompatActivity implements View
         listadoObjetosBarrido.add(Opcion2);
         listadoObjetosBarrido.add(Opcion3);
         listadoObjetosBarrido.add(Opcion4);
+        listadoObjetosBarrido.add(findViewById(R.id.btnFavoritos));
         listadoObjetosBarrido.add(findViewById(R.id.btn_borrar));
         listadoObjetosBarrido.add(findViewById(R.id.btnTalk));
         listadoObjetosBarrido.add(findViewById(R.id.btnMasPictos));
@@ -2858,6 +2639,63 @@ public class Principal extends AppCompatActivity implements View
         }
     }
 
+    public void shareAction(){
+        analitycsFirebase.customEvents("Touch","Principal","Share");
+        if (historial.getListadoPictos().size() > 0) {
+            if (!sharedPrefsDefault.getBoolean(getString(R.string.mBoolModoExperimental), false)) {
+                if (myTTS != null) {
+                    CompartirArchivos compartirArchivos = new CompartirArchivos(getContext(), myTTS);
+                    compartirArchivos.setHistorial(historial.getListadoPictos());
+                    compartirArchivos.seleccionarFormato(Oracion);
+                }
+            } else if (sharedPrefsDefault.getBoolean(getString(R.string.mBoolModoExperimental), false)) {
+                Log.d(TAG, "onClick: " + historial.getListadoPictos().toString());
+                traducirfrase = new traducirTexto(getApplication());
+                if (Oracion.isEmpty() && historial.getListadoPictos().size() > 0)
+                    CargarOracion(historial.getListadoPictos().get(0),sharedPrefsDefault.getString(getString(R.string.str_idioma), "en"));
+                Oracion = EjecutarNLG(true);
+                traducirfrase.traducirIdioma(this, Oracion, "en", sharedPrefsDefault.getString(getString(R.string.str_idioma), "en"), true);
+            }
+            // if(myTTS().devolverPathAudio().exists())
+        }
+    }
 
+    private void startGames(){
+        analyticsAction("Accessibility","Touch","Principal","Game");
+        Intent intent = new Intent(this, MainJuegos.class);
+        this.startActivity(intent);
+    }
+
+    private void startGroupGallery(){
+        Intent intent2 = new Intent(Principal.this, GaleriaGrupos2.class);
+        intent2.putExtra("Boton", 0);
+        startActivityForResult(intent2, IntentCode.GALERIA_GRUPOS.getCode());
+
+    }
+
+    private void startFavoritePhrases(){
+        startActivity(new Intent(this, AllPhrases.class));
+    }
+
+    private void analyticsAction(String event0,String event1,String activity,String action){
+        if(barridoPantalla.isBarridoActivado())
+            analitycsFirebase.customEvents(event0,activity,action);
+        else
+            analitycsFirebase.customEvents(event1,activity,action);
+    }
+
+    private void onClickOption(JSONObject option,timer_pictogram_clicker clicker){
+        if(option == null){
+            analyticsAction("Accessibility","Touch","Principal","More Options");
+            startGroupGallery();
+        }
+        else{
+            analyticsAction("Accessibility","Touch","Principal","Add Pictogram");
+            if(!barridoPantalla.isBarridoActivado())
+                function_clickOption(option, clicker);
+            else
+                click(option);
+        }
+    }
 }
 

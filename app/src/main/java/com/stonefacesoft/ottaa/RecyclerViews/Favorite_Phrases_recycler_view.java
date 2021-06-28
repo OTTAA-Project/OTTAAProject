@@ -3,6 +3,7 @@ package com.stonefacesoft.ottaa.RecyclerViews;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -72,7 +73,7 @@ public class Favorite_Phrases_recycler_view extends Custom_recyclerView{
 
     @Override
     protected void createRecyclerLayoutManager() {
-        RecyclerView.LayoutManager manager=new LinearLayoutManager(mActivity);
+        ScrollManager manager = new ScrollManager(mActivity,1,LinearLayoutManager.VERTICAL,false);
         mRecyclerView.setLayoutManager(manager);
     }
 

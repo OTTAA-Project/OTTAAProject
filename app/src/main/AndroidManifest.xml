@@ -193,6 +193,8 @@
         <activity android:name=".LoginActivity2Step3" android:screenOrientation="sensorLandscape" />
         <activity android:name=".Activities.FindAllPictograms" android:screenOrientation="sensorLandscape" />
         <activity android:name=".Activities.Phrases.FavoritePhrases" android:screenOrientation="sensorLandscape" />
+        <activity android:name=".Activities.Phrases.MostUsedPhrases" android:screenOrientation="sensorLandscape" />
+        <activity android:name=".Activities.Phrases.AllPhrases" android:screenOrientation="sensorLandscape" />
 
 
         <meta-data

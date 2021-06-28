@@ -76,7 +76,7 @@ public class MostUsedPhrases_Recycler_View extends Custom_recyclerView {
 
     @Override
     protected void createRecyclerLayoutManager() {
-        RecyclerView.LayoutManager manager=new LinearLayoutManager(mActivity);
+        ScrollManager manager = new ScrollManager(mActivity,1,LinearLayoutManager.VERTICAL,false);
         mRecyclerView.setLayoutManager(manager);
     }
 

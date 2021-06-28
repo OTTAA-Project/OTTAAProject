@@ -1,6 +1,8 @@
 package com.stonefacesoft.ottaa.RecyclerViews;
 
+import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
@@ -25,6 +27,7 @@ import com.stonefacesoft.ottaa.utils.textToSpeech;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+
 /**
  * @author Gonzalo Juarez
  * @since 23/06/2020
@@ -52,6 +55,7 @@ public abstract class Custom_recyclerView implements SearchView.OnQueryTextListe
     protected  int cantColumnas;
     protected  int cantFilas;
     protected AnalyticsFirebase analyticsFirebase;
+    protected boolean scrollVertical;
 
 
 
@@ -157,8 +161,6 @@ public abstract class Custom_recyclerView implements SearchView.OnQueryTextListe
             mSearchView.setQuery(query,false);
             return true;
         }
-
-
         return false;
     }
 
@@ -269,5 +271,37 @@ public abstract class Custom_recyclerView implements SearchView.OnQueryTextListe
 
     }
 
+    public void createReturnPositionItem(){
+        if(getPositionItem==null)
+            getPositionItem = new ReturnPositionItem(mRecyclerView.getAdapter().getItemCount());
+    }
+
+    public void setOnClickListener(){
+
+    }
+    protected class ScrollManager extends GridLayoutManager{
+        public ScrollManager(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+            super(context, attrs, defStyleAttr, defStyleRes);
+        }
+        public ScrollManager(Context context, int spanCount,
+                             @RecyclerView.Orientation int orientation, boolean reverseLayout) {
+            super(context, spanCount,orientation, reverseLayout);
+        }
+
+
+        @Override
+        public boolean canScrollVertically() {
+            return scrollVertical;
+        }
+
+        @Override
+        public boolean canScrollHorizontally() {
+            return super.canScrollHorizontally();
+        }
+    }
+
+    public void setScrollVertical(boolean scrollVertical) {
+        this.scrollVertical = scrollVertical;
+    }
 
 }

@@ -75,6 +75,10 @@ public class MostUsedFavoritePhrasesAdapter extends RecyclerView.Adapter<MostUse
             return 0;
     }
 
+    public ArrayList<FavModel> getmFavImagesArrayList() {
+        return mFavImagesArrayList;
+    }
+
     public class FrasesFavoritasViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private final ImageView imagenFav;
