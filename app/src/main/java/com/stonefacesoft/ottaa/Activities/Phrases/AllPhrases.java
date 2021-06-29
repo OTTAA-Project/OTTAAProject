@@ -21,6 +21,7 @@ public class AllPhrases extends PhrasesView {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initComponents();
+        this.setTitle(getString(R.string.allphrases));
     }
 
     @Override
@@ -28,6 +29,7 @@ public class AllPhrases extends PhrasesView {
         super.initComponents();
         allPhrasesRecyclerView = new AllPhrasesRecyclerView(this,firebaseUser.getmAuth());
         myTTS = new textToSpeech(this);
+        btnEditar.setVisibility(View.INVISIBLE);
         allPhrasesRecyclerView.setMyTTS(myTTS);
         allPhrasesRecyclerView.setOnClickListener();
         if(barridoPantalla.isBarridoActivado())

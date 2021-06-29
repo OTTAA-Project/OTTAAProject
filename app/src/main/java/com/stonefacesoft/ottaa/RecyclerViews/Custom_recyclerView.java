@@ -55,7 +55,7 @@ public abstract class Custom_recyclerView implements SearchView.OnQueryTextListe
     protected  int cantColumnas;
     protected  int cantFilas;
     protected AnalyticsFirebase analyticsFirebase;
-    protected boolean scrollVertical;
+    protected boolean scrollVertical = true;
 
 
 

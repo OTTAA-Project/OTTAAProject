@@ -2,9 +2,12 @@ package com.stonefacesoft.ottaa.Activities.Phrases;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SearchView;
 
 import com.stonefacesoft.ottaa.FirebaseRequests.SubirArchivosFirebase;
 import com.stonefacesoft.ottaa.R;
@@ -31,6 +34,7 @@ public class VincularFrases extends PhrasesView {
     public void initComponents(){
         super.initComponents();
         Intent intent = getIntent();
+        this.setTitle(getString(R.string.selectPhavoritePhrases));
         subirArchivos=new SubirArchivosFirebase(this);
         mAnalyticsFirebase=new AnalyticsFirebase(this);
         recyclerView=new PhrasesRecyclerView(this,firebaseUser.getmAuth());
@@ -70,5 +74,18 @@ public class VincularFrases extends PhrasesView {
         Intent databack = new Intent();
         setResult(IntentCode.GALERIA_GRUPOS.getCode(), databack);
         finish();
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        MenuItem menuItem =menu.findItem(R.id.action_search);
+        menuItem.setVisible(true);
+        if (menu.findItem(R.id.action_search).isVisible()) {
+            setmSearchView((SearchView) menuItem.getActionView());
+        }
+        return true;
+    }
+    public void setmSearchView(SearchView searchView) {
+        recyclerView.setSearchView(searchView);
     }
 }
