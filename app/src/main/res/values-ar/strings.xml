@@ -484,5 +484,7 @@
     <string name="book_a_demo_with_one_of_our_specialist_to_help_you_better_understand_our_aac">احجز عرضًا توضيحيًا مع أحد المتخصصين لدينا لمساعدتك على فهم AAC بشكل أفضل</string>
     <string name="prediction_data">هذه البيانات ضرورية للتنبؤ</string>
     <string name="whatareyoulooking">عما تبحث؟</string>
+    <string name="allphrases">كل العبارات</string>
+    <string name="selectPhavoritePhrases">حدد العبارات المفضلة</string>
 
 </resources>

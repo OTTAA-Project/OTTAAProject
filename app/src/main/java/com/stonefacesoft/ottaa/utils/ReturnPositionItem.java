@@ -2,7 +2,7 @@ package com.stonefacesoft.ottaa.utils;
 
 public class ReturnPositionItem {
     private int position;
-    private final int size;
+    private int size;
 
     public ReturnPositionItem(int size){
         this.size=size;
@@ -26,5 +26,10 @@ public class ReturnPositionItem {
 
     public int getPosition() {
         return position;
+    }
+
+    public void updateSize(int size){
+        if(this.size!=size)
+            this.size= size;
     }
 }

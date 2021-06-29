@@ -1,6 +1,8 @@
 package com.stonefacesoft.ottaa.RecyclerViews;
 
+import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
@@ -20,15 +22,12 @@ import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.utils.Constants;
 import com.stonefacesoft.ottaa.utils.Firebase.AnalyticsFirebase;
+import com.stonefacesoft.ottaa.utils.ReturnPositionItem;
 import com.stonefacesoft.ottaa.utils.textToSpeech;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SearchView;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 /**
  * @author Gonzalo Juarez
  * @since 23/06/2020
@@ -47,6 +46,7 @@ public abstract class Custom_recyclerView implements SearchView.OnQueryTextListe
     protected SubirArchivosFirebase uploadFirebaseFile;
     protected PopupMenu.OnMenuItemClickListener menuClickListener;
     protected SimpleItemTouchHelperCallback itemTouchHelperCallback;
+    protected ReturnPositionItem getPositionItem;
 
     protected SearchView mSearchView;
     protected JSONArray array;
@@ -55,6 +55,8 @@ public abstract class Custom_recyclerView implements SearchView.OnQueryTextListe
     protected  int cantColumnas;
     protected  int cantFilas;
     protected AnalyticsFirebase analyticsFirebase;
+    protected boolean scrollVertical = true;
+
 
 
     public Custom_recyclerView(AppCompatActivity mActivity, FirebaseAuth mAuth){
@@ -159,8 +161,6 @@ public abstract class Custom_recyclerView implements SearchView.OnQueryTextListe
             mSearchView.setQuery(query,false);
             return true;
         }
-
-
         return false;
     }
 
@@ -241,24 +241,18 @@ public abstract class Custom_recyclerView implements SearchView.OnQueryTextListe
      * </item>
      * */
     public void scrollTo(boolean add){
+        if(getPositionItem==null)
+            getPositionItem = new ReturnPositionItem(mRecyclerView.getAdapter().getItemCount());
         try{
             if(add){
-                posItem++;
+                posItem = getPositionItem.add();
             }
             else{
-                posItem--;
+                posItem = getPositionItem.subtract();
             }
             int total=cantColumnas*cantFilas;
             int positionNavigate=posItem*total;
             Log.e(TAG, "navigateRecyclerView: "+positionNavigate );
-            if(positionNavigate>mRecyclerView.getAdapter().getItemCount()){
-                positionNavigate=mRecyclerView.getAdapter().getItemCount();
-                posItem=-1;
-            }
-            else if(positionNavigate<0){
-                positionNavigate=0;
-                posItem=0;
-            }
             mRecyclerView.scrollToPosition(positionNavigate);
         }catch (Exception ex){
 
@@ -276,4 +270,38 @@ public abstract class Custom_recyclerView implements SearchView.OnQueryTextListe
     public void sincronizeData(){
 
     }
+
+    public void createReturnPositionItem(){
+        if(getPositionItem==null)
+            getPositionItem = new ReturnPositionItem(mRecyclerView.getAdapter().getItemCount());
+    }
+
+    public void setOnClickListener(){
+
+    }
+    protected class ScrollManager extends GridLayoutManager{
+        public ScrollManager(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+            super(context, attrs, defStyleAttr, defStyleRes);
+        }
+        public ScrollManager(Context context, int spanCount,
+                             @RecyclerView.Orientation int orientation, boolean reverseLayout) {
+            super(context, spanCount,orientation, reverseLayout);
+        }
+
+
+        @Override
+        public boolean canScrollVertically() {
+            return scrollVertical;
+        }
+
+        @Override
+        public boolean canScrollHorizontally() {
+            return super.canScrollHorizontally();
+        }
+    }
+
+    public void setScrollVertical(boolean scrollVertical) {
+        this.scrollVertical = scrollVertical;
+    }
+
 }

@@ -66,12 +66,12 @@ public class FindAllPictogramsAdapter extends RecyclerView.Adapter<FindAllPictog
     public FindAllPictogramsHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(mContext).inflate(layoutID, parent, false);
 
-        return new FindAllPictogramsAdapter.FindAllPictogramsHolder(view);
+        return new FindAllPictogramsHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull FindAllPictogramsHolder holder, int position) {
-        new FindAllPictogramsAdapter.VincularAsync(holder, position).execute();
+        new VincularAsync(holder, position).execute();
     }
 
 
@@ -167,7 +167,7 @@ public class FindAllPictogramsAdapter extends RecyclerView.Adapter<FindAllPictog
     }
 
     @Override
-    public void onViewRecycled(@NonNull FindAllPictogramsAdapter.FindAllPictogramsHolder holder) {
+    public void onViewRecycled(@NonNull FindAllPictogramsHolder holder) {
         super.onViewRecycled(holder);
         glideAttatcher.clearMemory();
     }
@@ -234,7 +234,7 @@ public class FindAllPictogramsAdapter extends RecyclerView.Adapter<FindAllPictog
 
     private class VincularAsync extends AsyncTask<Void, Void, Void> {
 
-        private final FindAllPictogramsAdapter.FindAllPictogramsHolder mHolder;
+        private final FindAllPictogramsHolder mHolder;
         private final int mPosition;
         private final Handler handler = new Handler();
         private String mStringTexto;
@@ -242,7 +242,7 @@ public class FindAllPictogramsAdapter extends RecyclerView.Adapter<FindAllPictog
         private JSONObject picto;
 
 
-        public VincularAsync(FindAllPictogramsAdapter.FindAllPictogramsHolder mHolder, int mPosition) {
+        public VincularAsync(FindAllPictogramsHolder mHolder, int mPosition) {
 
             this.mHolder = mHolder;
             this.mPosition = mPosition;
@@ -281,6 +281,8 @@ public class FindAllPictogramsAdapter extends RecyclerView.Adapter<FindAllPictog
             }
 
         }
+
+
 
         public void processPictogram(JSONObject object) {
 
