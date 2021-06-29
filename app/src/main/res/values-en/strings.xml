@@ -250,4 +250,5 @@
     <string name="tutorial03">"In OTTAA you have access to thousands of pictograms to talk about whatever you want, find the Picto Gallery in the lower-left corner of the main screen.  "</string>
     <string name="tutorial02">Once the phrase is created, touch the OTTAA logo to speak aloud, or using the share icon, you can send your phrase through the most used social networks.</string>
     <string name="tutorial01">"Touch one or more pictograms to create a sentence as long as you want. The pictograms are automatically related and you will always have one more pictogram to add. "</string>
+    <string name="image_error_cargar">dsds</string>
 </resources>

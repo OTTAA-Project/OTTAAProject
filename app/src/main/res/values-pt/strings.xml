@@ -24,4 +24,5 @@
     <string name="text_gender">Gênero:</string>
     <string name="test_game_vocabulary">Tenha acesso a jogos educativos que permitem avaliar o vocabulário de uma forma divertida.</string>
     <string name="te_ofrecemos_varias_opciones_para_naprender_a_utilizarla_y_sacarle_el_maximo_provecho">Oferecemos várias opções para aprender como usá-lo e obter o máximo dele.</string>
+    <string name="image_error_cargar">Selecione pelo menos um pictograma quando quiser compartilhar nas redes sociais</string>
 </resources>

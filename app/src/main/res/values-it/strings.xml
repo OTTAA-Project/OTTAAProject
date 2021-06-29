@@ -240,4 +240,5 @@
     <string name="tutorial03">In OTTAA hai accesso a migliaia di pittogrammi per parlare di quello che vuoi, trova la Galleria dei pittogrammi nell\'angolo in basso a sinistra della schermata principale.</string>
     <string name="tutorial02">Una volta creata la frase, tocca il logo OTTAA per parlare ad alta voce, oppure utilizzando l\'icona di condivisione, puoi inviare la tua frase attraverso i social network più utilizzati.</string>
     <string name="tutorial01">Tocca uno o più pittogrammi per creare una frase lunga quanto vuoi. I pittogrammi sono automaticamente correlati e avrai sempre un altro pittogramma da aggiungere.</string>
+    <string name="image_error_cargar">Seleziona almeno un pittogramma quando vuoi condividere sui social media</string>
 </resources>
