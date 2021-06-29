@@ -86,7 +86,6 @@ public class UtilsTTS {
                         mContext.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=com.acapelagroup.android.tts")).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
                     } else {
                         Log.d("instalarAcapella", "no");
-
                         mTTS.setEngineByPackageName("com.acapelagroup.android.tts");
                     }
 
