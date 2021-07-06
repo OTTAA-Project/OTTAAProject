@@ -1,83 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <PreferenceCategory android:title="@string/str_Settings"
-        android:shouldDisableView="false"
-        >
+    <PreferenceCategory
+        android:title="@string/str_Settings"
+        android:shouldDisableView="false">
         <PreferenceScreen
             android:icon="@drawable/ic_photo_library_white_24dp"
             android:title="@string/str_pictograms">
             <PreferenceCategory android:title="@string/str_pictograms">
 
-        <com.stonefacesoft.ottaa.utils.preferences.PersonalSwitchPreferences
-            android:defaultValue="true"
-            android:key="@string/str_editar_picto"
-            android:summary="@string/pref_summary_editar"
-            android:switchTextOff="@string/pref_desactivado"
-            android:switchTextOn="@string/pref_activado"
-            android:trackTint="@color/NaranjaOTTAA"
-            android:thumbTint="@color/Gray"
+                <com.stonefacesoft.ottaa.utils.preferences.PersonalSwitchPreferences
+                    android:defaultValue="true"
+                    android:key="@string/str_editar_picto"
+                    android:summary="@string/pref_summary_editar"
+                    android:switchTextOff="@string/pref_desactivado"
+                    android:switchTextOn="@string/pref_activado"
+                    android:trackTint="@color/NaranjaOTTAA"
+                    android:thumbTint="@color/Gray"
 
-            android:title="@string/pref_editar" />
+                    android:title="@string/pref_editar" />
                 <Preference
                     android:key="@string/str_time_click"
                     android:title="@string/str_delay_time_click"
-                    android:defaultValue="1"/>
+                    android:defaultValue="1" />
 
-    </PreferenceCategory>
-    <PreferenceCategory android:title="@string/borrar_talk">
-        <com.stonefacesoft.ottaa.utils.preferences.PersonalSwitchPreferences
-            android:defaultValue="true"
-            android:key="@string/talk_erase"
-            android:summary="@string/borrartalk"
-            android:switchTextOff="@string/pref_desactivado"
-            android:switchTextOn="@string/pref_activado"
-            android:outlineSpotShadowColor="@color/NaranjaOTTAA"
-            android:title="@string/borrar_talk"/>
+            </PreferenceCategory>
+            <PreferenceCategory android:title="@string/borrar_talk">
+                <com.stonefacesoft.ottaa.utils.preferences.PersonalSwitchPreferences
+                    android:defaultValue="true"
+                    android:key="@string/talk_erase"
+                    android:summary="@string/borrartalk"
+                    android:switchTextOff="@string/pref_desactivado"
+                    android:switchTextOn="@string/pref_activado"
+                    android:outlineSpotShadowColor="@color/NaranjaOTTAA"
+                    android:title="@string/borrar_talk" />
 
 
-    </PreferenceCategory>
+            </PreferenceCategory>
+            <PreferenceCategory android:title="@string/say_pictogram_name_tittle">
+                <com.stonefacesoft.ottaa.utils.preferences.PersonalSwitchPreferences
+                    android:defaultValue="true"
+                    android:key="@string/say_pictogram_name_key"
+                    android:summary="@string/say_pictogram_name_description"
+                    android:switchTextOff="@string/pref_desactivado"
+                    android:switchTextOn="@string/pref_activado"
+                    android:outlineSpotShadowColor="@color/NaranjaOTTAA"
+                    android:title="@string/say_pictogram_name_tittle" />
+            </PreferenceCategory>
+
         </PreferenceScreen>
 
         <PreferenceScreen
             android:icon="@drawable/ic_assistant_white_24dp"
             android:title="@string/str_prediction">
-    <PreferenceCategory
-        android:title="@string/pref_agenda"
-        android:enabled="false"
-        android:key="category_4">
+            <PreferenceCategory
+                android:title="@string/pref_agenda"
+                android:enabled="false"
+                android:key="category_4">
 
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="@string/bool_calendario"
-            android:summary="@string/pref_summary_agenda"
-            android:switchTextOff="@string/pref_desactivado"
-            android:trackTint="@color/NaranjaOTTAA"
-            android:thumbTint="@color/Gray"
-            android:switchTextOn="@string/pref_activado"
-            android:title="@string/pref_text_agenda" />
+                <SwitchPreference
+                    android:defaultValue="false"
+                    android:key="@string/bool_calendario"
+                    android:summary="@string/pref_summary_agenda"
+                    android:switchTextOff="@string/pref_desactivado"
+                    android:trackTint="@color/NaranjaOTTAA"
+                    android:thumbTint="@color/Gray"
+                    android:switchTextOn="@string/pref_activado"
+                    android:title="@string/pref_text_agenda" />
 
-    </PreferenceCategory>
+            </PreferenceCategory>
 
-    <PreferenceCategory
-        android:title="@string/pref_ubicacion"
-        android:enabled="true"
-        android:key="category_5">
+            <PreferenceCategory
+                android:title="@string/pref_ubicacion"
+                android:enabled="true"
+                android:key="category_5">
 
-        <com.stonefacesoft.ottaa.utils.preferences.PersonalSwitchPreferences
-            android:defaultValue="false"
-            android:enabled="true"
-            android:key="bool_ubicacion"
-            android:summary="@string/pref_summary_ubicacion"
-            android:switchTextOff="@string/pref_desactivado"
-            android:switchTextOn="@string/pref_activado"
-            android:trackTint="@color/NaranjaOTTAA"
-            android:thumbTint="@color/Gray"
-            android:title="@string/pref_ubicacion" />
+                <com.stonefacesoft.ottaa.utils.preferences.PersonalSwitchPreferences
+                    android:defaultValue="false"
+                    android:enabled="true"
+                    android:key="bool_ubicacion"
+                    android:summary="@string/pref_summary_ubicacion"
+                    android:switchTextOff="@string/pref_desactivado"
+                    android:switchTextOn="@string/pref_activado"
+                    android:trackTint="@color/NaranjaOTTAA"
+                    android:thumbTint="@color/Gray"
+                    android:title="@string/pref_ubicacion" />
 
 
-    </PreferenceCategory>
+            </PreferenceCategory>
             <PreferenceCategory android:title="@string/suggested_pictograms"
 
                 >
@@ -88,18 +98,17 @@
                     android:summary="Sugiere pictogramas acorde al uso de el resto de los usuarios"
                     android:outlineSpotShadowColor="@color/NaranjaOTTAA"
                     android:switchTextOff="@string/pref_desactivado"
-                    android:switchTextOn="@string/pref_activado"
-                    ></com.stonefacesoft.ottaa.utils.preferences.PersonalSwitchPreferences>
+                    android:switchTextOn="@string/pref_activado"></com.stonefacesoft.ottaa.utils.preferences.PersonalSwitchPreferences>
 
             </PreferenceCategory>
             <PreferenceCategory
                 android:key="category_7"
                 android:summary="@string/str_seleccionar_edad_usuario"
                 android:title="@string/str_age_value_description">
-            <Preference android:key="edad"
-                android:title="@string/str_seleccionar_edad_usuario"
-                android:dependency="edad"
-                />
+                <Preference
+                    android:key="edad"
+                    android:title="@string/str_seleccionar_edad_usuario"
+                    android:dependency="edad" />
             </PreferenceCategory>
             <PreferenceCategory
                 android:key="category_9"
@@ -108,8 +117,7 @@
                 <Preference
                     android:dependency="sexo"
                     android:key="sexo"
-                    android:title="@string/user_sex_gender_description"
-                    />
+                    android:title="@string/user_sex_gender_description" />
             </PreferenceCategory>
 
         </PreferenceScreen>
@@ -123,8 +131,7 @@
                     android:key="skillHand"
                     android:title="Mano Habil"
                     android:summary="Seleccione la mano habil "
-                    android:defaultValue="false"
-                    />
+                    android:defaultValue="false" />
                 <com.stonefacesoft.ottaa.utils.preferences.PersonalSwitchPreferences
                     android:defaultValue="false"
                     android:key="bool_barrido"
@@ -134,96 +141,88 @@
                     android:trackTint="@color/NaranjaOTTAA"
                     android:thumbTint="@color/Gray"
                     android:title="@string/pref_barrido" />
-               <PreferenceScreen
-                   android:title="@string/screen_scanning_mode"
-                   android:summary="@string/screen_scanning_operation"
-                   >
-                   <com.stonefacesoft.ottaa.utils.preferences.PersonalSwitchPreferences
-                       android:defaultValue="false"
-                       android:dependency="bool_barrido"
-                       android:key="tipo_barrido_normal"
-                       android:summary="@string/pref_activado"
-                       android:switchTextOff="@string/pref_desactivado"
-                       android:switchTextOn="@string/pref_activado"
-                       android:trackTint="@color/NaranjaOTTAA"
-                       android:thumbTint="@color/Gray"
-                       android:title="@string/pref_barrido"
-                       />
-                <com.stonefacesoft.ottaa.utils.preferences.PersonalSwitchPreferences
-                    android:defaultValue="false"
-                    android:dependency="bool_barrido"
-                    android:key="tipo_barrido"
-                    android:summary="@string/pref_activado"
-                    android:switchTextOff="@string/pref_desactivado"
-                    android:switchTextOn="@string/pref_activado"
-                    android:trackTint="@color/NaranjaOTTAA"
-                    android:thumbTint="@color/Gray"
-                    android:title="@string/str_avanzar_aceptar" />
-                <com.stonefacesoft.ottaa.utils.preferences.PersonalSwitchPreferences
-                    android:defaultValue="false"
-                    android:dependency="@string/bool_barrido"
-                    android:key="@string/usar_scroll"
-                    android:summary="@string/pref_activado"
-                    android:switchTextOff="@string/pref_desactivado"
-                    android:switchTextOn="@string/pref_activado"
-                    android:trackTint="@color/NaranjaOTTAA"
-                    android:thumbTint="@color/Gray"
-                    android:title="@string/str_use_scroll"
-                    />
-                   <com.stonefacesoft.ottaa.utils.preferences.PersonalSwitchPreferences
-                       android:defaultValue="false"
-                       android:dependency="@string/bool_barrido"
-                       android:key="@string/usar_scroll_click"
-                       android:summary="@string/pref_activado"
-                       android:switchTextOff="@string/pref_desactivado"
-                       android:switchTextOn="@string/pref_activado"
-                       android:trackTint="@color/NaranjaOTTAA"
-                       android:thumbTint="@color/Gray"
-                       android:title="@string/str_use_scroll_click"
-                       />
-                   <com.stonefacesoft.ottaa.utils.preferences.PersonalSwitchPreferences
-                       android:defaultValue="false"
-                       android:dependency="@string/bool_barrido"
-                       android:key="@string/sip_and_puff"
-                       android:summary="@string/pref_activado"
-                       android:switchTextOff="@string/pref_desactivado"
-                       android:switchTextOn="@string/pref_activado"
-                       android:trackTint="@color/NaranjaOTTAA"
-                       android:thumbTint="@color/Gray"
-                       android:title="Sip &amp; Puff Switch"
-                       />
-               </PreferenceScreen>
+                <PreferenceScreen
+                    android:title="@string/screen_scanning_mode"
+                    android:summary="@string/screen_scanning_operation">
+                    <com.stonefacesoft.ottaa.utils.preferences.PersonalSwitchPreferences
+                        android:defaultValue="false"
+                        android:dependency="bool_barrido"
+                        android:key="tipo_barrido_normal"
+                        android:summary="@string/pref_activado"
+                        android:switchTextOff="@string/pref_desactivado"
+                        android:switchTextOn="@string/pref_activado"
+                        android:trackTint="@color/NaranjaOTTAA"
+                        android:thumbTint="@color/Gray"
+                        android:title="@string/pref_barrido" />
+                    <com.stonefacesoft.ottaa.utils.preferences.PersonalSwitchPreferences
+                        android:defaultValue="false"
+                        android:dependency="bool_barrido"
+                        android:key="tipo_barrido"
+                        android:summary="@string/pref_activado"
+                        android:switchTextOff="@string/pref_desactivado"
+                        android:switchTextOn="@string/pref_activado"
+                        android:trackTint="@color/NaranjaOTTAA"
+                        android:thumbTint="@color/Gray"
+                        android:title="@string/str_avanzar_aceptar" />
+                    <com.stonefacesoft.ottaa.utils.preferences.PersonalSwitchPreferences
+                        android:defaultValue="false"
+                        android:dependency="@string/bool_barrido"
+                        android:key="@string/usar_scroll"
+                        android:summary="@string/pref_activado"
+                        android:switchTextOff="@string/pref_desactivado"
+                        android:switchTextOn="@string/pref_activado"
+                        android:trackTint="@color/NaranjaOTTAA"
+                        android:thumbTint="@color/Gray"
+                        android:title="@string/str_use_scroll" />
+                    <com.stonefacesoft.ottaa.utils.preferences.PersonalSwitchPreferences
+                        android:defaultValue="false"
+                        android:dependency="@string/bool_barrido"
+                        android:key="@string/usar_scroll_click"
+                        android:summary="@string/pref_activado"
+                        android:switchTextOff="@string/pref_desactivado"
+                        android:switchTextOn="@string/pref_activado"
+                        android:trackTint="@color/NaranjaOTTAA"
+                        android:thumbTint="@color/Gray"
+                        android:title="@string/str_use_scroll_click" />
+                    <com.stonefacesoft.ottaa.utils.preferences.PersonalSwitchPreferences
+                        android:defaultValue="false"
+                        android:dependency="@string/bool_barrido"
+                        android:key="@string/sip_and_puff"
+                        android:summary="@string/pref_activado"
+                        android:switchTextOff="@string/pref_desactivado"
+                        android:switchTextOn="@string/pref_activado"
+                        android:trackTint="@color/NaranjaOTTAA"
+                        android:thumbTint="@color/Gray"
+                        android:title="Sip &amp; Puff Switch" />
+                </PreferenceScreen>
 
-                <PreferenceScreen android:title="@string/device_version"
-                  android:summary="@string/select_device_version"
-                    >
+                <PreferenceScreen
+                    android:title="@string/device_version"
+                    android:summary="@string/select_device_version">
                     <Preference
                         android:defaultValue="0"
                         android:dependency="@string/bool_barrido"
                         android:key="v1"
-                        android:title="1.0"
-                        />
-                    <Preference android:defaultValue="1"
+                        android:title="1.0" />
+                    <Preference
+                        android:defaultValue="1"
                         android:dependency="@string/bool_barrido"
                         android:key="v2"
-                        android:title="2.0"
-                        />
+                        android:title="2.0" />
                 </PreferenceScreen>
                 <PreferenceScreen
                     android:title="@string/speed"
-                    android:summary="@string/speed_summary"
-                    >
+                    android:summary="@string/speed_summary">
                     <Preference
                         android:defaultValue="0"
                         android:dependency="@string/usar_scroll"
                         android:key="@string/scroll_speed"
-                        android:title="@string/scroll_speed_title"
-                        />
+                        android:title="@string/scroll_speed_title" />
                     <Preference
                         android:dependency="@string/bool_barrido"
                         android:key="velocidad_barrido"
                         android:title="@string/scanning_resources"
-                        android:defaultValue="1"/>
+                        android:defaultValue="1" />
                 </PreferenceScreen>
 
 
@@ -233,7 +232,6 @@
                     android:key="posicion_joystick"
                     android:summary="@string/joystick_orientacion_tipo"
                     android:title="@string/joystick_orientation" />
-
 
 
             </PreferenceCategory>
@@ -282,7 +280,7 @@
                     android:dependency="@string/bool_TTS"
                     android:key="pitch_tts"
                     android:title="@string/pref_option2_tts"
-                    android:defaultValue="2"/>
+                    android:defaultValue="2" />
             </PreferenceCategory>
 
             <PreferenceCategory
@@ -306,8 +304,7 @@
                     android:title="@string/pref_subtitulo_tamanio"
                     android:defaultValue="25"
                     android:trackTint="@color/NaranjaOTTAA"
-                    android:thumbTint="@color/Gray"
-                    />
+                    android:thumbTint="@color/Gray" />
 
                 <com.stonefacesoft.ottaa.utils.preferences.PersonalSwitchPreferences
                     android:defaultValue="false"
@@ -329,10 +326,10 @@
             <PreferenceCategory
                 android:key="category_8"
                 android:title="@string/pref_idioma">
-                <Preference android:key="idioma"
+                <Preference
+                    android:key="idioma"
                     android:dependency="@string/str_idioma"
-                    android:title="@string/pref_idioma"
-                    />
+                    android:title="@string/pref_idioma" />
                 <com.stonefacesoft.ottaa.utils.preferences.PersonalSwitchPreferences
                     android:defaultValue="false"
                     android:key="@string/mBoolModoExperimental"
