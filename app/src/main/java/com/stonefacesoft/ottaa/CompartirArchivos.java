@@ -8,6 +8,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.StrictMode;
+import android.speech.tts.TextToSpeech;
 import android.speech.tts.UtteranceProgressListener;
 import android.util.Log;
 import android.view.View;
@@ -48,6 +49,23 @@ public class CompartirArchivos {
     private Bitmap imagen;
     private boolean actionShare;
     private File file;
+    private String text = "";
+    private UtteranceProgressListener mUtteranceListener = new UtteranceProgressListener() {
+        @Override
+        public void onStart(String utteranceId) {
+
+        }
+
+        @Override
+        public void onDone(String utteranceId) {
+            compartirAudioPictogramas(file);
+        }
+
+        @Override
+        public void onError(String utteranceId) {
+
+        }
+    };
 
     public CompartirArchivos(Context context1, textToSpeech myTTS) {
         this.mContext = context1;
@@ -83,9 +101,22 @@ public class CompartirArchivos {
         sharingIntent.setType("audio/*");
         sharingIntent.putExtra(Intent.EXTRA_STREAM, uri);
         mContext.startActivity(sharingIntent);
-        //convertAudio(file);
+        myTTS.getTTS().setOnUtteranceProgressListener(new UtteranceProgressListener() {
+            @Override
+            public void onStart(String utteranceId) {
 
+            }
 
+            @Override
+            public void onDone(String utteranceId) {
+
+            }
+
+            @Override
+            public void onError(String utteranceId) {
+
+            }
+        });
     }
 
     //metodo para tomar los pictogramas
@@ -221,27 +252,7 @@ public class CompartirArchivos {
         compartirAudio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                myTTS.getTTS().setOnUtteranceProgressListener(new UtteranceProgressListener() {
-                    @Override
-                    public void onStart(String utteranceId) {
-
-                    }
-
-                    @Override
-                    public void onDone(String utteranceId) {
-
-                    }
-
-                    @Override
-                    public void onError(String utteranceId) {
-
-                    }
-
-                    @Override
-                    public void onAudioAvailable(String utteranceId, byte[] audio) {
-                        super.onAudioAvailable(utteranceId, audio);
-                    }
-                });
+                myTTS.getTTS().setOnUtteranceProgressListener(mUtteranceListener);
                 try {
                     file = File.createTempFile("audio.wav",mContext.getExternalCacheDir().getAbsolutePath());
                     myTTS.grabar(file, Oracion);

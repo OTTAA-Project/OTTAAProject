@@ -69,17 +69,12 @@ public class textToSpeech {
     }
 
     public void grabar(File file,String oracion) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            String fileName = Uri.parse("audio.mp3").getLastPathSegment();
-            HashMap<String, String> myHashRender = new HashMap();
             Bundle bundle = new Bundle();
             bundle.putString(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID,oracion);
+            hablar.synthesizeToFile(oracion,bundle,file,oracion);
           //file=new File(mContext.getCacheDir(),"audio.wav");
             Log.e("texToSpeech_grabar_size", file.getTotalSpace() + "");
             Log.e("texToSpeech_grabar_path", file.getAbsolutePath() + "");
-
-
-        }
     }
 
     public File devolverPathAudio() {
