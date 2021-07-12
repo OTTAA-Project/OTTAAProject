@@ -14,6 +14,7 @@ import android.os.Message;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.InputDevice;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -889,6 +890,35 @@ public class GaleriaGrupos2 extends AppCompatActivity implements OnStartDragList
 
     public ScrollFunctionGaleriaGrupos getFunction_scroll(){
         return function_scroll;
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (barridoPantalla.isBarridoActivado()) {
+
+            if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT) {
+                event.startTracking();
+                return true;
+            } else if (keyCode == KeyEvent.KEYCODE_DPAD_LEFT) {
+                event.startTracking();
+                return true;
+            } else if (keyCode == KeyEvent.KEYCODE_DPAD_UP) {
+                event.startTracking();
+                return true;
+            } else if (keyCode == KeyEvent.KEYCODE_DPAD_DOWN) {
+                event.startTracking();
+                return true;
+            }
+            if(keyCode == KeyEvent.KEYCODE_BACK){
+                if(event.getSource() == InputDevice.SOURCE_MOUSE)
+                    barridoPantalla.getmListadoVistas().get(barridoPantalla.getPosicionBarrido()).callOnClick();
+                else
+                    onBackPressed();
+                return true;
+            }
+
+        }
+        return false;
     }
 }
 
