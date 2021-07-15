@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.InputDevice;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -463,5 +465,34 @@ public class MemoryGame extends GameViewSelectPictograms {
                 animarPictoGanador(opcion4, btn);
                 break;
         }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (barridoPantalla.isBarridoActivado()) {
+
+            if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT) {
+                event.startTracking();
+                return true;
+            } else if (keyCode == KeyEvent.KEYCODE_DPAD_LEFT) {
+                event.startTracking();
+                return true;
+            } else if (keyCode == KeyEvent.KEYCODE_DPAD_UP) {
+                event.startTracking();
+                return true;
+            } else if (keyCode == KeyEvent.KEYCODE_DPAD_DOWN) {
+                event.startTracking();
+                return true;
+            }
+            if(keyCode == KeyEvent.KEYCODE_BACK){
+                if(event.getSource() == InputDevice.SOURCE_MOUSE)
+                    barridoPantalla.getmListadoVistas().get(barridoPantalla.getPosicionBarrido()).callOnClick();
+                else
+                    onBackPressed();
+                return true;
+            }
+
+        }
+        return false;
     }
 }

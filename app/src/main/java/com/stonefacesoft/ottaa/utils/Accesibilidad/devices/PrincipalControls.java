@@ -19,6 +19,7 @@ public class PrincipalControls extends Controls {
     @Override
     public boolean makeClick(MotionEvent event) {
         Log.e(TAG, "makeClick: "+event.getAction() );
+
         if (event.getSource() == InputDevice.SOURCE_MOUSE&&(principal.getBarridoPantalla().isAvanzarYAceptar()||principal.getBarridoPantalla().isSipAndPuff())) {
             switch (event.getButtonState()) {
                 case MotionEvent.BUTTON_PRIMARY:
@@ -40,6 +41,7 @@ public class PrincipalControls extends Controls {
                     principal.getBarridoPantalla().avanzarBarrido();
                 case MotionEvent.AXIS_HAT_Y :
                     return true;
+
 
             }
 
@@ -90,6 +92,13 @@ public class PrincipalControls extends Controls {
     @Override
     public boolean makeTertiaryClick(MotionEvent event) {
         principal.onClick(principal.getBarridoPantalla().getmListadoVistas().get(principal.getBarridoPantalla().getPosicionBarrido()));
+        return true;
+    }
+
+    @Override
+    public boolean pressBackButton() {
+
+        principal.getBarridoPantalla().getmListadoVistas().get(principal.getBarridoPantalla().getPosicionBarrido()).callOnClick();
         return true;
     }
 }

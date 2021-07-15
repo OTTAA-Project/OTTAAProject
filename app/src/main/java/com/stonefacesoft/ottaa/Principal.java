@@ -1258,7 +1258,6 @@ public class Principal extends AppCompatActivity implements View
             drawerLayout.closeDrawer(GravityCompat.START);
         }
         if (doubleBackToExitPressedOnce) {
-            android.os.Process.killProcess(android.os.Process.myPid());
             super.onBackPressed();
             return;
         }
@@ -1917,7 +1916,6 @@ public class Principal extends AppCompatActivity implements View
 
     @Override
     public void takeKeyEvents(boolean get) {
-
         super.takeKeyEvents(get);
     }
 
@@ -1941,9 +1939,16 @@ public class Principal extends AppCompatActivity implements View
                 event.startTracking();
                 return true;
             }
+            if(keyCode == KeyEvent.KEYCODE_BACK){
+                if(event.getSource() == InputDevice.SOURCE_MOUSE)
+                    barridoPantalla.getmListadoVistas().get(barridoPantalla.getPosicionBarrido()).callOnClick();
+                else
+                    onBackPressed();
+                return true;
+            }
 
         }
-        return super.onKeyDown(keyCode, event);
+        return false;
     }
 
 

@@ -176,6 +176,7 @@ public class LoginActivity2Avatar extends AppCompatActivity implements View.OnCl
             mFirebaseAnalytics.customEvents("Touch", "LoginActivity2Avatar", "Back3");
             Intent intent2 = new Intent(LoginActivity2Avatar.this, LoginActivity2Step3.class);
             startActivity(intent2);
+            finish();
         } else if (id == R.id.buttonSelectAvatarSource) {
             mFirebaseAnalytics.customEvents("Touch", "LoginActivity2Avatar", "buttonSelectAvatarSource");
             //Scale Animation to show the other buttons
