@@ -69,12 +69,7 @@ public class textToSpeech {
     }
 
     public void grabar(File file,String oracion) {
-            Bundle bundle = new Bundle();
-            bundle.putString(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID,oracion);
-            hablar.synthesizeToFile(oracion,bundle,file,oracion);
-          //file=new File(mContext.getCacheDir(),"audio.wav");
-            Log.e("texToSpeech_grabar_size", file.getTotalSpace() + "");
-            Log.e("texToSpeech_grabar_path", file.getAbsolutePath() + "");
+
     }
 
     public File devolverPathAudio() {
@@ -119,14 +114,7 @@ public class textToSpeech {
 
             @Override
             public void onAudioAvailable(String utteranceId, byte[] audio) {
-                final Intent shareIntent = new Intent(Intent.ACTION_SEND);
-                shareIntent.setType("*/*");
-                shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse(file.getAbsolutePath()));
 
-                if (shareIntent.resolveActivity(context.getPackageManager()) != null) {
-                    context.startActivity(shareIntent);
-                }
-                super.onAudioAvailable(utteranceId, audio);
             }
 
             @Override
@@ -152,6 +140,8 @@ public class textToSpeech {
     public void mostrarAlerta(String mensaje, AnalyticsFirebase mTracker) {
         alerta.mostrarFrase(mensaje, mTracker);
     }
+
+
 
 
 

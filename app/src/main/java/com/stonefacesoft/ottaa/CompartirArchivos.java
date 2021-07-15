@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.StrictMode;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.UtteranceProgressListener;
@@ -44,28 +45,13 @@ public class CompartirArchivos {
     private final GestionarBitmap gestionarBitmap;
     private final textToSpeech myTTS;
     private final String TAG = "CompartirArchivos_";
+    private final String text = "";
     private File audio;
     private ArrayList<JSONObject> historial;
     private Bitmap imagen;
     private boolean actionShare;
     private File file;
-    private String text = "";
-    private UtteranceProgressListener mUtteranceListener = new UtteranceProgressListener() {
-        @Override
-        public void onStart(String utteranceId) {
 
-        }
-
-        @Override
-        public void onDone(String utteranceId) {
-            compartirAudioPictogramas(file);
-        }
-
-        @Override
-        public void onError(String utteranceId) {
-
-        }
-    };
 
     public CompartirArchivos(Context context1, textToSpeech myTTS) {
         this.mContext = context1;
@@ -74,49 +60,16 @@ public class CompartirArchivos {
         Json.getInstance().setmContext(mContext);
         this.json = Json.getInstance();
         this.myTTS = myTTS;
-//        AndroidAudioConverter.load(mContext, new ILoadCallback() {
-//            @Override
-//            public void onSuccess() {
-//                // Great!
-//                Log.e(TAG + "Audio", "cargado");
-//
-//
-//            }
-//
-//            @Override
-//            public void onFailure(Exception error) {
-//                // FFmpeg is not supported by device
-//                Log.e(TAG + "error", "couldn't create the audio file");
-//            }
-//        });
-
 
     }
 
-    public void compartirAudioPictogramas(File file) {
-        actionShare = true;
+    public void compartirAudioPictogramas() {
         Intent sharingIntent = new Intent(Intent.ACTION_SEND);
         sharingIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
         Uri uri = Uri.fromFile(file);
         sharingIntent.setType("audio/*");
         sharingIntent.putExtra(Intent.EXTRA_STREAM, uri);
         mContext.startActivity(sharingIntent);
-        myTTS.getTTS().setOnUtteranceProgressListener(new UtteranceProgressListener() {
-            @Override
-            public void onStart(String utteranceId) {
-
-            }
-
-            @Override
-            public void onDone(String utteranceId) {
-
-            }
-
-            @Override
-            public void onError(String utteranceId) {
-
-            }
-        });
     }
 
     //metodo para tomar los pictogramas
@@ -241,25 +194,43 @@ public class CompartirArchivos {
         if (!Oracion.isEmpty()) {
             //Use this function from the tts, to storage a file temporal
 
-
         } else {
             Toast.makeText(mContext, "Genere una frase para compartir.", Toast.LENGTH_SHORT).show();
             dialog.dismiss();
         }
-        //compartirAudio.setEnabled(false);
         // the audio files is shared when  click on the button
 
         compartirAudio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                myTTS.getTTS().setOnUtteranceProgressListener(mUtteranceListener);
                 try {
-                    file = File.createTempFile("audio.wav",mContext.getExternalCacheDir().getAbsolutePath());
-                    myTTS.grabar(file, Oracion);
-
+                    file = File.createTempFile("audio", ".wav", mContext.getExternalCacheDir());
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+                Bundle params = new Bundle();
+                params.putString(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, Oracion);
+                synchronized (file) {
+                }
+                myTTS.getTTS().setOnUtteranceProgressListener(new UtteranceProgressListener() {
+                    @Override
+                    public void onStart(String utteranceId) {
+
+                    }
+
+                    @Override
+                    public void onDone(String utteranceId) {
+
+                            compartirAudioPictogramas();
+
+                    }
+
+                    @Override
+                    public void onError(String utteranceId) {
+
+                    }
+                });
+                myTTS.getTTS().synthesizeToFile(Oracion, params, file, Oracion);
             }
         });
 
