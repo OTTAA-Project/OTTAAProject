@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.UtteranceProgressListener;
@@ -15,7 +16,6 @@ import com.stonefacesoft.ottaa.utils.Firebase.AnalyticsFirebase;
 import com.stonefacesoft.ottaa.utils.Ttsutils.UtilsTTS;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
 
 
@@ -48,14 +48,12 @@ public class textToSpeech {
         Log.e("texToSpeech_hablar", "Hablar");
         this.oracion = frase;
         prepare.hablarConDialogo(oracion);
-
     }
 
     public void hablarSinMostrarFrase(String frase) {
         Log.e("texToSpeech_hablar", "Hablar");
         this.oracion = frase;
         prepare.hablar(oracion);
-
     }
 
     public void hablar(String frase, AnalyticsFirebase mTracker) {
@@ -63,7 +61,6 @@ public class textToSpeech {
         this.oracion = frase;
         alerta.mostrarFrase(frase, mTracker);
         prepare.hablar(frase);
-
     }
 
 
@@ -71,28 +68,8 @@ public class textToSpeech {
         hablar.stop();
     }
 
-    public File grabar(String oracion) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            String fileName = Uri.parse("audio.mp3").getLastPathSegment();
-            try {
-                file = File.createTempFile("audio", ".wav", context.getExternalCacheDir());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            HashMap<String, String> myHashRender = new HashMap();
-            String wakeUpText = oracion;
-            String destFileName =file.getAbsolutePath();
-            myHashRender.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, wakeUpText);
+    public void grabar(File file,String oracion) {
 
-            hablar.synthesizeToFile(wakeUpText, myHashRender, file.getAbsolutePath());
-          //file=new File(mContext.getCacheDir(),"audio.wav");
-            Log.e("texToSpeech_grabar_size", file.getTotalSpace() + "");
-            Log.e("texToSpeech_grabar_path", file.getAbsolutePath() + "");
-
-
-        }
-
-        return file;
     }
 
     public File devolverPathAudio() {
@@ -137,14 +114,7 @@ public class textToSpeech {
 
             @Override
             public void onAudioAvailable(String utteranceId, byte[] audio) {
-                final Intent shareIntent = new Intent(Intent.ACTION_SEND);
-                shareIntent.setType("*/*");
-                shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse(file.getAbsolutePath()));
 
-                if (shareIntent.resolveActivity(context.getPackageManager()) != null) {
-                    context.startActivity(shareIntent);
-                }
-                super.onAudioAvailable(utteranceId, audio);
             }
 
             @Override
@@ -169,8 +139,9 @@ public class textToSpeech {
 
     public void mostrarAlerta(String mensaje, AnalyticsFirebase mTracker) {
         alerta.mostrarFrase(mensaje, mTracker);
-
     }
+
+
 
 
 

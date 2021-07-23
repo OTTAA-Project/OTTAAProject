@@ -1,6 +1,5 @@
 package com.stonefacesoft.ottaa;
 
-import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -12,7 +11,6 @@ import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Animation;
@@ -157,6 +155,7 @@ public class LoginActivity2Step2 extends AppCompatActivity implements View.OnCli
                 mAnalyticsFirebase.customEvents("Touch", "LoginActivityStep2", "Back1");
                 Intent intent2 = new Intent(LoginActivity2Step2.this, LoginActivity2Step2.class);
                 startActivity(intent2);
+                finish();
                 break;
             case R.id.buttonCalendarDialog:
                 mAnalyticsFirebase.customEvents("Touch", "LoginActivityStep2", "calendarButton");

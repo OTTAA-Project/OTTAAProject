@@ -13,7 +13,7 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.os.Environment;
+import android.os.Build;
 import android.util.Log;
 
 import androidx.appcompat.content.res.AppCompatResources;
@@ -100,8 +100,12 @@ public class GestionarBitmap  {
     private void storeImage(Bitmap image)
     {
         //GB_StoreImage_Foto : GestionarBitmap_StoreImageFoto
-        imgs = getOutputMediaFile();
 
+        try{
+            imgs = getOutputMediaFile();
+        }catch (Exception ex){
+            Log.e(TAG, "storeImageException: "+ex.getMessage());
+        }
         try
         {
             FileOutputStream fos = new FileOutputStream(imgs);
@@ -129,11 +133,13 @@ public class GestionarBitmap  {
     //metodo para obtener la imagen
     public File getOutputMediaFile()
     {
-        //direccion del archivo
-        File mediaStorageDir = new File(Environment.getExternalStorageDirectory()
-                + "/Android/data/"
-                + mContext.getPackageName()
-                + "/Files");
+        UriFiles filesUtils = new UriFiles(mContext);
+        String path="";
+        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.Q){
+            path=filesUtils.downloadAfterAndroidQ();
+        }else
+            path=filesUtils.downloadBeforeAndroidQ();
+        File mediaStorageDir= new File(path);
         //direccionn real donde se va a ubicar el archivo
         mCurrentPhotoPath = (mediaStorageDir.getPath() + File.separator + nombre);
         if(!noTemp)
@@ -266,7 +272,7 @@ public class GestionarBitmap  {
     }
 
     //metodo para armar las imagenes
-    public void generarImagenesMasUsadas() {
+    public void createImage() {
         storeImage(combineImages(25,25));
     }
 
