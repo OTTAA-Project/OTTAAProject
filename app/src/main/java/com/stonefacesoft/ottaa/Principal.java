@@ -1625,11 +1625,12 @@ public class Principal extends AppCompatActivity implements View
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
+        sayPictogramName(JSONutils.getNombre(opcion,sharedPrefsDefault.getString(getResources().getString(R.string.str_idioma),"en")));
         pictoPadre = opcion;
         cargarSelec(pictoPadre);
         CargarOpciones(json, opcion, cuentaMasPictos);
         Log.d(TAG, "click: " + opcion.toString());
+
     }
 
 
@@ -2858,5 +2859,11 @@ public class Principal extends AppCompatActivity implements View
     }
 
 
+
+    private void sayPictogramName(String name){
+        if(sharedPrefsDefault.getBoolean(getResources().getString(R.string.say_pictogram_name_key),false)){
+            myTTS.hablar(name);
+        }
+    }
 }
 
