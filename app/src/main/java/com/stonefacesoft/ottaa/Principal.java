@@ -145,8 +145,7 @@ import static com.facebook.FacebookSdk.setAutoLogAppEventsEnabled;
 
 /**
  *
- * VERSION 86 Circle CI testing y JUNIT
- * VERSION 87 Avatar,
+ * Review resources de HC pero en la rama reviewresources
  */
 public class Principal extends AppCompatActivity implements View
         .OnClickListener,
