@@ -146,8 +146,7 @@ import java.util.Objects;
 import static com.facebook.FacebookSdk.setAutoLogAppEventsEnabled;
 
 /**
- * VERSION 86 Circle CI testing y JUNIT
- * VERSION 87 Avatar,
+ * merge con favorite phrases
  */
 public class Principal extends AppCompatActivity implements View
         .OnClickListener,
