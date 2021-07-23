@@ -1154,7 +1154,7 @@ public class Principal extends AppCompatActivity implements View
     /**
      * Implementa este metodo de TTS interface, cuando se inicializa el TTS lo setea por defecto
      *
-     * @param initStatus
+     *
      */
 
     @Override
@@ -2577,7 +2577,6 @@ public class Principal extends AppCompatActivity implements View
             myTTS.hablar(name);
         }
     }
-}
 
     private void onClickOption(JSONObject option, timer_pictogram_clicker clicker) {
         if (option == null) {
