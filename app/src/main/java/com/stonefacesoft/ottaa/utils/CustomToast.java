@@ -1,6 +1,5 @@
 package com.stonefacesoft.ottaa.utils;
 
-import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -8,12 +7,11 @@ import android.preference.PreferenceManager;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.utils.Firebase.AnalyticsFirebase;
 
@@ -33,8 +31,15 @@ public class CustomToast extends Application {
     private final Context mContext;
     private final View layout;
     private final Toast toast;
+    private static CustomToast customToast;
 
-    public CustomToast(Context context) {
+    public static CustomToast getInstance(Context mContext){
+        if(customToast == null)
+            customToast = new CustomToast(mContext);
+        return customToast;
+    }
+
+    private CustomToast(Context context) {
 
         this.mContext = context;
         sharedPrefsDefault = PreferenceManager.getDefaultSharedPreferences(mContext.getApplicationContext());
@@ -51,7 +56,7 @@ public class CustomToast extends Application {
         this.layout.setAlpha((float) 0.85);
         this.tv = layout.findViewById(R.id.text);
         this.imageView = layout.findViewById(R.id.imageViewAvatarToast);
-//        TODO add the avatar image selected from the USER
+        new AvatarUtils(mContext,imageView, FirebaseAuth.getInstance()).getFirebaseAvatar();
         this.toast = new Toast(mContext);
     }
 
@@ -78,13 +83,13 @@ public class CustomToast extends Application {
         } else {
             this.tv.setTextSize(20);
         }
-
         //Set custom_toast gravity to bottom
         toast.setGravity(Gravity.BOTTOM, 0, 50);
         //Set custom_toast duration
         toast.setDuration(Toast.LENGTH_SHORT);
         //Set the custom layout to Toast
         toast.setView(layout);
+
         //Display custom_toast
         toast.show();
     }
@@ -94,4 +99,6 @@ public class CustomToast extends Application {
             Testo = Testo.toString().toUpperCase();
         this.tv.setText(Testo);
     }
+
+
 }

@@ -351,8 +351,8 @@ public class Principal extends AppCompatActivity implements View
 
     private Gesture gesture;
 
-    Avatar avatar;
-    MovableFloatingActionButton movableFloatingActionButton;
+    private Avatar avatar;
+    private MovableFloatingActionButton movableFloatingActionButton;
 
 
     @Override
@@ -705,6 +705,11 @@ public class Principal extends AppCompatActivity implements View
         image1.setPadding(20, 20, 20, 20);
         image1.setImageDrawable(getResources().getDrawable(R.drawable.antipatico));
 
+        movableFloatingActionButton = findViewById(R.id.movableButton);
+        movableFloatingActionButton.setVisibility(View.VISIBLE);
+        movableFloatingActionButton.setOnClickListener(this);
+        avatar = new Avatar(this,movableFloatingActionButton);
+
         //Vibraicion inicial
         long[] patron = {0, 10, 20, 15, 20, 20};
         vibe.vibrate(patron, -1);
@@ -818,10 +823,9 @@ public class Principal extends AppCompatActivity implements View
             sharedPrefs.edit().putBoolean("PrimerUso",false).apply();
         }
         navigationControls=new PrincipalControls(this);
+        movableFloatingActionButton.setIcon(user.getmAuth());
 
-        movableFloatingActionButton = new MovableFloatingActionButton(this);
-        movableFloatingActionButton = findViewById(R.id.movableButton);
-        avatar = new Avatar(this,movableFloatingActionButton);
+
     }
 
 
@@ -2198,30 +2202,31 @@ public class Principal extends AppCompatActivity implements View
                 case R.id.action_share:
                     //Analytics
                     //Registo que uso un funcion que nos interesa que use
-                    analitycsFirebase.customEvents("Touch","Principal","Share");
-                        if (historial.getListadoPictos().size() > 0) {
-                            if (!sharedPrefsDefault.getBoolean(getString(R.string.mBoolModoExperimental), false)) {
-                                if (myTTS != null) {
-                                    CompartirArchivos compartirArchivos = new CompartirArchivos(getContext(), myTTS);
-                                    compartirArchivos.setHistorial(historial.getListadoPictos());
-                                    compartirArchivos.seleccionarFormato(Oracion);
-                                }
-                            } else if (sharedPrefsDefault.getBoolean(getString(R.string.mBoolModoExperimental), false)) {
-                                Log.d(TAG, "onClick: " + historial.getListadoPictos().toString());
-                                traducirfrase = new traducirTexto(getApplication());
-                                if (Oracion.isEmpty() && historial.getListadoPictos().size() > 0)
-                                    CargarOracion(historial.getListadoPictos().get(0),sharedPrefsDefault.getString(getString(R.string.str_idioma), "en"));
-                                Oracion = EjecutarNLG(true);
-                                traducirfrase.traducirIdioma(this, Oracion, "en", sharedPrefsDefault.getString(getString(R.string.str_idioma), "en"), true);
+                    analitycsFirebase.customEvents("Touch", "Principal", "Share");
+                    if (historial.getListadoPictos().size() > 0) {
+                        if (!sharedPrefsDefault.getBoolean(getString(R.string.mBoolModoExperimental), false)) {
+                            if (myTTS != null) {
+                                CompartirArchivos compartirArchivos = new CompartirArchivos(getContext(), myTTS);
+                                compartirArchivos.setHistorial(historial.getListadoPictos());
+                                compartirArchivos.seleccionarFormato(Oracion);
                             }
-                            // if(myTTS().devolverPathAudio().exists())
+                        } else if (sharedPrefsDefault.getBoolean(getString(R.string.mBoolModoExperimental), false)) {
+                            Log.d(TAG, "onClick: " + historial.getListadoPictos().toString());
+                            traducirfrase = new traducirTexto(getApplication(), sharedPrefsDefault);
+                            if (Oracion.isEmpty() && historial.getListadoPictos().size() > 0)
+                                CargarOracion(historial.getListadoPictos().get(0));
+                            Oracion = EjecutarNLG(true);
+                            traducirfrase.traducirIdioma(this, Oracion, "en", sharedPrefsDefault.getString(getString(R.string.str_idioma), "en"), true);
                         }
+                        // if(myTTS().devolverPathAudio().exists())
+                    }
+                  //  myTTS.hablar(avatar.animateTalk("¡Felicitaciones!... Has creado 10 frases el día de hoy, sigue así."));
 
 
                    break;
                 case R.id.movableButton:
-                    avatar.finishTalking();
-                    //TODO here is the onClick event for the avatar.
+                    myTTS.hablar(avatar.animateTalk(getString(R.string.Iam)+" "+sharedPrefsDefault.getString("name","")));
+
                     break;
                 default:
                     Log.d(TAG, "onClick: Oracion:" + Oracion);

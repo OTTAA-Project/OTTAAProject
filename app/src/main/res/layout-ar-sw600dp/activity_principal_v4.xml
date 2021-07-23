@@ -481,4 +481,27 @@
         custom:layout_constraintStart_toStartOf="parent"
         custom:layout_constraintEnd_toEndOf="parent"
         custom:layout_constraintTop_toTopOf="parent" />
+
+    <com.stonefacesoft.ottaa.utils.MovableFloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/movableButton"
+        custom:layout_constraintStart_toStartOf="parent"
+        custom:layout_constraintBottom_toTopOf="@id/constraintLeftButtons"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
+        android:visibility="gone"
+        >
+
+        <ImageView
+            android:id="@+id/buttonAvatar"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_margin="6dp"
+            android:src="@drawable/ic_avatar35"
+            android:background="@color/colorTransparent"
+            android:contentDescription=""
+            android:layout_gravity="center"
+            />
+    </com.stonefacesoft.ottaa.utils.MovableFloatingActionButton>
 </androidx.constraintlayout.widget.ConstraintLayout>

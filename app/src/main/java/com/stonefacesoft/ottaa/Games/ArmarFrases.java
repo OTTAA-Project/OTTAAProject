@@ -108,8 +108,8 @@ public class ArmarFrases extends AppCompatActivity implements View.OnClickListen
         Agregar.setIdPictogram(0);
 
         numeros=new ArrayList();
-        mDefaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        toast=new CustomToast(this);
+        mDefaultSharedPreferences= PreferenceManager.getDefaultSharedPreferences(this);
+        toast=CustomToast.getInstance(this);
         mUtilsTTS=new UtilsTTS(this,mTTS,toast,mDefaultSharedPreferences);
         listadoPictos=new ArrayList<>();
         seleccion1=findViewById(R.id.Seleccion1);

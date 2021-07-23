@@ -483,4 +483,5 @@
     <string name="whatareyoulooking">What are you looking for?</string>
     <string name="say_pictogram_name_tittle">Say the pictogram</string>
     <string name="say_pictogram_name_description">OTTAA says the pictogram name at the touch it</string>
+    <string name="Iam">I am</string>
 </resources>

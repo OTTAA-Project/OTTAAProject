@@ -152,7 +152,7 @@ public class traducirTexto {
                         @Override
                         public void onErrorResponse(VolleyError error) {
                             Log.e("Principal_Trad_DoInBack","ResponseError:"+error);
-                            new CustomToast(mContext).mostrarFrase(mContext.getString(R.string.str_error_translateGoogle));
+                            CustomToast.getInstance(mContext).mostrarFrase(mContext.getString(R.string.str_error_translateGoogle));
                             new Handler().postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
