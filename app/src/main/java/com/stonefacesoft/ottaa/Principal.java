@@ -2755,9 +2755,7 @@ public class Principal extends AppCompatActivity implements View
         switch (item.getItemId()) {
 
             case R.id.action_parar:
-
-
-                    //Registo que uso un funcion que nos interesa que use
+                //Registo que uso un funcion que nos interesa que use
 
 
                     analitycsFirebase.customEvents("Touch","Principal","Silence");
@@ -2810,7 +2808,8 @@ public class Principal extends AppCompatActivity implements View
                 super.onBackPressed();
                 break;
             case R.id.tutorial:
-                Intent intent1=new Intent(this,Viewpager_tutorial.class);
+                Intent intent1=new Intent(this,LoginActivity2Step3.class);
+                intent1.putExtra("comingFromMainActivity",true);
                 startActivity(intent1);
                 break;
             case R.id.logout:

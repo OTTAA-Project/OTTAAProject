@@ -27,11 +27,17 @@ public class LoginActivity2Step3 extends AppCompatActivity implements View.OnCli
     Button buttonNext;
     Button buttonPrevious;
     Button buttonTutorial;
+    private boolean comingFromMainActivity;
 
     private AnalyticsFirebase mAnalyticsFirebase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Intent intento = getIntent();
+        if(intento!=null){
+            if(intento.hasExtra("comingFromMainActivity"))
+                comingFromMainActivity = true;
+        }
         new InmersiveMode(this);
 
         super.onCreate(savedInstanceState);
@@ -56,6 +62,10 @@ public class LoginActivity2Step3 extends AppCompatActivity implements View.OnCli
         buttonPrevious.setOnClickListener(this);
         buttonTutorial = findViewById(R.id.buttonTutorial);
         buttonTutorial.setOnClickListener(this);
+        if(comingFromMainActivity){
+            buttonPrevious.setVisibility(View.INVISIBLE);
+            buttonNext.setText(getResources().getText(R.string.exit_general));
+        }
 
 
 
@@ -67,14 +77,18 @@ public class LoginActivity2Step3 extends AppCompatActivity implements View.OnCli
     public void onClick(View view) {
         int id = view.getId();
         if (id == R.id.nextButton) {
+           if(!comingFromMainActivity){
             mAnalyticsFirebase.customEvents("Touch","LoginActivityStep3","Next2");
             Intent intent = new Intent(LoginActivity2Step3.this, LoginActivity2Avatar.class);
             startActivity(intent);
+           }
             finish();
         } else if (id == R.id.backButton) {
+           if(!comingFromMainActivity){
             mAnalyticsFirebase.customEvents("Touch","LoginActivityStep3","Back2");
             Intent intent2 = new Intent(LoginActivity2Step3.this, LoginActivity2Step2.class);
             startActivity(intent2);
+           }
         } else if (id == R.id.buttonTutorial) {
             mAnalyticsFirebase.customEvents("Touch","LoginActivityStep3","ButtonTutorial");
             Intent intent3 = new Intent(LoginActivity2Step3.this, Viewpager_tutorial.class);
