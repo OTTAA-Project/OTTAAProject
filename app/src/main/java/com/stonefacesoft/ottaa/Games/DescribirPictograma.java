@@ -55,7 +55,7 @@ public class DescribirPictograma extends AppCompatActivity implements View
     //
     private CustomToast dialogo;
     //Declaracion de variables del TTS
-    private TextToSpeech mTTS;
+
     private UtilsTTS mUtilsTTS;
 
 
@@ -199,7 +199,7 @@ public class DescribirPictograma extends AppCompatActivity implements View
         isChecked=sharedPrefsDefault.getBoolean(getString(R.string.str_pistas),true);
         music.setMuted(mute);
         if(mUtilsTTS==null) {
-            mUtilsTTS=new UtilsTTS(this,mTTS,dialogo,sharedPrefsDefault);
+            mUtilsTTS=new UtilsTTS(this,dialogo,sharedPrefsDefault);
         }
         music.playMusic();
         analitycsFirebase.levelNameGame(TAG);

@@ -7,4 +7,7 @@ public interface RemoteConfigListener {
         public String paymentUtri();
         public String paymentUtriPremium();
     }
+    public interface AvatarListener{
+        public boolean enableAvatar();
+        public String avatarMessages();}
 }
