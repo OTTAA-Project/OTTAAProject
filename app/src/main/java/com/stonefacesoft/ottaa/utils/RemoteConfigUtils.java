@@ -11,7 +11,7 @@ import com.stonefacesoft.ottaa.Interfaces.RemoteConfigListener;
  * This method should be an singleton classes
  */
 
-public class RemoteConfigUtils implements RemoteConfigListener.PriceListener {
+public class RemoteConfigUtils implements RemoteConfigListener.PriceListener,RemoteConfigListener.AvatarListener {
     private static RemoteConfigUtils remoteConfigUtils;
     private final FirebaseRemoteConfig mFirebaseRemoteConfig;
     private FirebaseRemoteConfigSettings mfirebaseRemoteConfigSettings;
@@ -74,5 +74,15 @@ public class RemoteConfigUtils implements RemoteConfigListener.PriceListener {
     @Override
     public String paymentUtriPremium() {
         return mFirebaseRemoteConfig.getString("payment_uri_premium");
+    }
+
+    @Override
+    public boolean enableAvatar() {
+        return mFirebaseRemoteConfig.getBoolean("showAvatar");
+    }
+
+    @Override
+    public String avatarMessages() {
+        return mFirebaseRemoteConfig.getString("AvatarMessage");
     }
 }

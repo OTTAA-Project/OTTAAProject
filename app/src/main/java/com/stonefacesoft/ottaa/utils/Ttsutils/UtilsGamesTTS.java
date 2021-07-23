@@ -10,7 +10,7 @@ import com.stonefacesoft.ottaa.utils.CustomToast;
 public class UtilsGamesTTS extends UtilsTTS  {
     public Lock_Unlocked_Pictograms lockUnlockedPictograms;
     public UtilsGamesTTS(Context mContext, TextToSpeech mTTS, CustomToast alerta, SharedPreferences sharedPrefsDefault,Lock_Unlocked_Pictograms lock_unlocked_pictograms) {
-        super(mContext, mTTS, alerta, sharedPrefsDefault);
+        super(mContext, alerta, sharedPrefsDefault);
         this.lockUnlockedPictograms=lock_unlocked_pictograms;
     }
 

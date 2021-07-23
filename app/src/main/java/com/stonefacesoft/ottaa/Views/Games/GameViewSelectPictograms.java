@@ -233,7 +233,7 @@ public class GameViewSelectPictograms extends AppCompatActivity implements View.
 //        else
 //            sound_on_off.setImageDrawable(getResources().getDrawable(R.drawable.ic_volume_up_white_24dp));
         gamesSettings.enableHelpFunction(sharedPrefsDefault.getBoolean(getString(R.string.str_pistas),true));
-        mUtilsTTS=new UtilsTTS(getApplicationContext(),mTTS,dialogo,sharedPrefsDefault);
+        mUtilsTTS=new UtilsTTS(getApplicationContext(),dialogo,sharedPrefsDefault);
         player=new MediaPlayerAudio(this);
         music=new MediaPlayerAudio(this);
         player.setVolumenAudio(0.15f);
