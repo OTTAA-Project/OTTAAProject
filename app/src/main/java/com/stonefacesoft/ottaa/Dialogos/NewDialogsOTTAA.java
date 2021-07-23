@@ -35,15 +35,16 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.stonefacesoft.ottaa.Adapters.CustomFavoritePhrasesAdapter;
-import com.stonefacesoft.ottaa.Adapters.FrasesFavoritasAdapter;
+import com.stonefacesoft.ottaa.Adapters.MostUsedFavoritePhrasesAdapter;
 import com.stonefacesoft.ottaa.Adapters.SelectFavoritePhrasesAdapter;
 import com.stonefacesoft.ottaa.AsignTags;
 import com.stonefacesoft.ottaa.Bitmap.GestionarBitmap;
 import com.stonefacesoft.ottaa.FavModel;
 import com.stonefacesoft.ottaa.FirebaseRequests.BajarJsonFirebase;
 import com.stonefacesoft.ottaa.Interfaces.FirebaseSuccessListener;
+import com.stonefacesoft.ottaa.Interfaces.ProgressBarListener;
 import com.stonefacesoft.ottaa.R;
-import com.stonefacesoft.ottaa.VincularFrases;
+import com.stonefacesoft.ottaa.Activities.Phrases.VincularFrases;
 import com.stonefacesoft.ottaa.utils.CustomToast;
 import com.stonefacesoft.ottaa.utils.DatosDeUso;
 import com.stonefacesoft.ottaa.utils.Firebase.AnalyticsFirebase;
@@ -513,12 +514,29 @@ public class NewDialogsOTTAA implements FirebaseSuccessListener {
             super.onPostExecute(aVoid);
 
             progressBar.setVisibility(View.GONE);
-            FrasesFavoritasAdapter mAdapter = null;
-            try {
-                mAdapter = new FrasesFavoritasAdapter(R.layout.item_favoritos_row, mActivity, mArrayListFavoritos, dialog);
-            } catch (FiveMbException e) {
-                Log.e(TAG, "onPostExecute: ERROR"+e.getMessage());
-            }
+            MostUsedFavoritePhrasesAdapter mAdapter = null;
+
+                mAdapter = new MostUsedFavoritePhrasesAdapter(mActivity, new ProgressBarListener() {
+                    @Override
+                    public void initProgressDialog() {
+
+                    }
+
+                    @Override
+                    public void setMessageProgressDialog(String messageProgressDialog) {
+
+                    }
+
+                    @Override
+                    public void setTittleProgressDialog(String tittleProgressDialog) {
+
+                    }
+
+                    @Override
+                    public void dismisProgressBar() {
+
+                    }
+                });
 
             if (mAdapter.getItemCount() == 0) {
                 mRecyclerViewFrases.setVisibility(View.GONE);
@@ -529,8 +547,6 @@ public class NewDialogsOTTAA implements FirebaseSuccessListener {
                 mRecyclerViewFrases.setAdapter(mAdapter);
             }
             positionItemAdapter=new ReturnPositionItem(mArrayListFavoritos.size());
-
-
         }
     }
 

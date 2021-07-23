@@ -484,4 +484,6 @@
     <string name="say_pictogram_name_tittle">Say the pictogram</string>
     <string name="say_pictogram_name_description">OTTAA says the pictogram name at the touch it</string>
     <string name="Iam">I am</string>
+    <string name="allphrases">All phrases</string>
+    <string name="selectPhavoritePhrases">Select Favorite Phrases</string>
 </resources>

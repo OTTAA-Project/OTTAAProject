@@ -1,31 +1,53 @@
 package com.stonefacesoft.ottaa.RecyclerViews;
 
+import android.content.Context;
+import android.util.AttributeSet;
+import android.util.Log;
+import android.view.View;
+
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.stonefacesoft.ottaa.Adapters.SelectFavoritePhrasesAdapter;
+import com.stonefacesoft.ottaa.Adapters.PhrasesAdapter;
 import com.stonefacesoft.ottaa.R;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 
-public class PhrasesRecyclerView extends Custom_recyclerView{
-    private SelectFavoritePhrasesAdapter adapter;
+public class AllPhrasesRecyclerView extends Custom_recyclerView {
+    private PhrasesAdapter adapter;
+    private final String TAG ="AllPhrasesRecyclerView";
 
 
-    public PhrasesRecyclerView(AppCompatActivity mActivity, FirebaseAuth mAuth) {
+    public AllPhrasesRecyclerView(AppCompatActivity mActivity, FirebaseAuth mAuth) {
         super(mActivity, mAuth);
-        cantColumnas=1;
         setArray();
     }
 
-    public void setArray(){
-        array=json.getmJSONArrayTodasLasFrases();
+    public void setArray() {
+        adapter = new PhrasesAdapter(mActivity);
+        array = adapter.getUserPhrases();
+        arrayAux = adapter.getUserPhrases();
         createRecyclerLayoutManager();
-        adapter=new SelectFavoritePhrasesAdapter(mActivity);
         mRecyclerView.setAdapter(adapter);
+    }
 
+    @Override
+    public void setOnClickListener() {
+        mRecyclerView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                createReturnPositionItem();
+                try {
+                    myTTS.hablar(adapter.getUserPhrases().getJSONObject(getPositionItem.getPosition()).getString("frase"));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     @Override
@@ -59,6 +81,8 @@ public class PhrasesRecyclerView extends Custom_recyclerView{
         adapter.notifyDataSetChanged();
     }
 
+
+
     @Override
     protected void recorrerListado(int k, int tam, String query) {
         for (int i = k; i < tam; i++) {
@@ -79,9 +103,6 @@ public class PhrasesRecyclerView extends Custom_recyclerView{
         }
     }
 
-    public  void savePhrases(){
-        adapter.saveList();
-    }
 
     @Override
     protected void createRecyclerLayoutManager() {

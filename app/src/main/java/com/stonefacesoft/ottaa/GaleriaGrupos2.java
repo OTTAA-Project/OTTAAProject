@@ -109,7 +109,7 @@ public class GaleriaGrupos2 extends AppCompatActivity implements OnStartDragList
     private CargarGruposJson cargarGruposJson;
     private FallanDatosDelUsuario fallanDatosDelUsuario;
     public static Progress_dialog_options downloadDialog;
-    private ImageButton up_button,down_button,editButton,backpress_button;
+    private ImageButton previous, foward,editButton, exit;
     private Button btnBarrido;
 
 
@@ -208,17 +208,17 @@ public class GaleriaGrupos2 extends AppCompatActivity implements OnStartDragList
             }
         };
         btnBarrido =findViewById(R.id.btnBarrido);
-        up_button=findViewById(R.id.up_button);
-        down_button=findViewById(R.id.down_button);
-        backpress_button=findViewById(R.id.back_button);
+        previous =findViewById(R.id.up_button);
+        foward =findViewById(R.id.down_button);
+        exit =findViewById(R.id.back_button);
          editButton=findViewById(R.id.edit_button);
         btnTalk=findViewById(R.id.btnTalk);
         btnBarrido.setOnClickListener(this);
         btnBarrido.setOnTouchListener(this);
         editButton.setOnClickListener(this);
-        up_button.setOnClickListener(this);
-        down_button.setOnClickListener(this);
-        backpress_button.setOnClickListener(this);
+        previous.setOnClickListener(this);
+        foward.setOnClickListener(this);
+        exit.setOnClickListener(this);
         btnTalk.setOnClickListener(this);
 
 
@@ -255,10 +255,10 @@ public class GaleriaGrupos2 extends AppCompatActivity implements OnStartDragList
      * */
     private void iniciarBarrido() {
         ArrayList<View> listadoObjetosBarrido = new ArrayList<>();
-        listadoObjetosBarrido.add(up_button);
-        listadoObjetosBarrido.add(backpress_button);
+        listadoObjetosBarrido.add(previous);
+        listadoObjetosBarrido.add(exit);
         listadoObjetosBarrido.add(btnTalk);
-        listadoObjetosBarrido.add(down_button);
+        listadoObjetosBarrido.add(foward);
         //  listadoObjetosBarrido.add(editButton);
         barridoPantalla = new BarridoPantalla(this, listadoObjetosBarrido, this);
         if (barridoPantalla.isBarridoActivado() && barridoPantalla.devolverpago()) {

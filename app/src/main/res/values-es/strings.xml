@@ -526,5 +526,7 @@
     <string name="say_pictogram_name_tittle">Decir el pictograma</string>
     <string name="say_pictogram_name_description">OTTAA dice el nombre del pictograma al tocarlo</string>
     <string name="Iam">Hola soy</string>
+    <string name="allphrases">Todas las frases</string>
+    <string name="selectPhavoritePhrases">Seleccionar frases favoritas</string>
 
 </resources>
