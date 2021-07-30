@@ -9,6 +9,7 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!-- <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" /> -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
@@ -29,7 +30,7 @@
         </intent>
     </queries>
     <application
-        android:name=".AnalyticsApplication"
+
         android:allowBackup="true"
         android:configChanges="orientation|keyboardHidden|screenSize"
         android:fullBackupContent="@xml/backup_descriptor"
@@ -43,7 +44,7 @@
         android:supportsRtl="true"
         android:theme="@style/CustomActionBarTheme"
         android:usesCleartextTraffic="true">
-
+        <activity android:name=".view.ReportActivity"></activity>
         <activity
             android:name=".ActivityInformes"
             android:label="@string/title_activity_informes"
@@ -180,7 +181,7 @@
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="sensorLandscape" />
         <activity
-            android:name=".VincularFrases"
+            android:name=".Activities.Phrases.VincularFrases"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="sensorLandscape" />
         <activity
@@ -197,6 +198,9 @@
         <activity android:name=".LoginActivity2Avatar" android:screenOrientation="sensorLandscape" />
         <activity android:name=".LoginActivity2Step3" android:screenOrientation="sensorLandscape" />
         <activity android:name=".Activities.FindAllPictograms" android:screenOrientation="sensorLandscape" />
+        <activity android:name=".Activities.Phrases.FavoritePhrases" android:screenOrientation="sensorLandscape" />
+        <activity android:name=".Activities.Phrases.MostUsedPhrases" android:screenOrientation="sensorLandscape" />
+        <activity android:name=".Activities.Phrases.AllPhrases" android:screenOrientation="sensorLandscape" />
 
 
         <meta-data
@@ -217,12 +221,6 @@
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="@string/fabric_api_key" />
-        <meta-data
-            android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version" />
-        <meta-data
-            android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

@@ -10,6 +10,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.NLG;
 import com.stonefacesoft.ottaa.test.Components.Pictograms;
+import com.stonefacesoft.ottaa.utils.JSONutils;
 import com.stonefacesoft.ottaa.utils.TalkActions.Historial;
 
 import junit.framework.TestCase;
@@ -20,6 +21,8 @@ import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import static com.stonefacesoft.ottaa.test.JUnitSuiteClasses.testRunning;
 
 /**
  * @author Gonzalo Juarez
@@ -42,11 +45,11 @@ public class UnitTestingPhrases extends TestCase {
 
     @Before
     public void createUnitTestingClass(){
-        nlg=new NLG(context);
+        nlg=new NLG();
         json= Json.getInstance();
         json.setmContext(context);
         pictograms=new Pictograms(context,json);
-        historial=new Historial(context,pictograms.getJson());
+        historial=new Historial(pictograms.getJson());
         phrase=new StringBuilder();
 
 
@@ -55,10 +58,10 @@ public class UnitTestingPhrases extends TestCase {
     public void UnitTestingPhrases(){
 
         try {
-            picto0=pictograms.createPictograms(0,"es","yo","I",1);
-            picto1=pictograms.createPictograms(0,"es","Quiero","Want",3);
-            picto2=pictograms.createPictograms(1,"es","Jugar con","play with",3);
-            picto3=pictograms.createPictograms(2,"es","juguete","toy",2);
+            picto0=pictograms.generatePictogram(0,"es","yo","I",1);
+            picto1=pictograms.generatePictogram(0,"es","Quiero","Want",3);
+            picto2=pictograms.generatePictogram(1,"es","Jugar con","play with",3);
+            picto3=pictograms.generatePictogram(2,"es","juguete","toy",2);
 
             historial.addPictograma(picto0);
             historial.addPictograma(picto1);
@@ -75,7 +78,7 @@ public class UnitTestingPhrases extends TestCase {
             String nlgPhrase=talkWithtNLG();
             pictograms.getJson().crearFrase(nlgPhrase,historial.getListadoPictos(),System.currentTimeMillis());
             System.out.println(pictograms.getJson().getmJSONArrayTodasLasFrases().toString());
-        //    Log.e("UnitTesting", "UnitTestingPhrases: "+pictograms.getJson().getmJSONArrayTodasLasFrases().toString() );
+            Log.e("UnitTesting", "UnitTestingPhrases: "+pictograms.getJson().getmJSONArrayTodasLasFrases().toString() );
             assertTrue(pictograms.getJson().getmJSONArrayTodasLasFrases().toString().length()>0);
             assertTrue(!nlgPhrase.isEmpty());
             assertEquals(nlgPhrase,"I Want play with a toy.");
@@ -120,7 +123,7 @@ public class UnitTestingPhrases extends TestCase {
 
         nlg.NuevaFrase();
         for (int i = 0; i < historial.getListadoPictos().size(); i++) {
-            nlg.CargarFrase(historial.getListadoPictos().get(i));
+            nlg.CargarFrase(historial.getListadoPictos().get(i), JSONutils.getTipo(historial.getListadoPictos().get(i)));
         }
         Phrase=nlg.ArmarFrase();
         Log.e("Historial", "talkWithtNLG: "+ Phrase );
@@ -134,6 +137,11 @@ public class UnitTestingPhrases extends TestCase {
     @Override
     public TestResult run() {
         return super.run();
+    }
+
+    @Override
+    public int countTestCases() {
+        return testRunning++;
     }
 
 }

@@ -26,6 +26,7 @@ import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.LoginActivity2;
 import com.stonefacesoft.ottaa.Principal;
 import com.stonefacesoft.ottaa.R;
+import com.stonefacesoft.ottaa.idioma.ConfigurarIdioma;
 import com.stonefacesoft.ottaa.utils.Constants;
 import com.stonefacesoft.ottaa.utils.exceptions.FiveMbException;
 
@@ -314,10 +315,13 @@ public class SplashActivity extends Activity {
             sharedPrefsDefault = PreferenceManager.getDefaultSharedPreferences(mContext);
             if (sharedPrefsDefault.getString(getApplicationContext().getResources().getString(R.string.str_idioma), "en").contains("mainTable")) {
                 sharedPrefsDefault.edit().putString(getString(R.string.str_idioma), Locale.getDefault().getLanguage()).commit();
+                ConfigurarIdioma.setLanguage(sharedPrefsDefault.getString(getString(R.string.str_idioma),"en"));
 
             }
             if (!sharedPrefsDefault.contains("idioma")) {
                 sharedPrefsDefault.edit().putString(getString(R.string.str_idioma), Locale.getDefault().getLanguage()).commit();
+                ConfigurarIdioma.setLanguage(sharedPrefsDefault.getString(getString(R.string.str_idioma),"en"));
+
             }
             // Definimos la orientacion a vertical
             // Escondemos la barra de Titulo

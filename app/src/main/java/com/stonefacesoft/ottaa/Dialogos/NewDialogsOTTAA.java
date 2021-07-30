@@ -35,15 +35,16 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.stonefacesoft.ottaa.Adapters.CustomFavoritePhrasesAdapter;
-import com.stonefacesoft.ottaa.Adapters.FrasesFavoritasAdapter;
+import com.stonefacesoft.ottaa.Adapters.MostUsedFavoritePhrasesAdapter;
 import com.stonefacesoft.ottaa.Adapters.SelectFavoritePhrasesAdapter;
 import com.stonefacesoft.ottaa.AsignTags;
 import com.stonefacesoft.ottaa.Bitmap.GestionarBitmap;
 import com.stonefacesoft.ottaa.FavModel;
 import com.stonefacesoft.ottaa.FirebaseRequests.BajarJsonFirebase;
 import com.stonefacesoft.ottaa.Interfaces.FirebaseSuccessListener;
+import com.stonefacesoft.ottaa.Interfaces.ProgressBarListener;
 import com.stonefacesoft.ottaa.R;
-import com.stonefacesoft.ottaa.VincularFrases;
+import com.stonefacesoft.ottaa.Activities.Phrases.VincularFrases;
 import com.stonefacesoft.ottaa.utils.CustomToast;
 import com.stonefacesoft.ottaa.utils.DatosDeUso;
 import com.stonefacesoft.ottaa.utils.Firebase.AnalyticsFirebase;
@@ -68,8 +69,7 @@ public class NewDialogsOTTAA implements FirebaseSuccessListener {
 
     private final Activity mActivity;
     private GestionarBitmap mGestionarBitmap;
-    private DatosDeUso mDatosDeUso;
-    private final Dialog dialog;
+    private Dialog dialog;
     private RecyclerView mRecyclerViewFrases, mRecyclerViewTags;
     private final ArrayList<FavModel> mArrayListFavoritos = new ArrayList<>();
     private TextView textViewNoData;
@@ -485,14 +485,14 @@ public class NewDialogsOTTAA implements FirebaseSuccessListener {
         protected Void doInBackground(Void... voids) {
 
             mGestionarBitmap = new GestionarBitmap(mActivity);
-            try {
-                mDatosDeUso = new DatosDeUso(mActivity);
+          try {
+                DatosDeUso mDatosDeUso = new DatosDeUso(mActivity);
                 List frases = mDatosDeUso.getArrayListFrasesMasUsadas(4);
                 for (int i = 0; i < frases.size(); i++) {
                     FavModel model = new FavModel();
                     if (mGestionarBitmap.getBitmapDeFrase(mDatosDeUso.getFrasesOrdenadas().get(i)) != null) {
 
-                        model.setImagen(mGestionarBitmap.getBitmapDeFrase(mDatosDeUso.getFrasesOrdenadas().get(i)));
+                       model.setImagen(mGestionarBitmap.getBitmapDeFrase(mDatosDeUso.getFrasesOrdenadas().get(i)));
                         try {
                             model.setTexto(mDatosDeUso.getFrasesOrdenadas().get(i).getString("frase"));
                         } catch (JSONException e) {
@@ -505,8 +505,6 @@ public class NewDialogsOTTAA implements FirebaseSuccessListener {
                 e.printStackTrace();
             }
 
-
-
             return null;
         }
 
@@ -516,12 +514,29 @@ public class NewDialogsOTTAA implements FirebaseSuccessListener {
             super.onPostExecute(aVoid);
 
             progressBar.setVisibility(View.GONE);
-            FrasesFavoritasAdapter mAdapter = null;
-            try {
-                mAdapter = new FrasesFavoritasAdapter(R.layout.item_favoritos_row, mActivity, mArrayListFavoritos, dialog);
-            } catch (FiveMbException e) {
-                Log.e(TAG, "onPostExecute: ERROR"+e.getMessage());
-            }
+            MostUsedFavoritePhrasesAdapter mAdapter = null;
+
+                mAdapter = new MostUsedFavoritePhrasesAdapter(mActivity, new ProgressBarListener() {
+                    @Override
+                    public void initProgressDialog() {
+
+                    }
+
+                    @Override
+                    public void setMessageProgressDialog(String messageProgressDialog) {
+
+                    }
+
+                    @Override
+                    public void setTittleProgressDialog(String tittleProgressDialog) {
+
+                    }
+
+                    @Override
+                    public void dismisProgressBar() {
+
+                    }
+                });
 
             if (mAdapter.getItemCount() == 0) {
                 mRecyclerViewFrases.setVisibility(View.GONE);
@@ -532,8 +547,6 @@ public class NewDialogsOTTAA implements FirebaseSuccessListener {
                 mRecyclerViewFrases.setAdapter(mAdapter);
             }
             positionItemAdapter=new ReturnPositionItem(mArrayListFavoritos.size());
-
-
         }
     }
 
@@ -680,12 +693,12 @@ public class NewDialogsOTTAA implements FirebaseSuccessListener {
         ClipboardManager clipboard = (ClipboardManager) mActivity.getSystemService(CLIPBOARD_SERVICE);
         ClipData clip = ClipData.newPlainText("label", "https://forms.gle/vp6EDqxq55vEB6YC9");
         clipboard.setPrimaryClip(clip);
-        CustomToast customToast = new CustomToast(mActivity);
+        CustomToast customToast = CustomToast.getInstance(mActivity);
         customToast.mostrarFrase("Copiado correctamente!"); //TODO extraer resource
     }
 
     private void triggerEmail(){
-        CustomToast customToast = new CustomToast(mActivity);
+        CustomToast customToast = CustomToast.getInstance(mActivity);
         customToast.mostrarFrase("Email enviado"); //TODO extraer resource
         doHTTPRequest();
     }

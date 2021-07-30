@@ -8,7 +8,6 @@ import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.constraintlayout.widget.ConstraintLayout;

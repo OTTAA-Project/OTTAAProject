@@ -1,12 +1,14 @@
 package com.stonefacesoft.ottaa.Adapters;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +27,9 @@ import com.stonefacesoft.ottaa.FirebaseRequests.SubirArchivosFirebase;
 import com.stonefacesoft.ottaa.Helper.ItemTouchHelperAdapter;
 import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.R;
+import com.stonefacesoft.ottaa.idioma.ConfigurarIdioma;
 import com.stonefacesoft.ottaa.utils.Constants;
+import com.stonefacesoft.ottaa.utils.JSONutils;
 import com.stonefacesoft.pictogramslibrary.Classes.Pictogram;
 import com.stonefacesoft.pictogramslibrary.utils.GlideAttatcher;
 
@@ -49,7 +53,7 @@ public class GaleriaPictosAdapter extends RecyclerView.Adapter<GaleriaPictosAdap
     private final SubirArchivosFirebase uploadFirebaseFile;
     private final FirebaseAuth mAuth;
     private static final String TAG = "GaleriaPictosAdapter";
-    private final GlideAttatcher glideAttatcher; // esto se encarga de adjuntar el glide
+    private GlideAttatcher glideAttatcher; // esto se encarga de adjuntar el glide
     private int cantCambios;
 
 
@@ -60,7 +64,10 @@ public class GaleriaPictosAdapter extends RecyclerView.Adapter<GaleriaPictosAdap
         this.mArrayPictos = mArrayPictos;
         this.uploadFirebaseFile = new SubirArchivosFirebase(mContext);
         this.mAuth = auth;
-         glideAttatcher=new GlideAttatcher(mContext);
+    }
+    public GaleriaPictosAdapter loadGlideAttacher(){
+        glideAttatcher=new GlideAttatcher(mContext);
+        return this;
     }
 
 
@@ -259,9 +266,8 @@ public class GaleriaPictosAdapter extends RecyclerView.Adapter<GaleriaPictosAdap
 
             Bitmap mBitmap;
             try {
-
-
-                mStringTexto = json.getNombre(mArrayPictos.getJSONObject(mPosition));
+                SharedPreferences sharedPrefsDefault = PreferenceManager.getDefaultSharedPreferences(mContext);
+                mStringTexto = JSONutils.getNombre(mArrayPictos.getJSONObject(mPosition), ConfigurarIdioma.getLanguaje());
                 mDrawableIcono = json.getIcono(mArrayPictos.getJSONObject(mPosition));
 
                 if (mDrawableIcono == null)
@@ -288,11 +294,11 @@ public class GaleriaPictosAdapter extends RecyclerView.Adapter<GaleriaPictosAdap
             try {
                 if (mArrayPictos.getJSONObject(mPosition) != null) {
                     mHolder.mTextoPicto.setText(mStringTexto);
-                    Pictogram pictogram=new Pictogram(mArrayPictos.getJSONObject(mPosition),json.getIdioma());
+                    Pictogram pictogram=new Pictogram(mArrayPictos.getJSONObject(mPosition),ConfigurarIdioma.getLanguaje());
                     loadDrawable(glideAttatcher,pictogram,mHolder.mPictoImageView);
                     mHolder.mPictoImageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
                     try {
-                        mHolder.mPictoImageColor.setColorFilter(cargarColor(json.getTipo(mArrayPictos.getJSONObject(mPosition))));
+                        mHolder.mPictoImageColor.setColorFilter(cargarColor(JSONutils.getTipo(mArrayPictos.getJSONObject(mPosition))));
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }

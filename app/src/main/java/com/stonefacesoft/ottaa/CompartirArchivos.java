@@ -8,6 +8,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.StrictMode;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.UtteranceProgressListener;
@@ -17,6 +18,7 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.stonefacesoft.ottaa.Bitmap.GestionarBitmap;
+import com.stonefacesoft.ottaa.Interfaces.TTSListener;
 import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.utils.exceptions.FiveMbException;
 import com.stonefacesoft.ottaa.utils.textToSpeech;
@@ -127,45 +129,6 @@ public class CompartirArchivos {
     }
 
 
-    public void convertAudio(File file) {
-
-        /**
-         *  Update with a valid audio file!
-         *  Supported formats: {@link AndroidAudioConverter.AudioFormat}
-         */
-
-//        IConvertCallback callback = new IConvertCallback() {
-//            @Override
-//            public void onSuccess(File convertedFile) {
-//                audio = convertedFile;
-//                Log.e("paths1", convertedFile.getAbsolutePath());
-//
-//                if (actionShare) {
-//                    final Intent share = new Intent(Intent.ACTION_SEND);
-//                    share.setType("audio/.mp3");
-//                    if (audio != null) {
-//                        share.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(audio));
-//                        mContext.startActivity(Intent.createChooser(share, mContext.getResources().getString(R.string.pref_enviar)));
-//                    }
-//
-//                }
-//
-//
-//            }
-//
-//            @Override
-//            public void onFailure(Exception error) {
-//                Log.e("paths", error.getMessage());
-//            }
-//        };
-
-//        AndroidAudioConverter.with(mContext)
-//                .setFile(file)
-//                .setFormat(AudioFormat.MP3)
-//                .setCallback(callback)
-//                .convert();
-    }
-
     //metodo para elegir si comparto audio o video
     public void seleccionarFormato(final String Oracion) {
         Dialog dialog = new Dialog(this.mContext);
@@ -258,6 +221,16 @@ public class CompartirArchivos {
         dialog.setCanceledOnTouchOutside(true);
 
 
+    }
+
+    public void waitUserFile(){
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                compartirAudioPictogramas();
+            }
+        },150);
     }
 
 

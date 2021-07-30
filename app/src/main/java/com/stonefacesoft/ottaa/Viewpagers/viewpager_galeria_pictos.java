@@ -26,7 +26,9 @@ import com.stonefacesoft.ottaa.Edit_Picto_Visual;
 import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.LicenciaExpirada;
 import com.stonefacesoft.ottaa.R;
+import com.stonefacesoft.ottaa.idioma.ConfigurarIdioma;
 import com.stonefacesoft.ottaa.utils.IntentCode;
+import com.stonefacesoft.ottaa.utils.JSONutils;
 import com.stonefacesoft.ottaa.utils.textToSpeech;
 import com.stonefacesoft.pictogramslibrary.Classes.Pictogram;
 import com.stonefacesoft.pictogramslibrary.utils.GlideAttatcher;
@@ -157,7 +159,8 @@ public class viewpager_galeria_pictos {
                 Log.e(TAG, "editItem: Error: " + e.getMessage());
             }
             try {
-                intent.putExtra("Texto", json.getNombre(array.getJSONObject(viewPager.getCurrentItem())));
+                SharedPreferences sharedPrefsDefault = android.preference.PreferenceManager.getDefaultSharedPreferences(mActivity);
+                intent.putExtra("Texto", JSONutils.getNombre(array.getJSONObject(viewPager.getCurrentItem()),sharedPrefsDefault.getString(mActivity.getString(R.string.str_idioma), "en")));
             } catch (JSONException e) {
                 Log.e(TAG, "editItem: Error: " + e.getMessage());
             }
@@ -188,7 +191,8 @@ public class viewpager_galeria_pictos {
             } else {
                 String name = "";
                 try {
-                    name = json.getNombre(array.getJSONObject(position));
+                    SharedPreferences sharedPrefsDefault = android.preference.PreferenceManager.getDefaultSharedPreferences(mActivity);
+                    name = JSONutils.getNombre(array.getJSONObject(position),sharedPrefsDefault.getString(mActivity.getString(R.string.str_idioma), "en"));
                 } catch (JSONException e) {
                     Log.e(TAG, "OnClickItem: Error: " + e.getMessage());
                 }
@@ -277,9 +281,10 @@ public class viewpager_galeria_pictos {
 
         private void loadPictogram(Custom_Picto custom_picto){
             try {
-                custom_picto.setCustom_Texto(json.getNombre(array.getJSONObject(position)));
-                custom_picto.setCustom_Color(cargarColor(json.getTipo(array.getJSONObject(position))));
-                Pictogram pictogram=new Pictogram(array.getJSONObject(position),json.getIdioma());
+                SharedPreferences sharedPrefsDefault = android.preference.PreferenceManager.getDefaultSharedPreferences(mActivity);
+                custom_picto.setCustom_Texto(JSONutils.getNombre(array.getJSONObject(position),sharedPrefsDefault.getString(mActivity.getString(R.string.str_idioma), "en")));
+                custom_picto.setCustom_Color(cargarColor(JSONutils.getTipo(array.getJSONObject(position))));
+                Pictogram pictogram=new Pictogram(array.getJSONObject(position), ConfigurarIdioma.getLanguaje());
                 GlideAttatcher attatcher=new GlideAttatcher(mActivity);
                 loadDrawable(attatcher,pictogram,custom_picto.getImg());
                 custom_picto.setOnClickListener(new View.OnClickListener() {

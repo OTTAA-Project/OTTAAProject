@@ -1,8 +1,6 @@
 package com.stonefacesoft.ottaa;
 
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.util.Log;
 
 import org.apache.http.client.HttpClient;
@@ -18,44 +16,28 @@ import org.json.JSONObject;
 public class BuscarArasaac {
 
     JSONObject arasaac;
-    SharedPreferences sharedPrefsDefault;
 
-    public JSONObject HacerBusqueda(Context context, String texto){
+    public JSONObject HacerBusqueda(String texto, String lang, Context context){
 
-        // Create http cliient object to send request to server
-        sharedPrefsDefault = PreferenceManager.getDefaultSharedPreferences(context);
         HttpClient Client = new DefaultHttpClient();
 
         // Create URL string
-        Log.d("BuscarAraasaac","entre!!!!");
+        Log.d("BuscarAraasaac", "entre!!!!");
         String URL;
 
-        String lang = sharedPrefsDefault.getString(context.getString(R.string.str_idioma),"en").toUpperCase();
-        URL = "http://arasaac.org/api/index.php?callback=json&language="+ lang +"&word=" + texto +
+        //Todo remove key from galeriaAraasac
+        URL = "http://arasaac.org/api/index.php?callback=json&language=" + lang.toUpperCase() + "&word=" + texto +
                 "&catalog=colorpictos&thumbnailsize=150&TXTlocate=4&KEY="+context.getResources().getString(R.string.galeria_araasac_api_key);
-
-//        if(sharedPrefsDefault.getString(mContext.getString(R.string.str_idioma),"en")) {
-//            URL = "http://arasaac.org/api/index.php?callback=json&language=ES&word=" + texto + "&catalog=colorpictos&thumbnailsize=150&TXTlocate=4&KEY=GaArpYjNXFr2bJXuQcCT";
-//        }else {
-//            URL = "http://arasaac.org/api/index.php?callback=json&language=EN&word=" + texto + "&catalog=colorpictos&thumbnailsize=150&TXTlocate=4&KEY=GaArpYjNXFr2bJXuQcCT";
-//        }
-
-        //Log.i("httpget", URL);
-
-        try
-        {
+        try {
             String SetServerString = "";
-
             // Create Request to server and get response
-
             HttpGet httpget = new HttpGet(URL);
             ResponseHandler<String> responseHandler = new BasicResponseHandler();
             SetServerString = Client.execute(httpget, responseHandler);
-
             arasaac = new JSONObject(SetServerString);
+        } catch (Exception ex) {
+            Log.e("error_BuscarAraasac", ex.toString());
         }
-        catch(Exception ex) {
-            Log.e("error_BuscarAraasac", ex.toString());}
         return arasaac;
     }
 

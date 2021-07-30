@@ -25,28 +25,20 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.ItemTouchHelper;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
-import com.stonefacesoft.ottaa.Adapters.GaleriaJuegosAdapter;
 import com.stonefacesoft.ottaa.Helper.RecyclerItemClickListener;
 import com.stonefacesoft.ottaa.Interfaces.Make_Click_At_Time;
 import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.RecyclerViews.Game_Recyler_View;
 import com.stonefacesoft.ottaa.Viewpagers.ViewPager_Game_Grupo;
-import com.stonefacesoft.ottaa.Viewpagers.viewpager_galeria_grupo;
 import com.stonefacesoft.ottaa.utils.Accesibilidad.BarridoPantalla;
 import com.stonefacesoft.ottaa.utils.Accesibilidad.devices.GameControl;
-import com.stonefacesoft.ottaa.utils.Accesibilidad.scrollActions.ScrollFunctionGaleriaGrupos;
 import com.stonefacesoft.ottaa.utils.Accesibilidad.scrollActions.ScrollFuntionGames;
 import com.stonefacesoft.ottaa.utils.Constants;
 import com.stonefacesoft.ottaa.utils.IntentCode;
-import com.stonefacesoft.ottaa.utils.PreferencesManager;
 import com.stonefacesoft.ottaa.utils.exceptions.FiveMbException;
 import com.stonefacesoft.ottaa.utils.textToSpeech;
 
@@ -149,7 +141,6 @@ public class GameSelector extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onResume() {
         super.onResume();
-        textToSpeech mytts=new textToSpeech(this);
         grupo_viewPager.updateData();
         grupo_viewPager.refreshView();
     }
@@ -336,9 +327,10 @@ public class GameSelector extends AppCompatActivity implements View.OnClickListe
     private void iniciarBarrido() {
         ArrayList<View> listadoObjetosBarrido = new ArrayList<>();
         listadoObjetosBarrido.add(up_button);
+        listadoObjetosBarrido.add(backpress_button);
         listadoObjetosBarrido.add(btnSelector);
         listadoObjetosBarrido.add(down_button);
-        listadoObjetosBarrido.add(backpress_button);
+
 
         //  listadoObjetosBarrido.add(editButton);
         barridoPantalla = new BarridoPantalla(this, listadoObjetosBarrido, this);

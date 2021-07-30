@@ -17,6 +17,8 @@ import org.json.JSONException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import static com.stonefacesoft.ottaa.test.JUnitSuiteClasses.testRunning;
+
 @RunWith(AndroidJUnit4.class)
 public class UnitTestingJson extends TestCase {
     Context context= ApplicationProvider.getApplicationContext();
@@ -32,7 +34,7 @@ public class UnitTestingJson extends TestCase {
             json.initJsonArrays();
 
             pictos=json.getmJSONArrayTodosLosPictos();
-            json.crearGrupo("hola","hello","",0);
+            //json.crearGrupo("hola","hello","",0);
 
             Log.e("TAG", "JsonTesting: "+json.getmJSONArrayTodosLosGrupos().toString() );
         } catch (JSONException e) {
@@ -51,6 +53,11 @@ public class UnitTestingJson extends TestCase {
     @Override
     public TestResult run() {
         return super.run();
+    }
+
+    @Override
+    public int countTestCases() {
+        return testRunning++;
     }
 
 

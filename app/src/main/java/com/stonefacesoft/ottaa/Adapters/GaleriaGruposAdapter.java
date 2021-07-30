@@ -2,12 +2,14 @@ package com.stonefacesoft.ottaa.Adapters;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,7 +26,9 @@ import com.stonefacesoft.ottaa.FirebaseRequests.SubirArchivosFirebase;
 import com.stonefacesoft.ottaa.Helper.ItemTouchHelperAdapter;
 import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.R;
+import com.stonefacesoft.ottaa.idioma.ConfigurarIdioma;
 import com.stonefacesoft.ottaa.utils.Constants;
+import com.stonefacesoft.ottaa.utils.JSONutils;
 import com.stonefacesoft.pictogramslibrary.Classes.Pictogram;
 import com.stonefacesoft.pictogramslibrary.utils.GlideAttatcher;
 
@@ -185,7 +189,8 @@ public class GaleriaGruposAdapter extends RecyclerView.Adapter<GaleriaGruposAdap
         protected Void doInBackground(Void... voids) {
             Bitmap mBitmap;
             try {
-                mStringTexto = json.getNombre(mArrayGrupos.getJSONObject(mPosition));
+                SharedPreferences sharedPrefsDefault = PreferenceManager.getDefaultSharedPreferences(mContext);
+                mStringTexto = JSONutils.getNombre(mArrayGrupos.getJSONObject(mPosition), ConfigurarIdioma.getLanguaje());
                 mDrawableIcono = json.getIcono(mArrayGrupos.getJSONObject(mPosition));
                 if (mDrawableIcono == null)
                     mDrawableIcono = AppCompatResources.getDrawable(mContext, R.drawable.ic_cloud_download_orange);
@@ -211,7 +216,7 @@ public class GaleriaGruposAdapter extends RecyclerView.Adapter<GaleriaGruposAdap
             mHolder.mTextGrupo.setText(mStringTexto);
             try {
                 Log.d(TAG, "loadDrawable: "+ mArrayGrupos.getJSONObject(mPosition).toString());
-                Pictogram pictogram=new Pictogram(mArrayGrupos.getJSONObject(mPosition),json.getIdioma());
+                Pictogram pictogram=new Pictogram(mArrayGrupos.getJSONObject(mPosition),ConfigurarIdioma.getLanguaje());
                 loadDrawable(glideAttatcher,pictogram,mHolder.mGrupoImageView);
             } catch (JSONException e) {
                 e.printStackTrace();

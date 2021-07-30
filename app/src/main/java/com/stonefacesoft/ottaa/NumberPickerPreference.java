@@ -28,27 +28,31 @@ import com.stonefacesoft.ottaa.utils.Custom_button;
  * */
 
 public class NumberPickerPreference  implements View.OnClickListener , NumberPicker.OnScrollListener {
-    private final NumberPicker mPicker;
-    private final Integer mNumber = 10;
+    private  NumberPicker mPicker;
+    private  Integer mNumber = 10;
     private Integer mNumberMin=0;
     private Integer mNumberMax=10;
     private final Context mContext;
     private int tipo;
     private final String title;
     private final String  key;
-    private final Dialog dialog;
-    private final Custom_button positiveButton;
-    private final Custom_button negativeButton;
-    private final TextView titulo;
+    private  Dialog dialog;
+    private  Custom_button positiveButton;
+    private  Custom_button negativeButton;
+    private  TextView titulo;
 
 
     public NumberPickerPreference(Context context,String title,String key){
         mContext=context;
-        dialog=new Dialog(mContext);
         this.key=key;
+        this.title=title;
+
+    }
+
+    public void createDialog(){
+        dialog=new Dialog(mContext);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-        this.title=title;
         dialog.setContentView(R.layout.dialog_number_picker_selector);
         titulo=dialog.findViewById(R.id.titulo);
         titulo.setText(title);
@@ -76,7 +80,6 @@ public class NumberPickerPreference  implements View.OnClickListener , NumberPic
         });
 
         dialog.setCancelable(true);
-
     }
 
 
@@ -102,6 +105,10 @@ public class NumberPickerPreference  implements View.OnClickListener , NumberPic
         tipo=n;
     }
 
+    public int getTipo() {
+        return tipo;
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()){
@@ -123,5 +130,13 @@ public class NumberPickerPreference  implements View.OnClickListener , NumberPic
     public void onScrollStateChange(NumberPicker view, int scrollState) {
         PreferenceManager.getDefaultSharedPreferences(mContext).edit().putInt(key,mPicker.getValue()).apply();
 
+    }
+
+    public Integer getmNumberMax() {
+        return mNumberMax;
+    }
+
+    public Integer getmNumberMin() {
+        return mNumberMin;
     }
 }

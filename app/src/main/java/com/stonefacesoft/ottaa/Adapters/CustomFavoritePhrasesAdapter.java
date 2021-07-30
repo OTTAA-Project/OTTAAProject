@@ -1,7 +1,6 @@
 package com.stonefacesoft.ottaa.Adapters;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,26 +15,23 @@ import com.stonefacesoft.ottaa.utils.Phrases.CustomFavoritePhrases;
 import com.stonefacesoft.ottaa.utils.textToSpeech;
 import com.stonefacesoft.pictogramslibrary.utils.GlideAttatcher;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 public class CustomFavoritePhrasesAdapter extends RecyclerView.Adapter<CustomFavoritePhrasesAdapter.FavoritePhrases>{
     private final Context mContext;
     private final CustomFavoritePhrases phrases;
-    private final JSONArray favoritesPhrases;
     private final textToSpeech myTTs;
     private final GlideAttatcher glideAttatcher;
     private final GestionarBitmap gestionarBitmap;
 
     public CustomFavoritePhrasesAdapter(Context mContext) {
         this.mContext = mContext;
-        phrases=new CustomFavoritePhrases(this.mContext);
-        favoritesPhrases=phrases.getPhrases();
-        myTTs=new textToSpeech(this.mContext);
+        phrases=CustomFavoritePhrases.getInstance(mContext);
+        myTTs = new textToSpeech(this.mContext);
         glideAttatcher=new GlideAttatcher(this.mContext);
         gestionarBitmap=new GestionarBitmap(this.mContext);
-        Log.e("TAG", "onBindViewHolder: "+favoritesPhrases.toString() );
+
     }
 
 
@@ -55,8 +51,7 @@ public class CustomFavoritePhrasesAdapter extends RecyclerView.Adapter<CustomFav
     public void onBindViewHolder(@NonNull FavoritePhrases holder, int position) {
         try {
             holder.position=position;
-            JSONObject phrase=favoritesPhrases.getJSONObject(position);
-
+            JSONObject phrase=phrases.getPhrases().getJSONObject(position);
             holder.phrase=phrase;
             glideAttatcher.UseCornerRadius(true).loadDrawable(gestionarBitmap.getBitmapDeFrase(phrase),holder.img);
             holder.img.setOnClickListener(new View.OnClickListener() {
@@ -78,7 +73,15 @@ public class CustomFavoritePhrasesAdapter extends RecyclerView.Adapter<CustomFav
 
     @Override
     public int getItemCount() {
-            return favoritesPhrases.length();
+            return phrases.getPhrases().length();
+    }
+
+    public CustomFavoritePhrases getPhrases() {
+        return phrases;
+    }
+
+    public textToSpeech getMyTTs() {
+        return myTTs;
     }
 
     public class FavoritePhrases extends RecyclerView.ViewHolder   {

@@ -2,6 +2,8 @@ package com.stonefacesoft.ottaa.Adapters;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,23 +11,21 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import com.stonefacesoft.ottaa.utils.Games.CalculaPuntos;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.R;
-import com.stonefacesoft.ottaa.utils.DatosDeUso;
-import com.stonefacesoft.ottaa.utils.exceptions.FiveMbException;
+import com.stonefacesoft.ottaa.idioma.ConfigurarIdioma;
+import com.stonefacesoft.ottaa.utils.JSONutils;
 import com.stonefacesoft.ottaa.utils.textToSpeech;
 
 import org.json.JSONException;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-
 public class ScoreListItem extends RecyclerView.Adapter<ScoreListItem.ScoreViewHolder>{
     private int mLayoutResourceId;
-    private final Context mContext;
-    private final int id;
-    private DatosDeUso mDatosDeUso;
+    private Context mContext;
+    private int id;
     private Dialog dialogDismiss;
     private final textToSpeech myTTs;
     private final Json json;
@@ -36,12 +36,7 @@ public class ScoreListItem extends RecyclerView.Adapter<ScoreListItem.ScoreViewH
         json=Json.getInstance();
         json.setmContext(this.mContext);
         this.id=id;
-        try {
-            this.mDatosDeUso = new DatosDeUso(mContext);
-        } catch (FiveMbException e) {
-            e.printStackTrace();
-        }
-        this.myTTs = new textToSpeech(mContext);
+        this.myTTs = new textToSpeech(this.mContext);
     }
 
 
@@ -57,11 +52,9 @@ public class ScoreListItem extends RecyclerView.Adapter<ScoreListItem.ScoreViewH
     public void onBindViewHolder(@NonNull ScoreViewHolder holder, int position) {
         try {
             holder.imagenFav.setImageDrawable(json.getIcono(json.getmJSONArrayTodosLosGrupos().getJSONObject(position)));
-            holder.title.setText(json.getNombre(json.getmJSONArrayTodosLosGrupos().getJSONObject(position)));
-            CalculaPuntos calculaPuntos=new CalculaPuntos();
-            calculaPuntos.setAciertos(json.getAciertos(json.getmJSONArrayTodosLosGrupos().getJSONObject(position),id));
-            calculaPuntos.setIntentos(json.getIntentos(json.getmJSONArrayTodosLosGrupos().getJSONObject(position),id));
-            holder.mRatingBar.setRating(calculaPuntos.calcularValor());
+            SharedPreferences sharedPrefsDefault = PreferenceManager.getDefaultSharedPreferences(mContext);
+            holder.title.setText(JSONutils.getNombre(json.getmJSONArrayTodosLosGrupos().getJSONObject(position), ConfigurarIdioma.getLanguaje()));
+
         } catch (JSONException e) {
             e.printStackTrace();
         }

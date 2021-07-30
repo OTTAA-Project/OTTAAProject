@@ -1,9 +1,11 @@
 package com.stonefacesoft.ottaa.Viewpagers;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,8 +27,10 @@ import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.LicenciaExpirada;
 import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.customComponents.Custom_Grupo;
+import com.stonefacesoft.ottaa.idioma.ConfigurarIdioma;
 import com.stonefacesoft.ottaa.utils.Constants;
 import com.stonefacesoft.ottaa.utils.IntentCode;
+import com.stonefacesoft.ottaa.utils.JSONutils;
 import com.stonefacesoft.ottaa.utils.textToSpeech;
 import com.stonefacesoft.pictogramslibrary.Classes.Pictogram;
 import com.stonefacesoft.pictogramslibrary.utils.GlideAttatcher;
@@ -55,6 +59,8 @@ public class viewpager_galeria_grupo {
     private final ViewPager2 viewPager;
     private final ScreenSlidePagerAdapter pagerAdapter;
 
+    private SharedPreferences sharedPrefsDefault;
+
 
     public viewpager_galeria_grupo(AppCompatActivity mActivity, textToSpeech myTTS) {
         viewpager_galeria_grupo.mActivity = mActivity;
@@ -69,6 +75,8 @@ public class viewpager_galeria_grupo {
         viewPager.setCurrentItem(0);
         viewPager.canScrollVertically(View.SCROLL_INDICATOR_BOTTOM);
         viewPager.setPageTransformer(new ViewPagerTransformationEffects(0));
+
+        sharedPrefsDefault = PreferenceManager.getDefaultSharedPreferences(mActivity);
 
     }
 
@@ -135,7 +143,7 @@ public class viewpager_galeria_grupo {
 
     public void hablar() {
         try {
-            myTTS.hablar(json.getNombre(array.getJSONObject(viewPager.getCurrentItem())));
+            myTTS.hablar(JSONutils.getNombre(array.getJSONObject(viewPager.getCurrentItem()),sharedPrefsDefault.getString(mActivity.getString(R.string.str_idioma), "en")));
         } catch (JSONException e) {
             Log.e(TAG, "hablar: Error" + e.getMessage());
         }
@@ -162,7 +170,7 @@ public class viewpager_galeria_grupo {
         Intent intent = new Intent(mActivity, GaleriaPictos3.class);
         intent.putExtra("Boton", viewPager.getCurrentItem());
         try {
-            myTTS.hablarSinMostrarFrase(json.getNombre(array.getJSONObject(viewPager.getCurrentItem())));
+            myTTS.hablarSinMostrarFrase(JSONutils.getNombre(array.getJSONObject(viewPager.getCurrentItem()),sharedPrefsDefault.getString(mActivity.getString(R.string.str_idioma), "en")));
         } catch (JSONException e) {
             Log.e(TAG, "OnClickItem: Error:" + e.getMessage());
         }
@@ -213,8 +221,9 @@ public class viewpager_galeria_grupo {
             super.onViewCreated(view, savedInstanceState);
             Custom_Grupo grupo=view.findViewById(R.id.grupo_1);
             try {
-                grupo.setCustom_Texto(json.getNombre(array.getJSONObject(position)));
-                Pictogram pictogram=new Pictogram(array.getJSONObject(position),json.getIdioma());
+                SharedPreferences sharedPrefsDefault = PreferenceManager.getDefaultSharedPreferences(mActivity);
+                grupo.setCustom_Texto(JSONutils.getNombre(array.getJSONObject(position),sharedPrefsDefault.getString(mActivity.getString(R.string.str_idioma), "en")));
+                Pictogram pictogram=new Pictogram(array.getJSONObject(position), ConfigurarIdioma.getLanguaje());
                 GlideAttatcher attatcher=new GlideAttatcher(mActivity);
                 loadDrawable(attatcher,pictogram,grupo.getImg());
                 grupo.setTagDrawable(0,json.tieneTag(array.getJSONObject(position),Constants.UBICACION)?R.drawable.ic_location_on_black_24dp:R.drawable.ic_location_off_black_24dp);
@@ -228,7 +237,7 @@ public class viewpager_galeria_grupo {
                         Intent intent=new Intent(view.getContext(), GaleriaPictos3.class);
                         intent.putExtra("Boton", position);
                         try {
-                            myTTS.hablarSinMostrarFrase(json.getNombre(array.getJSONObject(position)));
+                            myTTS.hablarSinMostrarFrase(JSONutils.getNombre(array.getJSONObject(position),sharedPrefsDefault.getString(mActivity.getString(R.string.str_idioma), "en")));
                         } catch (JSONException e) {
                             Log.e(TAG, "onClick: Error: " + e.getMessage());
                         }

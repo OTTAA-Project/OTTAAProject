@@ -45,6 +45,7 @@ import com.google.firebase.storage.StorageReference;
 import com.stonefacesoft.ottaa.FirebaseRequests.BajarJsonFirebase;
 import com.stonefacesoft.ottaa.FirebaseRequests.FirebaseDatabaseRequest;
 import com.stonefacesoft.ottaa.Interfaces.FirebaseSuccessListener;
+import com.stonefacesoft.ottaa.idioma.ConfigurarIdioma;
 import com.stonefacesoft.ottaa.utils.Firebase.AnalyticsFirebase;
 import com.stonefacesoft.ottaa.utils.InmersiveMode;
 import com.stonefacesoft.ottaa.utils.IntentCode;
@@ -92,9 +93,7 @@ public class LoginActivity2 extends AppCompatActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_activity_1);
         mAnalyticsFirebase=new AnalyticsFirebase(this);
-
         bindUI();
-
         // Configure sign-in to request the user's ID, email address, and basic
         // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -373,6 +372,7 @@ public class LoginActivity2 extends AppCompatActivity implements View.OnClickLis
     public void downloadFiles() {
         locale = Locale.getDefault().getLanguage();
         sharedPrefsDefault.edit().putString(getString(R.string.str_idioma), locale).apply();
+        ConfigurarIdioma.setLanguage(sharedPrefsDefault.getString(getString(R.string.str_idioma),"en"));
         File rootPath = new File(getApplicationContext().getCacheDir(), "Archivos_OTTAA");
         if (!rootPath.exists()) {
             rootPath.mkdirs();//si no existe el directorio lo creamos

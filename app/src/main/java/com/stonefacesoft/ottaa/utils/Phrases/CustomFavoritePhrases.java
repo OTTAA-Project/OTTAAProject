@@ -17,11 +17,11 @@ public class CustomFavoritePhrases {
     private final Context mContext;
     private final Json json;
     private JSONArray favoritePhrases;
+    private static CustomFavoritePhrases customFavoritePhrases;
 
     /**
-     * Posibles ideas
-     *  El sistema debe permitir seleccionar cuales son las frases favoritas del usuario
-     *  El sistema debe mostrar las mismas en un dialogo
+     * the systems show the users favorite phrases
+     *  the system show a dialog
      *  El sistema esta limitado a 10 frases favoritas
      *  El sistema debe indicar cuales son las frases favoritas por uso y cuales son las favoritas personalizadas
      *  El sistema debe permitir modificar la posicion de las mismas
@@ -29,7 +29,13 @@ public class CustomFavoritePhrases {
      *  Cada una de las frases debe estar filtrada por idioma
      * */
 
-     public CustomFavoritePhrases(Context mContext){
+    public synchronized static CustomFavoritePhrases getInstance(Context mContext){
+        if(customFavoritePhrases == null)
+            customFavoritePhrases = new CustomFavoritePhrases(mContext);
+        return customFavoritePhrases;
+    }
+
+     private CustomFavoritePhrases(Context mContext){
          this.mContext=mContext;
          json=Json.getInstance();
          json.setmContext(this.mContext);
@@ -41,10 +47,8 @@ public class CustomFavoritePhrases {
      public boolean addFavoritePhrase(JSONObject object){
          boolean existPhrase=isExist(object);
          if(!existPhrase){
-            if(favoritePhrases.length()<10){
                 favoritePhrases.put(object);
                 return true;
-            }
          }
             return false;
      }

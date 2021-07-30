@@ -76,6 +76,7 @@ import com.stonefacesoft.ottaa.utils.Constants;
 import com.stonefacesoft.ottaa.utils.Custom_button;
 import com.stonefacesoft.ottaa.utils.Firebase.AnalyticsFirebase;
 import com.stonefacesoft.ottaa.utils.IntentCode;
+import com.stonefacesoft.ottaa.utils.JSONutils;
 import com.stonefacesoft.ottaa.utils.exceptions.FiveMbException;
 import com.stonefacesoft.ottaa.utils.textToSpeech;
 import com.stonefacesoft.ottaa.utils.traducirTexto;
@@ -271,7 +272,7 @@ public class Edit_Picto_Visual extends AppCompatActivity implements View.OnClick
         textViewBtnFrame = findViewById(R.id.textViewBtnFrame);
 
 
-        myTTS = new textToSpeech(getApplicationContext());
+        myTTS = new textToSpeech(this);
 
 
         Drawable draw = null;
@@ -306,7 +307,7 @@ public class Edit_Picto_Visual extends AppCompatActivity implements View.OnClick
                 ex.printStackTrace();
                 Log.e(TAG, "onCreate: Error" + ex.getMessage());
             }
-            texto = json.getNombre(jsonObject);
+            texto = JSONutils.getNombre(jsonObject, ConfigurarIdioma.getLanguaje());
             Log.d(TAG, "onCreate: Nombre: " + texto);
 
             try {
@@ -321,7 +322,8 @@ public class Edit_Picto_Visual extends AppCompatActivity implements View.OnClick
             jsonObject = json.getPictoFromId2(PictoID);
             if (jsonObject != null) {
                 draw = json.getIcono(jsonObject);
-                tipo = json.getTipo(jsonObject);
+                tipo = JSONutils.getTipo(jsonObject);
+
             }
         }
 
@@ -851,9 +853,9 @@ public class Edit_Picto_Visual extends AppCompatActivity implements View.OnClick
         } else {
             if (esGrupo) {
                 try {
-                    if (json.getHijosGrupo2(jsonObject).length() > 0)
+                    if (JSONutils.getHijosGrupo2(json.getmJSONArrayTodosLosPictos(),jsonObject).length() > 0)
                         return true;
-                } catch (JSONException | FiveMbException e) {
+                } catch (JSONException e) {
                     e.printStackTrace();
                 }
                 myTTS.mostrarAlerta(getString(R.string.alert_anadir_pictos));
@@ -1036,7 +1038,7 @@ public class Edit_Picto_Visual extends AppCompatActivity implements View.OnClick
 
 
         textoPicto = Picto.getCustom_Texto();
-        traducirTexto = new traducirTexto(getApplicationContext(), sharedPrefsDefault);
+        traducirTexto = new traducirTexto(getApplicationContext());
         traducirTexto.traducirIdioma(this, Picto.getCustom_Texto(), sharedPrefsDefault.getString(getString(R.string.str_idioma), "en"), "en", ConnectionDetector.isNetworkAvailable(this));
         if (ConnectionDetector.isNetworkAvailable(Edit_Picto_Visual.this)) {
             // pd.setTitle(getString(R.string.translating_languaje));
@@ -1294,7 +1296,7 @@ public class Edit_Picto_Visual extends AppCompatActivity implements View.OnClick
                     //aca tiene que ir la interfaz de traduccion
 
                     try {
-                        mArrayListAGuardar = json.crearGrupo(mArrayListAGuardar, Picto.getCustom_Texto(), traducirTexto.getTexto(), mCurrentPhotoPath, tipo, urlfoto, pushKey);
+                        mArrayListAGuardar = JSONutils.crearGrupo(mArrayListAGuardar, ConfigurarIdioma.getLanguaje(), Picto.getCustom_Texto(), traducirTexto.getTexto(), mCurrentPhotoPath, tipo, urlfoto, pushKey);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -1313,8 +1315,10 @@ public class Edit_Picto_Visual extends AppCompatActivity implements View.OnClick
                         mArrayListAGuardar = json.readJSONArrayFromFile(Constants.ARCHIVO_PICTOS);
                     } catch (JSONException | FiveMbException e) {
                         e.printStackTrace();
-                    }
-                    mArrayListAGuardar = json.crearPicto(mArrayListGrupos, mArrayListAGuardar, padre, Picto.getCustom_Texto(), traducirTexto.getTexto(), mCurrentPhotoPath, tipo, urlfoto, pushKey);
+                    } //                        WeeklyBackup wb = new WeeklyBackup(mContext);
+                    //                        wb.weeklyBackupDialog(false, R.string.pref_summary_backup_principal, false);
+
+                    mArrayListAGuardar = JSONutils.crearPicto(mArrayListGrupos, mArrayListAGuardar, ConfigurarIdioma.getLanguaje(), padre, Picto.getCustom_Texto(), traducirTexto.getTexto(), mCurrentPhotoPath, tipo, urlfoto, pushKey);
                     databack.putExtra("esNuevo", true);
                     json.setmJSONArrayTodosLosPictos(mArrayListAGuardar);
                     json.guardarJson(Constants.ARCHIVO_PICTOS);
@@ -1328,10 +1332,10 @@ public class Edit_Picto_Visual extends AppCompatActivity implements View.OnClick
                 finish();
             } else {
 
-                json.setNombre(jsonObject, Picto.getCustom_Texto(), traducirTexto.getTexto(), traducirTexto.getmSource(), traducirTexto.getmTarget());
-                json.setTipo(jsonObject, tipo);
+                JSONutils.setNombre(jsonObject, Picto.getCustom_Texto(), traducirTexto.getTexto(), traducirTexto.getmSource(), traducirTexto.getmTarget());
+                JSONutils.setTipo(jsonObject, tipo);
                 if (mCurrentPhotoPath != null) {
-                    json.setImagen(jsonObject, mCurrentPhotoPath, urlfoto, pushKey);
+                    JSONutils.setImagen(jsonObject, mCurrentPhotoPath, urlfoto, pushKey);
                 }
                 if (esGrupo) {
                     analyticsFirebase.customEvents("Pictogram", "Editar Grupos", "Edit Group");
@@ -1340,7 +1344,7 @@ public class Edit_Picto_Visual extends AppCompatActivity implements View.OnClick
                          *  @autor gonzalo
                          * @since 4/1/2019
                          */
-                        json.setmJSONArrayTodosLosGrupos(json.setJsonEditado2(json.readJSONArrayFromFile(Constants.ARCHIVO_GRUPOS), jsonObject));
+                        json.setmJSONArrayTodosLosGrupos(JSONutils.setJsonEditado2(json.readJSONArrayFromFile(Constants.ARCHIVO_GRUPOS), jsonObject));
                         json.guardarJson(Constants.ARCHIVO_GRUPOS);
                     } catch (JSONException | FiveMbException e) {
                         e.printStackTrace();
@@ -1357,7 +1361,7 @@ public class Edit_Picto_Visual extends AppCompatActivity implements View.OnClick
                          *  @autor gonzalo
                          * @since 4/1/2019
                          */
-                        json.setmJSONArrayTodosLosPictos(json.setJsonEditado2(json.readJSONArrayFromFile(Constants.ARCHIVO_PICTOS), jsonObject));
+                        json.setmJSONArrayTodosLosPictos(JSONutils.setJsonEditado2(json.readJSONArrayFromFile(Constants.ARCHIVO_PICTOS), jsonObject));
                         json.guardarJson(Constants.ARCHIVO_PICTOS);
                     } catch (JSONException | FiveMbException e) {
                         e.printStackTrace();
@@ -1433,14 +1437,6 @@ public class Edit_Picto_Visual extends AppCompatActivity implements View.OnClick
         super.onTrimMemory(level);
 
     }
-
-
-
-
-
-    public void setTourguide(){}
-
-
 
 }
 

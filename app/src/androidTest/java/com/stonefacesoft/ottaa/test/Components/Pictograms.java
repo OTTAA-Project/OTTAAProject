@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.stonefacesoft.ottaa.Custom_Picto;
 import com.stonefacesoft.ottaa.JSONutils.Json;
+import com.stonefacesoft.ottaa.utils.JSONutils;
 import com.stonefacesoft.ottaa.utils.exceptions.FiveMbException;
 
 import org.json.JSONArray;
@@ -15,22 +16,17 @@ public class Pictograms {
     private final Json json;
     private Custom_Picto picto;
 
-    public Pictograms(Context mContext,Json json){
-        this.mContext=mContext;
-        this.json=json;
-
+    public Pictograms(Context mContext, Json json) {
+        this.mContext = mContext;
+        this.json = json;
 
 
     }
 
-    public void relacionarObjeto(JSONObject father,JSONObject child){
-        json.aumentarFrec(father,child);
-    }
-
-    public JSONArray ordenarObjetos(JSONObject father){
+    public JSONArray ordenarObjetos(JSONObject father) {
         try {
             try {
-                return json.cargarOpciones(father,0);
+                return json.cargarOpciones(father, 0);
             } catch (FiveMbException e) {
                 e.printStackTrace();
             }
@@ -40,27 +36,28 @@ public class Pictograms {
         return null;
     }
 
-    public JSONObject getJson(int id){
+    public JSONObject getJson(int id) {
         return json.getPictoFromId2(id);
     }
 
-    public void addPictogram(JSONObject object){
+    public void addPictogram(JSONObject object) {
         json.getmJSONArrayTodosLosPictos().put(object);
     }
 
-    public JSONObject  createPictograms(int id, String locale, String localeName, String englisName, int tipo) {
-        JSONObject dataObject=new JSONObject();
+    public JSONObject
+    generatePictogram(int id, String locale, String localeName, String englisName, int tipo) {
+        JSONObject dataObject = new JSONObject();
         try {
-            dataObject.put("id",id);
-            dataObject.put("tipo",tipo);
-            JSONObject texto=new JSONObject();
-            texto.put("en",englisName);
-            texto.put(locale,localeName);
-            dataObject.put("texto",texto);
-            JSONObject imagen=new JSONObject();
-            imagen.put("picto","ic_action_previous");
-            dataObject.put("imagen",imagen);
-            dataObject.put("relacion",new JSONArray());
+            dataObject.put("id", id);
+            dataObject.put("tipo", tipo);
+            JSONObject texto = new JSONObject();
+            texto.put("en", englisName);
+            texto.put(locale, localeName);
+            dataObject.put("texto", texto);
+            JSONObject imagen = new JSONObject();
+            imagen.put("picto", "ic_action_previous");
+            dataObject.put("imagen", imagen);
+            dataObject.put("relacion", new JSONArray());
 
 
         } catch (JSONException e) {

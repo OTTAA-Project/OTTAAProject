@@ -18,10 +18,8 @@ import com.google.android.libraries.places.api.model.PlaceLikelihood;
 import com.google.android.libraries.places.api.net.FindCurrentPlaceRequest;
 import com.google.android.libraries.places.api.net.FindCurrentPlaceResponse;
 import com.google.android.libraries.places.api.net.PlacesClient;
-import com.stonefacesoft.ottaa.Prediction.Posicion;
 import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.utils.ConstantsPlaces;
-import com.stonefacesoft.ottaa.utils.TraducirFrase;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;

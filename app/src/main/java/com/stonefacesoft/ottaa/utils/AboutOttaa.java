@@ -30,6 +30,8 @@ import com.stonefacesoft.ottaa.idioma.ConfigurarIdioma;
 import com.stonefacesoft.ottaa.idioma.myContextWrapper;
 import com.stonefacesoft.ottaa.utils.Firebase.AnalyticsFirebase;
 import com.stonefacesoft.ottaa.utils.preferences.PreferencesUtil;
+
+;
 /*
 * @version 2.0
 * @author gonzalo juarez

@@ -22,6 +22,7 @@ import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.utils.Constants;
 import com.stonefacesoft.ottaa.utils.Firebase.CrashlyticsUtils;
 import com.stonefacesoft.ottaa.utils.IntentCode;
+import com.stonefacesoft.ottaa.utils.JSONutils;
 
 import org.json.JSONException;
 
@@ -85,20 +86,13 @@ public class Grupo_Recycler_View extends Custom_recyclerView implements  View.On
                         Intent intent2 = new Intent(mActivity, GaleriaPictos3.class);
                         intent2.putExtra("Boton", position);
                         try {
-                            intent2.putExtra("Nombre", json.getNombre(array.getJSONObject(position)));
+                            intent2.putExtra("Nombre", JSONutils.getNombre(array.getJSONObject(position),sharedPrefsDefault.getString(mActivity.getString(R.string.str_idioma), "en")));
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                        //Log de cuantas frases se hacen
-                        try {
-                            Log.e("Answers", "Grupo: " + json.getNombre(array.getJSONObject(position)));
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                        try {
 
-                            CrashlyticsUtils.getInstance().getCrashlytics().setCustomKey("Grupo Usado",json.getNombre(array.getJSONObject(position)));
-
+                        try {
+                            CrashlyticsUtils.getInstance().getCrashlytics().setCustomKey("Grupo Usado",JSONutils.getNombre(array.getJSONObject(position),sharedPrefsDefault.getString(mActivity.getString(R.string.str_idioma), "en")));
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -252,7 +246,7 @@ public class Grupo_Recycler_View extends Custom_recyclerView implements  View.On
                 try {
                     int mPosition=getmPosition();
                     if(mPosition!=-1) {
-                        if (!(json.getNombre(array.getJSONObject(mPosition)).toLowerCase().equals("all") &&json.getId(array.getJSONObject(mPosition)) == 24)) {
+                        if (!(JSONutils.getNombre(array.getJSONObject(mPosition),sharedPrefsDefault.getString(mActivity.getString(R.string.str_idioma), "en")).toLowerCase().equals("all") &&json.getId(array.getJSONObject(mPosition)) == 24)) {
                             try {
 //                                final String pushKeyFoto = array.getJSONObject(mPosition).getJSONObject("imagen").getString("pushKey");
 //                                File f = new File(array.getJSONObject(mPosition).getJSONObject("imagen").getString("pictoEditado"));

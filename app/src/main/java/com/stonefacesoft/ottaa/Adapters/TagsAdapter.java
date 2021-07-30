@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.R;
 
@@ -16,21 +18,19 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
-import androidx.recyclerview.widget.RecyclerView;
-
 public class TagsAdapter extends RecyclerView.Adapter<TagsAdapter.TagsViewHolder> {
 
 
     //ArrayList de elementos a cargar dentro del RecyclerView
-    private final ArrayList<JSONObject> mArrayListElementos;
+    private ArrayList<JSONObject> mArrayListElementos;
     //Layout que carga el custom row, por ejemplo row_view
-    private final int mLayoutResourceId;
+    private int mLayoutResourceId;
     //Context
-    private final Context mContext;
+    private Context mContext;
     //Obtengo el arraylist de los tags seleccionados para pintarlos
-    private final ArrayList<JSONObject> mArrayListSelectedTags;
+    private ArrayList<JSONObject> mArrayListSelectedTags;
     //Instancia clase json para traer los valores
-    private final Json json;
+    private Json json;
     private final String TAG="TagsAdapter";
 
 
@@ -43,6 +43,20 @@ public class TagsAdapter extends RecyclerView.Adapter<TagsAdapter.TagsViewHolder
         Json.getInstance().setmContext(mContext);
         json = Json.getInstance();
     }
+
+    public TagsAdapter(){
+
+    }
+
+    public void setmArrayListSelectedTags(ArrayList<JSONObject> mArrayListSelectedTags) {
+        this.mArrayListSelectedTags = mArrayListSelectedTags;
+    }
+
+    public void setmArrayListElementos(ArrayList<JSONObject> mArrayListElementos) {
+        this.mArrayListElementos = mArrayListElementos;
+    }
+
+
 
     //Inflamos la vista que vamos a usar para cada elemento
     @Override
@@ -148,4 +162,6 @@ public class TagsAdapter extends RecyclerView.Adapter<TagsAdapter.TagsViewHolder
         }
 
     }
+
+
 }

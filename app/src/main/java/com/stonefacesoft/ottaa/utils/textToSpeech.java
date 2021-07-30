@@ -1,7 +1,6 @@
 package com.stonefacesoft.ottaa.utils;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -9,7 +8,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.speech.tts.TextToSpeech;
-import android.speech.tts.UtteranceProgressListener;
 import android.util.Log;
 
 import com.stonefacesoft.ottaa.utils.Firebase.AnalyticsFirebase;
@@ -24,7 +22,7 @@ import java.util.HashMap;
  */
 
 public class textToSpeech {
-    private TextToSpeech hablar;
+
     private final CustomToast alerta;
     private final SharedPreferences sharedPrefsDefault;
     private final Context context;
@@ -36,10 +34,10 @@ public class textToSpeech {
 
     public textToSpeech(Context context) {
         this.context = context;
-        alerta = new CustomToast(context);
+        alerta = CustomToast.getInstance(context);
         this.sharedPrefsDefault = PreferenceManager.getDefaultSharedPreferences(context);
-        prepare=new UtilsTTS(this.context,hablar,alerta,sharedPrefsDefault);
-        hablar=prepare.getmTTS();
+        prepare=new UtilsTTS(this.context,alerta,sharedPrefsDefault);
+
     }
 
 
@@ -49,6 +47,9 @@ public class textToSpeech {
         this.oracion = frase;
         prepare.hablarConDialogo(oracion);
     }
+
+
+
 
     public void hablarSinMostrarFrase(String frase) {
         Log.e("texToSpeech_hablar", "Hablar");
@@ -65,11 +66,15 @@ public class textToSpeech {
 
 
     public void mute() {
-        hablar.stop();
+        prepare.getmTTS().stop();
     }
 
-    public void grabar(File file,String oracion) {
+    public UtilsTTS getUtilsTTS(){
+        return prepare;
+    }
 
+    public void grabar(File file,String phrase) {
+           prepare.SyntetizeFile(phrase,file);
     }
 
     public File devolverPathAudio() {
@@ -99,38 +104,9 @@ public class textToSpeech {
     }
 
 
-    public void compartirAudio() {
-
-        String textToShare = oracion;
-
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            hablar.synthesizeToFile(textToShare, null, file, file.getAbsolutePath());
-        }
-        hablar.setOnUtteranceProgressListener(new UtteranceProgressListener() {
-            @Override
-            public void onStart(String utteranceId) {
-            }
-
-            @Override
-            public void onAudioAvailable(String utteranceId, byte[] audio) {
-
-            }
-
-            @Override
-            public void onDone(String utteranceId) {
-
-
-            }
-
-            @Override
-            public void onError(String utteranceId) {
-            }
-        });
-    }
 
     public TextToSpeech getTTS() {
-        return hablar;
+        return prepare.getmTTS();
     }
 
     public void mostrarAlerta(String mensaje) {

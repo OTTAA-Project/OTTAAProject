@@ -240,7 +240,7 @@
     <string name="my_own_message">إذا كنت تتمتع باستخدام أوتا يرجى معدل لنا، من شأنها أن تساعدنا على تحسين.</string>
     <string name="youAreNotUpdatedTitle">Update available</string>
     <string name="bienvenido">Great to have you here!</string>
-    <string name="licencia_expirada1">نشكرك على استخدام مشروع أوتا، انتهت الفترة التجريبية</string>
+    <string name="licencia_expirada1">احصل اليوم على جميع الميزات المفيدة التي يقدمها OTTAA Premium مقابل 9 دولارات أمريكية فقط شهريًا</string>
     <string name="btn_renovar_licencia">اشتراك الشراء</string>
     <string name="cambiar_cuenta">تغيير الحسابات</string>
     <string name="title_activity_licencia_expirada">انتهت الفترة التجريبية</string>
@@ -484,5 +484,10 @@
     <string name="book_a_demo_with_one_of_our_specialist_to_help_you_better_understand_our_aac">احجز عرضًا توضيحيًا مع أحد المتخصصين لدينا لمساعدتك على فهم AAC بشكل أفضل</string>
     <string name="prediction_data">هذه البيانات ضرورية للتنبؤ</string>
     <string name="whatareyoulooking">عما تبحث؟</string>
+    <string name="allphrases">كل العبارات</string>
+    <string name="selectPhavoritePhrases">حدد العبارات المفضلة</string>
+    <string name="say_pictogram_name_tittle">قل الرسم التخطيطي</string>
+    <string name="say_pictogram_name_description">OTTAA يقول اسم الرسم التخطيطي عند لمسه</string>
+    <string name="Iam">مرحبا أنا</string>
 
 </resources>

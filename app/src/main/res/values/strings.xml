@@ -506,6 +506,7 @@
     <string name="str_constant_subway_station" translatable="false">Subway station</string>
     <string name="str_constant_taxi_stand" translatable="false">Taxi Stand</string>
     <string name="talk_erase" translatable="false">hablar_borrar</string>
+    <string name="say_pictogram_name_key" translatable="false">say_pictogram_name</string>
     <string name="usar_scroll" translatable="false">bool_scroll</string>
     <string name="usar_scroll_click" translatable="false">bool_scroll_click</string>
     <string name="scroll_speed" translatable="false">Scroll_speed</string>
@@ -774,6 +775,11 @@
     <string name="prediction_data">These data are necessary for prediction</string>
     <string name="whatareyoulooking">What are you looking for?</string>
     <string name="str_edit_tags">Tag</string>
+    <string name="allphrases">All phrases</string>
+    <string name="selectPhavoritePhrases">Select Favorite Phrases</string>
+    <string name="say_pictogram_name_description"> OTTAA says the pictogram name at the touch it </string>
+    <string name="say_pictogram_name_tittle">Say the pictogram</string>
+    <string name="Iam">Hello I am</string>
 
 
 </resources>

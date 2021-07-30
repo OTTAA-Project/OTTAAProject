@@ -24,6 +24,8 @@ import com.stonefacesoft.ottaa.Helper.ItemTouchHelperAdapter;
 import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.utils.ConnectionDetector;
+import com.stonefacesoft.ottaa.idioma.ConfigurarIdioma;
+import com.stonefacesoft.ottaa.utils.JSONutils;
 import com.stonefacesoft.pictogramslibrary.Classes.Pictogram;
 import com.stonefacesoft.pictogramslibrary.utils.GlideAttatcher;
 
@@ -65,12 +67,12 @@ public class FindAllPictogramsAdapter extends RecyclerView.Adapter<FindAllPictog
     public FindAllPictogramsHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(mContext).inflate(layoutID, parent, false);
 
-        return new FindAllPictogramsAdapter.FindAllPictogramsHolder(view);
+        return new FindAllPictogramsHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull FindAllPictogramsHolder holder, int position) {
-        new FindAllPictogramsAdapter.VincularAsync(holder, position).execute();
+        new VincularAsync(holder, position).execute();
     }
 
 
@@ -166,7 +168,7 @@ public class FindAllPictogramsAdapter extends RecyclerView.Adapter<FindAllPictog
     }
 
     @Override
-    public void onViewRecycled(@NonNull FindAllPictogramsAdapter.FindAllPictogramsHolder holder) {
+    public void onViewRecycled(@NonNull FindAllPictogramsHolder holder) {
         super.onViewRecycled(holder);
         glideAttatcher.clearMemory();
     }
@@ -237,7 +239,7 @@ public class FindAllPictogramsAdapter extends RecyclerView.Adapter<FindAllPictog
 
     private class VincularAsync extends AsyncTask<Void, Void, Void> {
 
-        private final FindAllPictogramsAdapter.FindAllPictogramsHolder mHolder;
+        private final FindAllPictogramsHolder mHolder;
         private final int mPosition;
         private final Handler handler = new Handler();
         private String mStringTexto;
@@ -245,7 +247,7 @@ public class FindAllPictogramsAdapter extends RecyclerView.Adapter<FindAllPictog
         private JSONObject picto;
 
 
-        public VincularAsync(FindAllPictogramsAdapter.FindAllPictogramsHolder mHolder, int mPosition) {
+        public VincularAsync(FindAllPictogramsHolder mHolder, int mPosition) {
 
             this.mHolder = mHolder;
             this.mPosition = mPosition;
@@ -258,7 +260,7 @@ public class FindAllPictogramsAdapter extends RecyclerView.Adapter<FindAllPictog
 
             try {
                 processPictogram(mVincularArray.getJSONObject(mPosition));
-                mStringTexto = json.getNombre(picto);
+                mStringTexto = JSONutils.getNombre(picto, ConfigurarIdioma.getLanguaje());
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -273,9 +275,9 @@ public class FindAllPictogramsAdapter extends RecyclerView.Adapter<FindAllPictog
             if (picto != null) {
                 try {
                     mHolder.mTextoPicto.setText(mStringTexto);
-                    Pictogram pictogram = new Pictogram(mVincularArray.getJSONObject(mPosition), json.getIdioma());
-                    loadDrawable(glideAttatcher, pictogram, mHolder.mPictoImageView, mHolder.mKindOfPictogram);
-                    mHolder.mPictoImageColor.setColorFilter(cargarColor(json.getTipo(picto)));
+                    Pictogram pictogram = new Pictogram(mVincularArray.getJSONObject(mPosition), ConfigurarIdioma.getLanguaje());
+                    loadDrawable(glideAttatcher, pictogram, mHolder.mPictoImageView,mHolder.mKindOfPictogram);
+                    mHolder.mPictoImageColor.setColorFilter(cargarColor(JSONutils.getTipo(picto)));
                     mHolder.itemView.setBackground(mContext.getResources().getDrawable(R.drawable.picto_shape));
 
                 } catch (Exception ex) {
@@ -284,6 +286,8 @@ public class FindAllPictogramsAdapter extends RecyclerView.Adapter<FindAllPictog
             }
 
         }
+
+
 
         public void processPictogram(JSONObject object) {
 

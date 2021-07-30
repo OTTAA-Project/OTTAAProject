@@ -40,7 +40,7 @@ public class FindAllPictograms extends AppCompatActivity {
         sharedPrefsDefault= PreferenceManager.getDefaultSharedPreferences(this);
         recyclerView=findViewById(R.id.recyclerView);
         searchView=findViewById(R.id.searchView);
-        myTTS=new textToSpeech(this);
+        myTTS = new textToSpeech(this);
         firebaseUtils=FirebaseUtils.getInstance();
         firebaseUtils.setmContext(this);
         uploadFile=new SubirArchivosFirebase(this);

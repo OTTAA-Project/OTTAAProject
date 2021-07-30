@@ -6,8 +6,10 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.stonefacesoft.ottaa.R;
 
 
@@ -56,8 +58,6 @@ public class MovableFloatingActionButton extends LinearLayout implements View.On
         }
         else if (action == MotionEvent.ACTION_MOVE) {
 
-            //TODO poner que cuando se mueva mas alla del medio, se altere el orden de los botones quedando siempre el boton del microfono del lado externo, puede llegar a hacerse pasandolo como si estuviera en arabe
-
             int viewWidth = view.getWidth();
             int viewHeight = view.getHeight();
 
@@ -104,6 +104,11 @@ public class MovableFloatingActionButton extends LinearLayout implements View.On
             return super.onTouchEvent(motionEvent);
         }
 
+    }
+
+    public void setIcon( FirebaseAuth mAuth){
+        ImageView button =(ImageView) findViewById(R.id.buttonAvatar);
+        new AvatarUtils(getContext(),button,mAuth).getFirebaseAvatar();
     }
 
 }

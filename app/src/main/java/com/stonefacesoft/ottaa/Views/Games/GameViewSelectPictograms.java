@@ -25,7 +25,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import com.stonefacesoft.ottaa.utils.Games.GamesSettings;
 import com.stonefacesoft.ottaa.Interfaces.Make_Click_At_Time;
 import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.R;
@@ -36,6 +35,7 @@ import com.stonefacesoft.ottaa.utils.Audio.MediaPlayerAudio;
 import com.stonefacesoft.ottaa.utils.CustomToast;
 import com.stonefacesoft.ottaa.utils.Firebase.AnalyticsFirebase;
 import com.stonefacesoft.ottaa.utils.Games.AnimGameScore;
+import com.stonefacesoft.ottaa.utils.Games.GamesSettings;
 import com.stonefacesoft.ottaa.utils.Games.Juego;
 import com.stonefacesoft.ottaa.utils.Ttsutils.UtilsTTS;
 import com.stonefacesoft.pictogramslibrary.utils.GlideAttatcher;
@@ -115,6 +115,7 @@ public class GameViewSelectPictograms extends AppCompatActivity implements View.
 
 
 
+
     protected final Runnable animarHablar = new Runnable() {
         @Override
         public void run() {
@@ -139,12 +140,13 @@ public class GameViewSelectPictograms extends AppCompatActivity implements View.
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         }
         setContentView(R.layout.games_seleccionar_picto);
-        dialogo=new CustomToast(this);
+        dialogo=CustomToast.getInstance(this);
         PictoID = intent.getIntExtra("PictoID", 0);
         mPositionPadre = intent.getIntExtra("PositionPadre", 0);
         gamesSettings = new GamesSettings();
         json = Json.getInstance();
         json.setmContext(this);
+        json.initSharedPrefs();
         toolbar=findViewById(R.id.toolbar);
         mjJsonArrayTodosLosGrupos=json.getmJSONArrayTodosLosGrupos();
         setSupportActionBar(toolbar);
@@ -221,7 +223,7 @@ public class GameViewSelectPictograms extends AppCompatActivity implements View.
         guess2.setOnClickListener(this);
         guess3.setOnClickListener(this);
         guess4.setOnClickListener(this);
-        dialogo=new CustomToast(this);
+        dialogo=CustomToast.getInstance(this);
         pictogramas=new JSONObject[4];
         sharedPrefsDefault= PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         gamesSettings.enableSound(sharedPrefsDefault.getBoolean("muteSound",false));
@@ -231,7 +233,7 @@ public class GameViewSelectPictograms extends AppCompatActivity implements View.
 //        else
 //            sound_on_off.setImageDrawable(getResources().getDrawable(R.drawable.ic_volume_up_white_24dp));
         gamesSettings.enableHelpFunction(sharedPrefsDefault.getBoolean(getString(R.string.str_pistas),true));
-        mUtilsTTS=new UtilsTTS(getApplicationContext(),mTTS,dialogo,sharedPrefsDefault);
+        mUtilsTTS=new UtilsTTS(getApplicationContext(),dialogo,sharedPrefsDefault);
         player=new MediaPlayerAudio(this);
         music=new MediaPlayerAudio(this);
         player.setVolumenAudio(0.15f);

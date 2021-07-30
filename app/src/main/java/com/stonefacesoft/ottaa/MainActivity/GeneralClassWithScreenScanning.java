@@ -7,20 +7,20 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.idioma.ConfigurarIdioma;
 import com.stonefacesoft.ottaa.idioma.myContextWrapper;
 import com.stonefacesoft.ottaa.utils.Accesibilidad.BarridoPantalla;
-import com.stonefacesoft.ottaa.utils.PreferencesManager;
+
 
 import java.util.ArrayList;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
 public class GeneralClassWithScreenScanning extends AppCompatActivity {
-    private PreferencesManager sharedPrefsDefault;
+    private SharedPreferences sharedPrefsDefault;
     private BarridoPantalla barridoPantalla;
     private FloatingActionButton btnBarrido;
 

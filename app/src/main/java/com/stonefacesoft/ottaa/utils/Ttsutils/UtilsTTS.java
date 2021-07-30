@@ -5,14 +5,20 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
+import android.speech.tts.UtteranceProgressListener;
 import android.util.Log;
 
+import com.stonefacesoft.ottaa.Interfaces.TTSListener;
 import com.stonefacesoft.ottaa.R;
+import com.stonefacesoft.ottaa.idioma.ConfigurarIdioma;
 import com.stonefacesoft.ottaa.utils.CustomToast;
 import com.stonefacesoft.ottaa.utils.Firebase.CrashlyticsUtils;
 import com.stonefacesoft.ottaa.utils.verificarPaqueteInstalado;
 
+import java.io.File;
+import java.util.HashMap;
 import java.util.Locale;
 /**
  * @author Gonzalo Juarez
@@ -39,8 +45,32 @@ public class UtilsTTS {
     protected Context mContext;
     protected CustomToast alerta;
     protected boolean speak;
+    private TTSListener ttsListener;
+    private String id="TTSOTTAAID";
+    private UtteranceProgressListener utteranceProgressListener = new UtteranceProgressListener() {
+        @Override
+        public void onStart(String utteranceId) {
 
-    public UtilsTTS(Context mContext, TextToSpeech mTTS, CustomToast alerta, SharedPreferences sharedPrefsDefault){
+        }
+
+        @Override
+        public void onDone(String utteranceId) {
+            if(utteranceId.toString().toLowerCase().equals(id.toLowerCase())&&ttsListener!=null){
+                ttsListener.TTSonDone();
+                ttsListener= null;
+            }
+        }
+
+        @Override
+        public void onError(String utteranceId) {
+            if(ttsListener!=null) {
+                ttsListener.TTSonError();
+                ttsListener =null;
+            }
+        }
+    };
+
+    public UtilsTTS(Context mContext, CustomToast alerta, SharedPreferences sharedPrefsDefault){
         this.mContext=mContext;
         this.alerta=alerta;
 
@@ -59,6 +89,7 @@ public class UtilsTTS {
             }
         });
         this.sharedPrefsDefault=sharedPrefsDefault;
+        this.mTTS.setOnUtteranceProgressListener(utteranceProgressListener);
     }
     /**
      * <h5>Objetive :</h5>
@@ -75,7 +106,7 @@ public class UtilsTTS {
             Log.d("texToSpeech_refreshtts", "GetCountry: " + localeTTS.getCountry());
             Log.d("texToSpeech_refreshtts", "GetLanguage: " + localeTTS.getLanguage());
 
-            switch (sharedPrefsDefault.getString(mContext.getString(R.string.str_idioma), "en")) {
+            switch (ConfigurarIdioma.getLanguaje()) {
                 case "ar":
                     Log.d("texToSpeech_refreshtts", "ARABE");
 //                    TODO chequear primero si ya esta insltalada
@@ -152,10 +183,13 @@ public class UtilsTTS {
     public void hablar(String frase){
         speak=true;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-
-            mTTS.speak(frase, TextToSpeech.QUEUE_FLUSH, null, null);
+            Bundle bundle = new Bundle();
+            bundle.putString(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID,"");
+            mTTS.speak(frase, TextToSpeech.QUEUE_FLUSH, bundle, id);
         } else {
-            mTTS.speak(frase, TextToSpeech.QUEUE_FLUSH, null);
+            HashMap<String, String> hashTts = new HashMap<String, String>();
+            hashTts.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, id);
+            mTTS.speak(frase, TextToSpeech.QUEUE_FLUSH, hashTts);
         }
     }
     /**
@@ -167,11 +201,33 @@ public class UtilsTTS {
         Log.d("texToSpeech_hablar", "Hablar");
         alerta.mostrarFrase(frase);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            mTTS.speak(frase, TextToSpeech.QUEUE_FLUSH, null, null);
+            Bundle bundle = new Bundle();
+            bundle.putString(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID,"");
+            mTTS.speak(frase, TextToSpeech.QUEUE_FLUSH, bundle, id);
         } else {
-            mTTS.speak(frase, TextToSpeech.QUEUE_FLUSH, null);
+            HashMap<String, String> hashTts = new HashMap<String, String>();
+            hashTts.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, id);
+            mTTS.speak(frase, TextToSpeech.QUEUE_FLUSH, hashTts);
         }
     }
+
+
+    public void SyntetizeFile(String frase, File file){
+        alerta.mostrarFrase(frase);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Bundle bundle = new Bundle();
+            bundle.putString(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID,"");
+            bundle.putInt(TextToSpeech.Engine.KEY_PARAM_STREAM, TextToSpeech.Engine.DEFAULT_STREAM);
+            bundle.putFloat(TextToSpeech.Engine.KEY_PARAM_VOLUME,0.5f);
+            bundle.putFloat(TextToSpeech.Engine.KEY_PARAM_PAN,0);
+            mTTS.synthesizeToFile(frase, bundle,file, id);
+        } else {
+            HashMap<String, String> hashTts = new HashMap<String, String>();
+            hashTts.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, id);
+            mTTS.synthesizeToFile(frase,hashTts,file.getAbsolutePath());
+        }
+    }
+
 
     public TextToSpeech getmTTS() {
         return mTTS;
@@ -180,4 +236,10 @@ public class UtilsTTS {
     public boolean isSpeak() {
         return speak;
     }
+
+    public void setTtsListener(TTSListener ttsListener){
+        this.ttsListener = ttsListener;
+    }
+
+
 }

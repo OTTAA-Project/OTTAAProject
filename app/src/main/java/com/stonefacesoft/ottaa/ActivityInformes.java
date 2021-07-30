@@ -81,8 +81,6 @@ public class ActivityInformes extends AppCompatActivity implements CloudFunction
         //Toolbar toolbar = findViewById(R.id.toolbar);
         //setSupportActionBar(toolbar);
         binding();
-
-//        TODO Poner el avatar en la foto y poner el nombre del usuario
         if (connectionDetector.isConnectedToInternet()) {
             imageInternet.setVisibility(View.INVISIBLE);
             doHTTPRequestFirst();
@@ -103,7 +101,7 @@ public class ActivityInformes extends AppCompatActivity implements CloudFunction
             cardViewUsoGrupo.setVisibility(View.INVISIBLE);
 
             imageInternet.setVisibility(View.VISIBLE);
-            CustomToast customToast = new CustomToast(this);
+            CustomToast customToast = CustomToast.getInstance(this);
             customToast.mostrarFrase(getResources().getString(R.string.problema_inet));
 
         }
@@ -306,7 +304,8 @@ public class ActivityInformes extends AppCompatActivity implements CloudFunction
         // Display the first 500 characters of the response string.
         //Log.e(TAG, "onResponse: "+response);
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
-                this::parseReponse, new Response.ErrorListener() {
+                this::
+                        parseReponse, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.e(TAG, "onResponse: Volley Error: " + error.getMessage());
@@ -316,7 +315,6 @@ public class ActivityInformes extends AppCompatActivity implements CloudFunction
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                //TODO revisar que este assert este bien
                 assert user != null;
                 params.put("UserID", user.getEmail());
                 return params;

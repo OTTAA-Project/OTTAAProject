@@ -15,10 +15,11 @@ import com.stonefacesoft.ottaa.Helper.ItemTouchHelperAdapter;
 import com.stonefacesoft.ottaa.Helper.RecyclerItemClickListener;
 import com.stonefacesoft.ottaa.Interfaces.translateInterface;
 import com.stonefacesoft.ottaa.R;
+import com.stonefacesoft.ottaa.idioma.ConfigurarIdioma;
 import com.stonefacesoft.ottaa.utils.ConnectionDetector;
 import com.stonefacesoft.ottaa.utils.Constants;
 import com.stonefacesoft.ottaa.utils.IntentCode;
-import com.stonefacesoft.ottaa.utils.exceptions.FiveMbException;
+import com.stonefacesoft.ottaa.utils.JSONutils;
 import com.stonefacesoft.ottaa.utils.traducirTexto;
 import com.stonefacesoft.pictogramslibrary.Classes.Pictogram;
 
@@ -44,14 +45,7 @@ public class FindAllPictograms_Recycler_View extends Custom_recyclerView impleme
     }
 
     public void setArray() {
-
-        try {
-            array = json.getHijosGrupo2(json.getGrupoFromId(24));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        } catch (FiveMbException mbException) {
-            mbException.printStackTrace();
-        }
+         array = json.getHijosGrupo2(json.getPosPicto(json.getmJSONArrayTodosLosGrupos(),24));
         createRecyclerLayoutManager();
         findAllPictogramsAdapter = new FindAllPictogramsAdapter(mActivity, R.layout.pictorecyclerviewitem, array, true);
         mRecyclerView.setAdapter(findAllPictogramsAdapter);
@@ -135,7 +129,7 @@ public class FindAllPictograms_Recycler_View extends Custom_recyclerView impleme
 
                     if (id != idPicto) {
                         id = idPicto;
-                        myTTS.hablar(json.getNombre(findAllPictogramsAdapter.getmArrayPictos().getJSONObject(position)));
+                        myTTS.hablar(JSONutils.getNombre(findAllPictogramsAdapter.getmArrayPictos().getJSONObject(position), ConfigurarIdioma.getLanguaje()));
                     } else {
                         if(json.getPosPicto(array,idPicto)!=-1){
                             Intent databack = new Intent();
@@ -164,7 +158,7 @@ public class FindAllPictograms_Recycler_View extends Custom_recyclerView impleme
                     idPicto = json.getId(findAllPictogramsAdapter.getmArrayPictos().getJSONObject(position));
                     if (id != idPicto) {
                         id = idPicto;
-                        myTTS.hablar(json.getNombre(findAllPictogramsAdapter.getmArrayPictos().getJSONObject(position)));
+                        myTTS.hablar(JSONutils.getNombre(findAllPictogramsAdapter.getmArrayPictos().getJSONObject(position),ConfigurarIdioma.getLanguaje()));
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -181,7 +175,7 @@ public class FindAllPictograms_Recycler_View extends Custom_recyclerView impleme
                     progress_dialog_options.destruirDialogo();
                 }
                 selectedObject.put("relacion",new JSONArray());
-                json.setNombre(selectedObject,json.getNombre(selectedObject),traducirTexto.getTexto(),sharedPrefsDefault.getString(mActivity.getResources().getString(R.string.str_idioma),"en"),"en");
+                JSONutils.setNombre(selectedObject,JSONutils.getNombre(selectedObject,ConfigurarIdioma.getLanguaje()),traducirTexto.getTexto(),ConfigurarIdioma.getLanguaje(),"en");
                 json.addAraasacPictogramFromInternet(selectedObject);
                 JSONObject relacion = new JSONObject();
                 relacion.put("id",json.getId(selectedObject));
@@ -222,7 +216,7 @@ public class FindAllPictograms_Recycler_View extends Custom_recyclerView impleme
 
         @Override
         protected Void doInBackground(Void... voids) {
-            arasaac = buscarArasaac.HacerBusqueda(mActivity, texto);
+            arasaac = buscarArasaac.HacerBusqueda(texto, texto, mActivity);
             return null;
         }
 
@@ -268,8 +262,8 @@ public class FindAllPictograms_Recycler_View extends Custom_recyclerView impleme
         return progress_dialog_options;
     }
     public void translateText(){
-        traducirTexto = new traducirTexto(mActivity, sharedPrefsDefault);
-        String textoPicto =json.getNombre(selectedObject);
+        traducirTexto = new traducirTexto(mActivity);
+        String textoPicto =JSONutils.getNombre(selectedObject,ConfigurarIdioma.getLanguaje());
         traducirTexto.traducirIdioma(FindAllPictograms_Recycler_View.this::onTextoTraducido,textoPicto, sharedPrefsDefault.getString(mActivity.getResources().getString(R.string.str_idioma), "en"), "en", ConnectionDetector.isNetworkAvailable(mActivity));
         if (ConnectionDetector.isNetworkAvailable(mActivity)) {
             // pd.setTitle(getString(R.string.translating_languaje));
