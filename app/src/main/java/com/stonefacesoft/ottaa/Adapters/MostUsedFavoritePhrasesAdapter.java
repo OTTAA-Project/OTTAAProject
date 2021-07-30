@@ -37,11 +37,14 @@ public class MostUsedFavoritePhrasesAdapter extends RecyclerView.Adapter<MostUse
     public MostUsedFavoritePhrasesAdapter(Context mContext, ProgressBarListener progressBarListener){
         this.mContext = mContext;
         this.mFavImagesArrayList = new ArrayList<>();
-        this.myTTs = new textToSpeech(mContext);
+        this.myTTs = new textToSpeech(this.mContext);
         this.progressBarListener = progressBarListener;
         new cargarFavoritos().execute();
     }
 
+    public textToSpeech getMyTTs() {
+        return myTTs;
+    }
 
     @Override
     public FrasesFavoritasViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {

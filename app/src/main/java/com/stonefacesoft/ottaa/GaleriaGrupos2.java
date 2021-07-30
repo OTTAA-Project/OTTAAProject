@@ -142,7 +142,7 @@ public class GaleriaGrupos2 extends AppCompatActivity implements OnStartDragList
         firebaseUtils.setUpFirebaseDatabase();
         setContentView(R.layout.activity_galeria_grupos2);
         mContext = getApplicationContext();
-        myTTS = new textToSpeech(mContext);
+        myTTS = new textToSpeech(this);
         analyticsFirebase=new AnalyticsFirebase(this);
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

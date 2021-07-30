@@ -56,8 +56,11 @@ public class CustomToast extends Application {
         this.layout.setAlpha((float) 0.85);
         this.tv = layout.findViewById(R.id.text);
         this.imageView = layout.findViewById(R.id.imageViewAvatarToast);
-        new AvatarUtils(mContext,imageView, FirebaseAuth.getInstance()).getFirebaseAvatar();
         this.toast = new Toast(mContext);
+    }
+
+    public void updateToast(){
+        new AvatarUtils(mContext,imageView, FirebaseAuth.getInstance()).getFirebaseAvatar();
     }
 
     public void mostrarFrase(CharSequence texto, AnalyticsFirebase mTracker) {

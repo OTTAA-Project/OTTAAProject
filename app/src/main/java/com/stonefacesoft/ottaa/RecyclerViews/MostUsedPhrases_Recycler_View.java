@@ -2,12 +2,10 @@ package com.stonefacesoft.ottaa.RecyclerViews;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.stonefacesoft.ottaa.Adapters.MostUsedFavoritePhrasesAdapter;
 import com.stonefacesoft.ottaa.Interfaces.ProgressBarListener;
-import com.stonefacesoft.ottaa.utils.ReturnPositionItem;
 
 public class MostUsedPhrases_Recycler_View extends Custom_recyclerView {
     private MostUsedFavoritePhrasesAdapter mostUsedFavoritePhrasesAdapter;
@@ -17,11 +15,11 @@ public class MostUsedPhrases_Recycler_View extends Custom_recyclerView {
         setArray();
     }
 
-    public void setArray(){
-        array=json.getmJSonArrayFrasesFavoritas();
+    public void setArray() {
+        array = json.getmJSonArrayFrasesFavoritas();
         arrayAux = json.getmJSonArrayFrasesFavoritas();
         createRecyclerLayoutManager();
-        mostUsedFavoritePhrasesAdapter =new MostUsedFavoritePhrasesAdapter(mActivity, new ProgressBarListener() {
+        mostUsedFavoritePhrasesAdapter = new MostUsedFavoritePhrasesAdapter(mActivity, new ProgressBarListener() {
             @Override
             public void initProgressDialog() {
 
@@ -63,21 +61,26 @@ public class MostUsedPhrases_Recycler_View extends Custom_recyclerView {
 
     @Override
     public void scrollTo(boolean add) {
-        if(getPositionItem==null)
-            getPositionItem = new ReturnPositionItem(mRecyclerView.getAdapter().getItemCount());
-        if(add){
-            getPositionItem.add();
+        if (createReturnPositionItem()) {
+            if (add) {
+                getPositionItem.add();
+            } else {
+                getPositionItem.subtract();
+            }
+            mRecyclerView.scrollToPosition(getPositionItem.getPosition());
         }
-        else{
-            getPositionItem.subtract();
-        }
-        mRecyclerView.scrollToPosition(getPositionItem.getPosition());
     }
+
 
     @Override
     protected void createRecyclerLayoutManager() {
-        ScrollManager manager = new ScrollManager(mActivity,1,LinearLayoutManager.VERTICAL,false);
+        ScrollManager manager = new ScrollManager(mActivity, 1, LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(manager);
     }
 
+    @Override
+    public void talkAtPosition() {
+        if(createReturnPositionItem())
+            mostUsedFavoritePhrasesAdapter.getMyTTs().hablar(mostUsedFavoritePhrasesAdapter.getmFavImagesArrayList().get(getPositionItem.getPosition()).getTexto());
+    }
 }

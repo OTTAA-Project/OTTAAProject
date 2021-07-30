@@ -272,7 +272,7 @@ public class Edit_Picto_Visual extends AppCompatActivity implements View.OnClick
         textViewBtnFrame = findViewById(R.id.textViewBtnFrame);
 
 
-        myTTS = new textToSpeech(getApplicationContext());
+        myTTS = new textToSpeech(this);
 
 
         Drawable draw = null;

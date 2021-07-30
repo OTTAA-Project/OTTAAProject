@@ -140,7 +140,6 @@ public class GameSelector extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onResume() {
         super.onResume();
-        textToSpeech mytts=new textToSpeech(this);
         grupo_viewPager.updateData();
         grupo_viewPager.refreshView();
     }
@@ -327,9 +326,10 @@ public class GameSelector extends AppCompatActivity implements View.OnClickListe
     private void iniciarBarrido() {
         ArrayList<View> listadoObjetosBarrido = new ArrayList<>();
         listadoObjetosBarrido.add(up_button);
+        listadoObjetosBarrido.add(backpress_button);
         listadoObjetosBarrido.add(btnSelector);
         listadoObjetosBarrido.add(down_button);
-        listadoObjetosBarrido.add(backpress_button);
+
 
         //  listadoObjetosBarrido.add(editButton);
         barridoPantalla = new BarridoPantalla(this, listadoObjetosBarrido, this);

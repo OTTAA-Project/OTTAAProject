@@ -17,7 +17,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.stonefacesoft.ottaa.FirebaseRequests.FirebaseUtils;
 
 public class AvatarUtils {
-    private String TAG ="";
+    private String TAG ="AvatarUtils";
     private ImageView imageViewAvatar;
     private Context mContext;
     private DatabaseReference childDatabase;
@@ -35,7 +35,7 @@ public class AvatarUtils {
 
             if (snapshot.hasChild("url_foto")) {
                 Log.d(TAG, "onDataChange:" + snapshot.child("url_foto").toString());
-                Glide.with(mContext).load(Uri.parse(snapshot.child("url_foto").getValue().toString())).override(100,100).into(imageViewAvatar);
+                Glide.with(mContext).load(Uri.parse(snapshot.child("url_foto").getValue().toString())).override(imageViewAvatar.getHeight(),imageViewAvatar.getHeight()).into(imageViewAvatar);
             } else if (snapshot.exists()) {
                 String name = snapshot.getValue().toString();
                 Log.d(TAG, "onDataChange:" + name);
@@ -43,7 +43,6 @@ public class AvatarUtils {
                 setAvatarByName(mContext, name);
             } else {
                 setAvatarByName(mContext, "ic_avatar11");
-
             }
             childDatabase.removeEventListener(firebaseEventListener);
 
@@ -51,13 +50,13 @@ public class AvatarUtils {
 
         @Override
         public void onCancelled(@NonNull DatabaseError error) {
-
+            Log.e(TAG, "onCancelled: "+ error.getMessage() );
         }
     };
 
     public void setAvatarByName(Context mContext, String name) {
         Drawable drawable = mContext.getResources().getDrawable(mContext.getResources().getIdentifier(name, "drawable", mContext.getPackageName()));
-        Glide.with(mContext).load(drawable).override(100,100).into(imageViewAvatar);
+        Glide.with(mContext).load(drawable).override(imageViewAvatar.getHeight(),imageViewAvatar.getHeight()).into(imageViewAvatar);
     }
     public void getFirebaseAvatar() {
         ConnectionDetector connectionDetector = new ConnectionDetector(mContext);

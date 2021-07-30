@@ -252,7 +252,7 @@ public class prefs extends PreferenceActivity implements SharedPreferences.OnSha
         mFirebaseSuccess = this;
         strIdioma_original = sharedPrefsDefault.getString(getString(R.string.str_idioma), "en");
         downloadFilesTask = new DownloadFilesTask(strIdioma_original);
-        myTTS = new textToSpeech(getApplicationContext());
+        myTTS = new textToSpeech(this);
 
         android.app.ActionBar actionBar = getActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);

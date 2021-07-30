@@ -170,7 +170,7 @@ public class LoginActivity2Step2 extends AppCompatActivity implements View.OnCli
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    editTextName.setInputType(InputType.TYPE_CLASS_TEXT);
+                    editTextName.setInputType(InputType.TYPE_TEXT_VARIATION_PERSON_NAME);
                 }
             },2500);
         }

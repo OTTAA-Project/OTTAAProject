@@ -40,8 +40,9 @@ public class AllPhrasesRecyclerView extends Custom_recyclerView {
         mRecyclerView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                createReturnPositionItem();
+
                 try {
+                    if(createReturnPositionItem())
                     myTTS.hablar(adapter.getUserPhrases().getJSONObject(getPositionItem.getPosition()).getString("frase"));
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -53,8 +54,8 @@ public class AllPhrasesRecyclerView extends Custom_recyclerView {
     @Override
     public void onPictosFiltrados() {
         adapter.setUserPhrases(arrayAux);
-        createReturnPositionItem();
-        sincronizeData();
+        if(createReturnPositionItem())
+            sincronizeData();
     }
 
     @Override
@@ -65,15 +66,15 @@ public class AllPhrasesRecyclerView extends Custom_recyclerView {
 
     @Override
     public void scrollTo(boolean add) {
-        createReturnPositionItem();
-        sincronizeData();
-        if(add){
-            getPositionItem.add();
+        if(createReturnPositionItem()) {
+            sincronizeData();
+            if (add) {
+                getPositionItem.add();
+            } else {
+                getPositionItem.subtract();
+            }
+            mRecyclerView.scrollToPosition(getPositionItem.getPosition());
         }
-        else{
-            getPositionItem.subtract();
-        }
-        mRecyclerView.scrollToPosition(getPositionItem.getPosition());
     }
 
     @Override
@@ -108,6 +109,16 @@ public class AllPhrasesRecyclerView extends Custom_recyclerView {
     protected void createRecyclerLayoutManager() {
         ScrollManager manager = new ScrollManager(mActivity,1,LinearLayoutManager.VERTICAL,false);
         mRecyclerView.setLayoutManager(manager);
+    }
+
+    @Override
+    public void talkAtPosition(){
+        try {
+            if(createReturnPositionItem())
+                myTTS.hablar(adapter.getUserPhrases().getJSONObject(getPositionItem.getPosition()).getString("frase"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
 }

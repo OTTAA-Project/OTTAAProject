@@ -28,7 +28,7 @@ public class CustomFavoritePhrasesAdapter extends RecyclerView.Adapter<CustomFav
     public CustomFavoritePhrasesAdapter(Context mContext) {
         this.mContext = mContext;
         phrases=CustomFavoritePhrases.getInstance(mContext);
-        myTTs=new textToSpeech(this.mContext);
+        myTTs = new textToSpeech(this.mContext);
         glideAttatcher=new GlideAttatcher(this.mContext);
         gestionarBitmap=new GestionarBitmap(this.mContext);
 

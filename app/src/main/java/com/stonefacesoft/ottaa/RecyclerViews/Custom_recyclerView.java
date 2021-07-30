@@ -271,9 +271,10 @@ public abstract class Custom_recyclerView implements SearchView.OnQueryTextListe
 
     }
 
-    public void createReturnPositionItem(){
-        if(getPositionItem==null)
+    public boolean createReturnPositionItem(){
+        if(getPositionItem==null && mRecyclerView!=null && mRecyclerView.getAdapter() !=null)
             getPositionItem = new ReturnPositionItem(mRecyclerView.getAdapter().getItemCount());
+        return getPositionItem != null;
     }
 
     public void setOnClickListener(){
@@ -303,5 +304,10 @@ public abstract class Custom_recyclerView implements SearchView.OnQueryTextListe
     public void setScrollVertical(boolean scrollVertical) {
         this.scrollVertical = scrollVertical;
     }
+
+    public void talkAtPosition(){
+
+    }
+
 
 }

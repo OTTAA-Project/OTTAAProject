@@ -73,6 +73,7 @@ public class PhrasesView extends AppCompatActivity implements View.OnClickListen
         exit.setOnClickListener(this::onClick);
         btnTalk.setOnClickListener(this::onClick);
         controls = new PhrasesViewControls(this);
+        btnBarrido.setOnClickListener(this::onClick);
         btnBarrido.setOnTouchListener(this::onTouch);
         function_scroll = new ScrollFunctionPhraseView(this);
         iniciarBarrido();
@@ -81,13 +82,7 @@ public class PhrasesView extends AppCompatActivity implements View.OnClickListen
     @Override
     public void onClick(View v) {
         if(v.getId()==R.id.btnBarrido){
-                if (barridoPantalla.isBarridoActivado() && barridoPantalla.isAvanzarYAceptar()) {
-                    Log.d(TAG, "onClick() returned: Barrido Pantalla");
-                } else if (barridoPantalla.isBarridoActivado() && !barridoPantalla.isAvanzarYAceptar()) {
-                    int posicion = barridoPantalla.getPosicionBarrido();
-                    if (posicion != -1)
-                        barridoPantalla.getmListadoVistas().get(barridoPantalla.getPosicionBarrido()).callOnClick();
-                }
+            barridoPantalla.getmListadoVistas().get(barridoPantalla.getPosicionBarrido()).callOnClick();
         }
 
     }

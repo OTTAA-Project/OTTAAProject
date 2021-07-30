@@ -12,6 +12,7 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.util.Size;
 
+import com.google.api.LogDescriptor;
 import com.stonefacesoft.ottaa.Interfaces.FindPictogram;
 import com.stonefacesoft.ottaa.Prediction.Clima;
 import com.stonefacesoft.ottaa.Prediction.Edad;
@@ -98,7 +99,7 @@ public class Json implements FindPictogram {
 
     //Declaro el manejador de preferencia
     protected static SharedPreferences sharedPrefsDefault;
-    private String mListPlaceName;
+    private String mListPlaceName = "";
     private int cantFallas;
     //JSONArray
 
@@ -338,7 +339,7 @@ public class Json implements FindPictogram {
     }
 
     private double score(JSONObject json, boolean esSugerencia) {
-        return JSONutils.score(json,esSugerencia,getmJSONArrayTodosLosPictos(),getAgenda(), obtenerSexo(),calcularHora().toString(),obtenerEdad(),calcularPosicion().toString() );
+        return JSONutils.score(json,esSugerencia,mJSONArrayTodosLosPictos,getAgenda(), obtenerSexo(),calcularHora().toString(),obtenerEdad(),calcularPosicion().toString());
     }
 
     //TODO hasta aca revisado
@@ -410,7 +411,6 @@ public class Json implements FindPictogram {
     }
 
     public void setPlaceName(String name) {
-
         this.mListPlaceName = "TYPE_"+name;
     }
 
@@ -550,7 +550,7 @@ public class Json implements FindPictogram {
     }
 
     private String obtenerEdad() {
-        return sharedPrefsDefault.getString("prefEdad", "NotDefined");
+        return sharedPrefsDefault.getString("prefEdad", "NINO");
     }
 
 
@@ -1305,9 +1305,11 @@ public class Json implements FindPictogram {
 
     public int getScore(JSONObject object, boolean isSugerencia){
         try {
-            Log.d(TAG, "getScore: " + object.get("id").toString());
+            int score = (int) score(object,isSugerencia);
+            Log.e(TAG, "getScore: "+ score );
             return (int) score(object, isSugerencia);
         }catch (Exception ex){
+
             Log.e(TAG, "getScore: " + ex.getMessage());
             return 0;
         }

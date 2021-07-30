@@ -60,9 +60,6 @@ public class MainJuegos extends AppCompatActivity implements View.OnClickListene
     private FloatingActionButton backpress_button;
     private ScrollFuntionGames function_scroll;
 
-    private DrawerLayout drawerLayout;
-    private ActionBarDrawerToggle toggle;
-    private NavigationView navigationView;
     private Toolbar toolbar;
     private InmersiveMode inmersiveMode;
     private SharedPreferences sharedPrefsDefault;
@@ -83,22 +80,8 @@ public class MainJuegos extends AppCompatActivity implements View.OnClickListene
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_juegos);
-        navigationView=findViewById(R.id.nav_view);
         sharedPrefsDefault= androidx.preference.PreferenceManager.getDefaultSharedPreferences(this);
-        drawerLayout=findViewById(R.id.drawer_layout);
-        drawerLayout.setOnClickListener(this);
-        drawerLayout.addDrawerListener(toggle);
-        navigationView.setNavigationItemSelectedListener(this);
-        navigationView.bringToFront();
-        navigationView.setOnApplyWindowInsetsListener(new View.OnApplyWindowInsetsListener() {
-            @Override
-            public WindowInsets onApplyWindowInsets(View view, WindowInsets windowInsets) {
-                return windowInsets;
-            }
-        });
         toolbar = findViewById(R.id.toolbar);
-        toggle=new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.navigation_drawer_open,R.string.navigation_drawer_close);
-        toggle.syncState();
         analyticsFirebase=new AnalyticsFirebase(this);
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle(getResources().getString(R.string.str_game));
@@ -107,18 +90,6 @@ public class MainJuegos extends AppCompatActivity implements View.OnClickListene
         json.setmContext(this);
         inmersiveMode=new InmersiveMode(this);
         initComponents();
-        int value=sharedPrefsDefault.getInt("showMenuGames",4);
-        if(value>0) {
-            drawerLayout.open();
-            value--;
-            sharedPrefsDefault.edit().putInt("showMenuGames", value).apply();
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    drawerLayout.close();
-                }
-            }, 5000);
-        }
         view_game.setUpPositionItem(3);
     }
 

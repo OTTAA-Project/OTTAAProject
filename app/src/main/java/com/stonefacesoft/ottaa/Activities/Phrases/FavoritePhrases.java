@@ -63,7 +63,7 @@ public class FavoritePhrases extends PhrasesView {
                 startActivityForResult(intent, IntentCode.CUSTOMPHRASES.getCode());
                 break;
             case R.id.btnTalk:
-
+                favorite_phrases_recycler_view.talkAtPosition();
                 break;
         }
     }

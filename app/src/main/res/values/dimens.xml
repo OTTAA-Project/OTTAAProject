@@ -33,6 +33,7 @@
     <dimen name="sizeFloattingButtonIconMin">40dp</dimen>
     <dimen name="sizeFloattingButtonIconMed">60dp</dimen>
     <dimen name="sizeFloattingButtonIconMax">80dp</dimen>
+
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="nav_header_vertical_spacing">8dp</dimen>
     <dimen name="nav_header_height">176dp</dimen>
@@ -44,4 +45,8 @@
     <dimen name="sizeScreenScanningFloattingButtonIconMin">40dp</dimen>
     <dimen name="sizeScreenScanningFloattingButtonIconMed">60dp</dimen>
     <dimen name="sizeScreenScanningFloattingButtonIconMax">80dp</dimen>
+
+    <dimen name="sizeAvatarButtonIconMin">40dp</dimen>
+    <dimen name="sizeAvatarButtonIconMed">80dp</dimen>
+    <dimen name="sizeAvatarButtonIconMax">100dp</dimen>
 </resources>

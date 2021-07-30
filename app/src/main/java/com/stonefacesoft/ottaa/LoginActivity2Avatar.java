@@ -40,6 +40,7 @@ import com.google.firebase.storage.UploadTask;
 import com.stonefacesoft.ottaa.FirebaseRequests.FirebaseUtils;
 import com.stonefacesoft.ottaa.utils.ConnectionDetector;
 import com.stonefacesoft.ottaa.utils.Constants;
+import com.stonefacesoft.ottaa.utils.CustomToast;
 import com.stonefacesoft.ottaa.utils.Firebase.AnalyticsFirebase;
 import com.stonefacesoft.ottaa.utils.InmersiveMode;
 import com.stonefacesoft.ottaa.utils.IntentCode;
@@ -96,6 +97,7 @@ public class LoginActivity2Avatar extends AppCompatActivity implements View.OnCl
     private boolean uploadAvatar;
     private DatabaseReference childDatabase;
     private AnalyticsFirebase mFirebaseAnalytics;
+    private boolean comingFromMainActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,13 +105,15 @@ public class LoginActivity2Avatar extends AppCompatActivity implements View.OnCl
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_activity_avatar);
-
+        Intent intento = getIntent();
+        if(intento!=null){
+            if(intento.hasExtra("comingFromMainActivity"))
+                comingFromMainActivity = true;
+        }
         mAuth = FirebaseAuth.getInstance();
 
         mFirebaseAnalytics = new AnalyticsFirebase(this);
-
         bindUI();
-
         animateEntrance();
     }
 
@@ -125,7 +129,8 @@ public class LoginActivity2Avatar extends AppCompatActivity implements View.OnCl
         buttonNext.setOnClickListener(this);
         buttonPrevious = findViewById(R.id.backButton);
         buttonPrevious.setOnClickListener(this);
-
+        if(comingFromMainActivity)
+            buttonPrevious.setEnabled(false);
         imageButtonAvatar11 = findViewById(R.id.avatar11);
         imageButtonSelectAvatarSource = findViewById(R.id.buttonSelectAvatarSource);
 
@@ -158,8 +163,6 @@ public class LoginActivity2Avatar extends AppCompatActivity implements View.OnCl
     public void onClick(View view) {
         int id = view.getId();
         if (id == R.id.nextButton) {
-            //TODO El proceso es lento para ir a principal avisar al usuario que esta yendo a principal
-
             buttonNext.setEnabled(false);
             if (uploadAvatar) {
                 if (avatarId == -1) {
@@ -168,14 +171,25 @@ public class LoginActivity2Avatar extends AppCompatActivity implements View.OnCl
                     uploadFirebaseAvatarName();
                 }
             }
-            mFirebaseAnalytics.customEvents("Touch", "LoginActivity2Avatar", "Next3");
-            Intent intent = new Intent(LoginActivity2Avatar.this, Principal.class);
-            startActivity(intent);
-            finish();
+            Intent databack = new Intent();
+            if(comingFromMainActivity){
+                CustomToast.getInstance(LoginActivity2Avatar.this).updateToast();
+                setResult(IntentCode.AVATAR.getCode(), databack);
+                finish();
+            }
+            if (!comingFromMainActivity) {
+                mFirebaseAnalytics.customEvents("Touch", "LoginActivity2Avatar", "Next3");
+                Intent intent = new Intent(LoginActivity2Avatar.this, Principal.class);
+                startActivity(intent);
+                finish();
+            }
         } else if (id == R.id.backButton) {
+           if(!comingFromMainActivity){
             mFirebaseAnalytics.customEvents("Touch", "LoginActivity2Avatar", "Back3");
             Intent intent2 = new Intent(LoginActivity2Avatar.this, LoginActivity2Step3.class);
             startActivity(intent2);
+            finish();
+           }
         } else if (id == R.id.buttonSelectAvatarSource) {
             mFirebaseAnalytics.customEvents("Touch", "LoginActivity2Avatar", "buttonSelectAvatarSource");
             //Scale Animation to show the other buttons
@@ -334,6 +348,7 @@ public class LoginActivity2Avatar extends AppCompatActivity implements View.OnCl
         } else {
             setAvatarByName(this, "ic_avatar11");
         }
+
     }
 
     /**

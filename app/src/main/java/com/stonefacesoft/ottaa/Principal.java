@@ -102,6 +102,7 @@ import com.stonefacesoft.ottaa.utils.Accesibilidad.SayActivityName;
 import com.stonefacesoft.ottaa.utils.Accesibilidad.devices.PrincipalControls;
 import com.stonefacesoft.ottaa.utils.Accesibilidad.scrollActions.ScrollFunctionMainActivity;
 import com.stonefacesoft.ottaa.utils.Avatar;
+import com.stonefacesoft.ottaa.utils.AvatarUtils;
 import com.stonefacesoft.ottaa.utils.ConnectionDetector;
 import com.stonefacesoft.ottaa.utils.Constants;
 import com.stonefacesoft.ottaa.utils.Firebase.AnalyticsFirebase;
@@ -298,6 +299,7 @@ public class Principal extends AppCompatActivity implements View
     private Gesture gesture;
     //Bandera global del tutorial
     private boolean TutoFlag;
+    private ImageView menuAvatarIcon;
 
     public static FirebaseSuccessListener msuccesListener() {
         return mFirebaseSuccessListener;
@@ -440,6 +442,7 @@ public class Principal extends AppCompatActivity implements View
 
         Json.getInstance().setmContext(this);
         json = Json.getInstance();
+        json.initSharedPrefs();
         Log.d(TAG, "hashCode: " + json.hashCode());
 
         timeStamp = getTimeStamp();
@@ -664,6 +667,8 @@ public class Principal extends AppCompatActivity implements View
         Opcion4 = findViewById(R.id.Option4);
         Opcion4.setOnClickListener(this);
         Opcion4.setOnLongClickListener(this);
+        menuAvatarIcon = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.avatarIconMain);
+        menuAvatarIcon.setOnClickListener(this);
 
 
         ImageButton image1 = new ImageButton(getContext());
@@ -696,7 +701,7 @@ public class Principal extends AppCompatActivity implements View
         ////////////////////////////////////////////////////////////////////////////////////////////
 
 
-        myTTS = new textToSpeech(getApplicationContext());
+        myTTS = new textToSpeech(this);
 
         if (json.getmJSONArrayTodosLosPictos() != null && json.getmJSONArrayTodosLosPictos().length() > 0) {
             try {
@@ -794,7 +799,10 @@ public class Principal extends AppCompatActivity implements View
         navigationControls=new PrincipalControls(this);
         movableFloatingActionButton.setIcon(user.getmAuth());
         remoteConfigUtils = RemoteConfigUtils.getInstance();
+
         showAvatar();
+
+        new AvatarUtils(getContext(),menuAvatarIcon,user.getmAuth()).getFirebaseAvatar();
 
     }
 
@@ -1351,7 +1359,7 @@ public class Principal extends AppCompatActivity implements View
 
             JSONArray opciones = new JSONArray();
             try {
-                opciones = json.cargarOpciones(padre, cuentaMasPictos);
+                 opciones = json.cargarOpciones(padre, cuentaMasPictos);
 
             } catch (JSONException e) {
                 Log.e(TAG, "CargarOpciones: " + e.toString());
@@ -1661,8 +1669,7 @@ public class Principal extends AppCompatActivity implements View
     }
 
     public void speak() {
-
-
+        if(!Oracion.isEmpty()){
         if (!myTTS.getTTS().isSpeaking()) {
             Log.d(TAG, "speak: Oracion:" + Oracion);
             boolean existe = false;
@@ -1699,6 +1706,7 @@ public class Principal extends AppCompatActivity implements View
                 subirArchivos.subirPictosFirebase(subirArchivos.getmDatabase(user.getmAuth(), Constants.PICTOS), subirArchivos.getmStorageRef(user.getmAuth(), Constants.PICTOS));
                 subirArchivos.subirFrasesFirebase(subirArchivos.getmDatabase(user.getmAuth(), Constants.Frases), subirArchivos.getmStorageRef(user.getmAuth(), Constants.Frases));
             }
+        }
         }
     }
 
@@ -1925,6 +1933,9 @@ public class Principal extends AppCompatActivity implements View
             case R.id.btnBarrido:
                 barridoPantalla.getmListadoVistas().get(barridoPantalla.getPosicionBarrido()).callOnClick();
                 break;
+            case R.id.avatarIconMain:
+                startIconSelector();
+                break;
             default:
                 hablarModoExperimental();
                 break;
@@ -2013,7 +2024,7 @@ public class Principal extends AppCompatActivity implements View
 
         if (requestCode == IntentCode.CONFIG_SCREEN.getCode()) {
 
-            myTTS = new textToSpeech(getApplicationContext());
+            myTTS = new textToSpeech(this);
             Reset();
 
             // Si esta habilitado el barrido de pantalla empieza la rutina
@@ -2091,6 +2102,10 @@ public class Principal extends AppCompatActivity implements View
         if (requestCode == IntentCode.CUSTOMPHRASES.getCode()) {
             NewDialogsOTTAA newDialogsOTTAA = new NewDialogsOTTAA(this);
             newDialogsOTTAA.initCustomFavoritePhrase(false);
+        }
+
+        if(requestCode == IntentCode.AVATAR.getCode()){
+            new AvatarUtils(getContext(),menuAvatarIcon,user.getmAuth()).getFirebaseAvatar();
         }
 
     }
@@ -2608,6 +2623,12 @@ public class Principal extends AppCompatActivity implements View
         intent2.putExtra("Boton", 0);
         startActivityForResult(intent2, IntentCode.GALERIA_GRUPOS.getCode());
 
+    }
+
+    private void startIconSelector(){
+        Intent intent1=new Intent(this,LoginActivity2Avatar.class);
+        intent1.putExtra("comingFromMainActivity",true);
+        startActivityForResult(intent1,IntentCode.AVATAR.getCode());
     }
 
     private void startFavoritePhrases() {

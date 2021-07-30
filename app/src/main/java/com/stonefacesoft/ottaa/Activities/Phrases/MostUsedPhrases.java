@@ -60,7 +60,7 @@ public class MostUsedPhrases extends PhrasesView {
                 startActivity(new Intent(this,AllPhrases.class));
                 break;
             case R.id.btnTalk:
-                most_used_recycler_view.getmRecyclerView().callOnClick();
+                most_used_recycler_view.talkAtPosition();
                 break;
         }
     }

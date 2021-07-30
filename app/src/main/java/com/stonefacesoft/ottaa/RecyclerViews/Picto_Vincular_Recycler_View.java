@@ -23,7 +23,7 @@ public class Picto_Vincular_Recycler_View extends Custom_recyclerView  {
 
     public void setArray(){
         try {
-            array= JSONutils.getHijosGrupo2(json.getmJSONArrayTodosLosPictos(),json.getGrupoFromId(24));
+            array= JSONutils.getInstance().getHijosGrupo2(json.getmJSONArrayTodosLosPictos(),json.getGrupoFromId(24));
             arrayVincular=new JSONArray();
         } catch (JSONException e) {
             e.printStackTrace();

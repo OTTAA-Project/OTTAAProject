@@ -39,7 +39,7 @@
             </PreferenceCategory>
             <PreferenceCategory android:title="@string/say_pictogram_name_tittle">
                 <com.stonefacesoft.ottaa.utils.preferences.PersonalSwitchPreferences
-                    android:defaultValue="true"
+                    android:defaultValue="false"
                     android:key="@string/say_pictogram_name_key"
                     android:summary="@string/say_pictogram_name_description"
                     android:switchTextOff="@string/pref_desactivado"

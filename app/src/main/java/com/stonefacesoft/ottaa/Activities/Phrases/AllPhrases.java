@@ -56,7 +56,7 @@ public class AllPhrases extends PhrasesView {
 
                 break;
             case R.id.btnTalk:
-                allPhrasesRecyclerView.getmRecyclerView().callOnClick();
+                allPhrasesRecyclerView.talkAtPosition();
                 break;
         }
     }
