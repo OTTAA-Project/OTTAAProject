@@ -1,3 +1,4 @@
+
 package com.stonefacesoft.ottaa.utils;
 
 
@@ -11,6 +12,7 @@ import android.widget.LinearLayout;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.stonefacesoft.ottaa.R;
+import com.stonefacesoft.ottaa.utils.AvatarPackage.AvatarUtils;
 
 
 public class MovableFloatingActionButton extends LinearLayout implements View.OnTouchListener {

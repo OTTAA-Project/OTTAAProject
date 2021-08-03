@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.stonefacesoft.ottaa.R;
+import com.stonefacesoft.ottaa.utils.AvatarPackage.AvatarUtils;
 import com.stonefacesoft.ottaa.utils.Firebase.AnalyticsFirebase;
 
 /**
@@ -32,6 +33,7 @@ public class CustomToast extends Application {
     private final View layout;
     private final Toast toast;
     private static CustomToast customToast;
+    private AvatarUtils avatarUtils;
 
     public static CustomToast getInstance(Context mContext){
         if(customToast == null)
@@ -52,7 +54,6 @@ public class CustomToast extends Application {
         LayoutInflater inflater = LayoutInflater.from(context);
         //this.layout = inflater.inflate(R.layout.custom_toast, (ViewGroup) ((Activity)context).findViewById(R.id.toast_layout_root));
         this.layout = inflater.inflate(R.layout.custom_toast, null);
-
         this.layout.setAlpha((float) 0.85);
         this.tv = layout.findViewById(R.id.text);
         this.imageView = layout.findViewById(R.id.imageViewAvatarToast);
@@ -60,8 +61,11 @@ public class CustomToast extends Application {
     }
 
     public void updateToast(){
-        new AvatarUtils(mContext,imageView, FirebaseAuth.getInstance()).getFirebaseAvatar();
+        avatarUtils = new AvatarUtils(mContext,imageView,FirebaseAuth.getInstance());
+        avatarUtils.getFirebaseAvatar();
     }
+
+
 
     public void mostrarFrase(CharSequence texto, AnalyticsFirebase mTracker) {
         setMayus(texto);
@@ -89,7 +93,7 @@ public class CustomToast extends Application {
         //Set custom_toast gravity to bottom
         toast.setGravity(Gravity.BOTTOM, 0, 50);
         //Set custom_toast duration
-        toast.setDuration(Toast.LENGTH_SHORT);
+        toast.setDuration(Toast.LENGTH_LONG);
         //Set the custom layout to Toast
         toast.setView(layout);
 

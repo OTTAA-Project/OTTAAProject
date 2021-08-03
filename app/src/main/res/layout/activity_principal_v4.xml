@@ -472,7 +472,9 @@
         custom:layout_constraintBottom_toTopOf="@id/constraintLeftButtons"
         android:layout_marginStart="@dimen/activity_horizontal_margin"
         android:layout_marginBottom="@dimen/activity_vertical_margin"
-        android:visibility="gone"
+        android:visibility="visible"
+        android:minHeight="@dimen/sizeAvatarButtonIconMed"
+        android:minWidth="@dimen/sizeAvatarButtonIconMed"
         >
 
         <ImageView

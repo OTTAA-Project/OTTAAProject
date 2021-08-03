@@ -829,7 +829,13 @@ public class WhichIsThePicto extends AppCompatActivity implements View
                 return true;
             }
 
+        }else{
+            if(keyCode == KeyEvent.KEYCODE_BACK){
+                 onBackPressed();
+                return true;
+            }
         }
+
         return false;
     }
 }

@@ -708,6 +708,11 @@ public class MatchPictograms extends GameViewSelectPictograms {
                     onBackPressed();
                 return true;
             }
+        }else{
+            if(keyCode == KeyEvent.KEYCODE_BACK){
+                onBackPressed();
+                return true;
+            }
         }
         return false;
     }

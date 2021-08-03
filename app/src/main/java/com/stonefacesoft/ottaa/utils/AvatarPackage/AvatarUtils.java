@@ -1,4 +1,4 @@
-package com.stonefacesoft.ottaa.utils;
+package com.stonefacesoft.ottaa.utils.AvatarPackage;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -15,6 +15,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 import com.stonefacesoft.ottaa.FirebaseRequests.FirebaseUtils;
+import com.stonefacesoft.ottaa.utils.ConnectionDetector;
+import com.stonefacesoft.ottaa.utils.Constants;
+import com.stonefacesoft.pictogramslibrary.utils.GlideAttatcher;
 
 public class AvatarUtils {
     private String TAG ="AvatarUtils";
@@ -22,11 +25,14 @@ public class AvatarUtils {
     private Context mContext;
     private DatabaseReference childDatabase;
     private FirebaseAuth mAuth;
+    private String name;
+    private GlideAttatcher glideAttatcher;
 
     public AvatarUtils(Context mContext,ImageView imageViewAvatar,FirebaseAuth mAuth){
         this.mContext = mContext;
         this.imageViewAvatar = imageViewAvatar;
         this.mAuth = mAuth;
+        glideAttatcher = new GlideAttatcher(mContext);
     }
 
     private final ValueEventListener firebaseEventListener = new ValueEventListener() {
@@ -34,15 +40,12 @@ public class AvatarUtils {
         public void onDataChange(@NonNull DataSnapshot snapshot) {
 
             if (snapshot.hasChild("url_foto")) {
-                Log.d(TAG, "onDataChange:" + snapshot.child("url_foto").toString());
-                Glide.with(mContext).load(Uri.parse(snapshot.child("url_foto").getValue().toString())).override(imageViewAvatar.getHeight(),imageViewAvatar.getHeight()).into(imageViewAvatar);
-            } else if (snapshot.exists()) {
-                String name = snapshot.getValue().toString();
-                Log.d(TAG, "onDataChange:" + name);
-                name = name.replace("avatar", "ic_avatar");
+               glideAttatcher.useDiskCacheStrategy().setHeight(imageViewAvatar.getHeight()).setWidth(imageViewAvatar.getHeight()).attachedOnImaView(imageViewAvatar,Uri.parse(snapshot.child("url_foto").getValue().toString()));
+            } else if (snapshot.exists()&&!snapshot.hasChild("url_foto")) {
+                name = snapshot.getValue().toString().replace("avatar", "ic_avatar");
                 setAvatarByName(mContext, name);
             } else {
-                setAvatarByName(mContext, "ic_avatar11");
+                setAvatarByName(mContext, SelectedAvatar.getInstance().getName());
             }
             childDatabase.removeEventListener(firebaseEventListener);
 
@@ -54,19 +57,19 @@ public class AvatarUtils {
         }
     };
 
-    public void setAvatarByName(Context mContext, String name) {
+    private void setAvatarByName(Context mContext, String name) {
         Drawable drawable = mContext.getResources().getDrawable(mContext.getResources().getIdentifier(name, "drawable", mContext.getPackageName()));
-        Glide.with(mContext).load(drawable).override(imageViewAvatar.getHeight(),imageViewAvatar.getHeight()).into(imageViewAvatar);
+       glideAttatcher.useDiskCacheStrategy().setHeight(imageViewAvatar.getHeight()).setWidth(imageViewAvatar.getHeight()).attachedOnImaView(imageViewAvatar,drawable);
     }
     public void getFirebaseAvatar() {
+        this.name = SelectedAvatar.getInstance().getName();
         ConnectionDetector connectionDetector = new ConnectionDetector(mContext);
         if (connectionDetector.isConnectedToInternet()) {
-            setAvatarByName(mContext, "ic_avatar11");
             FirebaseUtils.getInstance().setmContext(mContext);
             childDatabase = FirebaseUtils.getInstance().getmDatabase().child(Constants.AVATAR).child(mAuth.getCurrentUser().getUid());
             childDatabase.addListenerForSingleValueEvent(firebaseEventListener);
         } else {
-            setAvatarByName(mContext, "ic_avatar35");
+            setAvatarByName(mContext, name);
         }
     }
 }
