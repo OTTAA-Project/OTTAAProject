@@ -31,7 +31,7 @@ public class CustomToast extends Application {
     private final ImageView imageView;
     private final Context mContext;
     private final View layout;
-    private final Toast toast;
+    private Toast toast;
     private static CustomToast customToast;
     private AvatarUtils avatarUtils;
     private SetUpToast setUpToast;
@@ -39,6 +39,9 @@ public class CustomToast extends Application {
     public static CustomToast getInstance(Context mContext){
         if(customToast == null)
             customToast = new CustomToast(mContext);
+        else{
+            customToast.prepareToast(mContext);
+        }
         return customToast;
     }
 
@@ -50,6 +53,10 @@ public class CustomToast extends Application {
         this.layout.setAlpha((float) 0.85);
         this.tv = layout.findViewById(R.id.text);
         this.imageView = layout.findViewById(R.id.imageViewAvatarToast);
+        prepareToast(mContext);
+    }
+
+    public void prepareToast(Context mContext){
         this.toast = new Toast(mContext);
         setUpToast = new SetUpToast();
         setUpToast.setToast(toast);
@@ -58,7 +65,8 @@ public class CustomToast extends Application {
         updateToastMessageLetters();
     }
 
-    public void updateToastIcon(){
+
+    public void updateToastIcon(Context mContext){
         avatarUtils = new AvatarUtils(mContext,imageView,FirebaseAuth.getInstance());
         avatarUtils.getFirebaseAvatar();
     }
