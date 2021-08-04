@@ -494,6 +494,11 @@ public class MemoryGame extends GameViewSelectPictograms {
                 return true;
             }
 
+        }else{
+            if(keyCode == KeyEvent.KEYCODE_BACK){
+                onBackPressed();
+                return true;
+            }
         }
         return false;
     }

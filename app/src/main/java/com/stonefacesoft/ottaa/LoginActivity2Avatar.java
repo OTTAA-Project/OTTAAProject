@@ -2,11 +2,13 @@ package com.stonefacesoft.ottaa;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
@@ -38,12 +40,14 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.stonefacesoft.ottaa.FirebaseRequests.FirebaseUtils;
+import com.stonefacesoft.ottaa.utils.AvatarPackage.SelectedAvatar;
 import com.stonefacesoft.ottaa.utils.ConnectionDetector;
 import com.stonefacesoft.ottaa.utils.Constants;
 import com.stonefacesoft.ottaa.utils.CustomToast;
 import com.stonefacesoft.ottaa.utils.Firebase.AnalyticsFirebase;
 import com.stonefacesoft.ottaa.utils.InmersiveMode;
 import com.stonefacesoft.ottaa.utils.IntentCode;
+import com.stonefacesoft.ottaa.utils.preferences.PreferencesUtil;
 import com.theartofdev.edmodo.cropper.CropImage;
 
 import java.io.ByteArrayOutputStream;
@@ -56,6 +60,7 @@ import java.util.Map;
 public class LoginActivity2Avatar extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = "LoginActivityAvatar";
+    private SharedPreferences preferences;
     //UI elemetns
     ImageView imageViewOrangeBanner;
     ImageView imageViewThreePeople;
@@ -102,14 +107,14 @@ public class LoginActivity2Avatar extends AppCompatActivity implements View.OnCl
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         new InmersiveMode(this);
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_activity_avatar);
         Intent intento = getIntent();
-        if(intento!=null){
-            if(intento.hasExtra("comingFromMainActivity"))
+        if (intento != null) {
+            if (intento.hasExtra("comingFromMainActivity"))
                 comingFromMainActivity = true;
         }
+        preferences = PreferenceManager.getDefaultSharedPreferences(this);
         mAuth = FirebaseAuth.getInstance();
 
         mFirebaseAnalytics = new AnalyticsFirebase(this);
@@ -129,8 +134,10 @@ public class LoginActivity2Avatar extends AppCompatActivity implements View.OnCl
         buttonNext.setOnClickListener(this);
         buttonPrevious = findViewById(R.id.backButton);
         buttonPrevious.setOnClickListener(this);
-        if(comingFromMainActivity)
+        if (comingFromMainActivity){
+            buttonPrevious.setVisibility(View.INVISIBLE);
             buttonPrevious.setEnabled(false);
+        }
         imageButtonAvatar11 = findViewById(R.id.avatar11);
         imageButtonSelectAvatarSource = findViewById(R.id.buttonSelectAvatarSource);
 
@@ -162,56 +169,63 @@ public class LoginActivity2Avatar extends AppCompatActivity implements View.OnCl
     @Override
     public void onClick(View view) {
         int id = view.getId();
-        if (id == R.id.nextButton) {
-            buttonNext.setEnabled(false);
-            if (uploadAvatar) {
-                if (avatarId == -1) {
-                    uploadFirebaseAvatar();
-                } else {
-                    uploadFirebaseAvatarName();
+        switch (id) {
+            case R.id.nextButton:
+                buttonNext.setEnabled(false);
+                if (uploadAvatar) {
+                    if (avatarId == -1) {
+                        uploadFirebaseAvatar();
+                    } else {
+                        uploadFirebaseAvatarName();
+                    }
                 }
-            }
-            Intent databack = new Intent();
-            if(comingFromMainActivity){
-                CustomToast.getInstance(LoginActivity2Avatar.this).updateToast();
-                setResult(IntentCode.AVATAR.getCode(), databack);
-                finish();
-            }
-            if (!comingFromMainActivity) {
-                mFirebaseAnalytics.customEvents("Touch", "LoginActivity2Avatar", "Next3");
-                Intent intent = new Intent(LoginActivity2Avatar.this, Principal.class);
-                startActivity(intent);
-                finish();
-            }
-        } else if (id == R.id.backButton) {
-           if(!comingFromMainActivity){
-            mFirebaseAnalytics.customEvents("Touch", "LoginActivity2Avatar", "Back3");
-            Intent intent2 = new Intent(LoginActivity2Avatar.this, LoginActivity2Step3.class);
-            startActivity(intent2);
-            finish();
-           }
-        } else if (id == R.id.buttonSelectAvatarSource) {
-            mFirebaseAnalytics.customEvents("Touch", "LoginActivity2Avatar", "buttonSelectAvatarSource");
-            //Scale Animation to show the other buttons
-            doScaleAnimation();
-        } else if (id == R.id.buttonSourceCamera) {
-            //TODO Quality is low, maybe use a different approch, also for EditPicto
-            mFirebaseAnalytics.customEvents("Touch", "LoginActivity2Avatar", "ButtonSourceCamera");
-            takePictureSetup();
-        } else if (id == R.id.buttonSourceGallery) {
-            mFirebaseAnalytics.customEvents("Touch", "LoginActivity2Avatar", "ButtonSourceGallery");
-            Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-            photoPickerIntent.setType("image/*");
-            startActivityForResult(photoPickerIntent, IntentCode.PICK_IMAGE.getCode());
-        } else {
-            if (view instanceof ImageView) {
-                uploadAvatar = true;
-                avatarId = id;
-                avatarName = view.getTag().toString();
-                Log.d(TAG, "onClick: " + avatarName);
-                mFirebaseAnalytics.customEvents("Touch", "LoginActivity2Avatar", "Avatar: " + avatarName);
-                Glide.with(this).load(((ImageView) view).getDrawable()).into(imageViewAvatar);
-            }
+                Intent databack = new Intent();
+                if (comingFromMainActivity) {
+                    setResult(IntentCode.AVATAR.getCode(), databack);
+                    finish();
+                }
+                if (!comingFromMainActivity) {
+                    mFirebaseAnalytics.customEvents("Touch", "LoginActivity2Avatar", "Next3");
+                    Intent intent = new Intent(LoginActivity2Avatar.this, Principal.class);
+                    startActivity(intent);
+                    finish();
+                }
+
+                break;
+            case R.id.back_button:
+                if (!comingFromMainActivity) {
+                    mFirebaseAnalytics.customEvents("Touch", "LoginActivity2Avatar", "Back3");
+                    Intent intent2 = new Intent(LoginActivity2Avatar.this, LoginActivity2Step3.class);
+                    startActivity(intent2);
+                    finish();
+                }
+                break;
+            case R.id.buttonSelectAvatarSource:
+                mFirebaseAnalytics.customEvents("Touch", "LoginActivity2Avatar", "buttonSelectAvatarSource");
+                doScaleAnimation();
+                break;
+            case R.id.buttonSourceCamera:
+                mFirebaseAnalytics.customEvents("Touch", "LoginActivity2Avatar", "ButtonSourceCamera");
+                takePictureSetup();
+                break;
+            case R.id.buttonSourceGallery:
+                mFirebaseAnalytics.customEvents("Touch", "LoginActivity2Avatar", "ButtonSourceGallery");
+                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+                photoPickerIntent.setType("image/*");
+                startActivityForResult(photoPickerIntent, IntentCode.PICK_IMAGE.getCode());
+                break;
+            default:
+                if (view instanceof ImageView) {
+                    uploadAvatar = true;
+                    avatarId = id;
+                    avatarName = view.getTag().toString();
+                    preferences.edit().putString("userAvatar","ic_"+avatarName).apply();
+                    SelectedAvatar.getInstance().setName("ic_"+avatarName);
+                    Log.d(TAG, "onClick: " + avatarName);
+                    mFirebaseAnalytics.customEvents("Touch", "LoginActivity2Avatar", "Avatar: " + avatarName);
+                    Glide.with(this).load(((ImageView) view).getDrawable()).into(imageViewAvatar);
+
+                }
         }
     }
 
@@ -334,6 +348,7 @@ public class LoginActivity2Avatar extends AppCompatActivity implements View.OnCl
     private void uploadFirebaseAvatarName() {
         FirebaseUtils utils = FirebaseUtils.getInstance();
         utils.setmContext(this);
+
         FirebaseUtils.getInstance().getmDatabase().child(Constants.AVATAR).child(mAuth.getCurrentUser().getUid()).setValue(avatarName);
     }
 

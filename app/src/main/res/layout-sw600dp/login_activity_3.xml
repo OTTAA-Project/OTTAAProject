@@ -132,7 +132,7 @@
                 android:layout_marginVertical="@dimen/medium_margin"
                 app:layout_constraintVertical_weight="1"
                 android:textColor="@color/Gray"
-                android:onClick="onClick"/>
+                />
 
             <Button
                 android:layout_width="0dp"
@@ -148,7 +148,7 @@
                 android:layout_marginVertical="@dimen/medium_margin"
                 app:layout_constraintVertical_weight="1"
                 android:textColor="@color/White"
-                android:onClick="onClick"/>
+                />
 
             <Button
                 android:layout_width="0dp"
@@ -165,7 +165,7 @@
                 android:layout_marginVertical="@dimen/medium_margin"
                 app:layout_constraintVertical_weight="1"
                 android:textColor="@color/Gray"
-                android:onClick="onClick"/>
+               />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

@@ -99,15 +99,8 @@ public class GestionarBitmap  {
     //metodo para almacenar archivo
     private void storeImage(Bitmap image)
     {
-        //GB_StoreImage_Foto : GestionarBitmap_StoreImageFoto
-
-        try{
-            imgs = getOutputMediaFile();
-        }catch (Exception ex){
-            Log.e(TAG, "storeImageException: "+ex.getMessage());
-        }
         try
-        {
+        {    imgs = getOutputMediaFile();
             FileOutputStream fos = new FileOutputStream(imgs);
             int width=0;
             int height=0;
@@ -254,6 +247,8 @@ public class GestionarBitmap  {
         }
         return bitmap;
     }
+
+
 
 
     //metodo para redimensionar los bitmaps

@@ -1,10 +1,12 @@
-package com.stonefacesoft.ottaa.utils;
+package com.stonefacesoft.ottaa.utils.AvatarPackage;
 
 import android.content.Context;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
+
+import com.stonefacesoft.ottaa.utils.MovableFloatingActionButton;
 
 public class Avatar {
     long lastTimestamp = 0;
@@ -37,8 +39,6 @@ public class Avatar {
         alphaAnimation.setDuration(1500);
         alphaAnimation.setFillAfter(true);
         movableFloatingActionButton.startAnimation(alphaAnimation);
-
-
         return utterance;
 
     }

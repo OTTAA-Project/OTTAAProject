@@ -13,6 +13,7 @@ import android.util.Log;
 import android.util.Size;
 
 import com.google.api.LogDescriptor;
+import com.stonefacesoft.ottaa.Bitmap.UriFiles;
 import com.stonefacesoft.ottaa.Interfaces.FindPictogram;
 import com.stonefacesoft.ottaa.Prediction.Clima;
 import com.stonefacesoft.ottaa.Prediction.Edad;
@@ -24,17 +25,22 @@ import com.stonefacesoft.ottaa.idioma.ConfigurarIdioma;
 import com.stonefacesoft.ottaa.utils.Constants;
 import com.stonefacesoft.ottaa.utils.JSONutils;
 import com.stonefacesoft.ottaa.utils.exceptions.FiveMbException;
+import com.stonefacesoft.pictogramslibrary.JsonUtils.JSONObjectManager;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -273,7 +279,7 @@ public class Json implements FindPictogram {
 
                 case 2:
                     return mContext.getResources().getDrawable(mContext.getResources().getIdentifier(jsonObjectImage.getString("picto"),
-                        "drawable", mContext.getPackageName()));
+                            "drawable", mContext.getPackageName()));
                 case 3:
                     return null;
             }
@@ -285,7 +291,7 @@ public class Json implements FindPictogram {
     }
 
     public Drawable getBitmap(String path)throws Exception{
-      Drawable  d = Drawable.createFromPath(path);
+        Drawable  d = Drawable.createFromPath(path);
         if(d!=null)
             return d;
         else{
@@ -300,6 +306,22 @@ public class Json implements FindPictogram {
         }
         return d;
     }
+
+    public Drawable AbrirBitmap(String path) {
+        Drawable d = mContext.getResources().getDrawable(R.drawable.ic_agregar);
+        if(!path.isEmpty()){
+            try {
+                d=getBitmap(path);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                d = mContext.getResources().getDrawable(R.drawable.ic_baseline_cloud_download_24_big);
+
+            }
+        }
+        return d;
+    }
+
+
 
     public Drawable getUrlBitmap(String uri)throws Exception{
         Drawable  d = null;

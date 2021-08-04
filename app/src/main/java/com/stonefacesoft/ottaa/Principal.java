@@ -92,7 +92,6 @@ import com.stonefacesoft.ottaa.Interfaces.PlaceSuccessListener;
 import com.stonefacesoft.ottaa.Interfaces.TTSListener;
 import com.stonefacesoft.ottaa.Interfaces.translateInterface;
 import com.stonefacesoft.ottaa.JSONutils.Json;
-import com.stonefacesoft.ottaa.Viewpagers.Viewpager_tutorial;
 import com.stonefacesoft.ottaa.idioma.ConfigurarIdioma;
 import com.stonefacesoft.ottaa.idioma.myContextWrapper;
 import com.stonefacesoft.ottaa.utils.AboutOttaa;
@@ -101,10 +100,11 @@ import com.stonefacesoft.ottaa.utils.Accesibilidad.Gesture;
 import com.stonefacesoft.ottaa.utils.Accesibilidad.SayActivityName;
 import com.stonefacesoft.ottaa.utils.Accesibilidad.devices.PrincipalControls;
 import com.stonefacesoft.ottaa.utils.Accesibilidad.scrollActions.ScrollFunctionMainActivity;
-import com.stonefacesoft.ottaa.utils.Avatar;
-import com.stonefacesoft.ottaa.utils.AvatarUtils;
+import com.stonefacesoft.ottaa.utils.AvatarPackage.Avatar;
+import com.stonefacesoft.ottaa.utils.AvatarPackage.AvatarUtils;
 import com.stonefacesoft.ottaa.utils.ConnectionDetector;
 import com.stonefacesoft.ottaa.utils.Constants;
+import com.stonefacesoft.ottaa.utils.CustomToast;
 import com.stonefacesoft.ottaa.utils.Firebase.AnalyticsFirebase;
 import com.stonefacesoft.ottaa.utils.Firebase.CrashlyticsUtils;
 import com.stonefacesoft.ottaa.utils.HandlerComunicationClass;
@@ -178,8 +178,8 @@ public class Principal extends AppCompatActivity implements View
     JSONObject pictoPadre, opcion1, opcion2, opcion3, opcion4, onLongOpcion;
     SubirArchivosFirebase subirArchivos;
     String timeStamp;
-    Avatar avatar;
-    MovableFloatingActionButton movableFloatingActionButton;
+    private Avatar avatar;
+    private MovableFloatingActionButton movableFloatingActionButton;
     private NLG nlg;
     private boolean nlgFlag;
     private Button Registro;
@@ -300,6 +300,7 @@ public class Principal extends AppCompatActivity implements View
     //Bandera global del tutorial
     private boolean TutoFlag;
     private ImageView menuAvatarIcon;
+    private AvatarUtils avatarUtils;
 
     public static FirebaseSuccessListener msuccesListener() {
         return mFirebaseSuccessListener;
@@ -433,7 +434,6 @@ public class Principal extends AppCompatActivity implements View
 
         //Implemento el manejador de preferencias
 
-        //TODO modificar esto desde firebase para habilitar el modo moderador
         sharedPrefsDefault.edit().putBoolean("esmoderador", false).apply();
         ConfigurarIdioma.setLanguage(sharedPrefsDefault.getString(getString(R.string.str_idioma), "en"));
         new ConfigurarIdioma(getApplicationContext(), ConfigurarIdioma.getLanguaje());
@@ -799,11 +799,12 @@ public class Principal extends AppCompatActivity implements View
         navigationControls=new PrincipalControls(this);
         movableFloatingActionButton.setIcon(user.getmAuth());
         remoteConfigUtils = RemoteConfigUtils.getInstance();
+        movableFloatingActionButton.setVisibility(View.VISIBLE);
 
+        avatarUtils = new AvatarUtils(this,menuAvatarIcon,user.getmAuth());
+        avatarUtils.getFirebaseAvatar();
+        CustomToast.getInstance(this).updateToast();
         showAvatar();
-
-        new AvatarUtils(getContext(),menuAvatarIcon,user.getmAuth()).getFirebaseAvatar();
-
     }
 
     /////////////////////////////////////////////////////////////////////////////////////
@@ -1470,7 +1471,6 @@ public class Principal extends AppCompatActivity implements View
             Log.e(TAG, "CargarOpciones: " + json.getFallJson());
 
             String uid = "";
-
         }
     }
 
@@ -2110,7 +2110,9 @@ public class Principal extends AppCompatActivity implements View
         }
 
         if(requestCode == IntentCode.AVATAR.getCode()){
-            new AvatarUtils(getContext(),menuAvatarIcon,user.getmAuth()).getFirebaseAvatar();
+            avatarUtils = new AvatarUtils(this,menuAvatarIcon,user.getmAuth());
+            avatarUtils.getFirebaseAvatar();
+            CustomToast.getInstance(this).updateToast();
         }
 
     }
@@ -2584,11 +2586,10 @@ public class Principal extends AppCompatActivity implements View
                         handler.postDelayed(new Runnable() {
                             @Override
                             public void run() {
+                               // avatar.animateTalk(phrase);
                                 myTTS.hablar(avatar.animateTalk(phrase));
                             }
                         },10500);
-
-                    }else{
 
                     }
                 }
