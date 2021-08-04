@@ -50,19 +50,24 @@ public class FavoritePhrases extends PhrasesView {
         super.onClick(v);
         switch (v.getId()){
             case R.id.up_button:
+                mAnalyticsFirebase.customEvents("Touch","FavoritePhrases","Favorite Phrases UpButton");
                 favorite_phrases_recycler_view.scrollTo(false);
                 break;
             case R.id.down_button:
+                mAnalyticsFirebase.customEvents("Touch","FavoritePhrases","Favorite Phrases DownButton");
                 favorite_phrases_recycler_view.scrollTo(true);
                 break;
             case R.id.back_button:
+                mAnalyticsFirebase.customEvents("Touch","FavoritePhrases","Favorite Phrases BackButton");
                 onBackPressed();
                 break;
             case R.id.edit_button:
+                mAnalyticsFirebase.customEvents("Touch","FavoritePhrases","Favorite Phrases EditButton");
                 Intent intent=new Intent(this, VincularFrases.class);
                 startActivityForResult(intent, IntentCode.CUSTOMPHRASES.getCode());
                 break;
             case R.id.btnTalk:
+                mAnalyticsFirebase.customEvents("Touch","FavoritePhrases","Favorite Phrases TalkAction");
                 favorite_phrases_recycler_view.talkAtPosition();
                 break;
         }

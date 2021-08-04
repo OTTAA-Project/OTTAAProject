@@ -21,7 +21,6 @@ public class VincularFrases extends PhrasesView {
 
     private PhrasesRecyclerView recyclerView;
     private SubirArchivosFirebase subirArchivos;
-    private AnalyticsFirebase mAnalyticsFirebase;
 
 
     @Override
@@ -36,7 +35,6 @@ public class VincularFrases extends PhrasesView {
         Intent intent = getIntent();
         this.setTitle(getString(R.string.selectPhavoritePhrases));
         subirArchivos=new SubirArchivosFirebase(this);
-        mAnalyticsFirebase=new AnalyticsFirebase(this);
         recyclerView=new PhrasesRecyclerView(this,firebaseUser.getmAuth());
         btnEditar.setImageDrawable(getApplicationContext().getResources().getDrawable(R.drawable.ic_baseline_save_white_24));
         if(barridoPantalla.isBarridoActivado())

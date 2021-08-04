@@ -78,10 +78,7 @@ public class CustomToast extends Application {
 
 
 
-    public void mostrarFrase(CharSequence texto, AnalyticsFirebase mTracker) {
-        setUpToast.setMayus(texto).prepareCustomSubtitle().getToast().show();
-        mTracker.customEvents("Talk","Principal","Created Phrase");
-    }
+
 
 
     public void mostrarFrase(CharSequence texto) {

@@ -44,18 +44,22 @@ public class AllPhrases extends PhrasesView {
         super.onClick(v);
         switch (v.getId()){
             case R.id.up_button:
+                mAnalyticsFirebase.customEvents("Touch","AllPhrases","All Phrases UpButton");
                 allPhrasesRecyclerView.scrollTo(false);
                 break;
             case R.id.down_button:
+                mAnalyticsFirebase.customEvents("Touch","AllPhrases","All Phrases DownButton");
                 allPhrasesRecyclerView.scrollTo(true);
                 break;
             case R.id.back_button:
+                mAnalyticsFirebase.customEvents("Touch","AllPhrases","Favorite Phrases BackButton");
                 onBackPressed();
                 break;
             case R.id.edit_button:
 
                 break;
             case R.id.btnTalk:
+                mAnalyticsFirebase.customEvents("Touch","AllPhrases","All Phrases Talk action");
                 allPhrasesRecyclerView.talkAtPosition();
                 break;
         }

@@ -23,6 +23,7 @@ import com.stonefacesoft.ottaa.utils.Accesibilidad.devices.PhrasesViewControls;
 import com.stonefacesoft.ottaa.utils.Accesibilidad.scrollActions.ScrollFunction;
 import com.stonefacesoft.ottaa.utils.Accesibilidad.scrollActions.ScrollFunctionGaleriaGrupos;
 import com.stonefacesoft.ottaa.utils.Accesibilidad.scrollActions.ScrollFunctionPhraseView;
+import com.stonefacesoft.ottaa.utils.Firebase.AnalyticsFirebase;
 import com.stonefacesoft.ottaa.utils.ReturnPositionItem;
 import com.stonefacesoft.ottaa.utils.preferences.User;
 
@@ -44,6 +45,7 @@ public class PhrasesView extends AppCompatActivity implements View.OnClickListen
     protected ScrollFunction function_scroll;
     protected PhrasesViewControls controls;
     protected String TAG="PhraseView";
+    protected AnalyticsFirebase mAnalyticsFirebase;
 
 
 
@@ -54,6 +56,7 @@ public class PhrasesView extends AppCompatActivity implements View.OnClickListen
         viewPager2 = findViewById(R.id.viewPager_groups);
         viewPager2.setVisibility(View.GONE);
         firebaseUser = new User(this);
+        mAnalyticsFirebase = new AnalyticsFirebase(this);
     }
 
 

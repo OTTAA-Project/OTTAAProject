@@ -47,19 +47,25 @@ public class MostUsedPhrases extends PhrasesView {
         super.onClick(v);
         switch (v.getId()) {
             case R.id.up_button:
+                mAnalyticsFirebase.customEvents("Touch","MostUsedPhrases","Most Used Phrases UpButton");
                 most_used_recycler_view.scrollTo(false);
                 break;
             case R.id.down_button:
+                mAnalyticsFirebase.customEvents("Touch","MostUsedPhrases","Most Used Phrases DownButton");
                 most_used_recycler_view.scrollTo(true);
                 break;
             case R.id.back_button:
+                mAnalyticsFirebase.customEvents("Touch","MostUsedPhrases","Most Used Phrases BackButton");
                 onBackPressed();
                 break;
             case R.id.edit_button:
+                mAnalyticsFirebase.customEvents("Touch","MostUsedPhrases","All Phrases");
                 SayActivityName.getInstance(this).sayTitle("Todas las frases");
                 startActivity(new Intent(this,AllPhrases.class));
                 break;
             case R.id.btnTalk:
+                mAnalyticsFirebase.customEvents("Touch","MostUsedPhrases","Talk Action");
+
                 most_used_recycler_view.talkAtPosition();
                 break;
         }
