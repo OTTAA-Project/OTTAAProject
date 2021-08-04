@@ -98,6 +98,8 @@ public class Juego {
 
    }
 
+
+
    public void createUser(){
        this.user =new User(this.mContext);
    }

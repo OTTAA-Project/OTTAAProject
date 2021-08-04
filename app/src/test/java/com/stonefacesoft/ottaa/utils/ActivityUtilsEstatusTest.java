@@ -11,17 +11,9 @@ public class ActivityUtilsEstatusTest {
 
     @Test
     public void testIsValidContext() {
-        assertEquals(true,activityUtilsEstatus.isValidContext(new Principal()));
+        assertEquals(false,activityUtilsEstatus.isValidContext(null));
     }
 
-    @Test
-    public void testGetmActivityFromContext() {
-        Principal principal = new Principal();
-        assertEquals(principal,activityUtilsEstatus.getmActivityFromContext(principal));
-    }
-    @Test
-    public void testIsActivityDestroyed() {
-        Principal principal = new Principal();
-        assertEquals(false,activityUtilsEstatus.isActivityDestroyed(principal));
-    }
+
+
 }

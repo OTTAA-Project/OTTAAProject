@@ -16,8 +16,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 public class TagsAdapterTest {
-
-    private AsignTags asignTags = new AsignTags(new Principal());
+    private AsignTags asignTags = new AsignTags();
     private TagsAdapter tagsAdapter = new TagsAdapter();
     @Test
     public void testGetItemViewType() {

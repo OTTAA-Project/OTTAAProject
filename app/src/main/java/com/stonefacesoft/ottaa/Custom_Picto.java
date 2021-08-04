@@ -73,6 +73,8 @@ public class Custom_Picto extends LinearLayout {
         init();
     }
 
+
+
     private void init() {
         inflate(getContext(), R.layout.compound_picto_3, this);
         this.tv = findViewById(R.id.grid_text);

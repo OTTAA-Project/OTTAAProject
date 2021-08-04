@@ -803,7 +803,7 @@ public class Principal extends AppCompatActivity implements View
 
         avatarUtils = new AvatarUtils(this,menuAvatarIcon,user.getmAuth());
         avatarUtils.getFirebaseAvatar();
-        CustomToast.getInstance(this).updateToast();
+        CustomToast.getInstance(this).updateToastIcon();
         showAvatar();
     }
 
@@ -2099,6 +2099,8 @@ public class Principal extends AppCompatActivity implements View
 
             }
 
+            CustomToast.getInstance(this).updateToastMessageLetters();
+
 
         }
         if (requestCode == IntentCode.LOGIN_ACTIVITY.getCode()) {
@@ -2112,7 +2114,7 @@ public class Principal extends AppCompatActivity implements View
         if(requestCode == IntentCode.AVATAR.getCode()){
             avatarUtils = new AvatarUtils(this,menuAvatarIcon,user.getmAuth());
             avatarUtils.getFirebaseAvatar();
-            CustomToast.getInstance(this).updateToast();
+            CustomToast.getInstance(this).updateToastIcon();
         }
 
     }

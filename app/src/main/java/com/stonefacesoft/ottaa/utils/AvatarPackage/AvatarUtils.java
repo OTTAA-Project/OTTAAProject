@@ -40,7 +40,7 @@ public class AvatarUtils {
         public void onDataChange(@NonNull DataSnapshot snapshot) {
 
             if (snapshot.hasChild("url_foto")) {
-               glideAttatcher.useDiskCacheStrategy().setHeight(imageViewAvatar.getHeight()).setWidth(imageViewAvatar.getHeight()).attachedOnImaView(imageViewAvatar,Uri.parse(snapshot.child("url_foto").getValue().toString()));
+               glideAttatcher.setHeight(imageViewAvatar.getHeight()).setWidth(imageViewAvatar.getHeight()).attachedOnImaView(imageViewAvatar,Uri.parse(snapshot.child("url_foto").getValue().toString()));
             } else if (snapshot.exists()&&!snapshot.hasChild("url_foto")) {
                 name = snapshot.getValue().toString().replace("avatar", "ic_avatar");
                 setAvatarByName(mContext, name);
@@ -59,7 +59,7 @@ public class AvatarUtils {
 
     private void setAvatarByName(Context mContext, String name) {
         Drawable drawable = mContext.getResources().getDrawable(mContext.getResources().getIdentifier(name, "drawable", mContext.getPackageName()));
-       glideAttatcher.useDiskCacheStrategy().setHeight(imageViewAvatar.getHeight()).setWidth(imageViewAvatar.getHeight()).attachedOnImaView(imageViewAvatar,drawable);
+       glideAttatcher.setHeight(imageViewAvatar.getHeight()).setWidth(imageViewAvatar.getHeight()).attachedOnImaView(imageViewAvatar,drawable);
     }
     public void getFirebaseAvatar() {
         this.name = SelectedAvatar.getInstance().getName();
