@@ -200,6 +200,7 @@ public class UtilsTTS {
     public void hablarConDialogo(String frase){
         Log.d("texToSpeech_hablar", "Hablar");
         alerta.mostrarFrase(frase);
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Bundle bundle = new Bundle();
             bundle.putString(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID,"");

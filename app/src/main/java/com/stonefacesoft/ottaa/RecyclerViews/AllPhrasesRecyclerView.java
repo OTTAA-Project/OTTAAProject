@@ -40,13 +40,8 @@ public class AllPhrasesRecyclerView extends Custom_recyclerView {
         mRecyclerView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                try {
                     if(createReturnPositionItem())
-                    myTTS.hablar(adapter.getUserPhrases().getJSONObject(getPositionItem.getPosition()).getString("frase"));
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                        talkAtPosition();
             }
         });
     }

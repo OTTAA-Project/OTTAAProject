@@ -30,11 +30,7 @@ public class Favorite_Phrases_recycler_view extends Custom_recyclerView {
         mRecyclerView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                try {
-                    adapter.getMyTTs().hablar(adapter.getPhrases().getPhrases().getJSONObject(getPositionItem.getPosition()).getString("frase"));
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                talkAtPosition();
             }
         });
     }

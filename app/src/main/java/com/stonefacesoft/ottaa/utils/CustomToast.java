@@ -26,11 +26,11 @@ public class CustomToast extends Application {
 
     private static final String TAG = "CustomToast";
     LayoutInflater inflater;
-    private final SharedPreferences sharedPrefsDefault;
-    private final TextView tv;
+    private static SharedPreferences sharedPrefsDefault;
+    private static TextView tv;
     private final ImageView imageView;
-    private final Context mContext;
-    private final View layout;
+    private static Context mContext;
+    private static View layout;
     private Toast toast;
     private static CustomToast customToast;
     private AvatarUtils avatarUtils;
@@ -90,20 +90,15 @@ public class CustomToast extends Application {
 
 
     public void mostrarFrase(CharSequence texto) {
-        setUpToast.setMayus(texto).prepareCustomSubtitle().getToast().show();
+        setUpToast.setTexto(texto.toString()).prepareCustomSubtitle().showToast();
         //personalizarToast();
     }
 
-    private void setMayus(CharSequence Testo) {
-        if (sharedPrefsDefault.getBoolean(this.mContext.getResources().getString(R.string.bool_subtitulo_mayuscula), false))
-            Testo = Testo.toString().toUpperCase();
-        this.tv.setText(Testo);
-    }
-
-    private class SetUpToast{
+    private static class SetUpToast{
         private Toast toast;
         private boolean useUpperCase;
         private int size = 20;
+        private String texto;
 
         public void setToast(Toast toast) {
             this.toast = toast;
@@ -111,13 +106,14 @@ public class CustomToast extends Application {
 
         public SetUpToast prepareCustomSubtitle(){
             tv.setTextSize(size);
+            if(useUpperCase)
+                texto = texto.toUpperCase();
+            tv.setText(texto);
             return this;
         }
 
-        public SetUpToast setMayus(CharSequence Testo) {
-            if (useUpperCase)
-                Testo = Testo.toString().toUpperCase();
-            tv.setText(Testo);
+        public SetUpToast setTexto(String texto) {
+            this.texto = texto;
             return this;
         }
 
@@ -129,8 +125,8 @@ public class CustomToast extends Application {
             toast.setView(layout);
         }
 
-        public Toast getToast() {
-            return toast;
+        public void showToast() {
+            toast.show();
         }
 
         public void setUseUpperCase(){
@@ -139,6 +135,8 @@ public class CustomToast extends Application {
         public void updateUserSize(int size){
             this.size = size;
         }
+
+
 
     }
 
