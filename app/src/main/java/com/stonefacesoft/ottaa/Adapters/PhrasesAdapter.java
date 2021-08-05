@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -142,6 +143,10 @@ public class PhrasesAdapter extends RecyclerView.Adapter<PhrasesAdapter.PhraseAd
     }
 
     public void itemAction(JSONObject phrase,View v){
-
+        try {
+            myTTs.hablar(phrase.getString("frase"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 }

@@ -29,6 +29,7 @@ import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.idioma.ConfigurarIdioma;
 import com.stonefacesoft.ottaa.utils.AvatarPackage.SelectedAvatar;
 import com.stonefacesoft.ottaa.utils.Constants;
+import com.stonefacesoft.ottaa.utils.CustomToast;
 import com.stonefacesoft.ottaa.utils.exceptions.FiveMbException;
 
 import org.json.JSONArray;
@@ -296,9 +297,10 @@ public class SplashActivity extends Activity {
                     Json.getInstance().setmContext(SplashActivity.this);
                     int hashcode = Json.getInstance().hashCode();
                     Log.d(TAG, "hashJson: " + hashcode);
-                changeName.cambiarPosicion();
-                    SelectedAvatar.getInstance().setName(sharedPrefsDefault.getString("userAvatar","ic_avatar35"));
-                new preLoadSplashScreen().execute();
+                     changeName.cambiarPosicion();
+                     String name = sharedPrefsDefault.getString("userAvatar","ic_avatar35");
+                    SelectedAvatar.getInstance().setName(name);
+                    new preLoadSplashScreen().execute();
             }
         }, 2500);
        }else{

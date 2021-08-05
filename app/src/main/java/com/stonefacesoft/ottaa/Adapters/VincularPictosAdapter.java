@@ -29,6 +29,7 @@ import com.stonefacesoft.ottaa.utils.JSONutils;
 import com.stonefacesoft.pictogramslibrary.Classes.Pictogram;
 import com.stonefacesoft.pictogramslibrary.utils.GlideAttatcher;
 
+import org.jetbrains.annotations.TestOnly;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -41,14 +42,14 @@ import java.util.List;
 public class VincularPictosAdapter extends RecyclerView.Adapter<VincularPictosAdapter.VincularViewHolder> implements ListPreloader.PreloadModelProvider {
 
     //private Context mContext;
-    private final int layoutID;
+    private int layoutID;
     private JSONArray mVincularArray;
-    private final JSONArray mSelectedPictos;
+    private JSONArray mSelectedPictos;
     private boolean esFiltrado;
-    private final Json json;
-    private final ArrayList<Integer> listadoIdPictos;
-    private  GlideAttatcher glideAttatcher;
-    private final Context mContext;
+    private Json json;
+    private ArrayList<Integer> listadoIdPictos;
+    private GlideAttatcher glideAttatcher;
+    private Context mContext;
 
     public VincularPictosAdapter(Context mContext, int layoutID, JSONArray mVincularArray, boolean filtro) {
         this.mContext = mContext;
@@ -59,9 +60,16 @@ public class VincularPictosAdapter extends RecyclerView.Adapter<VincularPictosAd
         this.esFiltrado = filtro;
         this.mSelectedPictos = new JSONArray();
         this.listadoIdPictos = new ArrayList<>();
+    }
 
-
-
+    @TestOnly
+    public VincularPictosAdapter( int layoutID, JSONArray mVincularArray, boolean filtro){
+        this.json = Json.getInstance();
+        this.layoutID = layoutID;
+        this.mVincularArray = mVincularArray;
+        this.esFiltrado = filtro;
+        this.mSelectedPictos = new JSONArray();
+        this.listadoIdPictos = new ArrayList<>();
     }
 
     public VincularPictosAdapter initGlideAttatcher(){

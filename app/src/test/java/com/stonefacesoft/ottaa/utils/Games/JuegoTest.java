@@ -10,7 +10,7 @@ import static org.junit.Assert.assertNotNull;
 
 public class JuegoTest {
 
-    private Juego juego = new Juego(new WhichIsThePicto(),1,1);
+    private Juego juego = new Juego(null,1,1);
 
     @Test
     public void testStartUseTime() {

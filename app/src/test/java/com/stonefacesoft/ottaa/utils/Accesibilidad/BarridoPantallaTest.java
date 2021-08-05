@@ -23,11 +23,10 @@ public class BarridoPantallaTest {
 
     @Test
     public void setmListadoVistas(){
-        Principal principal = new Principal();
-        PictoView pictoView =new PictoView(principal);
-        PictoView pictoView2 =new PictoView(principal);
-        PictoView pictoView3 =new PictoView(principal);
-        PictoView pictoView4 =new PictoView(principal);
+        PictoView pictoView =new PictoView(null);
+        PictoView pictoView2 =new PictoView(null);
+        PictoView pictoView3 =new PictoView(null);
+        PictoView pictoView4 =new PictoView(null);
         ArrayList<View> list =  new ArrayList<>();
         barridoPantalla.setmListadoVistas(list);
         barridoPantalla.addView(pictoView);

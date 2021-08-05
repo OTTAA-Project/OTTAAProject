@@ -32,10 +32,10 @@ public class NumberPickerPreference  implements View.OnClickListener , NumberPic
     private  Integer mNumber = 10;
     private Integer mNumberMin=0;
     private Integer mNumberMax=10;
-    private final Context mContext;
+    private  Context mContext;
     private int tipo;
-    private final String title;
-    private final String  key;
+    private  String title;
+    private  String  key;
     private  Dialog dialog;
     private  Custom_button positiveButton;
     private  Custom_button negativeButton;
@@ -46,6 +46,10 @@ public class NumberPickerPreference  implements View.OnClickListener , NumberPic
         mContext=context;
         this.key=key;
         this.title=title;
+
+    }
+
+    public NumberPickerPreference(){
 
     }
 
@@ -90,13 +94,15 @@ public class NumberPickerPreference  implements View.OnClickListener , NumberPic
 
 
 
-    public void setmPicker(int valueMin,int valueMax){
-        mNumberMax=valueMax;
-        mNumberMin=valueMin;
-        mPicker.setMinValue(valueMin);
-        mPicker.setMaxValue(valueMax);
-    }
+    public void setmPicker(int valueMin,int valueMax) {
+        mNumberMax = valueMax;
+        mNumberMin = valueMin;
+        if (mContext != null) {
+            mPicker.setMinValue(valueMin);
+            mPicker.setMaxValue(valueMax);
 
+        }
+    }
 
 
 
@@ -132,11 +138,35 @@ public class NumberPickerPreference  implements View.OnClickListener , NumberPic
 
     }
 
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
+    }
+
     public Integer getmNumberMax() {
         return mNumberMax;
     }
 
     public Integer getmNumberMin() {
         return mNumberMin;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setmNumberMax(Integer mNumberMax) {
+        this.mNumberMax = mNumberMax;
+    }
+
+    public void setmNumberMin(Integer mNumberMin) {
+        this.mNumberMin = mNumberMin;
     }
 }

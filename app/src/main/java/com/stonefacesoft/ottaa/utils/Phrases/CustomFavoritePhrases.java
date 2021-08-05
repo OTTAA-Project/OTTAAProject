@@ -14,7 +14,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 public class CustomFavoritePhrases {
-    private final Context mContext;
+    private Context mContext;
     private final Json json;
     private JSONArray favoritePhrases;
     private static CustomFavoritePhrases customFavoritePhrases;
@@ -33,6 +33,19 @@ public class CustomFavoritePhrases {
         if(customFavoritePhrases == null)
             customFavoritePhrases = new CustomFavoritePhrases(mContext);
         return customFavoritePhrases;
+    }
+    public synchronized static CustomFavoritePhrases getInstance(){
+        if(customFavoritePhrases == null)
+            customFavoritePhrases = new CustomFavoritePhrases();
+        return customFavoritePhrases;
+    }
+
+
+    private CustomFavoritePhrases(){
+        json=Json.getInstance();
+        favoritePhrases=json.getmJSonArrayFrasesFavoritas();
+        if(favoritePhrases==null)
+            favoritePhrases=new JSONArray();
     }
 
      private CustomFavoritePhrases(Context mContext){

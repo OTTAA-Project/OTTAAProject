@@ -60,8 +60,9 @@ public class textToSpeech {
     public void hablar(String frase, AnalyticsFirebase mTracker) {
         Log.e("texToSpeech_hablar", "Hablar con Tracker");
         this.oracion = frase;
-        alerta.mostrarFrase(frase, mTracker);
-        prepare.hablar(frase);
+        prepare.hablarConDialogo(frase);
+        mTracker.customEvents("Talk","Principal","Created Phrase");
+
     }
 
 
@@ -114,7 +115,8 @@ public class textToSpeech {
     }
 
     public void mostrarAlerta(String mensaje, AnalyticsFirebase mTracker) {
-        alerta.mostrarFrase(mensaje, mTracker);
+        alerta.mostrarFrase(mensaje);
+        mTracker.customEvents("Talk","Principal","Created Phrase");
     }
 
 

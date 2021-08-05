@@ -803,8 +803,8 @@ public class Principal extends AppCompatActivity implements View
 
         avatarUtils = new AvatarUtils(this,menuAvatarIcon,user.getmAuth());
         avatarUtils.getFirebaseAvatar();
-        CustomToast.getInstance(this).updateToast();
         showAvatar();
+        CustomToast.getInstance(this).updateToastIcon(this);
     }
 
     /////////////////////////////////////////////////////////////////////////////////////
@@ -1909,7 +1909,6 @@ public class Principal extends AppCompatActivity implements View
                 onClickOption(opcion4, Opcion4_clicker);
                 break;
             case R.id.btnFavoritos:
-                analyticsAction("Accessibility", "Touch", "Principal", "Favorite Phrases");
                 startFavoritePhrases();
                 break;
             case R.id.action_share:
@@ -2099,6 +2098,8 @@ public class Principal extends AppCompatActivity implements View
 
             }
 
+            CustomToast.getInstance(this).updateToastMessageLetters();
+
 
         }
         if (requestCode == IntentCode.LOGIN_ACTIVITY.getCode()) {
@@ -2112,7 +2113,7 @@ public class Principal extends AppCompatActivity implements View
         if(requestCode == IntentCode.AVATAR.getCode()){
             avatarUtils = new AvatarUtils(this,menuAvatarIcon,user.getmAuth());
             avatarUtils.getFirebaseAvatar();
-            CustomToast.getInstance(this).updateToast();
+            CustomToast.getInstance(this).updateToastIcon(this);
         }
 
     }
@@ -2671,10 +2672,12 @@ public class Principal extends AppCompatActivity implements View
         int option = sharedPrefsDefault.getInt("favoritePhrase", 0);
         switch (option) {
             case 0:
+                analyticsAction("Accessibility", "Touch", "Principal", "More Used Phrases");
                 SayActivityName.getInstance(this).sayTitle(getResources().getString(R.string.frases_musadas));
                 startActivity(new Intent(this, MostUsedPhrases.class));
                 break;
             case 1:
+                analyticsAction("Accessibility", "Touch", "Principal", "Favorite Phrases");
                 SayActivityName.getInstance(this).sayTitle(getResources().getString(R.string.favorite_phrases));
                 startActivity(new Intent(this, FavoritePhrases.class));
                 break;

@@ -18,7 +18,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 public class AsignTagsTest implements DialogInterfaceTags, TagInterfazJson {
-    AsignTags asignTags = new AsignTags(new Principal());
+    AsignTags asignTags = new AsignTags(null);
 
     @Test
     public void testSetInterfaz() {

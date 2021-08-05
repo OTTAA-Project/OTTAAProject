@@ -1,18 +1,25 @@
 package com.stonefacesoft.ottaa;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 public class NumberPickerPreferenceTest {
-    private NumberPickerPreference numberPickerPreference = new NumberPickerPreference(new Principal(),"casa","casa");
+    private NumberPickerPreference numberPickerPreference = new NumberPickerPreference();
 
-    @Test
-    public void setUp() throws Exception {
-        numberPickerPreference = new NumberPickerPreference(new Principal(),"casa","casa");
-    }
-
-    @Test
-    public void testSetTipo() {
-        numberPickerPreference.setTipo(2);
-    }
+   @Test
+    public void setNumberPicker(){
+       numberPickerPreference.setmPicker(0,10);
+       Assert.assertTrue(numberPickerPreference.getmNumberMax() == 10 && numberPickerPreference.getmNumberMin() == 0);
+   }
+   @Test
+    public void setMax(){
+       numberPickerPreference.setmNumberMax(10);
+       Assert.assertTrue(numberPickerPreference.getmNumberMax() == 10);
+   }
+   @Test
+    public void setMin(){
+       numberPickerPreference.setmNumberMin(0);
+       Assert.assertTrue(numberPickerPreference.getmNumberMin() == 0);
+   }
 
 }

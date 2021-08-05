@@ -12,7 +12,8 @@ import static org.junit.Assert.assertNotNull;
 
 public class Item_adapterTest {
     private Dialog dialog;
-    private Item_adapter adapter=new Item_adapter(R.layout.custom_item_select,new Principal(),dialog);
+    private Item_adapter adapter=new Item_adapter(R.layout.custom_item_select,dialog);
+
 
    @Test
     public void testSetmArrayListItemsNames() {
