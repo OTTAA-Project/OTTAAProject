@@ -383,7 +383,7 @@ public class GameViewSelectPictograms extends AppCompatActivity implements View.
         menu.getItem(0).setOnMenuItemClickListener(this);
         menu.getItem(3).setOnMenuItemClickListener(this);
 
-        setIcon(mMenu.getItem(3), gamesSettings.isSoundOn(),R.drawable.ic_volume_off_white_24dp,R.drawable.ic_volume_up_white_24dp);
+        setIcon(mMenu.getItem(3), gamesSettings.isSoundOn(),R.drawable.ic_baseline_volume_off_24,R.drawable.ic_baseline_volume_up_24);
         setIcon(mMenu.getItem(1), gamesSettings.isHelpFunction(),R.drawable.ic_live_help_white_24dp,R.drawable.ic_unhelp);
         setIcon(mMenu.getItem(2), gamesSettings.isRepeat(),R.drawable.ic_repeat_white_24dp,R.drawable.ic_unrepeat_ic_2);
 

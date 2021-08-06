@@ -1257,9 +1257,9 @@ public class Principal extends AppCompatActivity implements View
         locationItem = menu.getItem(0);
 
         if (mute) {
-            menu.getItem(1).setIcon(getResources().getDrawable(R.drawable.ic_volume_up_white_24dp));
+            menu.getItem(1).setIcon(getResources().getDrawable(R.drawable.ic_baseline_volume_off_24));
         } else {
-            menu.getItem(1).setIcon(getResources().getDrawable(R.drawable.ic_volume_off_white_24dp));
+            menu.getItem(1).setIcon(getResources().getDrawable(R.drawable.ic_baseline_volume_up_24));
         }
 
 
@@ -2760,10 +2760,10 @@ public class Principal extends AppCompatActivity implements View
 
                     analitycsFirebase.customEvents("Touch","Principal","Silence");
                     if (mute) {
-                        item.setIcon(getResources().getDrawable(R.drawable.ic_volume_off_white_24dp));
+                        item.setIcon(getResources().getDrawable(R.drawable.ic_baseline_volume_off_24));
                         mute = false;
                     } else {
-                        item.setIcon(getResources().getDrawable(R.drawable.ic_volume_up_white_24dp));
+                        item.setIcon(getResources().getDrawable(R.drawable.ic_baseline_volume_up_24));
                         mute = true;
                     }
 

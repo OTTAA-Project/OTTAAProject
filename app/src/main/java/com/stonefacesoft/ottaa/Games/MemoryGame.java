@@ -199,7 +199,7 @@ public class MemoryGame extends GameViewSelectPictograms {
                 gamesSettings.enableSound(gamesSettings.changeStatus(gamesSettings.isSoundOn()));
                 sharedPrefsDefault.edit().putBoolean("muteSound", gamesSettings.isSoundOn()).apply();
                 music.setMuted(gamesSettings.isSoundOn());
-                setIcon(item, gamesSettings.isSoundOn(), R.drawable.ic_volume_off_white_24dp, R.drawable.ic_volume_up_white_24dp);
+                setIcon(item, gamesSettings.isSoundOn(), R.drawable.ic_baseline_volume_off_24, R.drawable.ic_baseline_volume_up_24);
                 return true;
             case R.id.check:
                 analyticsFirebase.customEvents("Touch", "Memory Game", "Help Action");

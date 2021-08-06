@@ -11,7 +11,7 @@
         android:visible="true"
         yourapp:showAsAction="always|withText" />
         <item android:id="@+id/action_parar"
-            android:icon="@drawable/ic_volume_off_white_24dp"
+            android:icon="@drawable/ic_baseline_volume_off_24"
             android:title="@string/action_parar"
             yourapp:showAsAction="always"/>
 

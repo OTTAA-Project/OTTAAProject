@@ -165,7 +165,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="25dp"
         android:elevation="20dp"
-        android:src="@drawable/ic_done_white_24dp"
+        android:src="@drawable/ic_baseline_done_24"
         android:tint="@color/White"
         app:backgroundTint="@color/NaranjaOTTAA"
         app:fabCustomSize="80dp"

@@ -622,7 +622,7 @@ public class WhichIsThePicto extends AppCompatActivity implements View
         mMenu.getItem(1).setOnMenuItemClickListener(this::onMenuItemClick);
         mMenu.getItem(3).setOnMenuItemClickListener(this::onMenuItemClick);
 
-        setIcon(mMenu.getItem(3), gamesSettings.isSoundOn(), R.drawable.ic_volume_off_white_24dp, R.drawable.ic_volume_up_white_24dp);
+        setIcon(mMenu.getItem(3), gamesSettings.isSoundOn(), R.drawable.ic_baseline_volume_off_24, R.drawable.ic_baseline_volume_up_24);
         setIcon(mMenu.getItem(1), gamesSettings.isHelpFunction(), R.drawable.ic_live_help_white_24dp, R.drawable.ic_unhelp);
 
         return super.onCreateOptionsMenu(menu);
@@ -636,7 +636,7 @@ public class WhichIsThePicto extends AppCompatActivity implements View
                 gamesSettings.enableSound(gamesSettings.changeStatus(gamesSettings.isSoundOn()));
                 sharedPrefsDefault.edit().putBoolean("muteSound", gamesSettings.isSoundOn()).apply();
                 music.setMuted(gamesSettings.isSoundOn());
-                setIcon(item, gamesSettings.isSoundOn(), R.drawable.ic_volume_off_white_24dp, R.drawable.ic_volume_up_white_24dp);
+                setIcon(item, gamesSettings.isSoundOn(), R.drawable.ic_baseline_volume_off_24, R.drawable.ic_baseline_volume_up_24);
                 analitycsFirebase.customEvents("Touch", "WhichIsThePicto", "Mute");
                 return true;
             case R.id.score:

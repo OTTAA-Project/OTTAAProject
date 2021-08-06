@@ -30,20 +30,18 @@
         android:configChanges="orientation|keyboardHidden|screenSize"
         android:fullBackupContent="@xml/backup_descriptor"
         android:hardwareAccelerated="false"
-        android:icon="@drawable/ic_launcher"
+        android:icon="@mipmap/ic_launcher"
         android:installLocation="auto"
         android:label="@string/app_name"
         android:largeHeap="true"
         android:requestLegacyExternalStorage="true"
         android:screenOrientation="sensorLandscape"
         android:supportsRtl="true"
-        android:theme="@style/CustomActionBarTheme"
         android:usesCleartextTraffic="true">
         <activity android:name=".view.ReportActivity"></activity>
         <activity
             android:name=".ActivityInformes"
-            android:label="@string/title_activity_informes"
-            android:theme="@style/CustomActionBarTheme.NoActionBar" />
+            android:label="@string/title_activity_informes" />
 
         <uses-library
             android:name="android.test.runner"
@@ -72,8 +70,7 @@
         <activity
             android:name=".MainJuegos"
             android:label="@string/title_activity_main_juegos"
-            android:screenOrientation="sensorLandscape"
-            android:theme="@style/CustomActionBarTheme.NoActionBar" />
+            android:screenOrientation="sensorLandscape"/>
         <activity
             android:name=".welcome.SplashActivity"
             android:label="@string/app_name"
@@ -98,7 +95,7 @@
         <activity
             android:name=".Principal"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:icon="@drawable/ic_launcher"
+            android:icon="@drawable/ic_launcher_foreground"
             android:label="@string/app_name"
             android:screenOrientation="sensorLandscape" />
         <!--
@@ -196,7 +193,7 @@
 
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
-            android:resource="@drawable/logo_ottaa_dev" /> <!-- GEOFE -->
+            android:resource="@drawable/ic_launcher_foreground" /> <!-- GEOFE -->
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_color"
             android:resource="@color/NaranjaOTTAA" />

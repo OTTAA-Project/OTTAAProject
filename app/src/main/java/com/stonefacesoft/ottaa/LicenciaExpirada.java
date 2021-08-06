@@ -41,8 +41,8 @@ public class LicenciaExpirada extends AppCompatActivity implements SharedPrefere
     public static String STR_LOGOUT;
     public GoogleSignInApi mGoogleSignInClient;
     ViewPager viewPager;
-    int[] images = new int[]{R.drawable.licencia_accesibilidad, R.drawable.licencia_games, R.drawable.licencia_informe, R
-            .drawable.licencia_ubicacion};
+    int[] images = new int[]{R.drawable.ic_baseline_accessible_forward_24, R.drawable.ic_videogame_asset_black_24dp, R.drawable.ic_baseline_auto_graph_24, R
+            .drawable.ic_location_on_black_24dp};
     int[] textos = new int[]{R.string.obtain_ottaa_project,
             R.string.test_game_vocabulary,
             R.string.premium_report_description

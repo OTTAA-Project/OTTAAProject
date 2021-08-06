@@ -22,14 +22,13 @@
     <ImageView
         android:id="@+id/personaJuegos"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_margin="@dimen/activity_horizontal_margin"
         android:contentDescription="Persona que nos muestra los juegos disponibles"
-        android:src="@drawable/person_games"
+        android:src="@drawable/ic_3_people"
         custom:layout_constraintBottom_toBottomOf="parent"
         custom:layout_constraintEnd_toStartOf="@+id/constraint_gamecard"
         custom:layout_constraintStart_toStartOf="parent"
-        custom:layout_constraintTop_toBottomOf="@id/toolbar"
 
         />
     <androidx.constraintlayout.widget.ConstraintLayout

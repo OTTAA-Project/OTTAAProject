@@ -636,7 +636,7 @@ public class DescribirPictograma extends AppCompatActivity implements View
         mMenu.getItem(1).setOnMenuItemClickListener(this::onMenuItemClick);
         mMenu.getItem(3).setOnMenuItemClickListener(this::onMenuItemClick);
 
-        setIcon(mMenu.getItem(3),mute,R.drawable.ic_volume_off_white_24dp,R.drawable.ic_volume_up_white_24dp);
+        setIcon(mMenu.getItem(3),mute,R.drawable.ic_baseline_volume_off_24,R.drawable.ic_baseline_volume_up_24);
         setIcon(mMenu.getItem(1),isChecked,R.drawable.ic_live_help_white_24dp,R.drawable.ic_unhelp);
 
         return super.onCreateOptionsMenu(menu);
@@ -651,7 +651,7 @@ public class DescribirPictograma extends AppCompatActivity implements View
                 mute=!mute;
                 sharedPrefsDefault.edit().putBoolean("muteSound",mute).apply();
                 music.setMuted(mute);
-                setIcon(item,mute,R.drawable.ic_volume_off_white_24dp,R.drawable.ic_volume_up_white_24dp);
+                setIcon(item,mute,R.drawable.ic_baseline_volume_off_24,R.drawable.ic_baseline_volume_up_24);
 
                 return true;
             case R.id.score:
