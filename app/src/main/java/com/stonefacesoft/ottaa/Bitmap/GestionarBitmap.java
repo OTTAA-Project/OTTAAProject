@@ -71,6 +71,10 @@ public class GestionarBitmap  {
         this.texto=texto;
     }
 
+    public String getTexto() {
+        return texto;
+    }
+
     public String getNombre() {
         return nombre;
     }
@@ -316,127 +320,6 @@ public class GestionarBitmap  {
         this.idjson = idjson;
     }
 
-    //metodo para armar un grafico de barra simple
-
-    private Bitmap generarGraficoBarra(int heigth,int width,ArrayList<Integer[]> listado,ArrayList<String> texto,String titulo)
-    {
-        Bitmap logo=redimensionarImagenMaximo(drawableToBitmap(mContext.getResources().getDrawable(R.drawable.logo_ottaa)),100,25);
-        float deltaX = (width/(2*listado.size()+4));
-        float alto = (0.8f)*heigth;
-        float deltaY = (heigth-alto)/6;
-        float x0= 2*deltaX;
-        float y0= 3*deltaY+alto;
-        float y2= 2*deltaY;
-        //int mayor=calcularMayor(listado);
-        Bitmap bitmap=Bitmap.createBitmap(width,heigth,Bitmap.Config.ARGB_8888);
-        Canvas canvas=new Canvas(bitmap);
-        Paint pintura=new Paint();
-        pintura.setColor(Color.WHITE);
-        //preparo el titulo,el fondo y las lineas del eje de las x e y junto con la dimension de la letra
-        canvas.drawRect(0,0,bitmap.getWidth(),bitmap.getHeight(),pintura);
-        pintura.setColor(Color.GRAY);
-        pintura.setAntiAlias(true);
-        canvas.drawLine(x0,y0,width-x0,y0,pintura);
-        canvas.drawLine(x0,y0,x0,y2,pintura);
-        pintura.setTextSize(12);
-        Log.d(TAG,"listadosize: " +listado.size()+"");
-        Log.d(TAG,"alto: "+alto+"");
-
-
-        for(int i=0;i<listado.size();i++)
-        {
-            float nnx=i*deltaX+(i-1)*deltaX+2*x0;
-            float nny=y0;
-            float total=0;
-
-
-            for(int j=0;j<listado.get(i).length;j++) {
-                total+=listado.get(i)[j];
-                Log.d(TAG,"matriz [i;j] "+listado.get(i)[j]+"");
-            }
-            float mmy1=0;
-            if(total>0) {
-                mmy1=nny;
-                for(int j=0;j<listado.get(i).length;j++) {
-
-
-
-                    pintura.setStrokeWidth(deltaX);
-                    pintura.setColor(devolverColor(j));
-                    float mmy=((alto*listado.get(i)[j])/total);
-                    canvas.drawLine(nnx,mmy1,nnx,mmy,pintura);
-                    pintura.setColor(devolverColor(4));
-
-
-                    Log.d(TAG,"listado :"+ listado.get(i)[j]);
-                    Log.d(TAG,"yo  mmy1 : "+ "yo " + y0 + " mmy1 " + mmy1);
-                    mmy1 = mmy;
-                }
-
-            }
-            canvas.drawText(texto.get(i).substring(0,2),nnx-(deltaX/2),nny+deltaY,pintura);
-            Log.d(TAG,"matriz[i;j] eje i:" +i+"");
-        }
-
-        return bitmap;
-    }
-
-    private int calcularMayor(ArrayList<Integer> listado)
-    {
-        int mayor=0;
-        for(int i=0;i<listado.size();i++)
-        {
-            if(mayor<listado.get(i))
-                mayor=listado.get(i);
-        }
-        Log.d(TAG,"valor mayor"+mayor+"");
-        return mayor;
-    }
-    private int devolverColor(int n) {   switch(n)
-    {
-        case 0:
-            return Color.rgb(125, 205, 192);
-        case 1:
-            return Color.rgb(244, 119, 55);
-        case 2:
-            return Color.rgb(179, 144, 104);
-        case 3:
-            return Color.rgb(108, 144, 104);
-        case 4:
-            return Color.rgb(114, 148, 154);
-        case 5:
-            return Color.rgb(82, 169, 199);
-        case 6:
-            return Color.rgb(179, 144, 104);
-        case 7:
-            return Color.rgb(70, 190, 159);
-        case 8:
-            return Color.rgb(125, 205, 192);
-        case 9:
-            return Color.rgb(133, 190, 144);
-        case 10:
-            return Color.rgb(219, 188, 65);
-        case 11:
-            return Color.rgb(178, 151, 139);
-
-
-    }
-        return Color.rgb((int) (Math.random()*255),(int)(Math.random()*255),(int)( Math.random()*255));
-    }
-    private Bitmap Grafico()
-    {
-      /*  LineChartView chart = new LineChartView(mContext);
-        ArrayList<PointValue> values = new ArrayList<PointValue>();
-        values.add(new PointValue(0, 2));
-        values.add(new PointValue(1, 4));
-        values.add(new PointValue(2, 3));
-        values.add(new PointValue(3, 4));
-        Line line = new Line(values).setColor(Color.BLUE).setCubic(true);
-        ArrayList<Line> lines = new ArrayList<Line>();
-        lines.add(line);
-        return  drawableToBitmap(chart.getBackground());*/
-        return null;
-    }
 
     //Devolvemos un bitmap con todos los pictos componentes de una frase
     public Bitmap getBitmapDeFrase(JSONObject frase) {
@@ -480,16 +363,9 @@ public class GestionarBitmap  {
             return null;
     }
 
-    public boolean isEscribirTexto() {
-        return escribirTexto;
-    }
 
     public void setEscribirTexto(boolean escribirTexto) {
         this.escribirTexto = escribirTexto;
-    }
-    public Drawable bitmapToDrawable(Bitmap bitmap)
-    {
-        return new BitmapDrawable(bitmap);
     }
     public void setColor(int color){
         this.color=color;
