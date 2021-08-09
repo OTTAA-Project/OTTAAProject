@@ -6,16 +6,19 @@ import android.view.animation.AccelerateInterpolator;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 
+import com.stonefacesoft.ottaa.utils.Firebase.AnalyticsFirebase;
 import com.stonefacesoft.ottaa.utils.MovableFloatingActionButton;
 
 public class Avatar {
     long lastTimestamp = 0;
     Context mContext;
     MovableFloatingActionButton movableFloatingActionButton;
+    AnalyticsFirebase analyticsFirebase;
 
 
     public Avatar(Context context, MovableFloatingActionButton movableFloatingActionButton){
         this.mContext = context;
+        this.analyticsFirebase = new AnalyticsFirebase(this.mContext);
         this.movableFloatingActionButton = movableFloatingActionButton;
     }
 
@@ -38,6 +41,7 @@ public class Avatar {
         alphaAnimation.setInterpolator(new AccelerateInterpolator());
         alphaAnimation.setDuration(1500);
         alphaAnimation.setFillAfter(true);
+        analyticsFirebase.customEvents("Talk", "Principal", "Avatar");
         movableFloatingActionButton.startAnimation(alphaAnimation);
         return utterance;
 
