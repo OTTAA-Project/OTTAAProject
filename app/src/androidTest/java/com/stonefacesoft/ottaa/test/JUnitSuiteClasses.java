@@ -14,7 +14,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
 @RunWith(Suite.class)
-@Suite.SuiteClasses({UnitTestingConnectionDetector.class, UnitTestingCreatePictograms.class, UnitTestingFavoritePhrases.class, UnitTestingGame.class, UnitTestingGetPictogramsById.class, UnitTestingGroups.class, UnitTestingJson.class, UnitTestingPhrases.class, UnitTestingPremiumUser.class, UnitTestingScore.class})
+@Suite.SuiteClasses({UnitTestingConnectionDetector.class, UnitTestingFavoritePhrases.class, UnitTestingGame.class, UnitTestingGetPictogramsById.class, UnitTestingGroups.class, UnitTestingJson.class, UnitTestingPhrases.class, UnitTestingPremiumUser.class, UnitTestingScore.class})
 public class JUnitSuiteClasses {
  public static int testRunning;
 }
