@@ -224,17 +224,17 @@ public class viewpager_galeria_grupo {
             GroupView grupo=view.findViewById(R.id.grupo_1);
             try {
                 SharedPreferences sharedPrefsDefault = PreferenceManager.getDefaultSharedPreferences(mActivity);
-                //grupo.setCustom_Texto(JSONutils.getNombre(array.getJSONObject(position),sharedPrefsDefault.getString(mActivity.getString(R.string.str_idioma), "en")));
                 JSONObject aux = array.getJSONObject(position);
                 Group group = new Group(aux,ConfigurarIdioma.getLanguaje());
                 grupo.setUpContext(mActivity);
                 grupo.setUpGlideAttatcher(mActivity);
                 grupo.setPictogramsLibraryGroup(group);
-           //     loadDrawable(attatcher,pictogram,grupo.getImg());
-             //   grupo.setTagDrawable(0,json.tieneTag(array.getJSONObject(position),Constants.UBICACION)?R.drawable.ic_location_on_black_24dp:R.drawable.ic_location_off_black_24dp);
-            //    grupo.setTagDrawable(1,json.tieneTag(array.getJSONObject(position), Constants.HORA) ? R.drawable.ic_timer_black_24dp : R.drawable.ic_baseline_timer_off_gray_24);
-           //     grupo.setTagDrawable(3,json.tieneTag(array.getJSONObject(position), Constants.EDAD) ? R.drawable.ic_face_black_on_24dp : R.drawable.ic_face_black_24dp);
-           //     grupo.setTagDrawable(2,json.tieneTag(array.getJSONObject(position), Constants.SEXO) ? R.drawable.ic_wc_black_24dp : R.drawable.ic_wc_block_24dp);
+                grupo.loadAgeIcon(json.tieneTag(aux,Constants.EDAD));
+                grupo.loadGenderIcon(json.tieneTag(aux,Constants.SEXO));
+                grupo.loadLocationIcon(json.tieneTag(aux,Constants.UBICACION));
+                grupo.loadHourIcon(json.tieneTag(aux,Constants.HORA));
+
+
 
                 view.setOnClickListener(new View.OnClickListener() {
                     @Override
