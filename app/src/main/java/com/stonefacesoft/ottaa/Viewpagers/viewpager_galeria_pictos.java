@@ -32,6 +32,7 @@ import com.stonefacesoft.ottaa.utils.JSONutils;
 import com.stonefacesoft.ottaa.utils.textToSpeech;
 import com.stonefacesoft.pictogramslibrary.Classes.Pictogram;
 import com.stonefacesoft.pictogramslibrary.utils.GlideAttatcher;
+import com.stonefacesoft.pictogramslibrary.view.PictoView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -59,7 +60,6 @@ public class viewpager_galeria_pictos {
     private static JSONArray array;
     private final ScreenSlidePagerAdapter screenSlidePagerAdapter;
     private final fragmentPicto fragment;
-    private Custom_Picto auxPictogram;
     private boolean isSelectedItem;
     private final SharedPreferences sharedPrefDefault;
     private static String idioma;
@@ -206,7 +206,7 @@ public class viewpager_galeria_pictos {
         private View view;
         private int position;
         private boolean editar;
-        private Custom_Picto picto1;
+        private PictoView picto1;
 
         public fragmentPicto() {
 
@@ -246,6 +246,13 @@ public class viewpager_galeria_pictos {
         @Override public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
             super.onViewCreated(view, savedInstanceState);
             picto1=view.findViewById(R.id.Option1);
+            try {
+                picto1.setUpContext(mActivity);
+                picto1.setUpGlideAttatcher(mActivity);
+                picto1.setPictogramsLibraryPictogram(new Pictogram(array.getJSONObject(position),ConfigurarIdioma.getLanguaje()));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
             loadPictogram(picto1);
 
         }
@@ -279,14 +286,14 @@ public class viewpager_galeria_pictos {
             }
         }
 
-        private void loadPictogram(Custom_Picto custom_picto){
-            try {
-                SharedPreferences sharedPrefsDefault = android.preference.PreferenceManager.getDefaultSharedPreferences(mActivity);
-                custom_picto.setCustom_Texto(JSONutils.getNombre(array.getJSONObject(position),sharedPrefsDefault.getString(mActivity.getString(R.string.str_idioma), "en")));
-                custom_picto.setCustom_Color(cargarColor(JSONutils.getTipo(array.getJSONObject(position))));
-                Pictogram pictogram=new Pictogram(array.getJSONObject(position), ConfigurarIdioma.getLanguaje());
-                GlideAttatcher attatcher=new GlideAttatcher(mActivity);
-                loadDrawable(attatcher,pictogram,custom_picto.getImg());
+        private void loadPictogram(PictoView custom_picto){
+        //    try {
+             //   SharedPreferences sharedPrefsDefault = android.preference.PreferenceManager.getDefaultSharedPreferences(mActivity);
+             //   custom_picto.setCustom_Texto(JSONutils.getNombre(array.getJSONObject(position),sharedPrefsDefault.getString(mActivity.getString(R.string.str_idioma), "en")));
+             //   custom_picto.setCustom_Color(cargarColor(JSONutils.getTipo(array.getJSONObject(position))));
+             //   Pictogram pictogram=new Pictogram(array.getJSONObject(position), ConfigurarIdioma.getLanguaje());
+             //   GlideAttatcher attatcher=new GlideAttatcher(mActivity);
+             //   loadDrawable(attatcher,pictogram,custom_picto.getImg());
                 custom_picto.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -307,12 +314,12 @@ public class viewpager_galeria_pictos {
                         }
 
                     }
-                });
+                });/*
             } catch (JSONException e) {
                 Log.e(TAG, "loadPictogram: Error: " + e.getMessage());
                 custom_picto.setVisibility(View.INVISIBLE);
                 custom_picto.setEnabled(false);
-            }
+            }*/
         }
 
 

@@ -201,11 +201,6 @@ public class LicenciaExpirada extends AppCompatActivity implements SharedPrefere
     }
 
 
-    private void runStep(Activity activity) {
-
-        Intent exampleIntent = new Intent(this, activity.getClass());
-        startActivity(exampleIntent);
-    }
 
     @Override
     protected void onStart() {

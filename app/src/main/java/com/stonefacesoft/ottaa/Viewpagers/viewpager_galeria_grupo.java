@@ -225,15 +225,16 @@ public class viewpager_galeria_grupo {
             try {
                 SharedPreferences sharedPrefsDefault = PreferenceManager.getDefaultSharedPreferences(mActivity);
                 JSONObject aux = array.getJSONObject(position);
-                Group group = new Group(aux,ConfigurarIdioma.getLanguaje());
-                grupo.setUpContext(mActivity);
-                grupo.setUpGlideAttatcher(mActivity);
-                grupo.setPictogramsLibraryGroup(group);
-                grupo.loadAgeIcon(json.tieneTag(aux,Constants.EDAD));
-                grupo.loadGenderIcon(json.tieneTag(aux,Constants.SEXO));
-                grupo.loadLocationIcon(json.tieneTag(aux,Constants.UBICACION));
-                grupo.loadHourIcon(json.tieneTag(aux,Constants.HORA));
-
+                if(aux.has("imagen")) {
+                    Group group = new Group(aux, ConfigurarIdioma.getLanguaje());
+                    grupo.setUpContext(mActivity);
+                    grupo.setUpGlideAttatcher(mActivity);
+                    grupo.setPictogramsLibraryGroup(group);
+                    grupo.loadAgeIcon(json.tieneTag(aux, Constants.EDAD));
+                    grupo.loadGenderIcon(json.tieneTag(aux, Constants.SEXO));
+                    grupo.loadLocationIcon(json.tieneTag(aux, Constants.UBICACION));
+                    grupo.loadHourIcon(json.tieneTag(aux, Constants.HORA));
+                }
 
 
                 view.setOnClickListener(new View.OnClickListener() {

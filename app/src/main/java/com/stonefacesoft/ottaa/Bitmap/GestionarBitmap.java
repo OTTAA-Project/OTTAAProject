@@ -103,29 +103,30 @@ public class GestionarBitmap  {
     //metodo para almacenar archivo
     private void storeImage(Bitmap image)
     {
-        try
-        {    imgs = getOutputMediaFile();
-            FileOutputStream fos = new FileOutputStream(imgs);
-            int width=0;
-            int height=0;
-            if(image==null)
-            {
-                width=200;
-                height=200;
-            }else
-            {
-                width=image.getWidth();
-                height=image.getHeight();
+        try {
+            imgs = getOutputMediaFile();
+             if(imgs == null)
+                 imgs = File.createTempFile("imagen",".png",mContext.getExternalCacheDir());
+
+                FileOutputStream fos = new FileOutputStream(imgs);
+                int width = 0;
+                int height = 0;
+                if (image == null) {
+                    width = 200;
+                    height = 200;
+                } else {
+                    width = image.getWidth();
+                    height = image.getHeight();
+                }
+                image = Bitmap.createScaledBitmap(image, width, height, false);
+                image.compress(Bitmap.CompressFormat.PNG, 100, fos);
+                fos.close();
+            } catch(FileNotFoundException e){
+                Log.e("errorGB_StoreImage_Foto", "File not found: " + e.getMessage());
+            } catch(IOException e){
+                Log.e("errorGB_StoreImage_Foto", "Error accessing file: " + e.getMessage());
             }
-            image = Bitmap.createScaledBitmap(image, width, height, false);
-            image.compress(Bitmap.CompressFormat.PNG,100, fos);
-            fos.close();
-        } catch (FileNotFoundException e) {
-            Log.e("errorGB_StoreImage_Foto", "File not found: " + e.getMessage());
-        } catch (IOException e) {
-            Log.e("errorGB_StoreImage_Foto", "Error accessing file: " + e.getMessage());
-        }
-        Log.d("GB_StoreImage_Foto", "PATH>> " + mCurrentPhotoPath);
+            Log.d("GB_StoreImage_Foto", "PATH>> " + mCurrentPhotoPath);
     }
     //metodo para obtener la imagen
     public File getOutputMediaFile()

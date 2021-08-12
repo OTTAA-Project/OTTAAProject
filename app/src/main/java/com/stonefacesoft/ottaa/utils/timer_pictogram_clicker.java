@@ -16,7 +16,6 @@ import com.stonefacesoft.ottaa.R;
 public class timer_pictogram_clicker {
 
     private boolean click=false;
-    private Custom_Picto picto;
     private final Handler handler;
     private final Context mContext;
     public timer_pictogram_clicker(Context mContext){

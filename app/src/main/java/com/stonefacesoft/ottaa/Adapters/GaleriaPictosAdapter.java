@@ -32,6 +32,7 @@ import com.stonefacesoft.ottaa.utils.Constants;
 import com.stonefacesoft.ottaa.utils.JSONutils;
 import com.stonefacesoft.pictogramslibrary.Classes.Pictogram;
 import com.stonefacesoft.pictogramslibrary.utils.GlideAttatcher;
+import com.stonefacesoft.pictogramslibrary.view.PictoView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -222,16 +223,11 @@ public class GaleriaPictosAdapter extends RecyclerView.Adapter<GaleriaPictosAdap
 
     public class PictosViewHolder extends RecyclerView.ViewHolder {
 
-        ImageView mPictoImageView;
-        ImageView mPictoImageColor;
-        TextView mTextoPicto;
+        PictoView pictoView;
 
         public PictosViewHolder(View itemView) {
             super(itemView);
-
-            mTextoPicto = itemView.findViewById(R.id.grid_text);
-            mPictoImageView = itemView.findViewById(R.id.grid_image);
-            mPictoImageColor = itemView.findViewById(R.id.color_Picto);
+            pictoView = itemView.findViewById(R.id.pictogram);
         }
 
 
@@ -247,6 +243,7 @@ public class GaleriaPictosAdapter extends RecyclerView.Adapter<GaleriaPictosAdap
         private Drawable mDrawableIcono;
         private final PictosViewHolder mHolder;
         private final int mPosition;
+        private JSONObject aux;
 
         cargarPictosAsync(PictosViewHolder holder, int position) {
             this.mHolder = holder;
@@ -266,18 +263,9 @@ public class GaleriaPictosAdapter extends RecyclerView.Adapter<GaleriaPictosAdap
 
             Bitmap mBitmap;
             try {
-                SharedPreferences sharedPrefsDefault = PreferenceManager.getDefaultSharedPreferences(mContext);
-                mStringTexto = JSONutils.getNombre(mArrayPictos.getJSONObject(mPosition), ConfigurarIdioma.getLanguaje());
-                mDrawableIcono = json.getIcono(mArrayPictos.getJSONObject(mPosition));
-
-                if (mDrawableIcono == null)
-                    mDrawableIcono = AppCompatResources.getDrawable(mContext, R.drawable.ic_cloud_download_orange);
-
-                mBitmap = ThumbnailUtils.extractThumbnail(((BitmapDrawable) mDrawableIcono).getBitmap(), 150, 150);
-                mDrawableIcono = new BitmapDrawable(mContext.getResources(), mBitmap);
-
-
-
+                aux = mArrayPictos.getJSONObject(mPosition);
+                mHolder.pictoView.setUpContext(mContext);
+                mHolder.pictoView.setUpGlideAttatcher(mContext);
             } catch (Exception e) {
                 e.getMessage();
                 e.printStackTrace();
@@ -293,35 +281,12 @@ public class GaleriaPictosAdapter extends RecyclerView.Adapter<GaleriaPictosAdap
             //Le asignamos al picto su texto e icono, junto al color
             try {
                 if (mArrayPictos.getJSONObject(mPosition) != null) {
-                    mHolder.mTextoPicto.setText(mStringTexto);
-                    Pictogram pictogram=new Pictogram(mArrayPictos.getJSONObject(mPosition),ConfigurarIdioma.getLanguaje());
-                    loadDrawable(glideAttatcher,pictogram,mHolder.mPictoImageView);
-                    mHolder.mPictoImageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
-                    try {
-                        mHolder.mPictoImageColor.setColorFilter(cargarColor(JSONutils.getTipo(mArrayPictos.getJSONObject(mPosition))));
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+                   mHolder.pictoView.setPictogramsLibraryPictogram(new Pictogram(aux,ConfigurarIdioma.getLanguaje()));
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
 
-        }
-    }
-    public  void loadDrawable(GlideAttatcher attatcher, Pictogram pictogram, ImageView imageView){
-        if(pictogram.getEditedPictogram().isEmpty()){
-            Drawable drawable=json.getIcono(pictogram.toJsonObject());
-            if(drawable!=null)
-                attatcher.UseCornerRadius(true).loadDrawable(drawable,imageView);
-            else
-                attatcher.UseCornerRadius(true).loadDrawable(mContext.getResources().getDrawable(R.drawable.ic_cloud_download_orange),imageView);
-        }else{
-            File picto=new File(pictogram.getEditedPictogram());
-            if(picto.exists())
-                attatcher.UseCornerRadius(true).loadDrawable(picto,imageView);
-            else
-                attatcher.UseCornerRadius(true).loadDrawable(Uri.parse(pictogram.getUrl()),imageView);
         }
     }
 

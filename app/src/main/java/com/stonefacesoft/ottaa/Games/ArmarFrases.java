@@ -23,6 +23,7 @@ import com.stonefacesoft.ottaa.utils.CustomToast;
 import com.stonefacesoft.ottaa.utils.Games.CalculaPuntos;
 import com.stonefacesoft.ottaa.utils.JSONutils;
 import com.stonefacesoft.ottaa.utils.Ttsutils.UtilsTTS;
+import com.stonefacesoft.pictogramslibrary.view.PictoView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -48,10 +49,10 @@ public class ArmarFrases extends AppCompatActivity implements View.OnClickListen
     private ImageButton levelOption;
 
     private ArrayList<View> seleccionN;
-    private Custom_Picto Opcion1;
-    private Custom_Picto Opcion2;
-    private Custom_Picto Opcion3;
-    private Custom_Picto Opcion4;
+    private PictoView Opcion1;
+    private PictoView Opcion2;
+    private PictoView Opcion3;
+    private PictoView Opcion4;
 
     private int level;
 

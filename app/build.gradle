@@ -228,7 +228,7 @@ dependencies {
 
     // firebase library
     implementation 'com.google.firebase:firebase-auth:21.0.1'
-    implementation 'com.google.firebase:firebase-config:21.0.0'
+    implementation 'com.google.firebase:firebase-config:21.0.1'
     implementation 'com.google.firebase:firebase-core:19.0.0'
     implementation 'com.google.firebase:firebase-database:20.0.1'
     implementation 'com.google.firebase:firebase-messaging:22.0.0'
@@ -244,7 +244,7 @@ dependencies {
     implementation 'com.google.android.material:material:1.4.0'
 
     //Firebase chrashlitics
-    implementation 'com.google.firebase:firebase-crashlytics:18.2.0'
+    implementation 'com.google.firebase:firebase-crashlytics:18.2.1'
     implementation 'com.google.firebase:firebase-analytics:19.0.0'
     //Guava library
     implementation("com.google.guava:guava:30.1.1-android")
@@ -255,7 +255,7 @@ dependencies {
     //Image Cropper
     //TODO add this library to the Wiki
     implementation 'com.theartofdev.edmodo:android-image-cropper:2.8.0'
-    implementation 'com.github.OTTAA-Project:PictogramsLibrary:0.1.8.18'
+    implementation 'com.github.OTTAA-Project:PictogramsLibrary:0.1.8.22'
     //Sendgrid integration
 
 }

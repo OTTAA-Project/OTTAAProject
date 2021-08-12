@@ -207,6 +207,7 @@ public class CompartirArchivos {
                 } catch (FiveMbException e) {
 
                     e.printStackTrace();
+                }catch (Exception ex){
                 }
             }
         });
