@@ -24,7 +24,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 30
         versionCode 88
-        versionName "6.6.1" //
+        versionName "6.7.1" //
         // Enabling multidex support.
         multiDexEnabled = true
         resConfigs "ar,en,es,it"
