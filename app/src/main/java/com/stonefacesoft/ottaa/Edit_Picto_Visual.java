@@ -80,6 +80,7 @@ import com.stonefacesoft.ottaa.utils.JSONutils;
 import com.stonefacesoft.ottaa.utils.exceptions.FiveMbException;
 import com.stonefacesoft.ottaa.utils.textToSpeech;
 import com.stonefacesoft.ottaa.utils.traducirTexto;
+import com.stonefacesoft.pictogramslibrary.view.PictoView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -143,7 +144,7 @@ public class Edit_Picto_Visual extends AppCompatActivity implements View.OnClick
 
 
 
-    Custom_Picto Picto;
+    PictoView Picto;
     boolean iniciar = false;
     private String formato;
     private String urlfoto;

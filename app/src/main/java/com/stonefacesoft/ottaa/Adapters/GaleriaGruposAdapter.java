@@ -205,7 +205,8 @@ public class GaleriaGruposAdapter extends RecyclerView.Adapter<GaleriaGruposAdap
                 }
             }catch (Exception ex){
                 Log.d(TAG, "auxException: "+ aux.toString() );
-                notifyItemRemoved(mPosition);
+                mArrayGrupos.remove(mPosition);
+                notifyItemRangeChanged(0,mArrayGrupos.length());
             }
 
             //Le asignamos al grupo su texto e icono

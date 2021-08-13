@@ -9,6 +9,7 @@ import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.ListPreloader;
 import com.bumptech.glide.RequestBuilder;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.gson.JsonArray;
 import com.stonefacesoft.ottaa.FirebaseRequests.SubirArchivosFirebase;
 import com.stonefacesoft.ottaa.Helper.ItemTouchHelperAdapter;
 import com.stonefacesoft.ottaa.JSONutils.Json;
@@ -30,6 +32,7 @@ import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.idioma.ConfigurarIdioma;
 import com.stonefacesoft.ottaa.utils.Constants;
 import com.stonefacesoft.ottaa.utils.JSONutils;
+import com.stonefacesoft.pictogramslibrary.Classes.Group;
 import com.stonefacesoft.pictogramslibrary.Classes.Pictogram;
 import com.stonefacesoft.pictogramslibrary.utils.GlideAttatcher;
 import com.stonefacesoft.pictogramslibrary.view.PictoView;
@@ -54,7 +57,6 @@ public class GaleriaPictosAdapter extends RecyclerView.Adapter<GaleriaPictosAdap
     private final SubirArchivosFirebase uploadFirebaseFile;
     private final FirebaseAuth mAuth;
     private static final String TAG = "GaleriaPictosAdapter";
-    private GlideAttatcher glideAttatcher; // esto se encarga de adjuntar el glide
     private int cantCambios;
 
 
@@ -66,8 +68,19 @@ public class GaleriaPictosAdapter extends RecyclerView.Adapter<GaleriaPictosAdap
         this.uploadFirebaseFile = new SubirArchivosFirebase(mContext);
         this.mAuth = auth;
     }
-    public GaleriaPictosAdapter loadGlideAttacher(){
-        glideAttatcher=new GlideAttatcher(mContext);
+    public GaleriaPictosAdapter removeOldFiles(){
+        JSONArray aux = new JSONArray();
+        for (int i = 0; i < mArrayPictos.length(); i++) {
+            try {
+                if(mArrayPictos.getJSONObject(i).has("imagen")){
+                   aux.put(mArrayPictos.getJSONObject(i));
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        mArrayPictos = aux;
+        notifyDataSetChanged();
         return this;
     }
 
@@ -193,7 +206,7 @@ public class GaleriaPictosAdapter extends RecyclerView.Adapter<GaleriaPictosAdap
     @Override
     public void onViewRecycled(@NonNull PictosViewHolder holder) {
         super.onViewRecycled(holder);
-        glideAttatcher.clearMemory();
+
     }
 
     // precargamos las imagenes en glide
@@ -234,6 +247,8 @@ public class GaleriaPictosAdapter extends RecyclerView.Adapter<GaleriaPictosAdap
 
     }
 
+
+
     public class cargarPictosAsync extends AsyncTask<Void, Void, Void> {
 
         //Pasamos el holder y la posicion que nos da el onBindViewHolder para poder asignarle a cada elemento
@@ -264,11 +279,12 @@ public class GaleriaPictosAdapter extends RecyclerView.Adapter<GaleriaPictosAdap
             Bitmap mBitmap;
             try {
                 aux = mArrayPictos.getJSONObject(mPosition);
-                mHolder.pictoView.setUpContext(mContext);
-                mHolder.pictoView.setUpGlideAttatcher(mContext);
+                if(aux !=  null){
+                    mHolder.pictoView.setUpContext(mContext);
+                    mHolder.pictoView.setUpGlideAttatcher(mContext);
+                }
             } catch (Exception e) {
                 e.getMessage();
-                e.printStackTrace();
             }
 
             return null;
@@ -277,16 +293,13 @@ public class GaleriaPictosAdapter extends RecyclerView.Adapter<GaleriaPictosAdap
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-
-            //Le asignamos al picto su texto e icono, junto al color
             try {
-                if (mArrayPictos.getJSONObject(mPosition) != null) {
-                   mHolder.pictoView.setPictogramsLibraryPictogram(new Pictogram(aux,ConfigurarIdioma.getLanguaje()));
+                if (aux != null) {
+                    mHolder.pictoView.setPictogramsLibraryPictogram(new Pictogram(aux, ConfigurarIdioma.getLanguaje()));
                 }
-            } catch (JSONException e) {
-                e.printStackTrace();
+            } catch (Exception ex){
+                notifyDataSetChanged();
             }
-
         }
     }
 

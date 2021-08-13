@@ -436,6 +436,7 @@ public class Principal extends AppCompatActivity implements View
 
         sharedPrefsDefault.edit().putBoolean("esmoderador", false).apply();
         ConfigurarIdioma.setLanguage(sharedPrefsDefault.getString(getString(R.string.str_idioma), "en"));
+        Log.d(TAG, "ConfigurarIdioma : "+ConfigurarIdioma.getLanguaje());
         new ConfigurarIdioma(getApplicationContext(), ConfigurarIdioma.getLanguaje());
         sharedPrefs = getSharedPreferences(sharedPrefsDefault.getString(getString(R.string.str_userMail), "error"), Context.MODE_PRIVATE);
         barridoSwitch = sharedPrefsDefault.getBoolean("tipo_barrido", false);
@@ -1131,7 +1132,7 @@ public class Principal extends AppCompatActivity implements View
     protected void onResume() {
 
         CargarJson();
-        Log.d(TAG, "onResume: idioma" + getApplication().getResources().getConfiguration().locale.toString());
+        Log.d(TAG, "onResume: idioma : " + getApplication().getResources().getConfiguration().locale.toString());
         super.onResume();
         if (firebaseDialog != null) {
             firebaseDialog.destruirDialogo();

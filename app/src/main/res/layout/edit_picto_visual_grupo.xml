@@ -28,12 +28,12 @@
         android:layout_weight="1"
         android:layout_margin="25dp">
 
-        <com.stonefacesoft.ottaa.Custom_Picto
+        <com.stonefacesoft.pictogramslibrary.view.PictoView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:elevation="10dp"
             android:id="@+id/ElPicto">
-        </com.stonefacesoft.ottaa.Custom_Picto>
+        </com.stonefacesoft.pictogramslibrary.view.PictoView>
     </LinearLayout>
 
     <LinearLayout
