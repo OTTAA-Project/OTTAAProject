@@ -14,7 +14,6 @@ import org.json.JSONObject;
 public class Pictograms {
     private final Context mContext;
     private final Json json;
-    private Custom_Picto picto;
 
     public Pictograms(Context mContext, Json json) {
         this.mContext = mContext;

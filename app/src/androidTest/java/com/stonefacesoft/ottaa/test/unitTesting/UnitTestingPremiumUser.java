@@ -20,7 +20,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import static com.stonefacesoft.ottaa.test.JUnitSuiteClasses.testRunning;
 
 
 @RunWith(AndroidJUnit4.class)
@@ -48,7 +47,7 @@ public class UnitTestingPremiumUser extends TestCase {
 
     }
     @Test
-    public void runUnitTestingPremiunUser(){
+    public void unitTestingPremiumUser(){
 
         System.out.println("Preferences:"+ preferences.getPreferences().getInt(Constants.PREMIUM,0));
         if(preferences.getPreferences().getInt(Constants.PREMIUM,0)==0){
@@ -70,7 +69,7 @@ public class UnitTestingPremiumUser extends TestCase {
 
     public void inhabilitarUsuario(){
         preferences.editInteger(Constants.PREMIUM,0);
-        runUnitTestingPremiunUser();
+        unitTestingPremiumUser();
     }
     @Override
     protected TestResult createResult() {
@@ -82,8 +81,5 @@ public class UnitTestingPremiumUser extends TestCase {
         return super.run();
     }
 
-    @Override
-    public int countTestCases() {
-        return testRunning++;
-    }
+
 }
