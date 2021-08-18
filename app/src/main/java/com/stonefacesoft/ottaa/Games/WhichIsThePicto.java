@@ -33,8 +33,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import com.stonefacesoft.ottaa.Custom_Picto;
-import com.stonefacesoft.ottaa.Dialogos.DialogGameProgressInform;
+import com.stonefacesoft.ottaa.Dialogos.DialogUtils.DialogGameProgressInform;
 import com.stonefacesoft.ottaa.idioma.ConfigurarIdioma;
 import com.stonefacesoft.ottaa.utils.Games.GamesSettings;
 import com.stonefacesoft.ottaa.Games.Model.WhichIsThePictoModel;

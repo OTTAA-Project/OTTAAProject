@@ -79,9 +79,9 @@ import com.stonefacesoft.ottaa.Backup.BackupGroups;
 import com.stonefacesoft.ottaa.Backup.BackupPhotos;
 import com.stonefacesoft.ottaa.Backup.BackupPhrases;
 import com.stonefacesoft.ottaa.Backup.BackupPictograms;
-import com.stonefacesoft.ottaa.Dialogos.NewDialogsOTTAA;
-import com.stonefacesoft.ottaa.Dialogos.Progress_dialog_options;
-import com.stonefacesoft.ottaa.Dialogos.Yes_noDialogs;
+import com.stonefacesoft.ottaa.Dialogos.newsDialog.NewDialogsOTTAA;
+import com.stonefacesoft.ottaa.Dialogos.DialogUtils.Progress_dialog_options;
+import com.stonefacesoft.ottaa.Dialogos.DialogUtils.Yes_noDialogs;
 import com.stonefacesoft.ottaa.FirebaseRequests.BajarJsonFirebase;
 import com.stonefacesoft.ottaa.FirebaseRequests.FirebaseUtils;
 import com.stonefacesoft.ottaa.FirebaseRequests.SubirArchivosFirebase;
@@ -111,6 +111,7 @@ import com.stonefacesoft.ottaa.utils.HandlerComunicationClass;
 import com.stonefacesoft.ottaa.utils.InmersiveMode;
 import com.stonefacesoft.ottaa.utils.IntentCode;
 import com.stonefacesoft.ottaa.utils.JSONutils;
+import com.stonefacesoft.ottaa.utils.LicenciaUsuario;
 import com.stonefacesoft.ottaa.utils.MovableFloatingActionButton;
 import com.stonefacesoft.ottaa.utils.ObservableInteger;
 import com.stonefacesoft.ottaa.utils.RemoteConfigUtils;
@@ -2106,10 +2107,7 @@ public class Principal extends AppCompatActivity implements View
         if (requestCode == IntentCode.LOGIN_ACTIVITY.getCode()) {
             Log.d(TAG, "onActivityResult: enter LoginActivity");
         }
-        if (requestCode == IntentCode.CUSTOMPHRASES.getCode()) {
-            NewDialogsOTTAA newDialogsOTTAA = new NewDialogsOTTAA(this);
-            newDialogsOTTAA.initCustomFavoritePhrase(false);
-        }
+
 
         if(requestCode == IntentCode.AVATAR.getCode()){
             avatarUtils = new AvatarUtils(this,menuAvatarIcon,user.getmAuth());

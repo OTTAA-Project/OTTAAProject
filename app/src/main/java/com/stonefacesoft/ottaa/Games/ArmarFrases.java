@@ -15,7 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.stonefacesoft.ottaa.Custom_Picto;
-import com.stonefacesoft.ottaa.Dialogos.Dialog_options_level_game;
+import com.stonefacesoft.ottaa.Dialogos.DialogUtils.Dialog_options_level_game;
 import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.utils.Audio.MediaPlayerAudio;

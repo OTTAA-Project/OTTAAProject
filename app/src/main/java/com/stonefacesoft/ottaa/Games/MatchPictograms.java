@@ -12,14 +12,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 
 import androidx.annotation.Nullable;
 
-import com.stonefacesoft.ottaa.Custom_Picto;
-import com.stonefacesoft.ottaa.Dialogos.DialogGameProgressInform;
+import com.stonefacesoft.ottaa.Dialogos.DialogUtils.DialogGameProgressInform;
 import com.stonefacesoft.ottaa.Games.Model.MatchPictogramsModel;
 import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.R;
@@ -353,15 +351,7 @@ public class MatchPictograms extends GameViewSelectPictograms {
         from.startAnimation(animation);
     }
 
-    protected void animarPictoReset(Custom_Picto picto) {
 
-        TranslateAnimation animation = new TranslateAnimation(0, 0, 0, 0);
-        animation.setRepeatMode(0);
-        animation.setDuration(500);
-        animation.setFillAfter(true);
-        picto.startAnimation(animation);
-
-    }
 
 
     @Override
@@ -415,16 +405,6 @@ public class MatchPictograms extends GameViewSelectPictograms {
     }
 
 
-    protected void animateGanador(Custom_Picto picto_ganador, int tipo) {
-        switch (tipo) {
-            case 0:
-                selectButtonGanador(picto_ganador.getCustom_Texto()).startAnimation(AnimationUtils.loadAnimation(MatchPictograms.this, R.anim.shake));
-                break;
-            case 1:
-                selectImagenGanadora(picto_ganador.getCustom_Texto()).startAnimation(AnimationUtils.loadAnimation(MatchPictograms.this, R.anim.shake));
-                break;
-        }
-    }
 
     protected PictoView selectButtonGanador(String text) {
         if (guess1.getCustom_Texto().equals(text))

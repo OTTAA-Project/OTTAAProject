@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.stonefacesoft.ottaa.Dialogos.NewDialogsOTTAA;
+import com.stonefacesoft.ottaa.Dialogos.newsDialog.NewDialogsOTTAA;
 import com.stonefacesoft.ottaa.Viewpagers.Viewpager_tutorial;
 import com.stonefacesoft.ottaa.utils.Firebase.AnalyticsFirebase;
 import com.stonefacesoft.ottaa.utils.InmersiveMode;

@@ -12,7 +12,7 @@ import android.view.View;
 
 import androidx.annotation.Nullable;
 
-import com.stonefacesoft.ottaa.Dialogos.DialogGameProgressInform;
+import com.stonefacesoft.ottaa.Dialogos.DialogUtils.DialogGameProgressInform;
 import com.stonefacesoft.ottaa.Games.Model.MemoryGameModelModel;
 import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.Views.Games.GameViewSelectPictograms;
