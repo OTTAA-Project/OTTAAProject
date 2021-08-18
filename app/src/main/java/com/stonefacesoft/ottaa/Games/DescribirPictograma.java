@@ -41,6 +41,7 @@ import com.stonefacesoft.ottaa.utils.Games.Juego;
 import com.stonefacesoft.ottaa.utils.JSONutils;
 import com.stonefacesoft.ottaa.utils.Ttsutils.UtilsTTS;
 import com.stonefacesoft.ottaa.utils.exceptions.FiveMbException;
+import com.stonefacesoft.pictogramslibrary.view.PictoView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -60,17 +61,17 @@ public class DescribirPictograma extends AppCompatActivity implements View
 
 
     //Declaracion botones de preguntas
-    private Custom_Picto Seleccion1;
+    private PictoView Seleccion1;
 
     //creo imageview cuando gana
     private ImageView mAnimationWin;
 
     private Context context;
     //Declaracion botones de respuesatas
-    private Custom_Picto Opcion1;
-    private Custom_Picto Opcion2;
-    private Custom_Picto Opcion3;
-    private Custom_Picto Opcion4;
+    private PictoView Opcion1;
+    private PictoView Opcion2;
+    private PictoView Opcion3;
+    private PictoView Opcion4;
     private int[] valores=new int[]{-1,-1,-1,-1};
     private boolean primerUso;
     private int ganadorAnterior=-1;
@@ -91,7 +92,7 @@ public class DescribirPictograma extends AppCompatActivity implements View
     private final Handler decirPicto=new Handler();
 
     //View para animar respuesta correcta en niveles
-    private Custom_Picto viewGanador;
+    private PictoView viewGanador;
     private ImageButton imageButton;
 
     //Pictos en juego
@@ -340,8 +341,8 @@ public class DescribirPictograma extends AppCompatActivity implements View
         //return pictos[ganador];
     }
 
-    private boolean esGanador(Custom_Picto valor, Custom_Picto ganadorLvl) {
-        if(valor.getCustom_description().equals(ganadorLvl.getCustom_description())){
+    private boolean esGanador(PictoView valor, PictoView ganadorLvl) {
+        if(valor.getPictogram().getName().equals(ganadorLvl.getPictogram().getName())){
             bloquearPictos();
             return true;
         }
@@ -428,7 +429,7 @@ public class DescribirPictograma extends AppCompatActivity implements View
                 if(viewGanador!=null){
 
 
-                    mUtilsTTS.hablar(viewGanador.getCustom_description());
+                    mUtilsTTS.hablar(viewGanador.getCustom_Texto());
                     if(primerUso) {
                         viewGanador.startAnimation(AnimationUtils.loadAnimation(DescribirPictograma.this, R.anim.shake));
                         primerUso=false;
@@ -490,7 +491,7 @@ public class DescribirPictograma extends AppCompatActivity implements View
     }
 
 
-    private void actionGanador(Custom_Picto picto){
+    private void actionGanador(PictoView picto){
         if (esGanador(picto, viewGanador)) {
             if(cantVecInc==0)
                 mediaPlayer.playYesSound();
@@ -564,7 +565,7 @@ public class DescribirPictograma extends AppCompatActivity implements View
     }
 
 
-    private void cargarDatosOpcion(int position, Custom_Picto option, int pos) {
+    private void cargarDatosOpcion(int position, PictoView option, int pos) {
         try {
             if (mDescripcion.getJSONObject(position) != null) {
                 JSONObject jsonObject=json.getPictoFromId2(mDescripcion.getJSONObject(position).getInt("id"));
@@ -572,7 +573,7 @@ public class DescribirPictograma extends AppCompatActivity implements View
                      option.setCustom_Texto(JSONutils.getNombre(jsonObject,sharedPrefsDefault.getString(getString(R.string.str_idioma), "en")));
                     option.setCustom_Img(json.getIcono(jsonObject));
                     option.setCustom_Color(cargarColor(JSONutils.getTipo(jsonObject)));
-                    option.setCustom_description(json.getDescription(mDescripcion.getJSONObject(position)).getString("es"));
+                    //option.setCustom_description(json.getDescription(mDescripcion.getJSONObject(position)).getString("es"));
                     valores[pos]=position;
                 /*}else{
                     position =devolverValor(Math.round((float) Math.random() * mJsonArrayTodosLosPictos.length()));

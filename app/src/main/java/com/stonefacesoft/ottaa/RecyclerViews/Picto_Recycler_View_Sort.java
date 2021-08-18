@@ -26,7 +26,7 @@ public class Picto_Recycler_View_Sort extends Custom_recyclerView{
         array=json.getHijosGrupo2(position);
         arrayAux=new JSONArray();
         createRecyclerLayoutManager();
-        galeriaPictos2=new GaleriaPictosAdapter(mActivity,array, R.layout.grid_item_layout,mAuth).loadGlideAttacher();
+        galeriaPictos2=new GaleriaPictosAdapter(mActivity,array, R.layout.grid_item_layout,mAuth).removeOldFiles();
         mRecyclerView.setAdapter(galeriaPictos2);
         itemTouchHelperCallback = new SimpleItemTouchHelperCallback(galeriaPictos2);
         ItemTouchHelper.Callback callback = itemTouchHelperCallback;

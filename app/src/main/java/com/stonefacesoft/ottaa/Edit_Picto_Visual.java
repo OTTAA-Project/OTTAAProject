@@ -80,6 +80,7 @@ import com.stonefacesoft.ottaa.utils.JSONutils;
 import com.stonefacesoft.ottaa.utils.exceptions.FiveMbException;
 import com.stonefacesoft.ottaa.utils.textToSpeech;
 import com.stonefacesoft.ottaa.utils.traducirTexto;
+import com.stonefacesoft.pictogramslibrary.view.PictoView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -143,7 +144,7 @@ public class Edit_Picto_Visual extends AppCompatActivity implements View.OnClick
 
 
 
-    Custom_Picto Picto;
+    PictoView Picto;
     boolean iniciar = false;
     private String formato;
     private String urlfoto;
@@ -1074,12 +1075,12 @@ public class Edit_Picto_Visual extends AppCompatActivity implements View.OnClick
         try {
             FileOutputStream fos = new FileOutputStream(pictureFile);
             image = Bitmap.createScaledBitmap(image, 500, 500, false);
-            image.compress(Bitmap.CompressFormat.PNG, 100, fos);
+            image.compress(Bitmap.CompressFormat.WEBP, 100, fos);
             fos.close();
             if (backupPictureFile != null) {
                 FileOutputStream fosBackup = new FileOutputStream(backupPictureFile);
                 image = Bitmap.createScaledBitmap(image, 500, 500, false);
-                image.compress(Bitmap.CompressFormat.PNG, 100, fosBackup);
+                image.compress(Bitmap.CompressFormat.WEBP, 100, fosBackup);
                 fosBackup.close();
             }
 

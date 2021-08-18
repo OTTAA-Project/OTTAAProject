@@ -26,14 +26,16 @@ import com.stonefacesoft.ottaa.GaleriaPictos3;
 import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.LicenciaExpirada;
 import com.stonefacesoft.ottaa.R;
-import com.stonefacesoft.ottaa.customComponents.Custom_Grupo;
+
 import com.stonefacesoft.ottaa.idioma.ConfigurarIdioma;
 import com.stonefacesoft.ottaa.utils.Constants;
 import com.stonefacesoft.ottaa.utils.IntentCode;
 import com.stonefacesoft.ottaa.utils.JSONutils;
 import com.stonefacesoft.ottaa.utils.textToSpeech;
+import com.stonefacesoft.pictogramslibrary.Classes.Group;
 import com.stonefacesoft.pictogramslibrary.Classes.Pictogram;
 import com.stonefacesoft.pictogramslibrary.utils.GlideAttatcher;
+import com.stonefacesoft.pictogramslibrary.view.GroupView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -219,17 +221,21 @@ public class viewpager_galeria_grupo {
         }
         @Override public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
             super.onViewCreated(view, savedInstanceState);
-            Custom_Grupo grupo=view.findViewById(R.id.grupo_1);
+            GroupView grupo=view.findViewById(R.id.grupo_1);
             try {
                 SharedPreferences sharedPrefsDefault = PreferenceManager.getDefaultSharedPreferences(mActivity);
-                grupo.setCustom_Texto(JSONutils.getNombre(array.getJSONObject(position),sharedPrefsDefault.getString(mActivity.getString(R.string.str_idioma), "en")));
-                Pictogram pictogram=new Pictogram(array.getJSONObject(position), ConfigurarIdioma.getLanguaje());
-                GlideAttatcher attatcher=new GlideAttatcher(mActivity);
-                loadDrawable(attatcher,pictogram,grupo.getImg());
-                grupo.setTagDrawable(0,json.tieneTag(array.getJSONObject(position),Constants.UBICACION)?R.drawable.ic_location_on_black_24dp:R.drawable.ic_location_off_black_24dp);
-                grupo.setTagDrawable(1,json.tieneTag(array.getJSONObject(position), Constants.HORA) ? R.drawable.ic_timer_black_24dp : R.drawable.ic_baseline_timer_off_gray_24);
-                grupo.setTagDrawable(3,json.tieneTag(array.getJSONObject(position), Constants.EDAD) ? R.drawable.ic_face_black_on_24dp : R.drawable.ic_face_black_24dp);
-                grupo.setTagDrawable(2,json.tieneTag(array.getJSONObject(position), Constants.SEXO) ? R.drawable.ic_wc_black_24dp : R.drawable.ic_wc_block_24dp);
+                JSONObject aux = array.getJSONObject(position);
+                if(aux.has("imagen")) {
+                    Group group = new Group(aux, ConfigurarIdioma.getLanguaje());
+                    grupo.setUpContext(mActivity);
+                    grupo.setUpGlideAttatcher(mActivity);
+                    grupo.setPictogramsLibraryGroup(group);
+                    grupo.loadAgeIcon(json.tieneTag(aux, Constants.EDAD));
+                    grupo.loadGenderIcon(json.tieneTag(aux, Constants.SEXO));
+                    grupo.loadLocationIcon(json.tieneTag(aux, Constants.UBICACION));
+                    grupo.loadHourIcon(json.tieneTag(aux, Constants.HORA));
+                }
+
 
                 view.setOnClickListener(new View.OnClickListener() {
                     @Override

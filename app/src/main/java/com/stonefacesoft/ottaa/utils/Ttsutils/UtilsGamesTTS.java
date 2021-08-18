@@ -19,7 +19,7 @@ public class UtilsGamesTTS extends UtilsTTS  {
         super.hablar(frase);
         while (mTTS.isSpeaking())
             lockUnlockedPictograms.lockPictogram(mTTS.isSpeaking());
-        lockUnlockedPictograms.lockPictogram(mTTS.isSpeaking());
+        lockUnlockedPictograms.unlockPictogram();
     }
     public void stop(){
         mTTS.shutdown();

@@ -19,6 +19,7 @@ workflows:
             branches:
               only:
                 - master
+                - dev
       - TestProject:
           filters:
             branches:

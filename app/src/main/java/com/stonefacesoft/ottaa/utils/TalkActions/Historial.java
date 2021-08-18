@@ -15,7 +15,7 @@ import java.util.ArrayList;
  * Make a follow up about the selected pictograms
  */
 public class Historial {
-    private Custom_Picto picto;
+
     private ArrayList<JSONObject> listOfPictograms;
     private JSONObject father;
     private final Json json;

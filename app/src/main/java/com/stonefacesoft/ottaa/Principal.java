@@ -252,7 +252,7 @@ public class Principal extends AppCompatActivity implements View
             handlerHablar.postDelayed(this, 4000);
         }
     };
-    private Custom_Picto Agregar;
+    private PictoView Agregar;
     //InputStream
     private FileInputStream pictos, grupos, frasesGuardadas;
     private long networkTS;
@@ -436,6 +436,7 @@ public class Principal extends AppCompatActivity implements View
 
         sharedPrefsDefault.edit().putBoolean("esmoderador", false).apply();
         ConfigurarIdioma.setLanguage(sharedPrefsDefault.getString(getString(R.string.str_idioma), "en"));
+        Log.d(TAG, "ConfigurarIdioma : "+ConfigurarIdioma.getLanguaje());
         new ConfigurarIdioma(getApplicationContext(), ConfigurarIdioma.getLanguaje());
         sharedPrefs = getSharedPreferences(sharedPrefsDefault.getString(getString(R.string.str_userMail), "error"), Context.MODE_PRIVATE);
         barridoSwitch = sharedPrefsDefault.getBoolean("tipo_barrido", false);
@@ -687,7 +688,7 @@ public class Principal extends AppCompatActivity implements View
         //Inicializo hora del sistema
         int tiempoFormateado = Integer.parseInt(df.format(SystemTime.getTime()));
 
-        Agregar = new Custom_Picto(this);
+        Agregar = new PictoView(this);
         Agregar.setCustom_Color(R.color.Black);
         Agregar.setCustom_Texto("");
         Agregar.setCustom_Img(getDrawable(R.drawable.agregar_picto_transp));
@@ -800,7 +801,7 @@ public class Principal extends AppCompatActivity implements View
         movableFloatingActionButton.setIcon(user.getmAuth());
         remoteConfigUtils = RemoteConfigUtils.getInstance();
         movableFloatingActionButton.setVisibility(View.VISIBLE);
-
+        movableFloatingActionButton.setIcon(user.getmAuth());
         avatarUtils = new AvatarUtils(this,menuAvatarIcon,user.getmAuth());
         avatarUtils.getFirebaseAvatar();
         showAvatar();
@@ -1131,7 +1132,7 @@ public class Principal extends AppCompatActivity implements View
     protected void onResume() {
 
         CargarJson();
-        Log.d(TAG, "onResume: idioma" + getApplication().getResources().getConfiguration().locale.toString());
+        Log.d(TAG, "onResume: idioma : " + getApplication().getResources().getConfiguration().locale.toString());
         super.onResume();
         if (firebaseDialog != null) {
             firebaseDialog.destruirDialogo();
@@ -2159,7 +2160,7 @@ public class Principal extends AppCompatActivity implements View
     public void onTextoTraducido(boolean traduccion) {
         if (traduccion) {
             if (myTTS != null) {
-                CompartirArchivos compartirArchivos = new CompartirArchivos(getContext(), myTTS);
+                CompartirArchivos compartirArchivos = new CompartirArchivos(this, myTTS);
                 compartirArchivos.setHistorial(historial.getListadoPictos());
                 Oracion = traducirfrase.getTexto();
                 compartirArchivos.seleccionarFormato(Oracion);

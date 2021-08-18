@@ -497,14 +497,10 @@
 
         <ImageView
             android:id="@+id/buttonAvatar"
-            android:layout_height="0dp"
-            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
             android:layout_margin="6dp"
             android:src="@drawable/ic_avatar35"
-            android:maxHeight="@dimen/sizeAvatarButtonIconMax"
-            android:maxWidth="@dimen/sizeAvatarButtonIconMax"
-            android:minWidth="@dimen/sizeAvatarButtonIconMin"
-            android:minHeight="@dimen/sizeAvatarButtonIconMin"
             android:background="@color/colorTransparent"
             android:contentDescription=""
             android:layout_gravity="center"

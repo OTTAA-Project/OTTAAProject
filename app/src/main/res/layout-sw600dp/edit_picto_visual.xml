@@ -20,7 +20,7 @@
         app:popupTheme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
 
 
-    <com.stonefacesoft.ottaa.Custom_Picto
+    <com.stonefacesoft.pictogramslibrary.view.PictoView
         android:id="@+id/ElPicto"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -32,7 +32,7 @@
         custom:layout_constraintStart_toStartOf="parent"
         custom:layout_constraintTop_toBottomOf="@id/toolbar">
 
-    </com.stonefacesoft.ottaa.Custom_Picto>
+    </com.stonefacesoft.pictogramslibrary.view.PictoView>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintEdicion"

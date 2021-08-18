@@ -1,10 +1,12 @@
 package com.stonefacesoft.ottaa.utils;
 
 import android.app.Activity;
+import android.os.Build;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
+import com.stonefacesoft.ottaa.BuildConfig;
 import com.stonefacesoft.ottaa.Interfaces.RemoteConfigListener;
 
 /**
@@ -78,6 +80,8 @@ public class RemoteConfigUtils implements RemoteConfigListener.PriceListener,Rem
 
     @Override
     public boolean enableAvatar() {
+        if(BuildConfig.DEBUG)
+            return mFirebaseRemoteConfig.getBoolean("showAvatarDebug");
         return mFirebaseRemoteConfig.getBoolean("showAvatar");
     }
 

@@ -62,7 +62,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
 
-        <com.stonefacesoft.ottaa.Custom_Picto
+        <com.stonefacesoft.pictogramslibrary.view.PictoView
             android:id="@+id/Seleccion1"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -87,7 +87,7 @@
 
 
 
-        <com.stonefacesoft.ottaa.Custom_Picto
+        <com.stonefacesoft.pictogramslibrary.view.PictoView
             android:id="@+id/Option1"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -102,9 +102,9 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/Seleccion1"
             app:layout_constraintVertical_weight="4">
-        </com.stonefacesoft.ottaa.Custom_Picto>
+        </com.stonefacesoft.pictogramslibrary.view.PictoView>
 
-        <com.stonefacesoft.ottaa.Custom_Picto
+        <com.stonefacesoft.pictogramslibrary.view.PictoView
             android:id="@+id/Option2"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -117,9 +117,9 @@
             app:layout_constraintEnd_toStartOf="@id/Option3"
             app:layout_constraintStart_toEndOf="@id/Option1"
             app:layout_constraintTop_toTopOf="@id/Option1">
-        </com.stonefacesoft.ottaa.Custom_Picto>
+        </com.stonefacesoft.pictogramslibrary.view.PictoView>
 
-        <com.stonefacesoft.ottaa.Custom_Picto
+        <com.stonefacesoft.pictogramslibrary.view.PictoView
             android:id="@+id/Option3"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -132,9 +132,9 @@
             app:layout_constraintEnd_toStartOf="@id/Option4"
             app:layout_constraintStart_toEndOf="@id/Option2"
             app:layout_constraintTop_toTopOf="@id/Option1">
-        </com.stonefacesoft.ottaa.Custom_Picto>
+        </com.stonefacesoft.pictogramslibrary.view.PictoView>
 
-        <com.stonefacesoft.ottaa.Custom_Picto
+        <com.stonefacesoft.pictogramslibrary.view.PictoView
             android:id="@+id/Option4"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -147,7 +147,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/Option3"
             app:layout_constraintTop_toTopOf="@id/Option1">
-        </com.stonefacesoft.ottaa.Custom_Picto> 
+        </com.stonefacesoft.pictogramslibrary.view.PictoView>
 
         
         
