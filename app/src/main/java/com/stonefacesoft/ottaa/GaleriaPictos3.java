@@ -350,6 +350,7 @@ public class GaleriaPictos3 extends AppCompatActivity implements View.OnClickLis
         }
         myTTS = new textToSpeech(this);
         viewpager_galeria_pictos = new viewpager_galeria_pictos(this, myTTS, boton);
+        
         previous = findViewById(R.id.down_button);
         foward = findViewById(R.id.up_button);
         exit = findViewById(R.id.back_button);

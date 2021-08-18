@@ -18,7 +18,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import static com.stonefacesoft.ottaa.test.JUnitSuiteClasses.testRunning;
 
 /**
  * Phrases
@@ -50,7 +49,7 @@ public class UnitTestingFavoritePhrases extends TestCase {
     }
 
     @Test
-    public void startTesting(){
+    public void unitTestingPhrases(){
         addPictograms();
         Historial historial=new Historial(json);
         historial.addPictograma(picto0);
@@ -136,10 +135,7 @@ public class UnitTestingFavoritePhrases extends TestCase {
         return super.run();
     }
 
-    @Override
-    public int countTestCases() {
-        return testRunning++;
-    }
+
 
 }
 

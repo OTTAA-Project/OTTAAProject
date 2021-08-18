@@ -18,7 +18,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import static com.stonefacesoft.ottaa.test.JUnitSuiteClasses.testRunning;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
@@ -37,7 +36,7 @@ public class UnitTestingGame extends TestCase {
     }
 
     @Test
-    public void runTesting(){
+    public void unitTestingGames(){
         game.incrementCorrect();
         game.incrementCorrect();
         game.incrementWrong();
@@ -60,8 +59,4 @@ public class UnitTestingGame extends TestCase {
         return super.run();
     }
 
-    @Override
-    public int countTestCases() {
-        return testRunning++;
-    }
 }

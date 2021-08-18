@@ -20,11 +20,12 @@ workflows:
               only:
                 - master
                 - dev
-      - TestProject:
-          filters:
-            branches:
-              only:
                 - circleciSettings
+#      - TestProject:
+#          filters:
+#            branches:
+#              only:
+#                - circleciSettings
 
 references:
   # cache
@@ -262,13 +263,13 @@ jobs:
       - *authorize_gcloud
       - *run_firebase_test_lab
       - *install_gsutil_dependency
-  TestProject:
-    <<: *android_config
-    machine:
-      image: ubuntu-2004:202010-01
-    steps:
-      - checkout
-      - *install_jdk_11
-      - *update_gradlew_code
-      - *start_test_project_agent
-      - *run_testing
+#  TestProject:
+#    <<: *android_config
+#    machine:
+#      image: ubuntu-2004:202010-01
+#    steps:
+#      - checkout
+#      - *install_jdk_11
+#      - *update_gradlew_code
+#      - *start_test_project_agent
+#      - *run_testing

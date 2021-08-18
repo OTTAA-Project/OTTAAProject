@@ -267,6 +267,20 @@ public class viewpager_galeria_pictos {
             super.onSaveInstanceState(outState);
         }
 
+        @Override
+        public void onLowMemory() {
+            super.onLowMemory();
+            if(picto1 != null)
+                picto1.getGlideAttatcher().clearMemory();
+        }
+
+        @Override
+        public void onDestroy() {
+            super.onDestroy();
+            if(picto1 != null)
+                picto1.getGlideAttatcher().clearMemory();
+        }
+
         private Integer cargarColor(int tipo) {
             switch (tipo) {
                 case 1:

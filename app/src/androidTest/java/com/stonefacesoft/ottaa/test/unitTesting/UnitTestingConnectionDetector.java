@@ -14,7 +14,6 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import static com.stonefacesoft.ottaa.test.JUnitSuiteClasses.testRunning;
 
 @RunWith(AndroidJUnit4.class)
 public class UnitTestingConnectionDetector extends TestCase {
@@ -42,8 +41,5 @@ public class UnitTestingConnectionDetector extends TestCase {
         return super.run();
     }
 
-    @Override
-    public int countTestCases() {
-        return testRunning++;
-    }
+
 }
