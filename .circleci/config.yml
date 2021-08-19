@@ -18,8 +18,6 @@ workflows:
           filters:
             branches:
               only:
-                - master
-                - dev
                 - circleciSettings
 #      - TestProject:
 #          filters:
