@@ -25,6 +25,7 @@ import com.stonefacesoft.ottaa.utils.Constants;
 import com.stonefacesoft.ottaa.utils.JSONutils;
 import com.stonefacesoft.ottaa.utils.exceptions.FiveMbException;
 import com.stonefacesoft.pictogramslibrary.utils.GlideAttatcher;
+import com.stonefacesoft.pictogramslibrary.view.PictoView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -92,9 +93,7 @@ public class gridViewAdapter extends ArrayAdapter {
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             row = inflater.inflate(layoutResourceId, null);
             holder = new ViewHolder();
-            holder.imageTitle = row.findViewById(R.id.grid_text);
-            holder.colorItem =row.findViewById(R.id.color_Picto);
-            holder.image = row.findViewById(R.id.grid_image);
+            holder.pictoView = row.findViewById(R.id.pictogram);
             row.setTag(holder);
 
         } else {
@@ -136,16 +135,16 @@ public class gridViewAdapter extends ArrayAdapter {
         {
             try {
                 new CargarRow(position, holder).execute();
-                holder.imageTitle.setText(data.get(position).getString("name"));
-                holder.colorItem.setColorFilter(cargarColor(JSONutils.getWordType(data.get(position))));
+                holder.pictoView.setCustom_Texto(data.get(position).getString("name"));
+                holder.pictoView.setCustom_Color(cargarColor(JSONutils.getWordType(data.get(position))));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }else
         {
             new CargarImg(position, holder).execute();
-            holder.imageTitle.setText(JSONutils.getNombre(data.get(position),sharedPrefsDefault.getString(context.getString(R.string.str_idioma), "en")));
-            holder.colorItem.setColorFilter(cargarColor(JSONutils.getWordType(data.get(position))));
+            holder.pictoView.setCustom_Texto(JSONutils.getNombre(data.get(position),sharedPrefsDefault.getString(context.getString(R.string.str_idioma), "en")));
+            holder.pictoView.setCustom_Color(cargarColor(JSONutils.getWordType(data.get(position))));
 
         }
 //        }
@@ -226,10 +225,10 @@ public class gridViewAdapter extends ArrayAdapter {
          */
         protected void onPostExecute(final Void unused) {
             if (mHolder.position == mPosition) {
-                glideAttatcher.attachedOnImaView(mHolder.image,img);
+                glideAttatcher.attachedOnImaView(mHolder.pictoView.getImageView(),img);
             }
             else {
-                glideAttatcher.attachedOnImaView(mHolder.image,context.getResources().getDrawable(R.drawable.ic_agregar_nuevo));
+                glideAttatcher.attachedOnImaView(mHolder.pictoView.getImageView(),context.getResources().getDrawable(R.drawable.ic_agregar_nuevo));
             }
         }
     }
@@ -264,15 +263,13 @@ public class gridViewAdapter extends ArrayAdapter {
         protected void onPostExecute(final Void unused) {
             if (mHolder.position == mPosition) {
 //                mHolder.imageTitle.setText(texto);
-                glideAttatcher.attachedOnImaView(mHolder.image,img);
+                glideAttatcher.attachedOnImaView(mHolder.pictoView.getImageView(),img);
             }
         }
     }
 
     static class ViewHolder {
-        TextView imageTitle;
-        ImageView image;
-        ImageView colorItem;
+        PictoView pictoView;
         int position;
     }
 

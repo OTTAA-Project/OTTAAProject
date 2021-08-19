@@ -801,8 +801,6 @@ public class Principal extends AppCompatActivity implements View
         navigationControls=new PrincipalControls(this);
         movableFloatingActionButton.setIcon(user.getmAuth());
         remoteConfigUtils = RemoteConfigUtils.getInstance();
-        movableFloatingActionButton.setVisibility(View.VISIBLE);
-        movableFloatingActionButton.setIcon(user.getmAuth());
         avatarUtils = new AvatarUtils(this,menuAvatarIcon,user.getmAuth());
         avatarUtils.getFirebaseAvatar();
         showAvatar();
