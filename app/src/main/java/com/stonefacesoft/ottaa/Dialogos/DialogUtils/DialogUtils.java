@@ -1,4 +1,4 @@
-package com.stonefacesoft.ottaa.Dialogos;
+package com.stonefacesoft.ottaa.Dialogos.DialogUtils;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -8,6 +8,7 @@ import android.view.Window;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.stonefacesoft.ottaa.Dialogos.Dialog_abstract_class;
 import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.utils.ActivityUtilsEstatus;
 import com.stonefacesoft.ottaa.utils.Custom_button;

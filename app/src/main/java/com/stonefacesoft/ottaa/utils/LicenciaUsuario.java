@@ -1,4 +1,4 @@
-package com.stonefacesoft.ottaa;
+package com.stonefacesoft.ottaa.utils;
 
 import android.content.Context;
 import android.content.Intent;
@@ -15,6 +15,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 import com.stonefacesoft.ottaa.FirebaseRequests.FirebaseUtils;
+import com.stonefacesoft.ottaa.LoginActivity2;
 import com.stonefacesoft.ottaa.utils.Constants;
 
 import org.apache.http.HttpResponse;
@@ -38,7 +39,6 @@ import java.util.Locale;
  * Analize if the user pay or not.
  */
 public class LicenciaUsuario {
-    //TODO move to utils
     private static final String TAG = "LicenciaUsuario";
     private String pago;
     private String FechaPago;

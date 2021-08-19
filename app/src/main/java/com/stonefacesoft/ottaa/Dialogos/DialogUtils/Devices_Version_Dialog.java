@@ -1,4 +1,4 @@
-package com.stonefacesoft.ottaa.Dialogos;
+package com.stonefacesoft.ottaa.Dialogos.DialogUtils;
 
 import android.content.Context;
 import android.widget.ImageView;
@@ -6,7 +6,7 @@ import android.widget.TextView;
 
 import com.stonefacesoft.ottaa.R;
 
-public class Devices_Version_Dialog extends DialogUtils{
+public class Devices_Version_Dialog extends DialogUtils {
     private ImageView w1,w2,w3;
     private TextView tv1,tv2,tv3;
     public Devices_Version_Dialog(Context mContext,boolean isV2) {

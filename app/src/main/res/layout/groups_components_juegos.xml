@@ -6,8 +6,8 @@
     android:layout_height="match_parent"
     >
 
-    <com.stonefacesoft.ottaa.customComponents.Custom_Grupo_Juego
-        android:id="@+id/grupo_1"
+    <com.stonefacesoft.pictogramslibrary.view.GameGroupView
+        android:id="@+id/gamegroup_1"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"

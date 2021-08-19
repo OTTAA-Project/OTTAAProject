@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.stonefacesoft.ottaa.Adapters.GaleriaGruposAdapter;
-import com.stonefacesoft.ottaa.Dialogos.Yes_noDialogs;
+import com.stonefacesoft.ottaa.Dialogos.DialogUtils.Yes_noDialogs;
 import com.stonefacesoft.ottaa.Edit_Picto_Visual;
 import com.stonefacesoft.ottaa.GaleriaPictos3;
 import com.stonefacesoft.ottaa.Helper.RecyclerItemClickListener;

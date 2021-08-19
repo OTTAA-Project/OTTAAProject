@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.R;
+import com.stonefacesoft.pictogramslibrary.view.PictoView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -70,9 +71,9 @@ public class TagsAdapter extends RecyclerView.Adapter<TagsAdapter.TagsViewHolder
 
         //Le ponemos los atributos a cada elemento, texto, imagen, tipo
         try {
-            holder.letterText.setText(mArrayListElementos.get(position).getJSONObject("texto").getString("es"));
+            holder.pictoView.setCustom_Texto(mArrayListElementos.get(position).getJSONObject("texto").getString("es"));
             int id = mContext.getResources().getIdentifier(mArrayListElementos.get(position).getJSONObject("imagen").getString("picto"), "drawable", mContext.getPackageName());
-            holder.imageView.setImageResource(id);
+            holder.pictoView.getImageView().setImageResource(id);
             //holder.mPictoImageView.setBackgroundColor(cargarColor(json.getTipo(mArrayListElementos.get(position))));
             if (mArrayListSelectedTags.contains(mArrayListElementos.get(position)))
                 holder.itemView.setBackgroundColor(mContext.getResources().getColor(R.color.colorVincular));
@@ -127,14 +128,12 @@ public class TagsAdapter extends RecyclerView.Adapter<TagsAdapter.TagsViewHolder
 
     //Tags ViewHolder donde llamamos a cada elemento del layout a inflar por cada vista
     public class TagsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        TextView letterText;
-        ImageView imageView;
+        PictoView pictoView;
 
         public TagsViewHolder(View view) {
             super(view);
             view.setOnClickListener(this);
-            letterText = view.findViewById(R.id.grid_text);
-            imageView = view.findViewById(R.id.grid_image);
+            pictoView = view.findViewById(R.id.pictogram);
             Log.d(TAG, "TagsViewHolder: Llamando pintarTags ");
 
 

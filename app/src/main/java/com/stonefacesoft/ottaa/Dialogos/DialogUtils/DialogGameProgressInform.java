@@ -1,4 +1,4 @@
-package com.stonefacesoft.ottaa.Dialogos;
+package com.stonefacesoft.ottaa.Dialogos.DialogUtils;
 
 import android.content.Context;
 import android.widget.ImageView;

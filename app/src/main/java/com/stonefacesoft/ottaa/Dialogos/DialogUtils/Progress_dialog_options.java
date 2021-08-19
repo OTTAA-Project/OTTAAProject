@@ -1,13 +1,14 @@
-package com.stonefacesoft.ottaa.Dialogos;
+package com.stonefacesoft.ottaa.Dialogos.DialogUtils;
 
 import android.content.Context;
 import android.view.View;
 
+import com.stonefacesoft.ottaa.Dialogos.DialogUtils.DialogUtils;
 import com.stonefacesoft.ottaa.R;
 /*
 * @Author gonzalo Juarez
 * */
-public class Progress_dialog_options extends DialogUtils{
+public class Progress_dialog_options extends DialogUtils {
     public Progress_dialog_options(Context mContext) {
         super(mContext);
         ocultarElementos();

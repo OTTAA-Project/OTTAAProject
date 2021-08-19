@@ -58,6 +58,7 @@ public class CompartirArchivos {
     public CompartirArchivos(Context context1, textToSpeech myTTS) {
         this.mContext = context1;
         this.gestionarBitmap = new GestionarBitmap(mContext);
+        actionShare = true;
 
         Json.getInstance().setmContext(mContext);
         this.json = Json.getInstance();
@@ -175,25 +176,8 @@ public class CompartirArchivos {
                 params.putString(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, Oracion);
                 synchronized (file) {
                 }
-                myTTS.getTTS().setOnUtteranceProgressListener(new UtteranceProgressListener() {
-                    @Override
-                    public void onStart(String utteranceId) {
-
-                    }
-
-                    @Override
-                    public void onDone(String utteranceId) {
-
-                            compartirAudioPictogramas();
-
-                    }
-
-                    @Override
-                    public void onError(String utteranceId) {
-
-                    }
-                });
                 myTTS.getTTS().synthesizeToFile(Oracion, params, file, Oracion);
+                compartirAudioPictogramas();
             }
         });
 
