@@ -11,6 +11,8 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.utils.Constants;
@@ -44,7 +46,7 @@ public class BarridoPantalla {
     private ArrayList<View> mListadoVistas;
    // private int posicion=0;
     private boolean cambioPosicion;
-    private Context mContext;
+    private Activity mActivity;
     private boolean mEstaActivado;
     private boolean avanzarYAceptar;
     private boolean scrollMode;
@@ -82,23 +84,22 @@ public class BarridoPantalla {
     }
 
 
-    public BarridoPantalla(Context mContext, ArrayList<View> listadoObjetos, Activity mActivity) {
-        this.mContext = mContext;
+    public BarridoPantalla(Activity mActivity, ArrayList<View> listadoObjetos) {
+        this.mActivity = mActivity;
     //    screenScanningRun=new Handler();
         this.mListadoVistas = listadoObjetos;
-        Activity activity = mActivity;
-        button=activity.findViewById(R.id.floatting_button);
-        mDefaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
+        button=mActivity.findViewById(R.id.floatting_button);
+        mDefaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(mActivity);
         settings = new ScreenScanningSettings();
         tiempo = mDefaultSharedPreferences.getInt("velocidad_barrido", 5);
-        enableDisableScreenScanning(mDefaultSharedPreferences.getBoolean(Constants.BARRIDO_BOOL, false),mDefaultSharedPreferences.getBoolean("tipo_barrido_normal",false),mDefaultSharedPreferences.getBoolean("tipo_barrido", false),mDefaultSharedPreferences.getBoolean("sip_and_puff",false),mDefaultSharedPreferences.getBoolean(this.mContext.getResources().getString(R.string.usar_scroll),false),mDefaultSharedPreferences.getBoolean(this.mContext.getResources().getString(R.string.usar_scroll_click),false));
+        enableDisableScreenScanning(mDefaultSharedPreferences.getBoolean(Constants.BARRIDO_BOOL, false),mDefaultSharedPreferences.getBoolean("tipo_barrido_normal",false),mDefaultSharedPreferences.getBoolean("tipo_barrido", false),mDefaultSharedPreferences.getBoolean("sip_and_puff",false),mDefaultSharedPreferences.getBoolean(this.mActivity.getResources().getString(R.string.usar_scroll),false),mDefaultSharedPreferences.getBoolean(this.mActivity.getResources().getString(R.string.usar_scroll_click),false));
         returnPositionItem = new ReturnPositionItem(listadoObjetos.size());
         pago = consultarPago();
         cambiarEstadoBarrido();
         button.setSize(FloatingActionButton.SIZE_AUTO);
         button.setBackgroundColor(Color.TRANSPARENT);
         button.setAdjustViewBounds(true);
-        button.setImageDrawable(mContext.getResources().getDrawable(R.drawable.ic_touch_app_black_24dp));
+        button.setImageDrawable(mActivity.getResources().getDrawable(R.drawable.ic_touch_app_black_24dp));
         //   mPunteroPantalla = new PunteroEnPantalla(mContext, mActivity);
         //  cambiarMargin();
 
@@ -200,13 +201,11 @@ public class BarridoPantalla {
 
     public void activarDesactivarBarrido() {
         pago = consultarPago();
-        if (consultarPago())
+        if (pago)
             activarBarrido();
         else {
-            //limpiarBarrido();
             if(button.getVisibility()==View.VISIBLE)
             changeButtonVisibility();
-
         }
 
     }
@@ -239,14 +238,9 @@ public class BarridoPantalla {
 
     public void cambiarEstadoBarrido() {
         tiempo = mDefaultSharedPreferences.getInt("velocidad_barrido", 5);
-        enableDisableScreenScanning(mDefaultSharedPreferences.getBoolean(Constants.BARRIDO_BOOL, false),mDefaultSharedPreferences.getBoolean("tipo_barrido_normal",false),mDefaultSharedPreferences.getBoolean("tipo_barrido", false),mDefaultSharedPreferences.getBoolean("sip_and_puff",false),mDefaultSharedPreferences.getBoolean(this.mContext.getResources().getString(R.string.usar_scroll),false),mDefaultSharedPreferences.getBoolean(this.mContext.getResources().getString(R.string.usar_scroll_click),false));
-        pago = consultarPago();
-
-        // cambiarMargin();
-      //  limpiarBarrido();
+        enableDisableScreenScanning(mDefaultSharedPreferences.getBoolean(Constants.BARRIDO_BOOL, false),mDefaultSharedPreferences.getBoolean("tipo_barrido_normal",false),mDefaultSharedPreferences.getBoolean("tipo_barrido", false),mDefaultSharedPreferences.getBoolean("sip_and_puff",false),mDefaultSharedPreferences.getBoolean(this.mActivity.getResources().getString(R.string.usar_scroll),false),mDefaultSharedPreferences.getBoolean(this.mActivity.getResources().getString(R.string.usar_scroll_click),false));
         timeToChange=new TimeToChange(this,tiempo);
         activarDesactivarBarrido();
-
     }
 
     /*
@@ -351,6 +345,10 @@ public class BarridoPantalla {
 
     public void createPositionItem(int size){
         returnPositionItem = new ReturnPositionItem(size);
+    }
+
+    public FloatingActionButton findButton(Activity mActivity){
+        return mActivity.findViewById(R.id.floatting_button);
     }
 
 

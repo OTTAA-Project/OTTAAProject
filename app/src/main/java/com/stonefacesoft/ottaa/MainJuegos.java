@@ -52,7 +52,6 @@ import java.util.ArrayList;
  * */
 public class MainJuegos extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener, Make_Click_At_Time , View.OnTouchListener {
 
-    private GameCard card1, card2, card3, card4;
     private Json json;
     private ImageButton down_button,up_button;
     private viewpager_galeria_juegos view_game;
@@ -97,8 +96,6 @@ public class MainJuegos extends AppCompatActivity implements View.OnClickListene
     @Override
     public void onClick(View view) {
 
-        //TODO hace el click dentro de la clase GameCard
-
         switch (view.getId()){
             case R.id.up_button:
                 view_game.scrollPosition(false);
@@ -124,16 +121,7 @@ public class MainJuegos extends AppCompatActivity implements View.OnClickListene
     }
 
     private void initComponents(){
-        card1=findViewById(R.id.card1);
-        card2=findViewById(R.id.card2);
-        card3=findViewById(R.id.card3);
-        //TODO Gonza esto esta creando de nuevo lo que se crea en viewpagergaleriagrupos
-        card1.prepareCardView( R.string.whichpictogram, R.string.which_description_name, R.drawable.whats_picto, createOnClickListener(this, GameSelector.class, "notigames"));
-        card2.prepareCardView( R.string.join_pictograms, R.string.join_pictograms_description, R.drawable.match_picto, createOnClickListener(this, GameSelector.class, "seleccionar_palabras"));
-        card3.prepareCardView( R.string.memory_game, R.string.memory_game_string, R.drawable.whats_picto, createOnClickListener(this, GameSelector.class, "descripciones"));
-        card1.setmTxtScore(json.devolverCantidadGruposUsados(0)+"/"+json.getmJSONArrayTodosLosGrupos().length());
-        card2.setmTxtScore(json.devolverCantidadGruposUsados(1)+"/"+json.getmJSONArrayTodosLosGrupos().length());//todo in recycler fill with the position
-        card3.setmTxtScore(json.devolverCantidadGruposUsados(1)+"/"+json.getmJSONArrayTodosLosGrupos().length());//todo in recycler fill with the position
+
         view_game=new viewpager_galeria_juegos(this);
         up_button=findViewById(R.id.up_button);
         down_button=findViewById(R.id.down_button);
@@ -162,9 +150,6 @@ public class MainJuegos extends AppCompatActivity implements View.OnClickListene
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         view_game.updateAdapter();
-        card1.setmTxtScore(json.devolverCantidadGruposUsados(0)+"/"+json.getmJSONArrayTodosLosGrupos().length());
-        card2.setmTxtScore(json.devolverCantidadGruposUsados(1)+"/"+json.getmJSONArrayTodosLosGrupos().length());//todo in recycler fill with the position
-        card3.setmTxtScore(json.devolverCantidadGruposUsados(2)+"/"+json.getmJSONArrayTodosLosGrupos().length());//todo in recycler fill with the position
     }
 
 
@@ -213,7 +198,7 @@ public class MainJuegos extends AppCompatActivity implements View.OnClickListene
         listadoObjetosBarrido.add(findViewById(R.id.down_button));
         listadoObjetosBarrido.add(findViewById(R.id.back_button));
         //  listadoObjetosBarrido.add(editButton);
-        barridoPantalla = new BarridoPantalla(this, listadoObjetosBarrido, this);
+        barridoPantalla = new BarridoPantalla(this, listadoObjetosBarrido);
         if (barridoPantalla.isBarridoActivado() && barridoPantalla.devolverpago()) {
             runOnUiThread(new Runnable() {
 

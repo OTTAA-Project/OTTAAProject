@@ -261,7 +261,7 @@ public class GaleriaGrupos2 extends AppCompatActivity implements OnStartDragList
         listadoObjetosBarrido.add(btnTalk);
         listadoObjetosBarrido.add(foward);
         //  listadoObjetosBarrido.add(editButton);
-        barridoPantalla = new BarridoPantalla(this, listadoObjetosBarrido, this);
+        barridoPantalla = new BarridoPantalla(this, listadoObjetosBarrido);
         if (barridoPantalla.isBarridoActivado() && barridoPantalla.devolverpago()) {
             runOnUiThread(new Runnable() {
 
@@ -277,10 +277,6 @@ public class GaleriaGrupos2 extends AppCompatActivity implements OnStartDragList
         }else{
             btnBarrido.setVisibility(View.GONE);
         }
-
-
-
-
     }
 
     @Override
@@ -639,7 +635,6 @@ public class GaleriaGrupos2 extends AppCompatActivity implements OnStartDragList
                 if(barridoPantalla.isBarridoActivado()){
                     analyticsFirebase.customEvents("Accessibility","Galeria Grupos","Close Galery Groups");
                 }
-
                     onBackPressed();
 
                 break;
@@ -688,16 +683,13 @@ public class GaleriaGrupos2 extends AppCompatActivity implements OnStartDragList
     }
 
     public static SubirArchivosFirebase subirArchivos() {
-
         return uploadFirebaseFile;
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-
         Json.getInstance().setmContext(this);
-
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         new ConfigurarIdioma(getApplicationContext(), preferences.getString(getApplicationContext().getString(R.string.str_idioma), "en"));
 
@@ -705,7 +697,6 @@ public class GaleriaGrupos2 extends AppCompatActivity implements OnStartDragList
 
     @Override
     protected void attachBaseContext(Context newBase) {
-
         sharedPrefsDefault = PreferenceManager.getDefaultSharedPreferences(newBase);
         String locale = sharedPrefsDefault.getString(newBase.getString(R.string.str_idioma), Locale.getDefault().getLanguage());
         new ConfigurarIdioma(newBase, locale);
@@ -760,9 +751,6 @@ public class GaleriaGrupos2 extends AppCompatActivity implements OnStartDragList
                 fallanDatosDelUsuario.falloAlLeerArchivo(true, "Fotos");
             }
 
-
-
-
             return null;
         }
 
@@ -780,9 +768,6 @@ public class GaleriaGrupos2 extends AppCompatActivity implements OnStartDragList
             recycler_view_grupo.cargarGrupo();
             else if(recycler_view_sort_grupo!=null)
                 recycler_view_sort_grupo.cargarGrupo();
-
-
-
         }
 
         @Override

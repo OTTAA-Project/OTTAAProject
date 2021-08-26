@@ -175,6 +175,8 @@ public class prefs extends PreferenceActivity implements SharedPreferences.OnSha
     // private BajarJsonFirebase bajarJsonFirebase;
     private Json json;
     private boolean cambioIdioma;
+    private boolean cambioDeLado;
+    private boolean cambioBarrido;
     private textToSpeech myTTS;
     private BajarJsonFirebase bajarJsonFirebase;
     private HandlerComunicationClass handlerComunicationClass;
@@ -509,6 +511,9 @@ public class prefs extends PreferenceActivity implements SharedPreferences.OnSha
 
         Intent databack = new Intent();
         databack.putExtra(getString(R.string.boolean_cambio_idioma), cambioIdioma);
+        databack.putExtra(getString(R.string.boolean_cambio_mano),cambioDeLado);
+        databack.putExtra(getString(R.string.boolean_cambio_barrido),cambioBarrido);
+
         setResult(IntentCode.CONFIG_SCREEN.getCode(), databack);
         finish();
 
@@ -828,14 +833,12 @@ public class prefs extends PreferenceActivity implements SharedPreferences.OnSha
                 if (status) {
                     Item_adapter adapter = (Item_adapter) dialog_option_item.getRecycler().getAdapter();
                     final String value = adapter.getmArrayListValues()[adapter.devolverPosition()];
-                    //      mostrarDialogo();
                     sharedPrefsDefault.edit().putString(preferences, value).apply();
                     message = "Bajando sugerencias";
                     final StorageReference mPredictionRef = mStorageRef.child("Archivos_Sugerencias").child("pictos_" + sharedPrefsDefault.getString("prefSexo", "FEMENINO") + "_" + sharedPrefsDefault.getString("prefEdad", "JOVEN") + ".txt");
                     bajarJsonFirebase.descargarPictosDatabase(mPredictionRef);
                     handlerComunicationClass.sendMessage(
                             Message.obtain(handlerComunicationClass, HandlerComunicationClass.SHOWDIALOG, ""));
-                    //    new ordenarPictos().execute();
                 }
 
             }
@@ -852,14 +855,12 @@ public class prefs extends PreferenceActivity implements SharedPreferences.OnSha
                 if (status) {
                     Item_adapter adapter = (Item_adapter) dialog_option_item.getRecycler().getAdapter();
                     final String value = adapter.getmArrayListValues()[adapter.devolverPosition()];
-                    //      mostrarDialogo();
                     sharedPrefsDefault.edit().putString(preference, value).apply();
                     message = "Bajando sugerencias";
                     final StorageReference mPredictionRef = mStorageRef.child("Archivos_Sugerencias").child("pictos_" + sharedPrefsDefault.getString("prefSexo", "FEMENINO") + "_" + sharedPrefsDefault.getString("prefEdad", "JOVEN") + ".txt");
                     bajarJsonFirebase.descargarPictosDatabase(mPredictionRef);
                     handlerComunicationClass.sendMessage(
                             Message.obtain(handlerComunicationClass, HandlerComunicationClass.SHOWDIALOG, ""));
-                    //    new ordenarPictos().execute();
                 }
 
             }
@@ -878,7 +879,6 @@ public class prefs extends PreferenceActivity implements SharedPreferences.OnSha
                     final String value = adapter.getmArrayListValues()[adapter.devolverPosition()];
                     if (value != null)
                         sharedPrefsDefault.edit().putInt(preferences, Integer.parseInt(value)).apply();
-                    //    new ordenarPictos().execute();
                 }
 
             }
@@ -895,12 +895,12 @@ public class prefs extends PreferenceActivity implements SharedPreferences.OnSha
                 if (status) {
                     Item_adapter adapter = (Item_adapter) dialog_option_item.getRecycler().getAdapter();
                     int value = adapter.devolverPosition();
-                    if (value == 0)
+                    cambioDeLado = true;
+                    if (value == 0) {
                         sharedPrefsDefault.edit().putBoolean(preferences, false).apply();
-                    else
+                    }else {
                         sharedPrefsDefault.edit().putBoolean(preferences, true).apply();
-
-                    //    new ordenarPictos().execute();
+                    }
                 }
 
             }
@@ -936,6 +936,7 @@ public class prefs extends PreferenceActivity implements SharedPreferences.OnSha
             public boolean onPreferenceChange(Preference preference, Object o) {
                 analyticsFirebase.customEvents("Settings", "pref", "Screen Scanning");
                 mBoolBarrido.setChecked(!mBoolBarrido.isChecked());
+                cambioBarrido = true;
                 if (mBoolBarrido.isChecked()) {
                     if (!mBoolTipoBarrido.isChecked() && !mBoolUsarScroll.isChecked() && !mBoolUsarScrollClick.isChecked())
                         mBoolBarridoPantalla.setChecked(true);
@@ -1059,7 +1060,6 @@ public class prefs extends PreferenceActivity implements SharedPreferences.OnSha
             sharedPrefsDefault.edit().putString(getString(R.string.str_idioma_buffer), s).apply();
             sharedPrefsDefault.edit().putString(getString(R.string.str_idioma), s).apply();
             ConfigurarIdioma.setLanguage(sharedPrefsDefault.getString(getString(R.string.str_idioma), "en"));
-
             cambioIdioma = true;
             return null;
         }

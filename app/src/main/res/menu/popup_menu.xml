@@ -8,7 +8,8 @@
         android:visible="true"
         android:icon="@android:drawable/ic_menu_edit"
         android:actionLayout="@layout/custom_menu_item"
-        app:showAsAction="ifRoom"/>
+        android:iconTint="@color/NaranjaOTTAA"
+        app:showAsAction="withText"/>
 
     <item
         android:id="@+id/item_delete"
@@ -16,6 +17,7 @@
         android:visible="true"
         android:actionLayout="@layout/custom_menu_item"
         android:icon="@android:drawable/ic_menu_delete"
-        app:showAsAction="ifRoom"/>
+        android:iconTint="@color/NaranjaOTTAA"
+        app:showAsAction="withText"/>
 
 </menu>
