@@ -89,13 +89,13 @@ android {
 //            exclude 'META-INF/NOTICE.txt'
 //        }
     testOptions{
-        unitTests.returnDefaultValues = true
-        unitTests.includeAndroidResources true
-        unitTests.all{
-            jvmArgs '-XX:MaxPermSize=256m'
+        unitTests{
+            unitTests.returnDefaultValues = true
+            unitTests.includeAndroidResources true
+            unitTests.all{
+                jvmArgs '-XX:MaxPermSize=256m'
+            }
         }
-        execution 'ANDROIDX_TEST_ORCHESTRATOR'
-
 
     }
 

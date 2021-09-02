@@ -19,6 +19,7 @@ workflows:
             branches:
               only:
                 - circleciSettings
+                - MainOptimization
 #      - TestProject:
 #          filters:
 #            branches:
