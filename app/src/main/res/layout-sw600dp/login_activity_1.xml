@@ -75,7 +75,7 @@
                 <com.google.android.gms.common.SignInButton
                     android:layout_width="0dp"
                     android:layout_height="0dp"
-                    android:id="@+id/googleSignInButton"
+                    android:id="@+id/sign_in_button"
                     app:buttonSize="wide"
                     android:tag="SingInButton"
                     app:layout_constraintStart_toStartOf="parent"

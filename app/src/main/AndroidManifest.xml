@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.stonefacesoft.ottaa">
     <uses-feature
         android:name="android.hardware.camera"
@@ -43,7 +44,8 @@
         android:screenOrientation="sensorLandscape"
         android:supportsRtl="true"
         android:theme="@style/CustomActionBarTheme"
-        android:usesCleartextTraffic="true">
+        android:usesCleartextTraffic="true"
+        tools:targetApi="m">
 
         <activity android:name=".view.ReportActivity" />
         <activity
@@ -84,6 +86,7 @@
         <activity
             android:name=".welcome.SplashActivity"
             android:label="@string/app_name"
+            android:exported="true"
             android:screenOrientation="sensorLandscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -195,7 +198,9 @@
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_login"
             android:screenOrientation="sensorLandscape" />
-        <activity android:name=".PictureCropper" android:screenOrientation="sensorLandscape"></activity>
+        <activity android:name=".PictureCropper" android:screenOrientation="sensorLandscape"/>
+        <activity android:name="com.canhub.cropper.CropImageActivity"
+            android:theme="@style/Base.Theme.AppCompat"/>
         <activity android:name=".LoginActivity2Avatar" android:screenOrientation="sensorLandscape" />
         <activity android:name=".LoginActivity2Step3" android:screenOrientation="sensorLandscape" />
         <activity android:name=".Activities.FindAllPictograms" android:screenOrientation="sensorLandscape" />
@@ -233,7 +238,8 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
-        <service android:name=".utils.Firebase.MyFirebaseMessagingService">
+        <service android:name=".utils.Firebase.MyFirebaseMessagingService"
+            android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
@@ -242,6 +248,7 @@
         <uses-library
             android:name="org.apache.http.legacy"
             android:required="false" />
+
     </application>
 
 </manifest>

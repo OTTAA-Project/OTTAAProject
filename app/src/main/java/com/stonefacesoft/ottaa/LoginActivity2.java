@@ -114,7 +114,7 @@ public class LoginActivity2 extends AppCompatActivity implements View.OnClickLis
 
     private void bindUI(){
         cardViewLogin = findViewById(R.id.cardViewLogin);
-        signInButton = findViewById(R.id.googleSignInButton);
+        signInButton = findViewById(R.id.sign_in_button);
         signInButton.setVisibility(View.INVISIBLE);
         signInButton.setOnClickListener(this);
         textViewLoginBig = findViewById(R.id.textLoginBig);
@@ -147,7 +147,7 @@ public class LoginActivity2 extends AppCompatActivity implements View.OnClickLis
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.googleSignInButton:
+            case R.id.sign_in_button:
                 mAnalyticsFirebase.customEvents("Touch","LoginActivity2","signIn");
                 signIn();
                 break;

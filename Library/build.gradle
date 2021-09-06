@@ -4,7 +4,7 @@ buildscript {
         google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.0.1'
+        classpath 'com.android.tools.build:gradle:7.0.2'
 
     }
 
@@ -13,7 +13,7 @@ apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion 18
-    buildToolsVersion '28.0.3'
+    buildToolsVersion '30.0.3'
 
     sourceSets {
         main {
@@ -29,11 +29,15 @@ android {
         androidTest.setRoot('tests')
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_6
-        targetCompatibility JavaVersion.VERSION_1_6
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
     defaultConfig {
-        minSdkVersion  9
+        minSdkVersion  12
+    }
+
+    lintOptions {
+        checkDependencies true
     }
 
 

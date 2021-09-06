@@ -1,6 +1,8 @@
 package com.stonefacesoft.ottaa;
 
 
+import static com.facebook.FacebookSdk.setAutoLogAppEventsEnabled;
+
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -13,7 +15,6 @@ import android.content.pm.ResolveInfo;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.location.Location;
-import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -47,8 +48,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.view.menu.MenuBuilder;
-import androidx.appcompat.view.menu.MenuPopupHelper;
 import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.view.GravityCompat;
@@ -73,16 +72,15 @@ import com.google.firebase.database.annotations.Nullable;
 import com.google.firebase.installations.FirebaseInstallations;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.kobakei.ratethisapp.RateThisApp;
 import com.stonefacesoft.ottaa.Activities.Phrases.FavoritePhrases;
 import com.stonefacesoft.ottaa.Activities.Phrases.MostUsedPhrases;
 import com.stonefacesoft.ottaa.Backup.BackupGroups;
 import com.stonefacesoft.ottaa.Backup.BackupPhotos;
 import com.stonefacesoft.ottaa.Backup.BackupPhrases;
 import com.stonefacesoft.ottaa.Backup.BackupPictograms;
-import com.stonefacesoft.ottaa.Dialogos.newsDialog.NewDialogsOTTAA;
 import com.stonefacesoft.ottaa.Dialogos.DialogUtils.Progress_dialog_options;
 import com.stonefacesoft.ottaa.Dialogos.DialogUtils.Yes_noDialogs;
+import com.stonefacesoft.ottaa.Dialogos.newsDialog.NewDialogsOTTAA;
 import com.stonefacesoft.ottaa.FirebaseRequests.BajarJsonFirebase;
 import com.stonefacesoft.ottaa.FirebaseRequests.FirebaseUtils;
 import com.stonefacesoft.ottaa.FirebaseRequests.SubirArchivosFirebase;
@@ -109,7 +107,6 @@ import com.stonefacesoft.ottaa.utils.ConstantsMainActivity;
 import com.stonefacesoft.ottaa.utils.CustomToast;
 import com.stonefacesoft.ottaa.utils.Firebase.AnalyticsFirebase;
 import com.stonefacesoft.ottaa.utils.Firebase.CrashlyticsUtils;
-import com.stonefacesoft.ottaa.utils.HandlerComunicationClass;
 import com.stonefacesoft.ottaa.utils.InmersiveMode;
 import com.stonefacesoft.ottaa.utils.IntentCode;
 import com.stonefacesoft.ottaa.utils.JSONutils;
@@ -146,8 +143,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 import java.util.Objects;
-
-import static com.facebook.FacebookSdk.setAutoLogAppEventsEnabled;
 
 /**
  * merge con favorite phrases
@@ -2138,7 +2133,6 @@ public class Principal extends AppCompatActivity implements View
         initDefaultSettings();
         firstUserAuthVerification();
         initBackUp();
-        initRateThisApp();
         initMenu();
         initTTS();
         initSelectionComponents();
@@ -2287,25 +2281,7 @@ public class Principal extends AppCompatActivity implements View
         gesture = new Gesture(drawerLayout);
     }
 
-    private void initRateThisApp(){
-         if (!BuildConfig.DEBUG) {
-            RateThisApp.Config config = new RateThisApp.Config(10, 20);
-            config.setTitle(R.string.my_own_title);
-            config.setMessage(R.string.my_own_message);
-            config.setYesButtonText(R.string.pref_yes_alert);
-            config.setNoButtonText(R.string.my_own_thanks);
-            config.setCancelable(false);
-            config.setCancelButtonText(R.string.my_own_cancel);
-            config.setUrl("https://play.google.com/store/apps/details?id=com.stonefacesoft.ottaa");
-            RateThisApp.init(config);
-            RateThisApp.onCreate(this);
-            try {
-                RateThisApp.showRateDialogIfNeeded(this);
-            } catch (Exception e) {
-                Log.e(TAG, "onCreate: Error RateThisApp");
-            }
-        }
-    }
+
 
     private void initSelectionComponents(){
         Seleccion1 = findViewById(R.id.Seleccion1);

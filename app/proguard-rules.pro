@@ -16,7 +16,6 @@
 #   public *;
 #}
 -ignorewarnings
--keep class android.support.v7.widget.SearchView { *; }
 -keepattributes *Annotation*
 -keepattributes SourceFile,LineNumberTable
 -keep public class * extends java.lang.Exception
