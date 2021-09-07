@@ -1,5 +1,7 @@
 package com.stonefacesoft.ottaa;
 
+import static com.stonefacesoft.ottaa.utils.Constants.RC_SIGN_IN;
+
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -39,7 +41,6 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.stonefacesoft.ottaa.FirebaseRequests.BajarJsonFirebase;
@@ -53,8 +54,6 @@ import com.stonefacesoft.ottaa.utils.ObservableInteger;
 
 import java.io.File;
 import java.util.Locale;
-
-import static com.stonefacesoft.ottaa.utils.Constants.RC_SIGN_IN;
 
 //Code source https://developers.google.com/identity/sign-in/android/sign-in
 
@@ -77,8 +76,6 @@ public class LoginActivity2 extends AppCompatActivity implements View.OnClickLis
     private ObservableInteger observableInteger;
     private BajarJsonFirebase mBajarJsonFirebase;
     private SharedPreferences sharedPrefsDefault;
-    private StorageReference mStorageRef;
-    private DatabaseReference mDatabase;
     private ProgressDialog dialog;
     private String locale;
     private FirebaseAuth.AuthStateListener mAuthListener;
@@ -146,13 +143,10 @@ public class LoginActivity2 extends AppCompatActivity implements View.OnClickLis
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.sign_in_button:
-                mAnalyticsFirebase.customEvents("Touch","LoginActivity2","signIn");
-                signIn();
-                break;
-                //TODO put an easter egg when you click the Bubas
-        }
+       if(v.getId() == R.id.sign_in_button){
+           mAnalyticsFirebase.customEvents("Touch","LoginActivity2","signIn");
+           signIn();
+       }
     }
 
     private void signIn() {

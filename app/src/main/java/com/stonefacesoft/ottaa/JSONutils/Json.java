@@ -916,7 +916,6 @@ public class Json implements FindPictogram {
      * */
     public JSONArray cargarOpciones(JSONObject padre, int cuentaMasPictos) throws JSONException, FiveMbException {
         //mJSONArrayTodosLosPictos = readJSONArrayFromFile(Constants.ARCHIVO_PICTOS);// leo los pictos
-
         if (!consultarPago())
             sharedPrefsDefault.edit().putBoolean("bool_sugerencias", consultarPago()).apply();
         JSONArray relacion = elegirHijos2(padre, false); //selecciono el picto padre

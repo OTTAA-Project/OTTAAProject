@@ -250,6 +250,7 @@ public class LoginActivity2Avatar extends AppCompatActivity implements View.OnCl
             Uri uri = data.getParcelableExtra("imageUri");
             avatarId = -1;
             uploadAvatar = true;
+            Log.d(TAG, "onActivityResult: "+ uri);
             Glide.with(this).load(uri)
                     .override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
                     .error(R.drawable.ic_no)

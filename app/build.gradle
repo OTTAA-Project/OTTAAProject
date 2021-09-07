@@ -3,6 +3,8 @@ apply plugin: 'com.android.application'
 apply plugin: 'com.google.firebase.firebase-perf'
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.google.firebase.crashlytics'
+apply plugin: 'maven-publish'
+
 
 
 
@@ -191,7 +193,8 @@ dependencies {
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 
     // firebase library
-    implementation 'com.google.firebase:firebase-auth:21.0.1'
+    implementation platform('com.google.firebase:firebase-bom:28.3.1')
+    implementation 'com.google.firebase:firebase-auth'
     implementation 'com.google.firebase:firebase-config:21.0.1'
     implementation 'com.google.firebase:firebase-core:19.0.1'
     implementation 'com.google.firebase:firebase-database:20.0.1'
@@ -199,6 +202,9 @@ dependencies {
     implementation 'com.google.firebase:firebase-inappmessaging-display:20.1.0'
     implementation 'com.google.firebase:firebase-perf:20.0.2'
     implementation 'com.google.firebase:firebase-storage:20.0.0'
+
+
+
     implementation "io.grpc:grpc-okhttp:1.32.2"
 
 
@@ -219,7 +225,7 @@ dependencies {
 
     //Image Cropper
     //TODO add this library to the Wiki
-    implementation 'com.github.CanHub:Android-Image-Cropper:3.3.4'
+    implementation 'com.github.CanHub:Android-Image-Cropper:3.2.2'
     // pictograms library
     implementation 'com.github.OTTAA-Project:PictogramsLibrary:0.1.8.27'
     //Sendgrid integration
@@ -232,6 +238,8 @@ configurations {
         exclude module: 'httpclient'
     }
 }
+
+
 
 /*
 configurations.all {

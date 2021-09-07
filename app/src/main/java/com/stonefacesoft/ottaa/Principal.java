@@ -155,13 +155,9 @@ public class Principal extends AppCompatActivity implements View
 
     private static final String TAG = "Principal";
     public static boolean cerrarSession = false;// use this variable to notify when the session is closed
-    static private boolean isConnected;
     private static FirebaseSuccessListener mFirebaseSuccessListener;
-    private final boolean ayudaFlag = false;
     //Declaro el fecha y hora del sistema
-    private final Calendar SystemTime = Calendar.getInstance();
-    //Obtengo la hora del dia y le doy formato
-    private final SimpleDateFormat df = new SimpleDateFormat("H");
+    //Obtengo la hora del dia y le doy formatofirebase an error ocurred
     // booleano para hacer refreshTTS solo para el 2do TTS
     private final boolean primerTTS = true;
     //Handler para animar el boton de myTTS cuando no habla por cierto tiempo
@@ -295,9 +291,7 @@ public class Principal extends AppCompatActivity implements View
     private ImageView menuAvatarIcon;
     private AvatarUtils avatarUtils;
 
-    public static FirebaseSuccessListener msuccesListener() {
-        return mFirebaseSuccessListener;
-    }
+
 
     public static byte[] getBytesFromInputStream(InputStream is) throws IOException {
         try (ByteArrayOutputStream os = new ByteArrayOutputStream()) {
@@ -943,79 +937,19 @@ public class Principal extends AppCompatActivity implements View
         Opcion2.setEnabled(true);
         Opcion3.setEnabled(true);
         Opcion4.setEnabled(true);
-
-
         if (!json.getFallJson() && json.getmJSONArrayTodosLosPictos() != null) {
-
             JSONArray opciones = new JSONArray();
             try {
                  opciones = json.cargarOpciones(padre, cuentaMasPictos);
-
             } catch (JSONException e) {
                 Log.e(TAG, "CargarOpciones: " + e.toString());
-
             } catch (FiveMbException e) {
                 e.printStackTrace();
             }
-
-            try {
-                if (opciones.getJSONObject(0).getInt("id") != -1) {
-                    //            Opcion1.setVisibility(View.VISIBLE);
-                    opcion1 = opciones.getJSONObject(0);
-                    addOption(opcion1, Opcion1, alphaAnimation);
-                } else {
-                    opcion1 = null;
-                    addOpcionNull(Opcion1, alphaAnimation);
-                    //     this.cuentaMasPictos = -1;// linea encargada de indicar que el contador esta en 0
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-
-            try {
-                if (opciones.getJSONObject(1).getInt("id") != -1) {
-                    Opcion2.setVisibility(View.VISIBLE);
-                    opcion2 = opciones.getJSONObject(1);
-                    addOption(opcion2, Opcion2, alphaAnimation);
-
-                } else {
-                    opcion2 = null;
-                    addOpcionNull(Opcion2, alphaAnimation);
-
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-
-            }
-
-            try {
-                if (opciones.getJSONObject(2).getInt("id") != -1) {
-                    Opcion3.setVisibility(View.VISIBLE);
-                    opcion3 = opciones.getJSONObject(2);
-                    addOption(opcion3, Opcion3, alphaAnimation);
-                } else {
-                    opcion3 = null;
-                    addOpcionNull(Opcion3, alphaAnimation);
-
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-
-            }
-
-            try {
-                if (opciones.getJSONObject(3).getInt("id") != -1) {
-                    Opcion4.setVisibility(View.VISIBLE);
-                    opcion4 = opciones.getJSONObject(3);
-                    addOption(opcion4, Opcion4, alphaAnimation);
-                } else {
-                    opcion4 = null;
-                    addOpcionNull(Opcion4, alphaAnimation);
-
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+            loadChildOption(opciones,0,alphaAnimation);
+            loadChildOption(opciones,1,alphaAnimation);
+            loadChildOption(opciones,2,alphaAnimation);
+            loadChildOption(opciones,3,alphaAnimation);
         } else if (json.getCantFallas() < 4) {
             boolean falloPictos = false, falloGrupos = false, falloFrases = false;
             if (json.getmJSONArrayTodosLosPictos().length() == 0 || json.getmJSONArrayTodosLosPictos() == null) {
@@ -1056,13 +990,74 @@ public class Principal extends AppCompatActivity implements View
                 mBajarJsonFirebase.bajarFrasesFavoritas(ConfigurarIdioma.getLanguaje(), rootPath);
                 mBajarJsonFirebase.bajarDescripcionJuegos(ConfigurarIdioma.getLanguaje(), rootPath);
             }
-
             // json.resetearError();
             Log.e(TAG, "CargarOpciones: " + json.getFallJson());
-
             String uid = "";
         }
     }
+
+    public void loadChildOption(JSONArray opciones,int index,Animation alphaAnimation){
+        try {
+            if (opciones.getJSONObject(index).getInt("id") != -1) {
+                selectJsonOption(index,opciones.getJSONObject(index),alphaAnimation);
+            } else {
+                loadOptionValue(index,null);
+                addOpcionNull(returnOption(index), alphaAnimation);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void selectJsonOption(int position,JSONObject object,Animation alphaAnimation){
+        loadOptionValue(position,object);
+        switch (position){
+            case 0:
+                addOption(opcion1,returnOption(position),alphaAnimation);
+                break;
+            case 1:
+                addOption(opcion2,returnOption(position),alphaAnimation);
+                break;
+            case 2:
+                addOption(opcion3,returnOption(position),alphaAnimation);
+                break;
+            case 3:
+                addOption(opcion4,returnOption(position),alphaAnimation);
+                break;
+        }
+    }
+
+    private PictoView returnOption(int position){
+        switch (position){
+            case 0:
+                return Opcion1;
+            case 1:
+                return Opcion2;
+            case 2:
+                return Opcion3;
+            case 3:
+                return Opcion4;
+            default:
+                return Opcion1;
+        }
+    }
+    private void  loadOptionValue(int position,JSONObject value){
+        switch (position){
+            case 0:
+                opcion1 = value;
+                break;
+            case 1:
+                opcion2 = value;
+                break;
+            case 2:
+                opcion3 = value;
+                break;
+            case 3:
+                opcion4 = value;
+                break;
+        }
+    }
+
 
     private boolean isFallo(boolean pictos, boolean grupos, boolean frases) {
         if (pictos)
@@ -2430,7 +2425,6 @@ public class Principal extends AppCompatActivity implements View
     private void uploadFiles(){
         if (Build.VERSION.SDK_INT >= 21) {
             connectionDetector = new ConnectionDetector(getApplicationContext());
-            isConnected = connectionDetector.isConnectedToInternet();
         }
         if (subirArchivos != null) {
             subirArchivos.setInterfaz(this);

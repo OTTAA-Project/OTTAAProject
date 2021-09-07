@@ -1,6 +1,7 @@
 package com.stonefacesoft.ottaa;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -65,9 +66,8 @@ public class PictureCropper extends AppCompatActivity {
         if (id == R.id.btnTalk) {
             //Confirm crop and save
             Log.d(TAG, "onClick: saving file with uri: "+croppedImageUri.toString() + "Quality 400x400");
-            cropImageView.setImageBitmap(cropImageView.getCroppedImage());
-            cropImageView.setImageUriAsync(croppedImageUri);
-            cropImageView.getCroppedImage(300,300);
+            cropImageView.saveCroppedImageAsync(croppedImageUri,Bitmap.CompressFormat.PNG, 100,300,300, CropImageView.RequestSizeOptions.RESIZE_INSIDE);
+            cropImageView.getCroppedImage();
         } else if (id == R.id.left_button) {
             //Rotate the image to the left
             //cropImageView.rotateImage(-45);
