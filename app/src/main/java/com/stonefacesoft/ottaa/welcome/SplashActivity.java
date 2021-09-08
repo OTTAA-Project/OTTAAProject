@@ -29,7 +29,6 @@ import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.idioma.ConfigurarIdioma;
 import com.stonefacesoft.ottaa.utils.AvatarPackage.SelectedAvatar;
 import com.stonefacesoft.ottaa.utils.Constants;
-import com.stonefacesoft.ottaa.utils.CustomToast;
 import com.stonefacesoft.ottaa.utils.exceptions.FiveMbException;
 
 import org.json.JSONArray;
@@ -45,7 +44,7 @@ import java.util.Locale;
 public class SplashActivity extends Activity {
 
     //Declaro el manejador de preferencia
-    private SharedPreferences sharedPrefsDefault,sharedPrefs;
+    private SharedPreferences sharedPrefsDefault;
     private static final String TAG = "SplashActivity";
     private ProgressBar mProgressBar;
     private TextView txtCargando;
@@ -72,8 +71,6 @@ public class SplashActivity extends Activity {
     private void accessDashboard() {
         if (sharedPrefsDefault.getBoolean("usuario logueado", false)) {
             //metodo para borrar los pictos viejos si ya estan borrados abviar este paso y entrar a main
-            sharedPrefs = getSharedPreferences(sharedPrefsDefault.getString(getString(R.string.str_userMail), "error"), Context.MODE_PRIVATE);
-
             new borrarPictos().execute();
         } else {
             // Llamamos a la Actividad principal de la aplicacion
@@ -119,8 +116,7 @@ public class SplashActivity extends Activity {
             //recorrer el listado de pictos y borrar los que se tienen q eliminar
             Log.d(TAG, "borrarPictosViejos:  tamanio antes" + pictosUsuario.length());
             Log.d(TAG, "borrarPictosViejos:  tamanio picto" + pictos.size());
-            pictosUsuario=borrarPictos(pictosUsuario,pictos);
-
+            borrarPictos(pictosUsuario,pictos);
             Log.d(TAG, "borrarPictosViejos:  tamanio despues " + pictosUsuario.length());
             //recorer el listado de nuevo y preguntar si las relaciones contienen algun elemento de los que se deben borrar, si contiene entrar y borrar sino seguir con el siguiente
             for (int i = 0; i < pictosUsuario.length(); i++) {
@@ -199,16 +195,13 @@ public class SplashActivity extends Activity {
             Json.getInstance().guardarJson(Constants.ARCHIVO_PICTOS_DATABASE);
             FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
-            mAuth.addAuthStateListener(new FirebaseAuth.AuthStateListener() {
-                @Override
-                public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                    if (firebaseAuth.getCurrentUser() != null) {
-                        SubirArchivosFirebase subirArchivosFirebase = new SubirArchivosFirebase(SplashActivity.this);
-                        subirArchivosFirebase.subirPictosFirebase(subirArchivosFirebase.getmDatabase(mAuth, Constants.PICTOS), subirArchivosFirebase.getmStorageRef(mAuth, Constants.PICTOS));
-                        subirArchivosFirebase.subirGruposFirebase(subirArchivosFirebase.getmDatabase(mAuth, Constants.Grupos), subirArchivosFirebase.getmStorageRef(mAuth, Constants.Grupos));
-                        sharedPrefsDefault.edit().putBoolean("pictosEliminados", true).apply();
+            mAuth.addAuthStateListener(firebaseAuth -> {
+                if (firebaseAuth.getCurrentUser() != null) {
+                    SubirArchivosFirebase subirArchivosFirebase = new SubirArchivosFirebase(SplashActivity.this);
+                    subirArchivosFirebase.subirPictosFirebase(subirArchivosFirebase.getmDatabase(mAuth, Constants.PICTOS), subirArchivosFirebase.getmStorageRef(mAuth, Constants.PICTOS));
+                    subirArchivosFirebase.subirGruposFirebase(subirArchivosFirebase.getmDatabase(mAuth, Constants.Grupos), subirArchivosFirebase.getmStorageRef(mAuth, Constants.Grupos));
+                    sharedPrefsDefault.edit().putBoolean("pictosEliminados", true).apply();
 
-                    }
                 }
             });
 
@@ -291,17 +284,14 @@ public class SplashActivity extends Activity {
     private void cargarDatos() {
         if (mAuth.getCurrentUser() != null) {
             Handler handler = new Handler();
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    Json.getInstance().setmContext(SplashActivity.this);
-                    int hashcode = Json.getInstance().hashCode();
-                    Log.d(TAG, "hashJson: " + hashcode);
-                     changeName.cambiarPosicion();
-                     String name = sharedPrefsDefault.getString("userAvatar","ic_avatar35");
-                    SelectedAvatar.getInstance().setName(name);
-                    new preLoadSplashScreen().execute();
-            }
+            handler.postDelayed(() -> {
+                Json.getInstance().setmContext(SplashActivity.this);
+                int hashcode = Json.getInstance().hashCode();
+                Log.d(TAG, "hashJson: " + hashcode);
+                 changeName.cambiarPosicion();
+                 String name = sharedPrefsDefault.getString("userAvatar","ic_avatar35");
+                SelectedAvatar.getInstance().setName(name);
+                new preLoadSplashScreen().execute();
         }, 2500);
        }else{
            Intent mainIntent = new Intent().setClass(SplashActivity.this, LoginActivity2.class);
@@ -318,12 +308,12 @@ public class SplashActivity extends Activity {
         protected Void doInBackground(Void... voids) {
             sharedPrefsDefault = PreferenceManager.getDefaultSharedPreferences(mContext);
             if (sharedPrefsDefault.getString(getApplicationContext().getResources().getString(R.string.str_idioma), "en").contains("mainTable")) {
-                sharedPrefsDefault.edit().putString(getString(R.string.str_idioma), Locale.getDefault().getLanguage()).commit();
+                sharedPrefsDefault.edit().putString(getString(R.string.str_idioma), Locale.getDefault().getLanguage()).apply();
                 ConfigurarIdioma.setLanguage(sharedPrefsDefault.getString(getString(R.string.str_idioma),"en"));
 
             }
             if (!sharedPrefsDefault.contains("idioma")) {
-                sharedPrefsDefault.edit().putString(getString(R.string.str_idioma), Locale.getDefault().getLanguage()).commit();
+                sharedPrefsDefault.edit().putString(getString(R.string.str_idioma), Locale.getDefault().getLanguage()).apply();
                 ConfigurarIdioma.setLanguage(sharedPrefsDefault.getString(getString(R.string.str_idioma),"en"));
 
             }
@@ -336,7 +326,6 @@ public class SplashActivity extends Activity {
 
             // esperamos un tiempo para poder lanzar el loading screen
             changeName.cambiarPosicion();
-            String idioma = sharedPrefsDefault.getString(getString(R.string.str_idioma), "en");
             mAuth=FirebaseAuth.getInstance();
             changeName.cambiarPosicion();
 
@@ -372,11 +361,7 @@ public class SplashActivity extends Activity {
         }
         @Override
         public void handleMessage(@NonNull Message msg) {
-            switch (msg.what){
-                default:
-                    hacerAccion(position);
-                    break;
-            }
+                hacerAccion(position);
         }
 
         public android.os.Handler getHandler()

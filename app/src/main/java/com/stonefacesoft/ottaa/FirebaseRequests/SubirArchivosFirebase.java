@@ -31,7 +31,6 @@ import com.stonefacesoft.ottaa.FirebaseRequests.Files.UploadingFavoritePhrases;
 import com.stonefacesoft.ottaa.Interfaces.FirebaseSuccessListener;
 import com.stonefacesoft.ottaa.Principal;
 import com.stonefacesoft.ottaa.R;
-import com.stonefacesoft.ottaa.prefs;
 import com.stonefacesoft.ottaa.utils.Constants;
 
 import org.apache.http.HttpResponse;
@@ -276,9 +275,6 @@ public class SubirArchivosFirebase {
                         Principal.cerrarSession = true;
                         Log.d("SAF_GTG_TAG", "Se guardo correctamente");
                         mFbSuccessListenerInterfaz.onArchivosSubidos(Principal.cerrarSession);// use the to notify when the file has been upload
-                        prefs.setMcerrarSesion(true);//when the file is finished notify to pref to close session from the user
-
-
                     }
                 });
             }

@@ -16,7 +16,6 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.location.Location;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.PersistableBundle;
@@ -32,7 +31,6 @@ import android.view.MotionEvent;
 import android.view.VelocityTracker;
 import android.view.View;
 import android.view.Window;
-import android.view.WindowInsets;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -162,7 +160,6 @@ public class Principal extends AppCompatActivity implements View
     private final boolean primerTTS = true;
     //Handler para animar el boton de myTTS cuando no habla por cierto tiempo
     private final Handler handlerHablar = new Handler();
-    private final boolean isChristmas = false;
     private final int ultima_Posicion_Barrido = 0;
     public Uri bajarGrupos;
     public Json json;
@@ -191,8 +188,6 @@ public class Principal extends AppCompatActivity implements View
     private ImageButton Seleccion8;
     private ImageButton Seleccion9;
     private ImageButton Seleccion10;
-    private ImageButton button;
-    private ImageButton ResetButton;
     private PictoView Opcion1;
     private PictoView Opcion2;
     private PictoView Opcion3;
@@ -201,17 +196,13 @@ public class Principal extends AppCompatActivity implements View
     private timer_pictogram_clicker Opcion2_clicker;
     private timer_pictogram_clicker Opcion3_clicker;
     private timer_pictogram_clicker Opcion4_clicker;
-    private ImageButton MasPictos;
-    private ImageButton TodosLosPictos;
 
     //Declaracion de variables del TTS
     private User user;
     private boolean isSettings;
     private boolean mCerrarSesion;
     private LinearLayout layout;
-    private int count = 0;
     private Button btnBarrido;
-    private boolean barridoSwitch;
     private MenuItem locationItem;
     private ScrollFunctionMainActivity function_scroll;
     private FloatingActionButton talk;
@@ -483,7 +474,7 @@ public class Principal extends AppCompatActivity implements View
         params.width = view_instance.getLayoutParams().height;
         Log.d(TAG, "AjustarAncho: " + "Ancho " + params.width + " Alto " + params.height);
         view_instance.setLayoutParams(params);
-        button = new ImageButton(getApplicationContext());
+        ImageButton button = new ImageButton(getApplicationContext());
         button.setLayoutParams(params);
     }
 
@@ -579,8 +570,8 @@ public class Principal extends AppCompatActivity implements View
 
     }
 
-    private void setPrimerBackupTimeFirebase() {
-/*
+/*    private void setPrimerBackupTimeFirebase() {
+
         mDatabaseBackup.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -599,9 +590,9 @@ public class Principal extends AppCompatActivity implements View
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
-        });*/
+        });
 
-    }
+    }*/
 
     private String getTimeStamp() {
         Long tslong = System.currentTimeMillis() / 1000;
@@ -946,10 +937,9 @@ public class Principal extends AppCompatActivity implements View
             } catch (FiveMbException e) {
                 e.printStackTrace();
             }
-            loadChildOption(opciones,0,alphaAnimation);
-            loadChildOption(opciones,1,alphaAnimation);
-            loadChildOption(opciones,2,alphaAnimation);
-            loadChildOption(opciones,3,alphaAnimation);
+            for (int i = 0; i <4 ; i++) {
+                loadChildOption(opciones,i,alphaAnimation);
+            }
         } else if (json.getCantFallas() < 4) {
             boolean falloPictos = false, falloGrupos = false, falloFrases = false;
             if (json.getmJSONArrayTodosLosPictos().length() == 0 || json.getmJSONArrayTodosLosPictos() == null) {
@@ -1162,10 +1152,6 @@ public class Principal extends AppCompatActivity implements View
         cuentaMasPictos++;
         if (cuentaMasPictos > Constants.VUELTAS_CARRETE) {
             cuentaMasPictos = 0;
-            /*placeTypeActual++;
-            if (placeTypeActual > uv2.getmCantTypes(placeActual))
-                placeTypeActual = 0;
-            json.setmPlaceType(placeTypeActual);*/
         }
         CargarOpciones(json, pictoPadre, cuentaMasPictos);
     }
@@ -1231,11 +1217,10 @@ public class Principal extends AppCompatActivity implements View
 
     private String EjecutarNLG(boolean flag) {
         Log.d(TAG, "EjecutarNLG: flag:" + flag);
-        if (flag) {
+        if(flag) {
             Oracion = historial.talkWithtNLG();
-            return Oracion;
-        } else
-            return Oracion;
+        }
+        return Oracion;
     }
 
     public void speak() {
@@ -1243,9 +1228,6 @@ public class Principal extends AppCompatActivity implements View
         if (!myTTS.getTTS().isSpeaking()) {
             Log.d(TAG, "speak: Oracion:" + Oracion);
             handlerHablar.removeCallbacks(animarHablar);
-//            CrashlyticsUtils.getInstance().getCrashlytics().log();
-//            Answers.getInstance().logCustom(new CustomEvent("Frase Creada")
-//                    .putCustomAttribute("Locale", sharedPrefsDefault.getString(getString(R.string.str_idioma), "en")));
             if (mute) {
                 myTTS.hablar(Oracion, analitycsFirebase);
                 try {
@@ -1285,19 +1267,18 @@ public class Principal extends AppCompatActivity implements View
         if (editarPicto) {
             Intent intent = new Intent(Principal.this, Edit_Picto_Visual.class);
             premium = sharedPrefsDefault.getInt("premium", 0) == 1;
-            PopupMenu popupMenu = null;
             switch (v.getId()) {
                 case R.id.Option1:
-                    longClick(popupMenu,Opcion1,opcion1);
+                    longClick(Opcion1,opcion1);
                     break;
                 case R.id.Option2:
-                    longClick(popupMenu,Opcion2,opcion2);
+                    longClick(Opcion2,opcion2);
                     break;
                 case R.id.Option3:
-                    longClick(popupMenu,Opcion3,opcion3);
+                    longClick(Opcion3,opcion3);
                     break;
                 case R.id.Option4:
-                    longClick(popupMenu,Opcion4,opcion4);
+                    longClick(Opcion4,opcion4);
                     break;
                 default:
                     onClick(v);
@@ -1308,6 +1289,7 @@ public class Principal extends AppCompatActivity implements View
         }
         return true;
     }
+
 
     public Context getContext() {
         return this;
@@ -1637,12 +1619,17 @@ public class Principal extends AppCompatActivity implements View
     @Override
     public void onTrimMemory(int level) {
         switch (level) {
-            case Principal.TRIM_MEMORY_BACKGROUND:
+            case Principal.TRIM_MEMORY_UI_HIDDEN:
                 break;
-            case Principal.TRIM_MEMORY_MODERATE:
-                break;
+            case Principal.TRIM_MEMORY_RUNNING_MODERATE:
+            case Principal.TRIM_MEMORY_RUNNING_LOW:
             case Principal.TRIM_MEMORY_RUNNING_CRITICAL:
                 break;
+            case Principal.TRIM_MEMORY_BACKGROUND:
+            case Principal.TRIM_MEMORY_MODERATE:
+            case Principal.TRIM_MEMORY_COMPLETE:
+                break;
+            default:
         }
     }
 
@@ -1751,7 +1738,7 @@ public class Principal extends AppCompatActivity implements View
         picto.setUpGlideAttatcher(this);
         picto.setUpContext(this);
         picto.setPictogramsLibraryPictogram(pictogram);
-        // picto.setScaleType(ImageView.ScaleType.FIT_CENTER);
+        picto.setVisibility(View.VISIBLE);
         formatoTransparencia(picto, opcion);
         picto.startAnimation(animation);
     }
@@ -2109,13 +2096,9 @@ public class Principal extends AppCompatActivity implements View
             });
             return false;
         } else if (barridoPantalla.isBarridoActivado() && btnBarrido.getVisibility() == View.GONE) {
-            runOnUiThread(new Runnable() {
-
-                @Override
-                public void run() {
-                    // Stuff that updates the UI
-                    btnBarrido.setVisibility(View.VISIBLE);
-                }
+            runOnUiThread(() -> {
+                // Stuff that updates the UI
+                btnBarrido.setVisibility(View.VISIBLE);
             });
             return true;
         }
@@ -2184,8 +2167,6 @@ public class Principal extends AppCompatActivity implements View
         TutoFlag = sharedPrefs.getBoolean("PrimerUso", true);
         mute = sharedPrefsDefault.getBoolean("mBoolMute", true);
         editarPicto = sharedPrefsDefault.getBoolean(getString(R.string.str_editar_picto), true);
-        barridoSwitch = sharedPrefsDefault.getBoolean("tipo_barrido", false);
-
     }
 
     private void initPlaceImplementationClass(){
@@ -2263,14 +2244,9 @@ public class Principal extends AppCompatActivity implements View
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.bringToFront();
-        navigationView.setOnApplyWindowInsetsListener(new View.OnApplyWindowInsetsListener() {
-            @Override
-            public WindowInsets onApplyWindowInsets(View view, WindowInsets windowInsets) {
-                return windowInsets;
-            }
-        });
+        navigationView.setOnApplyWindowInsetsListener((view, windowInsets) -> windowInsets);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         constraintBotonera = findViewById(R.id.constraintRightButtons);
         inmersiveMode = new InmersiveMode(this);
         gesture = new Gesture(drawerLayout);
@@ -2315,17 +2291,17 @@ public class Principal extends AppCompatActivity implements View
         ImageButton borrar = findViewById(R.id.btn_borrar);
         ImageButton botonFavoritos = findViewById(R.id.btnFavoritos);
         botonFavoritos.setOnClickListener(this);
-        MasPictos = findViewById(R.id.btnMasPictos);
-        TodosLosPictos = findViewById(R.id.btnTodosLosPictos);
-        ResetButton = findViewById(R.id.action_reiniciar);
+        ImageButton masPictos = findViewById(R.id.btnMasPictos);
+        ImageButton todosLosPictos = findViewById(R.id.btnTodosLosPictos);
+        ImageButton resetButton = findViewById(R.id.action_reiniciar);
         btn_share = findViewById(R.id.action_share);
         btnBarrido = findViewById(R.id.btnBarrido);
         btnBarrido.setVisibility(View.GONE);
         talk = findViewById(R.id.btnTalk);
         setClickLongListener(borrar);
-        setClickLongListener(MasPictos);
-        setClickLongListener(TodosLosPictos);
-        setClickLongListener(ResetButton);
+        setClickLongListener(masPictos);
+        setClickLongListener(todosLosPictos);
+        setClickLongListener(resetButton);
         setClickLongListener(btn_share);
         setClickOnTouchListener(btnBarrido);
         animationView = findViewById(R.id.lottieAnimationView);
@@ -2390,8 +2366,6 @@ public class Principal extends AppCompatActivity implements View
             CrashlyticsUtils.getInstance().getCrashlytics().recordException(e);
             Alert();
         }
-        //long[] patron = {0, 10, 20, 15, 20, 20};
-        //vibe.vibrate(patron, -1);
     }
 
     private void showMenu(){
@@ -2401,15 +2375,10 @@ public class Principal extends AppCompatActivity implements View
                 int value = sharedPrefsDefault.getInt("showMenu", 4);
                 value--;
                 sharedPrefsDefault.edit().putInt("showMenu", value).apply();
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        drawerLayout.close();
-                    }
-                }, 5000);
+                new Handler().postDelayed(() -> drawerLayout.close(), 5000);
             }
         } catch (Exception ex) {
-
+            Log.e(TAG, "showMenu: "+ex.getMessage());
         }
     }
 
@@ -2423,9 +2392,7 @@ public class Principal extends AppCompatActivity implements View
     }
 
     private void uploadFiles(){
-        if (Build.VERSION.SDK_INT >= 21) {
-            connectionDetector = new ConnectionDetector(getApplicationContext());
-        }
+        connectionDetector = new ConnectionDetector(getApplicationContext());
         if (subirArchivos != null) {
             subirArchivos.setInterfaz(this);
         }
@@ -2434,7 +2401,7 @@ public class Principal extends AppCompatActivity implements View
         }
     }
 
-    private void longClick(PopupMenu popupMenu,PictoView pictoView,JSONObject json){
+    private void longClick(PictoView pictoView,JSONObject json){
         onLongOpcion = json;
         if (pictoView.getAlpha() != (0.65) || sharedPrefsDefault.getBoolean("esmoderador", false)) {
             loadMenu(pictoView);

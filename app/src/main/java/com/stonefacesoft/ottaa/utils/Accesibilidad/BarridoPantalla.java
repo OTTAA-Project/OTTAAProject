@@ -1,7 +1,6 @@
 package com.stonefacesoft.ottaa.utils.Accesibilidad;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Rect;
@@ -10,8 +9,6 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.stonefacesoft.ottaa.R;
@@ -45,14 +42,8 @@ public class BarridoPantalla {
 
     private ArrayList<View> mListadoVistas;
    // private int posicion=0;
-    private boolean cambioPosicion;
     private Activity mActivity;
-    private boolean mEstaActivado;
-    private boolean avanzarYAceptar;
-    private boolean scrollMode;
-    private boolean scrollModeClicker;
-    private boolean isBarridoPantalla;
-    private boolean isSipAndPuff;
+
 
     private SharedPreferences mDefaultSharedPreferences;
 
