@@ -343,7 +343,4 @@ public class BarridoPantalla {
     }
 
 
-
-
-
 }

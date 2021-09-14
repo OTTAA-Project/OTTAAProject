@@ -773,17 +773,12 @@ public class Edit_Picto_Visual extends AppCompatActivity implements View.OnClick
 
                 break;
             case R.id.btnFrame:
-
                 if (cardViewFrame.getVisibility() == View.INVISIBLE) {
                     cardViewFrame.setVisibility(View.VISIBLE);
                     cardViewTAGs.setVisibility(View.INVISIBLE);
                     cardViewTexto.setVisibility(View.INVISIBLE);
                     analyticsFirebase.customEvents("Touch","Editar Pictos","Select Pictograms Category");
-
-
                 }
-
-
                 break;
             case R.id.btnTAG:
 
@@ -797,7 +792,6 @@ public class Edit_Picto_Visual extends AppCompatActivity implements View.OnClick
 
             case R.id.TextViewTextOutLoud:
                 analyticsFirebase.customEvents("Touch","Edit Pictogram","Say Pictogram Name");
-
                 break;
 
             case R.id.btnTagHora:
@@ -805,26 +799,20 @@ public class Edit_Picto_Visual extends AppCompatActivity implements View.OnClick
                     new NewDialogsOTTAA(this).showDialogTags(Constants.HORA, jsonObject, esGrupo);
                     analyticsFirebase.customEvents("Pictogram","Edit Pictogram","Hour Tag");
                 }
-
                 break;
 
             case R.id.btnTagUbicacion:
-                if (sharedPrefsDefault.getInt(Constants.PREMIUM, 1) == 1) {
+                if(chequearDatosBeforeTags()) {
                     new NewDialogsOTTAA(this).showDialogTags(Constants.UBICACION, jsonObject, esGrupo);
-                    analyticsFirebase.customEvents("Pictogram","Edit Pictogram","Location Tag");
-
-                } else {
-                    Intent i = new Intent(this, LicenciaExpirada.class);
-                    startActivity(i);
+                    analyticsFirebase.customEvents("Pictogram", "Edit Pictogram", "Location Tag");
                 }
-
-
-
                 break;
 
             case R.id.btnTagCalendario:
-                new NewDialogsOTTAA(this).showDialogTags(Constants.SEXO, jsonObject, esGrupo);
-                analyticsFirebase.customEvents("Pictogram","Edit Pictogram","Gender Tag");
+                if(chequearDatosBeforeTags()) {
+                    new NewDialogsOTTAA(this).showDialogTags(Constants.SEXO, jsonObject, esGrupo);
+                    analyticsFirebase.customEvents("Pictogram", "Edit Pictogram", "Gender Tag");
+                }
                 break;
 
             case R.id.btnTagEdad:
@@ -832,8 +820,6 @@ public class Edit_Picto_Visual extends AppCompatActivity implements View.OnClick
                     new NewDialogsOTTAA(this).showDialogTags(Constants.EDAD, jsonObject, esGrupo);
                     analyticsFirebase.customEvents("Pictogram","Edit Pictogram","Age Tag");
                 }
-
-
                 break;
         }
     }

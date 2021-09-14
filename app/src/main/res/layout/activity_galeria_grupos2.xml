@@ -91,6 +91,7 @@
         app:layout_constraintEnd_toStartOf="@id/constraintRightButtons"
         app:layout_constraintStart_toEndOf="@id/constraintLeftButtons"
         app:layout_constraintBottom_toTopOf="@id/containerBottomMasPictos"
+        android:layout_marginTop="10dp"
         android:layout_marginBottom="25dp"
         app:layout_constraintVertical_weight="5" />
 

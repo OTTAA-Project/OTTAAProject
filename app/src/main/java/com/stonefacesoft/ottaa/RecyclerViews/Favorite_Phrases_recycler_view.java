@@ -9,8 +9,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.stonefacesoft.ottaa.Adapters.CustomFavoritePhrasesAdapter;
 import com.stonefacesoft.ottaa.utils.Phrases.CustomFavoritePhrases;
 
-import org.json.JSONException;
-
 public class Favorite_Phrases_recycler_view extends Custom_recyclerView {
     private CustomFavoritePhrasesAdapter adapter;
     private CustomFavoritePhrases customFavoritePhrases;
@@ -74,7 +72,7 @@ public class Favorite_Phrases_recycler_view extends Custom_recyclerView {
         try {
             if(createReturnPositionItem())
                 adapter.getMyTTs().hablar(adapter.getPhrases().getPhrases().getJSONObject(getPositionItem.getPosition()).getString("frase"));
-        } catch (JSONException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

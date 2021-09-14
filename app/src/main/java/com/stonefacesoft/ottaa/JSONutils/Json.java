@@ -762,6 +762,8 @@ public class Json implements FindPictogram {
         return fallaJson;
     }
 
+
+
     private String readFromFile(String fileName) {
         File archivo = new File(mContext.getFilesDir(), fileName);
         if (archivo.length() > Constants.CINCO_MEGAS) {
@@ -1122,7 +1124,7 @@ public class Json implements FindPictogram {
 
     public void resetearError() {
         fallaJson = false;
-        sumarFallas();
+        cantFallas = 0;
     }
 
     public void sumarFallas() {

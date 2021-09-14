@@ -1,6 +1,7 @@
 package com.stonefacesoft.ottaa.RecyclerViews;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
@@ -19,6 +20,7 @@ import com.stonefacesoft.ottaa.FirebaseRequests.SubirArchivosFirebase;
 import com.stonefacesoft.ottaa.Helper.SimpleItemTouchHelperCallback;
 import com.stonefacesoft.ottaa.Interfaces.interface_search;
 import com.stonefacesoft.ottaa.JSONutils.Json;
+import com.stonefacesoft.ottaa.LicenciaExpirada;
 import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.utils.Constants;
 import com.stonefacesoft.ottaa.utils.Firebase.AnalyticsFirebase;
@@ -308,6 +310,20 @@ public abstract class Custom_recyclerView implements SearchView.OnQueryTextListe
     public void talkAtPosition(){
 
     }
+    public boolean validatePosition(int value){
+        return value != -1;
+    }
 
+
+    protected Intent startExpiredLicense(){
+        return new Intent(mActivity, LicenciaExpirada.class);
+    }
+
+    protected Intent startEditAction(){
+        return null;
+    }
+    protected Intent startEditAction(int position){
+        return null;
+    }
 
 }

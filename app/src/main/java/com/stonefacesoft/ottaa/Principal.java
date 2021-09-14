@@ -38,7 +38,6 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.PopupMenu;
 import android.widget.PopupMenu.OnMenuItemClickListener;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -101,6 +100,7 @@ import com.stonefacesoft.ottaa.utils.AvatarPackage.Avatar;
 import com.stonefacesoft.ottaa.utils.AvatarPackage.AvatarUtils;
 import com.stonefacesoft.ottaa.utils.ConnectionDetector;
 import com.stonefacesoft.ottaa.utils.Constants;
+import com.stonefacesoft.ottaa.utils.ConstantsAnalyticsValues;
 import com.stonefacesoft.ottaa.utils.ConstantsMainActivity;
 import com.stonefacesoft.ottaa.utils.CustomToast;
 import com.stonefacesoft.ottaa.utils.Firebase.AnalyticsFirebase;
@@ -111,6 +111,7 @@ import com.stonefacesoft.ottaa.utils.JSONutils;
 import com.stonefacesoft.ottaa.utils.LicenciaUsuario;
 import com.stonefacesoft.ottaa.utils.MovableFloatingActionButton;
 import com.stonefacesoft.ottaa.utils.ObservableInteger;
+import com.stonefacesoft.ottaa.utils.PopupMenuUtils;
 import com.stonefacesoft.ottaa.utils.RemoteConfigUtils;
 import com.stonefacesoft.ottaa.utils.TalkActions.Historial;
 import com.stonefacesoft.ottaa.utils.TraducirFrase;
@@ -133,8 +134,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -157,8 +156,6 @@ public class Principal extends AppCompatActivity implements View
     //Declaro el fecha y hora del sistema
     //Obtengo la hora del dia y le doy formatofirebase an error ocurred
     // booleano para hacer refreshTTS solo para el 2do TTS
-    private final boolean primerTTS = true;
-    //Handler para animar el boton de myTTS cuando no habla por cierto tiempo
     private final Handler handlerHablar = new Handler();
     private final int ultima_Posicion_Barrido = 0;
     public Uri bajarGrupos;
@@ -211,7 +208,6 @@ public class Principal extends AppCompatActivity implements View
     /* Client used to interact with Google APIs. */
     //Declaro el manejador de preferencia
     private SharedPreferences sharedPrefs, sharedPrefsDefault;
-    private boolean premium;
     private boolean PrimerUso;
     // Declaracion de Arraylist en el que se guardan los Picto viejos
     //protected ArrayList<JSONObject> Historial;
@@ -484,7 +480,7 @@ public class Principal extends AppCompatActivity implements View
         switch (item.getItemId()) {
             case R.id.item_edit:
                 analitycsFirebase.customEvents("Touch", "Principal", "Edit Pictogram");
-                if (sharedPrefsDefault.getInt("premium", 0) == 1) {
+                if (user.isPremium()) {
                     if (onLongOpcion == null) {
                         return true;
                     }
@@ -916,73 +912,17 @@ public class Principal extends AppCompatActivity implements View
 
     @SuppressLint("Range")
     private void CargarOpciones(Json json, JSONObject padre, int cuentaMasPictos) {
-
-
         Animation alphaAnimation = AnimationUtils.loadAnimation(getApplicationContext(),
                 R.anim.alpha_show);
-
-        //ESta linea se encarga de bajar los archivos en cache
-        File rootPath = new File(this.getCacheDir(), "Archivos_OTTAA");
-        final File pictosUsuarioFile = new File(rootPath, "pictos.txt");
         Opcion1.setEnabled(true);
         Opcion2.setEnabled(true);
         Opcion3.setEnabled(true);
         Opcion4.setEnabled(true);
-        if (!json.getFallJson() && json.getmJSONArrayTodosLosPictos() != null) {
-            JSONArray opciones = new JSONArray();
-            try {
-                 opciones = json.cargarOpciones(padre, cuentaMasPictos);
-            } catch (JSONException e) {
-                Log.e(TAG, "CargarOpciones: " + e.toString());
-            } catch (FiveMbException e) {
-                e.printStackTrace();
-            }
-            for (int i = 0; i <4 ; i++) {
-                loadChildOption(opciones,i,alphaAnimation);
-            }
-        } else if (json.getCantFallas() < 4) {
-            boolean falloPictos = false, falloGrupos = false, falloFrases = false;
-            if (json.getmJSONArrayTodosLosPictos().length() == 0 || json.getmJSONArrayTodosLosPictos() == null) {
-                //  json.initJsonArrays();
-                falloPictos = true;
-                Log.e(TAG, "CargarOpciones: " + "fallo Leer Json 1");
-                //     CargarJson();
-            } else if (json.getmJSONArrayTodosLosGrupos().length() == 0 || json.getmJSONArrayTodosLosGrupos() == null) {
-                falloGrupos = true;
-                Log.e(TAG, "CargarOpciones: " + "fallo Leer grupos 2");
-            } else if (json.getmJSONArrayTodasLasFrases().length() == 0 || json.getmJSONArrayTodasLasFrases() == null) {
-                falloFrases = true;
-                Log.e(TAG, "CargarOpciones: " + "fallo Leer frases 3");
-            }
-            if (isFallo(falloPictos, falloGrupos, falloFrases)) {
-                Log.e("CargarOpciones_error", "Pictos o grupos no bajados correctamente");
-
-                ObservableInteger observableInteger = new ObservableInteger();
-                observableInteger.setOnIntegerChangeListener(new ObservableInteger.OnIntegerChangeListener() {
-                    @Override
-                    public void onIntegerChanged(int newValue) {
-                        if (observableInteger.get() == 3) {
-                            firebaseDialog.destruirDialogo();
-                            json.resetearError();
-                            CargarJson();
-
-                        }
-                    }
-                });
-
-                firebaseDialog.setTitle(getApplicationContext().getResources().getString(R.string.edit_sync));
-                firebaseDialog.setMessage(getApplicationContext().getResources().getString(R.string.edit_sync_pict));
-                firebaseDialog.mostrarDialogo();
-                mBajarJsonFirebase.bajarPictos(ConfigurarIdioma.getLanguaje(), rootPath, observableInteger);
-                mBajarJsonFirebase.bajarGrupos(ConfigurarIdioma.getLanguaje(), rootPath, observableInteger);
-                mBajarJsonFirebase.bajarFrases(ConfigurarIdioma.getLanguaje(), rootPath, observableInteger);
-                mBajarJsonFirebase.bajarJuego(ConfigurarIdioma.getLanguaje(), rootPath);
-                mBajarJsonFirebase.bajarFrasesFavoritas(ConfigurarIdioma.getLanguaje(), rootPath);
-                mBajarJsonFirebase.bajarDescripcionJuegos(ConfigurarIdioma.getLanguaje(), rootPath);
-            }
-            // json.resetearError();
-            Log.e(TAG, "CargarOpciones: " + json.getFallJson());
-            String uid = "";
+        if (json.getCantFallas() == 0 && json.getmJSONArrayTodosLosPictos() != null) {
+            loadChilds(padre,alphaAnimation);
+        }
+        if (json.getCantFallas() < 4&& json.getCantFallas() > 0) {
+            downloadFailedFile(3);
         }
     }
 
@@ -1086,7 +1026,7 @@ public class Principal extends AppCompatActivity implements View
         CargarOpciones(json, pictoPadre, cuentaMasPictos);
     }
 
-    private void ResetSeleccion() {
+    public void ResetSeleccion() {
         Log.d(TAG, "ResetSeleccion: ");
         nlgFlag = true;
         Oracion = "";
@@ -1265,8 +1205,6 @@ public class Principal extends AppCompatActivity implements View
             Reset();
         }
         if (editarPicto) {
-            Intent intent = new Intent(Principal.this, Edit_Picto_Visual.class);
-            premium = sharedPrefsDefault.getInt("premium", 0) == 1;
             switch (v.getId()) {
                 case R.id.Option1:
                     longClick(Opcion1,opcion1);
@@ -1403,19 +1341,19 @@ public class Principal extends AppCompatActivity implements View
                 startFavoritePhrases();
                 break;
             case R.id.action_share:
-                analitycsFirebase.customEvents("Touch", "Principal", "Favorite Phrases");
+                analitycsFirebase.customEvents(ConstantsAnalyticsValues.TOUCH, "Principal", ConstantsAnalyticsValues.FAVORITEPHRASES);
                 shareAction();
                 break;
             case R.id.btn_borrar:
-                analyticsAction("Accessibility", "Erase", "Principal", "Delete one Pictogram");
+                analyticsAction(ConstantsAnalyticsValues.TOUCH, ConstantsAnalyticsValues.ERASE, "Principal", ConstantsAnalyticsValues.DELETEONEPICTOGRAM);
                 volver();
                 break;
             case R.id.btnTalk:
-                analyticsAction("Accessibility", "Touch", "Principal", "Talk");
+                analyticsAction(ConstantsAnalyticsValues.ACCESSIBILITY, ConstantsAnalyticsValues.TOUCH, "Principal", ConstantsAnalyticsValues.TALK);
                 hablarModoExperimental();
                 break;
             case R.id.btnMasPictos:
-                analyticsAction("Accessibility", "Touch", "Principal", "More Options");
+                analyticsAction(ConstantsAnalyticsValues.ACCESSIBILITY, ConstantsAnalyticsValues.TOUCH, "Principal", ConstantsAnalyticsValues.MOREOPTIONS);
                 cargarMasPictos();
                 break;
             case R.id.action_reiniciar:
@@ -1672,23 +1610,22 @@ public class Principal extends AppCompatActivity implements View
         Json.getInstance().setmContext(this);
         json = Json.getInstance();
         try {
-
             json.initJsonArrays();
             json.cargarPictosSugeridosJson();
-            if (json.getmJSONArrayTodosLosPictos() != null && json.getmJSONArrayTodosLosPictos().length() > 0) {
-                try {
-                    if (pictoPadre == null || pictoPadre.getInt("id") == 0)
-                        pictoPadre = json.getmJSONArrayTodosLosPictos().getJSONObject(0);
-                    cuentaMasPictos = 0;
-                    CargarOpciones(json, pictoPadre, cuentaMasPictos);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
         } catch (JSONException e) {
             e.printStackTrace();
         } catch (FiveMbException e) {
             e.printStackTrace();
+        }
+        if (json.getmJSONArrayTodosLosPictos() != null && json.getmJSONArrayTodosLosPictos().length() > 0) {
+            try {
+                if (pictoPadre == null || pictoPadre.getInt("id") == 0)
+                    pictoPadre = json.getmJSONArrayTodosLosPictos().getJSONObject(0);
+                cuentaMasPictos = 0;
+                CargarOpciones(json, pictoPadre, cuentaMasPictos);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
     }
 
@@ -2069,7 +2006,7 @@ public class Principal extends AppCompatActivity implements View
         }
     }
     private void  loadAvatar(){
-        avatarUtils = new AvatarUtils(this,menuAvatarIcon,user.getmAuth());
+        avatarUtils = new AvatarUtils(this,menuAvatarIcon);
         avatarUtils.getFirebaseAvatar();
         CustomToast.getInstance(this).updateToastIcon(this);
     }
@@ -2126,7 +2063,7 @@ public class Principal extends AppCompatActivity implements View
             sharedPrefs.edit().putBoolean("PrimerUso", false).apply();
         }
         navigationControls=new PrincipalControls(this);
-        movableFloatingActionButton.setIcon(user.getmAuth());
+        movableFloatingActionButton.setIcon();
         remoteConfigUtils = RemoteConfigUtils.getInstance();
         loadAvatar();
         showAvatar();
@@ -2404,32 +2341,55 @@ public class Principal extends AppCompatActivity implements View
     private void longClick(PictoView pictoView,JSONObject json){
         onLongOpcion = json;
         if (pictoView.getAlpha() != (0.65) || sharedPrefsDefault.getBoolean("esmoderador", false)) {
-            loadMenu(pictoView);
+            new PopupMenuUtils(this,pictoView,this);
         }
     }
 
-    private void loadMenu(PictoView option){
-        PopupMenu popupMenu = new PopupMenu(Principal.this, option);
-        popupMenu.setOnMenuItemClickListener(Principal.this);
+
+
+    public void loadChilds(JSONObject padre, Animation alphaAnimation){
+        JSONArray opciones = new JSONArray();
         try {
-            Field[] fields = popupMenu.getClass().getDeclaredFields();
-            for (Field field : fields) {
-                if ("mPopup".equals(field.getName())) {
-                    field.setAccessible(true);
-                    Object menuPopupHelper = field.get(popupMenu);
-                    Class<?> classPopupHelper = Class.forName(menuPopupHelper.getClass().getName());
-                    Method setForceIcons = classPopupHelper.getMethod("setForceShowIcon", boolean.class);
-                    setForceIcons.invoke(menuPopupHelper, true);
-                    break;
+            if(padre != null){
+                opciones = json.cargarOpciones(padre, cuentaMasPictos);
+                for (int i = 0; i <4 ; i++) {
+                    loadChildOption(opciones,i,alphaAnimation);
                 }
+            }else{
+               json.sumarFallas();
+               CargarOpciones(json,padre,0);
             }
-        } catch (Exception e) {
+        } catch (JSONException e) {
+            Log.e(TAG, "CargarOpciones: " + e.toString());
+        } catch (FiveMbException e) {
             e.printStackTrace();
         }
-        popupMenu.getMenuInflater().inflate(R.menu.popup_menu,popupMenu.getMenu());
-        if (sharedPrefsDefault.getInt("premium", 0) != 1) {
-            popupMenu.getMenu().getItem(0).setIcon(R.drawable.ic_padlock);
-        }
-        popupMenu.show();
+    }
+    public void downloadFailedFile(int size){
+        firebaseDialog.setTitle(getApplicationContext().getResources().getString(R.string.edit_sync));
+        firebaseDialog.setMessage(getApplicationContext().getResources().getString(R.string.edit_sync_pict));
+        firebaseDialog.mostrarDialogo();
+        File rootPath = new File(this.getCacheDir(), "Archivos_OTTAA");
+        ObservableInteger observableInteger = loadObservableInteger(size);
+                mBajarJsonFirebase.bajarPictos(ConfigurarIdioma.getLanguaje(), rootPath, observableInteger);
+                mBajarJsonFirebase.bajarGrupos(ConfigurarIdioma.getLanguaje(), rootPath, observableInteger);
+                mBajarJsonFirebase.bajarFrases(ConfigurarIdioma.getLanguaje(), rootPath, observableInteger);
+                mBajarJsonFirebase.bajarJuego(ConfigurarIdioma.getLanguaje(), rootPath);
+                mBajarJsonFirebase.bajarFrasesFavoritas(ConfigurarIdioma.getLanguaje(), rootPath);
+    }
+
+    public ObservableInteger loadObservableInteger(int size){
+        ObservableInteger observableInteger = new ObservableInteger();
+        observableInteger.setOnIntegerChangeListener(new ObservableInteger.OnIntegerChangeListener() {
+            @Override
+            public void onIntegerChanged(int newValue) {
+                if (observableInteger.get() == size) {
+                    firebaseDialog.destruirDialogo();
+                    json.resetearError();
+                    CargarJson();
+                }
+            }
+        });
+        return observableInteger;
     }
 }

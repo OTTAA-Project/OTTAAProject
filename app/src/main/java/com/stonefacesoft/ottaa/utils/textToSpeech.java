@@ -4,11 +4,11 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.net.Uri;
-import android.os.Build;
-import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.speech.tts.TextToSpeech;
 import android.util.Log;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.stonefacesoft.ottaa.utils.Firebase.AnalyticsFirebase;
 import com.stonefacesoft.ottaa.utils.Ttsutils.UtilsTTS;
@@ -33,6 +33,13 @@ public class textToSpeech {
     private final UtilsTTS prepare;
 
     public textToSpeech(Context context) {
+        this.context = context;
+        alerta = CustomToast.getInstance(context);
+        this.sharedPrefsDefault = PreferenceManager.getDefaultSharedPreferences(context);
+        prepare=new UtilsTTS(this.context,alerta,sharedPrefsDefault);
+
+    }
+    public textToSpeech(AppCompatActivity context) {
         this.context = context;
         alerta = CustomToast.getInstance(context);
         this.sharedPrefsDefault = PreferenceManager.getDefaultSharedPreferences(context);

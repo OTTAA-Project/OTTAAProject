@@ -8,7 +8,7 @@
         android:visible="true"
         android:icon="@android:drawable/ic_menu_edit"
         android:actionLayout="@layout/custom_menu_item"
-        app:tint="@color/NaranjaOTTAA"
+        android:iconTint="@color/NaranjaOTTAA"
         app:showAsAction="withText"
         />
 
@@ -18,7 +18,7 @@
         android:visible="true"
         android:actionLayout="@layout/custom_menu_item"
         android:icon="@android:drawable/ic_menu_delete"
-        app:tint="@color/NaranjaOTTAA"
+        android:iconTint="@color/NaranjaOTTAA"
         app:showAsAction="withText"/>
 
 </menu>
