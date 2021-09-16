@@ -55,9 +55,6 @@ public class textToSpeech {
         prepare.hablarConDialogo(oracion);
     }
 
-
-
-
     public void hablarSinMostrarFrase(String frase) {
         Log.e("texToSpeech_hablar", "Hablar");
         this.oracion = frase;
@@ -125,11 +122,6 @@ public class textToSpeech {
         alerta.mostrarFrase(mensaje);
         mTracker.customEvents("Talk","Principal","Created Phrase");
     }
-
-
-
-
-
 
 }
 

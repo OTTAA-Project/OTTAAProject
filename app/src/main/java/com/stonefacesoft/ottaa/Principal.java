@@ -167,8 +167,6 @@ public class Principal extends AppCompatActivity implements View
     String timeStamp;
     private Avatar avatar;
     private MovableFloatingActionButton movableFloatingActionButton;
-    private NLG nlg;
-    private boolean nlgFlag;
     private Button Registro;
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle toggle;
@@ -213,7 +211,7 @@ public class Principal extends AppCompatActivity implements View
     //protected ArrayList<JSONObject> Historial;
     private Historial historial;
     private boolean doubleBackToExitPressedOnce = false;
-    private boolean click = true;
+    private final boolean click = true;
 
     //Idioma de la base de Datos
     //String que carga el texto para el TTS
@@ -277,7 +275,6 @@ public class Principal extends AppCompatActivity implements View
     private boolean TutoFlag;
     private ImageView menuAvatarIcon;
     private AvatarUtils avatarUtils;
-
 
 
     public static byte[] getBytesFromInputStream(InputStream is) throws IOException {
@@ -736,8 +733,6 @@ public class Principal extends AppCompatActivity implements View
 
     /**
      * Implementa este metodo de TTS interface, cuando se inicializa el TTS lo setea por defecto
-     *
-     *
      */
 
     @Override
@@ -911,7 +906,7 @@ public class Principal extends AppCompatActivity implements View
     }
 
     @SuppressLint("Range")
-    private void CargarOpciones(Json json, JSONObject padre, int cuentaMasPictos) {
+    private void CargarOpciones(Json json, JSONObject padre) {
         Animation alphaAnimation = AnimationUtils.loadAnimation(getApplicationContext(),
                 R.anim.alpha_show);
         Opcion1.setEnabled(true);
@@ -919,19 +914,19 @@ public class Principal extends AppCompatActivity implements View
         Opcion3.setEnabled(true);
         Opcion4.setEnabled(true);
         if (json.getCantFallas() == 0 && json.getmJSONArrayTodosLosPictos() != null) {
-            loadChilds(padre,alphaAnimation);
+            loadChilds(padre, alphaAnimation);
         }
-        if (json.getCantFallas() < 4&& json.getCantFallas() > 0) {
+        if (json.getCantFallas() < 4 && json.getCantFallas() > 0) {
             downloadFailedFile(3);
         }
     }
 
-    public void loadChildOption(JSONArray opciones,int index,Animation alphaAnimation){
+    public void loadChildOption(JSONArray opciones, int index, Animation alphaAnimation) {
         try {
             if (opciones.getJSONObject(index).getInt("id") != -1) {
-                selectJsonOption(index,opciones.getJSONObject(index),alphaAnimation);
+                selectJsonOption(index, opciones.getJSONObject(index), alphaAnimation);
             } else {
-                loadOptionValue(index,null);
+                loadOptionValue(index, null);
                 addOpcionNull(returnOption(index), alphaAnimation);
             }
         } catch (JSONException e) {
@@ -939,26 +934,26 @@ public class Principal extends AppCompatActivity implements View
         }
     }
 
-    public void selectJsonOption(int position,JSONObject object,Animation alphaAnimation){
-        loadOptionValue(position,object);
-        switch (position){
+    public void selectJsonOption(int position, JSONObject object, Animation alphaAnimation) {
+        loadOptionValue(position, object);
+        switch (position) {
             case 0:
-                addOption(opcion1,returnOption(position),alphaAnimation);
+                addOption(opcion1, returnOption(position), alphaAnimation);
                 break;
             case 1:
-                addOption(opcion2,returnOption(position),alphaAnimation);
+                addOption(opcion2, returnOption(position), alphaAnimation);
                 break;
             case 2:
-                addOption(opcion3,returnOption(position),alphaAnimation);
+                addOption(opcion3, returnOption(position), alphaAnimation);
                 break;
             case 3:
-                addOption(opcion4,returnOption(position),alphaAnimation);
+                addOption(opcion4, returnOption(position), alphaAnimation);
                 break;
         }
     }
 
-    private PictoView returnOption(int position){
-        switch (position){
+    private PictoView returnOption(int position) {
+        switch (position) {
             case 0:
                 return Opcion1;
             case 1:
@@ -971,8 +966,9 @@ public class Principal extends AppCompatActivity implements View
                 return Opcion1;
         }
     }
-    private void  loadOptionValue(int position,JSONObject value){
-        switch (position){
+
+    private void loadOptionValue(int position, JSONObject value) {
+        switch (position) {
             case 0:
                 opcion1 = value;
                 break;
@@ -986,17 +982,6 @@ public class Principal extends AppCompatActivity implements View
                 opcion4 = value;
                 break;
         }
-    }
-
-
-    private boolean isFallo(boolean pictos, boolean grupos, boolean frases) {
-        if (pictos)
-            return pictos;
-        if (grupos)
-            return grupos;
-        if (frases)
-            return frases;
-        return false;
     }
 
     private Integer cargarColor(int tipo) {
@@ -1023,12 +1008,11 @@ public class Principal extends AppCompatActivity implements View
         pictoPadre = historial.removePictograms(true);
         ResetSeleccion();
         cuentaMasPictos = 0;
-        CargarOpciones(json, pictoPadre, cuentaMasPictos);
+        CargarOpciones(json, pictoPadre);
     }
 
     public void ResetSeleccion() {
         Log.d(TAG, "ResetSeleccion: ");
-        nlgFlag = true;
         Oracion = "";
         int situacionActual = 0;
         CantClicks = 0;
@@ -1055,37 +1039,30 @@ public class Principal extends AppCompatActivity implements View
             CargarSeleccion(historial.getListadoPictos().get(i));
             CantClicks++;
         }
-        CargarOpciones(json, pictoPadre, cuentaMasPictos);
-
-
+        CargarOpciones(json, pictoPadre);
     }
 
     private void click(JSONObject opcion) {
         Log.d(TAG, "click: ");
-        //   verificarDatosActualizados();
-
         cuentaMasPictos = 0;
         if (opcion == null || pictoPadre == null) {
             Log.d(TAG, "click: Opcion es null");
             return;
         }
-        //  Historial.add(opcion);
         historial.addPictograma(opcion);
         try {
             int pos = json.getPosPicto(json.getmJSONArrayTodosLosPictos(), pictoPadre.getInt("id"));
             JSONutils.aumentarFrec(pictoPadre, opcion);
             json.getmJSONArrayTodosLosPictos().put(pos, pictoPadre);
-
             json.guardarJson(Constants.ARCHIVO_PICTOS);
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        sayPictogramName(JSONutils.getNombre(opcion,sharedPrefsDefault.getString(getResources().getString(R.string.str_idioma),"en")));
+        sayPictogramName(JSONutils.getNombre(opcion, sharedPrefsDefault.getString(getResources().getString(R.string.str_idioma), "en")));
         pictoPadre = opcion;
         cargarSelec(pictoPadre);
-        CargarOpciones(json, opcion, cuentaMasPictos);
+        CargarOpciones(json, opcion);
         Log.d(TAG, "click: " + opcion.toString());
-
     }
 
     private void cargarMasPictos() {
@@ -1093,7 +1070,7 @@ public class Principal extends AppCompatActivity implements View
         if (cuentaMasPictos > Constants.VUELTAS_CARRETE) {
             cuentaMasPictos = 0;
         }
-        CargarOpciones(json, pictoPadre, cuentaMasPictos);
+        CargarOpciones(json, pictoPadre);
     }
 
     public void AlertBorrar(final int pos) {
@@ -1135,7 +1112,7 @@ public class Principal extends AppCompatActivity implements View
                     e.printStackTrace();
                 }
                 dialogs.cancelarDialogo();
-                CargarOpciones(json, pictoPadre, cuentaMasPictos);
+                CargarOpciones(json, pictoPadre);
             }
         });
 
@@ -1155,45 +1132,15 @@ public class Principal extends AppCompatActivity implements View
     }
 
 
-    private String EjecutarNLG(boolean flag) {
-        Log.d(TAG, "EjecutarNLG: flag:" + flag);
-        if(flag) {
-            Oracion = historial.talkWithtNLG();
-        }
-        return Oracion;
+    private String EjecutarNLG() {
+        return historial.talkWithtNLG();
     }
 
     public void speak() {
-        if(!Oracion.isEmpty()){
-        if (!myTTS.getTTS().isSpeaking()) {
-            Log.d(TAG, "speak: Oracion:" + Oracion);
-            handlerHablar.removeCallbacks(animarHablar);
-            if (mute) {
-                myTTS.hablar(Oracion, analitycsFirebase);
-                try {
-                    json.crearFrase(Oracion, historial.getListadoPictos(), Calendar.getInstance().getTimeInMillis());
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                Log.d(TAG, "speak: Time in millis: " + System.currentTimeMillis() / 1000);
-                if (json.getmJSONArrayTodasLasFrases().length() > 0)
-                    if (!json.guardarJson(Constants.ARCHIVO_FRASES))
-                        Log.e(TAG, "speak: Error al guardar Frases");
-                if (sharedPrefsDefault.getBoolean("hablar_borrar", true)) {
-                    analitycsFirebase.customEvents("Talk", "Principal", "Talk and Erase");
-                    Reset();
-                }
-            } else {
-                myTTS.mostrarAlerta(Oracion, analitycsFirebase);
+        if (!Oracion.isEmpty()) {
+            if (!myTTS.getTTS().isSpeaking()) {
+                speakBlock();
             }
-            handlerHablar.postDelayed(animarHablar, 10000);
-            if (user.getmAuth().getCurrentUser() != null) {
-                //Al myTTS subimos pictos y frases
-                SubirArchivosFirebase subirArchivos = new SubirArchivosFirebase(getApplicationContext());
-                subirArchivos.subirPictosFirebase(subirArchivos.getmDatabase(user.getmAuth(), Constants.PICTOS), subirArchivos.getmStorageRef(user.getmAuth(), Constants.PICTOS));
-                subirArchivos.subirFrasesFirebase(subirArchivos.getmDatabase(user.getmAuth(), Constants.Frases), subirArchivos.getmStorageRef(user.getmAuth(), Constants.Frases));
-            }
-        }
         }
     }
 
@@ -1207,16 +1154,16 @@ public class Principal extends AppCompatActivity implements View
         if (editarPicto) {
             switch (v.getId()) {
                 case R.id.Option1:
-                    longClick(Opcion1,opcion1);
+                    longClick(Opcion1, opcion1);
                     break;
                 case R.id.Option2:
-                    longClick(Opcion2,opcion2);
+                    longClick(Opcion2, opcion2);
                     break;
                 case R.id.Option3:
-                    longClick(Opcion3,opcion3);
+                    longClick(Opcion3, opcion3);
                     break;
                 case R.id.Option4:
-                    longClick(Opcion4,opcion4);
+                    longClick(Opcion4, opcion4);
                     break;
                 default:
                     onClick(v);
@@ -1258,22 +1205,9 @@ public class Principal extends AppCompatActivity implements View
 
     public void hablarModoExperimental() {
         if (sharedPrefsDefault.getBoolean(getString(R.string.mBoolModoExperimental), false)) {
-            //Registo que uso un funcion que nos interesa que use
             analitycsFirebase.customEvents("Talk", "Principal", "Phrase With NLG");
-            nlgFlag = true;
-
-            Oracion = EjecutarNLG(nlgFlag);
-
-            if (!sharedPrefsDefault.getString(getString(R.string.str_idioma), "en").equals("en")) {
-                traducirFrase = new TraducirFrase(this, sharedPrefsDefault, animationView, getApplicationContext(), Oracion);
-                traducirFrase.setOracion(Oracion);
-                traducirFrase.execute();
-            } else {
-                speak();
-            }
-
+            nlgTalkAction();
         } else {
-            //Registo que uso un funcion que nos interesa que use
             analitycsFirebase.customEvents("Talk", "Principal", "Phrase without  NLG");
             speak();
         }
@@ -1308,8 +1242,8 @@ public class Principal extends AppCompatActivity implements View
                 event.startTracking();
                 return true;
             }
-            if(keyCode == KeyEvent.KEYCODE_BACK){
-                if(event.getSource() == InputDevice.SOURCE_MOUSE)
+            if (keyCode == KeyEvent.KEYCODE_BACK) {
+                if (event.getSource() == InputDevice.SOURCE_MOUSE)
                     barridoPantalla.getmListadoVistas().get(barridoPantalla.getPosicionBarrido()).callOnClick();
                 else
                     onBackPressed();
@@ -1414,7 +1348,7 @@ public class Principal extends AppCompatActivity implements View
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode){
+        switch (requestCode) {
             case ConstantsMainActivity.GALERIA_GRUPOS:
                 galeriaGruposResult(data);
                 break;
@@ -1429,16 +1363,20 @@ public class Principal extends AppCompatActivity implements View
                 if (data != null && data.getExtras() != null) {
                     Bundle extras = data.getExtras();
                     Log.d(TAG, "onActivityResult: Reiniciar: " + extras.getBoolean(getString(R.string.boolean_cambio_idioma), false));
-                    if (extras.getBoolean(getString(R.string.boolean_cambio_idioma), false)||extras.getBoolean(getString(R.string.boolean_cambio_mano),false) || !isEnableScreenScanning) {
+                    if (extras.getBoolean(getString(R.string.boolean_cambio_idioma), false) || extras.getBoolean(getString(R.string.boolean_cambio_mano), false) || !isEnableScreenScanning) {
                         Reset();
                         prepareLayout();
                         recreate();
                     }
                 }
                 CustomToast.getInstance(this).updateToastMessageLetters();
-            break;
-            case ConstantsMainActivity.LOGIN_ACTIVITY:  Log.d(TAG, "onActivityResult: enter LoginActivity"); break;
-            case ConstantsMainActivity.AVATAR : loadAvatar(); break;
+                break;
+            case ConstantsMainActivity.LOGIN_ACTIVITY:
+                Log.d(TAG, "onActivityResult: enter LoginActivity");
+                break;
+            case ConstantsMainActivity.AVATAR:
+                loadAvatar();
+                break;
         }
     }
 
@@ -1469,6 +1407,7 @@ public class Principal extends AppCompatActivity implements View
                     PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putInt("premium", 0).apply();
                 }
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
@@ -1501,7 +1440,6 @@ public class Principal extends AppCompatActivity implements View
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-
         return navigationControls.makeClick(event);
     }
 
@@ -1622,7 +1560,7 @@ public class Principal extends AppCompatActivity implements View
                 if (pictoPadre == null || pictoPadre.getInt("id") == 0)
                     pictoPadre = json.getmJSONArrayTodosLosPictos().getJSONObject(0);
                 cuentaMasPictos = 0;
-                CargarOpciones(json, pictoPadre, cuentaMasPictos);
+                CargarOpciones(json, pictoPadre);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -1803,8 +1741,8 @@ public class Principal extends AppCompatActivity implements View
                 super.onBackPressed();
                 break;
             case R.id.tutorial:
-                Intent intent1=new Intent(this,LoginActivity2Step3.class);
-                intent1.putExtra("comingFromMainActivity",true);
+                Intent intent1 = new Intent(this, LoginActivity2Step3.class);
+                intent1.putExtra("comingFromMainActivity", true);
                 startActivity(intent1);
                 break;
             case R.id.logout:
@@ -1854,18 +1792,18 @@ public class Principal extends AppCompatActivity implements View
         }
     }
 
-    public void showAvatar(){
+    public void showAvatar() {
         remoteConfigUtils.setActivateDeactivateConfig(Principal.this, new OnCompleteListener<Boolean>() {
             @Override
             public void onComplete(@NonNull Task<Boolean> task) {
                 if (task.isSuccessful()) {
-                    if(remoteConfigUtils.enableAvatar()){
+                    if (remoteConfigUtils.enableAvatar()) {
                         movableFloatingActionButton.setVisibility(View.VISIBLE);
                         String phrase = remoteConfigUtils.avatarMessages();
                         myTTS.getUtilsTTS().setTtsListener(new TTSListener() {
                             @Override
                             public void TTSonDone() {
-                                Log.d(TAG, "TTSonDone: " );
+                                Log.d(TAG, "TTSonDone: ");
                                 Principal.this.runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
@@ -1888,10 +1826,10 @@ public class Principal extends AppCompatActivity implements View
                         handler.postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                               // avatar.animateTalk(phrase);
+                                // avatar.animateTalk(phrase);
                                 myTTS.hablar(avatar.animateTalk(phrase));
                             }
-                        },10500);
+                        }, 10500);
 
                     }
                 }
@@ -1899,6 +1837,7 @@ public class Principal extends AppCompatActivity implements View
             }
         });
     }
+
     public void shareAction() {
         analitycsFirebase.customEvents("Touch", "Principal", "Share");
         if (historial.getListadoPictos().size() > 0) {
@@ -1913,7 +1852,7 @@ public class Principal extends AppCompatActivity implements View
                 traducirfrase = new traducirTexto(getApplication());
                 if (Oracion.isEmpty() && historial.getListadoPictos().size() > 0)
                     CargarOracion(historial.getListadoPictos().get(0), sharedPrefsDefault.getString(getString(R.string.str_idioma), "en"));
-                Oracion = EjecutarNLG(true);
+                Oracion = EjecutarNLG();
                 traducirfrase.traducirIdioma(this, Oracion, "en", sharedPrefsDefault.getString(getString(R.string.str_idioma), "en"), true);
             }
             // if(myTTS().devolverPathAudio().exists())
@@ -1933,10 +1872,10 @@ public class Principal extends AppCompatActivity implements View
 
     }
 
-    private void startIconSelector(){
-        Intent intent1=new Intent(this,LoginActivity2Avatar.class);
-        intent1.putExtra("comingFromMainActivity",true);
-        startActivityForResult(intent1,IntentCode.AVATAR.getCode());
+    private void startIconSelector() {
+        Intent intent1 = new Intent(this, LoginActivity2Avatar.class);
+        intent1.putExtra("comingFromMainActivity", true);
+        startActivityForResult(intent1, IntentCode.AVATAR.getCode());
     }
 
     private void startFavoritePhrases() {
@@ -1950,8 +1889,8 @@ public class Principal extends AppCompatActivity implements View
             analitycsFirebase.customEvents(event1, activity, action);
     }
 
-    private void sayPictogramName(String name){
-        if(sharedPrefsDefault.getBoolean(getResources().getString(R.string.say_pictogram_name_key),false)){
+    private void sayPictogramName(String name) {
+        if (sharedPrefsDefault.getBoolean(getResources().getString(R.string.say_pictogram_name_key), false)) {
             myTTS.hablar(name);
         }
     }
@@ -1985,7 +1924,7 @@ public class Principal extends AppCompatActivity implements View
         }
     }
 
-    private void galeriaGruposResult(Intent data){
+    private void galeriaGruposResult(Intent data) {
         if (data != null) {
             Bundle extras = data.getExtras();
             if (extras != null) {
@@ -1997,21 +1936,23 @@ public class Principal extends AppCompatActivity implements View
             }
         }
     }
-    private void editPictoResult(Intent data){
+
+    private void editPictoResult(Intent data) {
         Log.d(TAG, "onActivityResult: EditarPicto");
         try {
-            CargarOpciones(json, pictoPadre, cuentaMasPictos);
+            CargarOpciones(json, pictoPadre);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    private void  loadAvatar(){
-        avatarUtils = new AvatarUtils(this,menuAvatarIcon);
+
+    private void loadAvatar() {
+        avatarUtils = new AvatarUtils(this, menuAvatarIcon);
         avatarUtils.getFirebaseAvatar();
         CustomToast.getInstance(this).updateToastIcon(this);
     }
 
-    private void prepareLayout(){
+    private void prepareLayout() {
         if (sharedPrefsDefault.getBoolean("skillHand", false)) {
             setContentView(R.layout.activity_principal_v4_right);
         } else {
@@ -2019,9 +1960,9 @@ public class Principal extends AppCompatActivity implements View
         }
     }
 
-    private boolean enableDisableScreenScanning(){
+    private boolean enableDisableScreenScanning() {
         if (!barridoPantalla.isBarridoActivado()) {
-            if(btnBarrido.getVisibility() == View.GONE)
+            if (btnBarrido.getVisibility() == View.GONE)
                 return true;
             runOnUiThread(new Runnable() {
 
@@ -2042,7 +1983,7 @@ public class Principal extends AppCompatActivity implements View
         return true;
     }
 
-    private void initComponents(){
+    private void initComponents() {
         initFirebaseComponents();
         initFlags();
         initDefaultSettings();
@@ -2062,14 +2003,14 @@ public class Principal extends AppCompatActivity implements View
         if (TutoFlag) {
             sharedPrefs.edit().putBoolean("PrimerUso", false).apply();
         }
-        navigationControls=new PrincipalControls(this);
+        navigationControls = new PrincipalControls(this);
         movableFloatingActionButton.setIcon();
         remoteConfigUtils = RemoteConfigUtils.getInstance();
         loadAvatar();
         showAvatar();
     }
 
-    private void initFirebaseComponents(){
+    private void initFirebaseComponents() {
         user = new User(this);
         mStorageRef = FirebaseStorage.getInstance().getReference();
         firebaseUtils = FirebaseUtils.getInstance();
@@ -2079,10 +2020,10 @@ public class Principal extends AppCompatActivity implements View
         analitycsFirebase = new AnalyticsFirebase(this);
     }
 
-    private void initDefaultSettings(){
+    private void initDefaultSettings() {
         sharedPrefsDefault.edit().putBoolean("esmoderador", false).apply();
         ConfigurarIdioma.setLanguage(sharedPrefsDefault.getString(getString(R.string.str_idioma), "en"));
-        Log.d(TAG, "ConfigurarIdioma : "+ConfigurarIdioma.getLanguaje());
+        Log.d(TAG, "ConfigurarIdioma : " + ConfigurarIdioma.getLanguaje());
         new ConfigurarIdioma(getApplicationContext(), ConfigurarIdioma.getLanguaje());
         Json.getInstance().setmContext(this);
         json = Json.getInstance();
@@ -2099,14 +2040,14 @@ public class Principal extends AppCompatActivity implements View
         placeActual = 0;
     }
 
-    private void initFlags(){
+    private void initFlags() {
         sharedPrefs = getSharedPreferences(sharedPrefsDefault.getString(getString(R.string.str_userMail), "error"), Context.MODE_PRIVATE);
         TutoFlag = sharedPrefs.getBoolean("PrimerUso", true);
         mute = sharedPrefsDefault.getBoolean("mBoolMute", true);
         editarPicto = sharedPrefsDefault.getBoolean(getString(R.string.str_editar_picto), true);
     }
 
-    private void initPlaceImplementationClass(){
+    private void initPlaceImplementationClass() {
         if (sharedPrefsDefault.getBoolean(getString(R.string.bool_ubicacion), false)) {
             placesImplementation = new PlacesImplementation(this);
             placesImplementation.iniciarClientePlaces();
@@ -2114,7 +2055,7 @@ public class Principal extends AppCompatActivity implements View
         }
     }
 
-    private void firstUserAuthVerification(){
+    private void firstUserAuthVerification() {
         if (user.getmAuth().getCurrentUser() != null) {
             subirArchivos = new SubirArchivosFirebase(this);
             /**
@@ -2163,13 +2104,13 @@ public class Principal extends AppCompatActivity implements View
         }
     }
 
-    private void initBackUp(){
+    private void initBackUp() {
         mFirebaseBackup = new SubirBackupFirebase(this);
         setPrimerBackupTimeLocal();
         guardarBackupLocal();
     }
 
-    private void initMenu(){
+    private void initMenu() {
         handlerHablar.postDelayed(animarHablar, 4000);
         navigationView = findViewById(R.id.nav_view);
         toolbar = findViewById(R.id.toolbar);
@@ -2190,8 +2131,7 @@ public class Principal extends AppCompatActivity implements View
     }
 
 
-
-    private void initSelectionComponents(){
+    private void initSelectionComponents() {
         Seleccion1 = findViewById(R.id.Seleccion1);
         Seleccion2 = findViewById(R.id.Seleccion2);
         Seleccion3 = findViewById(R.id.Seleccion3);
@@ -2224,7 +2164,7 @@ public class Principal extends AppCompatActivity implements View
         AjustarAncho(R.id.Seleccion10);
     }
 
-    private void initActionButtons(){
+    private void initActionButtons() {
         ImageButton borrar = findViewById(R.id.btn_borrar);
         ImageButton botonFavoritos = findViewById(R.id.btnFavoritos);
         botonFavoritos.setOnClickListener(this);
@@ -2245,7 +2185,7 @@ public class Principal extends AppCompatActivity implements View
         talk.setOnClickListener(this);
     }
 
-    private void initPictograms(){
+    private void initPictograms() {
         Opcion1 = findViewById(R.id.Option1);
         Opcion2 = findViewById(R.id.Option2);
         Opcion3 = findViewById(R.id.Option3);
@@ -2267,7 +2207,7 @@ public class Principal extends AppCompatActivity implements View
         Opcion4_clicker = new timer_pictogram_clicker(this);
     }
 
-    private void initFirstPictograms(){
+    private void initFirstPictograms() {
         if (json.getmJSONArrayTodosLosPictos() != null && json.getmJSONArrayTodosLosPictos().length() > 0) {
             try {
                 pictoPadre = json.getmJSONArrayTodosLosPictos().getJSONObject(0);
@@ -2275,22 +2215,21 @@ public class Principal extends AppCompatActivity implements View
                 e.printStackTrace();
             }
         }
-        CargarOpciones(json, pictoPadre, cuentaMasPictos);   // y despues cargamos las opciones con el orden correspondiente
-        nlg = new NLG();
+        CargarOpciones(json, pictoPadre);   // y despues cargamos las opciones con el orden correspondiente
         ResetSeleccion();
 
     }
 
-    private void initAvatar(){
-        menuAvatarIcon = (ImageView) navigationView.getHeaderView(0).findViewById(R.id.avatarIconMain);
+    private void initAvatar() {
+        menuAvatarIcon = navigationView.getHeaderView(0).findViewById(R.id.avatarIconMain);
         menuAvatarIcon.setOnClickListener(this);
         movableFloatingActionButton = findViewById(R.id.movableButton);
         movableFloatingActionButton.setOnClickListener(this);
-        avatar = new Avatar(this,movableFloatingActionButton);
+        avatar = new Avatar(this, movableFloatingActionButton);
     }
 
-    private void  initTTS(){
-      //  Vibrator vibe = (Vibrator) Principal.this.getSystemService(Context.VIBRATOR_SERVICE);
+    private void initTTS() {
+        //  Vibrator vibe = (Vibrator) Principal.this.getSystemService(Context.VIBRATOR_SERVICE);
         try {
             if (resolveIntent(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA)) {
                 Intent checkTTSIntent = new Intent();
@@ -2305,7 +2244,7 @@ public class Principal extends AppCompatActivity implements View
         }
     }
 
-    private void showMenu(){
+    private void showMenu() {
         try {
             if (!sharedPrefsDefault.getBoolean("skillHand", false) && sharedPrefsDefault.getInt("showMenu", 3) > 0) {
                 drawerLayout.open();
@@ -2315,20 +2254,21 @@ public class Principal extends AppCompatActivity implements View
                 new Handler().postDelayed(() -> drawerLayout.close(), 5000);
             }
         } catch (Exception ex) {
-            Log.e(TAG, "showMenu: "+ex.getMessage());
+            Log.e(TAG, "showMenu: " + ex.getMessage());
         }
     }
 
-    private void setClickLongListener(View v){
+    private void setClickLongListener(View v) {
         v.setOnClickListener(this);
         v.setOnLongClickListener(this);
     }
-    private void setClickOnTouchListener(View v){
+
+    private void setClickOnTouchListener(View v) {
         v.setOnClickListener(this);
         v.setOnTouchListener(this);
     }
 
-    private void uploadFiles(){
+    private void uploadFiles() {
         connectionDetector = new ConnectionDetector(getApplicationContext());
         if (subirArchivos != null) {
             subirArchivos.setInterfaz(this);
@@ -2338,26 +2278,22 @@ public class Principal extends AppCompatActivity implements View
         }
     }
 
-    private void longClick(PictoView pictoView,JSONObject json){
+    private void longClick(PictoView pictoView, JSONObject json) {
         onLongOpcion = json;
         if (pictoView.getAlpha() != (0.65) || sharedPrefsDefault.getBoolean("esmoderador", false)) {
-            new PopupMenuUtils(this,pictoView,this);
+            new PopupMenuUtils(this, pictoView, this);
         }
     }
 
 
-
-    public void loadChilds(JSONObject padre, Animation alphaAnimation){
-        JSONArray opciones = new JSONArray();
+    public void loadChilds(JSONObject padre, Animation alphaAnimation) {
         try {
-            if(padre != null){
-                opciones = json.cargarOpciones(padre, cuentaMasPictos);
-                for (int i = 0; i <4 ; i++) {
-                    loadChildOption(opciones,i,alphaAnimation);
-                }
-            }else{
-               json.sumarFallas();
-               CargarOpciones(json,padre,0);
+            if(validateJson(padre)){
+                loadChildOptions(padre,alphaAnimation);
+            }
+            else {
+                json.sumarFallas();
+                CargarOpciones(json,padre);
             }
         } catch (JSONException e) {
             Log.e(TAG, "CargarOpciones: " + e.toString());
@@ -2365,20 +2301,31 @@ public class Principal extends AppCompatActivity implements View
             e.printStackTrace();
         }
     }
-    public void downloadFailedFile(int size){
+
+    public void loadChildOptions(JSONObject padre,Animation alphaAnimation) throws JSONException,FiveMbException{
+        JSONArray opciones;
+        opciones = json.cargarOpciones(padre, cuentaMasPictos);
+        for (int i = 0; i < 4; i++) {
+            loadChildOption(opciones, i, alphaAnimation);
+        }
+    }
+
+
+
+    public void downloadFailedFile(int size) {
         firebaseDialog.setTitle(getApplicationContext().getResources().getString(R.string.edit_sync));
         firebaseDialog.setMessage(getApplicationContext().getResources().getString(R.string.edit_sync_pict));
         firebaseDialog.mostrarDialogo();
         File rootPath = new File(this.getCacheDir(), "Archivos_OTTAA");
         ObservableInteger observableInteger = loadObservableInteger(size);
-                mBajarJsonFirebase.bajarPictos(ConfigurarIdioma.getLanguaje(), rootPath, observableInteger);
-                mBajarJsonFirebase.bajarGrupos(ConfigurarIdioma.getLanguaje(), rootPath, observableInteger);
-                mBajarJsonFirebase.bajarFrases(ConfigurarIdioma.getLanguaje(), rootPath, observableInteger);
-                mBajarJsonFirebase.bajarJuego(ConfigurarIdioma.getLanguaje(), rootPath);
-                mBajarJsonFirebase.bajarFrasesFavoritas(ConfigurarIdioma.getLanguaje(), rootPath);
+        mBajarJsonFirebase.bajarPictos(ConfigurarIdioma.getLanguaje(), rootPath, observableInteger);
+        mBajarJsonFirebase.bajarGrupos(ConfigurarIdioma.getLanguaje(), rootPath, observableInteger);
+        mBajarJsonFirebase.bajarFrases(ConfigurarIdioma.getLanguaje(), rootPath, observableInteger);
+        mBajarJsonFirebase.bajarJuego(ConfigurarIdioma.getLanguaje(), rootPath);
+        mBajarJsonFirebase.bajarFrasesFavoritas(ConfigurarIdioma.getLanguaje(), rootPath);
     }
 
-    public ObservableInteger loadObservableInteger(int size){
+    public ObservableInteger loadObservableInteger(int size) {
         ObservableInteger observableInteger = new ObservableInteger();
         observableInteger.setOnIntegerChangeListener(new ObservableInteger.OnIntegerChangeListener() {
             @Override
@@ -2391,5 +2338,65 @@ public class Principal extends AppCompatActivity implements View
             }
         });
         return observableInteger;
+    }
+
+    public void speakBlock() {
+        Log.d(TAG, "speak: Oracion:" + Oracion);
+        handlerHablar.removeCallbacks(animarHablar);
+        if (mute) {
+            speakAction();
+        } else {
+            myTTS.mostrarAlerta(Oracion, analitycsFirebase);
+        }
+        handlerHablar.postDelayed(animarHablar, 10000);
+        uploadUserPhrases();
+    }
+
+    public void speakAction() {
+        myTTS.hablar(Oracion, analitycsFirebase);
+        savePhrases(Oracion, historial);
+        Log.d(TAG, "speak: Time in millis: " + System.currentTimeMillis() / 1000);
+        resetSpeakAction();
+    }
+
+    public void uploadUserPhrases() {
+        if (user.getmAuth().getCurrentUser() != null) {
+            SubirArchivosFirebase subirArchivos = new SubirArchivosFirebase(getApplicationContext());
+            subirArchivos.subirPictosFirebase(subirArchivos.getmDatabase(user.getmAuth(), Constants.PICTOS), subirArchivos.getmStorageRef(user.getmAuth(), Constants.PICTOS));
+            subirArchivos.subirFrasesFirebase(subirArchivos.getmDatabase(user.getmAuth(), Constants.Frases), subirArchivos.getmStorageRef(user.getmAuth(), Constants.Frases));
+        }
+    }
+
+    public void savePhrases(String phrase, Historial historial) {
+        try {
+            json.crearFrase(phrase, historial.getListadoPictos(), Calendar.getInstance().getTimeInMillis());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        if (json.getmJSONArrayTodasLasFrases().length() > 0)
+            if (!json.guardarJson(Constants.ARCHIVO_FRASES))
+                Log.e(TAG, "speak: Error al guardar Frases");
+    }
+
+    public void resetSpeakAction() {
+        if (sharedPrefsDefault.getBoolean("hablar_borrar", true)) {
+            analitycsFirebase.customEvents("Talk", "Principal", "Talk and Erase");
+            Reset();
+        }
+    }
+
+    public void nlgTalkAction(){
+        Oracion = EjecutarNLG();
+        if (!sharedPrefsDefault.getString(getString(R.string.str_idioma), "en").equals("en")) {
+            traducirFrase = new TraducirFrase(this, sharedPrefsDefault, animationView, getApplicationContext(), Oracion);
+            traducirFrase.setOracion(Oracion);
+            traducirFrase.execute();
+        } else {
+            speak();
+        }
+    }
+
+    public boolean validateJson(JSONObject padre){
+        return padre!= null;
     }
 }

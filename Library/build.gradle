@@ -4,12 +4,12 @@ buildscript {
         google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.0.2'
-
+        classpath 'com.android.tools.build:gradle:7.0.0'
     }
 
 }
 apply plugin: 'com.android.library'
+apply plugin: 'maven-publish'
 
 android {
     compileSdkVersion 18
