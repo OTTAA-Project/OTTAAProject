@@ -1827,7 +1827,14 @@ public class Principal extends AppCompatActivity implements View
                             @Override
                             public void run() {
                                 // avatar.animateTalk(phrase);
-                                myTTS.hablar(avatar.animateTalk(phrase));
+                                if(!validateMessages(phrase)){
+                                    myTTS.hablar(avatar.animateTalk(phrase));
+                                    sharedPrefsDefault.edit().putString("avatarMessage",phrase).apply();
+                                }
+                                else{
+                                    avatar.finishTalking();
+                                }
+
                             }
                         }, 10500);
 
@@ -2398,5 +2405,10 @@ public class Principal extends AppCompatActivity implements View
 
     public boolean validateJson(JSONObject padre){
         return padre!= null;
+    }
+    public boolean validateMessages(String message){
+        if(message != null)
+            return sharedPrefsDefault.getString("avatarMessage","").equals(message);
+        return false;
     }
 }

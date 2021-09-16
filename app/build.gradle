@@ -26,8 +26,8 @@ android {
         applicationId "com.stonefacesoft.ottaa"
         minSdkVersion 21
         targetSdkVersion 31
-        versionCode 90
-        versionName "6.7.1" //
+        versionCode 91
+        versionName "6.7.2" //
         // Enabling multidex support.
         multiDexEnabled = true
         resConfigs "ar,en,es,it"
@@ -35,9 +35,6 @@ android {
         testHandleProfiling true
         testFunctionalTest true
         testInstrumentationRunnerArguments clearPackageData: 'true'
-
-
-
     }
 
     buildTypes {
@@ -48,7 +45,6 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             zipAlignEnabled true
             testCoverageEnabled true
-
         }
         sourceSets.debug.resources.srcDirs = ['src/debug/res']
         release {
