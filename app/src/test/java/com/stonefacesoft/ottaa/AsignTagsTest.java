@@ -1,5 +1,10 @@
 package com.stonefacesoft.ottaa;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+
 import com.stonefacesoft.ottaa.Interfaces.DialogInterfaceTags;
 import com.stonefacesoft.ottaa.Interfaces.TagInterfazJson;
 import com.stonefacesoft.ottaa.JSONutils.Json;
@@ -11,11 +16,6 @@ import org.json.JSONObject;
 import org.junit.Test;
 
 import java.util.ArrayList;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 
 public class AsignTagsTest implements DialogInterfaceTags, TagInterfazJson {
     AsignTags asignTags = new AsignTags(null);
@@ -47,9 +47,15 @@ public class AsignTagsTest implements DialogInterfaceTags, TagInterfazJson {
 
     @Test
     public void testCargarTags() {
+        try {
+            asignTags.setTagsToPicto(createPictogramJSONArray().getJSONObject(0));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         asignTags.cargarTags(Constants.EDAD);
         System.out.println(asignTags.getArrayListTodosLosTags().toString());
         try {
+            System.out.println(tags().toString());
             assertEquals(tags().getJSONObject(0).toString(),asignTags.getArrayListTodosLosTags().get(0).toString());
         } catch (JSONException e) {
             e.printStackTrace();
