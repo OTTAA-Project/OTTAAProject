@@ -224,7 +224,7 @@ jobs:
   unitTesting:
     <<: *android_config
     docker:
-      - image: circleci/android:api-30
+      - image: circleci/android:api-30-alpha
         auth:
           username: $DOCKER_USER
           password: $DOCKER_PASSWORD
@@ -244,7 +244,7 @@ jobs:
   InstrumentationTest:
     <<: *android_config
     docker:
-      - image: circleci/android:api-29
+      - image: circleci/android:api-30-alpha
         auth:
           username: $DOCKER_USER
           password: $DOCKER_PASSWORD
