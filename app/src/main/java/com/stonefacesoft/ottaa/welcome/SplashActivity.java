@@ -251,8 +251,6 @@ public class SplashActivity extends Activity {
             super.onProgressUpdate(values);
             setProgress(values[0]);
             txtCargando.setText(values[0]);
-
-
         }
     }
 
@@ -317,14 +315,6 @@ public class SplashActivity extends Activity {
                 ConfigurarIdioma.setLanguage(sharedPrefsDefault.getString(getString(R.string.str_idioma),"en"));
 
             }
-            // Definimos la orientacion a vertical
-            // Escondemos la barra de Titulo
-
-            //seteamos el progress bar
-
-            //  iniciamos la animacion
-
-            // esperamos un tiempo para poder lanzar el loading screen
             changeName.cambiarPosicion();
             mAuth=FirebaseAuth.getInstance();
             changeName.cambiarPosicion();

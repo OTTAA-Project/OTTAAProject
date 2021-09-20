@@ -157,7 +157,6 @@ public class Principal extends AppCompatActivity implements View
     //Obtengo la hora del dia y le doy formatofirebase an error ocurred
     // booleano para hacer refreshTTS solo para el 2do TTS
     private final Handler handlerHablar = new Handler();
-    private final int ultima_Posicion_Barrido = 0;
     public Uri bajarGrupos;
     public Json json;
     public String dateStr;
@@ -280,12 +279,9 @@ public class Principal extends AppCompatActivity implements View
     public static byte[] getBytesFromInputStream(InputStream is) throws IOException {
         try (ByteArrayOutputStream os = new ByteArrayOutputStream()) {
             byte[] buffer = new byte[0xFFFF];
-
             for (int len; (len = is.read(buffer)) != -1; )
                 os.write(buffer, 0, len);
-
             os.flush();
-
             return os.toByteArray();
         }
     }
@@ -523,7 +519,6 @@ public class Principal extends AppCompatActivity implements View
         BackupGroups backupGroups = new BackupGroups(this, Constants.ARCHIVO_GRUPOS);
         BackupPhrases backupPhrases = new BackupPhrases(this, Constants.ARCHIVO_FRASES);
         BackupPhotos backupPhotos = new BackupPhotos(this, Constants.ARCHIVO_PICTOS);
-
         backupPictograms.prepareFirstLocalBackup(timeStamp);
         backupGroups.prepareFirstLocalBackup(timeStamp);
         backupPhrases.prepareFirstLocalBackup(timeStamp);
@@ -697,7 +692,6 @@ public class Principal extends AppCompatActivity implements View
 
     @Override
     protected void onResume() {
-
         CargarJson();
         Log.d(TAG, "onResume: idioma : " + getApplication().getResources().getConfiguration().locale.toString());
         super.onResume();
@@ -707,7 +701,6 @@ public class Principal extends AppCompatActivity implements View
         if (placesImplementation != null) {
             placesImplementation.locationRequest();
         }
-
     }
 
     @Override
@@ -913,13 +906,12 @@ public class Principal extends AppCompatActivity implements View
         Opcion2.setEnabled(true);
         Opcion3.setEnabled(true);
         Opcion4.setEnabled(true);
-        if (json.getCantFallas() == 0 && json.getmJSONArrayTodosLosPictos() != null) {
+        if (json.getCantFallas() ==0)
             loadChilds(padre, alphaAnimation);
-        }
-        if (json.getCantFallas() < 4 && json.getCantFallas() > 0) {
+        if(json.getCantFallas()<4 && json.getCantFallas()>0)
             downloadFailedFile(3);
-        }
     }
+
 
     public void loadChildOption(JSONArray opciones, int index, Animation alphaAnimation) {
         try {
@@ -1450,7 +1442,6 @@ public class Principal extends AppCompatActivity implements View
 
     @Override
     public boolean onGenericMotionEvent(MotionEvent event) {
-
         if (0 != (event.getSource() & InputDevice.SOURCE_CLASS_POINTER)) {
             switch (event.getAction()) {
                 case MotionEvent.ACTION_SCROLL:
@@ -1524,9 +1515,7 @@ public class Principal extends AppCompatActivity implements View
         listadoObjetosBarrido.add(findViewById(R.id.btnMasPictos));
         listadoObjetosBarrido.add(findViewById(R.id.btnTodosLosPictos));
         listadoObjetosBarrido.add(findViewById(R.id.action_reiniciar));
-
         barridoPantalla = new BarridoPantalla(this, listadoObjetosBarrido);
-
         if (barridoPantalla.isBarridoActivado() && barridoPantalla.devolverpago()) {
             runOnUiThread(new Runnable() {
                 @Override
@@ -1538,7 +1527,6 @@ public class Principal extends AppCompatActivity implements View
         } else {
             btnBarrido.setVisibility(View.GONE);
         }
-
         if (barridoPantalla.isBarridoActivado())
             editarPicto = false;
 
@@ -1826,7 +1814,6 @@ public class Principal extends AppCompatActivity implements View
                         handler.postDelayed(new Runnable() {
                             @Override
                             public void run() {
-                                // avatar.animateTalk(phrase);
                                 if(!validateMessages(phrase)){
                                     myTTS.hablar(avatar.animateTalk(phrase));
                                     sharedPrefsDefault.edit().putString("avatarMessage",phrase).apply();
@@ -2253,11 +2240,11 @@ public class Principal extends AppCompatActivity implements View
 
     private void showMenu() {
         try {
-            if (!sharedPrefsDefault.getBoolean("skillHand", false) && sharedPrefsDefault.getInt("showMenu", 3) > 0) {
+            if (!sharedPrefsDefault.getBoolean(getString(R.string.skillhand), false) && sharedPrefsDefault.getInt(getString(R.string.showmenu), 3) > 0) {
                 drawerLayout.open();
-                int value = sharedPrefsDefault.getInt("showMenu", 4);
+                int value = sharedPrefsDefault.getInt(getString(R.string.showmenu), 4);
                 value--;
-                sharedPrefsDefault.edit().putInt("showMenu", value).apply();
+                sharedPrefsDefault.edit().putInt(getString(R.string.showmenu), value).apply();
                 new Handler().postDelayed(() -> drawerLayout.close(), 5000);
             }
         } catch (Exception ex) {
@@ -2287,7 +2274,7 @@ public class Principal extends AppCompatActivity implements View
 
     private void longClick(PictoView pictoView, JSONObject json) {
         onLongOpcion = json;
-        if (pictoView.getAlpha() != (0.65) || sharedPrefsDefault.getBoolean("esmoderador", false)) {
+        if (pictoView.getAlpha() != (0.65) || sharedPrefsDefault.getBoolean(getString(R.string.ismoderator), false)) {
             new PopupMenuUtils(this, pictoView, this);
         }
     }
@@ -2295,8 +2282,13 @@ public class Principal extends AppCompatActivity implements View
 
     public void loadChilds(JSONObject padre, Animation alphaAnimation) {
         try {
-            if(validateJson(padre)){
-                loadChildOptions(padre,alphaAnimation);
+            if(padre!= null){
+                JSONArray opciones;
+                opciones = json.cargarOpciones(padre, cuentaMasPictos);
+                loadChildOption(opciones, 0, alphaAnimation);
+                loadChildOption(opciones, 1, alphaAnimation);
+                loadChildOption(opciones, 2, alphaAnimation);
+                loadChildOption(opciones, 3, alphaAnimation);
             }
             else {
                 json.sumarFallas();
@@ -2309,13 +2301,7 @@ public class Principal extends AppCompatActivity implements View
         }
     }
 
-    public void loadChildOptions(JSONObject padre,Animation alphaAnimation) throws JSONException,FiveMbException{
-        JSONArray opciones;
-        opciones = json.cargarOpciones(padre, cuentaMasPictos);
-        for (int i = 0; i < 4; i++) {
-            loadChildOption(opciones, i, alphaAnimation);
-        }
-    }
+
 
 
 
@@ -2386,7 +2372,7 @@ public class Principal extends AppCompatActivity implements View
     }
 
     public void resetSpeakAction() {
-        if (sharedPrefsDefault.getBoolean("hablar_borrar", true)) {
+        if (sharedPrefsDefault.getBoolean(getString(R.string.hablarborrar), true)) {
             analitycsFirebase.customEvents("Talk", "Principal", "Talk and Erase");
             Reset();
         }
@@ -2403,12 +2389,10 @@ public class Principal extends AppCompatActivity implements View
         }
     }
 
-    public boolean validateJson(JSONObject padre){
-        return padre!= null;
-    }
+
     public boolean validateMessages(String message){
         if(message != null)
-            return sharedPrefsDefault.getString("avatarMessage","").equals(message);
+            return sharedPrefsDefault.getString(getString(R.string.avatarmessage),"").equals(message);
         return false;
     }
 }

@@ -224,7 +224,7 @@ dependencies {
     //TODO add this library to the Wiki
     implementation 'com.github.CanHub:Android-Image-Cropper:3.2.2'
     // pictograms library
-    implementation 'com.github.OTTAA-Project:PictogramsLibrary:0.1.8.39'
+    implementation 'com.github.OTTAA-Project:PictogramsLibrary:0.1.9.3'
     //Sendgrid integration
 
 }

@@ -808,7 +808,7 @@ public class Json implements FindPictogram {
     }
 
     private JSONArray elegirHijos2(JSONObject padre, boolean esSugerencia) throws JSONException {
-        if (padre.has("relacion")) {
+
             JSONArray array = padre.getJSONArray("relacion");
             ArrayList<JSONObject> relacion = new ArrayList<>();
             for (int i = 0; i < array.length(); i++) {
@@ -831,7 +831,6 @@ public class Json implements FindPictogram {
             }
             Log.d(TAG, "elegirHijos2: Ordenado");
             return new JSONArray(relacion.toString());
-        } else return new JSONArray();
     }
 
     public int compareValues(JSONObject json1,JSONObject json2,boolean esSugerencia){
