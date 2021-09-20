@@ -216,10 +216,6 @@ references:
 
 
 
-
-
-
-
 jobs:
   unitTesting:
     <<: *android_config

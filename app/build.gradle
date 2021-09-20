@@ -114,7 +114,6 @@ repositories {
 }
 dependencies {
 
-    testImplementation "org.json:json:20210307"
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
