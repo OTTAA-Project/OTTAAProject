@@ -12,7 +12,7 @@ apply plugin: 'com.google.gms.google-services'
 android {
     signingConfigs {
     }
-    compileSdkVersion 31
+    compileSdkVersion 30
     buildToolsVersion '30.0.3'
     useLibrary 'org.apache.http.legacy'
 
@@ -25,7 +25,7 @@ android {
     defaultConfig {
         applicationId "com.stonefacesoft.ottaa"
         minSdkVersion 21
-        targetSdkVersion 31
+        targetSdkVersion 30
         versionCode 91
         versionName "6.7.2" //
         // Enabling multidex support.
