@@ -23,9 +23,9 @@ import java.util.HashMap;
 
 public class textToSpeech {
 
-    private final CustomToast alerta;
     private final SharedPreferences sharedPrefsDefault;
     private final Context context;
+    private CustomToast alerta;
     private boolean esprincipal;
     private String oracion;
     private File file;
@@ -34,14 +34,14 @@ public class textToSpeech {
 
     public textToSpeech(Context context) {
         this.context = context;
-        alerta = CustomToast.getInstance(context);
         this.sharedPrefsDefault = PreferenceManager.getDefaultSharedPreferences(context);
+        alerta =CustomToast.getInstance(this.context);
         prepare=new UtilsTTS(this.context,alerta,sharedPrefsDefault);
 
     }
     public textToSpeech(AppCompatActivity context) {
         this.context = context;
-        alerta = CustomToast.getInstance(context);
+        alerta =CustomToast.getInstance(this.context);
         this.sharedPrefsDefault = PreferenceManager.getDefaultSharedPreferences(context);
         prepare=new UtilsTTS(this.context,alerta,sharedPrefsDefault);
 

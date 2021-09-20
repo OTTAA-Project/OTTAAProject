@@ -181,9 +181,6 @@ public class GaleriaGrupos2 extends AppCompatActivity implements OnStartDragList
         downloadDialog.setMessage(getApplicationContext().getResources().getString(R.string.downLoadFotos));
         downloadDialog.setCancelable(false);
         downloadDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-
-
-
         Json.getInstance().setmContext(this);
         json = Json.getInstance();
 

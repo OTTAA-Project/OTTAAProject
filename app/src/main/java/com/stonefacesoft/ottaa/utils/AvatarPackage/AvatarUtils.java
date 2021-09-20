@@ -29,11 +29,14 @@ public class AvatarUtils {
     private String name;
     private GlideAttatcher glideAttatcher;
 
+
+
     public AvatarUtils(Context mContext,ImageView imageViewAvatar){
         this.mContext = mContext;
         this.imageViewAvatar = imageViewAvatar;
         this.user = new User(mContext);
         glideAttatcher = new GlideAttatcher(mContext);
+
     }
 
     private ValueEventListener firebaseChildEventListener = new ValueEventListener() {
@@ -68,10 +71,6 @@ public class AvatarUtils {
             if(user.getmAuth()!=null)
             childDatabase = FirebaseUtils.getInstance().getmDatabase().child(Constants.AVATAR).child(user.getUserUid());
             childDatabase.addValueEventListener(firebaseChildEventListener);
-
-
-
-
         } else {
             setAvatarByName(mContext, name);
         }

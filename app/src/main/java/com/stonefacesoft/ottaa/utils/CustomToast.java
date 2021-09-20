@@ -54,19 +54,21 @@ public class CustomToast extends Application {
         prepareToast(mContext);
     }
 
-    public void prepareToast(Context mContext){
+    public CustomToast prepareToast(Context mContext){
         this.toast = new Toast(mContext);
         setUpToast = new SetUpToast();
         setUpToast.setToast(toast);
         setUpToast.prepareToast();
         setUpToast.setUseUpperCase();
         updateToastMessageLetters();
+        return this;
     }
 
 
-    public void updateToastIcon(Context mContext){
+    public CustomToast updateToastIcon(Context mContext){
         avatarUtils = new AvatarUtils(mContext,imageView);
         avatarUtils.getFirebaseAvatar();
+        return this;
     }
 
     public void updateToastMessageLetters(){
