@@ -780,6 +780,13 @@
     <string name="say_pictogram_name_description"> OTTAA says the pictogram name at the touch it </string>
     <string name="say_pictogram_name_tittle">Say the pictogram</string>
     <string name="Iam">Hello I am</string>
+    <string name="boolean_cambio_mano" translatable="false">cambio_mano</string>
+    <string name="boolean_cambio_barrido" translatable="false">cambio_barrido</string>
+    <string name="avatarmessage">avatarMessage</string>
+    <string name="hablarborrar">hablar_borrar</string>
+    <string name="ismoderator">esmoderador</string>
+    <string name="skillhand">skillHand</string>
+    <string name="showmenu">showMenu</string>
 
 
 </resources>

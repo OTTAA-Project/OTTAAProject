@@ -4,11 +4,11 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.net.Uri;
-import android.os.Build;
-import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.speech.tts.TextToSpeech;
 import android.util.Log;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.stonefacesoft.ottaa.utils.Firebase.AnalyticsFirebase;
 import com.stonefacesoft.ottaa.utils.Ttsutils.UtilsTTS;
@@ -23,9 +23,9 @@ import java.util.HashMap;
 
 public class textToSpeech {
 
-    private final CustomToast alerta;
     private final SharedPreferences sharedPrefsDefault;
     private final Context context;
+    private CustomToast alerta;
     private boolean esprincipal;
     private String oracion;
     private File file;
@@ -34,7 +34,14 @@ public class textToSpeech {
 
     public textToSpeech(Context context) {
         this.context = context;
-        alerta = CustomToast.getInstance(context);
+        this.sharedPrefsDefault = PreferenceManager.getDefaultSharedPreferences(context);
+        alerta =CustomToast.getInstance(this.context);
+        prepare=new UtilsTTS(this.context,alerta,sharedPrefsDefault);
+
+    }
+    public textToSpeech(AppCompatActivity context) {
+        this.context = context;
+        alerta =CustomToast.getInstance(this.context);
         this.sharedPrefsDefault = PreferenceManager.getDefaultSharedPreferences(context);
         prepare=new UtilsTTS(this.context,alerta,sharedPrefsDefault);
 
@@ -47,9 +54,6 @@ public class textToSpeech {
         this.oracion = frase;
         prepare.hablarConDialogo(oracion);
     }
-
-
-
 
     public void hablarSinMostrarFrase(String frase) {
         Log.e("texToSpeech_hablar", "Hablar");
@@ -118,11 +122,6 @@ public class textToSpeech {
         alerta.mostrarFrase(mensaje);
         mTracker.customEvents("Talk","Principal","Created Phrase");
     }
-
-
-
-
-
 
 }
 

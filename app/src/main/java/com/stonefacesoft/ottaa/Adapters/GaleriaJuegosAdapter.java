@@ -163,9 +163,9 @@ public class GaleriaJuegosAdapter extends RecyclerView.Adapter <GaleriaJuegosAda
                 Drawable drawable=juego.devolverCarita();
                 drawable.setTint(mContext.getResources().getColor(R.color.NaranjaOTTAA));
                 if(juego.getScoreClass().getIntentos()>0)
-                    glideAttatcher.attachedOnImaView(drawable,this.mHolder.mGameGroupView.getKindOfPictogramImageView());
+                    glideAttatcher.loadDrawable(drawable,this.mHolder.mGameGroupView.getKindOfPictogramImageView());
                 else
-                    glideAttatcher.attachedOnImaView(mContext.getResources().getDrawable(R.drawable.ic_remove_orange_24dp),this.mHolder.mGameGroupView.getKindOfPictogramImageView());
+                    glideAttatcher.loadDrawable(mContext.getResources().getDrawable(R.drawable.ic_remove_orange_24dp),this.mHolder.mGameGroupView.getKindOfPictogramImageView());
             }catch (Exception ex) {
 
             }

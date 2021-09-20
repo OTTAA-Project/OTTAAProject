@@ -105,10 +105,6 @@ public class LoginActivity2Step2 extends AppCompatActivity implements View.OnCli
         databaseRequest = new FirebaseDatabaseRequest(this);
         convert = true;
         userData = new DataUser();
-
-
-        //TODO remove the keyboard when entering the screen
-
     }
 
     @Override

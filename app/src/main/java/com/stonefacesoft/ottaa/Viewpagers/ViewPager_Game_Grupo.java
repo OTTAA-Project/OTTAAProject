@@ -3,7 +3,6 @@ package com.stonefacesoft.ottaa.Viewpagers;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -27,22 +26,16 @@ import com.stonefacesoft.ottaa.Games.MemoryGame;
 import com.stonefacesoft.ottaa.Games.WhichIsThePicto;
 import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.R;
-import com.stonefacesoft.ottaa.customComponents.Custom_Grupo_Juego;
 import com.stonefacesoft.ottaa.idioma.ConfigurarIdioma;
 import com.stonefacesoft.ottaa.utils.Games.Juego;
 import com.stonefacesoft.ottaa.utils.IntentCode;
 import com.stonefacesoft.ottaa.utils.JSONutils;
 import com.stonefacesoft.ottaa.utils.textToSpeech;
 import com.stonefacesoft.pictogramslibrary.Classes.GameGroup;
-import com.stonefacesoft.pictogramslibrary.Classes.Pictogram;
-import com.stonefacesoft.pictogramslibrary.utils.GlideAttatcher;
 import com.stonefacesoft.pictogramslibrary.view.GameGroupView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.File;
 
 //import com.stonefacesoft.ottaa.Games.DescribirPictograma;
 
@@ -109,7 +102,6 @@ public class ViewPager_Game_Grupo {
             public Fragment createFragment(int position) {
                 return new com.stonefacesoft.ottaa.Viewpagers.ViewPager_Game_Grupo.fragmentGrupo().newInstance(position);
             }
-
             @Override
             public int getItemCount() {
                 try {
@@ -194,7 +186,8 @@ public class ViewPager_Game_Grupo {
             try {
                 intent.putExtra("PictoID", array.getJSONObject(position).getInt("id"));
                 intent.putExtra("PositionPadre", position);
-                mActivity.startActivityForResult(intent, IntentCode.NOTIGAMES.getCode());
+                if(json.getHijosGrupo2(position).length()>0)
+                    mActivity.startActivityForResult(intent, IntentCode.NOTIGAMES.getCode());
             } catch (Exception e) {
                 Log.e(TAG, "OnClickItem: Error: " + e.getMessage());
             }
@@ -261,7 +254,8 @@ public class ViewPager_Game_Grupo {
                     Juego juego=new Juego(mActivity,id,levelId);
                     Drawable drawable=juego.devolverCarita();
                     drawable.setTint(mActivity.getResources().getColor(R.color.NaranjaOTTAA));
-                    if(juego.getScoreClass().getIntentos()>0)
+
+                    if(juego.getScoreClass().getIntentos()>=2)
                         grupo.setDrawableScore(drawable);
                     else{
                         grupo.setDrawableScore(mActivity.getResources().getDrawable(R.drawable.ic_remove_orange_24dp));
@@ -289,7 +283,8 @@ public class ViewPager_Game_Grupo {
                                 try {
                                     intent.putExtra("PictoID", array.getJSONObject(position).getInt("id"));
                                     intent.putExtra("PositionPadre", position);
-                                    startActivityForResult(intent, IntentCode.NOTIGAMES.getCode());
+                                    if(json.getHijosGrupo2(position).length()>=2)
+                                        startActivityForResult(intent, IntentCode.NOTIGAMES.getCode());
                                 } catch (Exception e) {
                                     Log.e(TAG, "onClick: Error: " + e.getMessage());
                                 }

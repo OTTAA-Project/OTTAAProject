@@ -10,23 +10,16 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.SearchView;
 
-import com.stonefacesoft.ottaa.FavModel;
 import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.RecyclerViews.Favorite_Phrases_recycler_view;
-import com.stonefacesoft.ottaa.RecyclerViews.MostUsedPhrases_Recycler_View;
 import com.stonefacesoft.ottaa.Views.Phrases.PhrasesView;
 import com.stonefacesoft.ottaa.utils.Accesibilidad.SayActivityName;
 import com.stonefacesoft.ottaa.utils.IntentCode;
 
-import java.util.ArrayList;
-
 public class FavoritePhrases extends PhrasesView {
 
-    private MostUsedPhrases_Recycler_View most_used_recycler_view;
     private Favorite_Phrases_recycler_view favorite_phrases_recycler_view;
-    private ArrayList<FavModel> favoritePhrases;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

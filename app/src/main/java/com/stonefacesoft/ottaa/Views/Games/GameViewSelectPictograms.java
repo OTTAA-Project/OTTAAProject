@@ -469,7 +469,7 @@ public class GameViewSelectPictograms extends AppCompatActivity implements View.
         listadoObjetosBarrido.add(guess3);
         listadoObjetosBarrido.add(guess4);
         //  listadoObjetosBarrido.add(editButton);
-        barridoPantalla = new BarridoPantalla(this, listadoObjetosBarrido, this);
+        barridoPantalla = new BarridoPantalla(this, listadoObjetosBarrido);
         if (barridoPantalla.isBarridoActivado() && barridoPantalla.devolverpago()) {
             runOnUiThread(new Runnable() {
 
@@ -566,6 +566,8 @@ public class GameViewSelectPictograms extends AppCompatActivity implements View.
     public void onLowMemory() {
         super.onLowMemory();
         this.onTrimMemory(TRIM_MEMORY_RUNNING_LOW);
+        player.reset();
+        music.reset();
         Log.d(TAG, "onLowMemory: Trimming Memory");
     }
 

@@ -6,7 +6,10 @@ public class ReturnPositionItem {
 
     public ReturnPositionItem(int size){
         this.size=size;
-        position=0;
+        if(size!=0)
+            position = 0;
+        else
+            position =-1;
     }
 
     public int add(){

@@ -43,7 +43,7 @@ public class GeneralClassWithScreenScanning extends AppCompatActivity {
         super.attachBaseContext(myContextWrapper.wrap(newBase, preferences.getString(newBase.getString(R.string.str_idioma), "en")));
     }
     private void iniciarBarrido(ArrayList<View> list) {
-        barridoPantalla = new BarridoPantalla(this, list, this);
+        barridoPantalla = new BarridoPantalla(this, list);
         if (barridoPantalla.isBarridoActivado() && barridoPantalla.devolverpago()) {
             runOnUiThread(new Runnable() {
 

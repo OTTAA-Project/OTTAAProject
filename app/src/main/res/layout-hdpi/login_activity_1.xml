@@ -43,9 +43,9 @@
                 android:id="@+id/textViewSignIn"
                 app:layout_constraintVertical_weight="1"
                 app:layout_constraintTop_toBottomOf="@id/logoLogin"
-                app:layout_constraintStart_toStartOf="@id/googleSignInButton"
-                app:layout_constraintEnd_toEndOf="@id/googleSignInButton"
-                app:layout_constraintBottom_toTopOf="@+id/googleSignInButton"
+                app:layout_constraintStart_toStartOf="@id/sign_in_button"
+                app:layout_constraintEnd_toEndOf="@id/sign_in_button"
+                app:layout_constraintBottom_toTopOf="@+id/sign_in_button"
                 android:textAlignment="center"
                 android:gravity="center"
                 android:text="@string/hello_nplease_register_to_continue"/>
@@ -53,7 +53,7 @@
             <com.google.android.gms.common.SignInButton
                 android:layout_width="0dp"
                 android:layout_height="0dp"
-                android:id="@+id/googleSignInButton"
+                android:id="@+id/sign_in_button"
                 android:tag="SingInButton"
                 app:buttonSize="wide"
                 app:colorScheme="dark"

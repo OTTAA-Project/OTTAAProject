@@ -31,7 +31,7 @@ public class UnitTestingConnectionDetector extends TestCase {
 
     }
 
-    @Override
+    @Override  
     protected TestResult createResult() {
         return super.createResult();
     }

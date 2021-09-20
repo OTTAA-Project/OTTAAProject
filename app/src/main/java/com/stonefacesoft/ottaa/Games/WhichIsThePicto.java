@@ -695,7 +695,7 @@ public class WhichIsThePicto extends AppCompatActivity implements View
         listadoObjetosBarrido.add(Opcion4);
 
         //  listadoObjetosBarrido.add(editButton);
-        barridoPantalla = new BarridoPantalla(this, listadoObjetosBarrido, this);
+        barridoPantalla = new BarridoPantalla(this, listadoObjetosBarrido);
         if (barridoPantalla.isBarridoActivado() && barridoPantalla.devolverpago()) {
             runOnUiThread(new Runnable() {
 
@@ -845,4 +845,6 @@ public class WhichIsThePicto extends AppCompatActivity implements View
 
         return false;
     }
+
+
 }

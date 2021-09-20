@@ -11,10 +11,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.firebase.auth.FirebaseAuth;
 import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.utils.AvatarPackage.AvatarUtils;
-import com.stonefacesoft.ottaa.utils.Firebase.AnalyticsFirebase;
 
 /**
  * Created by gonzalo on 1/8/18.
@@ -56,19 +54,21 @@ public class CustomToast extends Application {
         prepareToast(mContext);
     }
 
-    public void prepareToast(Context mContext){
+    public CustomToast prepareToast(Context mContext){
         this.toast = new Toast(mContext);
         setUpToast = new SetUpToast();
         setUpToast.setToast(toast);
         setUpToast.prepareToast();
         setUpToast.setUseUpperCase();
         updateToastMessageLetters();
+        return this;
     }
 
 
-    public void updateToastIcon(Context mContext){
-        avatarUtils = new AvatarUtils(mContext,imageView,FirebaseAuth.getInstance());
+    public CustomToast updateToastIcon(Context mContext){
+        avatarUtils = new AvatarUtils(mContext,imageView);
         avatarUtils.getFirebaseAvatar();
+        return this;
     }
 
     public void updateToastMessageLetters(){

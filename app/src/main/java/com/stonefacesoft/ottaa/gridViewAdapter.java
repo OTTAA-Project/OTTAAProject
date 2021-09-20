@@ -225,10 +225,10 @@ public class gridViewAdapter extends ArrayAdapter {
          */
         protected void onPostExecute(final Void unused) {
             if (mHolder.position == mPosition) {
-                glideAttatcher.attachedOnImaView(mHolder.pictoView.getImageView(),img);
+                glideAttatcher.loadDrawable(img,mHolder.pictoView.getImageView());
             }
             else {
-                glideAttatcher.attachedOnImaView(mHolder.pictoView.getImageView(),context.getResources().getDrawable(R.drawable.ic_agregar_nuevo));
+                glideAttatcher.loadDrawable(context.getResources().getDrawable(R.drawable.ic_agregar_nuevo),mHolder.pictoView.getImageView());
             }
         }
     }
@@ -263,7 +263,7 @@ public class gridViewAdapter extends ArrayAdapter {
         protected void onPostExecute(final Void unused) {
             if (mHolder.position == mPosition) {
 //                mHolder.imageTitle.setText(texto);
-                glideAttatcher.attachedOnImaView(mHolder.pictoView.getImageView(),img);
+                glideAttatcher.loadDrawable(img,mHolder.pictoView.getImageView());
             }
         }
     }

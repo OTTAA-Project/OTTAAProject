@@ -424,7 +424,7 @@ public class GaleriaPictos3 extends AppCompatActivity implements View.OnClickLis
             listadoObjetosBarrido.add(btnTalk);
             listadoObjetosBarrido.add(foward);
         }
-        barridoPantalla = new BarridoPantalla(this, listadoObjetosBarrido, this);
+        barridoPantalla = new BarridoPantalla(this, listadoObjetosBarrido);
         if (barridoPantalla.isBarridoActivado() && barridoPantalla.devolverpago()) {
             runOnUiThread(new Runnable() {
 

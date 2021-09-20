@@ -469,8 +469,8 @@
         custom:layout_constraintEnd_toEndOf="parent"
         custom:layout_constraintTop_toTopOf="parent" />
     <com.stonefacesoft.ottaa.utils.MovableFloatingActionButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/sizeAvatarButtonIconMed"
+        android:layout_height="@dimen/sizeAvatarButtonIconMed"
         android:id="@+id/movableButton"
         custom:layout_constraintStart_toStartOf="parent"
         custom:layout_constraintBottom_toTopOf="@id/constraintLeftButtons"

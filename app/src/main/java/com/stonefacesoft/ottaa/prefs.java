@@ -24,7 +24,6 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 
-import com.google.android.gms.auth.api.signin.GoogleSignInApi;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -32,7 +31,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.skydoves.colorpickerpreference.ColorPickerPreference;
 import com.stonefacesoft.ottaa.Adapters.Item_adapter;
 import com.stonefacesoft.ottaa.Dialogos.DialogUtils.Devices_Version_Dialog;
 import com.stonefacesoft.ottaa.Dialogos.DialogUtils.Progress_dialog_options;
@@ -59,12 +57,9 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
-import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 
 /**
@@ -79,11 +74,8 @@ import java.util.Locale;
 
 public class prefs extends PreferenceActivity implements SharedPreferences.OnSharedPreferenceChangeListener, FirebaseSuccessListener, EstaConectada, View.OnClickListener, Preference.OnPreferenceChangeListener, interface_show_dialog_options {
 
-    public static final int DEFAULT_1 = 45;
-    public static final int DEFAULT_2 = 65;
-    public static final int DEFAULT_3 = 75;
+
     private final static String TAG = "prefs";
-    public static String BOOL_PRESENTACION;
     public static String BOOL_TTS;
     public static String BOOL_SUBTITULO;
     public static String STR_TAM_SUBTITULO;
@@ -114,21 +106,10 @@ public class prefs extends PreferenceActivity implements SharedPreferences.OnSha
     public static String STR_BARRIDO_PANTALLA;
     public static String STR_SIP_AND_PUFF;
     public static String BOOL_SAY_PICTOGRAM;
-    public static String STR_color;
-    public static String SEEK_1;
-    public static String SEEK_2;
-    private static FirebaseSuccessListener mSucesListener;
-    private static boolean mCerrarSesion;
-    private static FirebaseSuccessListener mFirebaseSuccess;
-    public GoogleSignInApi mGoogleSignInClient;
     int permission = 0;
     DownloadFilesTask downloadFilesTask;
     private String strIdioma_original;
     private boolean status;
-    private String mBackupDates, mHumanDate, mSelectedBackupDate, mPictosBackupUrl, mFrasesBackupUrl, mGruposBackupUrl, mFotosBackupUrl;
-    private String mPictosDownloadUrlDispacher, mFrasesDownloadUrlDispacher, mGruposDownloadUrlDispacher, mFotosDownloadUrlDispacher;
-    private ArrayList<JSONObject> listadoGrupos;
-    private ArrayList<JSONObject> listadoPictos;
     private ObservableInteger obsInt;
     private ControlFacial mFaceControl;
     private AnalyticsFirebase analyticsFirebase;
@@ -143,7 +124,7 @@ public class prefs extends PreferenceActivity implements SharedPreferences.OnSha
     private PersonalSwitchPreferences mBoolExperimental;
     private PersonalSwitchPreferences mBoolSipAndPuff;
     private PersonalSwitchPreferences mBoolSayPictogram;
-    private StorageReference mStorageRef, mStorageRefPictosBackup, mStorageRefPictos, mStorageRefGrupos;
+    private StorageReference mStorageRef;
     // private ProgressDialog progressDialog,dialog;
     private Progress_dialog_options firebaseDialog;
     private String locale;
@@ -162,33 +143,22 @@ public class prefs extends PreferenceActivity implements SharedPreferences.OnSha
     private Preference mNumVelocidad, mNumVelocidadBarrido, mNumVelocidadClicker, mNumTono;
     private Preference mNumVelocidadScroll;
     private Preference device1, device2;
-    private StorageReference mStorageRef2, mStorageRef3;
     private EditTextPreference mStrPresentacion;
     private FirebaseAuth mAuth;
-    private String uid;
-    private DatabaseReference mDatabase;
-    private ColorPickerPreference mColorPreferencePicker;
-    //Declaracion del calendario.
-    private List<String> lstBackups;
-    private ArrayList<String> lstBackupsMilis;
-    private int mCheckDescarga;
+
+
     // private BajarJsonFirebase bajarJsonFirebase;
     private Json json;
     private boolean cambioIdioma;
+    private boolean cambioDeLado;
+    private boolean cambioBarrido;
     private textToSpeech myTTS;
     private BajarJsonFirebase bajarJsonFirebase;
     private HandlerComunicationClass handlerComunicationClass;
     private String message = "";
     private FirebaseUtils firebaseUtils;
 
-    public static void setMcerrarSesion(boolean b) {
-        if (b == true) {
-            mCerrarSesion = b;
-            if (mFirebaseSuccess != null)
-                mFirebaseSuccess.onArchivosSubidos(b);
 
-        }
-    }
 
     //Chequear si hay internet
     public static boolean isNetworkAvailable() {
@@ -239,17 +209,14 @@ public class prefs extends PreferenceActivity implements SharedPreferences.OnSha
     private void initComponents() {
         //Implemento el manejador de preferencias
         mAuth = FirebaseAuth.getInstance();
-        uid = mAuth.getCurrentUser().getUid();
         firebaseUtils = FirebaseUtils.getInstance();
         firebaseUtils.setmContext(this);
         firebaseUtils.setUpFirebaseDatabase();
-        mDatabase = firebaseUtils.getmDatabase();
         mStorageRef = FirebaseStorage.getInstance().getReference();
         sharedPrefsDefault = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
         Json.getInstance().setmContext(this);
         json = Json.getInstance();
-        mFirebaseSuccess = this;
         strIdioma_original = sharedPrefsDefault.getString(getString(R.string.str_idioma), "en");
         downloadFilesTask = new DownloadFilesTask(strIdioma_original);
         myTTS = new textToSpeech(this);
@@ -509,6 +476,9 @@ public class prefs extends PreferenceActivity implements SharedPreferences.OnSha
 
         Intent databack = new Intent();
         databack.putExtra(getString(R.string.boolean_cambio_idioma), cambioIdioma);
+        databack.putExtra(getString(R.string.boolean_cambio_mano),cambioDeLado);
+        databack.putExtra(getString(R.string.boolean_cambio_barrido),cambioBarrido);
+
         setResult(IntentCode.CONFIG_SCREEN.getCode(), databack);
         finish();
 
@@ -828,14 +798,12 @@ public class prefs extends PreferenceActivity implements SharedPreferences.OnSha
                 if (status) {
                     Item_adapter adapter = (Item_adapter) dialog_option_item.getRecycler().getAdapter();
                     final String value = adapter.getmArrayListValues()[adapter.devolverPosition()];
-                    //      mostrarDialogo();
                     sharedPrefsDefault.edit().putString(preferences, value).apply();
                     message = "Bajando sugerencias";
                     final StorageReference mPredictionRef = mStorageRef.child("Archivos_Sugerencias").child("pictos_" + sharedPrefsDefault.getString("prefSexo", "FEMENINO") + "_" + sharedPrefsDefault.getString("prefEdad", "JOVEN") + ".txt");
                     bajarJsonFirebase.descargarPictosDatabase(mPredictionRef);
                     handlerComunicationClass.sendMessage(
                             Message.obtain(handlerComunicationClass, HandlerComunicationClass.SHOWDIALOG, ""));
-                    //    new ordenarPictos().execute();
                 }
 
             }
@@ -852,14 +820,12 @@ public class prefs extends PreferenceActivity implements SharedPreferences.OnSha
                 if (status) {
                     Item_adapter adapter = (Item_adapter) dialog_option_item.getRecycler().getAdapter();
                     final String value = adapter.getmArrayListValues()[adapter.devolverPosition()];
-                    //      mostrarDialogo();
                     sharedPrefsDefault.edit().putString(preference, value).apply();
                     message = "Bajando sugerencias";
                     final StorageReference mPredictionRef = mStorageRef.child("Archivos_Sugerencias").child("pictos_" + sharedPrefsDefault.getString("prefSexo", "FEMENINO") + "_" + sharedPrefsDefault.getString("prefEdad", "JOVEN") + ".txt");
                     bajarJsonFirebase.descargarPictosDatabase(mPredictionRef);
                     handlerComunicationClass.sendMessage(
                             Message.obtain(handlerComunicationClass, HandlerComunicationClass.SHOWDIALOG, ""));
-                    //    new ordenarPictos().execute();
                 }
 
             }
@@ -878,7 +844,6 @@ public class prefs extends PreferenceActivity implements SharedPreferences.OnSha
                     final String value = adapter.getmArrayListValues()[adapter.devolverPosition()];
                     if (value != null)
                         sharedPrefsDefault.edit().putInt(preferences, Integer.parseInt(value)).apply();
-                    //    new ordenarPictos().execute();
                 }
 
             }
@@ -895,12 +860,12 @@ public class prefs extends PreferenceActivity implements SharedPreferences.OnSha
                 if (status) {
                     Item_adapter adapter = (Item_adapter) dialog_option_item.getRecycler().getAdapter();
                     int value = adapter.devolverPosition();
-                    if (value == 0)
+                    cambioDeLado = true;
+                    if (value == 0) {
                         sharedPrefsDefault.edit().putBoolean(preferences, false).apply();
-                    else
+                    }else {
                         sharedPrefsDefault.edit().putBoolean(preferences, true).apply();
-
-                    //    new ordenarPictos().execute();
+                    }
                 }
 
             }
@@ -936,6 +901,7 @@ public class prefs extends PreferenceActivity implements SharedPreferences.OnSha
             public boolean onPreferenceChange(Preference preference, Object o) {
                 analyticsFirebase.customEvents("Settings", "pref", "Screen Scanning");
                 mBoolBarrido.setChecked(!mBoolBarrido.isChecked());
+                cambioBarrido = true;
                 if (mBoolBarrido.isChecked()) {
                     if (!mBoolTipoBarrido.isChecked() && !mBoolUsarScroll.isChecked() && !mBoolUsarScrollClick.isChecked())
                         mBoolBarridoPantalla.setChecked(true);
@@ -1059,7 +1025,6 @@ public class prefs extends PreferenceActivity implements SharedPreferences.OnSha
             sharedPrefsDefault.edit().putString(getString(R.string.str_idioma_buffer), s).apply();
             sharedPrefsDefault.edit().putString(getString(R.string.str_idioma), s).apply();
             ConfigurarIdioma.setLanguage(sharedPrefsDefault.getString(getString(R.string.str_idioma), "en"));
-
             cambioIdioma = true;
             return null;
         }

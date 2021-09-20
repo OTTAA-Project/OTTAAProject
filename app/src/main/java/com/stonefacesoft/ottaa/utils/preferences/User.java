@@ -28,7 +28,19 @@ public class User {
     private static FirebaseSuccessListener mFirebaseSuccess;
     private final FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
+    private static User _user;
 
+    public synchronized  static User getInstance(Activity mActivity){
+        if(_user ==  null)
+            _user = new User(mActivity);
+        return _user;
+    }
+
+    public synchronized  static User getInstance(Context mContext){
+        if(_user ==  null)
+            _user = new User(mContext);
+        return _user;
+    }
 
 
     public User(Activity mContext){
@@ -126,5 +138,9 @@ public class User {
 
     public String getUserUid(){
         return mAuth.getCurrentUser().getUid();
+    }
+
+    public boolean isPremium(){
+        return sharedPrefsDefault.getInt("premium", 0) == 1;
     }
 }
