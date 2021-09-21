@@ -112,7 +112,7 @@ references:
 
   run_lint_testing: &run_lint_test
     run:
-      name: run test
+      name: run lint test
       command: ./gradlew lint test
 
   chmod_change_setup: &chmodGradle
@@ -230,7 +230,6 @@ jobs:
           password: $DOCKER_PASSWORD
     steps:
       - checkout
-      - *clean_cache
       - restore_cache: *cache_key
       - *chmodGradle
       - *export_google_services_json
@@ -238,6 +237,7 @@ jobs:
       - *prepare_file
       - *decode_file
       - *run_testing
+      - *prepare_test_result
       - *run_lint_test
       - *prepare_test_result
       - *store_artifacts
@@ -251,7 +251,6 @@ jobs:
           password: $DOCKER_PASSWORD
     steps:
       - checkout
-      - *clean_cache
       - restore_cache: *cache_key
       - *chmodGradle
       - *export_google_services_json
