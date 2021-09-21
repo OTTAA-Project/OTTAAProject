@@ -3,18 +3,20 @@ apply plugin: 'com.android.application'
 apply plugin: 'com.google.firebase.firebase-perf'
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.google.firebase.crashlytics'
+apply plugin: 'maven-publish'
+apply plugin: 'com.google.gms.google-services'
+
 
 
 
 android {
     signingConfigs {
     }
-    compileSdkVersion 30
-    buildToolsVersion '30.0.2'
+    compileSdkVersion 31
+    buildToolsVersion '30.0.3'
+
     useLibrary 'org.apache.http.legacy'
-
     useLibrary 'android.test.runner'
-
     useLibrary 'android.test.base'
     useLibrary 'android.test.mock'
 
@@ -22,25 +24,18 @@ android {
     defaultConfig {
         applicationId "com.stonefacesoft.ottaa"
         minSdkVersion 21
-        targetSdkVersion 30
-        versionCode 90
-        versionName "6.7.1" //
+        targetSdkVersion 31
+        versionCode 91
+        versionName "6.7.2" //
         // Enabling multidex support.
-        multiDexEnabled = true
+        multiDexEnabled true
         resConfigs "ar,en,es,it"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"//
         testHandleProfiling true
         testFunctionalTest true
         testInstrumentationRunnerArguments clearPackageData: 'true'
-
-
-
     }
-    dexOptions {
-        incremental true
-        preDexLibraries = false
-        javaMaxHeapSize "4g" // 2g should be also OK
-    }
+
     buildTypes {
         debug {
             minifyEnabled true
@@ -51,7 +46,6 @@ android {
             testCoverageEnabled true
         }
         sourceSets.debug.resources.srcDirs = ['src/debug/res']
-
         release {
             minifyEnabled true
             shrinkResources true
@@ -60,6 +54,7 @@ android {
         }
         lintOptions {
             abortOnError false
+            checkDependencies true
         }
 
 
@@ -72,12 +67,12 @@ android {
 //            // If you are using only one dimension, this property is optional,
 //            // and the plugin automatically assigns all the module's flavors to
 //            // that dimension.
-//            dimension "accesibility"
+//            dimension "accessibility"
 //            applicationIdSuffix ".demo"
 //            versionNameSuffix "-demo"
 //        }
 //        full {
-//            dimension "accesibility"
+//            dimension "accessibility"
 //            applicationIdSuffix ".full"
 //            versionNameSuffix "-full"
 //        }
@@ -94,8 +89,6 @@ android {
         unitTests.all{
             jvmArgs '-XX:MaxPermSize=256m'
         }
-        execution 'ANDROIDX_TEST_ORCHESTRATOR'
-
 
     }
 
@@ -116,16 +109,11 @@ repositories {
         url 'https://maven.google.com/'
         name 'Google'
     }
-    jcenter()
 }
 dependencies {
 
     testImplementation "org.json:json:20210307"
-
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-//    implementation('com.github.worker8:tourguide:2.0.0-SNAPSHOT@aar') {
-//        transitive = true
-//    }
 
     implementation('com.h6ah4i.android.widget.advrecyclerview:advrecyclerview:0.11.0@aar') {
         transitive = true
@@ -137,10 +125,6 @@ dependencies {
         // exclude group: 'com.google.guava'
     }
 
-
-//    implementation('com.github.worker8:tourguide:2.0.0-SNAPSHOT@aar') {
-//        transitive = true
-//    }
     // Optional -- Mockito framework
     //androidx library
     implementation 'androidx.appcompat:appcompat:1.3.1'
@@ -156,15 +140,14 @@ dependencies {
     // places library
     implementation 'com.google.android.libraries.places:places:2.4.0'
     //play services library
-    implementation 'com.google.android.gms:play-services-analytics:17.0.0'
+    implementation 'com.google.android.gms:play-services-analytics:17.0.1'
     implementation 'com.google.android.gms:play-services-auth:19.2.0'
     implementation 'com.google.android.gms:play-services-base:17.6.0'
     implementation 'com.google.android.gms:play-services-location:18.0.0'
 
     //implementation
-    implementation 'com.android.volley:volley:1.2.0'
+    implementation 'com.android.volley:volley:1.2.1'
     implementation 'com.airbnb.android:lottie:3.0.0'
-    implementation 'io.github.kobakei:ratethisapp:1.2.0'
     implementation group: 'com.google.apis', name: 'google-api-services-translate', version: 'v2-rev48-1.22.0'
     implementation group: 'com.google.api-client', name: 'google-api-client-gson', version: '1.25.0'
     implementation 'androidx.navigation:navigation-fragment:2.3.5'
@@ -175,22 +158,16 @@ dependencies {
     testImplementation "org.robolectric:robolectric:3.3.2"
     testImplementation group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.30'
 
-
     //Testing
 
     androidTestImplementation 'androidx.test:core:1.4.0'
 
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
 
-    //Testing
-
-    androidTestImplementation 'androidx.test:core:1.4.0'
-
     // AndroidJUnitRunner and JUnit Rules
     androidTestImplementation 'androidx.test:runner:1.4.0'
     androidTestImplementation 'androidx.test:rules:1.4.0'
     androidTestUtil 'androidx.test:orchestrator:1.4.0'
-
 
     // Assertions
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
@@ -212,6 +189,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-idling-resource:3.4.0'
 
 
+
     // The following Espresso dependency can be either "implementation"
     // or "androidTestImplementation", depending on whether you want the
     // dependency to appear on your APK's compile classpath or the test APK
@@ -227,15 +205,21 @@ dependencies {
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 
     // firebase library
-    implementation 'com.google.firebase:firebase-auth:21.0.1'
+    implementation platform('com.google.firebase:firebase-bom:28.3.1')
+    implementation 'com.google.firebase:firebase-auth'
     implementation 'com.google.firebase:firebase-config:21.0.1'
-    implementation 'com.google.firebase:firebase-core:19.0.0'
-    implementation 'com.google.firebase:firebase-database:20.0.1'
+    implementation 'com.google.firebase:firebase-core:19.0.1'
+    implementation 'com.google.firebase:firebase-database:20.0.2'
     implementation 'com.google.firebase:firebase-messaging:22.0.0'
-    implementation 'com.google.firebase:firebase-inappmessaging-display:20.0.0'
+    implementation 'com.google.firebase:firebase-inappmessaging-display:20.1.0'
     implementation 'com.google.firebase:firebase-perf:20.0.2'
     implementation 'com.google.firebase:firebase-storage:20.0.0'
-    implementation 'com.firebaseui:firebase-ui-database:5.0.0'
+
+
+
+    implementation "io.grpc:grpc-okhttp:1.32.2"
+
+
 
     // Glide
     implementation 'com.github.bumptech.glide:glide:4.11.0'
@@ -243,9 +227,8 @@ dependencies {
     // material library
     implementation 'com.google.android.material:material:1.4.0'
 
-    //Firebase chrashlitics
     implementation 'com.google.firebase:firebase-crashlytics:18.2.1'
-    implementation 'com.google.firebase:firebase-analytics:19.0.0'
+    implementation 'com.google.firebase:firebase-analytics:19.0.1'
     //Guava library
     implementation("com.google.guava:guava:30.1.1-android")
     //Facebook
@@ -254,8 +237,9 @@ dependencies {
 
     //Image Cropper
     //TODO add this library to the Wiki
-    implementation 'com.theartofdev.edmodo:android-image-cropper:2.8.0'
-    implementation 'com.github.OTTAA-Project:PictogramsLibrary:0.1.8.26'
+    implementation 'com.github.CanHub:Android-Image-Cropper:3.2.2'
+    // pictograms library
+    implementation 'com.github.OTTAA-Project:PictogramsLibrary:0.1.9.4'
     //Sendgrid integration
 
 }
@@ -266,6 +250,8 @@ configurations {
         exclude module: 'httpclient'
     }
 }
+
+
 
 /*
 configurations.all {

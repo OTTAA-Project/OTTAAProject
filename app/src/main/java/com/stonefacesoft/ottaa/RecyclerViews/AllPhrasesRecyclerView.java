@@ -1,20 +1,14 @@
 package com.stonefacesoft.ottaa.RecyclerViews;
 
-import android.content.Context;
-import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.stonefacesoft.ottaa.Adapters.PhrasesAdapter;
 import com.stonefacesoft.ottaa.R;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 
 public class AllPhrasesRecyclerView extends Custom_recyclerView {
@@ -109,11 +103,15 @@ public class AllPhrasesRecyclerView extends Custom_recyclerView {
     @Override
     public void talkAtPosition(){
         try {
-            if(createReturnPositionItem())
-                myTTS.hablar(adapter.getUserPhrases().getJSONObject(getPositionItem.getPosition()).getString("frase"));
-        } catch (JSONException e) {
+            if(createReturnPositionItem()){
+              int value = getPositionItem.getPosition();
+              if(validatePosition(value))
+                myTTS.hablar(adapter.getUserPhrases().getJSONObject(value).getString("frase"));
+            }
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
 
 }

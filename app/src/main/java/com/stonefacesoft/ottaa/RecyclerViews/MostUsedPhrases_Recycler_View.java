@@ -80,7 +80,11 @@ public class MostUsedPhrases_Recycler_View extends Custom_recyclerView {
 
     @Override
     public void talkAtPosition() {
-        if(createReturnPositionItem())
-            mostUsedFavoritePhrasesAdapter.getMyTTs().hablar(mostUsedFavoritePhrasesAdapter.getmFavImagesArrayList().get(getPositionItem.getPosition()).getTexto());
+        if(createReturnPositionItem()) {
+            int value = getPositionItem.getPosition();
+            if(validatePosition(value))
+                mostUsedFavoritePhrasesAdapter.getMyTTs().hablar(mostUsedFavoritePhrasesAdapter.getmFavImagesArrayList().get(value).getTexto());
+        }
     }
+
 }

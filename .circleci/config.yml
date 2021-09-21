@@ -19,6 +19,7 @@ workflows:
             branches:
               only:
                 - circleciSettings
+                - master
 #      - TestProject:
 #          filters:
 #            branches:
@@ -32,6 +33,10 @@ references:
   restore_cache: &restore_cache
     <<: *cache_key
 
+  clean_cache: &clean_cache
+    run:
+      name: clean cache
+      command: ./gradlew clean
   #workspace
   workspace: &workspace ~/src
   mobile_path: &mobile_build_path
@@ -107,7 +112,7 @@ references:
 
   run_lint_testing: &run_lint_test
     run:
-      name: run test
+      name: run lint test
       command: ./gradlew lint test
 
   chmod_change_setup: &chmodGradle
@@ -215,15 +220,11 @@ references:
 
 
 
-
-
-
-
 jobs:
   unitTesting:
     <<: *android_config
     docker:
-      - image: circleci/android:api-29
+      - image: circleci/android:api-30
         auth:
           username: $DOCKER_USER
           password: $DOCKER_PASSWORD
@@ -236,6 +237,7 @@ jobs:
       - *prepare_file
       - *decode_file
       - *run_testing
+      - *prepare_test_result
       - *run_lint_test
       - *prepare_test_result
       - *store_artifacts
@@ -243,7 +245,7 @@ jobs:
   InstrumentationTest:
     <<: *android_config
     docker:
-      - image: circleci/android:api-29
+      - image: circleci/android:api-30
         auth:
           username: $DOCKER_USER
           password: $DOCKER_PASSWORD

@@ -115,7 +115,7 @@ public class PhrasesView extends AppCompatActivity implements View.OnClickListen
         listadoObjetosBarrido.add(btnTalk);
         listadoObjetosBarrido.add(foward);
         //  listadoObjetosBarrido.add(editButton);
-        barridoPantalla = new BarridoPantalla(this, listadoObjetosBarrido, this);
+        barridoPantalla = new BarridoPantalla(this, listadoObjetosBarrido);
         if (barridoPantalla.isBarridoActivado() && barridoPantalla.devolverpago()) {
             runOnUiThread(new Runnable() {
 

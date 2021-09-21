@@ -77,7 +77,7 @@ public class Juego {
        this.levelId=levelId;
        this.reloj=new Reloj();
        crearObjetoJson();
-       JSONObject score=json.getObjectPuntaje(object);
+       JSONObject score = json.getObjectPuntaje(object);
        if(score!=null){
            try {
                setCalculaPuntos(score.getInt("aciertos"),score.getInt("desaciertos"));

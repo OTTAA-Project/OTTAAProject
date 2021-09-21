@@ -28,6 +28,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.Target;
+import com.canhub.cropper.CropImage;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -43,12 +44,9 @@ import com.stonefacesoft.ottaa.FirebaseRequests.FirebaseUtils;
 import com.stonefacesoft.ottaa.utils.AvatarPackage.SelectedAvatar;
 import com.stonefacesoft.ottaa.utils.ConnectionDetector;
 import com.stonefacesoft.ottaa.utils.Constants;
-import com.stonefacesoft.ottaa.utils.CustomToast;
 import com.stonefacesoft.ottaa.utils.Firebase.AnalyticsFirebase;
 import com.stonefacesoft.ottaa.utils.InmersiveMode;
 import com.stonefacesoft.ottaa.utils.IntentCode;
-import com.stonefacesoft.ottaa.utils.preferences.PreferencesUtil;
-import com.theartofdev.edmodo.cropper.CropImage;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -252,6 +250,7 @@ public class LoginActivity2Avatar extends AppCompatActivity implements View.OnCl
             Uri uri = data.getParcelableExtra("imageUri");
             avatarId = -1;
             uploadAvatar = true;
+            Log.d(TAG, "onActivityResult: "+ uri);
             Glide.with(this).load(uri)
                     .override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
                     .error(R.drawable.ic_no)

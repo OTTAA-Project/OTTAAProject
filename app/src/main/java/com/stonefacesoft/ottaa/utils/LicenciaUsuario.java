@@ -16,7 +16,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 import com.stonefacesoft.ottaa.FirebaseRequests.FirebaseUtils;
 import com.stonefacesoft.ottaa.LoginActivity2;
-import com.stonefacesoft.ottaa.utils.Constants;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
@@ -62,7 +61,6 @@ public class LicenciaUsuario {
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 if (firebaseAuth.getCurrentUser() != null) {
                     new VerificarPagoUsuario(mAuth.getCurrentUser().getUid()).execute();
-
                 } else {
                     if (mContext != null) {
                         Intent intent = new Intent(mContext, LoginActivity2.class);
@@ -115,10 +113,7 @@ public class LicenciaUsuario {
                                                 cambiarEstadoPremium(0 + "");
                                                 databaseReference.child(Constants.PAGO).child(mAuth.getCurrentUser().getUid()).child(Constants.PAGO).getRef().setValue(0);
                                             }
-
-
                                         }
-
                                     }
 
                                     @Override
