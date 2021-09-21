@@ -28,7 +28,7 @@ android {
         versionCode 91
         versionName "6.7.2" //
         // Enabling multidex support.
-        multiDexEnabled = true
+        multiDexEnabled true
         resConfigs "ar,en,es,it"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"//
         testHandleProfiling true
