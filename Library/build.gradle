@@ -8,8 +8,12 @@ buildscript {
     }
 
 }
-apply plugin: 'com.android.library'
-apply plugin: 'maven-publish'
+
+plugins {
+    id 'com.android.library'
+    id 'maven-publish'
+}
+
 
 android {
     compileSdkVersion 18
@@ -34,6 +38,8 @@ android {
     }
     defaultConfig {
         minSdkVersion  12
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
     }
 
     lintOptions {
