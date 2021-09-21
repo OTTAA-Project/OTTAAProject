@@ -33,6 +33,10 @@ references:
   restore_cache: &restore_cache
     <<: *cache_key
 
+  clean_cache: &clean_cache
+    run:
+      name: clean cache
+      command: ./gradlew clean
   #workspace
   workspace: &workspace ~/src
   mobile_path: &mobile_build_path
@@ -226,6 +230,7 @@ jobs:
           password: $DOCKER_PASSWORD
     steps:
       - checkout
+      - *clean_cache
       - restore_cache: *cache_key
       - *chmodGradle
       - *export_google_services_json
@@ -246,6 +251,7 @@ jobs:
           password: $DOCKER_PASSWORD
     steps:
       - checkout
+      - *clean_cache
       - restore_cache: *cache_key
       - *chmodGradle
       - *export_google_services_json
