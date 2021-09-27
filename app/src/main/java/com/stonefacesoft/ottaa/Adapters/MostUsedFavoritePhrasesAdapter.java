@@ -37,7 +37,7 @@ public class MostUsedFavoritePhrasesAdapter extends RecyclerView.Adapter<MostUse
     public MostUsedFavoritePhrasesAdapter(Context mContext, ProgressBarListener progressBarListener){
         this.mContext = mContext;
         this.mFavImagesArrayList = new ArrayList<>();
-        this.myTTs = new textToSpeech(this.mContext);
+        this.myTTs = textToSpeech.getInstance(this.mContext);
         this.progressBarListener = progressBarListener;
         new cargarFavoritos().execute();
     }
@@ -99,7 +99,7 @@ public class MostUsedFavoritePhrasesAdapter extends RecyclerView.Adapter<MostUse
             if (myTTs != null)
                 myTTs.hablar(imagFav);// the system talk and say the phrases selected by the user
             else if (myTTs == null && mContext != null) {
-                myTTs = new textToSpeech(mContext);
+                myTTs = textToSpeech.getInstance(mContext);
                 myTTs.hablar(imagFav);
             }
         }

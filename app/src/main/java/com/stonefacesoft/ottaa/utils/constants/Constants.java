@@ -1,4 +1,4 @@
-package com.stonefacesoft.ottaa.utils;
+package com.stonefacesoft.ottaa.utils.constants;
 
 /**
  * Created by Hector on 16/02/2016.

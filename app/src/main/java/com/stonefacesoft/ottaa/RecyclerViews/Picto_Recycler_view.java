@@ -15,7 +15,7 @@ import com.stonefacesoft.ottaa.Edit_Picto_Visual;
 import com.stonefacesoft.ottaa.Helper.RecyclerItemClickListener;
 import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.R;
-import com.stonefacesoft.ottaa.utils.Constants;
+import com.stonefacesoft.ottaa.utils.constants.Constants;
 import com.stonefacesoft.ottaa.utils.IntentCode;
 import com.stonefacesoft.ottaa.utils.JSONutils;
 import com.stonefacesoft.ottaa.utils.PopupMenuUtils;

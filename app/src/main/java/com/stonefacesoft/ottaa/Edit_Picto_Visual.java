@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -58,9 +59,9 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.stonefacesoft.ottaa.Bitmap.UriFiles;
-import com.stonefacesoft.ottaa.Dialogos.newsDialog.NewDialogsOTTAA;
 import com.stonefacesoft.ottaa.Dialogos.DialogUtils.Progress_dialog_options;
 import com.stonefacesoft.ottaa.Dialogos.DialogUtils.Yes_no_otheroptionDialog;
+import com.stonefacesoft.ottaa.Dialogos.newsDialog.NewDialogsOTTAA;
 import com.stonefacesoft.ottaa.FirebaseRequests.BajarJsonFirebase;
 import com.stonefacesoft.ottaa.FirebaseRequests.FirebaseUtils;
 import com.stonefacesoft.ottaa.FirebaseRequests.SubirArchivosFirebase;
@@ -72,11 +73,11 @@ import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.idioma.ConfigurarIdioma;
 import com.stonefacesoft.ottaa.idioma.myContextWrapper;
 import com.stonefacesoft.ottaa.utils.ConnectionDetector;
-import com.stonefacesoft.ottaa.utils.Constants;
 import com.stonefacesoft.ottaa.utils.Custom_button;
 import com.stonefacesoft.ottaa.utils.Firebase.AnalyticsFirebase;
 import com.stonefacesoft.ottaa.utils.IntentCode;
 import com.stonefacesoft.ottaa.utils.JSONutils;
+import com.stonefacesoft.ottaa.utils.constants.Constants;
 import com.stonefacesoft.ottaa.utils.exceptions.FiveMbException;
 import com.stonefacesoft.ottaa.utils.textToSpeech;
 import com.stonefacesoft.ottaa.utils.traducirTexto;
@@ -211,52 +212,9 @@ public class Edit_Picto_Visual extends AppCompatActivity implements View.OnClick
         super.onCreate(savedInstanceState);
         new ConfigurarIdioma(getApplicationContext(), PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString(getApplicationContext().getString(R.string.str_idioma), "en"));
         setContentView(R.layout.edit_picto_visual);
-        firebaseUtils=FirebaseUtils.getInstance();
-        firebaseUtils.setmContext(mContext);
-        firebaseUtils.setUpFirebaseDatabase();
-
-        toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        constraintBotonera = findViewById(R.id.constraintRightButtons);
-        dialogs=new Progress_dialog_options(this);
-        cornerImageView = findViewById(R.id.cornerImageViewLeft);
-      /*  try{
-            strictModeClassUtils.init(this);
-        }catch (Exception ex){
-            Log.e("StrictMode","No es valido en este punto");
-        }*/
-        //Obtenemos el userID del usuario logueado
-        mAuth = FirebaseAuth.getInstance();
-
-        uid = mAuth.getCurrentUser().getUid();
+        initComponents();
         //LLamamos a la clase subirArchivosFirebase para subir grupos, pictos y frases donde necesitemos
-        uploadFile = new SubirArchivosFirebase(getApplicationContext());
 
-        //Declaro el timestamp para el nombre de las fotos que se suben a firebase
-        mTimeStamp = new SimpleDateFormat("ddMMyyyy_HHmmss").format(new Date());
-
-        //Implemento el manejador de preferencias
-        sharedPrefsDefault = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-
-        Json.getInstance().setmContext(getApplicationContext());
-        json = Json.getInstance();
-
-
-        asignTags = new AsignTags(getApplicationContext());
-        asignTags.setInterfaz(this);
-        asignTags.setInterfazTag(this);
-
-        /*Referencias storage grupos, pictos*/
-        mStorageRef = FirebaseStorage.getInstance().getReference();
-
-        /*Referencias database grupos pictos*/
-        mDatabase =firebaseUtils.getmDatabase();
-
-        bajarJsonFirebase = new BajarJsonFirebase(sharedPrefsDefault, mAuth, getApplicationContext());
-
-        Intent checkTTSIntent = new Intent();
-        checkTTSIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
-        startActivityForResult(checkTTSIntent, IntentCode.MY_DATA_CHECK_CODE.getCode());
 
 
         Intent intent = getIntent();
@@ -271,10 +229,6 @@ public class Edit_Picto_Visual extends AppCompatActivity implements View.OnClick
         color = intent.getIntExtra("Color", getResources().getColor(R.color.Orange));
         vienePrincipal = intent.getBooleanExtra("principal", false);
         textViewBtnFrame = findViewById(R.id.textViewBtnFrame);
-
-
-        myTTS = new textToSpeech(this);
-
 
         Drawable draw = null;
 
@@ -1060,12 +1014,11 @@ public class Edit_Picto_Visual extends AppCompatActivity implements View.OnClick
         }
         try {
             FileOutputStream fos = new FileOutputStream(pictureFile);
-            image = Bitmap.createScaledBitmap(image, 500, 500, false);
+            get_Resized_Bitmap(image,(image.getHeight()*75)/100,(image.getWidth()*75)/100);
             image.compress(Bitmap.CompressFormat.WEBP, 100, fos);
             fos.close();
             if (backupPictureFile != null) {
                 FileOutputStream fosBackup = new FileOutputStream(backupPictureFile);
-                image = Bitmap.createScaledBitmap(image, 500, 500, false);
                 image.compress(Bitmap.CompressFormat.WEBP, 100, fosBackup);
                 fosBackup.close();
             }
@@ -1423,6 +1376,83 @@ public class Edit_Picto_Visual extends AppCompatActivity implements View.OnClick
     public void onTrimMemory(int level) {
         super.onTrimMemory(level);
 
+    }
+    public Bitmap get_Resized_Bitmap(Bitmap bmp, int newHeight, int newWidth) {
+        int width = bmp.getWidth();
+        int height = bmp.getHeight();
+        float scaleWidth = ((float) newWidth) / width;
+        float scaleHeight = ((float) newHeight) / height;
+        // CREATE A MATRIX FOR THE MANIPULATION
+        Matrix matrix = new Matrix();
+        // RESIZE THE BIT MAP
+        matrix.postScale(scaleWidth, scaleHeight);
+
+        // "RECREATE" THE NEW BITMAP
+        Bitmap newBitmap = Bitmap.createBitmap(bmp, 0, 0, width, height, matrix, false);
+        return newBitmap ;
+    }
+
+    public void initComponents(){
+        initPreferencesMethods();
+        initFirebase();
+        initFirstComponents();
+        init();
+        initPictogram();
+
+    }
+    public void initFirebase(){
+        firebaseUtils=FirebaseUtils.getInstance();
+        firebaseUtils.setmContext(mContext);
+        firebaseUtils.setUpFirebaseDatabase();
+        mAuth = FirebaseAuth.getInstance();
+        uid = mAuth.getCurrentUser().getUid();
+        uploadFile = new SubirArchivosFirebase(getApplicationContext());
+        mStorageRef = FirebaseStorage.getInstance().getReference();
+        /*Referencias database grupos pictos*/
+        mDatabase =firebaseUtils.getmDatabase();
+        bajarJsonFirebase = new BajarJsonFirebase(sharedPrefsDefault, mAuth, getApplicationContext());
+    }
+    public void initFirstComponents(){
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        constraintBotonera = findViewById(R.id.constraintRightButtons);
+        dialogs=new Progress_dialog_options(this);
+        cornerImageView = findViewById(R.id.cornerImageViewLeft);
+    }
+    public void initPreferencesMethods(){
+        //Declaro el timestamp para el nombre de las fotos que se suben a firebase
+        mTimeStamp = new SimpleDateFormat("ddMMyyyy_HHmmss").format(new Date());
+        //Implemento el manejador de preferencias
+        sharedPrefsDefault = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+
+    }
+    public void init(){
+        myTTS = textToSpeech.getInstance(this);
+        Json.getInstance().setmContext(getApplicationContext());
+        json = Json.getInstance();
+        asignTags = new AsignTags(getApplicationContext());
+        asignTags.setInterfaz(this);
+        asignTags.setInterfazTag(this);
+
+        /*Referencias storage grupos, pictos*/
+        Intent checkTTSIntent = new Intent();
+        checkTTSIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
+        startActivityForResult(checkTTSIntent, IntentCode.MY_DATA_CHECK_CODE.getCode());
+    }
+
+    public void initPictogram(){
+        Intent intent = getIntent();
+        PictoID = intent.getIntExtra("PictoID", 0);
+        texto = intent.getStringExtra("Texto");
+        padre = intent.getIntExtra("Padre", 0);
+        sel = intent.getIntExtra("Sel", 0);
+        nombre = intent.getStringExtra("Nombre");
+        esGrupo = intent.getBooleanExtra("esGrupo", false);
+        esNuevo = intent.getBooleanExtra("esNuevo", false);
+        grupo = intent.getIntExtra("Grupo", 0);
+        color = intent.getIntExtra("Color", getResources().getColor(R.color.Orange));
+        vienePrincipal = intent.getBooleanExtra("principal", false);
+        textViewBtnFrame = findViewById(R.id.textViewBtnFrame);
     }
 
 }

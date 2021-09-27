@@ -43,7 +43,7 @@ import com.google.firebase.storage.UploadTask;
 import com.stonefacesoft.ottaa.FirebaseRequests.FirebaseUtils;
 import com.stonefacesoft.ottaa.utils.AvatarPackage.SelectedAvatar;
 import com.stonefacesoft.ottaa.utils.ConnectionDetector;
-import com.stonefacesoft.ottaa.utils.Constants;
+import com.stonefacesoft.ottaa.utils.constants.Constants;
 import com.stonefacesoft.ottaa.utils.Firebase.AnalyticsFirebase;
 import com.stonefacesoft.ottaa.utils.InmersiveMode;
 import com.stonefacesoft.ottaa.utils.IntentCode;

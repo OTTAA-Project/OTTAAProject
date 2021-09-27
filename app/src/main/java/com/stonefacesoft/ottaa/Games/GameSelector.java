@@ -37,7 +37,7 @@ import com.stonefacesoft.ottaa.Viewpagers.ViewPager_Game_Grupo;
 import com.stonefacesoft.ottaa.utils.Accesibilidad.BarridoPantalla;
 import com.stonefacesoft.ottaa.utils.Accesibilidad.devices.GameControl;
 import com.stonefacesoft.ottaa.utils.Accesibilidad.scrollActions.ScrollFuntionGames;
-import com.stonefacesoft.ottaa.utils.Constants;
+import com.stonefacesoft.ottaa.utils.constants.Constants;
 import com.stonefacesoft.ottaa.utils.IntentCode;
 import com.stonefacesoft.ottaa.utils.exceptions.FiveMbException;
 import com.stonefacesoft.ottaa.utils.textToSpeech;
@@ -115,7 +115,7 @@ public class GameSelector extends AppCompatActivity implements View.OnClickListe
         up_button.setOnClickListener(this);
         down_button.setOnClickListener(this);
         backpress_button.setOnClickListener(this);
-        textToSpeech mytts=new textToSpeech(this);
+        textToSpeech mytts = textToSpeech.getInstance(this) ;
         grupo_viewPager=new ViewPager_Game_Grupo(this,mytts,devolverPosicion(juego));
         game_recycler_view=new Game_Recyler_View(this,mAuth,devolverPosicion(juego));
         cargarGruposJson = new GameSelector.CargarGruposJson(mProgressBar, mTextViewCargandoGrupos, GameSelector.this);

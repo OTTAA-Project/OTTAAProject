@@ -2,8 +2,6 @@ package com.stonefacesoft.ottaa.Activities;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -40,7 +38,7 @@ public class FindAllPictograms extends AppCompatActivity {
         sharedPrefsDefault= PreferenceManager.getDefaultSharedPreferences(this);
         recyclerView=findViewById(R.id.recyclerView);
         searchView=findViewById(R.id.searchView);
-        myTTS = new textToSpeech(this);
+        myTTS = textToSpeech.getInstance(this);
         firebaseUtils=FirebaseUtils.getInstance();
         firebaseUtils.setmContext(this);
         uploadFile=new SubirArchivosFirebase(this);

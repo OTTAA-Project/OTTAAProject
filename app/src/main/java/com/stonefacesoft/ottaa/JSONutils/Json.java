@@ -20,7 +20,7 @@ import com.stonefacesoft.ottaa.Prediction.Posicion;
 import com.stonefacesoft.ottaa.Prediction.Sexo;
 import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.idioma.ConfigurarIdioma;
-import com.stonefacesoft.ottaa.utils.Constants;
+import com.stonefacesoft.ottaa.utils.constants.Constants;
 import com.stonefacesoft.ottaa.utils.JSONutils;
 import com.stonefacesoft.ottaa.utils.exceptions.FiveMbException;
 

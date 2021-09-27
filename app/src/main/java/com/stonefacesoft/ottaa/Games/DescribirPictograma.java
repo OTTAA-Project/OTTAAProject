@@ -32,7 +32,7 @@ import com.stonefacesoft.ottaa.Dialogos.DialogUtils.DialogGameProgressInform;
 import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.utils.Audio.MediaPlayerAudio;
-import com.stonefacesoft.ottaa.utils.Constants;
+import com.stonefacesoft.ottaa.utils.constants.Constants;
 import com.stonefacesoft.ottaa.utils.CustomToast;
 import com.stonefacesoft.ottaa.utils.Firebase.AnalyticsFirebase;
 import com.stonefacesoft.ottaa.utils.Games.AnimGameScore;
@@ -199,7 +199,7 @@ public class DescribirPictograma extends AppCompatActivity implements View
         isChecked=sharedPrefsDefault.getBoolean(getString(R.string.str_pistas),true);
         music.setMuted(mute);
         if(mUtilsTTS==null) {
-            mUtilsTTS=new UtilsTTS(this,dialogo,sharedPrefsDefault);
+            mUtilsTTS=UtilsTTS.getInstance(this,dialogo,sharedPrefsDefault);
         }
         music.playMusic();
         analitycsFirebase.levelNameGame(TAG);

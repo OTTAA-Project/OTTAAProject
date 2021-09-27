@@ -14,7 +14,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 import com.stonefacesoft.ottaa.FirebaseRequests.FirebaseUtils;
 import com.stonefacesoft.ottaa.utils.ConnectionDetector;
-import com.stonefacesoft.ottaa.utils.Constants;
+import com.stonefacesoft.ottaa.utils.constants.Constants;
 import com.stonefacesoft.ottaa.utils.preferences.User;
 import com.stonefacesoft.pictogramslibrary.utils.GlideAttatcher;
 

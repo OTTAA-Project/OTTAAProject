@@ -3,7 +3,7 @@ package com.stonefacesoft.ottaa.utils.Phrases;
 import android.content.Context;
 
 import com.stonefacesoft.ottaa.JSONutils.Json;
-import com.stonefacesoft.ottaa.utils.Constants;
+import com.stonefacesoft.ottaa.utils.constants.Constants;
 import com.stonefacesoft.pictogramslibrary.JsonUtils.JSONObjectManager;
 
 import org.json.JSONArray;

@@ -17,7 +17,7 @@ import com.stonefacesoft.ottaa.Bitmap.bajarFotos;
 import com.stonefacesoft.ottaa.FirebaseRequests.FirebaseUtils;
 import com.stonefacesoft.ottaa.GaleriaGrupos2;
 import com.stonefacesoft.ottaa.Interfaces.FirebaseSuccessListener;
-import com.stonefacesoft.ottaa.utils.Constants;
+import com.stonefacesoft.ottaa.utils.constants.Constants;
 import com.stonefacesoft.ottaa.utils.preferences.User;
 
 import java.io.File;

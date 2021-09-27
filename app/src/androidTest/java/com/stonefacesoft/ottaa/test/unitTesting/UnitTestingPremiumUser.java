@@ -8,7 +8,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import com.stonefacesoft.ottaa.FirebaseRequests.FirebaseUtils;
 import com.stonefacesoft.ottaa.utils.LicenciaUsuario;
 import com.stonefacesoft.ottaa.utils.Accesibilidad.BarridoPantalla;
-import com.stonefacesoft.ottaa.utils.Constants;
+import com.stonefacesoft.ottaa.utils.constants.Constants;
 import com.stonefacesoft.ottaa.utils.preferences.User;
 import com.stonefacesoft.ottaa.test.Components.Preferences;
 

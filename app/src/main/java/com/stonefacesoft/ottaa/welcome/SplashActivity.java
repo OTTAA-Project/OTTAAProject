@@ -28,7 +28,7 @@ import com.stonefacesoft.ottaa.Principal;
 import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.idioma.ConfigurarIdioma;
 import com.stonefacesoft.ottaa.utils.AvatarPackage.SelectedAvatar;
-import com.stonefacesoft.ottaa.utils.Constants;
+import com.stonefacesoft.ottaa.utils.constants.Constants;
 import com.stonefacesoft.ottaa.utils.exceptions.FiveMbException;
 
 import org.json.JSONArray;
@@ -208,7 +208,7 @@ public class SplashActivity extends Activity {
         }
     }
 
-    private JSONArray borrarPictos(JSONArray pictosUsuario, ArrayList<Integer> pictos) {
+    private void borrarPictos(JSONArray pictosUsuario, ArrayList<Integer> pictos) {
         for (int i = 0; i < pictos.size(); i++) {
 
             int pos = Json.getInstance().getPosPicto(pictosUsuario, pictos.get(i));
@@ -222,7 +222,6 @@ public class SplashActivity extends Activity {
             if (pos != -1 && !estaEditado)
                 pictosUsuario.remove(pos);
         }
-        return pictosUsuario;
     }
 
     public class borrarPictos extends AsyncTask<Void, Integer, Void> {

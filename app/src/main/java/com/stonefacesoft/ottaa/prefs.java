@@ -44,7 +44,7 @@ import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.idioma.ConfigurarIdioma;
 import com.stonefacesoft.ottaa.idioma.myContextWrapper;
 import com.stonefacesoft.ottaa.utils.Accesibilidad.ControlFacial;
-import com.stonefacesoft.ottaa.utils.Constants;
+import com.stonefacesoft.ottaa.utils.constants.Constants;
 import com.stonefacesoft.ottaa.utils.Firebase.AnalyticsFirebase;
 import com.stonefacesoft.ottaa.utils.HandlerComunicationClass;
 import com.stonefacesoft.ottaa.utils.IntentCode;
@@ -219,7 +219,7 @@ public class prefs extends PreferenceActivity implements SharedPreferences.OnSha
         json = Json.getInstance();
         strIdioma_original = sharedPrefsDefault.getString(getString(R.string.str_idioma), "en");
         downloadFilesTask = new DownloadFilesTask(strIdioma_original);
-        myTTS = new textToSpeech(this);
+        myTTS =textToSpeech.getInstance(this);
 
         android.app.ActionBar actionBar = getActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);

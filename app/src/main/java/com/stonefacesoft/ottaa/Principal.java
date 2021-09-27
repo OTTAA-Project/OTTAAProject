@@ -99,9 +99,9 @@ import com.stonefacesoft.ottaa.utils.Accesibilidad.scrollActions.ScrollFunctionM
 import com.stonefacesoft.ottaa.utils.AvatarPackage.Avatar;
 import com.stonefacesoft.ottaa.utils.AvatarPackage.AvatarUtils;
 import com.stonefacesoft.ottaa.utils.ConnectionDetector;
-import com.stonefacesoft.ottaa.utils.Constants;
-import com.stonefacesoft.ottaa.utils.ConstantsAnalyticsValues;
-import com.stonefacesoft.ottaa.utils.ConstantsMainActivity;
+import com.stonefacesoft.ottaa.utils.constants.Constants;
+import com.stonefacesoft.ottaa.utils.constants.ConstantsAnalyticsValues;
+import com.stonefacesoft.ottaa.utils.constants.ConstantsMainActivity;
 import com.stonefacesoft.ottaa.utils.CustomToast;
 import com.stonefacesoft.ottaa.utils.Firebase.AnalyticsFirebase;
 import com.stonefacesoft.ottaa.utils.Firebase.CrashlyticsUtils;
@@ -1348,7 +1348,7 @@ public class Principal extends AppCompatActivity implements View
                 editPictoResult(data);
                 break;
             case ConstantsMainActivity.CONFIG_SCREEN:
-                myTTS = new textToSpeech(this);
+                myTTS =textToSpeech.getInstance(this);
                 barridoPantalla.cambiarEstadoBarrido();
                 boolean isEnableScreenScanning = enableDisableScreenScanning();
                 editarPicto = sharedPrefsDefault.getBoolean(getString(R.string.str_editar_picto), true);
@@ -2027,7 +2027,7 @@ public class Principal extends AppCompatActivity implements View
         firebaseDialog = new Progress_dialog_options(this);
         function_scroll = new ScrollFunctionMainActivity(this, this);
         historial = new Historial(json);
-        myTTS = new textToSpeech(this);
+        myTTS = textToSpeech.getInstance(this);
         sharedPrefsDefault.edit().putBoolean("usuario logueado", true).apply();
         cuentaMasPictos = 0;
         placeTypeActual = 0;

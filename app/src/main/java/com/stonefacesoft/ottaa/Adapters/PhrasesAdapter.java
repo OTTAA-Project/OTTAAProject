@@ -5,7 +5,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,7 +36,7 @@ public class PhrasesAdapter extends RecyclerView.Adapter<PhrasesAdapter.PhraseAd
         this.mContext = mContext;
         phrases = CustomFavoritePhrases.getInstance(mContext);
         userPhrases = phrases.getJson().getmJSONArrayTodasLasFrases();
-        myTTs = new textToSpeech(this.mContext);
+        myTTs = textToSpeech.getInstance(this.mContext);
         glideAttatcher = new GlideAttatcher(this.mContext);
         gestionarBitmap = new GestionarBitmap(this.mContext);
         gestionarBitmap.setColor(android.R.color.white);

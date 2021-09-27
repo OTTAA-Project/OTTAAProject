@@ -47,6 +47,7 @@ public class UtilsTTS {
     protected boolean speak;
     private TTSListener ttsListener;
     private String id="TTSOTTAAID";
+    private static UtilsTTS _UtilsTTS;
     private UtteranceProgressListener utteranceProgressListener = new UtteranceProgressListener() {
         @Override
         public void onStart(String utteranceId) {
@@ -70,10 +71,17 @@ public class UtilsTTS {
         }
     };
 
-    public UtilsTTS(Context mContext, CustomToast alerta, SharedPreferences sharedPrefsDefault){
+    public static synchronized UtilsTTS getInstance(Context context,CustomToast customToast,SharedPreferences sharedPrefsDefault){
+        if(_UtilsTTS == null)
+            _UtilsTTS = new UtilsTTS(context,customToast,sharedPrefsDefault);
+        return _UtilsTTS;
+    }
+
+    protected UtilsTTS(Context mContext, CustomToast alerta, SharedPreferences sharedPrefsDefault){
         this.mContext=mContext;
         this.alerta=alerta;
-
+        if(this.mTTS!= null)
+            this.mTTS.shutdown();
         this.mTTS=new TextToSpeech(this.mContext, new TextToSpeech.OnInitListener() {
             @Override
             public void onInit(int status) {

@@ -1,4 +1,4 @@
-package com.stonefacesoft.ottaa.utils;
+package com.stonefacesoft.ottaa.utils.constants;
 public class ConstantsAnalyticsValues {
     public final static String ACCESSIBILITY ="Accessibility";
     public final static String TOUCH = "Touch";

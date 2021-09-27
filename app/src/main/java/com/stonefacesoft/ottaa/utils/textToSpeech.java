@@ -23,29 +23,49 @@ import java.util.HashMap;
 
 public class textToSpeech {
 
-    private final SharedPreferences sharedPrefsDefault;
-    private final Context context;
+    private SharedPreferences sharedPrefsDefault;
+    private Context context;
     private CustomToast alerta;
     private boolean esprincipal;
     private String oracion;
     private File file;
     private String outputFile;
-    private final UtilsTTS prepare;
+    private UtilsTTS prepare;
+    private static textToSpeech _MYTTS;
 
-    public textToSpeech(Context context) {
+    public synchronized static textToSpeech getInstance(Context context){
+        if(_MYTTS == null)
+            _MYTTS = new textToSpeech();
+        _MYTTS.prepareTextToSpeech(context);
+        return _MYTTS;
+    }
+
+    public synchronized  static textToSpeech getInstance(AppCompatActivity context){
+        if(_MYTTS == null)
+            _MYTTS = new textToSpeech();
+        _MYTTS.prepareTextToSpeech(context);
+        return _MYTTS;
+    }
+
+    private textToSpeech(){
+
+    }
+
+    private textToSpeech(Context context) {
         this.context = context;
         this.sharedPrefsDefault = PreferenceManager.getDefaultSharedPreferences(context);
         alerta =CustomToast.getInstance(this.context);
-        prepare=new UtilsTTS(this.context,alerta,sharedPrefsDefault);
+        prepare=UtilsTTS.getInstance(this.context,alerta,sharedPrefsDefault);
 
     }
-    public textToSpeech(AppCompatActivity context) {
+
+    public void prepareTextToSpeech(Context context){
         this.context = context;
         alerta =CustomToast.getInstance(this.context);
         this.sharedPrefsDefault = PreferenceManager.getDefaultSharedPreferences(context);
-        prepare=new UtilsTTS(this.context,alerta,sharedPrefsDefault);
-
+        prepare= UtilsTTS.getInstance(context,alerta,sharedPrefsDefault);
     }
+
 
 
 

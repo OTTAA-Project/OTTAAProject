@@ -35,7 +35,7 @@ import com.stonefacesoft.ottaa.Viewpagers.viewpager_galeria_pictos;
 import com.stonefacesoft.ottaa.utils.Accesibilidad.BarridoPantalla;
 import com.stonefacesoft.ottaa.utils.Accesibilidad.devices.GaleriaPictosControls;
 import com.stonefacesoft.ottaa.utils.Accesibilidad.scrollActions.ScrollFunctionGaleriaPictos;
-import com.stonefacesoft.ottaa.utils.Constants;
+import com.stonefacesoft.ottaa.utils.constants.Constants;
 import com.stonefacesoft.ottaa.utils.Firebase.AnalyticsFirebase;
 import com.stonefacesoft.ottaa.utils.IntentCode;
 import com.stonefacesoft.ottaa.utils.JSONutils;
@@ -348,7 +348,7 @@ public class GaleriaPictos3 extends AppCompatActivity implements View.OnClickLis
             if (esVincular || isSorter )
                 showViewPager = false;
         }
-        myTTS = new textToSpeech(this);
+        myTTS = textToSpeech.getInstance(this);
         viewpager_galeria_pictos = new viewpager_galeria_pictos(this, myTTS, boton);
         
         previous = findViewById(R.id.down_button);

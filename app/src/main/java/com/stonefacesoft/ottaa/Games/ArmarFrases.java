@@ -109,7 +109,7 @@ public class ArmarFrases extends AppCompatActivity implements View.OnClickListen
         numeros=new ArrayList();
         mDefaultSharedPreferences= PreferenceManager.getDefaultSharedPreferences(this);
         toast=CustomToast.getInstance(this);
-        mUtilsTTS=new UtilsTTS(this,toast,mDefaultSharedPreferences);
+        mUtilsTTS=UtilsTTS.getInstance(this,toast,mDefaultSharedPreferences);
         listadoPictos=new ArrayList<>();
         seleccion1=findViewById(R.id.Seleccion1);
         seleccion2=findViewById(R.id.Seleccion2);

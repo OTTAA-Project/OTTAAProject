@@ -23,7 +23,7 @@ import com.stonefacesoft.ottaa.Interfaces.FirebaseSuccessListener;
 import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.idioma.ConfigurarIdioma;
-import com.stonefacesoft.ottaa.utils.Constants;
+import com.stonefacesoft.ottaa.utils.constants.Constants;
 import com.stonefacesoft.ottaa.utils.FilesUtils;
 import com.stonefacesoft.ottaa.utils.ObservableInteger;
 import com.stonefacesoft.ottaa.utils.exceptions.FiveMbException;

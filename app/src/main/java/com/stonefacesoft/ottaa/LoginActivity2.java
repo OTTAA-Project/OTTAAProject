@@ -1,6 +1,6 @@
 package com.stonefacesoft.ottaa;
 
-import static com.stonefacesoft.ottaa.utils.Constants.RC_SIGN_IN;
+import static com.stonefacesoft.ottaa.utils.constants.Constants.RC_SIGN_IN;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;

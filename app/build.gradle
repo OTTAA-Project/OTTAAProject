@@ -25,8 +25,8 @@ android {
         applicationId "com.stonefacesoft.ottaa"
         minSdkVersion 21
         targetSdkVersion 31
-        versionCode 91
-        versionName "6.7.2" //
+        versionCode 92
+        versionName "6.7.3" //
         // Enabling multidex support.
         multiDexEnabled true
         resConfigs "ar,en,es,it"
@@ -239,7 +239,7 @@ dependencies {
     //TODO add this library to the Wiki
     implementation 'com.github.CanHub:Android-Image-Cropper:3.2.2'
     // pictograms library
-    implementation 'com.github.OTTAA-Project:PictogramsLibrary:0.1.9.4'
+    implementation 'com.github.OTTAA-Project:PictogramsLibrary:0.1.9.10'
     //Sendgrid integration
 
 }

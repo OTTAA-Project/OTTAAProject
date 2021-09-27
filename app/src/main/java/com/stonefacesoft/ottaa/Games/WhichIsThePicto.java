@@ -45,7 +45,7 @@ import com.stonefacesoft.ottaa.utils.Accesibilidad.BarridoPantalla;
 import com.stonefacesoft.ottaa.utils.Accesibilidad.devices.GameControl;
 import com.stonefacesoft.ottaa.utils.Accesibilidad.scrollActions.ScrollFuntionGames;
 import com.stonefacesoft.ottaa.utils.Audio.MediaPlayerAudio;
-import com.stonefacesoft.ottaa.utils.Constants;
+import com.stonefacesoft.ottaa.utils.constants.Constants;
 import com.stonefacesoft.ottaa.utils.CustomToast;
 import com.stonefacesoft.ottaa.utils.Firebase.AnalyticsFirebase;
 import com.stonefacesoft.ottaa.utils.Games.AnimGameScore;
