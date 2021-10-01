@@ -475,6 +475,7 @@ public class GaleriaGrupos2 extends AppCompatActivity implements OnStartDragList
                     intent.putExtra("esNuevo", true);
                     intent.putExtra("Padre", boton);
                     intent.putExtra("esGrupo", true);
+                    intent.putExtra("Texto","");
                     myTTS.hablar(getString(R.string.add_grupo));
                     Log.d(TAG, "onOptionsItemSelected: Creating new Group");
                     startActivityForResult(intent, IntentCode.EDITARPICTO.getCode());

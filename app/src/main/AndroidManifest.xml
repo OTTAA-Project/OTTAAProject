@@ -21,6 +21,7 @@
     <uses-permission android:name="android.permission.USE_CREDENTIALS" /> <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
+
     <queries>
         <intent>
             <action
@@ -45,6 +46,7 @@
         android:supportsRtl="true"
         android:theme="@style/CustomActionBarTheme"
         android:usesCleartextTraffic="true"
+
         tools:targetApi="m">
 
 

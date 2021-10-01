@@ -1948,7 +1948,7 @@ public class Principal extends AppCompatActivity implements View
 
     private void prepareLayout() {
         if (sharedPrefsDefault.getBoolean("skillHand", false)) {
-            setContentView(R.layout.activity_principal_v4_right);
+            setContentView(R.layout.activity_main_rigth);
         } else {
             setContentView(R.layout.activity_main);
         }

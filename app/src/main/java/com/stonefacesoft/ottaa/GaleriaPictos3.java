@@ -192,6 +192,7 @@ public class GaleriaPictos3 extends AppCompatActivity implements View.OnClickLis
                     intent.putExtra("esNuevo", true);
                     intent.putExtra("Padre", boton);
                     intent.putExtra("esGrupo", false);
+                    intent.putExtra("Texto","");
                     myTTS.hablar(getString(R.string.add_pictograma));
                     Log.d(TAG, "onOptionsItemSelected: Creando un nuevo picto");
 
