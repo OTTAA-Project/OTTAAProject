@@ -2,23 +2,17 @@ package com.stonefacesoft.ottaa.Adapters;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.media.ThumbnailUtils;
-import android.net.Uri;
 import android.os.AsyncTask;
-import android.preference.PreferenceManager;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.content.res.AppCompatResources;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -27,17 +21,15 @@ import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.idioma.ConfigurarIdioma;
 import com.stonefacesoft.ottaa.utils.Games.Juego;
-import com.stonefacesoft.ottaa.utils.JSONutils;
 import com.stonefacesoft.pictogramslibrary.Classes.GameGroup;
-import com.stonefacesoft.pictogramslibrary.Classes.Pictogram;
 import com.stonefacesoft.pictogramslibrary.utils.GlideAttatcher;
 import com.stonefacesoft.pictogramslibrary.view.GameGroupView;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 public class GaleriaJuegosAdapter extends RecyclerView.Adapter <GaleriaJuegosAdapter.GruposViewHolder>{
     private final Context mContext;
@@ -130,6 +122,43 @@ public class GaleriaJuegosAdapter extends RecyclerView.Adapter <GaleriaJuegosAda
 
         }
 
+        public void execute(){
+            Executor executor = Executors.newSingleThreadExecutor();
+            Handler handler = new Handler(Looper.getMainLooper());
+            executor.execute(new Runnable() {
+                @Override
+                public void run() {
+                    Bitmap mBitmap;
+                    try {
+                        json = Json.getInstance();
+                        aux = json.getmJSONArrayTodosLosGrupos().getJSONObject(mPosition);
+                        mHolder.mGameGroupView.setUpContext(mContext);
+                        mHolder.mGameGroupView.setUpGlideAttatcher(mContext);
+                    } catch (Exception e) {
+                        Log.e(TAG, "doInBackground: " + e.getMessage());
+
+                        e.printStackTrace();
+                    }
+                    handler.post(()->{
+                        try{
+                            mHolder.mGameGroupView.setPictogramsLibraryGameGroup(new GameGroup(aux,ConfigurarIdioma.getLanguaje()));
+                            int levelId=json.getId(json.getmJSONArrayTodosLosGrupos().getJSONObject(mPosition));
+                            Juego juego=new Juego(mContext,id,levelId);
+                            Drawable drawable=juego.devolverCarita();
+                            drawable.setTint(mContext.getResources().getColor(R.color.NaranjaOTTAA));
+                            if(juego.getScoreClass().getIntentos()>0)
+                                glideAttatcher.loadDrawable(drawable,mHolder.mGameGroupView.getKindOfPictogramImageView());
+                            else
+                                glideAttatcher.loadDrawable(mContext.getResources().getDrawable(R.drawable.ic_remove_orange_24dp),mHolder.mGameGroupView.getKindOfPictogramImageView());
+                        }catch (Exception ex) {
+
+                        }
+                    });
+                }
+            });
+        }
+
+
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -156,19 +185,7 @@ public class GaleriaJuegosAdapter extends RecyclerView.Adapter <GaleriaJuegosAda
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
             //Le asignamos al grupo su texto e icono
-            try{
-                this.mHolder.mGameGroupView.setPictogramsLibraryGameGroup(new GameGroup(aux,ConfigurarIdioma.getLanguaje()));
-                int levelId=json.getId(json.getmJSONArrayTodosLosGrupos().getJSONObject(mPosition));
-                Juego juego=new Juego(mContext,id,levelId);
-                Drawable drawable=juego.devolverCarita();
-                drawable.setTint(mContext.getResources().getColor(R.color.NaranjaOTTAA));
-                if(juego.getScoreClass().getIntentos()>0)
-                    glideAttatcher.loadDrawable(drawable,this.mHolder.mGameGroupView.getKindOfPictogramImageView());
-                else
-                    glideAttatcher.loadDrawable(mContext.getResources().getDrawable(R.drawable.ic_remove_orange_24dp),this.mHolder.mGameGroupView.getKindOfPictogramImageView());
-            }catch (Exception ex) {
 
-            }
             //   mHolder.mGrupoImageView.setImageDrawable(mDrawableIcono);
 
         }

@@ -1,6 +1,7 @@
 package com.stonefacesoft.ottaa.Adapters;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.stonefacesoft.ottaa.Bitmap.GestionarBitmap;
+import com.stonefacesoft.ottaa.Interfaces.LoadOnlinePictograms;
 import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.utils.Phrases.CustomFavoritePhrases;
 import com.stonefacesoft.ottaa.utils.textToSpeech;
@@ -47,22 +49,33 @@ public class CustomFavoritePhrasesAdapter extends RecyclerView.Adapter<CustomFav
         return new CustomFavoritePhrasesAdapter.FavoritePhrases(itemView);
     }
 
+
+
     @Override
     public void onBindViewHolder(@NonNull FavoritePhrases holder, int position) {
         try {
             holder.position=position;
             JSONObject phrase=phrases.getPhrases().getJSONObject(position);
             holder.phrase=phrase;
-            glideAttatcher.UseCornerRadius(true).loadDrawable(gestionarBitmap.getBitmapDeFrase(phrase),holder.img);
-            holder.img.setOnClickListener(new View.OnClickListener() {
+            gestionarBitmap.getBitmapDeFrase(phrase,new LoadOnlinePictograms() {
                 @Override
-                public void onClick(View v) {
-                    if(phrase!=null) {
-                        try {
-                            myTTs.hablar(phrase.getString("frase"));
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+                public void preparePictograms() {
+                }
+                @Override
+                public void loadPictograms(Bitmap bitmap) {
+                    glideAttatcher.UseCornerRadius(true).loadDrawable(bitmap,holder.img);
+                }
+
+                @Override
+                public void FileIsCreated() {
+                }
+            });
+            holder.img.setOnClickListener(v -> {
+                if(phrase!=null) {
+                    try {
+                        myTTs.hablar(phrase.getString("frase"));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
                 }
             });

@@ -41,7 +41,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 
+import com.canhub.cropper.CropImage;
 import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -54,6 +56,8 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.stonefacesoft.ottaa.Activities.Pictures.EditPictogramCropper;
+import com.stonefacesoft.ottaa.Activities.Pictures.PictureCropper;
 import com.stonefacesoft.ottaa.Bitmap.UriFiles;
 import com.stonefacesoft.ottaa.Dialogos.DialogUtils.Progress_dialog_options;
 import com.stonefacesoft.ottaa.Dialogos.DialogUtils.Yes_no_otheroptionDialog;
@@ -64,7 +68,6 @@ import com.stonefacesoft.ottaa.FirebaseRequests.SubirArchivosFirebase;
 import com.stonefacesoft.ottaa.Interfaces.DialogInterfaceTags;
 import com.stonefacesoft.ottaa.Interfaces.FirebaseSuccessListener;
 import com.stonefacesoft.ottaa.Interfaces.TagInterfazJson;
-import com.stonefacesoft.ottaa.Interfaces.preparePictures;
 import com.stonefacesoft.ottaa.Interfaces.translateInterface;
 import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.idioma.ConfigurarIdioma;
@@ -74,11 +77,12 @@ import com.stonefacesoft.ottaa.utils.Custom_button;
 import com.stonefacesoft.ottaa.utils.Firebase.AnalyticsFirebase;
 import com.stonefacesoft.ottaa.utils.IntentCode;
 import com.stonefacesoft.ottaa.utils.JSONutils;
-import com.stonefacesoft.ottaa.utils.Pictures.PicturesOnline;
 import com.stonefacesoft.ottaa.utils.constants.Constants;
 import com.stonefacesoft.ottaa.utils.exceptions.FiveMbException;
 import com.stonefacesoft.ottaa.utils.textToSpeech;
 import com.stonefacesoft.ottaa.utils.traducirTexto;
+import com.stonefacesoft.pictogramslibrary.Classes.Group;
+import com.stonefacesoft.pictogramslibrary.Classes.Pictogram;
 import com.stonefacesoft.pictogramslibrary.view.PictoView;
 
 import org.json.JSONArray;
@@ -143,6 +147,7 @@ public class Edit_Picto_Visual extends AppCompatActivity implements View.OnClick
 
 
 
+
     PictoView Picto;
     private String formato;
     private String urlfoto;
@@ -193,6 +198,8 @@ public class Edit_Picto_Visual extends AppCompatActivity implements View.OnClick
     private FirebaseAuth.AuthStateListener mAuthListener;
     private Progress_dialog_options dialogs;
     private AnalyticsFirebase analyticsFirebase;
+    private File photoFile;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -271,10 +278,11 @@ public class Edit_Picto_Visual extends AppCompatActivity implements View.OnClick
     }
 
     private void loadPictogramsData() {
-
-        Picto.setCustom_Texto(texto);
-        Picto.setCustom_Color(color);
-        cargarColor(tipo);
+        if( esNuevo){
+            Picto.setCustom_Texto(texto);
+            Picto.setCustom_Color(color);
+            cargarColor(tipo);
+        }
     }
 
     private void loadGroupView() {
@@ -334,13 +342,16 @@ public class Edit_Picto_Visual extends AppCompatActivity implements View.OnClick
         final Drawable[] draw = {null};
         if(esNuevo){
             draw[0] = getResources().getDrawable(R.drawable.ic_agregar_nuevo);
+            Picto.setCustom_Img(draw[0]);
         }else{
             jsonObject = getObjectJson(esGrupo);
-            if(jsonObject != null) {
-                draw[0] = json.getIcono(jsonObject);
+            if(!esGrupo){
+                Picto.setPictogramsLibraryPictogram(new Pictogram(jsonObject,ConfigurarIdioma.getLanguaje()));
+            } else {
+                Picto.setPictogramsLibraryPictogram( new Group(jsonObject,ConfigurarIdioma.getLanguaje()).getPictogramFromGroup());
             }
         }
-        Picto.setCustom_Img(draw[0]);
+
 
     }
 
@@ -374,6 +385,7 @@ public class Edit_Picto_Visual extends AppCompatActivity implements View.OnClick
 
     private void initPictogram() {
         Picto = findViewById(R.id.ElPicto);
+        Picto.setUpContext(this);
         Picto.setOnClickListener(this);
         Picto.setUpGlideAttatcher(this);
     }
@@ -506,46 +518,20 @@ public class Edit_Picto_Visual extends AppCompatActivity implements View.OnClick
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         Bitmap imageBitmap;
         if (requestCode == IntentCode.CAMARA.getCode() && resultCode == RESULT_OK) {
-            imageBitmap = null;
-            //por cambios en la version 24 con respecto a las versiones anteriores
-            if (Build.VERSION.SDK_INT < 24) {
-                final File file = getTempFile(this);
-                try {
-                    imageBitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), Uri.fromFile(file));
-                    selectedImageUri = Uri.fromFile(file);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-
-            } else {
-
-                imageBitmap = (Bitmap) data.getExtras().get("data");
-
-            }
-            //paso el parametro del bitmap
-            if (imageBitmap != null) {
-
-                Drawable d = new BitmapDrawable(getResources(), imageBitmap);
-                Picto.setCustom_Img(d);
-                selectedImageUri = storeImage(imageBitmap, "Fotos");
-                storeOffline(imageBitmap);
-                formato = ".jpg";
-            }
+            Intent intent = new Intent(this, PictureCropper.class);
+            intent.putExtra("pickedImageUri",selectedImageUri);
+            startActivityForResult(intent, CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE);
         }
         if (requestCode == IntentCode.GALERIA.getCode() && resultCode == RESULT_OK) {
-            imageBitmap = null;
             selectedImageUri = data.getData();
             imageBitmap = decodeUri(selectedImageUri);
             storeImage(imageBitmap, "Fotos");
             storeOffline(imageBitmap);
             Drawable d = new BitmapDrawable(getResources(), imageBitmap);
-            Picto.setCustom_Img(d);
+            Picto.getGlideAttatcher().loadDrawable(d,Picto.getImageView());
             formato = ".jpg";
-
             //Agregar imagen al picto custom
         }
-
         if (requestCode == IntentCode.ARASAAC.getCode()) {
             imageBitmap = null;
             if (data != null) {
@@ -562,15 +548,30 @@ public class Edit_Picto_Visual extends AppCompatActivity implements View.OnClick
                 File f = new File(mCurrentPhotoPath);
                 selectedImageUri = Uri.fromFile(f);
                 mNombreFirebase = f.getName();
-
                 etOutLoud.setText(name);
                 Picto.setCustom_Texto(name);
-
                 cargarColor(tipo);
                 textoPicto = name;
                 formato = ".png";
             }
-
+        }
+        if(requestCode == IntentCode.PICK_IMAGE.getCode()){
+            if (resultCode == RESULT_OK) {
+                final Uri pickedImageUri = data.getData();
+                Intent intent = new Intent(this, EditPictogramCropper.class);
+                intent.putExtra("pickedImageUri", pickedImageUri);
+                startActivityForResult(intent, CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE);
+            } else {
+                Toast.makeText(this, "You haven't picked Image", Toast.LENGTH_LONG).show();
+            }
+        }
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            Log.d(TAG, "onActivityResult: Cropped Image: ");
+            selectedImageUri  = data.getParcelableExtra("imageUri");
+            Picto.getGlideAttatcher().loadDrawable(selectedImageUri,Picto.getImageView());
+            imageBitmap = decodeUri(selectedImageUri);
+            storeImage(imageBitmap, "Fotos");
+            storeOffline(imageBitmap);
         }
 
 
@@ -887,29 +888,8 @@ public class Edit_Picto_Visual extends AppCompatActivity implements View.OnClick
             @Override
             public void onClick(View view) {
                 //Log de pictoeditado y como
-                if (texto != null) {
-//                    Answers.getInstance().logCustom(new CustomEvent("Picto Editado")
-//                            .putCustomAttribute("Picto", texto)
-//                            .putCustomAttribute("Origen Imagen", "Camara"));
-                }
-
-                if (Build.VERSION.SDK_INT < 24)//de esta forma se evita borrar lo de la version anterior
-                {
-                    Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(getTempFile(getApplicationContext())));
-                    if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-                        dialog.dismiss();
-                        startActivityForResult(takePictureIntent, IntentCode.CAMARA.getCode());
-                    }
-                } else {
-                    Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-                        // Create the File where the photo should go
-                        startActivityForResult(takePictureIntent, IntentCode.CAMARA.getCode());
-                        dialog.dismiss();
-
-                    }
-                }
+              takePicture();
+              dialog.dismiss();
             }
 
 
@@ -968,13 +948,11 @@ public class Edit_Picto_Visual extends AppCompatActivity implements View.OnClick
                 dialogs.setTitle(getString(R.string.edit_agregarImagen)).setMessage(getString(R.string.edit_wait_sync));
                 dialogs.setCancelable(false);
                 dialogs.mostrarDialogo();
-                if (Picto.getCustom_Texto() != null && !etOutLoud.getText().toString().trim().equalsIgnoreCase("") && Picto.getCustom_Imagen() != null) {
+                if (Picto.getCustom_Texto() != null && !etOutLoud.getText().toString().trim().equalsIgnoreCase("") && Picto.getImageView().getDrawable() != null) {
 
                     if (selectedImageUri != null) {
                         if (ConnectionDetector.isNetworkAvailable(Edit_Picto_Visual.this)) {
                             cargarFotosFirebase(selectedImageUri, textoPicto);
-
-
                         } else {
                             aceptar();
                             dialogs.destruirDialogo();
@@ -1017,7 +995,6 @@ public class Edit_Picto_Visual extends AppCompatActivity implements View.OnClick
      **/
 
     public void aceptar() {
-
 
         textoPicto = Picto.getCustom_Texto();
         traducirTexto = new traducirTexto(getApplicationContext());
@@ -1064,7 +1041,6 @@ public class Edit_Picto_Visual extends AppCompatActivity implements View.OnClick
                 image.compress(Bitmap.CompressFormat.WEBP, 100, fosBackup);
                 fosBackup.close();
             }
-
         } catch (FileNotFoundException e) {
             Log.e(TAG, "storeImage: Error: " + "File not found: " + e.getMessage());
 
@@ -1101,11 +1077,6 @@ public class Edit_Picto_Visual extends AppCompatActivity implements View.OnClick
         // To be safe, you should check that the SDCard is mounted
         // using Environment.getExternalStorageState() before doing this.
         File mediaStorageDir = new UriFiles(getApplicationContext()).dir();
-
-        // This location works best if you want the created images to be shared
-        // between applications and persist after your app has been uninstalled.
-
-        // Create the storage directory if it does not exist
         if (!mediaStorageDir.exists()) {
             if (!mediaStorageDir.mkdirs()) {
                 return null;
@@ -1170,7 +1141,7 @@ public class Edit_Picto_Visual extends AppCompatActivity implements View.OnClick
 
     private File createImageFile() throws IOException {
         // Create an image file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String timeStamp = mTimeStamp;
         String imageFileName = "JPEG_" + timeStamp + "_";
         File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
         File image = File.createTempFile(
@@ -1194,10 +1165,8 @@ public class Edit_Picto_Visual extends AppCompatActivity implements View.OnClick
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-
       //  super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == Constants.EXTERNAL_STORAGE) {
-
             if (grantResults.length > 0 &&
                         grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     SelectorFuente();
@@ -1205,16 +1174,7 @@ public class Edit_Picto_Visual extends AppCompatActivity implements View.OnClick
                     //permission granted
                     showCustomAlert(getString(R.string.edit_permisos_archivos));
                 }
-/*
-            if (permission == PackageManager.PERMISSION_GRANTED) {
-            } else if (permission == PackageManager.PERMISSION_DENIED) {
-                //this.finish();
-            }
-*/
-
         }
-
-
     }
 
     @Override
@@ -1257,7 +1217,6 @@ public class Edit_Picto_Visual extends AppCompatActivity implements View.OnClick
         Intent databack = new Intent();//
         int picto = PictoID;//
         JSONArray mArrayListAGuardar = new JSONArray();//
-
         if (textoPicto.length() > 0) {
             if (esNuevo) {
                 if ((mCurrentPhotoPath == null) || (mCurrentPhotoPath.length() == 0)) {
@@ -1271,21 +1230,13 @@ public class Edit_Picto_Visual extends AppCompatActivity implements View.OnClick
                 }
                 uploadPictogramsAndGroup(databack);
             } else {
-
                 JSONutils.setNombre(jsonObject, Picto.getCustom_Texto(), traducirTexto.getTexto(), traducirTexto.getmSource(), traducirTexto.getmTarget());
                 JSONutils.setTipo(jsonObject, tipo);
                 if (mCurrentPhotoPath != null) {
                     JSONutils.setImagen(jsonObject, mCurrentPhotoPath, urlfoto, pushKey);
                 }
                 if (esGrupo) {
-                    analyticsFirebase.customEvents("Pictogram", "Editar Grupos", "Edit Group");
-                    try {
-                        json.setmJSONArrayTodosLosGrupos(JSONutils.setJsonEditado2(json.readJSONArrayFromFile(Constants.ARCHIVO_GRUPOS), jsonObject));
-                        json.guardarJson(Constants.ARCHIVO_GRUPOS);
-                    } catch (JSONException | FiveMbException e) {
-                        e.printStackTrace();
-                    }
-                    uploadPictogramsOrGroups(false,databack,picto,IntentCode.GALERIA_GRUPOS.getCode());
+                    uploadGroups(databack,picto);
                 } else {
                     analyticsFirebase.customEvents("Pictogram", "Editar Grupos", "Edit Pictogram");
                     try {
@@ -1296,11 +1247,19 @@ public class Edit_Picto_Visual extends AppCompatActivity implements View.OnClick
                     }
                    uploadPictogramsOrGroups(true,databack,picto,IntentCode.EDITARPICTO.getCode());
                 }
-
             }
-
-
         }
+    }
+
+    private void uploadGroups(Intent databack,int picto){
+        analyticsFirebase.customEvents("Pictogram", "Editar Grupos", "Edit Group");
+        try {
+            json.setmJSONArrayTodosLosGrupos(JSONutils.setJsonEditado2(json.readJSONArrayFromFile(Constants.ARCHIVO_GRUPOS), jsonObject));
+            json.guardarJson(Constants.ARCHIVO_GRUPOS);
+        } catch (JSONException | FiveMbException e) {
+            e.printStackTrace();
+        }
+        uploadPictogramsOrGroups(false,databack,picto,IntentCode.GALERIA_GRUPOS.getCode());
     }
 
     private void uploadPictogramsOrGroups(boolean b,Intent databack,int picto,int code) {
@@ -1337,7 +1296,6 @@ public class Edit_Picto_Visual extends AppCompatActivity implements View.OnClick
             e.printStackTrace();
         } //                        WeeklyBackup wb = new WeeklyBackup(mContext);
         //                        wb.weeklyBackupDialog(false, R.string.pref_summary_backup_principal, false);
-
         mArrayListAGuardar = JSONutils.crearPicto(mArrayListGrupos, mArrayListAGuardar, ConfigurarIdioma.getLanguaje(), padre, Picto.getCustom_Texto(), traducirTexto.getTexto(), mCurrentPhotoPath, tipo, urlfoto, pushKey);
         databack.putExtra("esNuevo", true);
         json.setmJSONArrayTodosLosPictos(mArrayListAGuardar);
@@ -1354,7 +1312,6 @@ public class Edit_Picto_Visual extends AppCompatActivity implements View.OnClick
             e.printStackTrace();
         }
         //aca tiene que ir la interfaz de traduccion
-
         try {
             mArrayListAGuardar = JSONutils.crearGrupo(mArrayListAGuardar, ConfigurarIdioma.getLanguaje(), Picto.getCustom_Texto(), traducirTexto.getTexto(), mCurrentPhotoPath, tipo, urlfoto, pushKey);
         } catch (JSONException e) {
@@ -1419,6 +1376,27 @@ public class Edit_Picto_Visual extends AppCompatActivity implements View.OnClick
         super.onTrimMemory(level);
     }
 
+    public void takePicture(){
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        // Ensure that there's a camera activity to handle the intent
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            // Create the File where the photo should go
+            photoFile = null;
+            try {
+                photoFile = createImageFile();
+            } catch (IOException ex) {
+                // Error occurred while creating the File
+            }
+            // Continue only if the File was successfully created
+            if (photoFile != null) {
+                selectedImageUri = FileProvider.getUriForFile(this,
+                        "com.stonefacesoft.android.fileprovider",
+                        photoFile);
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, selectedImageUri);
+                startActivityForResult(takePictureIntent, IntentCode.CAMARA.getCode());
+            }
+        }
+    }
 }
 
 

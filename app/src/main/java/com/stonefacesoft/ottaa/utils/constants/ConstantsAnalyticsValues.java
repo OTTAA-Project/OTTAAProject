@@ -7,4 +7,7 @@ public class ConstantsAnalyticsValues {
     public final static String TALK = "Talk";
     public final static String MOREOPTIONS = "More Options";
     public final static String FAVORITEPHRASES = "Favorite Phrases";
+    public final static String SETTINGEVENT = "Settings";
+    public final static String PREFSCLASSNAME ="prefs";
+
 }

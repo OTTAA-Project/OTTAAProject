@@ -787,6 +787,25 @@
     <string name="ismoderator">esmoderador</string>
     <string name="skillhand">skillHand</string>
     <string name="showmenu">showMenu</string>
+    <string name="experimentalModeAnalyticsValue">Experimental Mode</string>
+    <string name="suggestedPictogramsAnalyticsValue">Suggested Pictograms</string>
+    <string name="CustomSubtitleAnalyticsValue">Custom Subtitle</string>
+    <string name="CustomTTSAnalyticsValue">Custom TTS</string>
+    <string name="FacialControlAnalyticsValue">Facial Control</string>
+    <string name="SubtitleTextSizeAnalyticsValue">Subtitle Text Size</string>
+    <string name="EditPictogramAnalyticsValue">Edit Pictograms</string>
+    <string name="TalkAndEraseAnalyticsValue">Talk and erase</string>
+    <string name="JoystickAnalyticsValue">Joystick</string>
+    <string name="GenderUserAnalyticsValue">Gender User</string>
+    <string name="AgeUserAnalyticsValue">Age User</string>
+    <string name="LanguageAnalyticsValue">Language</string>
+    <string name="SkillHandAnalyticsValue">Skill hand</string>
+    <string name="TTSVoiceAnalyticsValue">TTS Voice</string>
+    <string name="TTSSpeedAnalyticsValue">TTS Speed</string>
+    <string name="ScreenScanningSpeedAnalyticsValue">Screen Scanning Speed</string>
+    <string name="TimeBetweenClicksAnalyticsValue">Time Between Clicks</string>
+    <string name="ScrollSpeedAnalyticsValue">Scroll Speed</string>
+    <string name="LocationAnalyticsValue">Location</string>
 
 
 </resources>

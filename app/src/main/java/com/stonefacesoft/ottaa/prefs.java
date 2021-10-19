@@ -49,6 +49,7 @@ import com.stonefacesoft.ottaa.utils.Firebase.AnalyticsFirebase;
 import com.stonefacesoft.ottaa.utils.HandlerComunicationClass;
 import com.stonefacesoft.ottaa.utils.IntentCode;
 import com.stonefacesoft.ottaa.utils.ObservableInteger;
+import com.stonefacesoft.ottaa.utils.constants.ConstantsAnalyticsValues;
 import com.stonefacesoft.ottaa.utils.preferences.PersonalSwitchPreferences;
 import com.stonefacesoft.ottaa.utils.textToSpeech;
 
@@ -186,10 +187,10 @@ public class prefs extends PreferenceActivity implements SharedPreferences.OnSha
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.preferences);
+        analyticsFirebase = new AnalyticsFirebase(this);
         initComponents();
         isConnected();
         habilitarFuncionesPremiun(sharedPrefsDefault.getInt("premium", 0));
-        analyticsFirebase = new AnalyticsFirebase(this);
         if (sharedPrefsDefault.getInt("premium", 0) == 0) {
             mBoolBarrido.setChecked(false);
             mBoolUbicacion.setChecked(false);
@@ -608,103 +609,111 @@ public class prefs extends PreferenceActivity implements SharedPreferences.OnSha
 
     }
 
+
+
     @Override
     public boolean onPreferenceTreeClick(PreferenceScreen preferenceScreen, Preference preference) {
-        if (sharedPrefsDefault.getInt("premium", 0) == 0) {
-            if (preference == mBoolBarrido) {
 
-                mBoolBarrido.setChecked(false);
-                Intent i = new Intent(preference.getContext(), LicenciaExpirada.class);
-                startActivity(i);
+        String keyValue = preference.getKey();
+        if(keyValue != null)
+        switch (preference.getKey()){
+            case "bool_barrido":
+                showPaymentMessage(mBoolBarrido);
                 return true;
-            } else if (preference == mBoolUbicacion) {
-                mBoolUbicacion.setChecked(false);
-                Intent i = new Intent(preference.getContext(), LicenciaExpirada.class);
-                startActivity(i);
+            case "mBoolModoExperimental":
+                analyticsFirebase.customEvents(ConstantsAnalyticsValues.SETTINGEVENT, ConstantsAnalyticsValues.PREFSCLASSNAME, getString(R.string.experimentalModeAnalyticsValue));
+                break;
+            case "bool_sugerencias":
+                analyticsFirebase.customEvents(ConstantsAnalyticsValues.SETTINGEVENT, ConstantsAnalyticsValues.PREFSCLASSNAME, getString(R.string.suggestedPictogramsAnalyticsValue));
+                showPaymentMessage(mOpciones);
                 return true;
-            } else if (preference == mOpciones) {
-                mOpciones.setChecked(false);
-                Intent i = new Intent(preference.getContext(), LicenciaExpirada.class);
-                startActivity(i);
-            }
+            case "bool_subtitulo":
+                analyticsFirebase.customEvents(ConstantsAnalyticsValues.SETTINGEVENT, ConstantsAnalyticsValues.PREFSCLASSNAME, getString(R.string.CustomSubtitleAnalyticsValue));
+                break;
+            case "bool_tts":
+                analyticsFirebase.customEvents(ConstantsAnalyticsValues.SETTINGEVENT,ConstantsAnalyticsValues.PREFSCLASSNAME, getString(R.string.CustomTTSAnalyticsValue));
+                break;
+            case "control_facial":
+                analyticsFirebase.customEvents(ConstantsAnalyticsValues.SETTINGEVENT,ConstantsAnalyticsValues.PREFSCLASSNAME, getString(R.string.FacialControlAnalyticsValue));
+                mFaceControl = new ControlFacial(preference.getContext());
+                break;
+            case "subtitulo_tamanio":
+                analyticsFirebase.customEvents(ConstantsAnalyticsValues.SETTINGEVENT, ConstantsAnalyticsValues.PREFSCLASSNAME, getString(R.string.SubtitleTextSizeAnalyticsValue));
+                showDialogOptionsSettings(getString(R.string.pref_subtitulo_tamanio), R.array.pref_subtitulos_tamanio_nombres, R.array.pref_subtitulos_tamanio_valores, getResources().getString(R.string.str_subtitulo_tamano));
+                break;
+            case "bool_editar":
+                analyticsFirebase.customEvents(ConstantsAnalyticsValues.SETTINGEVENT, ConstantsAnalyticsValues.PREFSCLASSNAME, getString(R.string.EditPictogramAnalyticsValue));
+                break;
+            case "hablar_borrar":
+                analyticsFirebase.customEvents(ConstantsAnalyticsValues.SETTINGEVENT, ConstantsAnalyticsValues.PREFSCLASSNAME, getString(R.string.TalkAndEraseAnalyticsValue));
+                break;
+            case "posicion_joystick":
+                analyticsFirebase.customEvents(ConstantsAnalyticsValues.SETTINGEVENT, ConstantsAnalyticsValues.PREFSCLASSNAME, getString(R.string.JoystickAnalyticsValue));
+                showDialogOptionsSettings(getString(R.string.joystick_orientation), R.array.pref_posicion, R.array.pref_posicion_valores, "orientacion_joystick");
+                return true;
+            case "sexo":
+                analyticsFirebase.customEvents(ConstantsAnalyticsValues.SETTINGEVENT, ConstantsAnalyticsValues.PREFSCLASSNAME, getString(R.string.GenderUserAnalyticsValue));
+                showDialogOptionsDownloadFile(getResources().getString(R.string.gender_string), Constants.GENERO, sharedPrefsDefault.getString(Constants.GENERO, "MASCULINO"), R.array.listSexo, R.array.list_sexo_valores, "pref_sexo");
+                //  new ordenarPictos().execute();
+                return true;
+            case "edad":
+                //  progressDialog = new ProgressDialog(this);
+                analyticsFirebase.customEvents(ConstantsAnalyticsValues.SETTINGEVENT, ConstantsAnalyticsValues.PREFSCLASSNAME, getString(R.string.AgeUserAnalyticsValue));
+                showDialogOptionsDownloadFile(this.getResources().getString(R.string.str_seleccionar_edad_usuario), getString(R.string.prefedad), sharedPrefsDefault.getString(getString(R.string.prefedad), "ADULTO"), R.array.listEdad, R.array.list_Edad_valores, getString(R.string.prefedad));
+                return true;
+            case "idioma":
+                analyticsFirebase.customEvents(ConstantsAnalyticsValues.SETTINGEVENT,ConstantsAnalyticsValues.PREFSCLASSNAME, getString(R.string.LanguageAnalyticsValue));
+                showLanguajeDialog(this.getResources().getString(R.string.pref_idioma), R.array.pref_idiomas, R.array.pref_idiomas_valores);
+                return true;
+
+            case "skillHand":
+                analyticsFirebase.customEvents(ConstantsAnalyticsValues.SETTINGEVENT, ConstantsAnalyticsValues.PREFSCLASSNAME, getString(R.string.SkillHandAnalyticsValue));
+                showDialogOptionsSkilledHand("Mano Habil", sharedPrefsDefault.getBoolean(Constants.SKILLHAND, false), R.array.Mano, R.array.Mano_valores, manoHabil.getKey());
+                return true;
+            case "pitch_tts":
+                analyticsFirebase.customEvents(ConstantsAnalyticsValues.SETTINGEVENT, ConstantsAnalyticsValues.PREFSCLASSNAME, getString(R.string.TTSVoiceAnalyticsValue));
+                preparePickerDialog(this.getResources().getString(R.string.pref_option2_tts), NUM_Tono, 1, 20);
+                return true;
+            case "velocidad_tts":
+                analyticsFirebase.customEvents(ConstantsAnalyticsValues.SETTINGEVENT, ConstantsAnalyticsValues.PREFSCLASSNAME, getString(R.string.TTSSpeedAnalyticsValue));
+                preparePickerDialog(this.getResources().getString(R.string.pref_option1_tts), NUM_Vel, 1, 20);
+                return true;
+            case "velocidad_barrido":
+                analyticsFirebase.customEvents(ConstantsAnalyticsValues.SETTINGEVENT,ConstantsAnalyticsValues.PREFSCLASSNAME, getString(R.string.ScreenScanningSpeedAnalyticsValue));
+                preparePickerDialog(this.getResources().getString(R.string.scanning_resources), NUM_VelB, 1, 10);
+                return true;
+            case "tiempo_retraso":
+                analyticsFirebase.customEvents(ConstantsAnalyticsValues.SETTINGEVENT,ConstantsAnalyticsValues.PREFSCLASSNAME, getString(R.string.TimeBetweenClicksAnalyticsValue));
+                preparePickerDialog(this.getResources().getString(R.string.str_delay_time_click), STR_Velocidad_Click, 1, 20);
+                return true;
+            case "Scroll_speed":
+                analyticsFirebase.customEvents(ConstantsAnalyticsValues.SETTINGEVENT, ConstantsAnalyticsValues.PREFSCLASSNAME, getString(R.string.ScrollSpeedAnalyticsValue));
+                preparePickerDialog(this.getResources().getString(R.string.scroll_speed_title), STR_SCROLL_SPEED, 1, 20);
+                return true;
+            case "bool_ubicacion":
+                analyticsFirebase.customEvents(ConstantsAnalyticsValues.SETTINGEVENT, ConstantsAnalyticsValues.PREFSCLASSNAME, getString(R.string.LocationAnalyticsValue));
+                showPaymentMessage(mBoolUbicacion);
+                return true;
+            case "v1":
+                sharedPrefsDefault.edit().putInt("deviceId", 0).apply();
+                new Devices_Version_Dialog(this, false);
+                break;
+            case "v2":
+                sharedPrefsDefault.edit().putInt("deviceId", 1).apply();
+                new Devices_Version_Dialog(this, true);
+                break;
         }
-        if (preference == mBoolExperimental) {
-            analyticsFirebase.customEvents("Settings", "prefs", "Experimental Mode");
-        }
-        if (preference == mOpciones) {
-            analyticsFirebase.customEvents("Settings", "prefs", "Suggested Pictograms");
-        } else if (preference == mBoolSubtitulo) {
-            analyticsFirebase.customEvents("Settings", "prefs", "Custom Subtitle");
-        } else if (preference == mBoolTTS) {
-            analyticsFirebase.customEvents("Settings", "prefs", "Custom TTS");
-        } else if (preference == mboolControlFacial) {
-            analyticsFirebase.customEvents("Settings", "prefs", "Facial Control");
-            mFaceControl = new ControlFacial(preference.getContext());
-        } else if (preference == mStrSubtituloTamano) {
-            analyticsFirebase.customEvents("Settings", "prefs", "Subtitle Text Size");
-            showDialogOptionsSettings(getString(R.string.pref_subtitulo_tamanio), R.array.pref_subtitulos_tamanio_nombres, R.array.pref_subtitulos_tamanio_valores, getResources().getString(R.string.str_subtitulo_tamano));
-        } else if (preference == mBoolEditar) {
-            analyticsFirebase.customEvents("Settings", "prefs", "Edit Pictograms");
-        } else if (preference == mboolHablarBorrar) {
-            analyticsFirebase.customEvents("Settings", "prefs", "Talk and erase");
-        } else if (preference == mOrientacionJoystick) {
-            analyticsFirebase.customEvents("Settings", "prefs", "Joystick");
-            showDialogOptionsSettings(getString(R.string.joystick_orientation), R.array.pref_posicion, R.array.pref_posicion_valores, "orientacion_joystick");
-            return true;
-        } else if (preference == mSexoUsuario) {
-            // progressDialog = new ProgressDialog(this);
-            analyticsFirebase.customEvents("Settings", "prefs", "Gender User");
-            showDialogOptionsDownloadFile(getResources().getString(R.string.gender_string), Constants.GENERO, sharedPrefsDefault.getString(Constants.GENERO, "MASCULINO"), R.array.listSexo, R.array.list_sexo_valores, "pref_sexo");
-            //  new ordenarPictos().execute();
-            return true;
 
-        } else if (preference == mEdadUsuario) {
-            //  progressDialog = new ProgressDialog(this);
-            analyticsFirebase.customEvents("Settings", "prefs", "Age User");
-            showDialogOptionsDownloadFile(this.getResources().getString(R.string.str_seleccionar_edad_usuario), getString(R.string.prefedad), sharedPrefsDefault.getString(getString(R.string.prefedad), "ADULTO"), R.array.listEdad, R.array.list_Edad_valores, getString(R.string.prefedad));
-            return true;
-
-        } else if (preference == mStrIdioma) {
-            analyticsFirebase.customEvents("Settings", "prefs", "Language");
-            showLanguajeDialog(this.getResources().getString(R.string.pref_idioma), R.array.pref_idiomas, R.array.pref_idiomas_valores);
-            return true;
-        } else if (preference == manoHabil) {
-            analyticsFirebase.customEvents("Settings", "prefs", "Skill hand");
-            showDialogOptionsSkilledHand("Mano Habil", sharedPrefsDefault.getBoolean(Constants.SKILLHAND, false), R.array.Mano, R.array.Mano_valores, manoHabil.getKey());
-            return true;
-        } else if (preference == mNumTono) {
-            analyticsFirebase.customEvents("Settings", "prefs", "TTS Voice");
-            preparePickerDialog(this.getResources().getString(R.string.pref_option2_tts), NUM_Tono, 1, 20);
-            return true;
-        } else if (preference == mNumVelocidad) {
-            analyticsFirebase.customEvents("Settings", "prefs", "TTS Speed");
-            preparePickerDialog(this.getResources().getString(R.string.pref_option1_tts), NUM_Vel, 1, 20);
-            return true;
-        } else if (preference == mNumVelocidadBarrido) {
-            analyticsFirebase.customEvents("Settings", "prefs", "Screen Scanning Speed");
-            preparePickerDialog(this.getResources().getString(R.string.scanning_resources), NUM_VelB, 1, 10);
-
-            return true;
-        } else if (preference == mNumVelocidadClicker) {
-            analyticsFirebase.customEvents("Settings", "prefs", "Time Between Clicks");
-            preparePickerDialog(this.getResources().getString(R.string.str_delay_time_click), STR_Velocidad_Click, 1, 20);
-            return true;
-        } else if (preference == mNumVelocidadScroll) {
-            analyticsFirebase.customEvents("Settings", "prefs", "Scroll Speed");
-            preparePickerDialog(this.getResources().getString(R.string.scroll_speed_title), STR_SCROLL_SPEED, 1, 20);
-            return true;
-        } else if (preference == mBoolUbicacion) {
-            analyticsFirebase.customEvents("Settings", "prefs", "Location");
-
-        } else if (preference == device1) {
-            sharedPrefsDefault.edit().putInt("deviceId", 0).apply();
-            new Devices_Version_Dialog(this, false);
-
-        } else if (preference == device2) {
-            sharedPrefsDefault.edit().putInt("deviceId", 1).apply();
-            new Devices_Version_Dialog(this, true);
-        }
         return super.onPreferenceTreeClick(preferenceScreen, preference);
+    }
+
+    private void showPaymentMessage(PersonalSwitchPreferences preference){
+        if(sharedPrefsDefault.getInt("premium", 0) == 0){
+            preference.setChecked(false);
+            Intent i = new Intent(preference.getContext(), LicenciaExpirada.class);
+            startActivity(i);
+        }
+
     }
 
     /**
@@ -1001,9 +1010,9 @@ public class prefs extends PreferenceActivity implements SharedPreferences.OnSha
 
     public void sendAnalitycsDevice(PersonalSwitchPreferences personalSwitchPreferences, String device) {
         if (personalSwitchPreferences.isChecked())
-            analyticsFirebase.customEvents("Settings", "prefs", "enabled " + device);
+            analyticsFirebase.customEvents(ConstantsAnalyticsValues.SETTINGEVENT, ConstantsAnalyticsValues.PREFSCLASSNAME, "enabled " + device);
         else
-            analyticsFirebase.customEvents("Settings", "prefs", "disabled " + device);
+            analyticsFirebase.customEvents(ConstantsAnalyticsValues.SETTINGEVENT, ConstantsAnalyticsValues.PREFSCLASSNAME, "disabled " + device);
 
 
     }

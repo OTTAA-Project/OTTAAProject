@@ -2,11 +2,15 @@ package com.stonefacesoft.ottaa.utils.Pictures;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.os.AsyncTask;
+import android.os.Handler;
+import android.os.Looper;
 import android.os.PowerManager;
 
 import com.stonefacesoft.ottaa.DrawableManager;
 import com.stonefacesoft.ottaa.Interfaces.preparePictures;
+
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 public class PicturesOnline {
     public String path;
@@ -26,22 +30,24 @@ public class PicturesOnline {
         return this;
     }
 
-    public class PrepareDrawable extends AsyncTask<Void,Void,Void>{
+    public class PrepareDrawable{
         private String url;
         public PrepareDrawable(String url){
             this.url = url;
         }
-        @Override
-        protected Void doInBackground(Void... voids) {
-            DrawableManager drawableManager = new DrawableManager();
-            drawable = drawableManager.fetchDrawable(url);
-            return null;
+
+        public void execute(){
+            Executor executor = Executors.newSingleThreadExecutor();
+            Handler handler = new Handler(Looper.getMainLooper());
+            executor.execute(()->{
+                DrawableManager drawableManager = new DrawableManager();
+                drawable = drawableManager.fetchDrawable(url);
+                handler.post(()->{
+                    preparePictures.setDrawable();
+                });
+            });
         }
 
-        @Override
-        protected void onPostExecute(Void unused) {
-            preparePictures.setDrawable();
-        }
     }
 
 

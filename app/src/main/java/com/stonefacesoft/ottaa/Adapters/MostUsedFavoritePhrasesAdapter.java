@@ -1,6 +1,7 @@
 package com.stonefacesoft.ottaa.Adapters;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.stonefacesoft.ottaa.Bitmap.GestionarBitmap;
 import com.stonefacesoft.ottaa.FavModel;
+import com.stonefacesoft.ottaa.Interfaces.LoadOnlinePictograms;
 import com.stonefacesoft.ottaa.Interfaces.ProgressBarListener;
 import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.utils.DatosDeUso;
@@ -123,9 +125,21 @@ public class MostUsedFavoritePhrasesAdapter extends RecyclerView.Adapter<MostUse
                 List frases = mDatosDeUso.getArrayListFrasesMasUsadas(4);
                 for (int i = 0; i < frases.size(); i++) {
                     FavModel model = new FavModel();
-                    if (mGestionarBitmap.getBitmapDeFrase(mDatosDeUso.getFrasesOrdenadas().get(i)) != null) {
+                        mGestionarBitmap.getBitmapDeFrase(mDatosDeUso.getFrasesOrdenadas().get(i),new LoadOnlinePictograms() {
+                            @Override
+                            public void preparePictograms() {
+                            }
 
-                        model.setImagen(mGestionarBitmap.getBitmapDeFrase(mDatosDeUso.getFrasesOrdenadas().get(i)));
+                            @Override
+                            public void loadPictograms(Bitmap bitmap) {
+                                model.setImagen(bitmap);
+                            }
+
+                            @Override
+                            public void FileIsCreated() {
+
+                            }
+                        });
                         try {
                             model.setTexto(mDatosDeUso.getFrasesOrdenadas().get(i).getString("frase"));
                         } catch (JSONException e) {
@@ -133,7 +147,6 @@ public class MostUsedFavoritePhrasesAdapter extends RecyclerView.Adapter<MostUse
                         }
                         mFavImagesArrayList.add(model);
                     }
-                }
             } catch (FiveMbException e) {
                 e.printStackTrace();
             }

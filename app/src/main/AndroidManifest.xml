@@ -204,7 +204,9 @@
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_login"
             android:screenOrientation="sensorLandscape" />
-        <activity android:name=".PictureCropper" android:screenOrientation="sensorLandscape"/>
+        <activity android:name=".Activities.Pictures.PictureCropper" android:screenOrientation="sensorLandscape"/>
+        <activity android:name=".Activities.Pictures.AvatarPictureCropper" android:screenOrientation="sensorLandscape"/>
+        <activity android:name=".Activities.Pictures.EditPictogramCropper" android:screenOrientation="sensorLandscape"/>
 
         <activity android:name=".LoginActivity2Avatar" android:screenOrientation="sensorLandscape" />
         <activity android:name=".LoginActivity2Step3" android:screenOrientation="sensorLandscape" />

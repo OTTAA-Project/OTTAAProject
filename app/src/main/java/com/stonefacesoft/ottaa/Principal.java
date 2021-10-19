@@ -1267,7 +1267,7 @@ public class Principal extends AppCompatActivity implements View
                 startFavoritePhrases();
                 break;
             case R.id.action_share:
-                analitycsFirebase.customEvents(ConstantsAnalyticsValues.TOUCH, "Principal", ConstantsAnalyticsValues.FAVORITEPHRASES);
+                analitycsFirebase.customEvents(ConstantsAnalyticsValues.TOUCH, this.getClass().getName(), ConstantsAnalyticsValues.FAVORITEPHRASES);
                 shareAction();
                 break;
             case R.id.btn_borrar:
