@@ -12,16 +12,16 @@ import java.io.File;
 import java.io.IOException;
 
 public class EditPictogramCropper extends PictureCropper{
-    protected static String TAG = "EditPictogramCropper";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        TAG = "EditPictogramCropper";
         initComponents();
     }
 
     @Override
-    protected void initComponents(){
+    protected void initComponents() {
         cropImageView.setCropShape(CropImageView.CropShape.RECTANGLE);
         cropImageView.setAspectRatio(1,1);
         cropImageView.setOnCropImageCompleteListener(new CropImageView.OnCropImageCompleteListener() {
@@ -36,7 +36,7 @@ public class EditPictogramCropper extends PictureCropper{
         });
 
         try {
-            File tempFile = File.createTempFile("avatar","jpg");
+            File tempFile = File.createTempFile("pictograms","jpg");
             croppedImageUri = Uri.fromFile(tempFile);
         } catch (IOException e) {
             e.printStackTrace();

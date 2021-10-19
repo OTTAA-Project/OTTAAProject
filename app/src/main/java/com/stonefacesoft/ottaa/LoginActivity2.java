@@ -47,6 +47,7 @@ import com.stonefacesoft.ottaa.FirebaseRequests.BajarJsonFirebase;
 import com.stonefacesoft.ottaa.FirebaseRequests.FirebaseDatabaseRequest;
 import com.stonefacesoft.ottaa.Interfaces.FirebaseSuccessListener;
 import com.stonefacesoft.ottaa.idioma.ConfigurarIdioma;
+import com.stonefacesoft.ottaa.utils.CloudFunctionHTTPRequest;
 import com.stonefacesoft.ottaa.utils.Firebase.AnalyticsFirebase;
 import com.stonefacesoft.ottaa.utils.InmersiveMode;
 import com.stonefacesoft.ottaa.utils.IntentCode;
@@ -395,6 +396,7 @@ public class LoginActivity2 extends AppCompatActivity implements View.OnClickLis
                     request.subirNombreUsuario(firebaseAuth);
                     request.subirPago(firebaseAuth);
                     request.subirEmail(firebaseAuth);
+                     new CloudFunctionHTTPRequest(LoginActivity2.this,TAG).doHTTPRequest("https://us-central1-ottaa-project.cloudfunctions.net/add2listwelcome");
                    /*Intent mainIntent = new Intent().setClass(LoginActivity.this, Principal.class);
                     startActivity(mainIntent);*/
 

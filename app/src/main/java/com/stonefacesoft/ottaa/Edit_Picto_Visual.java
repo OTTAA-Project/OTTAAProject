@@ -518,7 +518,7 @@ public class Edit_Picto_Visual extends AppCompatActivity implements View.OnClick
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         Bitmap imageBitmap;
         if (requestCode == IntentCode.CAMARA.getCode() && resultCode == RESULT_OK) {
-            Intent intent = new Intent(this, PictureCropper.class);
+            Intent intent = new Intent(this, EditPictogramCropper.class);
             intent.putExtra("pickedImageUri",selectedImageUri);
             startActivityForResult(intent, CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE);
         }

@@ -18,7 +18,7 @@ import com.stonefacesoft.ottaa.R;
 // https://github.com/ArthurHub/Android-Image-Cropper/wiki/Using-CropImageView-in-own-Activity
 
 public class PictureCropper extends AppCompatActivity {
-    protected static String TAG = "PictureCropper";
+    protected String TAG = "PictureCropper";
     protected CropImageView cropImageView;
     protected Uri croppedImageUri;
 
@@ -37,7 +37,6 @@ public class PictureCropper extends AppCompatActivity {
         if (id == R.id.btnTalk) {
             //Confirm crop and save
             Log.d(TAG, "onClick: saving file with uri: "+croppedImageUri.toString() + "Quality 400x400");
-
             cropImageView.startCropWorkerTask(300,300, CropImageView.RequestSizeOptions.RESIZE_INSIDE, Bitmap.CompressFormat.PNG,100,croppedImageUri);
           //  cropImageView.saveCroppedImageAsync(croppedImageUri,Bitmap.CompressFormat.PNG, 100,300,300, CropImageView.RequestSizeOptions.RESIZE_INSIDE);
         } else if (id == R.id.left_button) {

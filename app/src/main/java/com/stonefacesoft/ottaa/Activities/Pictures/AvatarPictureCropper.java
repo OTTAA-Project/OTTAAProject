@@ -12,10 +12,10 @@ import java.io.File;
 import java.io.IOException;
 
 public class AvatarPictureCropper extends PictureCropper {
-    protected static String TAG = "AvatarCropper";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        TAG = "EditePictogramCropper";
         initComponents();
     }
 
