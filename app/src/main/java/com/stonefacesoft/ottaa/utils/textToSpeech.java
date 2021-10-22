@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.speech.tts.TextToSpeech;
 import android.util.Log;
@@ -55,7 +56,7 @@ public class textToSpeech {
         this.context = context;
         this.sharedPrefsDefault = PreferenceManager.getDefaultSharedPreferences(context);
         alerta =CustomToast.getInstance(this.context);
-        prepare=UtilsTTS.getInstance(this.context,alerta,sharedPrefsDefault);
+        prepare= new UtilsTTS(this.context,alerta,sharedPrefsDefault);
 
     }
 
@@ -63,7 +64,7 @@ public class textToSpeech {
         this.context = context;
         alerta =CustomToast.getInstance(this.context);
         this.sharedPrefsDefault = PreferenceManager.getDefaultSharedPreferences(context);
-        prepare= UtilsTTS.getInstance(context,alerta,sharedPrefsDefault);
+        prepare= new UtilsTTS(context,alerta,sharedPrefsDefault);
     }
 
 
@@ -132,6 +133,22 @@ public class textToSpeech {
 
     public TextToSpeech getTTS() {
         return prepare.getmTTS();
+    }
+
+    public void synthesizeToFile(String Oracion, Bundle params,File file){
+        if(prepare.getmTTS()!=null)
+        getTTS().synthesizeToFile(Oracion, params, file, Oracion);
+    }
+
+    public void shutdownTTS(){
+        if(prepare.getmTTS() != null)
+            prepare.getmTTS().shutdown();
+    }
+
+    public boolean isSpeaking(){
+        if(prepare.getmTTS() != null)
+            return prepare.getmTTS().isSpeaking();
+        return false;
     }
 
     public void mostrarAlerta(String mensaje) {

@@ -22,7 +22,7 @@ import com.stonefacesoft.ottaa.utils.Audio.MediaPlayerAudio;
 import com.stonefacesoft.ottaa.utils.CustomToast;
 import com.stonefacesoft.ottaa.utils.Games.CalculaPuntos;
 import com.stonefacesoft.ottaa.utils.JSONutils;
-import com.stonefacesoft.ottaa.utils.Ttsutils.UtilsTTS;
+import com.stonefacesoft.ottaa.utils.textToSpeech;
 import com.stonefacesoft.pictogramslibrary.view.PictoView;
 
 import org.json.JSONArray;
@@ -70,7 +70,7 @@ public class ArmarFrases extends AppCompatActivity implements View.OnClickListen
 
     private SharedPreferences mDefaultSharedPreferences;
     private ArrayList<JSONObject> listadoPictos;
-    private UtilsTTS mUtilsTTS;
+    private textToSpeech mTextToSpeech;
 
 
     private CustomToast toast;
@@ -109,7 +109,7 @@ public class ArmarFrases extends AppCompatActivity implements View.OnClickListen
         numeros=new ArrayList();
         mDefaultSharedPreferences= PreferenceManager.getDefaultSharedPreferences(this);
         toast=CustomToast.getInstance(this);
-        mUtilsTTS=UtilsTTS.getInstance(this,toast,mDefaultSharedPreferences);
+        mTextToSpeech = textToSpeech.getInstance(this);
         listadoPictos=new ArrayList<>();
         seleccion1=findViewById(R.id.Seleccion1);
         seleccion2=findViewById(R.id.Seleccion2);
@@ -245,7 +245,7 @@ public class ArmarFrases extends AppCompatActivity implements View.OnClickListen
                     Log.e(TAG, "onClick: "+devolverFraseCompleta() );
                     Log.e(TAG, "onClick: "+frase.getString("frase") );
                     if(verificarFraseCorrecta()){
-                    mUtilsTTS.hablar(frase.getString("frase"));
+                    mTextToSpeech.hablar(frase.getString("frase"));
                     puntaje.sumarCantidadVecesCorrectas();
                         Handler handler=new Handler();
                         handler.postDelayed(new Runnable() {

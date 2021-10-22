@@ -255,27 +255,6 @@ public class BajarJsonFirebase implements OnFailureListener {
                                                 });
                                                 bajarJuego(locale,rootPath);
                                                 bajarFrasesFavoritas(locale,rootPath);
-                                                /*
-                                                mStorageRefFrasesJuegos.getFile(frasesJuegosPictos).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                                                    @Override
-                                                    public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                                                        try {
-                                                            Log.d("BAF_descGYPN", "Tama&ntildeoArchivoGrupo :" + taskSnapshot.getTotalByteCount());
-                                                            Log.d("BAF_descGYPN", "NombreArchivo:" + frasesJuegosPictos);
-                                                            if(!getStringFromFile(frasesJuegosPictos.getAbsolutePath()).equals("[]")&&frasesJuegosPictos.length()>0){
-                                                            json.setmJSONArrayTodasLasFrasesJuegos(json.readJSONArrayFromFile(frasesJuegosPictos.getAbsolutePath()));
-                                                            json.guardarJson(Constants.ARCHIVO_FRASES_JUEGOS);
-                                                            mFbSuccessListenerInterfaz.onDescargaCompleta(Constants.FRASESJUEGOS_DESCARGADOS);
-                                                            }
-
-                                                        } catch (JSONException e) {
-                                                            Log.e("printStackTrace", "frases-juegos" + e.toString());
-
-                                                        } catch (Exception e) {
-                                                            e.printStackTrace();
-                                                        }
-                                                    }
-                                                });*/
 
                                             } catch (Exception e) {
                                                 e.printStackTrace();

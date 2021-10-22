@@ -195,7 +195,7 @@ public class CompartirArchivos {
                 params.putString(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, Oracion);
                 synchronized (file) {
                 }
-                myTTS.getTTS().synthesizeToFile(Oracion, params, file, Oracion);
+                myTTS.synthesizeToFile(Oracion, params, file);
                 compartirAudioPictogramas();
             }
         });

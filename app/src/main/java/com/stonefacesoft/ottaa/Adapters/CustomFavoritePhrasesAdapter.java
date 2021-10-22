@@ -20,6 +20,8 @@ import com.stonefacesoft.pictogramslibrary.utils.GlideAttatcher;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.List;
+
 public class CustomFavoritePhrasesAdapter extends RecyclerView.Adapter<CustomFavoritePhrasesAdapter.FavoritePhrases>{
     private final Context mContext;
     private final CustomFavoritePhrases phrases;
@@ -49,39 +51,14 @@ public class CustomFavoritePhrasesAdapter extends RecyclerView.Adapter<CustomFav
         return new CustomFavoritePhrasesAdapter.FavoritePhrases(itemView);
     }
 
-
+    @Override
+    public void onBindViewHolder(@NonNull FavoritePhrases holder, int position, @NonNull List<Object> payloads) {
+        super.onBindViewHolder(holder, position, payloads);
+    }
 
     @Override
     public void onBindViewHolder(@NonNull FavoritePhrases holder, int position) {
-        try {
-            holder.position=position;
-            JSONObject phrase=phrases.getPhrases().getJSONObject(position);
-            holder.phrase=phrase;
-            gestionarBitmap.getBitmapDeFrase(phrase,new LoadOnlinePictograms() {
-                @Override
-                public void preparePictograms() {
-                }
-                @Override
-                public void loadPictograms(Bitmap bitmap) {
-                    glideAttatcher.UseCornerRadius(true).loadDrawable(bitmap,holder.img);
-                }
-
-                @Override
-                public void FileIsCreated() {
-                }
-            });
-            holder.img.setOnClickListener(v -> {
-                if(phrase!=null) {
-                    try {
-                        myTTs.hablar(phrase.getString("frase"));
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                }
-            });
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        loadObject(holder,position);
     }
 
     @Override
@@ -112,6 +89,38 @@ public class CustomFavoritePhrasesAdapter extends RecyclerView.Adapter<CustomFav
 
         public void setPhrase(JSONObject phrase) {
             this.phrase = phrase;
+        }
+    }
+
+    private void loadObject(FavoritePhrases holder, int pos){
+        try {
+            holder.position=pos;
+            JSONObject phrase=phrases.getPhrases().getJSONObject(pos);
+            holder.phrase=phrase;
+            gestionarBitmap.getBitmapDeFrase(phrase,new LoadOnlinePictograms() {
+                @Override
+                public void preparePictograms() {
+                }
+                @Override
+                public void loadPictograms(Bitmap bitmap) {
+                    glideAttatcher.UseCornerRadius(true).loadDrawable(bitmap,holder.img);
+                }
+
+                @Override
+                public void FileIsCreated() {
+                }
+            });
+            holder.img.setOnClickListener(v -> {
+                if(phrase!=null) {
+                    try {
+                        myTTs.hablar(phrase.getString("frase"));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
     }
 }

@@ -61,4 +61,9 @@ public class FindAllPictograms extends AppCompatActivity {
         findAllPictograms_recycler_view.getProgress_dialog_options().destruirDialogo();
     }
 
+    @Override
+    public void onBackPressed() {
+
+        super.onBackPressed();
+    }
 }

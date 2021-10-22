@@ -420,10 +420,10 @@ public class Principal extends AppCompatActivity implements View
             } catch (FiveMbException e) {
                 e.printStackTrace();
             }
+            Reset();
             if (firebaseDialog != null) {
                 firebaseDialog.destruirDialogo();
             }
-
         }
 
     }
@@ -512,6 +512,8 @@ public class Principal extends AppCompatActivity implements View
         }
         return false;
     }
+
+
 
     private void setPrimerBackupTimeLocal() {
         //Nos fijamos si el permiso de escribir en el storage esta dado para hacer el backup local.
@@ -695,6 +697,7 @@ public class Principal extends AppCompatActivity implements View
         CargarJson();
         Log.d(TAG, "onResume: idioma : " + getApplication().getResources().getConfiguration().locale.toString());
         super.onResume();
+        myTTS = textToSpeech.getInstance(this);
         if (firebaseDialog != null) {
             firebaseDialog.destruirDialogo();
         }
@@ -748,7 +751,6 @@ public class Principal extends AppCompatActivity implements View
         if (firebaseDialog != null) {
             firebaseDialog.destruirDialogo();
         }
-
         super.onDestroy();
 
     }
@@ -1349,7 +1351,7 @@ public class Principal extends AppCompatActivity implements View
                 break;
             case ConstantsMainActivity.CONFIG_SCREEN:
                 myTTS =textToSpeech.getInstance(this);
-                barridoPantalla.cambiarEstadoBarrido();
+                barridoPantalla.updateSharePrefs(sharedPrefsDefault).cambiarEstadoBarrido();
                 boolean isEnableScreenScanning = enableDisableScreenScanning();
                 editarPicto = sharedPrefsDefault.getBoolean(getString(R.string.str_editar_picto), true);
                 if (data != null && data.getExtras() != null) {
@@ -1394,7 +1396,7 @@ public class Principal extends AppCompatActivity implements View
                             });
                         }
                     }
-                    barridoPantalla.cambiarEstadoBarrido();
+                    barridoPantalla.updateSharePrefs(sharedPrefsDefault).cambiarEstadoBarrido();
                 } catch (Exception ex) {
                     PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putInt("premium", 0).apply();
                 }
@@ -1988,8 +1990,8 @@ public class Principal extends AppCompatActivity implements View
         initSelectionComponents();
         initActionButtons();
         initPictograms();
-        initAvatar();
         initFirstPictograms();
+        initAvatar();
         uploadFiles();
         initBarrido();
         initPlaceImplementationClass();
@@ -2000,6 +2002,7 @@ public class Principal extends AppCompatActivity implements View
         navigationControls = new PrincipalControls(this);
         movableFloatingActionButton.setIcon();
         remoteConfigUtils = RemoteConfigUtils.getInstance();
+
         loadAvatar();
         showAvatar();
     }
@@ -2202,7 +2205,7 @@ public class Principal extends AppCompatActivity implements View
     }
 
     private void initFirstPictograms() {
-        if (json.getmJSONArrayTodosLosPictos() != null && json.getmJSONArrayTodosLosPictos().length() > 0) {
+        if (json.getmJSONArrayTodosLosPictos() != null && json.getmJSONArrayTodosLosPictos().length() > 0&& historial.getListadoPictos().isEmpty()) {
             try {
                 pictoPadre = json.getmJSONArrayTodosLosPictos().getJSONObject(0);
             } catch (JSONException e) {

@@ -345,10 +345,12 @@ public class Edit_Picto_Visual extends AppCompatActivity implements View.OnClick
             Picto.setCustom_Img(draw[0]);
         }else{
             jsonObject = getObjectJson(esGrupo);
-            if(!esGrupo){
-                Picto.setPictogramsLibraryPictogram(new Pictogram(jsonObject,ConfigurarIdioma.getLanguaje()));
-            } else {
-                Picto.setPictogramsLibraryPictogram( new Group(jsonObject,ConfigurarIdioma.getLanguaje()).getPictogramFromGroup());
+            if(jsonObject != null){
+                if(!esGrupo){
+                    Picto.setPictogramsLibraryPictogram(new Pictogram(jsonObject,ConfigurarIdioma.getLanguaje()));
+                } else {
+                    Picto.setPictogramsLibraryPictogram( new Group(jsonObject,ConfigurarIdioma.getLanguaje()).getPictogramFromGroup());
+                }
             }
         }
 
