@@ -1496,7 +1496,6 @@ public class Principal extends AppCompatActivity implements View
                 break;
             case Principal.TRIM_MEMORY_BACKGROUND:
             case Principal.TRIM_MEMORY_MODERATE:
-            case Principal.TRIM_MEMORY_COMPLETE:
                 break;
             default:
         }
