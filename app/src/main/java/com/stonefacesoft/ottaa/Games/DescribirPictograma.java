@@ -32,14 +32,14 @@ import com.stonefacesoft.ottaa.Dialogos.DialogUtils.DialogGameProgressInform;
 import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.utils.Audio.MediaPlayerAudio;
-import com.stonefacesoft.ottaa.utils.Constants;
 import com.stonefacesoft.ottaa.utils.CustomToast;
 import com.stonefacesoft.ottaa.utils.Firebase.AnalyticsFirebase;
 import com.stonefacesoft.ottaa.utils.Games.AnimGameScore;
 import com.stonefacesoft.ottaa.utils.Games.Juego;
 import com.stonefacesoft.ottaa.utils.JSONutils;
-import com.stonefacesoft.ottaa.utils.Ttsutils.UtilsTTS;
+import com.stonefacesoft.ottaa.utils.constants.Constants;
 import com.stonefacesoft.ottaa.utils.exceptions.FiveMbException;
+import com.stonefacesoft.ottaa.utils.textToSpeech;
 import com.stonefacesoft.pictogramslibrary.view.PictoView;
 
 import org.json.JSONArray;
@@ -56,7 +56,7 @@ public class DescribirPictograma extends AppCompatActivity implements View
     private CustomToast dialogo;
     //Declaracion de variables del TTS
 
-    private UtilsTTS mUtilsTTS;
+    private textToSpeech mTextToSpeech;
 
 
     //Declaracion botones de preguntas
@@ -198,9 +198,7 @@ public class DescribirPictograma extends AppCompatActivity implements View
         mute=sharedPrefsDefault.getBoolean("muteSound",false);
         isChecked=sharedPrefsDefault.getBoolean(getString(R.string.str_pistas),true);
         music.setMuted(mute);
-        if(mUtilsTTS==null) {
-            mUtilsTTS=new UtilsTTS(this,dialogo,sharedPrefsDefault);
-        }
+        mTextToSpeech = textToSpeech.getInstance(this);
         music.playMusic();
         analitycsFirebase.levelNameGame(TAG);
 
@@ -428,7 +426,7 @@ public class DescribirPictograma extends AppCompatActivity implements View
                 if(viewGanador!=null){
 
 
-                    mUtilsTTS.hablar(viewGanador.getCustom_Texto());
+                    mTextToSpeech.getUtilsTTS().hablar(viewGanador.getCustom_Texto());
                     if(primerUso) {
                         viewGanador.startAnimation(AnimationUtils.loadAnimation(DescribirPictograma.this, R.anim.shake));
                         primerUso=false;

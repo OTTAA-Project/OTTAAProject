@@ -28,7 +28,7 @@ public class AllPhrases extends PhrasesView {
     public void initComponents() {
         super.initComponents();
         allPhrasesRecyclerView = new AllPhrasesRecyclerView(this,firebaseUser.getmAuth());
-        myTTS = new textToSpeech(this);
+        myTTS = textToSpeech.getInstance(this);
         btnEditar.setVisibility(View.INVISIBLE);
         allPhrasesRecyclerView.setMyTTS(myTTS);
         allPhrasesRecyclerView.setOnClickListener();

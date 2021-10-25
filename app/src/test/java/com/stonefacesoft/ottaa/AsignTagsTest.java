@@ -8,7 +8,7 @@ import static org.junit.Assert.assertTrue;
 import com.stonefacesoft.ottaa.Interfaces.DialogInterfaceTags;
 import com.stonefacesoft.ottaa.Interfaces.TagInterfazJson;
 import com.stonefacesoft.ottaa.JSONutils.Json;
-import com.stonefacesoft.ottaa.utils.Constants;
+import com.stonefacesoft.ottaa.utils.constants.Constants;
 
 import org.json.JSONArray;
 import org.json.JSONException;

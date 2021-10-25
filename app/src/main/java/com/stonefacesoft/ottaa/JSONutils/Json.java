@@ -20,24 +20,20 @@ import com.stonefacesoft.ottaa.Prediction.Posicion;
 import com.stonefacesoft.ottaa.Prediction.Sexo;
 import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.idioma.ConfigurarIdioma;
-import com.stonefacesoft.ottaa.utils.Constants;
 import com.stonefacesoft.ottaa.utils.JSONutils;
+import com.stonefacesoft.ottaa.utils.constants.Constants;
 import com.stonefacesoft.ottaa.utils.exceptions.FiveMbException;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -257,8 +253,29 @@ public class Json implements FindPictogram {
 
             switch (jsonObjectImage.getInt("type")) {
                 case 1:
-                    return AbrirBitmap(jsonObjectImage.getString("picto"));
+                    Drawable draw = AbrirBitmap(jsonObjectImage.getString("picto"),0);
+                    return draw;
+                case 2:
+                    return mContext.getResources().getDrawable(mContext.getResources().getIdentifier(jsonObjectImage.getString("picto"),
+                            "drawable", mContext.getPackageName()));
+                case 3:
+                    return null;
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
+        return null;
+    }
 
+    public Drawable getIconWithNullOption(JSONObject object) {
+        try {
+            JSONObject jsonObjectImage = JSONutils.getImagen(object);
+
+            switch (jsonObjectImage.getInt("type")) {
+                case 1:
+                    Drawable draw = AbrirBitmap(jsonObjectImage.getString("picto"),1);
+                    return draw;
                 case 2:
                     return mContext.getResources().getDrawable(mContext.getResources().getIdentifier(jsonObjectImage.getString("picto"),
                             "drawable", mContext.getPackageName()));
@@ -289,44 +306,24 @@ public class Json implements FindPictogram {
         return d;
     }
 
-    public Drawable AbrirBitmap(String path) {
-        Drawable d = mContext.getResources().getDrawable(R.drawable.ic_agregar);
+    public Drawable AbrirBitmap(String path,int opt) {
+        Drawable d = null;
         if (!path.isEmpty()) {
             try {
                 d = getBitmap(path);
             } catch (Exception ex) {
                 ex.printStackTrace();
-                d = mContext.getResources().getDrawable(R.drawable.ic_baseline_cloud_download_24_big);
-
+                if(opt ==0)
+                    d = mContext.getResources().getDrawable(R.drawable.ic_baseline_cloud_download_24_big);
+                else
+                    d = null;
             }
+
         }
         return d;
     }
 
-    public Drawable getUrlBitmap(String uri) throws Exception {
-        Drawable d = null;
-        Bitmap bitmap = null;
-        Log.d(TAG, "getBitmap : isEmpty");
-        URL url = new URL(uri);
-        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-        if (connection.getResponseCode() != 200) {
-            Canvas canvas = new Canvas(bitmap);
-            d.setBounds(0, 0, bitmap.getWidth(), bitmap.getHeight());
-            d.draw(canvas);
-            return d;
-        }
-        InputStream is = connection.getInputStream();
-        BufferedInputStream bis = new BufferedInputStream(is);
-        try {
-            bitmap = BitmapFactory.decodeStream(bis);
-        } catch (OutOfMemoryError ex) {
-            bitmap = null;
-        }
-        bis.close();
-        is.close();
 
-        return d;
-    }
 
 
 

@@ -1,27 +1,21 @@
 package com.stonefacesoft.ottaa.Adapters;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
-import android.os.AsyncTask;
-import android.view.LayoutInflater;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 
-import com.stonefacesoft.ottaa.Bitmap.GestionarBitmap;
+import com.stonefacesoft.ottaa.Interfaces.LoadOnlinePictograms;
 import com.stonefacesoft.ottaa.R;
-import com.stonefacesoft.ottaa.utils.Phrases.CustomFavoritePhrases;
-import com.stonefacesoft.ottaa.utils.textToSpeech;
-import com.stonefacesoft.pictogramslibrary.utils.GlideAttatcher;
 
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 public class SelectFavoritePhrasesAdapter extends PhrasesAdapter{
 
@@ -34,7 +28,7 @@ public class SelectFavoritePhrasesAdapter extends PhrasesAdapter{
         new CargarFrasesAsync(position,holder).execute();
     }
 
-    protected class CargarFrasesAsync extends AsyncTask<Void, Void, Void> {
+    protected class CargarFrasesAsync {
 
         private final int mPosition;
         private final PhrasesAdapter.PhraseAdapter mHolder;
@@ -46,34 +40,39 @@ public class SelectFavoritePhrasesAdapter extends PhrasesAdapter{
             this.mHolder = mHolder;
         }
 
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
+        public void execute(){
+            Executor executor = Executors.newSingleThreadExecutor();
+            Handler handler = new Handler(Looper.getMainLooper());
+            executor.execute(()->{
+                Bitmap mBitmap;
+                try {
+                    mHolder.phrase = userPhrases.getJSONObject(mPosition);
+                    mHolder.position = mPosition;
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                handler.post(()->{
+                    gestionarBitmap.getBitmapDeFrase(mHolder.phrase,new LoadOnlinePictograms() {
+                        @Override
+                        public void preparePictograms() {
+                        }
 
-        }
+                        @Override
+                        public void loadPictograms(Bitmap bitmap) {
+                            glideAttatcher.UseCornerRadius(true).loadDrawable(bitmap, mHolder.img);
+                        }
+                        @Override
+                        public void FileIsCreated() {
 
-        @SuppressLint("WrongThread")
-        @Override
-        protected Void doInBackground(Void... voids) {
-            Bitmap mBitmap;
-            try {
-                mHolder.phrase = userPhrases.getJSONObject(mPosition);
-                mHolder.position = mPosition;
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-            glideAttatcher.UseCornerRadius(true).loadDrawable(gestionarBitmap.getBitmapDeFrase(mHolder.phrase), mHolder.img);
-            boolean isExist = phrases.isExist(mHolder.phrase);
-            if (isExist)
-                mHolder.img.setBackground(mContext.getResources().getDrawable(R.drawable.picto_shape_select));
-            else
-                mHolder.img.setBackgroundColor(mContext.getResources().getColor(R.color.FondoApp));
+                        }
+                    });
+                    boolean isExist = phrases.isExist(mHolder.phrase);
+                    if (isExist)
+                        mHolder.img.setBackground(mContext.getResources().getDrawable(R.drawable.picto_shape_select));
+                    else
+                        mHolder.img.setBackgroundColor(mContext.getResources().getColor(R.color.FondoApp));
+                });
+            });
         }
     }
 

@@ -57,10 +57,12 @@ import com.stonefacesoft.ottaa.idioma.myContextWrapper;
 import com.stonefacesoft.ottaa.utils.Accesibilidad.BarridoPantalla;
 import com.stonefacesoft.ottaa.utils.Accesibilidad.devices.GaleriaGruposControls;
 import com.stonefacesoft.ottaa.utils.Accesibilidad.scrollActions.ScrollFunctionGaleriaGrupos;
-import com.stonefacesoft.ottaa.utils.Constants;
+import com.stonefacesoft.ottaa.utils.constants.Constants;
 import com.stonefacesoft.ottaa.utils.Firebase.AnalyticsFirebase;
 import com.stonefacesoft.ottaa.utils.IntentCode;
 import com.stonefacesoft.ottaa.utils.Pictures.DownloadPictures;
+import com.stonefacesoft.ottaa.utils.constants.ConstantsGroupGalery;
+import com.stonefacesoft.ottaa.utils.constants.ConstantsMainActivity;
 import com.stonefacesoft.ottaa.utils.textToSpeech;
 
 import org.json.JSONArray;
@@ -143,7 +145,7 @@ public class GaleriaGrupos2 extends AppCompatActivity implements OnStartDragList
         firebaseUtils.setUpFirebaseDatabase();
         setContentView(R.layout.activity_galeria_grupos2);
         mContext = getApplicationContext();
-        myTTS = new textToSpeech(this);
+        myTTS = textToSpeech.getInstance(this);
         analyticsFirebase=new AnalyticsFirebase(this);
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -300,27 +302,29 @@ public class GaleriaGrupos2 extends AppCompatActivity implements OnStartDragList
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         Log.d(TAG, "onActivityResult: Entering ActivityResult");
-        if (requestCode == IntentCode.GALERIA_PICTOS.getCode()) {
-            viewpager.updateData();
-            if(recycler_view_grupo!=null){
-                recycler_view_grupo.setGrupos();
-            }
-            if (data != null) {
-                if (data.getExtras() != null) {
-                    Bundle extras = data.getExtras();
-                    int Picto = extras.getInt("ID");
-                    Log.e("GaleriaGrupo ", " PictoID: " + Picto);
-                    if (Picto != 0 && Picto != -1) {
-                        Intent databack = new Intent();
-                        databack.putExtra("ID", Picto);
-                        setResult(IntentCode.GALERIA_GRUPOS.getCode(), databack);
-                        finish();
-                    }
-                }
-
-            }
+        switch (requestCode){
+            case ConstantsGroupGalery
+                    .GALERIAPICTOS:
+                viewpager.updateData();
+                if(recycler_view_grupo != null)
+                    recycler_view_grupo.setGrupos();
+                returnData(data);
+                break;
+            case ConstantsMainActivity
+                    .EDITARPICTO :
+                loadData();
+               break;
+            case ConstantsGroupGalery.ORDENAR:
+                loadData();
+                break;
+            case ConstantsGroupGalery.SEARCH_ALL_PICTOGRAMS:
+                loadData();
+                returnData(data);
+            break;
         }
-        if (requestCode == IntentCode.EDITARPICTO.getCode()||requestCode==IntentCode.ORDENAR.getCode()|| resultCode == IntentCode.SEARCH_ALL_PICTOGRAMS.getCode()) {
+
+
+/*        if (requestCode == IntentCode.EDITARPICTO.getCode()||requestCode==IntentCode.ORDENAR.getCode()|| resultCode == IntentCode.SEARCH_ALL_PICTOGRAMS.getCode()) {
             if(recycler_view_grupo!=null){
                 recycler_view_grupo.sincronizeData();
                 recycler_view_grupo.changeData();
@@ -344,9 +348,34 @@ public class GaleriaGrupos2 extends AppCompatActivity implements OnStartDragList
                 }
             }
 
-        }
+        }*/
 
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private void returnData(Intent data){
+        if(data != null){
+            if (data.getExtras() != null) {
+                Bundle extras = data.getExtras();
+                int Picto = extras.getInt("ID");
+                Log.e("GaleriaGrupo ", " PictoID: " + Picto);
+                if (Picto != 0 && Picto != -1) {
+                    Intent databack = new Intent();
+                    databack.putExtra("ID", Picto);
+                    setResult(IntentCode.GALERIA_GRUPOS.getCode(), databack);
+                    finish();
+                }
+            }
+        }
+    }
+
+    private void loadData(){
+        if(recycler_view_grupo!=null){
+            recycler_view_grupo.sincronizeData();
+            recycler_view_grupo.changeData();
+            recycler_view_grupo.guardarDatosGrupo();
+        }
+        viewpager.updateData();
     }
 
 
@@ -446,6 +475,7 @@ public class GaleriaGrupos2 extends AppCompatActivity implements OnStartDragList
                     intent.putExtra("esNuevo", true);
                     intent.putExtra("Padre", boton);
                     intent.putExtra("esGrupo", true);
+                    intent.putExtra("Texto","");
                     myTTS.hablar(getString(R.string.add_grupo));
                     Log.d(TAG, "onOptionsItemSelected: Creating new Group");
                     startActivityForResult(intent, IntentCode.EDITARPICTO.getCode());

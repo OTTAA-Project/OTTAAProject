@@ -21,6 +21,7 @@
     <uses-permission android:name="android.permission.USE_CREDENTIALS" /> <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.READ_PROFILE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
+
     <queries>
         <intent>
             <action
@@ -45,6 +46,7 @@
         android:supportsRtl="true"
         android:theme="@style/CustomActionBarTheme"
         android:usesCleartextTraffic="true"
+
         tools:targetApi="m">
 
 
@@ -202,7 +204,8 @@
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_login"
             android:screenOrientation="sensorLandscape" />
-        <activity android:name=".PictureCropper" android:screenOrientation="sensorLandscape"/>
+        <activity android:name=".Activities.Pictures.AvatarPictureCropper" android:screenOrientation="sensorLandscape"/>
+        <activity android:name=".Activities.Pictures.EditPictogramCropper" android:screenOrientation="sensorLandscape"/>
 
         <activity android:name=".LoginActivity2Avatar" android:screenOrientation="sensorLandscape" />
         <activity android:name=".LoginActivity2Step3" android:screenOrientation="sensorLandscape" />

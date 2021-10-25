@@ -23,7 +23,7 @@ import com.stonefacesoft.ottaa.Interfaces.FirebaseSuccessListener;
 import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.idioma.ConfigurarIdioma;
-import com.stonefacesoft.ottaa.utils.Constants;
+import com.stonefacesoft.ottaa.utils.constants.Constants;
 import com.stonefacesoft.ottaa.utils.FilesUtils;
 import com.stonefacesoft.ottaa.utils.ObservableInteger;
 import com.stonefacesoft.ottaa.utils.exceptions.FiveMbException;
@@ -255,27 +255,6 @@ public class BajarJsonFirebase implements OnFailureListener {
                                                 });
                                                 bajarJuego(locale,rootPath);
                                                 bajarFrasesFavoritas(locale,rootPath);
-                                                /*
-                                                mStorageRefFrasesJuegos.getFile(frasesJuegosPictos).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                                                    @Override
-                                                    public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                                                        try {
-                                                            Log.d("BAF_descGYPN", "Tama&ntildeoArchivoGrupo :" + taskSnapshot.getTotalByteCount());
-                                                            Log.d("BAF_descGYPN", "NombreArchivo:" + frasesJuegosPictos);
-                                                            if(!getStringFromFile(frasesJuegosPictos.getAbsolutePath()).equals("[]")&&frasesJuegosPictos.length()>0){
-                                                            json.setmJSONArrayTodasLasFrasesJuegos(json.readJSONArrayFromFile(frasesJuegosPictos.getAbsolutePath()));
-                                                            json.guardarJson(Constants.ARCHIVO_FRASES_JUEGOS);
-                                                            mFbSuccessListenerInterfaz.onDescargaCompleta(Constants.FRASESJUEGOS_DESCARGADOS);
-                                                            }
-
-                                                        } catch (JSONException e) {
-                                                            Log.e("printStackTrace", "frases-juegos" + e.toString());
-
-                                                        } catch (Exception e) {
-                                                            e.printStackTrace();
-                                                        }
-                                                    }
-                                                });*/
 
                                             } catch (Exception e) {
                                                 e.printStackTrace();

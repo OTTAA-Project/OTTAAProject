@@ -6,7 +6,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
-import android.speech.tts.TextToSpeech;
 import android.util.Log;
 import android.view.InputDevice;
 import android.view.Menu;
@@ -37,7 +36,7 @@ import com.stonefacesoft.ottaa.utils.Firebase.AnalyticsFirebase;
 import com.stonefacesoft.ottaa.utils.Games.AnimGameScore;
 import com.stonefacesoft.ottaa.utils.Games.GamesSettings;
 import com.stonefacesoft.ottaa.utils.Games.Juego;
-import com.stonefacesoft.ottaa.utils.Ttsutils.UtilsTTS;
+import com.stonefacesoft.ottaa.utils.textToSpeech;
 import com.stonefacesoft.pictogramslibrary.utils.GlideAttatcher;
 import com.stonefacesoft.pictogramslibrary.view.PictoView;
 
@@ -67,8 +66,7 @@ public class GameViewSelectPictograms extends AppCompatActivity implements View.
     protected SharedPreferences sharedPrefsDefault;
     protected CustomToast dialogo;
     //Declaracion de variables del TTS
-    protected TextToSpeech mTTS;
-    protected UtilsTTS mUtilsTTS;
+    protected textToSpeech mTTS;
     protected int PictoID;
     protected int mPositionPadre;
 
@@ -233,7 +231,7 @@ public class GameViewSelectPictograms extends AppCompatActivity implements View.
 //        else
 //            sound_on_off.setImageDrawable(getResources().getDrawable(R.drawable.ic_volume_up_white_24dp));
         gamesSettings.enableHelpFunction(sharedPrefsDefault.getBoolean(getString(R.string.str_pistas),true));
-        mUtilsTTS=new UtilsTTS(getApplicationContext(),dialogo,sharedPrefsDefault);
+        mTTS = textToSpeech.getInstance(this);
         player=new MediaPlayerAudio(this);
         music=new MediaPlayerAudio(this);
         player.setVolumenAudio(0.15f);
@@ -253,7 +251,7 @@ public class GameViewSelectPictograms extends AppCompatActivity implements View.
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                mUtilsTTS.hablarConDialogo(description);
+                mTTS.getUtilsTTS().hablarConDialogo(description);
             }
         },800);
     }

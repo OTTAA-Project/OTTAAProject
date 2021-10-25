@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.stonefacesoft.ottaa.R;
-import com.stonefacesoft.ottaa.utils.Constants;
+import com.stonefacesoft.ottaa.utils.constants.Constants;
 import com.stonefacesoft.ottaa.utils.ReturnPositionItem;
 
 import java.util.ArrayList;
@@ -228,10 +228,16 @@ public class BarridoPantalla {
 
 
     public void cambiarEstadoBarrido() {
+
         tiempo = mDefaultSharedPreferences.getInt("velocidad_barrido", 5);
         enableDisableScreenScanning(mDefaultSharedPreferences.getBoolean(Constants.BARRIDO_BOOL, false),mDefaultSharedPreferences.getBoolean("tipo_barrido_normal",false),mDefaultSharedPreferences.getBoolean("tipo_barrido", false),mDefaultSharedPreferences.getBoolean("sip_and_puff",false),mDefaultSharedPreferences.getBoolean(this.mActivity.getResources().getString(R.string.usar_scroll),false),mDefaultSharedPreferences.getBoolean(this.mActivity.getResources().getString(R.string.usar_scroll_click),false));
         timeToChange=new TimeToChange(this,tiempo);
         activarDesactivarBarrido();
+    }
+
+    public BarridoPantalla updateSharePrefs(SharedPreferences sharedPreferences){
+        this.mDefaultSharedPreferences = sharedPreferences;
+        return this;
     }
 
     /*

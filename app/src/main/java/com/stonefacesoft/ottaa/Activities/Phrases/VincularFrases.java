@@ -13,8 +13,7 @@ import com.stonefacesoft.ottaa.FirebaseRequests.SubirArchivosFirebase;
 import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.RecyclerViews.PhrasesRecyclerView;
 import com.stonefacesoft.ottaa.Views.Phrases.PhrasesView;
-import com.stonefacesoft.ottaa.utils.Constants;
-import com.stonefacesoft.ottaa.utils.Firebase.AnalyticsFirebase;
+import com.stonefacesoft.ottaa.utils.constants.Constants;
 import com.stonefacesoft.ottaa.utils.IntentCode;
 
 public class VincularFrases extends PhrasesView {

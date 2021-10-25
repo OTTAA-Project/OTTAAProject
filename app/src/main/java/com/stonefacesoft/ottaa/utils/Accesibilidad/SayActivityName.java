@@ -12,7 +12,7 @@ public class SayActivityName {
 
     private SayActivityName(Context mContext){
         this.mContext = mContext;
-        myTTS = new textToSpeech(mContext);
+        myTTS = textToSpeech.getInstance(mContext);
     }
     public static synchronized SayActivityName getInstance(Context mContext){
         if(_sayActivityName == null)

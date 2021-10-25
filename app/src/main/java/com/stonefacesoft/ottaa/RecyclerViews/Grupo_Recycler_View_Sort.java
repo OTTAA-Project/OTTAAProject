@@ -10,7 +10,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.stonefacesoft.ottaa.Adapters.GaleriaGruposAdapter;
 import com.stonefacesoft.ottaa.Helper.SimpleItemTouchHelperCallback;
 import com.stonefacesoft.ottaa.R;
-import com.stonefacesoft.ottaa.utils.Constants;
+import com.stonefacesoft.ottaa.utils.constants.Constants;
 
 public class Grupo_Recycler_View_Sort extends Custom_recyclerView {
     private static final String TAG ="Grupo_R_V_sort" ;

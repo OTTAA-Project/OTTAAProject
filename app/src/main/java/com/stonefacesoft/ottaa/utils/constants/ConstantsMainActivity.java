@@ -1,4 +1,4 @@
-package com.stonefacesoft.ottaa.utils;
+package com.stonefacesoft.ottaa.utils.constants;
 
 public class ConstantsMainActivity {
    public static final int CONFIG_SCREEN = 1;

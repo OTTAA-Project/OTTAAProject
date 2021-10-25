@@ -37,6 +37,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.stonefacesoft.ottaa.Bitmap.GestionarBitmap;
 import com.stonefacesoft.ottaa.Interfaces.CloudFunctionResponse;
+import com.stonefacesoft.ottaa.Interfaces.LoadOnlinePictograms;
 import com.stonefacesoft.ottaa.utils.CircularProgressBar;
 import com.stonefacesoft.ottaa.utils.ConnectionDetector;
 import com.stonefacesoft.ottaa.utils.CustomToast;
@@ -380,7 +381,20 @@ public class ActivityInformes extends AppCompatActivity implements CloudFunction
             JSONObject jsonObject = new JSONObject(response);
             JSONArray mostUsedSentencesArray = jsonObject.getJSONArray("most_used_sentences");
             JSONArray groupUsageArray = jsonObject.getJSONArray("picto_usage_per_group");
-            imgMostUsedSentences.setImageBitmap(gestionarBitmap.getBitmapDeFrase(mostUsedSentencesArray.getJSONObject(0)));
+            gestionarBitmap.getBitmapDeFrase(mostUsedSentencesArray.getJSONObject(0), new LoadOnlinePictograms() {
+                @Override
+                public void preparePictograms() {}
+                @Override
+                public void loadPictograms(Bitmap bitmap) {
+                    imgMostUsedSentences.setImageBitmap(bitmap);
+                }
+
+                @Override
+                public void FileIsCreated() {
+
+                }
+
+            });
             MyRunnable obj = new MyRunnable(mostUsedSentencesArray);
             handler.post(obj);
 
@@ -401,7 +415,19 @@ public class ActivityInformes extends AppCompatActivity implements CloudFunction
     private void loadMostUsedSentences(JSONArray jsonArray) {
         if (jsonArray.length() > 0) {
             try {
-                loadAnimateImageView(imgMostUsedSentences, gestionarBitmap.getBitmapDeFrase(jsonArray.getJSONObject(pos)));
+                gestionarBitmap.getBitmapDeFrase(jsonArray.getJSONObject(pos), new LoadOnlinePictograms() {
+                    @Override
+                    public void preparePictograms() { }
+                    @Override
+                    public void loadPictograms(Bitmap bitmap) {
+                        loadAnimateImageView(imgMostUsedSentences, bitmap);
+                        }
+
+                    @Override
+                    public void FileIsCreated() {
+
+                    }
+                });
                 //txtViewFraseUsada.setText(mDatosDeUso.getFrasesOrdenadas().get(pos).getString("frase"));
             } catch (Exception e) {
                 e.printStackTrace();

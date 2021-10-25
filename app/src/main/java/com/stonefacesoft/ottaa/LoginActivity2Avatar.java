@@ -40,13 +40,14 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.stonefacesoft.ottaa.Activities.Pictures.AvatarPictureCropper;
 import com.stonefacesoft.ottaa.FirebaseRequests.FirebaseUtils;
 import com.stonefacesoft.ottaa.utils.AvatarPackage.SelectedAvatar;
 import com.stonefacesoft.ottaa.utils.ConnectionDetector;
-import com.stonefacesoft.ottaa.utils.Constants;
 import com.stonefacesoft.ottaa.utils.Firebase.AnalyticsFirebase;
 import com.stonefacesoft.ottaa.utils.InmersiveMode;
 import com.stonefacesoft.ottaa.utils.IntentCode;
+import com.stonefacesoft.ottaa.utils.constants.Constants;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -266,7 +267,7 @@ public class LoginActivity2Avatar extends AppCompatActivity implements View.OnCl
             Log.d(TAG, "onActivityResult: Pick image done");
             if (resultCode == RESULT_OK) {
                 final Uri pickedImageUri = data.getData();
-                Intent intent = new Intent(LoginActivity2Avatar.this, PictureCropper.class);
+                Intent intent = new Intent(LoginActivity2Avatar.this, AvatarPictureCropper.class);
                 intent.putExtra("pickedImageUri", pickedImageUri);
                 startActivityForResult(intent, CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE);
             } else {
@@ -287,7 +288,7 @@ public class LoginActivity2Avatar extends AppCompatActivity implements View.OnCl
                 } catch (IOException e) {
                     Log.d(TAG, "onActivityResult: ERROR saving bitmap");
                 }
-                Intent intent = new Intent(LoginActivity2Avatar.this, PictureCropper.class);
+                Intent intent = new Intent(LoginActivity2Avatar.this, AvatarPictureCropper.class);
                 intent.putExtra("pickedImageUri", Uri.fromFile(tempFile));
                 startActivityForResult(intent, CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE);
             } else {

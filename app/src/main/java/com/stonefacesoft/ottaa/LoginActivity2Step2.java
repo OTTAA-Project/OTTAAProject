@@ -27,10 +27,15 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.stonefacesoft.ottaa.FirebaseRequests.BajarJsonFirebase;
 import com.stonefacesoft.ottaa.FirebaseRequests.FirebaseDatabaseRequest;
-import com.stonefacesoft.ottaa.utils.Constants;
+import com.stonefacesoft.ottaa.Interfaces.FirebaseSuccessListener;
+import com.stonefacesoft.ottaa.utils.ConnectionDetector;
 import com.stonefacesoft.ottaa.utils.Firebase.AnalyticsFirebase;
 import com.stonefacesoft.ottaa.utils.InmersiveMode;
+import com.stonefacesoft.ottaa.utils.constants.Constants;
 import com.stonefacesoft.ottaa.utils.preferences.DataUser;
 import com.stonefacesoft.ottaa.utils.preferences.PreferencesUtil;
 
@@ -39,7 +44,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.regex.Pattern;
 
-public class LoginActivity2Step2 extends AppCompatActivity implements View.OnClickListener, DatePickerDialog.OnDateSetListener, AdapterView.OnItemSelectedListener {
+public class LoginActivity2Step2 extends AppCompatActivity implements View.OnClickListener, DatePickerDialog.OnDateSetListener, AdapterView.OnItemSelectedListener, FirebaseSuccessListener {
     private static final String TAG = "LoginActivity2Step2";
     private static final DateFormat FORMATTER = SimpleDateFormat.getDateInstance();
     //UI elemetns
@@ -56,6 +61,8 @@ public class LoginActivity2Step2 extends AppCompatActivity implements View.OnCli
     DataUser userData;
     private String gender;
     private PreferencesUtil preferencesUtil;
+    private StorageReference mStorageRef;
+
     //User variables
     private FirebaseAuth mAuth;
     private FirebaseDatabaseRequest databaseRequest;
@@ -68,10 +75,10 @@ public class LoginActivity2Step2 extends AppCompatActivity implements View.OnCli
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_activity_2);
-
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         preferencesUtil = new PreferencesUtil(preferences);
         mAuth = FirebaseAuth.getInstance();
+        mStorageRef = FirebaseStorage.getInstance().getReference();
         mAnalyticsFirebase = new AnalyticsFirebase(this);
 
 
@@ -139,12 +146,17 @@ public class LoginActivity2Step2 extends AppCompatActivity implements View.OnCli
             case R.id.nextButton:
                 if (availableUserData()) {
                     setUpUserData();
-                    Intent intent = new Intent(LoginActivity2Step2.this, LoginActivity2Step3.class);
-                    startActivity(intent);
-                    finish();
-                    mAnalyticsFirebase.customEvents("Touch", "LoginActivityStep2", "Next1 ");
+                    BajarJsonFirebase bajarJsonFirebase = new BajarJsonFirebase(preferencesUtil.getPreferences(), mAuth, this);
+                    bajarJsonFirebase.setInterfaz(this);
+                    if (ConnectionDetector.isNetworkAvailable(this)) {
+                        final StorageReference mPredictionRef = mStorageRef.child("Archivos_Sugerencias").child("pictos_" + preferencesUtil.getStringValue("prefSexo", "FEMENINO") + "_" + preferencesUtil.getStringValue("prefEdad", "JOVEN") + ".txt");
+                        bajarJsonFirebase.descargarPictosDatabase(mPredictionRef);
+                    }else{
+                        onPictosSugeridosBajados(true);
+                    }
+
                 } else {
-                    Toast.makeText(this,this.getResources().getText( R.string.prediction_data), Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, this.getResources().getText(R.string.prediction_data), Toast.LENGTH_LONG).show();
                 }
                 break;
             case R.id.back_button:
@@ -163,13 +175,13 @@ public class LoginActivity2Step2 extends AppCompatActivity implements View.OnCli
     private void fillUserData() {
         if (mAuth.getCurrentUser() != null) {
             editTextName.setText(mAuth.getCurrentUser().getDisplayName());
-            Handler handler=new Handler();
+            Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     editTextName.setInputType(InputType.TYPE_TEXT_VARIATION_PERSON_NAME);
                 }
-            },2500);
+            }, 2500);
         }
     }
 
@@ -261,6 +273,44 @@ public class LoginActivity2Step2 extends AppCompatActivity implements View.OnCli
             return pattern.matcher(strDate).matches();
     }
 
+    @Override
+    public void onDescargaCompleta(int descargaCompleta) {
+
+    }
+
+    @Override
+    public void onDatosEncontrados(int datosEncontrados) {
+
+    }
+
+    @Override
+    public void onFotoDescargada(int fotosDescargadas) {
+
+    }
+
+    @Override
+    public void onArchivosSubidos(boolean subidos) {
+
+    }
+
+    @Override
+    public void onPictosSugeridosBajados(boolean descargado) {
+        Intent intent = new Intent(LoginActivity2Step2.this, LoginActivity2Step3.class);
+        startActivity(intent);
+        finish();
+        mAnalyticsFirebase.customEvents("Touch", "LoginActivityStep2", "Next1 ");
+    }
+
+    public void toogleKeyBoard(TextView view) {
+
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (imm.isActive()) {
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        } else {
+            imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT);
+        }
+    }
+
     class DateInputMask implements TextWatcher {
         //Source https://stackoverflow.com/questions/16889502/how-to-mask-an-edittext-to-show-the-dd-mm-yyyy-date-format
         private final String ddmmyyyy = "DDMMYYYY";
@@ -335,19 +385,6 @@ public class LoginActivity2Step2 extends AppCompatActivity implements View.OnCli
             convert = true;
         }
     }
-
-
-    public void toogleKeyBoard(TextView view){
-
-        InputMethodManager imm =(InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        if(imm.isActive()){
-            imm.hideSoftInputFromWindow(view.getWindowToken(),0);
-        }else{
-            imm.showSoftInput(view,InputMethodManager.SHOW_IMPLICIT);
-        }
-    }
-
-
 
 
 }

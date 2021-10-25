@@ -1,11 +1,10 @@
 package com.stonefacesoft.ottaa.Adapters;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
-import android.os.AsyncTask;
-import android.util.Log;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.stonefacesoft.ottaa.Bitmap.GestionarBitmap;
+import com.stonefacesoft.ottaa.Interfaces.LoadOnlinePictograms;
 import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.utils.Phrases.CustomFavoritePhrases;
 import com.stonefacesoft.ottaa.utils.textToSpeech;
@@ -23,6 +23,9 @@ import com.stonefacesoft.pictogramslibrary.utils.GlideAttatcher;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 public class PhrasesAdapter extends RecyclerView.Adapter<PhrasesAdapter.PhraseAdapter> {
     protected final Context mContext;
@@ -37,7 +40,7 @@ public class PhrasesAdapter extends RecyclerView.Adapter<PhrasesAdapter.PhraseAd
         this.mContext = mContext;
         phrases = CustomFavoritePhrases.getInstance(mContext);
         userPhrases = phrases.getJson().getmJSONArrayTodasLasFrases();
-        myTTs = new textToSpeech(this.mContext);
+        myTTs = textToSpeech.getInstance(this.mContext);
         glideAttatcher = new GlideAttatcher(this.mContext);
         gestionarBitmap = new GestionarBitmap(this.mContext);
         gestionarBitmap.setColor(android.R.color.white);
@@ -104,7 +107,7 @@ public class PhrasesAdapter extends RecyclerView.Adapter<PhrasesAdapter.PhraseAd
 
     }
 
-    protected class CargarFrasesAsync extends AsyncTask<Void, Void, Void> {
+    protected class CargarFrasesAsync  {
 
         private final int mPosition;
         private final PhraseAdapter mHolder;
@@ -115,31 +118,42 @@ public class PhrasesAdapter extends RecyclerView.Adapter<PhrasesAdapter.PhraseAd
             this.mPosition = mPosition;
             this.mHolder = mHolder;
         }
+        public void execute(){
+            Executor executor = Executors.newSingleThreadExecutor();
+            Handler handler = new Handler(Looper.getMainLooper());
+            executor.execute(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        mHolder.phrase = userPhrases.getJSONObject(mPosition);
+                        mHolder.position = mPosition;
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            gestionarBitmap.getBitmapDeFrase(mHolder.phrase,new LoadOnlinePictograms() {
+                                @Override
+                                public void preparePictograms() {
+                                }
+                                @Override
+                                public void loadPictograms(Bitmap bitmap) {
+                                    glideAttatcher.UseCornerRadius(true).loadDrawable(bitmap, mHolder.img);
+                                }
 
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
+                                @Override
+                                public void FileIsCreated() {
 
+                                }
+                            });
+
+                        }
+                    });
+                }
+            });
         }
 
-        @SuppressLint("WrongThread")
-        @Override
-        protected Void doInBackground(Void... voids) {
-            Bitmap mBitmap;
-            try {
-                mHolder.phrase = userPhrases.getJSONObject(mPosition);
-                mHolder.position = mPosition;
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-            glideAttatcher.UseCornerRadius(true).loadDrawable(gestionarBitmap.getBitmapDeFrase(mHolder.phrase), mHolder.img);
-        }
     }
 
     public void itemAction(JSONObject phrase,View v){

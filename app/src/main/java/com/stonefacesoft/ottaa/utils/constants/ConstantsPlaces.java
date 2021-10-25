@@ -1,4 +1,4 @@
-package com.stonefacesoft.ottaa.utils;
+package com.stonefacesoft.ottaa.utils.constants;
 
 
 import com.google.android.libraries.places.api.model.Place;

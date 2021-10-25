@@ -448,7 +448,7 @@ public class MemoryGame extends GameViewSelectPictograms {
     @Override
     protected void speakOption(PictoView option) {
         super.speakOption(option);
-        mUtilsTTS.hablar(option.getCustom_Texto());
+        mTTS.getUtilsTTS().hablar(option.getCustom_Texto());
     }
 
     @Override

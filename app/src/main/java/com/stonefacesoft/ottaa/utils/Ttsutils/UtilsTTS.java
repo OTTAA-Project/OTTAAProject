@@ -47,6 +47,7 @@ public class UtilsTTS {
     protected boolean speak;
     private TTSListener ttsListener;
     private String id="TTSOTTAAID";
+    private static UtilsTTS _UtilsTTS;
     private UtteranceProgressListener utteranceProgressListener = new UtteranceProgressListener() {
         @Override
         public void onStart(String utteranceId) {
@@ -70,10 +71,12 @@ public class UtilsTTS {
         }
     };
 
+
+
     public UtilsTTS(Context mContext, CustomToast alerta, SharedPreferences sharedPrefsDefault){
         this.mContext=mContext;
         this.alerta=alerta;
-
+        this.sharedPrefsDefault=sharedPrefsDefault;
         this.mTTS=new TextToSpeech(this.mContext, new TextToSpeech.OnInitListener() {
             @Override
             public void onInit(int status) {
@@ -81,14 +84,10 @@ public class UtilsTTS {
                     preparEngineTTS();
                     speak=true;
                 } else if (status == TextToSpeech.ERROR) {
-                    if (mTTS != null)
-                        mTTS.stop();
                     speak=false;
-
                 }
             }
         });
-        this.sharedPrefsDefault=sharedPrefsDefault;
         this.mTTS.setOnUtteranceProgressListener(utteranceProgressListener);
     }
     /**
@@ -164,6 +163,10 @@ public class UtilsTTS {
             alerta.mostrarFrase(mContext.getString(R.string.pref_error_TTS));
         }
         // Seteamos los valores de velocidad y tono por defecto
+        setUpTTSVOICE();
+    }
+
+    private void setUpTTSVOICE(){
         float pitch = sharedPrefsDefault.getInt(mContext.getString(R.string.str_pitch_tts), 10);
         float vel = sharedPrefsDefault.getInt(mContext.getString(R.string.str_velocidad_tts), 10);
         //verificamos si el tts personalizado no esta activado, en caso de no estarlo se setea la velocidad del  tts a su velocidad estandar
@@ -175,6 +178,7 @@ public class UtilsTTS {
         mTTS.setPitch(pitch / 10);
         mTTS.setSpeechRate(vel / 10);
     }
+
     /**
      * <h5>Objetive :</h5>
      * <p>Speak the phrase without dialog.</p>

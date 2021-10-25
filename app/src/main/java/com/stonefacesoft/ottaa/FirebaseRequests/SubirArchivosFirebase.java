@@ -31,7 +31,7 @@ import com.stonefacesoft.ottaa.FirebaseRequests.Files.UploadingFavoritePhrases;
 import com.stonefacesoft.ottaa.Interfaces.FirebaseSuccessListener;
 import com.stonefacesoft.ottaa.Principal;
 import com.stonefacesoft.ottaa.R;
-import com.stonefacesoft.ottaa.utils.Constants;
+import com.stonefacesoft.ottaa.utils.constants.Constants;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
