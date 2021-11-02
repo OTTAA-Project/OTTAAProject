@@ -146,6 +146,7 @@ public class prefs extends PreferenceActivity implements SharedPreferences.OnSha
     private Preference device1, device2;
     private EditTextPreference mStrPresentacion;
     private FirebaseAuth mAuth;
+    private custom_dialog_option_item customDialogOptionItem;
 
 
     // private BajarJsonFirebase bajarJsonFirebase;
@@ -747,6 +748,8 @@ public class prefs extends PreferenceActivity implements SharedPreferences.OnSha
     public void cancelarDialogo() {
         if (firebaseDialog != null)
             firebaseDialog.destruirDialogo();
+        if(customDialogOptionItem != null)
+            customDialogOptionItem.DissmisDialog();
     }
 
     public int devolverOrientacion(String texto) {
@@ -769,11 +772,11 @@ public class prefs extends PreferenceActivity implements SharedPreferences.OnSha
     @Override
     public void showLanguajeDialog(String name, int value, int options) {
 
-        custom_dialog_option_item dialog_option_item = new custom_dialog_option_item(this);
-        dialog_option_item.prepareDialog(this.getResources().getString(R.string.pref_idioma), name, sharedPrefsDefault.getString(getString(R.string.str_idioma), Locale.getDefault().getLanguage()), value, options, new View.OnClickListener() {
+        customDialogOptionItem = new custom_dialog_option_item(this);
+        customDialogOptionItem.prepareDialog(this.getResources().getString(R.string.pref_idioma), name, sharedPrefsDefault.getString(getString(R.string.str_idioma), Locale.getDefault().getLanguage()), value, options, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Item_adapter adapter = (Item_adapter) dialog_option_item.getRecycler().getAdapter();
+                Item_adapter adapter = (Item_adapter) customDialogOptionItem.getRecycler().getAdapter();
                 final String s = adapter.getmArrayListValues()[adapter.devolverPosition()];
                 message = getString(R.string.downloadingFoto);
 
@@ -800,12 +803,12 @@ public class prefs extends PreferenceActivity implements SharedPreferences.OnSha
 
     @Override
     public void showDialogOptionsDownloadFile(String name, int value, int options, String preferences) {
-        custom_dialog_option_item dialog_option_item = new custom_dialog_option_item(this);
-        dialog_option_item.prepareDialog(name, value, options, new View.OnClickListener() {
+        customDialogOptionItem  = new custom_dialog_option_item(this);
+        customDialogOptionItem.prepareDialog(name, value, options, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (status) {
-                    Item_adapter adapter = (Item_adapter) dialog_option_item.getRecycler().getAdapter();
+                    Item_adapter adapter = (Item_adapter) customDialogOptionItem.getRecycler().getAdapter();
                     final String value = adapter.getmArrayListValues()[adapter.devolverPosition()];
                     sharedPrefsDefault.edit().putString(preferences, value).apply();
                     message = "Bajando sugerencias";
@@ -817,17 +820,17 @@ public class prefs extends PreferenceActivity implements SharedPreferences.OnSha
 
             }
         });
-        dialog_option_item.ShowDialog();
+        customDialogOptionItem.ShowDialog();
     }
 
     @Override
     public void showDialogOptionsDownloadFile(String name, String key, String selectedValue, int values, int options, String preference) {
-        custom_dialog_option_item dialog_option_item = new custom_dialog_option_item(this);
-        dialog_option_item.prepareDialog(name, preference, selectedValue, values, options, new View.OnClickListener() {
+        customDialogOptionItem = new custom_dialog_option_item(this);
+        customDialogOptionItem.prepareDialog(name, preference, selectedValue, values, options, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (status) {
-                    Item_adapter adapter = (Item_adapter) dialog_option_item.getRecycler().getAdapter();
+                    Item_adapter adapter = (Item_adapter) customDialogOptionItem.getRecycler().getAdapter();
                     final String value = adapter.getmArrayListValues()[adapter.devolverPosition()];
                     sharedPrefsDefault.edit().putString(preference, value).apply();
                     message = "Bajando sugerencias";
@@ -839,17 +842,17 @@ public class prefs extends PreferenceActivity implements SharedPreferences.OnSha
 
             }
         });
-        dialog_option_item.ShowDialog();
+        customDialogOptionItem.ShowDialog();
     }
 
     @Override
     public void showDialogOptionsSettings(String name, int value, int options, String preferences) {
-        custom_dialog_option_item dialog_option_item = new custom_dialog_option_item(this);
-        dialog_option_item.prepareDialog(name, value, options, new View.OnClickListener() {
+        customDialogOptionItem = new custom_dialog_option_item(this);
+        customDialogOptionItem.prepareDialog(name, value, options, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (status) {
-                    Item_adapter adapter = (Item_adapter) dialog_option_item.getRecycler().getAdapter();
+                    Item_adapter adapter = (Item_adapter) customDialogOptionItem.getRecycler().getAdapter();
                     final String value = adapter.getmArrayListValues()[adapter.devolverPosition()];
                     if (value != null)
                         sharedPrefsDefault.edit().putInt(preferences, Integer.parseInt(value)).apply();
@@ -862,12 +865,12 @@ public class prefs extends PreferenceActivity implements SharedPreferences.OnSha
 
     @Override
     public void showDialogOptionsSkilledHand(String name, int value, int options, String preferences) {
-        custom_dialog_option_item dialog_option_item = new custom_dialog_option_item(this);
-        dialog_option_item.prepareDialog(name, value, options, new View.OnClickListener() {
+        customDialogOptionItem = new custom_dialog_option_item(this);
+        customDialogOptionItem.prepareDialog(name, value, options, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (status) {
-                    Item_adapter adapter = (Item_adapter) dialog_option_item.getRecycler().getAdapter();
+                    Item_adapter adapter = (Item_adapter) customDialogOptionItem.getRecycler().getAdapter();
                     int value = adapter.devolverPosition();
                     cambioDeLado = true;
                     if (value == 0) {
@@ -883,15 +886,15 @@ public class prefs extends PreferenceActivity implements SharedPreferences.OnSha
 
     @Override
     public void showDialogOptionsSkilledHand(String name, boolean value, int values, int options, String preferences) {
-        custom_dialog_option_item dialog_option_item = new custom_dialog_option_item(this);
+        customDialogOptionItem  = new custom_dialog_option_item(this);
         String valor = "false";
         if (value == true)
             valor = "true";
-        dialog_option_item.prepareDialog(name, preferences, valor, values, options, new View.OnClickListener() {
+        customDialogOptionItem.prepareDialog(name, preferences, valor, values, options, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (status) {
-                    Item_adapter adapter = (Item_adapter) dialog_option_item.getRecycler().getAdapter();
+                    Item_adapter adapter = (Item_adapter) customDialogOptionItem.getRecycler().getAdapter();
                     int value = adapter.devolverPosition();
                     if (value == 0)
                         sharedPrefsDefault.edit().putBoolean(preferences, false).apply();

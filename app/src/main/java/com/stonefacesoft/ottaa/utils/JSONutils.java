@@ -76,7 +76,7 @@ public class JSONutils {
             return object.getJSONObject("texto").getString(lang);
         } catch (Exception e) {
             e.printStackTrace();
-            return null;
+            return "error";
         }
     }
 
@@ -584,6 +584,8 @@ public class JSONutils {
         }
         return 0;
     }
+
+
 
 
 

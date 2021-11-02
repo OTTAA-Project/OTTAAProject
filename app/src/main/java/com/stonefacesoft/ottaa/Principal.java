@@ -53,7 +53,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import com.airbnb.lottie.LottieAnimationView;
 import com.facebook.BuildConfig;
 import com.facebook.FacebookSdk;
-import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.internal.ConnectionCallbacks;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -99,9 +99,6 @@ import com.stonefacesoft.ottaa.utils.Accesibilidad.scrollActions.ScrollFunctionM
 import com.stonefacesoft.ottaa.utils.AvatarPackage.Avatar;
 import com.stonefacesoft.ottaa.utils.AvatarPackage.AvatarUtils;
 import com.stonefacesoft.ottaa.utils.ConnectionDetector;
-import com.stonefacesoft.ottaa.utils.constants.Constants;
-import com.stonefacesoft.ottaa.utils.constants.ConstantsAnalyticsValues;
-import com.stonefacesoft.ottaa.utils.constants.ConstantsMainActivity;
 import com.stonefacesoft.ottaa.utils.CustomToast;
 import com.stonefacesoft.ottaa.utils.Firebase.AnalyticsFirebase;
 import com.stonefacesoft.ottaa.utils.Firebase.CrashlyticsUtils;
@@ -115,6 +112,9 @@ import com.stonefacesoft.ottaa.utils.PopupMenuUtils;
 import com.stonefacesoft.ottaa.utils.RemoteConfigUtils;
 import com.stonefacesoft.ottaa.utils.TalkActions.Historial;
 import com.stonefacesoft.ottaa.utils.TraducirFrase;
+import com.stonefacesoft.ottaa.utils.constants.Constants;
+import com.stonefacesoft.ottaa.utils.constants.ConstantsAnalyticsValues;
+import com.stonefacesoft.ottaa.utils.constants.ConstantsMainActivity;
 import com.stonefacesoft.ottaa.utils.exceptions.FiveMbException;
 import com.stonefacesoft.ottaa.utils.location.PlacesImplementation;
 import com.stonefacesoft.ottaa.utils.preferences.User;
@@ -148,7 +148,7 @@ public class Principal extends AppCompatActivity implements View
         .OnClickListener,
         View.OnLongClickListener,
         OnMenuItemClickListener,
-        FirebaseSuccessListener, NavigationView.OnNavigationItemSelectedListener, PlaceSuccessListener, GoogleApiClient.ConnectionCallbacks, translateInterface, View.OnTouchListener, Make_Click_At_Time {
+        FirebaseSuccessListener, NavigationView.OnNavigationItemSelectedListener, PlaceSuccessListener, ConnectionCallbacks, translateInterface, View.OnTouchListener, Make_Click_At_Time {
 
     private static final String TAG = "Principal";
     public static boolean cerrarSession = false;// use this variable to notify when the session is closed
@@ -536,10 +536,10 @@ public class Principal extends AppCompatActivity implements View
     }
 
     private void initLocationRequest() {
-        mLastLocationRequest = new LocationRequest();
+        mLastLocationRequest = LocationRequest.create();
         mLastLocationRequest.setSmallestDisplacement(10);
-        mLastLocationRequest.setInterval(10000); // Update location every 1 minute
-        mLastLocationRequest.setFastestInterval(10000);
+        mLastLocationRequest.setInterval(1000); // Update location every 1 minute
+        mLastLocationRequest.setFastestInterval(1000);
         mLastLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
 
     }
@@ -549,9 +549,10 @@ public class Principal extends AppCompatActivity implements View
         if (placesImplementation != null && sharedPrefsDefault.getBoolean(getString(R.string.bool_ubicacion), false)) {
             if (!placesImplementation.isStarted())
                 placesImplementation.iniciarClientePlaces();
-            else
+            else{
                 placesImplementation.locationRequest();
-
+                useLocation();
+            }
         }
     }
 
@@ -767,8 +768,6 @@ public class Principal extends AppCompatActivity implements View
         // Inflate the menu; this adds items to the action bar if it is present.
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.action_bar, menu);
-        locationItem = menu.getItem(0);
-
         if (mute) {
             menu.getItem(1).setIcon(getResources().getDrawable(R.drawable.ic_volume_up_white_24dp));
         } else {
@@ -1714,16 +1713,7 @@ public class Principal extends AppCompatActivity implements View
                 return true;
             case R.id.ubic:
                 analitycsFirebase.customEvents("Touch", "Principal", "Location");
-                if (placesImplementation != null) {
-                    if (placesImplementation.typesSizes() > 0) {
-                        Place place = placesImplementation.getPlace();
-                        String name = placesImplementation.getPlaceName(place);
-                        String placeType = placesImplementation.getPlaceType(place);
-                        Log.d(TAG, "onOptionsItemSelected: " + name + " " + placeType);
-                        item.setTitle(name + " : " + placesImplementation.getPlaceName(placeType));
-                        json.setPlaceName(placeType);
-                    }
-                }
+                useLocation();
                 return true;
             case R.id.exit:
                 this.doubleBackToExitPressedOnce = true;
@@ -1758,6 +1748,21 @@ public class Principal extends AppCompatActivity implements View
         }
 
         return true;
+    }
+
+    private void useLocation() {
+        if (placesImplementation != null) {
+            if (placesImplementation.typesSizes() > 0) {
+                Place place = placesImplementation.getPlace();
+                String name = placesImplementation.getPlaceName(place);
+                String placeType = placesImplementation.getPlaceType(place);
+                Log.d(TAG, "onOptionsItemSelected: " + name + " " + placeType);
+                locationItem.setTitle(name + " : " + placesImplementation.getPlaceName(placeType));
+                json.setPlaceName(placeType);
+            }else{
+                placesImplementation.locationRequest();
+            }
+        }
     }
 
     public BarridoPantalla getBarridoPantalla() {
@@ -1991,6 +1996,7 @@ public class Principal extends AppCompatActivity implements View
         initPictograms();
         initFirstPictograms();
         initAvatar();
+        initLocationIcon();
         uploadFiles();
         initBarrido();
         initPlaceImplementationClass();
@@ -2004,6 +2010,10 @@ public class Principal extends AppCompatActivity implements View
 
         loadAvatar();
         showAvatar();
+    }
+
+    private void initLocationIcon() {
+        locationItem = navigationView.getMenu().findItem(R.id.ubic);
     }
 
     private void initFirebaseComponents() {
@@ -2048,6 +2058,7 @@ public class Principal extends AppCompatActivity implements View
             placesImplementation = new PlacesImplementation(this);
             placesImplementation.iniciarClientePlaces();
             placesImplementation.locationRequest();
+            useLocation();
         }
     }
 

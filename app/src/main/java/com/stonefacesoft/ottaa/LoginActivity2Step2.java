@@ -7,9 +7,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
-import android.text.Editable;
 import android.text.InputType;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
@@ -31,20 +29,23 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.stonefacesoft.ottaa.FirebaseRequests.BajarJsonFirebase;
 import com.stonefacesoft.ottaa.FirebaseRequests.FirebaseDatabaseRequest;
+import com.stonefacesoft.ottaa.FirebaseRequests.FirebaseUtils;
 import com.stonefacesoft.ottaa.Interfaces.FirebaseSuccessListener;
+import com.stonefacesoft.ottaa.Interfaces.LoadUserInformation;
 import com.stonefacesoft.ottaa.utils.ConnectionDetector;
 import com.stonefacesoft.ottaa.utils.Firebase.AnalyticsFirebase;
 import com.stonefacesoft.ottaa.utils.InmersiveMode;
 import com.stonefacesoft.ottaa.utils.constants.Constants;
 import com.stonefacesoft.ottaa.utils.preferences.DataUser;
 import com.stonefacesoft.ottaa.utils.preferences.PreferencesUtil;
+import com.vicmikhailau.maskededittext.MaskedEditText;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.regex.Pattern;
 
-public class LoginActivity2Step2 extends AppCompatActivity implements View.OnClickListener, DatePickerDialog.OnDateSetListener, AdapterView.OnItemSelectedListener, FirebaseSuccessListener {
+public class LoginActivity2Step2 extends AppCompatActivity implements View.OnClickListener, DatePickerDialog.OnDateSetListener, AdapterView.OnItemSelectedListener, FirebaseSuccessListener, LoadUserInformation {
     private static final String TAG = "LoginActivity2Step2";
     private static final DateFormat FORMATTER = SimpleDateFormat.getDateInstance();
     //UI elemetns
@@ -55,19 +56,21 @@ public class LoginActivity2Step2 extends AppCompatActivity implements View.OnCli
     Button buttonNext;
     Button buttonPrevious;
     EditText editTextName;
-    EditText editTextBirthday;
+    MaskedEditText editTextBirthday;
     Spinner genderSelector;
     boolean convert;
     DataUser userData;
     private String gender;
     private PreferencesUtil preferencesUtil;
     private StorageReference mStorageRef;
+    private String mask ="##/##/####";
+    private MakeWatcher makeWatcher;
 
     //User variables
     private FirebaseAuth mAuth;
     private FirebaseDatabaseRequest databaseRequest;
     private AnalyticsFirebase mAnalyticsFirebase;
-
+    private FirebaseUtils firebaseUtils;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,13 +82,16 @@ public class LoginActivity2Step2 extends AppCompatActivity implements View.OnCli
         preferencesUtil = new PreferencesUtil(preferences);
         mAuth = FirebaseAuth.getInstance();
         mStorageRef = FirebaseStorage.getInstance().getReference();
+        firebaseUtils = FirebaseUtils.getInstance();
+        firebaseUtils.setmContext(this);
+        firebaseUtils.setUpFirebaseDatabase();
         mAnalyticsFirebase = new AnalyticsFirebase(this);
+
 
 
         bindUI();
 
         animateEntrance();
-        fillUserData();
 
     }
 
@@ -104,14 +110,12 @@ public class LoginActivity2Step2 extends AppCompatActivity implements View.OnCli
         editTextName.setInputType(InputType.TYPE_NULL);
         editTextBirthday = findViewById(R.id.editTextBirthday);
         editTextBirthday.setInputType(InputType.TYPE_CLASS_DATETIME);
-
         genderSelector = findViewById(R.id.selectorGender);
         genderSelector.setOnItemSelectedListener(this);
-
-        new DateInputMask(editTextBirthday);
         databaseRequest = new FirebaseDatabaseRequest(this);
         convert = true;
-        userData = new DataUser();
+        databaseRequest.FillUserInformation(this);
+        makeWatcher = new MakeWatcher(editTextBirthday);
     }
 
     @Override
@@ -172,9 +176,21 @@ public class LoginActivity2Step2 extends AppCompatActivity implements View.OnCli
         }
     }
 
-    private void fillUserData() {
+    @Override
+    public void getUserInformation(DataUser dataUser) {
+            userData = dataUser;
+            fillUserData();
+    }
+
+    @Override
+    public void fillUserData() {
         if (mAuth.getCurrentUser() != null) {
-            editTextName.setText(mAuth.getCurrentUser().getDisplayName());
+            if(!userData.getFirstAndLastName().isEmpty())
+                editTextName.setText(userData.getFirstAndLastName());
+            else
+                editTextName.setText(mAuth.getCurrentUser().getDisplayName());
+            if(userData.getBirthDate()>0)
+                setUpDateUser(userData.getBirthDate());
             Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
                 @Override
@@ -185,8 +201,30 @@ public class LoginActivity2Step2 extends AppCompatActivity implements View.OnCli
         }
     }
 
-    public void calendarDialog() {
+    public void setUpDateUser(long time){
         Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(time);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        int month = calendar.get(Calendar.MONTH)+1;
+        int year = calendar.get(Calendar.YEAR);
+        selectMask(day,month);
+        String value =day+""+month+""+year+"";
+        editTextBirthday.setText(value);
+    }
+
+    public void selectMask(int day,int month){
+        if(month<10&&day<10)
+            mask = "#/#/####";
+        else if(day<10)
+            mask = "#/##/####";
+        else if(month<10)
+            mask = "##/#/####";
+        else
+            mask = "##/##/####";
+        makeWatcher.changeMask();
+    }
+
+    public void calendarDialog() {
         final Calendar cldr = Calendar.getInstance();
         int day = cldr.get(Calendar.DAY_OF_MONTH);
         int month = cldr.get(Calendar.MONTH);
@@ -210,10 +248,11 @@ public class LoginActivity2Step2 extends AppCompatActivity implements View.OnCli
     @Override
     public void onDateSet(android.widget.DatePicker view, int year, int month, int dayOfMonth) {
         convert = false;
-        editTextBirthday.setText(dayOfMonth + "/" + (month + 1) + "/" + year);
         Calendar calendar = Calendar.getInstance();
         calendar.set(year, month, dayOfMonth);
+        selectMask(dayOfMonth,month+1);
         userData.setBirthDate(calendar.getTime().getTime());
+        editTextBirthday.setText(dayOfMonth + "" + (month + 1) + "" + year);
     }
 
 
@@ -265,7 +304,7 @@ public class LoginActivity2Step2 extends AppCompatActivity implements View.OnCli
      */
     private boolean validateJavaDate(String strDate) {
         /* Check if date is 'null' */
-        String regex = "^[0-3]?[0-9]/[0-3]?[0-9]/(?:[0-9]{2})?[0-9]{2}$";
+        String regex = "^(1[0-9]|0[1-9]|3[0-1]|2[1-9])/(0[1-9]|1[0-2])/[0-9]{4}$";
         Pattern pattern = Pattern.compile(regex);
         if (strDate.isEmpty())
             return false;
@@ -311,81 +350,26 @@ public class LoginActivity2Step2 extends AppCompatActivity implements View.OnCli
         }
     }
 
-    class DateInputMask implements TextWatcher {
-        //Source https://stackoverflow.com/questions/16889502/how-to-mask-an-edittext-to-show-the-dd-mm-yyyy-date-format
-        private final String ddmmyyyy = "DDMMYYYY";
-        private final Calendar cal = Calendar.getInstance();
-        private final EditText input;
-        private String current = "";
+    public class  MakeWatcher{
+        private MaskedEditText maskedEditText;
+        private String firstMaskValue ="##";
+        private String secondMaskValue="##";
+        private int countValue =0;
 
-        public DateInputMask(EditText input) {
-            this.input = input;
-            this.input.addTextChangedListener(this);
+        public MakeWatcher(MaskedEditText maskedEditText){
+            this.maskedEditText = maskedEditText;
+            this.maskedEditText.setMask(mask);
         }
 
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
+        public MaskedEditText getMaskedEditText() {
+            return maskedEditText;
+        }
+        public void changeMask(){
+            this.maskedEditText.setMask(mask);
         }
 
 
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-            if (convert) {
-                if (s.toString().equals(current)) {
-                    return;
-                }
-
-                String clean = s.toString().replaceAll("[^\\d.]|\\.", "");
-                String cleanC = current.replaceAll("[^\\d.]|\\.", "");
-
-                int cl = clean.length();
-                int sel = cl;
-                for (int i = 2; i <= cl && i < 6; i += 2) {
-                    sel++;
-                }
-                //Fix for pressing delete next to a forward slash
-                if (clean.equals(cleanC)) sel--;
-
-                if (clean.length() < 8) {
-                    clean = clean + ddmmyyyy.substring(clean.length());
-                } else {
-                    //This part makes sure that when we finish entering numbers
-                    //the date is correct, fixing it otherwise
-                    int day = Integer.parseInt(clean.substring(0, 2));
-                    int mon = Integer.parseInt(clean.substring(2, 4));
-                    int year = Integer.parseInt(clean.substring(4, 8));
-
-                    mon = mon < 1 ? 1 : mon > 12 ? 12 : mon;
-                    cal.set(Calendar.MONTH, mon - 1);
-                    year = (year < 1900) ? 1900 : (year > 2100) ? 2100 : year;
-                    cal.set(Calendar.YEAR, year);
-                    // ^ first set year for the line below to work correctly
-                    //with leap years - otherwise, date e.g. 29/02/2012
-                    //would be automatically corrected to 28/02/2012
-
-                    day = (day > cal.getActualMaximum(Calendar.DATE)) ? cal.getActualMaximum(Calendar.DATE) : day;
-                    clean = String.format("%02d%02d%02d", day, mon, year);
-                }
-
-                clean = String.format("%s/%s/%s", clean.substring(0, 2),
-                        clean.substring(2, 4),
-                        clean.substring(4, 8));
-
-                sel = sel < 0 ? 0 : sel;
-                current = clean;
-                input.setText(current);
-                input.setSelection(sel < current.length() ? sel : current.length());
-                userData.setBirthDate(cal.getTime().getTime());
-            }
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-            convert = true;
-        }
     }
-
 
 }
 

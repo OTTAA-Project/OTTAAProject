@@ -194,10 +194,11 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintVertical_weight="1">
 
-                <EditText
+                <com.vicmikhailau.maskededittext.MaskedEditText
                     android:id="@+id/editTextBirthday"
                     android:layout_width="113dp"
                     android:layout_height="52dp"
+                    android:hint="DD/MM/YYYY"
                     android:inputType="date|datetime"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/buttonCalendarDialog"

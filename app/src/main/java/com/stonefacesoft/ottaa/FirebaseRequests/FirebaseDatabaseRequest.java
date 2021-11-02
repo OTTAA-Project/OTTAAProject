@@ -14,6 +14,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.StorageReference;
+import com.stonefacesoft.ottaa.Interfaces.LoadUserInformation;
 import com.stonefacesoft.ottaa.utils.constants.Constants;
 import com.stonefacesoft.ottaa.utils.preferences.DataUser;
 
@@ -40,7 +41,18 @@ public class FirebaseDatabaseRequest {
     }
 
     public void subirNombreUsuario(FirebaseAuth auth) {
-        mDatabase.child(Constants.USUARIOS).child(auth.getCurrentUser().getUid()).child(Constants.NOMBRE).setValue(auth.getCurrentUser().getDisplayName());
+        mDatabase.child(Constants.USUARIOS).child(auth.getCurrentUser().getUid()).child(Constants.NOMBRE).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(!snapshot.exists())
+                    mDatabase.child(Constants.USUARIOS).child(auth.getCurrentUser().getUid()).child(Constants.NOMBRE).setValue(auth.getCurrentUser().getDisplayName());
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     public void subirEdadUsuario(String edad, FirebaseAuth auth) {
@@ -94,6 +106,30 @@ public class FirebaseDatabaseRequest {
        mDatabase.child(Constants.AVATAR).child(mAuth.getCurrentUser().getUid()).child(name);
        mDatabase.child(Constants.AVATAR).child(mAuth.getCurrentUser().getUid()).child(file);
    }
+
+   public void FillUserInformation(LoadUserInformation loadUserInformation){
+        DataUser user = new DataUser();
+        mDatabase.child(Constants.USUARIOS).child(mAuth.getCurrentUser().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.hasChildren()){
+                  if(snapshot.hasChild(Constants.NOMBRE))
+                    user.setFirstAndLastName(String.valueOf( snapshot.child(Constants.NOMBRE).getValue()));
+                  if(snapshot.hasChild(Constants.FECHACUMPLE))
+                    user.setBirthDate(snapshot.child(Constants.FECHACUMPLE).getValue(Long.class));
+                  if(snapshot.hasChild(Constants.GENERO))
+                    user.setGender(snapshot.child(Constants.GENERO).getValue(String.class));
+                }
+                loadUserInformation.getUserInformation(user);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+   }
+
 
 
 

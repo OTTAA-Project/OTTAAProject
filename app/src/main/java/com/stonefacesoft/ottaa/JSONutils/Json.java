@@ -12,6 +12,7 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.util.Size;
 
+import com.google.android.libraries.places.api.model.Place;
 import com.stonefacesoft.ottaa.Interfaces.FindPictogram;
 import com.stonefacesoft.ottaa.Prediction.Clima;
 import com.stonefacesoft.ottaa.Prediction.Edad;
@@ -92,6 +93,7 @@ public class Json implements FindPictogram {
     private String textoTags;
     private boolean noTieneRelacionHijo = false; //bandera que indica si tiene o no hijos
     private String mListPlaceName = "";
+    private ArrayList<Place> placesNames;
     private int cantFallas;
     //JSONArray
 
