@@ -490,5 +490,6 @@
     <string name="say_pictogram_name_description">OTTAA يقول اسم الرسم التخطيطي عند لمسه</string>
     <string name="Iam">مرحبا أنا</string>
     <string name="FluidUser">مائع</string>
+    <string name="createPhrasesAlert">من فضلك ، قم بإنشاء عبارة وحدد زر المشاركة</string>
 
 </resources>

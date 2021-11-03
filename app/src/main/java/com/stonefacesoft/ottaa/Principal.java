@@ -1762,6 +1762,8 @@ public class Principal extends AppCompatActivity implements View
             }else{
                 placesImplementation.locationRequest();
             }
+        }else{
+            myTTS.mostrarAlerta(getResources().getString(R.string.no_location));
         }
     }
 
@@ -1856,6 +1858,8 @@ public class Principal extends AppCompatActivity implements View
                 traducirfrase.traducirIdioma(this, Oracion, "en", sharedPrefsDefault.getString(getString(R.string.str_idioma), "en"), true);
             }
             // if(myTTS().devolverPathAudio().exists())
+        }else{
+            myTTS.mostrarAlerta(getResources().getString(R.string.createPhrasesAlert));
         }
     }
 

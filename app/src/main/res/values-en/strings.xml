@@ -489,4 +489,5 @@
     <string name="FluidUser">Fluid</string>
     <string name="BinaryUser">Binary</string>
     <string name="OtherUser">Other</string>
+    <string name="createPhrasesAlert">" Please,  create a phrase and select the share button"</string>
 </resources>
