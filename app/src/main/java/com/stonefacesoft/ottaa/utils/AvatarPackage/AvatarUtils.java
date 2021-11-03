@@ -8,13 +8,14 @@ import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 import com.stonefacesoft.ottaa.FirebaseRequests.FirebaseUtils;
 import com.stonefacesoft.ottaa.utils.ConnectionDetector;
-import com.stonefacesoft.ottaa.utils.Constants;
+import com.stonefacesoft.ottaa.utils.constants.Constants;
 import com.stonefacesoft.ottaa.utils.preferences.User;
 import com.stonefacesoft.pictogramslibrary.utils.GlideAttatcher;
 
@@ -68,9 +69,14 @@ public class AvatarUtils {
         ConnectionDetector connectionDetector = new ConnectionDetector(mContext);
         if (connectionDetector.isConnectedToInternet()) {
             FirebaseUtils.getInstance().setmContext(mContext);
-            if(user.getmAuth()!=null)
-            childDatabase = FirebaseUtils.getInstance().getmDatabase().child(Constants.AVATAR).child(user.getUserUid());
-            childDatabase.addValueEventListener(firebaseChildEventListener);
+            FirebaseAuth auth= user.getmAuth();
+            if(auth!=null) {
+                String uid = user.getUserUid();
+                if(uid != null) {
+                    childDatabase = FirebaseUtils.getInstance().getmDatabase().child(Constants.AVATAR).child(uid);
+                    childDatabase.addValueEventListener(firebaseChildEventListener);
+                }
+            }
         } else {
             setAvatarByName(mContext, name);
         }

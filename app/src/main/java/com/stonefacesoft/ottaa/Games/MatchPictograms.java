@@ -254,7 +254,7 @@ public class MatchPictograms extends GameViewSelectPictograms {
             enableGuessOption(i);
         }
         if (gamesSettings.isRepeatLection()) {
-            mUtilsTTS.hablarConDialogo(getString(R.string.repeat_pictograms));
+            mTTS.getUtilsTTS().hablarConDialogo(getString(R.string.repeat_pictograms));
             opcion1.setVisibility(View.INVISIBLE);
             opcion2.setVisibility(View.INVISIBLE);
             opcion3.setVisibility(View.INVISIBLE);
@@ -300,7 +300,7 @@ public class MatchPictograms extends GameViewSelectPictograms {
     protected void speakOption(PictoView option) {
         super.speakOption(option);
         if (!gamesSettings.isRepeatLection()) {
-            mUtilsTTS.hablar(option.getCustom_Texto());
+            mTTS.getUtilsTTS().hablar(option.getCustom_Texto());
         }
     }
 
@@ -550,7 +550,7 @@ public class MatchPictograms extends GameViewSelectPictograms {
             if (!numeros.contains(valor)) {
                 numeros.add(valor);
                 name = JSONutils.getNombre(pictogramas[valor],ConfigurarIdioma.getLanguaje());
-                mUtilsTTS.hablar(name);
+                mTTS.getUtilsTTS().hablar(name);
             } else {
                 decirPictoAleatorio();
             }

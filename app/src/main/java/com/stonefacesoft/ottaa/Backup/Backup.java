@@ -6,7 +6,7 @@ import android.content.pm.PackageManager;
 import android.os.Environment;
 import android.util.Log;
 
-import com.stonefacesoft.ottaa.utils.Constants;
+import com.stonefacesoft.ottaa.utils.constants.Constants;
 import com.stonefacesoft.ottaa.utils.FilesUtils;
 
 import java.io.File;

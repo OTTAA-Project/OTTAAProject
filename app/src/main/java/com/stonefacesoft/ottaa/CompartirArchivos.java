@@ -11,17 +11,18 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.StrictMode;
 import android.speech.tts.TextToSpeech;
-import android.speech.tts.UtteranceProgressListener;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.stonefacesoft.ottaa.Bitmap.CombineImages;
 import com.stonefacesoft.ottaa.Bitmap.GestionarBitmap;
-import com.stonefacesoft.ottaa.Interfaces.TTSListener;
+import com.stonefacesoft.ottaa.Interfaces.LoadOnlinePictograms;
 import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.utils.exceptions.FiveMbException;
 import com.stonefacesoft.ottaa.utils.textToSpeech;
+import com.stonefacesoft.pictogramslibrary.utils.GlideAttatcher;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -53,13 +54,14 @@ public class CompartirArchivos {
     private Bitmap imagen;
     private boolean actionShare;
     private File file;
+    private GlideAttatcher attatcher;
 
 
     public CompartirArchivos(Context context1, textToSpeech myTTS) {
         this.mContext = context1;
         this.gestionarBitmap = new GestionarBitmap(mContext);
         actionShare = true;
-
+        attatcher = new GlideAttatcher(mContext);
         Json.getInstance().setmContext(mContext);
         this.json = Json.getInstance();
         this.myTTS = myTTS;
@@ -96,34 +98,51 @@ public class CompartirArchivos {
         gestionarBitmap.setImagenes();
         gestionarBitmap.setNoTemp(true);
         if (historial != null) {
-
             for (int i = 0; i < this.historial.size(); i++) {
                 Log.d("jsonfile", this.historial.get(i).toString());
                 Drawable draw = null;
+                CombineImages combineImages = new CombineImages(mContext);
                 try {
-                    draw = json.getIcono(json.getPictoFromId2(this.historial.get(i).getInt("id")));
+                    draw = json.getIconWithNullOption(json.getPictoFromId2(this.historial.get(i).getInt("id")));
                     if (draw != null) {
                         Bitmap archivo = gestionarBitmap.drawableToBitmap(draw);
                         imagen = archivo;
+                    }else{
+                        imagen = combineImages.getDrawableFromPictoView(json.getPictoFromId2(this.historial.get(i).getInt("id")),gestionarBitmap);
                     }
+
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
                 gestionarBitmap.getImagenes().add(imagen);
                 gestionarBitmap.getIdjson().add(historial.get(i));
-
             }
             if (gestionarBitmap.getImagenes().size() > 0) {
                 gestionarBitmap.setNombre("imagen.png");
                 gestionarBitmap.setTexto(Oracion);
-                gestionarBitmap.createImage();
+                gestionarBitmap.createImage(new LoadOnlinePictograms() {
+                    @Override
+                    public void preparePictograms() {
+
+                    }
+
+                    @Override
+                    public void loadPictograms(Bitmap bitmap) {
+                        file = gestionarBitmap.getImgs();
+                    }
+
+                    @Override
+                    public void FileIsCreated() {
+                        if (file.exists()) {
+                            sharingIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(gestionarBitmap.getImgs()));
+                            sharingIntent.putExtra(Intent.EXTRA_TEXT, Oracion);
+                            mContext.startActivity(Intent.createChooser(sharingIntent, mContext.getResources().getString(R.string.pref_enviar)));
+                        }
+
+                    }
+                });
             }
-            File file = gestionarBitmap.getImgs();
-            if (file.exists()) {
-                sharingIntent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(gestionarBitmap.getImgs()));
-                sharingIntent.putExtra(Intent.EXTRA_TEXT, Oracion);
-                mContext.startActivity(Intent.createChooser(sharingIntent, mContext.getResources().getString(R.string.pref_enviar)));
-            }
+
         } else {
             Log.d(TAG, "compartirImagenes: ");
         }
@@ -176,7 +195,7 @@ public class CompartirArchivos {
                 params.putString(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, Oracion);
                 synchronized (file) {
                 }
-                myTTS.getTTS().synthesizeToFile(Oracion, params, file, Oracion);
+                myTTS.synthesizeToFile(Oracion, params, file);
                 compartirAudioPictogramas();
             }
         });

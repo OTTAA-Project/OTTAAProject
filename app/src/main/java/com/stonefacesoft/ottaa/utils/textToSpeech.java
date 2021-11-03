@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.speech.tts.TextToSpeech;
 import android.util.Log;
@@ -23,29 +24,49 @@ import java.util.HashMap;
 
 public class textToSpeech {
 
-    private final SharedPreferences sharedPrefsDefault;
-    private final Context context;
+    private SharedPreferences sharedPrefsDefault;
+    private Context context;
     private CustomToast alerta;
     private boolean esprincipal;
     private String oracion;
     private File file;
     private String outputFile;
-    private final UtilsTTS prepare;
+    private UtilsTTS prepare;
+    private static textToSpeech _MYTTS;
 
-    public textToSpeech(Context context) {
+    public synchronized static textToSpeech getInstance(Context context){
+        if(_MYTTS == null)
+            _MYTTS = new textToSpeech();
+        _MYTTS.prepareTextToSpeech(context);
+        return _MYTTS;
+    }
+
+    public synchronized  static textToSpeech getInstance(AppCompatActivity context){
+        if(_MYTTS == null)
+            _MYTTS = new textToSpeech();
+        _MYTTS.prepareTextToSpeech(context);
+        return _MYTTS;
+    }
+
+    private textToSpeech(){
+
+    }
+
+    private textToSpeech(Context context) {
         this.context = context;
         this.sharedPrefsDefault = PreferenceManager.getDefaultSharedPreferences(context);
         alerta =CustomToast.getInstance(this.context);
-        prepare=new UtilsTTS(this.context,alerta,sharedPrefsDefault);
+        prepare= new UtilsTTS(this.context,alerta,sharedPrefsDefault);
 
     }
-    public textToSpeech(AppCompatActivity context) {
+
+    public void prepareTextToSpeech(Context context){
         this.context = context;
         alerta =CustomToast.getInstance(this.context);
         this.sharedPrefsDefault = PreferenceManager.getDefaultSharedPreferences(context);
-        prepare=new UtilsTTS(this.context,alerta,sharedPrefsDefault);
-
+        prepare= new UtilsTTS(context,alerta,sharedPrefsDefault);
     }
+
 
 
 
@@ -112,6 +133,22 @@ public class textToSpeech {
 
     public TextToSpeech getTTS() {
         return prepare.getmTTS();
+    }
+
+    public void synthesizeToFile(String Oracion, Bundle params,File file){
+        if(prepare.getmTTS()!=null)
+        getTTS().synthesizeToFile(Oracion, params, file, Oracion);
+    }
+
+    public void shutdownTTS(){
+        if(prepare.getmTTS() != null)
+            prepare.getmTTS().shutdown();
+    }
+
+    public boolean isSpeaking(){
+        if(prepare.getmTTS() != null)
+            return prepare.getmTTS().isSpeaking();
+        return false;
     }
 
     public void mostrarAlerta(String mensaje) {

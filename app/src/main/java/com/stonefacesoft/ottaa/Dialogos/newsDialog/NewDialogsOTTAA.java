@@ -1,21 +1,22 @@
 package com.stonefacesoft.ottaa.Dialogos.newsDialog;
 
+import static android.content.Context.CLIPBOARD_SERVICE;
+
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -24,14 +25,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.stonefacesoft.ottaa.Adapters.CustomFavoritePhrasesAdapter;
@@ -42,13 +36,13 @@ import com.stonefacesoft.ottaa.Bitmap.GestionarBitmap;
 import com.stonefacesoft.ottaa.FavModel;
 import com.stonefacesoft.ottaa.FirebaseRequests.BajarJsonFirebase;
 import com.stonefacesoft.ottaa.Interfaces.FirebaseSuccessListener;
+import com.stonefacesoft.ottaa.Interfaces.LoadOnlinePictograms;
 import com.stonefacesoft.ottaa.Interfaces.ProgressBarListener;
 import com.stonefacesoft.ottaa.R;
-import com.stonefacesoft.ottaa.Activities.Phrases.VincularFrases;
+import com.stonefacesoft.ottaa.utils.CloudFunctionHTTPRequest;
 import com.stonefacesoft.ottaa.utils.CustomToast;
 import com.stonefacesoft.ottaa.utils.DatosDeUso;
 import com.stonefacesoft.ottaa.utils.Firebase.AnalyticsFirebase;
-import com.stonefacesoft.ottaa.utils.IntentCode;
 import com.stonefacesoft.ottaa.utils.ReturnPositionItem;
 import com.stonefacesoft.ottaa.utils.exceptions.FiveMbException;
 
@@ -56,11 +50,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-import static android.content.Context.CLIPBOARD_SERVICE;
 
 public class NewDialogsOTTAA implements FirebaseSuccessListener {
 
@@ -332,16 +322,28 @@ public class NewDialogsOTTAA implements FirebaseSuccessListener {
                 List frases = mDatosDeUso.getArrayListFrasesMasUsadas(4);
                 for (int i = 0; i < frases.size(); i++) {
                     FavModel model = new FavModel();
-                    if (mGestionarBitmap.getBitmapDeFrase(mDatosDeUso.getFrasesOrdenadas().get(i)) != null) {
+                        mGestionarBitmap.getBitmapDeFrase(mDatosDeUso.getFrasesOrdenadas().get(i),new LoadOnlinePictograms() {
+                            @Override
+                            public void preparePictograms() {
+                            }
+                            @Override
+                            public void loadPictograms(Bitmap bitmap) {
+                                model.setImagen(bitmap);
+                            }
 
-                       model.setImagen(mGestionarBitmap.getBitmapDeFrase(mDatosDeUso.getFrasesOrdenadas().get(i)));
+                            @Override
+                            public void FileIsCreated() {
+
+                            }
+                        });
+
                         try {
                             model.setTexto(mDatosDeUso.getFrasesOrdenadas().get(i).getString("frase"));
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
                         mArrayListFavoritos.add(model);
-                    }
+
                 }
             } catch (FiveMbException e) {
                 e.printStackTrace();
@@ -542,55 +544,14 @@ public class NewDialogsOTTAA implements FirebaseSuccessListener {
     private void triggerEmail(){
         CustomToast customToast = CustomToast.getInstance(mActivity);
         customToast.mostrarFrase("Email enviado"); //TODO extraer resource
-        doHTTPRequest();
+       new CloudFunctionHTTPRequest(mActivity,TAG).doHTTPRequest("https://us-central1-ottaa-project.cloudfunctions.net/add2list");
     }
 
     private void openCalendly(  ) {
-        Intent browse = new Intent( Intent.ACTION_VIEW , Uri.parse("https://calendly.com/ottaa-project-support/demo-ottaa-project"));
+        Intent browse = new Intent( Intent.ACTION_VIEW , Uri.parse("https://calendly.com/santiagocioffi/30min?month=2021-10"));
         mActivity.startActivity(browse);
     }
 
-    private void doHTTPRequest() {
-        // Instantiate the RequestQueue.
-        RequestQueue queue = Volley.newRequestQueue(mActivity);
-        String url = "https://us-central1-ottaa-project.cloudfunctions.net/add2list";
 
-        // Request a string response from the provided URL.
-        // Display the first 500 characters of the response string.
-        //Log.e(TAG, "onResponse: "+response);
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
-                this::parseReponse, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.e(TAG, "onResponse: Volley Error: " + error.getMessage());
-            }
-        }) {
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
-                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                //TODO revisar que este assert este bien
-                assert user != null;
-                params.put("UserID", user.getEmail());
-                params.put("first_name", user.getDisplayName());
-                if (user.getPhoneNumber()!=null)
-                    params.put("phone", user.getPhoneNumber());
-                return params;
-            }
-        };
-        // Add the request to the RequestQueue.
-        queue.add(stringRequest);
-    }
-
-    private void parseReponse(String response) {
-        try {
-            Log.d(TAG, "parseResponse: OK");
-            JSONObject jsonObject = new JSONObject(response);
-
-        } catch (JSONException err) {
-            Log.e(TAG, "parseResponse: Error: " + err.toString());
-        }
-
-    }
 
 }

@@ -4,9 +4,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -28,7 +28,7 @@ import com.stonefacesoft.ottaa.Principal;
 import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.idioma.ConfigurarIdioma;
 import com.stonefacesoft.ottaa.utils.AvatarPackage.SelectedAvatar;
-import com.stonefacesoft.ottaa.utils.Constants;
+import com.stonefacesoft.ottaa.utils.constants.Constants;
 import com.stonefacesoft.ottaa.utils.exceptions.FiveMbException;
 
 import org.json.JSONArray;
@@ -39,6 +39,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Locale;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 
 public class SplashActivity extends Activity {
@@ -208,7 +210,7 @@ public class SplashActivity extends Activity {
         }
     }
 
-    private JSONArray borrarPictos(JSONArray pictosUsuario, ArrayList<Integer> pictos) {
+    private void borrarPictos(JSONArray pictosUsuario, ArrayList<Integer> pictos) {
         for (int i = 0; i < pictos.size(); i++) {
 
             int pos = Json.getInstance().getPosPicto(pictosUsuario, pictos.get(i));
@@ -222,60 +224,43 @@ public class SplashActivity extends Activity {
             if (pos != -1 && !estaEditado)
                 pictosUsuario.remove(pos);
         }
-        return pictosUsuario;
     }
 
-    public class borrarPictos extends AsyncTask<Void, Integer, Void> {
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
+    public class borrarPictos  {
+
+        public void execute(){
+            Executor executor = Executors.newSingleThreadExecutor();
+            Handler handler = new Handler(Looper.getMainLooper());
+            executor.execute(new Runnable() {
+                @Override
+                public void run() {
+                    borrarPictosViejos();
+                    handler.post(() -> {
+                        mProgressBar.setVisibility(View.GONE);
+                        Intent mainIntent = new Intent().setClass(SplashActivity.this, Principal.class);
+                        startActivity(mainIntent);
+                        finish();
+                    });
+                }
+            });
         }
 
-        @Override
-        protected Void doInBackground(Void... voids) {
-            borrarPictosViejos();
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-            mProgressBar.setVisibility(View.GONE);
-            Intent mainIntent = new Intent().setClass(SplashActivity.this, Principal.class);
-            startActivity(mainIntent);
-            finish();
-        }
-
-        @Override
-        protected void onProgressUpdate(Integer... values) {
-            super.onProgressUpdate(values);
-            setProgress(values[0]);
-            txtCargando.setText(values[0]);
-        }
     }
 
-    public class preLoadSplashScreen extends AsyncTask<Void, Void, Void> {
+    public class preLoadSplashScreen {
 
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-        }
 
-        @Override
-        protected Void doInBackground(Void... voids) {
-            try {
-                Json.getInstance().initJsonArrays();
-            } catch (JSONException | FiveMbException e) {
-                Log.e(TAG, "borrarPictosViejos: Error" + e.getMessage());
-            }
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-            accessDashboard();
+        public void execute(){
+            Executor executor = Executors.newSingleThreadExecutor();
+            Handler handler = new Handler(Looper.getMainLooper());
+            executor.execute(() -> {
+                try {
+                    Json.getInstance().initJsonArrays();
+                } catch (JSONException | FiveMbException e) {
+                    Log.e(TAG, "borrarPictosViejos: Error" + e.getMessage());
+                }
+                handler.post(() -> accessDashboard());
+            });
         }
     }
 
@@ -297,34 +282,31 @@ public class SplashActivity extends Activity {
            finish();
        }
     }
-    public  class sharedPreferencesLoad extends AsyncTask<Void,Void,Void>{
+    public  class sharedPreferencesLoad {
         private final Context mContext;
         public sharedPreferencesLoad(Context mContext){
             this.mContext=mContext;
         }
-        @Override
-        protected Void doInBackground(Void... voids) {
-            sharedPrefsDefault = PreferenceManager.getDefaultSharedPreferences(mContext);
-            if (sharedPrefsDefault.getString(getApplicationContext().getResources().getString(R.string.str_idioma), "en").contains("mainTable")) {
-                sharedPrefsDefault.edit().putString(getString(R.string.str_idioma), Locale.getDefault().getLanguage()).apply();
-                ConfigurarIdioma.setLanguage(sharedPrefsDefault.getString(getString(R.string.str_idioma),"en"));
+        public void execute(){
+            Executor executor = Executors.newSingleThreadExecutor();
+            Handler handler = new Handler(Looper.getMainLooper());
+            executor.execute(() -> {
+                sharedPrefsDefault = PreferenceManager.getDefaultSharedPreferences(mContext);
+                if (sharedPrefsDefault.getString(getApplicationContext().getResources().getString(R.string.str_idioma), "en").contains("mainTable")) {
+                    sharedPrefsDefault.edit().putString(getString(R.string.str_idioma), Locale.getDefault().getLanguage()).apply();
+                    ConfigurarIdioma.setLanguage(sharedPrefsDefault.getString(getString(R.string.str_idioma),"en"));
 
-            }
-            if (!sharedPrefsDefault.contains("idioma")) {
-                sharedPrefsDefault.edit().putString(getString(R.string.str_idioma), Locale.getDefault().getLanguage()).apply();
-                ConfigurarIdioma.setLanguage(sharedPrefsDefault.getString(getString(R.string.str_idioma),"en"));
+                }
+                if (!sharedPrefsDefault.contains("idioma")) {
+                    sharedPrefsDefault.edit().putString(getString(R.string.str_idioma), Locale.getDefault().getLanguage()).apply();
+                    ConfigurarIdioma.setLanguage(sharedPrefsDefault.getString(getString(R.string.str_idioma),"en"));
 
-            }
-            changeName.cambiarPosicion();
-            mAuth=FirebaseAuth.getInstance();
-            changeName.cambiarPosicion();
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            cargarDatos();
+                }
+                changeName.cambiarPosicion();
+                mAuth=FirebaseAuth.getInstance();
+                changeName.cambiarPosicion();
+                handler.post(() -> cargarDatos());
+            });
         }
     }
 

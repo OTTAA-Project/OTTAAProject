@@ -33,7 +33,7 @@ public class MostUsedPhrases extends PhrasesView {
         super.initComponents();
         this.setTitle(getResources().getString(R.string.frases_musadas));
         most_used_recycler_view = new MostUsedPhrases_Recycler_View(this, firebaseUser.getmAuth());
-        myTTS = new textToSpeech(this);
+        myTTS = textToSpeech.getInstance(this);
         most_used_recycler_view.setMyTTS(myTTS);
         most_used_recycler_view.setOnClickListener();
         btnEditar.setImageDrawable(getResources().getDrawable(R.drawable.ic_search));

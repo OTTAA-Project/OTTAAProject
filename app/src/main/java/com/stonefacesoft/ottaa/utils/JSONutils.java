@@ -8,6 +8,7 @@ import com.stonefacesoft.ottaa.Prediction.Edad;
 import com.stonefacesoft.ottaa.Prediction.Horario;
 import com.stonefacesoft.ottaa.Prediction.Posicion;
 import com.stonefacesoft.ottaa.Prediction.Sexo;
+import com.stonefacesoft.ottaa.utils.constants.Constants;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -583,6 +584,8 @@ public class JSONutils {
         }
         return 0;
     }
+
+
 
 
 

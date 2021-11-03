@@ -7,7 +7,7 @@ import android.util.Log;
 import com.stonefacesoft.ottaa.FirebaseRequests.SubirArchivosFirebase;
 import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.R;
-import com.stonefacesoft.ottaa.utils.Constants;
+import com.stonefacesoft.ottaa.utils.constants.Constants;
 import com.stonefacesoft.ottaa.utils.preferences.User;
 
 import org.json.JSONException;

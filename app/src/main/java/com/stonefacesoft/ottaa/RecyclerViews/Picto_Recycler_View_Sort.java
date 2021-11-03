@@ -9,7 +9,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.stonefacesoft.ottaa.Adapters.GaleriaPictosAdapter;
 import com.stonefacesoft.ottaa.Helper.SimpleItemTouchHelperCallback;
 import com.stonefacesoft.ottaa.R;
-import com.stonefacesoft.ottaa.utils.Constants;
+import com.stonefacesoft.ottaa.utils.constants.Constants;
 import com.stonefacesoft.ottaa.utils.JSONutils;
 
 import org.json.JSONArray;

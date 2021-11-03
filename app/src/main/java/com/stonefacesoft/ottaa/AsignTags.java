@@ -16,7 +16,7 @@ import com.stonefacesoft.ottaa.Prediction.Edad;
 import com.stonefacesoft.ottaa.Prediction.Horario;
 import com.stonefacesoft.ottaa.Prediction.Posicion;
 import com.stonefacesoft.ottaa.Prediction.Sexo;
-import com.stonefacesoft.ottaa.utils.Constants;
+import com.stonefacesoft.ottaa.utils.constants.Constants;
 import com.stonefacesoft.ottaa.utils.JSONutils;
 import com.stonefacesoft.ottaa.utils.exceptions.FiveMbException;
 

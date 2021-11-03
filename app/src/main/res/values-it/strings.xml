@@ -466,4 +466,6 @@
     <string name="say_pictogram_name_tittle">dire il pittogramma</string>
     <string name="say_pictogram_name_description">OTTAA dice il nome del pittogramma al tocco</string>
     <string name="Iam">Ciao sono</string>
+    <string name="FluidUser">Fluido</string>
+    <string name="createPhrasesAlert">Per favore, crea una frase e seleziona il pulsante di condivisione</string>
 </resources>

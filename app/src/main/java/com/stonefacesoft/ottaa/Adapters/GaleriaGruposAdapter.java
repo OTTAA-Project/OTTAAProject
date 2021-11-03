@@ -1,24 +1,15 @@
 package com.stonefacesoft.ottaa.Adapters;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.media.ThumbnailUtils;
-import android.net.Uri;
-import android.os.AsyncTask;
-import android.preference.PreferenceManager;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.content.res.AppCompatResources;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -27,10 +18,8 @@ import com.stonefacesoft.ottaa.Helper.ItemTouchHelperAdapter;
 import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.idioma.ConfigurarIdioma;
-import com.stonefacesoft.ottaa.utils.Constants;
-import com.stonefacesoft.ottaa.utils.JSONutils;
+import com.stonefacesoft.ottaa.utils.constants.Constants;
 import com.stonefacesoft.pictogramslibrary.Classes.Group;
-import com.stonefacesoft.pictogramslibrary.Classes.Pictogram;
 import com.stonefacesoft.pictogramslibrary.utils.GlideAttatcher;
 import com.stonefacesoft.pictogramslibrary.view.GroupView;
 
@@ -38,7 +27,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 public class GaleriaGruposAdapter extends RecyclerView.Adapter<GaleriaGruposAdapter.GruposViewHolder> implements ItemTouchHelperAdapter {
 
@@ -158,7 +148,7 @@ public class GaleriaGruposAdapter extends RecyclerView.Adapter<GaleriaGruposAdap
         }
     }
 
-    private class CargarGruposAsync extends AsyncTask<Void, Void, Void> {
+    private class CargarGruposAsync {
 
         private final int mPosition;
         private final GruposViewHolder mHolder;
@@ -169,51 +159,40 @@ public class GaleriaGruposAdapter extends RecyclerView.Adapter<GaleriaGruposAdap
             this.mHolder = mHolder;
         }
 
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
+        public void execute(){
+            Executor executor = Executors.newSingleThreadExecutor();
+            Handler handler = new Handler(Looper.getMainLooper());
+            executor.execute(() -> {
+                Bitmap mBitmap;
+                try {
+                    aux = mArrayGrupos.getJSONObject(mPosition);
+                    mHolder.groupView.setUpContext(mContext);
+                    mHolder.groupView.setUpGlideAttatcher(mContext);
 
-        }
+                } catch (Exception e) {
+                    Log.e(TAG, "doInBackground: " + e.getMessage());
 
-        @SuppressLint("WrongThread")
-        @Override
-        protected Void doInBackground(Void... voids) {
-            Bitmap mBitmap;
-            try {
-                aux = mArrayGrupos.getJSONObject(mPosition);
-                mHolder.groupView.setUpContext(mContext);
-                mHolder.groupView.setUpGlideAttatcher(mContext);
-
-            } catch (Exception e) {
-                Log.e(TAG, "doInBackground: " + e.getMessage());
-
-                e.printStackTrace();
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-            try{
-                if(aux.has("imagen")&&!aux.isNull("imagen")) {
-                    mHolder.groupView.setPictogramsLibraryGroup(new Group(aux, ConfigurarIdioma.getLanguaje()));
-                    mHolder.groupView.loadAgeIcon(json.tieneTag(aux, Constants.EDAD));
-                    mHolder.groupView.loadGenderIcon(json.tieneTag(aux, Constants.SEXO));
-                    mHolder.groupView.loadLocationIcon(json.tieneTag(aux, Constants.UBICACION));
-                    mHolder.groupView.loadHourIcon(json.tieneTag(aux, Constants.HORA));
+                    e.printStackTrace();
                 }
-            }catch (Exception ex){
-                Log.d(TAG, "auxException: "+ aux.toString() );
-                mArrayGrupos.remove(mPosition);
-                notifyItemRangeChanged(0,mArrayGrupos.length());
-            }
-
-            //Le asignamos al grupo su texto e icono
-            // Glide.with(mContext).load(mDrawableIcono).transform(new RoundedCorners(16)).into(mHolder.mGrupoImageView);
-            //   mHolder.mGrupoImageView.setImageDrawable(mDrawableIcono);
-
+                handler.post(() -> {
+                    try{
+                        if(aux.has("imagen")&&!aux.isNull("imagen")) {
+                            mHolder.groupView.setPictogramsLibraryGroup(new Group(aux, ConfigurarIdioma.getLanguaje()));
+                            mHolder.groupView.loadAgeIcon(json.tieneTag(aux, Constants.EDAD));
+                            mHolder.groupView.loadGenderIcon(json.tieneTag(aux, Constants.SEXO));
+                            mHolder.groupView.loadLocationIcon(json.tieneTag(aux, Constants.UBICACION));
+                            mHolder.groupView.loadHourIcon(json.tieneTag(aux, Constants.HORA));
+                        }
+                    }catch (Exception ex){
+                        Log.d(TAG, "auxException: "+ aux.toString() );
+                        mArrayGrupos.remove(mPosition);
+                        notifyItemRangeChanged(0,mArrayGrupos.length());
+                    }
+                });
+            });
         }
+
+
     }
 
 

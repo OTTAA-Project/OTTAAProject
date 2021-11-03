@@ -55,4 +55,7 @@ public class PreferencesUtil {
         return preferences.getInt(key, value);
     }
 
+    public SharedPreferences getPreferences() {
+        return preferences;
+    }
 }

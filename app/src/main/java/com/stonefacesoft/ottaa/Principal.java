@@ -53,7 +53,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import com.airbnb.lottie.LottieAnimationView;
 import com.facebook.BuildConfig;
 import com.facebook.FacebookSdk;
-import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.internal.ConnectionCallbacks;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -99,9 +99,6 @@ import com.stonefacesoft.ottaa.utils.Accesibilidad.scrollActions.ScrollFunctionM
 import com.stonefacesoft.ottaa.utils.AvatarPackage.Avatar;
 import com.stonefacesoft.ottaa.utils.AvatarPackage.AvatarUtils;
 import com.stonefacesoft.ottaa.utils.ConnectionDetector;
-import com.stonefacesoft.ottaa.utils.Constants;
-import com.stonefacesoft.ottaa.utils.ConstantsAnalyticsValues;
-import com.stonefacesoft.ottaa.utils.ConstantsMainActivity;
 import com.stonefacesoft.ottaa.utils.CustomToast;
 import com.stonefacesoft.ottaa.utils.Firebase.AnalyticsFirebase;
 import com.stonefacesoft.ottaa.utils.Firebase.CrashlyticsUtils;
@@ -115,6 +112,9 @@ import com.stonefacesoft.ottaa.utils.PopupMenuUtils;
 import com.stonefacesoft.ottaa.utils.RemoteConfigUtils;
 import com.stonefacesoft.ottaa.utils.TalkActions.Historial;
 import com.stonefacesoft.ottaa.utils.TraducirFrase;
+import com.stonefacesoft.ottaa.utils.constants.Constants;
+import com.stonefacesoft.ottaa.utils.constants.ConstantsAnalyticsValues;
+import com.stonefacesoft.ottaa.utils.constants.ConstantsMainActivity;
 import com.stonefacesoft.ottaa.utils.exceptions.FiveMbException;
 import com.stonefacesoft.ottaa.utils.location.PlacesImplementation;
 import com.stonefacesoft.ottaa.utils.preferences.User;
@@ -148,7 +148,7 @@ public class Principal extends AppCompatActivity implements View
         .OnClickListener,
         View.OnLongClickListener,
         OnMenuItemClickListener,
-        FirebaseSuccessListener, NavigationView.OnNavigationItemSelectedListener, PlaceSuccessListener, GoogleApiClient.ConnectionCallbacks, translateInterface, View.OnTouchListener, Make_Click_At_Time {
+        FirebaseSuccessListener, NavigationView.OnNavigationItemSelectedListener, PlaceSuccessListener, ConnectionCallbacks, translateInterface, View.OnTouchListener, Make_Click_At_Time {
 
     private static final String TAG = "Principal";
     public static boolean cerrarSession = false;// use this variable to notify when the session is closed
@@ -420,10 +420,10 @@ public class Principal extends AppCompatActivity implements View
             } catch (FiveMbException e) {
                 e.printStackTrace();
             }
+            Reset();
             if (firebaseDialog != null) {
                 firebaseDialog.destruirDialogo();
             }
-
         }
 
     }
@@ -513,6 +513,8 @@ public class Principal extends AppCompatActivity implements View
         return false;
     }
 
+
+
     private void setPrimerBackupTimeLocal() {
         //Nos fijamos si el permiso de escribir en el storage esta dado para hacer el backup local.
         BackupPictograms backupPictograms = new BackupPictograms(this, Constants.ARCHIVO_PICTOS);
@@ -534,10 +536,10 @@ public class Principal extends AppCompatActivity implements View
     }
 
     private void initLocationRequest() {
-        mLastLocationRequest = new LocationRequest();
+        mLastLocationRequest = LocationRequest.create();
         mLastLocationRequest.setSmallestDisplacement(10);
-        mLastLocationRequest.setInterval(10000); // Update location every 1 minute
-        mLastLocationRequest.setFastestInterval(10000);
+        mLastLocationRequest.setInterval(1000); // Update location every 1 minute
+        mLastLocationRequest.setFastestInterval(1000);
         mLastLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
 
     }
@@ -547,9 +549,10 @@ public class Principal extends AppCompatActivity implements View
         if (placesImplementation != null && sharedPrefsDefault.getBoolean(getString(R.string.bool_ubicacion), false)) {
             if (!placesImplementation.isStarted())
                 placesImplementation.iniciarClientePlaces();
-            else
+            else{
                 placesImplementation.locationRequest();
-
+                useLocation();
+            }
         }
     }
 
@@ -695,6 +698,7 @@ public class Principal extends AppCompatActivity implements View
         CargarJson();
         Log.d(TAG, "onResume: idioma : " + getApplication().getResources().getConfiguration().locale.toString());
         super.onResume();
+        myTTS = textToSpeech.getInstance(this);
         if (firebaseDialog != null) {
             firebaseDialog.destruirDialogo();
         }
@@ -748,7 +752,6 @@ public class Principal extends AppCompatActivity implements View
         if (firebaseDialog != null) {
             firebaseDialog.destruirDialogo();
         }
-
         super.onDestroy();
 
     }
@@ -765,8 +768,6 @@ public class Principal extends AppCompatActivity implements View
         // Inflate the menu; this adds items to the action bar if it is present.
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.action_bar, menu);
-        locationItem = menu.getItem(0);
-
         if (mute) {
             menu.getItem(1).setIcon(getResources().getDrawable(R.drawable.ic_volume_up_white_24dp));
         } else {
@@ -1267,7 +1268,7 @@ public class Principal extends AppCompatActivity implements View
                 startFavoritePhrases();
                 break;
             case R.id.action_share:
-                analitycsFirebase.customEvents(ConstantsAnalyticsValues.TOUCH, "Principal", ConstantsAnalyticsValues.FAVORITEPHRASES);
+                analitycsFirebase.customEvents(ConstantsAnalyticsValues.TOUCH, this.getClass().getName(), ConstantsAnalyticsValues.FAVORITEPHRASES);
                 shareAction();
                 break;
             case R.id.btn_borrar:
@@ -1348,8 +1349,8 @@ public class Principal extends AppCompatActivity implements View
                 editPictoResult(data);
                 break;
             case ConstantsMainActivity.CONFIG_SCREEN:
-                myTTS = new textToSpeech(this);
-                barridoPantalla.cambiarEstadoBarrido();
+                myTTS =textToSpeech.getInstance(this);
+                barridoPantalla.updateSharePrefs(sharedPrefsDefault).cambiarEstadoBarrido();
                 boolean isEnableScreenScanning = enableDisableScreenScanning();
                 editarPicto = sharedPrefsDefault.getBoolean(getString(R.string.str_editar_picto), true);
                 if (data != null && data.getExtras() != null) {
@@ -1394,7 +1395,7 @@ public class Principal extends AppCompatActivity implements View
                             });
                         }
                     }
-                    barridoPantalla.cambiarEstadoBarrido();
+                    barridoPantalla.updateSharePrefs(sharedPrefsDefault).cambiarEstadoBarrido();
                 } catch (Exception ex) {
                     PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).edit().putInt("premium", 0).apply();
                 }
@@ -1494,7 +1495,6 @@ public class Principal extends AppCompatActivity implements View
                 break;
             case Principal.TRIM_MEMORY_BACKGROUND:
             case Principal.TRIM_MEMORY_MODERATE:
-            case Principal.TRIM_MEMORY_COMPLETE:
                 break;
             default:
         }
@@ -1713,16 +1713,7 @@ public class Principal extends AppCompatActivity implements View
                 return true;
             case R.id.ubic:
                 analitycsFirebase.customEvents("Touch", "Principal", "Location");
-                if (placesImplementation != null) {
-                    if (placesImplementation.typesSizes() > 0) {
-                        Place place = placesImplementation.getPlace();
-                        String name = placesImplementation.getPlaceName(place);
-                        String placeType = placesImplementation.getPlaceType(place);
-                        Log.d(TAG, "onOptionsItemSelected: " + name + " " + placeType);
-                        item.setTitle(name + " : " + placesImplementation.getPlaceName(placeType));
-                        json.setPlaceName(placeType);
-                    }
-                }
+                useLocation();
                 return true;
             case R.id.exit:
                 this.doubleBackToExitPressedOnce = true;
@@ -1757,6 +1748,23 @@ public class Principal extends AppCompatActivity implements View
         }
 
         return true;
+    }
+
+    private void useLocation() {
+        if (placesImplementation != null) {
+            if (placesImplementation.typesSizes() > 0) {
+                Place place = placesImplementation.getPlace();
+                String name = placesImplementation.getPlaceName(place);
+                String placeType = placesImplementation.getPlaceType(place);
+                Log.d(TAG, "onOptionsItemSelected: " + name + " " + placeType);
+                locationItem.setTitle(name + " : " + placesImplementation.getPlaceName(placeType));
+                json.setPlaceName(placeType);
+            }else{
+                placesImplementation.locationRequest();
+            }
+        }else{
+            myTTS.mostrarAlerta(getResources().getString(R.string.no_location));
+        }
     }
 
     public BarridoPantalla getBarridoPantalla() {
@@ -1850,6 +1858,8 @@ public class Principal extends AppCompatActivity implements View
                 traducirfrase.traducirIdioma(this, Oracion, "en", sharedPrefsDefault.getString(getString(R.string.str_idioma), "en"), true);
             }
             // if(myTTS().devolverPathAudio().exists())
+        }else{
+            myTTS.mostrarAlerta(getResources().getString(R.string.createPhrasesAlert));
         }
     }
 
@@ -1948,7 +1958,7 @@ public class Principal extends AppCompatActivity implements View
 
     private void prepareLayout() {
         if (sharedPrefsDefault.getBoolean("skillHand", false)) {
-            setContentView(R.layout.activity_principal_v4_right);
+            setContentView(R.layout.activity_main_rigth);
         } else {
             setContentView(R.layout.activity_main);
         }
@@ -1988,8 +1998,9 @@ public class Principal extends AppCompatActivity implements View
         initSelectionComponents();
         initActionButtons();
         initPictograms();
-        initAvatar();
         initFirstPictograms();
+        initAvatar();
+        initLocationIcon();
         uploadFiles();
         initBarrido();
         initPlaceImplementationClass();
@@ -2000,8 +2011,13 @@ public class Principal extends AppCompatActivity implements View
         navigationControls = new PrincipalControls(this);
         movableFloatingActionButton.setIcon();
         remoteConfigUtils = RemoteConfigUtils.getInstance();
+
         loadAvatar();
         showAvatar();
+    }
+
+    private void initLocationIcon() {
+        locationItem = navigationView.getMenu().findItem(R.id.ubic);
     }
 
     private void initFirebaseComponents() {
@@ -2027,7 +2043,7 @@ public class Principal extends AppCompatActivity implements View
         firebaseDialog = new Progress_dialog_options(this);
         function_scroll = new ScrollFunctionMainActivity(this, this);
         historial = new Historial(json);
-        myTTS = new textToSpeech(this);
+        myTTS = textToSpeech.getInstance(this);
         sharedPrefsDefault.edit().putBoolean("usuario logueado", true).apply();
         cuentaMasPictos = 0;
         placeTypeActual = 0;
@@ -2046,6 +2062,7 @@ public class Principal extends AppCompatActivity implements View
             placesImplementation = new PlacesImplementation(this);
             placesImplementation.iniciarClientePlaces();
             placesImplementation.locationRequest();
+            useLocation();
         }
     }
 
@@ -2202,7 +2219,7 @@ public class Principal extends AppCompatActivity implements View
     }
 
     private void initFirstPictograms() {
-        if (json.getmJSONArrayTodosLosPictos() != null && json.getmJSONArrayTodosLosPictos().length() > 0) {
+        if (json.getmJSONArrayTodosLosPictos() != null && json.getmJSONArrayTodosLosPictos().length() > 0&& historial.getListadoPictos().isEmpty()) {
             try {
                 pictoPadre = json.getmJSONArrayTodosLosPictos().getJSONObject(0);
             } catch (JSONException e) {

@@ -22,7 +22,7 @@ import com.stonefacesoft.ottaa.Interfaces.interface_search;
 import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.LicenciaExpirada;
 import com.stonefacesoft.ottaa.R;
-import com.stonefacesoft.ottaa.utils.Constants;
+import com.stonefacesoft.ottaa.utils.constants.Constants;
 import com.stonefacesoft.ottaa.utils.Firebase.AnalyticsFirebase;
 import com.stonefacesoft.ottaa.utils.ReturnPositionItem;
 import com.stonefacesoft.ottaa.utils.textToSpeech;

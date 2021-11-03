@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
@@ -16,11 +15,11 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.util.Log;
 
-import androidx.appcompat.content.res.AppCompatResources;
-
+import com.stonefacesoft.ottaa.Interfaces.LoadOnlinePictograms;
 import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.R;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -53,6 +52,8 @@ public class GestionarBitmap  {
     private final Json json;
     private int color=R.color.FondoApp;
     private final String TAG="GestionarBitmap";
+    private LoadOnlinePictograms loadOnlinePictograms;
+
 
 
     public GestionarBitmap(Context context) {
@@ -62,8 +63,6 @@ public class GestionarBitmap  {
         idjson=new ArrayList<>();
         Json.getInstance().setmContext(mContext);
         json = Json.getInstance();
-
-
     }
 
 
@@ -101,7 +100,7 @@ public class GestionarBitmap  {
         //this.imagenes=imagenes;
     }
     //metodo para almacenar archivo
-    private void storeImage(Bitmap image)
+    private void storeImage(Bitmap image,LoadOnlinePictograms loadOnlinePictograms)
     {
         try {
             imgs = getOutputMediaFile();
@@ -125,7 +124,10 @@ public class GestionarBitmap  {
                 Log.e("errorGB_StoreImage_Foto", "File not found: " + e.getMessage());
             } catch(IOException e){
                 Log.e("errorGB_StoreImage_Foto", "Error accessing file: " + e.getMessage());
-            }
+            }finally {
+            loadOnlinePictograms.loadPictograms(image);
+            loadOnlinePictograms.FileIsCreated();
+        }
             Log.d("GB_StoreImage_Foto", "PATH>> " + mCurrentPhotoPath);
     }
     //metodo para obtener la imagen
@@ -152,7 +154,6 @@ public class GestionarBitmap  {
         {//si no lo es lo genero en una direccion real para poder compartirlo
             imgs = new File(mediaStorageDir.getPath() + File.separator + nombre);
         }
-
         if (! mediaStorageDir.exists())
         {
             if (! mediaStorageDir.mkdirs())
@@ -195,44 +196,58 @@ public class GestionarBitmap  {
         if (imagenes.size() > 0 && imagenes.get(0) != null) {
 
             Bitmap mBufferPictos = Bitmap.createScaledBitmap(imagenes.get(0), 250, 250, false);
-            Bitmap logo=drawableToBitmap(mContext.getResources().getDrawable(R.drawable.logo_ottaa));
+            Bitmap logo=drawableToBitmap(mContext.getResources().getDrawable(R.drawable.logo_ottaa_dev));
+            logo = Bitmap.createScaledBitmap(logo,75,75,true);
 
-            logo=redimensionarImagenMaximo(logo,mBufferPictos.getWidth(),mBufferPictos.getHeight()/4);
             mImagenFinalWidth = (mBufferPictos.getWidth()+mDeltax) * imagenes.size()+mDeltax;
             mImagenFinalHeight = 3*mDeltay+mBufferPictos.getHeight()+logo.getHeight();
             //tamano = 0;
             mImagenFinal = Bitmap.createBitmap(mImagenFinalWidth, mImagenFinalHeight, Bitmap.Config.ARGB_8888);
 
             Canvas comboImage = new Canvas(mImagenFinal);
-            Paint pintura=new Paint();
+            Paint pintura = preparePaint(20,0,0,0,0,false,true) ;
             pintura.setColor(mContext.getResources().getColor(R.color.FondoApp));
-            pintura.setStrokeWidth(20);
-
             comboImage.drawRect(0,0,mImagenFinal.getWidth(),mImagenFinal.getHeight(),pintura);
             for (int j = 0; j < imagenes.size(); j++) {
                 int despx =j*((mDeltax)+mBufferPictos.getWidth())+mDeltax;
-                //Bitmap imgRedimensionada=redimensionarImagenMaximo(imagenes.get(j),mBufferPictos.getWidth(), mBufferPictos.getHeight());
-                //comboImage.drawLine(despx,0,despx,mImagenFinal.getHeight(),pintura);
                 comboImage.drawBitmap(redimensionarImagenMaximo(imagenes.get(j), mBufferPictos.getWidth(), mBufferPictos.getHeight()), despx, mDeltay, null);
             }
-            Paint pinturas=new Paint();
-            pinturas.setAlpha(200);
-            pinturas.setARGB(200,255,255,255);
-
+            Paint pinturas= preparePaint(20,200,255,255,255,false,true);
             int mPosicionLogoX,mPosicionLogoY;
-
-            mPosicionLogoX = mImagenFinalWidth-mDeltax-logo.getWidth();
+            mPosicionLogoX =mImagenFinalWidth-logo.getWidth()- mDeltax;
             mPosicionLogoY = mImagenFinalHeight-mDeltay-logo.getHeight();
             comboImage.drawBitmap(logo,mPosicionLogoX,mPosicionLogoY,pinturas);
         }
         return mImagenFinal;
     }
+
+
+    private Paint preparePaint(int stroke,int alpha, int red,int green,int blue,boolean useARGB,boolean useStroke){
+        Paint pintura = new Paint();
+        if(useStroke)
+            pintura.setStrokeWidth(stroke);
+        if(useARGB){
+            pintura.setAlpha(alpha);
+            pintura.setARGB(alpha,red,green,blue);
+        }
+        return pintura;
+    }
+
     /**
      *  this method transform the drawables on bitmaps
      */
+    public int getSize(Bitmap bitmap,boolean isWidth){
+        if(bitmap != null){
+            if(isWidth)
+                return bitmap.getWidth();
+            return bitmap.getHeight();}
+
+        return 100;
+    }
+
     public Bitmap drawableToBitmap (Drawable drawable) {
         Bitmap bitmap = null;
-
+        try{
         if (drawable instanceof BitmapDrawable) {
             BitmapDrawable bitmapDrawable = (BitmapDrawable) drawable;
             if(bitmapDrawable.getBitmap() != null) {
@@ -250,6 +265,9 @@ public class GestionarBitmap  {
             drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
             drawable.draw(canvas);
         }
+        }catch (Exception ex){
+
+        }
         return bitmap;
     }
 
@@ -261,6 +279,7 @@ public class GestionarBitmap  {
         //Redimensionamos
         int width = mBitmap.getWidth();
         int height = mBitmap.getHeight();
+
         float scaleWidth = newWidth / width;
         float scaleHeight = newHeigth / height;
         // create a matrix for the manipulation
@@ -268,12 +287,12 @@ public class GestionarBitmap  {
         // resize the bit map
         matrix.postScale(scaleWidth, scaleHeight);
         // recreate the new Bitmap
-        return Bitmap.createBitmap(mBitmap, 0, 0, width, height, matrix, false);
+        return Bitmap.createBitmap(mBitmap, 0, 0, width, height, matrix, true);
     }
 
     //metodo para armar las imagenes
-    public void createImage() {
-        storeImage(combineImages(25,25));
+    public void createImage(LoadOnlinePictograms loadOnlinePictograms) {
+        storeImage(combineImages(25,25),loadOnlinePictograms);
     }
 
 
@@ -323,45 +342,14 @@ public class GestionarBitmap  {
 
 
     //Devolvemos un bitmap con todos los pictos componentes de una frase
-    public Bitmap getBitmapDeFrase(JSONObject frase) {
-        try {
-            if (frase.has("complejidad")&&frase.getJSONObject("complejidad") != null) {
-                imagenes = new ArrayList<>();
-                for (int i = 0; i < frase.getJSONObject("complejidad").getJSONArray("pictos componentes").length(); i++) {
-                    JSONObject picto = json.getPictoFromId2(frase.getJSONObject("complejidad")
-                            .getJSONArray("pictos componentes").getJSONObject(i).getInt("id"));
-                    Bitmap logo = drawableToBitmap(AppCompatResources.getDrawable(mContext, R.drawable.logo_ottaa));
-                    Bitmap nube = drawableToBitmap(AppCompatResources.getDrawable(mContext, R.drawable.ic_baseline_cloud_download_24_big));//para evitar que no funcionen las frases mas usadas se pone el icono de la nube
-                    Bitmap imagen = drawableToBitmap(json.getIcono(picto));
-
-                    if (imagen != null) {
-                        imagenes.add(imagen);
-                    } else {
-                        imagenes.add(nube);
-                    }
-                }
-            } else {
-                imagenes = new ArrayList<>();
-                for (int i = 0; i < frase.getJSONArray("picto_componentes").length(); i++) {
-                    JSONObject picto = json.getPictoFromId2(frase.getJSONArray("picto_componentes").getJSONObject(i).getInt("id"));
-                    Bitmap logo = drawableToBitmap(AppCompatResources.getDrawable(mContext, R.drawable.logo_ottaa));
-                    Bitmap nube = drawableToBitmap(AppCompatResources.getDrawable(mContext, R.drawable.ic_baseline_cloud_download_24_big));//para evitar que no funcionen las frases mas usadas se pone el icono de la nube
-                    Bitmap imagen = drawableToBitmap(json.getIcono(picto));
-
-                    if (imagen != null) {
-                        imagenes.add(imagen);
-                    } else {
-                        imagenes.add(nube);
-                    }
-                }
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
+    public void getBitmapDeFrase(JSONObject frase,LoadOnlinePictograms loadOnlinePictograms) {
+        preparePhrase(frase);
+        Bitmap bitmap = null;
+        if(combineImages(20, 20) != null ) {
+            bitmap = getRoundedCornerBitmap(combineImages(20, 2), 20);
+            loadOnlinePictograms.loadPictograms(bitmap);
         }
-        if (combineImages(20, 20) != null)
-        return getRoundedCornerBitmap(combineImages(20, 20), 20);
-        else
-            return null;
+
     }
 
 
@@ -375,5 +363,36 @@ public class GestionarBitmap  {
         Bitmap logo=drawableToBitmap(mContext.getResources().getDrawable(R.drawable.logo_ottaa));
         logo=redimensionarImagenMaximo(logo,mBufferPictos.getWidth()/4,mBufferPictos.getHeight()/6);
         return logo;
+    }
+
+
+
+    public JSONArray getJsonArray(JSONObject frase) throws JSONException {
+        if(frase.has("complejidad")&&frase.getJSONObject("complejidad") != null){
+            return frase.getJSONObject("complejidad").getJSONArray("pictos componentes");
+        }
+        return  frase.getJSONArray("picto_componentes");
+    }
+
+    public void  preparePhrase(JSONObject phrase){
+        CombineImages mCombineImages = new CombineImages(mContext);
+        imagenes = new ArrayList<>();
+        try {
+            JSONArray array =getJsonArray(phrase);
+            for (int i = 0; i < array.length(); i++) {
+                JSONObject picto = json.getPictoFromId2(array.getJSONObject(i).getInt("id"));
+                mCombineImages.loadPictogram(json,picto);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        ArrayList<Drawable> aux = mCombineImages.getImages();
+        for (int i = 0; i < aux.size() ; i++) {
+            imagenes.add(drawableToBitmap(aux.get(i)));
+        }
+    }
+
+    public void setLoadOnlinePictograms(LoadOnlinePictograms loadOnlinePictograms) {
+        this.loadOnlinePictograms = loadOnlinePictograms;
     }
 }
