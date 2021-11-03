@@ -142,7 +142,7 @@ import java.util.Locale;
 import java.util.Objects;
 
 /**
- * V90 en produccion
+ * V92 en produccion
  */
 public class Principal extends AppCompatActivity implements View
         .OnClickListener,
