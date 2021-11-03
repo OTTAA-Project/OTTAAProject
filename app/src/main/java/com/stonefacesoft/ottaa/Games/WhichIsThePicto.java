@@ -14,6 +14,7 @@ import android.preference.PreferenceManager;
 import android.speech.tts.TextToSpeech;
 import android.util.Log;
 import android.view.InputDevice;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -32,8 +33,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import com.stonefacesoft.ottaa.Custom_Picto;
-import com.stonefacesoft.ottaa.Dialogos.DialogGameProgressInform;
+import com.stonefacesoft.ottaa.Dialogos.DialogUtils.DialogGameProgressInform;
+import com.stonefacesoft.ottaa.idioma.ConfigurarIdioma;
 import com.stonefacesoft.ottaa.utils.Games.GamesSettings;
 import com.stonefacesoft.ottaa.Games.Model.WhichIsThePictoModel;
 import com.stonefacesoft.ottaa.Interfaces.Lock_Unlocked_Pictograms;
@@ -44,7 +45,7 @@ import com.stonefacesoft.ottaa.utils.Accesibilidad.BarridoPantalla;
 import com.stonefacesoft.ottaa.utils.Accesibilidad.devices.GameControl;
 import com.stonefacesoft.ottaa.utils.Accesibilidad.scrollActions.ScrollFuntionGames;
 import com.stonefacesoft.ottaa.utils.Audio.MediaPlayerAudio;
-import com.stonefacesoft.ottaa.utils.Constants;
+import com.stonefacesoft.ottaa.utils.constants.Constants;
 import com.stonefacesoft.ottaa.utils.CustomToast;
 import com.stonefacesoft.ottaa.utils.Firebase.AnalyticsFirebase;
 import com.stonefacesoft.ottaa.utils.Games.AnimGameScore;
@@ -52,6 +53,8 @@ import com.stonefacesoft.ottaa.utils.Games.Juego;
 import com.stonefacesoft.ottaa.utils.JSONutils;
 import com.stonefacesoft.ottaa.utils.Ttsutils.UtilsGamesTTS;
 import com.stonefacesoft.ottaa.utils.exceptions.FiveMbException;
+import com.stonefacesoft.pictogramslibrary.Classes.Pictogram;
+import com.stonefacesoft.pictogramslibrary.view.PictoView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -74,15 +77,15 @@ public class WhichIsThePicto extends AppCompatActivity implements View
     private TextToSpeech mTTS;
     private UtilsGamesTTS mUtilsTTS;
     //Question Button
-    private Custom_Picto Seleccion1;
+    private PictoView Seleccion1;
     //Winner imageview
     private ImageView mAnimationWin;
     private Context context;
     // Answer button
-    private Custom_Picto Opcion1;
-    private Custom_Picto Opcion2;
-    private Custom_Picto Opcion3;
-    private Custom_Picto Opcion4;
+    private PictoView Opcion1;
+    private PictoView Opcion2;
+    private PictoView Opcion3;
+    private PictoView Opcion4;
 
 
     //Pistas
@@ -94,7 +97,7 @@ public class WhichIsThePicto extends AppCompatActivity implements View
     //Declaramos el media player
     private MediaPlayerAudio mediaPlayer, music;
     //View para animar respuesta correcta en niveles
-    private Custom_Picto viewGanador;
+    private PictoView viewGanador;
     private final Runnable animarHablar = new Runnable() {
         @Override
         public void run() {
@@ -175,7 +178,7 @@ public class WhichIsThePicto extends AppCompatActivity implements View
         PictoID = intent.getIntExtra("PictoID", 0);
         mPositionPadre = intent.getIntExtra("PositionPadre", 0);
         model = new WhichIsThePictoModel();
-        dialogo = new CustomToast(this);
+        dialogo = CustomToast.getInstance(this);
         mediaPlayer = new MediaPlayerAudio(this);
         music = new MediaPlayerAudio(this);
         mediaPlayer.setVolumenAudio(0.15f);
@@ -206,8 +209,6 @@ public class WhichIsThePicto extends AppCompatActivity implements View
             mUtilsTTS = new UtilsGamesTTS(this, mTTS, dialogo, sharedPrefsDefault, this);
         }
         music.playMusic();
-
-
         //Declaramos el boton para que reproduzca el tts con lo que tiene que decir
         imageButton = findViewById(R.id.ttsJuego);
         imageButton.setOnClickListener(this);
@@ -352,7 +353,7 @@ public class WhichIsThePicto extends AppCompatActivity implements View
         return pictos[ganador];
     }
 
-    private boolean esGanador(Custom_Picto valor, Custom_Picto ganadorLvl) {
+    private boolean esGanador(PictoView valor, PictoView ganadorLvl) {
         if (valor.getCustom_Texto().equals(ganadorLvl.getCustom_Texto())) {
             bloquearPictos();
             return true;
@@ -485,13 +486,15 @@ public class WhichIsThePicto extends AppCompatActivity implements View
     }
 
 
-    private void actionGanador(Custom_Picto picto) {
+    private void actionGanador(PictoView picto) {
         if (esGanador(picto, viewGanador)) {
             if (cantVecInc == 0)
                 mediaPlayer.playYesSound();
             else
                 mediaPlayer.playYupi2Sound();
-            Seleccion1.setCustom_Img(picto.getCustom_Imagen());
+            Seleccion1.setUpContext(this);
+            Seleccion1.setUpGlideAttatcher(this);
+            Seleccion1.setPictogramsLibraryPictogram(new Pictogram(picto.getPictogram().toJsonObject(),ConfigurarIdioma.getLanguaje()));
             picto.setCustom_Img(getResources().getDrawable(R.drawable.ic_bien));
             picto.setCustom_Color(getResources().getColor(R.color.LightGreen));
             handlerHablar.removeCallbacks(animarHablar);
@@ -558,13 +561,16 @@ public class WhichIsThePicto extends AppCompatActivity implements View
     }
 
 
-    private void cargarDatosOpcion(int position, Custom_Picto option, int pos) {
+    private void cargarDatosOpcion(int position, PictoView option, int pos) {
         try {
             if (mJsonArrayTodosLosPictos.getJSONObject(position) != null) {
                 if (!JSONutils.getNombre(mJsonArrayTodosLosPictos.getJSONObject(position),sharedPrefsDefault.getString(getString(R.string.str_idioma), "en")).equals("")) {
-                    option.setCustom_Img(json.getIcono(mJsonArrayTodosLosPictos.getJSONObject(position)));
-                    option.setCustom_Color(cargarColor(JSONutils.getTipo(mJsonArrayTodosLosPictos.getJSONObject(position))));
-                    option.setCustom_Texto(JSONutils.getNombre(mJsonArrayTodosLosPictos.getJSONObject(position),sharedPrefsDefault.getString(getString(R.string.str_idioma), "en")));
+                 //   option.setCustom_Img(json.getIcono(mJsonArrayTodosLosPictos.getJSONObject(position)));
+                //    option.setCustom_Color(cargarColor(JSONutils.getTipo(mJsonArrayTodosLosPictos.getJSONObject(position))));
+              //      option.setCustom_Texto(JSONutils.getNombre(mJsonArrayTodosLosPictos.getJSONObject(position),sharedPrefsDefault.getString(getString(R.string.str_idioma), "en")));
+                    option.setUpContext(this);
+                    option.setUpGlideAttatcher(this);
+                    option.setPictogramsLibraryPictogram(new Pictogram(mJsonArrayTodosLosPictos.getJSONObject(position), ConfigurarIdioma.getLanguaje()));
                     model.loadValue(pos, position);
                 } else {
                     position = devolverValor(Math.round((float) Math.random() * mJsonArrayTodosLosPictos.length()));
@@ -672,10 +678,12 @@ public class WhichIsThePicto extends AppCompatActivity implements View
 
     @Override
     public void lockPictogram(boolean isSpeaking) {
-        if (isSpeaking) {
             bloquearPictos();
-        } else
-            desbloquearPictos();
+    }
+
+    @Override
+    public void unlockPictogram() {
+        desbloquearPictos();
     }
 
     private void iniciarBarrido() {
@@ -687,7 +695,7 @@ public class WhichIsThePicto extends AppCompatActivity implements View
         listadoObjetosBarrido.add(Opcion4);
 
         //  listadoObjetosBarrido.add(editButton);
-        barridoPantalla = new BarridoPantalla(this, listadoObjetosBarrido, this);
+        barridoPantalla = new BarridoPantalla(this, listadoObjetosBarrido);
         if (barridoPantalla.isBarridoActivado() && barridoPantalla.devolverpago()) {
             runOnUiThread(new Runnable() {
 
@@ -802,5 +810,41 @@ public class WhichIsThePicto extends AppCompatActivity implements View
             cargarDatosValors(3);
 
     }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (barridoPantalla.isBarridoActivado()) {
+
+            if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT) {
+                event.startTracking();
+                return true;
+            } else if (keyCode == KeyEvent.KEYCODE_DPAD_LEFT) {
+                event.startTracking();
+                return true;
+            } else if (keyCode == KeyEvent.KEYCODE_DPAD_UP) {
+                event.startTracking();
+                return true;
+            } else if (keyCode == KeyEvent.KEYCODE_DPAD_DOWN) {
+                event.startTracking();
+                return true;
+            }
+            if(keyCode == KeyEvent.KEYCODE_BACK){
+                if(event.getSource() == InputDevice.SOURCE_MOUSE)
+                    barridoPantalla.getmListadoVistas().get(barridoPantalla.getPosicionBarrido()).callOnClick();
+                else
+                    onBackPressed();
+                return true;
+            }
+
+        }else{
+            if(keyCode == KeyEvent.KEYCODE_BACK){
+                 onBackPressed();
+                return true;
+            }
+        }
+
+        return false;
+    }
+
 
 }

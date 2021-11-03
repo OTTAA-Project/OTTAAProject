@@ -3,7 +3,6 @@ package com.stonefacesoft.ottaa.Viewpagers;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -27,20 +26,16 @@ import com.stonefacesoft.ottaa.Games.MemoryGame;
 import com.stonefacesoft.ottaa.Games.WhichIsThePicto;
 import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.R;
-import com.stonefacesoft.ottaa.customComponents.Custom_Grupo_Juego;
 import com.stonefacesoft.ottaa.idioma.ConfigurarIdioma;
 import com.stonefacesoft.ottaa.utils.Games.Juego;
 import com.stonefacesoft.ottaa.utils.IntentCode;
 import com.stonefacesoft.ottaa.utils.JSONutils;
 import com.stonefacesoft.ottaa.utils.textToSpeech;
-import com.stonefacesoft.pictogramslibrary.Classes.Pictogram;
-import com.stonefacesoft.pictogramslibrary.utils.GlideAttatcher;
+import com.stonefacesoft.pictogramslibrary.Classes.GameGroup;
+import com.stonefacesoft.pictogramslibrary.view.GameGroupView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.File;
 
 //import com.stonefacesoft.ottaa.Games.DescribirPictograma;
 
@@ -107,7 +102,6 @@ public class ViewPager_Game_Grupo {
             public Fragment createFragment(int position) {
                 return new com.stonefacesoft.ottaa.Viewpagers.ViewPager_Game_Grupo.fragmentGrupo().newInstance(position);
             }
-
             @Override
             public int getItemCount() {
                 try {
@@ -192,7 +186,8 @@ public class ViewPager_Game_Grupo {
             try {
                 intent.putExtra("PictoID", array.getJSONObject(position).getInt("id"));
                 intent.putExtra("PositionPadre", position);
-                mActivity.startActivityForResult(intent, IntentCode.NOTIGAMES.getCode());
+                if(json.getHijosGrupo2(position).length()>0)
+                    mActivity.startActivityForResult(intent, IntentCode.NOTIGAMES.getCode());
             } catch (Exception e) {
                 Log.e(TAG, "OnClickItem: Error: " + e.getMessage());
             }
@@ -248,26 +243,22 @@ public class ViewPager_Game_Grupo {
             }
             @Override public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
                 super.onViewCreated(view, savedInstanceState);
-                Custom_Grupo_Juego grupo=view.findViewById(R.id.grupo_1);
-                ImageView cancelButton=view.findViewById(R.id.edit_button);
+                GameGroupView grupo=view.findViewById(R.id.gamegroup_1);
 
                 try {
-                    Pictogram pictogram=new Pictogram(array.getJSONObject(position), ConfigurarIdioma.getLanguaje());
-                    GlideAttatcher attatcher=new GlideAttatcher(mActivity);
-                    loadDrawable(attatcher,pictogram,grupo.getImg());
-
-                    SharedPreferences sharedPrefsDefault = PreferenceManager.getDefaultSharedPreferences(mActivity);
-                    grupo.setCustom_Texto(JSONutils.getNombre(array.getJSONObject(position),sharedPrefsDefault.getString(mActivity.getString(R.string.str_idioma), "en")));
-
-
+                    GameGroup gameGroup=new GameGroup(array.getJSONObject(position), ConfigurarIdioma.getLanguaje());
+                    grupo.setUpContext(mActivity);
+                    grupo.setUpGlideAttatcher(mActivity);
+                    grupo.setPictogramsLibraryGameGroup(gameGroup);
                     int levelId=json.getId(array.getJSONObject(position));
                     Juego juego=new Juego(mActivity,id,levelId);
                     Drawable drawable=juego.devolverCarita();
                     drawable.setTint(mActivity.getResources().getColor(R.color.NaranjaOTTAA));
-                    if(juego.getScoreClass().getIntentos()>0)
-                        grupo.setTagDrawable(drawable);
+
+                    if(juego.getScoreClass().getIntentos()>=2)
+                        grupo.setDrawableScore(drawable);
                     else{
-                        grupo.setTagDrawable(mActivity.getResources().getDrawable(R.drawable.ic_remove_orange_24dp));
+                        grupo.setDrawableScore(mActivity.getResources().getDrawable(R.drawable.ic_remove_orange_24dp));
                     }
 
                     grupo.setOnClickListener(new View.OnClickListener() {
@@ -277,7 +268,7 @@ public class ViewPager_Game_Grupo {
                            // intent.putExtra("Boton", position);
                             positionItem=position;
                             try {
-                                myTTS.hablarSinMostrarFrase(JSONutils.getNombre(array.getJSONObject(position),sharedPrefsDefault.getString(mActivity.getString(R.string.str_idioma), "en")));
+                                myTTS.hablarSinMostrarFrase(JSONutils.getNombre(array.getJSONObject(position),ConfigurarIdioma.getLanguaje()));
                                 switch (id){
                                     case 0:
                                         intent = new Intent(mActivity, WhichIsThePicto.class);
@@ -292,7 +283,8 @@ public class ViewPager_Game_Grupo {
                                 try {
                                     intent.putExtra("PictoID", array.getJSONObject(position).getInt("id"));
                                     intent.putExtra("PositionPadre", position);
-                                    startActivityForResult(intent, IntentCode.NOTIGAMES.getCode());
+                                    if(json.getHijosGrupo2(position).length()>=2)
+                                        startActivityForResult(intent, IntentCode.NOTIGAMES.getCode());
                                 } catch (Exception e) {
                                     Log.e(TAG, "onClick: Error: " + e.getMessage());
                                 }
@@ -309,23 +301,6 @@ public class ViewPager_Game_Grupo {
 
     }
 
-    public static void loadDrawable(GlideAttatcher attatcher, Pictogram pictogram, ImageView imageView){
-        if(pictogram.getEditedPictogram().isEmpty()){
-            JSONObject picto=pictogram.toJsonObject();
-            Log.d(TAG, "loadDrawable: "+ picto.toString());
-            Drawable drawable=json.getIcono(picto);
-            if(drawable!=null)
-                attatcher.UseCornerRadius(true).loadDrawable(drawable,imageView);
-            else
-                attatcher.UseCornerRadius(true).loadDrawable(mActivity.getResources().getDrawable(R.drawable.ic_cloud_download_orange),imageView);
-        }else{
-            File picto=new File(pictogram.getEditedPictogram());
-            if(picto.exists())
-                attatcher.UseCornerRadius(true).loadDrawable(picto,imageView);
-            else
-                attatcher.UseCornerRadius(true).loadDrawable(Uri.parse(pictogram.getUrl()),imageView);
-        }
-    }
 }
 
 

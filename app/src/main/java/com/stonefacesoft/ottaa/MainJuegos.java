@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.InputDevice;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -51,7 +52,6 @@ import java.util.ArrayList;
  * */
 public class MainJuegos extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener, Make_Click_At_Time , View.OnTouchListener {
 
-    private GameCard card1, card2, card3, card4;
     private Json json;
     private ImageButton down_button,up_button;
     private viewpager_galeria_juegos view_game;
@@ -60,9 +60,6 @@ public class MainJuegos extends AppCompatActivity implements View.OnClickListene
     private FloatingActionButton backpress_button;
     private ScrollFuntionGames function_scroll;
 
-    private DrawerLayout drawerLayout;
-    private ActionBarDrawerToggle toggle;
-    private NavigationView navigationView;
     private Toolbar toolbar;
     private InmersiveMode inmersiveMode;
     private SharedPreferences sharedPrefsDefault;
@@ -83,22 +80,8 @@ public class MainJuegos extends AppCompatActivity implements View.OnClickListene
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_juegos);
-        navigationView=findViewById(R.id.nav_view);
         sharedPrefsDefault= androidx.preference.PreferenceManager.getDefaultSharedPreferences(this);
-        drawerLayout=findViewById(R.id.drawer_layout);
-        drawerLayout.setOnClickListener(this);
-        drawerLayout.addDrawerListener(toggle);
-        navigationView.setNavigationItemSelectedListener(this);
-        navigationView.bringToFront();
-        navigationView.setOnApplyWindowInsetsListener(new View.OnApplyWindowInsetsListener() {
-            @Override
-            public WindowInsets onApplyWindowInsets(View view, WindowInsets windowInsets) {
-                return windowInsets;
-            }
-        });
         toolbar = findViewById(R.id.toolbar);
-        toggle=new ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.navigation_drawer_open,R.string.navigation_drawer_close);
-        toggle.syncState();
         analyticsFirebase=new AnalyticsFirebase(this);
         Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle(getResources().getString(R.string.str_game));
@@ -107,25 +90,11 @@ public class MainJuegos extends AppCompatActivity implements View.OnClickListene
         json.setmContext(this);
         inmersiveMode=new InmersiveMode(this);
         initComponents();
-        int value=sharedPrefsDefault.getInt("showMenuGames",4);
-        if(value>0) {
-            drawerLayout.open();
-            value--;
-            sharedPrefsDefault.edit().putInt("showMenuGames", value).apply();
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    drawerLayout.close();
-                }
-            }, 5000);
-        }
         view_game.setUpPositionItem(3);
     }
 
     @Override
     public void onClick(View view) {
-
-        //TODO hace el click dentro de la clase GameCard
 
         switch (view.getId()){
             case R.id.up_button:
@@ -152,16 +121,7 @@ public class MainJuegos extends AppCompatActivity implements View.OnClickListene
     }
 
     private void initComponents(){
-        card1=findViewById(R.id.card1);
-        card2=findViewById(R.id.card2);
-        card3=findViewById(R.id.card3);
-        //TODO Gonza esto esta creando de nuevo lo que se crea en viewpagergaleriagrupos
-        card1.prepareCardView( R.string.whichpictogram, R.string.which_description_name, R.drawable.whats_picto, createOnClickListener(this, GameSelector.class, "notigames"));
-        card2.prepareCardView( R.string.join_pictograms, R.string.join_pictograms_description, R.drawable.match_picto, createOnClickListener(this, GameSelector.class, "seleccionar_palabras"));
-        card3.prepareCardView( R.string.memory_game, R.string.memory_game_string, R.drawable.whats_picto, createOnClickListener(this, GameSelector.class, "descripciones"));
-        card1.setmTxtScore(json.devolverCantidadGruposUsados(0)+"/"+json.getmJSONArrayTodosLosGrupos().length());
-        card2.setmTxtScore(json.devolverCantidadGruposUsados(1)+"/"+json.getmJSONArrayTodosLosGrupos().length());//todo in recycler fill with the position
-        card3.setmTxtScore(json.devolverCantidadGruposUsados(1)+"/"+json.getmJSONArrayTodosLosGrupos().length());//todo in recycler fill with the position
+
         view_game=new viewpager_galeria_juegos(this);
         up_button=findViewById(R.id.up_button);
         down_button=findViewById(R.id.down_button);
@@ -190,9 +150,6 @@ public class MainJuegos extends AppCompatActivity implements View.OnClickListene
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         view_game.updateAdapter();
-        card1.setmTxtScore(json.devolverCantidadGruposUsados(0)+"/"+json.getmJSONArrayTodosLosGrupos().length());
-        card2.setmTxtScore(json.devolverCantidadGruposUsados(1)+"/"+json.getmJSONArrayTodosLosGrupos().length());//todo in recycler fill with the position
-        card3.setmTxtScore(json.devolverCantidadGruposUsados(2)+"/"+json.getmJSONArrayTodosLosGrupos().length());//todo in recycler fill with the position
     }
 
 
@@ -241,7 +198,7 @@ public class MainJuegos extends AppCompatActivity implements View.OnClickListene
         listadoObjetosBarrido.add(findViewById(R.id.down_button));
         listadoObjetosBarrido.add(findViewById(R.id.back_button));
         //  listadoObjetosBarrido.add(editButton);
-        barridoPantalla = new BarridoPantalla(this, listadoObjetosBarrido, this);
+        barridoPantalla = new BarridoPantalla(this, listadoObjetosBarrido);
         if (barridoPantalla.isBarridoActivado() && barridoPantalla.devolverpago()) {
             runOnUiThread(new Runnable() {
 
@@ -302,5 +259,33 @@ public class MainJuegos extends AppCompatActivity implements View.OnClickListene
 
     public ScrollFuntionGames getFunction_scroll() {
         return function_scroll;
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (barridoPantalla.isBarridoActivado()) {
+
+            if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT) {
+                event.startTracking();
+                return true;
+            } else if (keyCode == KeyEvent.KEYCODE_DPAD_LEFT) {
+                event.startTracking();
+                return true;
+            } else if (keyCode == KeyEvent.KEYCODE_DPAD_UP) {
+                event.startTracking();
+                return true;
+            } else if (keyCode == KeyEvent.KEYCODE_DPAD_DOWN) {
+                event.startTracking();
+                return true;
+            }
+            if(keyCode == KeyEvent.KEYCODE_BACK){
+                if(event.getSource() == InputDevice.SOURCE_MOUSE)
+                    barridoPantalla.getmListadoVistas().get(barridoPantalla.getPosicionBarrido()).callOnClick();
+                else
+                    onBackPressed();
+                return true;
+            }
+        }
+        return false;
     }
 }

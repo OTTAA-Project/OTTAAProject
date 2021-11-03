@@ -6,20 +6,8 @@
     android:layout_height="match_parent"
     android:id="@+id/drawer_layout"
     tools:openDrawer="start"
-    >
-    <com.google.android.material.navigation.NavigationView
-        android:layout_margin="15dp"
-        android:id="@+id/nav_view"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        android:fitsSystemWindows="true"
-        app:headerLayout="@layout/nav_header_main"
-        app:menu="@menu/activity_game_drawer"
-        android:background="@drawable/ic_shape_left_singlebutton_white"
-        >
-    </com.google.android.material.navigation.NavigationView>
 
+    >
     <include
         layout="@layout/app_bar_game"
         android:layout_width="wrap_content"

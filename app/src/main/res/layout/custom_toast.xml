@@ -16,6 +16,10 @@
         android:layout_marginTop="@dimen/small_margin"
         android:layout_marginBottom="@dimen/small_margin"
         app:layout_constraintDimensionRatio="1:1"
+        android:maxHeight="200dp"
+        android:maxWidth="200dp"
+        android:minHeight="100dp"
+        android:minWidth="100dp"
         android:src="@drawable/ic_avatar35"/>
 
     <TextView

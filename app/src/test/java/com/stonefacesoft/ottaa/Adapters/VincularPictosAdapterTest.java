@@ -14,7 +14,7 @@ import static junit.framework.Assert.assertTrue;
 
 public class VincularPictosAdapterTest {
 
-    private final VincularPictosAdapter vincularPictosAdapter = new VincularPictosAdapter(new Principal(), R.layout.item_grid, createPictogramJSONArray(), false);
+    private final VincularPictosAdapter vincularPictosAdapter = new VincularPictosAdapter( R.layout.item_grid, createPictogramJSONArray(), false);
 
     @Test
     public void getItemCount() {

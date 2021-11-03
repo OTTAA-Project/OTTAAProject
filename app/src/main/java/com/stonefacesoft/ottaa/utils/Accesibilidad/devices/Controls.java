@@ -29,4 +29,5 @@ public class Controls {
     public boolean makeTertiaryClick(MotionEvent event){
         return false;
     }
+    public boolean pressBackButton(){return false; }
 }

@@ -12,6 +12,7 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
 import android.view.InputDevice;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
@@ -36,7 +37,7 @@ import com.stonefacesoft.ottaa.Viewpagers.ViewPager_Game_Grupo;
 import com.stonefacesoft.ottaa.utils.Accesibilidad.BarridoPantalla;
 import com.stonefacesoft.ottaa.utils.Accesibilidad.devices.GameControl;
 import com.stonefacesoft.ottaa.utils.Accesibilidad.scrollActions.ScrollFuntionGames;
-import com.stonefacesoft.ottaa.utils.Constants;
+import com.stonefacesoft.ottaa.utils.constants.Constants;
 import com.stonefacesoft.ottaa.utils.IntentCode;
 import com.stonefacesoft.ottaa.utils.exceptions.FiveMbException;
 import com.stonefacesoft.ottaa.utils.textToSpeech;
@@ -114,7 +115,7 @@ public class GameSelector extends AppCompatActivity implements View.OnClickListe
         up_button.setOnClickListener(this);
         down_button.setOnClickListener(this);
         backpress_button.setOnClickListener(this);
-        textToSpeech mytts=new textToSpeech(this);
+        textToSpeech mytts = textToSpeech.getInstance(this) ;
         grupo_viewPager=new ViewPager_Game_Grupo(this,mytts,devolverPosicion(juego));
         game_recycler_view=new Game_Recyler_View(this,mAuth,devolverPosicion(juego));
         cargarGruposJson = new GameSelector.CargarGruposJson(mProgressBar, mTextViewCargandoGrupos, GameSelector.this);
@@ -140,7 +141,6 @@ public class GameSelector extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onResume() {
         super.onResume();
-        textToSpeech mytts=new textToSpeech(this);
         grupo_viewPager.updateData();
         grupo_viewPager.refreshView();
     }
@@ -327,12 +327,13 @@ public class GameSelector extends AppCompatActivity implements View.OnClickListe
     private void iniciarBarrido() {
         ArrayList<View> listadoObjetosBarrido = new ArrayList<>();
         listadoObjetosBarrido.add(up_button);
+        listadoObjetosBarrido.add(backpress_button);
         listadoObjetosBarrido.add(btnSelector);
         listadoObjetosBarrido.add(down_button);
-        listadoObjetosBarrido.add(backpress_button);
+
 
         //  listadoObjetosBarrido.add(editButton);
-        barridoPantalla = new BarridoPantalla(this, listadoObjetosBarrido, this);
+        barridoPantalla = new BarridoPantalla(this, listadoObjetosBarrido);
         if (barridoPantalla.isBarridoActivado() && barridoPantalla.devolverpago()) {
             runOnUiThread(new Runnable() {
 
@@ -383,6 +384,32 @@ public class GameSelector extends AppCompatActivity implements View.OnClickListe
         return barridoPantalla;
     }
 
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (barridoPantalla.isBarridoActivado()) {
+            if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT) {
+                event.startTracking();
+                return true;
+            } else if (keyCode == KeyEvent.KEYCODE_DPAD_LEFT) {
+                event.startTracking();
+                return true;
+            } else if (keyCode == KeyEvent.KEYCODE_DPAD_UP) {
+                event.startTracking();
+                return true;
+            } else if (keyCode == KeyEvent.KEYCODE_DPAD_DOWN) {
+                event.startTracking();
+                return true;
+            }
+            if(keyCode == KeyEvent.KEYCODE_BACK){
+                if(event.getSource() == InputDevice.SOURCE_MOUSE)
+                    barridoPantalla.getmListadoVistas().get(barridoPantalla.getPosicionBarrido()).callOnClick();
+                else
+                    onBackPressed();
+                return true;
+            }
+        }
+        return false;
+    }
 }
 
 

@@ -164,6 +164,10 @@ public class GameControl extends Controls{
             gameViewSelectPictograms.onClick(getBarridoPantalla().getmListadoVistas().get(getBarridoPantalla().getPosicionBarrido()));
 
     }
-
+    @Override
+    public boolean pressBackButton() {
+        makeClick();
+        return true;
+    }
 
 }

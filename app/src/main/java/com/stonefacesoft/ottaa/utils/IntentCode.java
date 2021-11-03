@@ -22,7 +22,8 @@ public enum IntentCode {
     ORDENAR(15),
     CUSTOMPHRASES(16),
     PICK_IMAGE(17),
-    SEARCH_ALL_PICTOGRAMS(18);
+    SEARCH_ALL_PICTOGRAMS(18),
+    AVATAR(19);
 
     private final int code;
 

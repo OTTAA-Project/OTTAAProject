@@ -1,0 +1,581 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:animateLayoutChanges="true"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/FondoApp">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/NaranjaOTTAA"
+        custom:layout_constraintEnd_toEndOf="parent"
+        custom:layout_constraintStart_toStartOf="parent"
+        custom:layout_constraintTop_toTopOf="parent"
+        android:titleTextAppearance="@color/White"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
+
+
+    <com.stonefacesoft.pictogramslibrary.view.PictoView
+        android:id="@+id/ElPicto"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_margin="@dimen/activity_vertical_margin"
+        android:contentDescription="Picto"
+        custom:layout_constraintBottom_toBottomOf="parent"
+        custom:layout_constraintEnd_toStartOf="@id/constraintEdicion"
+        custom:layout_constraintHorizontal_weight="42"
+        custom:layout_constraintStart_toStartOf="parent"
+        custom:layout_constraintTop_toBottomOf="@id/toolbar">
+
+    </com.stonefacesoft.pictogramslibrary.view.PictoView>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintEdicion"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        custom:layout_constraintBottom_toBottomOf="parent"
+        custom:layout_constraintEnd_toStartOf="@id/constraintRightButtons"
+        custom:layout_constraintHorizontal_weight="42"
+        custom:layout_constraintStart_toEndOf="@id/ElPicto"
+        custom:layout_constraintTop_toBottomOf="@id/toolbar">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardViewTexto"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:visibility="invisible"
+            custom:cardCornerRadius="20dp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraintEditText"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                custom:layout_constraintBottom_toBottomOf="parent"
+                custom:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/textViewTitulo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/activity_horizontal_margin"
+                    android:layout_marginTop="@dimen/activity_vertical_margin"
+                    android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                    android:gravity="bottom"
+                    android:text="@string/str_edit_text"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    custom:layout_constraintBottom_toTopOf="@+id/TextOutloud"
+                    custom:layout_constraintEnd_toEndOf="parent"
+                    custom:layout_constraintStart_toStartOf="parent"
+                    custom:layout_constraintTop_toTopOf="parent"
+                    custom:layout_constraintVertical_weight="1" />
+
+                <TextView
+                    android:id="@+id/TextOutloud"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/TextOutloud"
+                    android:textSize="15sp"
+                    android:layout_marginStart="@dimen/activity_horizontal_margin"
+                    android:layout_marginTop="@dimen/activity_vertical_margin"
+                    android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                    android:gravity="bottom"
+                    custom:layout_constraintBottom_toTopOf="@+id/linearEditText"
+                    custom:layout_constraintEnd_toEndOf="parent"
+                    custom:layout_constraintStart_toStartOf="parent"
+                    custom:layout_constraintTop_toBottomOf="@+id/textViewTitulo"
+                    custom:layout_constraintVertical_weight="1" />
+
+                <LinearLayout
+                    android:id="@+id/linearEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/activity_horizontal_margin"
+                    android:orientation="horizontal"
+                    custom:layout_constraintEnd_toEndOf="parent"
+                    custom:layout_constraintStart_toStartOf="parent"
+                    custom:layout_constraintTop_toBottomOf="@+id/TextOutloud"
+                    custom:layout_constraintVertical_weight="2">
+
+                    <EditText
+                        android:id="@+id/TextViewTextOutLoud"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="2"
+                        android:imeOptions="flagNoExtractUi"
+                        android:hint="@string/EscribaAqui"
+                        android:singleLine="true"
+                        android:textSize="15sp" />
+
+                    <ImageButton
+                        android:id="@+id/IconoOTTAA"
+                        android:layout_width="0dp"
+                        android:layout_height="@dimen/big_fat_margin"
+                        android:layout_weight="1"
+                        android:contentDescription="Listen to the edited picto"
+                        android:background="@android:color/transparent"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/icono_ottaa" />
+
+
+                </LinearLayout>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardViewFrame"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:visibility="invisible"
+            custom:cardCornerRadius="20dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/interpicto_margin"
+                android:layout_marginEnd="@dimen/interpicto_margin"
+                android:layout_marginBottom="@dimen/interpicto_margin"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textViewTituloColor"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="@dimen/activity_horizontal_margin"
+                    android:layout_marginTop="@dimen/activity_vertical_margin"
+                    android:layout_weight="1"
+                    android:gravity="bottom"
+                    android:text="@string/str_fiztgerald_key"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/constraintColorCode"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="9">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        custom:layout_constraintCircle="@id/PlaceHolder"
+                        custom:layout_constraintCircleAngle="0"
+                        custom:layout_constraintCircleRadius="@dimen/big_fat_margin">
+
+                        <ImageButton
+                            android:id="@+id/Verde"
+                            android:layout_width="@dimen/button_radius"
+                            android:layout_height="@dimen/button_radius"
+                            android:layout_gravity="center"
+                            android:contentDescription="@string/str_acciones"
+                            android:background="@color/colorTransparent"
+                            android:src="@drawable/circulo"
+                            android:tint="@color/YellowGreen" />
+
+                        <TextView
+                            android:id="@+id/txtViewVerde"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="@string/str_acciones" />
+
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        custom:layout_constraintCircle="@id/PlaceHolder"
+                        custom:layout_constraintCircleAngle="300"
+                        custom:layout_constraintCircleRadius="@dimen/big_fat_margin">
+
+                        <ImageButton
+                            android:id="@+id/Magenta"
+                            android:layout_width="@dimen/button_radius"
+                            android:layout_height="@dimen/button_radius"
+                            android:layout_gravity="center"
+                            android:background="@color/colorTransparent"
+                            android:src="@drawable/circulo"
+                            android:contentDescription="@string/str_interacciones"
+                            android:tint="@color/Magenta" />
+
+                        <TextView
+                            android:id="@+id/txtViewMagenta"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="@string/str_interacciones" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        custom:layout_constraintCircle="@id/PlaceHolder"
+                        custom:layout_constraintCircleAngle="120"
+                        custom:layout_constraintCircleRadius="@dimen/big_fat_margin">
+
+                        <ImageButton
+                            android:id="@+id/Azul"
+                            android:layout_width="@dimen/button_radius"
+                            android:layout_height="@dimen/button_radius"
+                            android:layout_gravity="center"
+                            android:background="@color/colorTransparent"
+                            android:src="@drawable/circulo"
+                            android:contentDescription="@string/str_adjetivos"
+                            android:tint="@color/DodgerBlue" />
+
+                        <TextView
+                            android:id="@+id/txtViewAzul"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="@string/str_adjetivos" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        custom:layout_constraintCircle="@id/PlaceHolder"
+                        custom:layout_constraintCircleAngle="180"
+                        custom:layout_constraintCircleRadius="@dimen/big_fat_margin">
+
+                        <ImageButton
+                            android:id="@+id/Negro"
+                            android:layout_width="@dimen/button_radius"
+                            android:layout_height="@dimen/button_radius"
+                            android:layout_gravity="center"
+                            android:background="@color/colorTransparent"
+                            android:src="@drawable/circulo"
+                            android:contentDescription="@string/str_miscelaneas"
+                            android:tint="@color/Black" />
+
+                        <TextView
+                            android:id="@+id/txtViewNegro"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="@string/str_miscelaneas" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        custom:layout_constraintCircle="@id/PlaceHolder"
+                        custom:layout_constraintCircleAngle="240"
+                        custom:layout_constraintCircleRadius="@dimen/big_fat_margin">
+
+                        <ImageButton
+                            android:id="@+id/Naranja"
+                            android:layout_width="@dimen/button_radius"
+                            android:layout_height="@dimen/button_radius"
+                            android:layout_gravity="center"
+                            android:background="@color/colorTransparent"
+                            android:src="@drawable/circulo"
+                            android:contentDescription="@string/str_sustantivos"
+                            android:tint="@color/Orange" />
+
+                        <TextView
+                            android:id="@+id/txtViewNaranja"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="@string/str_sustantivos" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        custom:layout_constraintCircle="@id/PlaceHolder"
+                        custom:layout_constraintCircleAngle="60"
+                        custom:layout_constraintCircleRadius="@dimen/big_fat_margin">
+
+                        <ImageButton
+                            android:id="@+id/Amarillo"
+                            android:layout_width="@dimen/button_radius"
+                            android:layout_height="@dimen/button_radius"
+                            android:layout_gravity="center"
+                            android:background="@color/colorTransparent"
+                            android:src="@drawable/circulo"
+                            android:contentDescription="@string/str_personas"
+                            android:tint="@color/Yellow" />
+
+                        <TextView
+                            android:id="@+id/txtViewAmarillo"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="@string/str_personas" />
+
+                    </LinearLayout>
+
+
+                    <ImageButton
+                        android:id="@+id/PlaceHolder"
+                        android:layout_width="@dimen/button_radius"
+                        android:layout_height="@dimen/button_radius"
+                        android:background="@color/colorTransparent"
+                        android:src="@drawable/circulo_transp"
+                        android:tint="@color/White"
+                        android:contentDescription=" "
+                        custom:layout_constraintBottom_toBottomOf="parent"
+                        custom:layout_constraintEnd_toEndOf="parent"
+                        custom:layout_constraintStart_toStartOf="parent"
+                        custom:layout_constraintTop_toTopOf="parent" />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardViewChooseTAGS"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/interpicto_margin"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:layout_marginEnd="@dimen/activity_horizontal_margin"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:visibility="visible"
+            custom:cardCornerRadius="20dp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraintEditTags"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/textViewTituloTAG"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="@dimen/activity_horizontal_margin"
+                    android:layout_marginTop="@dimen/activity_vertical_margin"
+                    android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                    android:gravity="bottom"
+                    android:text="@string/str_choose_a_tag"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    custom:layout_constraintBottom_toTopOf="@+id/textViewExplicacionTAG"
+                    custom:layout_constraintEnd_toEndOf="parent"
+                    custom:layout_constraintStart_toStartOf="parent"
+                    custom:layout_constraintTop_toTopOf="parent"
+                    custom:layout_constraintVertical_weight="1" />
+
+                <TextView
+                    android:id="@+id/textViewExplicacionTAG"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="@dimen/activity_horizontal_margin"
+                    android:layout_marginTop="@dimen/activity_vertical_margin"
+                    android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                    android:gravity="bottom"
+                    android:text="@string/str_choosing_tags_description"
+                    custom:layout_constraintBottom_toTopOf="@+id/btnTagHora"
+                    custom:layout_constraintEnd_toEndOf="parent"
+                    custom:layout_constraintStart_toStartOf="parent"
+                    custom:layout_constraintTop_toBottomOf="@id/textViewTituloTAG"
+                    custom:layout_constraintVertical_weight="2" />
+
+                <ImageButton
+                    android:id="@+id/btnTagHora"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_margin="@dimen/seleccion_margin"
+                    android:background="@color/colorTransparent"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/ic_timer_black_24dp"
+                    android:contentDescription="Time TAG"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/btnTagUbicacion"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/textViewExplicacionTAG"
+                    custom:layout_constraintVertical_weight="1" />
+
+                <ImageButton
+                    android:id="@+id/btnTagUbicacion"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_margin="@dimen/seleccion_margin"
+                    android:background="@color/colorTransparent"
+                    android:scaleType="fitCenter"
+                    android:contentDescription="Location TAG"
+                    android:src="@drawable/ic_location_on_black_24dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/btnTagCalendario"
+                    app:layout_constraintStart_toEndOf="@id/btnTagHora"
+                    app:layout_constraintTop_toTopOf="@+id/btnTagHora" />
+
+                <ImageButton
+                    android:id="@+id/btnTagCalendario"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_margin="@dimen/seleccion_margin"
+                    android:background="@color/colorTransparent"
+                    android:scaleType="fitCenter"
+                    android:contentDescription="Calendar TAG"
+                    android:src="@drawable/ic_wc_black_24dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/btnTagEdad"
+                    app:layout_constraintStart_toEndOf="@id/btnTagUbicacion"
+                    app:layout_constraintTop_toTopOf="@+id/btnTagHora" />
+
+                <ImageButton
+                    android:id="@+id/btnTagEdad"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_margin="@dimen/seleccion_margin"
+                    android:background="@color/colorTransparent"
+                    android:scaleType="fitCenter"
+                    android:contentDescription="Age TAG"
+                    android:src="@drawable/ic_face_black_on_24dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/btnTagCalendario"
+                    app:layout_constraintTop_toTopOf="@+id/btnTagHora" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_corner"
+        app:tint="@color/NaranjaOTTAA"
+        android:id="@+id/cornerImageViewLeft"
+        custom:layout_constraintEnd_toStartOf="@id/constraintRightButtons"
+        custom:layout_constraintTop_toBottomOf="@id/toolbar" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintRightButtons"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/NaranjaOTTAA"
+        custom:layout_constraintBottom_toBottomOf="parent"
+        custom:layout_constraintEnd_toEndOf="parent"
+        custom:layout_constraintHorizontal_weight="15"
+        custom:layout_constraintStart_toEndOf="@id/constraintEdicion"
+        custom:layout_constraintTop_toBottomOf="@id/toolbar">
+
+        <ImageButton
+            android:id="@+id/btnTexto"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="@dimen/interpicto_margin"
+            custom:layout_constraintBottom_toTopOf="@id/textViewBtnTexto"
+            android:background="@color/colorTransparent"
+            android:scaleType="fitCenter"
+            android:contentDescription="Edit Text"
+            android:src="@drawable/ic_edit_black_24dp"
+            custom:layout_constraintVertical_weight="2"
+            custom:layout_constraintEnd_toEndOf="parent"
+            custom:layout_constraintStart_toStartOf="parent"
+            custom:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/textViewBtnTexto"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:gravity="center"
+            android:text="@string/str_edit_text"
+            android:textSize="@dimen/textSizeChico"
+            android:textColor="@color/White"
+            custom:layout_constraintBottom_toTopOf="@id/btnFrame"
+            custom:layout_constraintEnd_toEndOf="parent"
+            custom:layout_constraintStart_toStartOf="parent"
+            custom:layout_constraintTop_toBottomOf="@id/btnTexto"
+            custom:layout_constraintVertical_weight="1" />
+
+        <ImageButton
+            android:id="@+id/btnFrame"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="@dimen/regular_margin"
+            android:background="@color/colorTransparent"
+            android:scaleType="fitCenter"
+            android:contentDescription="Edit Fitzgerald frame"
+            custom:layout_constraintBottom_toTopOf="@id/textViewBtnFrame"
+            android:src="@drawable/ic_border_outer_black_24dp"
+            custom:layout_constraintTop_toBottomOf="@id/textViewBtnTexto"
+            custom:layout_constraintEnd_toEndOf="parent"
+            custom:layout_constraintStart_toStartOf="parent"
+            custom:layout_constraintVertical_weight="2" />
+
+        <TextView
+            android:id="@+id/textViewBtnFrame"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:gravity="center"
+            android:text="@string/str_edit_frame"
+            android:textColor="@color/White"
+            android:textSize="@dimen/textSizeChico"
+            custom:layout_constraintBottom_toTopOf="@id/btnTAG"
+            custom:layout_constraintEnd_toEndOf="parent"
+            custom:layout_constraintStart_toStartOf="parent"
+            custom:layout_constraintTop_toBottomOf="@id/btnFrame"
+            custom:layout_constraintVertical_weight="1" />
+
+        <ImageButton
+            android:id="@+id/btnTAG"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="@dimen/regular_margin"
+            custom:layout_constraintBottom_toTopOf="@id/textViewBtnTAG"
+            android:background="@color/colorTransparent"
+            android:scaleType="fitCenter"
+            android:contentDescription="Edit Tag"
+            android:src="@drawable/ic_assistant_black_24dp"
+            custom:layout_constraintTop_toBottomOf="@+id/textViewBtnFrame"
+            custom:layout_constraintEnd_toEndOf="parent"
+            custom:layout_constraintStart_toStartOf="parent"
+            custom:layout_constraintVertical_weight="2" />
+
+        <TextView
+            android:id="@+id/textViewBtnTAG"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:gravity="center"
+            android:text="@string/str_edit_tags"
+            android:textColor="@color/White"
+            android:textSize="@dimen/textSizeChico"
+            custom:layout_constraintBottom_toBottomOf="parent"
+            custom:layout_constraintEnd_toEndOf="parent"
+            custom:layout_constraintStart_toStartOf="parent"
+            custom:layout_constraintTop_toBottomOf="@id/btnTAG"
+            custom:layout_constraintVertical_weight="1" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+

@@ -9,7 +9,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.stonefacesoft.ottaa.Adapters.GaleriaPictosAdapter;
 import com.stonefacesoft.ottaa.Helper.SimpleItemTouchHelperCallback;
 import com.stonefacesoft.ottaa.R;
-import com.stonefacesoft.ottaa.utils.Constants;
+import com.stonefacesoft.ottaa.utils.constants.Constants;
 import com.stonefacesoft.ottaa.utils.JSONutils;
 
 import org.json.JSONArray;
@@ -26,7 +26,7 @@ public class Picto_Recycler_View_Sort extends Custom_recyclerView{
         array=json.getHijosGrupo2(position);
         arrayAux=new JSONArray();
         createRecyclerLayoutManager();
-        galeriaPictos2=new GaleriaPictosAdapter(mActivity,array, R.layout.grid_item_layout,mAuth).loadGlideAttacher();
+        galeriaPictos2=new GaleriaPictosAdapter(mActivity,array, R.layout.grid_item_layout,mAuth).removeOldFiles();
         mRecyclerView.setAdapter(galeriaPictos2);
         itemTouchHelperCallback = new SimpleItemTouchHelperCallback(galeriaPictos2);
         ItemTouchHelper.Callback callback = itemTouchHelperCallback;

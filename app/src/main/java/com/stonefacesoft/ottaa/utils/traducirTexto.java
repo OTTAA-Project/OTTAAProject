@@ -1,14 +1,11 @@
 package com.stonefacesoft.ottaa.utils;
 
 import android.content.Context;
-import android.os.AsyncTask;
 import android.os.Handler;
 import android.util.Log;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.stonefacesoft.ottaa.Interfaces.translateInterface;
@@ -19,6 +16,8 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 
 public class traducirTexto {
@@ -47,7 +46,7 @@ public class traducirTexto {
         anInterface=interfaces;
         if(traducir) {
             if (!idiomaSource.equals(idiomaTarget)) {
-                new traducirIdioma().doInBackground();
+                new traducirIdioma().execute();
             }
             else
                 {
@@ -98,7 +97,7 @@ public class traducirTexto {
     public void setTexto(String texto) {
         this.texto = texto;
     }
-    public class traducirIdioma extends AsyncTask<Void,Void,Void>
+    public class traducirIdioma
     {
 
 
@@ -116,68 +115,59 @@ public class traducirTexto {
                 -Swahili        sw
                 */
     // automatically done on workerFirebase thread (separate from UI thread)
-    @Override
-    protected Void doInBackground(Void... voids) {
-        String url = "https://translation.googleapis.com/language/translate/v2?key="+mContext.getResources().getString(R.string.google_translate_api_key);
-        // Instantiate the RequestQueue.
-        RequestQueue queue = Volley.newRequestQueue(mContext);
-        final JSONObject jsonBody;
-        try {
-            jsonBody = new JSONObject("{\"q\":\""+texto+"\"," +
-                    "\"target\":\""+mTarget+"\"" + ",\"source\":\""+mSource+"\"}");
+      public void execute(){
+          Executor executor = Executors.newSingleThreadExecutor();
+          executor.execute(() -> {
+              String url = "https://translation.googleapis.com/language/translate/v2?key="+mContext.getResources().getString(R.string.google_translate_api_key);
+              // Instantiate the RequestQueue.
+              RequestQueue queue = Volley.newRequestQueue(mContext);
+              final JSONObject jsonBody;
+              try {
+                  jsonBody = new JSONObject("{\"q\":\""+texto+"\"," +
+                          "\"target\":\""+mTarget+"\"" + ",\"source\":\""+mSource+"\"}");
 
-            JsonObjectRequest myRequest = new JsonObjectRequest(
-                    Request.Method.POST,
-                    url,
-                    jsonBody,
+                  JsonObjectRequest myRequest = new JsonObjectRequest(
+                          Request.Method.POST,
+                          url,
+                          jsonBody,
 
-                    new Response.Listener<JSONObject>() {
-                        @Override
-                        public void onResponse(JSONObject response) {
-                            Log.d(TAG,"Principal_Trad_GTrans"+" : "+response);
-                            try{
+                          response -> {
+                              Log.d(TAG,"Principal_Trad_GTrans"+" : "+response);
+                              try{
 //                                  Oracion = response.getJSONArray("translations").getJSONObject(0).getString("translatedText");
-                                texto = response.getJSONObject("data").getJSONArray("translations").getJSONObject(0).getString("translatedText");
-                                anInterface.onTextoTraducido(true);
-                                Log.d("Principal_Trad_GTransOr",""+texto);
+                                  texto = response.getJSONObject("data").getJSONArray("translations").getJSONObject(0).getString("translatedText");
+                                  anInterface.onTextoTraducido(true);
+                                  Log.d("Principal_Trad_GTransOr",""+texto);
 
-                            }catch (Exception e){
-                                Log.e(TAG,"Principal_Trad_GTransOr : "+e.toString());
-                                //    Toast.makeText(Principal.this, R.string.tryAgain, Toast.LENGTH_SHORT).show();
-                            }
+                              }catch (Exception e){
+                                  Log.e(TAG,"Principal_Trad_GTransOr : "+e.toString());
+                                  //    Toast.makeText(Principal.this, R.string.tryAgain, Toast.LENGTH_SHORT).show();
+                              }
 
-                        }
-                    },
-                    new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            Log.e("Principal_Trad_DoInBack","ResponseError:"+error);
-                            new CustomToast(mContext).mostrarFrase(mContext.getString(R.string.str_error_translateGoogle));
-                            new Handler().postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    anInterface.onTextoTraducido(true);
-                                }
+                          },
+                          error -> {
+                              Log.e("Principal_Trad_DoInBack","ResponseError:"+error);
+                              CustomToast.getInstance(mContext).mostrarFrase(mContext.getString(R.string.str_error_translateGoogle));
+                              new Handler().postDelayed(() -> anInterface.onTextoTraducido(true), 4000);
+                          }) {
 
-                            }, 4000);
-                        }
-                    }) {
+                      @Override
+                      public Map<String, String> getHeaders() {
+                          HashMap<String, String> headers = new HashMap<>();
+                          headers.put("Content-Type", "application/json; charset=utf-8");
+                          headers.put("Authorization", "apikey "+mContext.getResources().getString(R.string.google_translate_api_key));
+                          return headers;
+                      }
+                  };
 
-                @Override
-                public Map<String, String> getHeaders() {
-                    HashMap<String, String> headers = new HashMap<String, String>();
-                    headers.put("Content-Type", "application/json; charset=utf-8");
-                    headers.put("Authorization", "apikey "+mContext.getResources().getString(R.string.google_translate_api_key));
-                    return headers;
-                }
-            };
+                  queue.add(myRequest);
 
-            queue.add(myRequest);
+              } catch (JSONException e) {
+                  e.printStackTrace();
+              }
 
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
+          });
+      }
+
     }
 }

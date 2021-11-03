@@ -14,6 +14,7 @@ import android.os.Message;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.InputDevice;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -39,7 +40,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.stonefacesoft.ottaa.Activities.FindAllPictograms;
-import com.stonefacesoft.ottaa.Dialogos.Progress_dialog_options;
+import com.stonefacesoft.ottaa.Dialogos.DialogUtils.Progress_dialog_options;
 import com.stonefacesoft.ottaa.FirebaseRequests.FirebaseUtils;
 import com.stonefacesoft.ottaa.FirebaseRequests.SubirArchivosFirebase;
 import com.stonefacesoft.ottaa.Helper.OnStartDragListener;
@@ -56,10 +57,12 @@ import com.stonefacesoft.ottaa.idioma.myContextWrapper;
 import com.stonefacesoft.ottaa.utils.Accesibilidad.BarridoPantalla;
 import com.stonefacesoft.ottaa.utils.Accesibilidad.devices.GaleriaGruposControls;
 import com.stonefacesoft.ottaa.utils.Accesibilidad.scrollActions.ScrollFunctionGaleriaGrupos;
-import com.stonefacesoft.ottaa.utils.Constants;
+import com.stonefacesoft.ottaa.utils.constants.Constants;
 import com.stonefacesoft.ottaa.utils.Firebase.AnalyticsFirebase;
 import com.stonefacesoft.ottaa.utils.IntentCode;
 import com.stonefacesoft.ottaa.utils.Pictures.DownloadPictures;
+import com.stonefacesoft.ottaa.utils.constants.ConstantsGroupGalery;
+import com.stonefacesoft.ottaa.utils.constants.ConstantsMainActivity;
 import com.stonefacesoft.ottaa.utils.textToSpeech;
 
 import org.json.JSONArray;
@@ -109,7 +112,7 @@ public class GaleriaGrupos2 extends AppCompatActivity implements OnStartDragList
     private CargarGruposJson cargarGruposJson;
     private FallanDatosDelUsuario fallanDatosDelUsuario;
     public static Progress_dialog_options downloadDialog;
-    private ImageButton up_button,down_button,editButton,backpress_button;
+    private ImageButton previous, foward,editButton, exit;
     private Button btnBarrido;
 
 
@@ -142,7 +145,7 @@ public class GaleriaGrupos2 extends AppCompatActivity implements OnStartDragList
         firebaseUtils.setUpFirebaseDatabase();
         setContentView(R.layout.activity_galeria_grupos2);
         mContext = getApplicationContext();
-        myTTS = new textToSpeech(mContext);
+        myTTS = textToSpeech.getInstance(this);
         analyticsFirebase=new AnalyticsFirebase(this);
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -180,9 +183,6 @@ public class GaleriaGrupos2 extends AppCompatActivity implements OnStartDragList
         downloadDialog.setMessage(getApplicationContext().getResources().getString(R.string.downLoadFotos));
         downloadDialog.setCancelable(false);
         downloadDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-
-
-
         Json.getInstance().setmContext(this);
         json = Json.getInstance();
 
@@ -208,17 +208,17 @@ public class GaleriaGrupos2 extends AppCompatActivity implements OnStartDragList
             }
         };
         btnBarrido =findViewById(R.id.btnBarrido);
-        up_button=findViewById(R.id.up_button);
-        down_button=findViewById(R.id.down_button);
-        backpress_button=findViewById(R.id.back_button);
+        previous =findViewById(R.id.up_button);
+        foward =findViewById(R.id.down_button);
+        exit =findViewById(R.id.back_button);
          editButton=findViewById(R.id.edit_button);
         btnTalk=findViewById(R.id.btnTalk);
         btnBarrido.setOnClickListener(this);
         btnBarrido.setOnTouchListener(this);
         editButton.setOnClickListener(this);
-        up_button.setOnClickListener(this);
-        down_button.setOnClickListener(this);
-        backpress_button.setOnClickListener(this);
+        previous.setOnClickListener(this);
+        foward.setOnClickListener(this);
+        exit.setOnClickListener(this);
         btnTalk.setOnClickListener(this);
 
 
@@ -255,12 +255,12 @@ public class GaleriaGrupos2 extends AppCompatActivity implements OnStartDragList
      * */
     private void iniciarBarrido() {
         ArrayList<View> listadoObjetosBarrido = new ArrayList<>();
-        listadoObjetosBarrido.add(up_button);
-        listadoObjetosBarrido.add(backpress_button);
+        listadoObjetosBarrido.add(previous);
+        listadoObjetosBarrido.add(exit);
         listadoObjetosBarrido.add(btnTalk);
-        listadoObjetosBarrido.add(down_button);
+        listadoObjetosBarrido.add(foward);
         //  listadoObjetosBarrido.add(editButton);
-        barridoPantalla = new BarridoPantalla(this, listadoObjetosBarrido, this);
+        barridoPantalla = new BarridoPantalla(this, listadoObjetosBarrido);
         if (barridoPantalla.isBarridoActivado() && barridoPantalla.devolverpago()) {
             runOnUiThread(new Runnable() {
 
@@ -276,10 +276,6 @@ public class GaleriaGrupos2 extends AppCompatActivity implements OnStartDragList
         }else{
             btnBarrido.setVisibility(View.GONE);
         }
-
-
-
-
     }
 
     @Override
@@ -306,27 +302,29 @@ public class GaleriaGrupos2 extends AppCompatActivity implements OnStartDragList
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         Log.d(TAG, "onActivityResult: Entering ActivityResult");
-        if (requestCode == IntentCode.GALERIA_PICTOS.getCode()) {
-            viewpager.updateData();
-            if(recycler_view_grupo!=null){
-                recycler_view_grupo.setGrupos();
-            }
-            if (data != null) {
-                if (data.getExtras() != null) {
-                    Bundle extras = data.getExtras();
-                    int Picto = extras.getInt("ID");
-                    Log.e("GaleriaGrupo ", " PictoID: " + Picto);
-                    if (Picto != 0 && Picto != -1) {
-                        Intent databack = new Intent();
-                        databack.putExtra("ID", Picto);
-                        setResult(IntentCode.GALERIA_GRUPOS.getCode(), databack);
-                        finish();
-                    }
-                }
-
-            }
+        switch (requestCode){
+            case ConstantsGroupGalery
+                    .GALERIAPICTOS:
+                viewpager.updateData();
+                if(recycler_view_grupo != null)
+                    recycler_view_grupo.setGrupos();
+                returnData(data);
+                break;
+            case ConstantsMainActivity
+                    .EDITARPICTO :
+                loadData();
+               break;
+            case ConstantsGroupGalery.ORDENAR:
+                loadData();
+                break;
+            case ConstantsGroupGalery.SEARCH_ALL_PICTOGRAMS:
+                loadData();
+                returnData(data);
+            break;
         }
-        if (requestCode == IntentCode.EDITARPICTO.getCode()||requestCode==IntentCode.ORDENAR.getCode()|| resultCode == IntentCode.SEARCH_ALL_PICTOGRAMS.getCode()) {
+
+
+/*        if (requestCode == IntentCode.EDITARPICTO.getCode()||requestCode==IntentCode.ORDENAR.getCode()|| resultCode == IntentCode.SEARCH_ALL_PICTOGRAMS.getCode()) {
             if(recycler_view_grupo!=null){
                 recycler_view_grupo.sincronizeData();
                 recycler_view_grupo.changeData();
@@ -350,9 +348,34 @@ public class GaleriaGrupos2 extends AppCompatActivity implements OnStartDragList
                 }
             }
 
-        }
+        }*/
 
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private void returnData(Intent data){
+        if(data != null){
+            if (data.getExtras() != null) {
+                Bundle extras = data.getExtras();
+                int Picto = extras.getInt("ID");
+                Log.e("GaleriaGrupo ", " PictoID: " + Picto);
+                if (Picto != 0 && Picto != -1) {
+                    Intent databack = new Intent();
+                    databack.putExtra("ID", Picto);
+                    setResult(IntentCode.GALERIA_GRUPOS.getCode(), databack);
+                    finish();
+                }
+            }
+        }
+    }
+
+    private void loadData(){
+        if(recycler_view_grupo!=null){
+            recycler_view_grupo.sincronizeData();
+            recycler_view_grupo.changeData();
+            recycler_view_grupo.guardarDatosGrupo();
+        }
+        viewpager.updateData();
     }
 
 
@@ -452,6 +475,7 @@ public class GaleriaGrupos2 extends AppCompatActivity implements OnStartDragList
                     intent.putExtra("esNuevo", true);
                     intent.putExtra("Padre", boton);
                     intent.putExtra("esGrupo", true);
+                    intent.putExtra("Texto","");
                     myTTS.hablar(getString(R.string.add_grupo));
                     Log.d(TAG, "onOptionsItemSelected: Creating new Group");
                     startActivityForResult(intent, IntentCode.EDITARPICTO.getCode());
@@ -638,7 +662,6 @@ public class GaleriaGrupos2 extends AppCompatActivity implements OnStartDragList
                 if(barridoPantalla.isBarridoActivado()){
                     analyticsFirebase.customEvents("Accessibility","Galeria Grupos","Close Galery Groups");
                 }
-
                     onBackPressed();
 
                 break;
@@ -687,16 +710,13 @@ public class GaleriaGrupos2 extends AppCompatActivity implements OnStartDragList
     }
 
     public static SubirArchivosFirebase subirArchivos() {
-
         return uploadFirebaseFile;
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-
         Json.getInstance().setmContext(this);
-
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         new ConfigurarIdioma(getApplicationContext(), preferences.getString(getApplicationContext().getString(R.string.str_idioma), "en"));
 
@@ -704,7 +724,6 @@ public class GaleriaGrupos2 extends AppCompatActivity implements OnStartDragList
 
     @Override
     protected void attachBaseContext(Context newBase) {
-
         sharedPrefsDefault = PreferenceManager.getDefaultSharedPreferences(newBase);
         String locale = sharedPrefsDefault.getString(newBase.getString(R.string.str_idioma), Locale.getDefault().getLanguage());
         new ConfigurarIdioma(newBase, locale);
@@ -759,9 +778,6 @@ public class GaleriaGrupos2 extends AppCompatActivity implements OnStartDragList
                 fallanDatosDelUsuario.falloAlLeerArchivo(true, "Fotos");
             }
 
-
-
-
             return null;
         }
 
@@ -779,9 +795,6 @@ public class GaleriaGrupos2 extends AppCompatActivity implements OnStartDragList
             recycler_view_grupo.cargarGrupo();
             else if(recycler_view_sort_grupo!=null)
                 recycler_view_sort_grupo.cargarGrupo();
-
-
-
         }
 
         @Override
@@ -891,6 +904,35 @@ public class GaleriaGrupos2 extends AppCompatActivity implements OnStartDragList
 
     public ScrollFunctionGaleriaGrupos getFunction_scroll(){
         return function_scroll;
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (barridoPantalla.isBarridoActivado()) {
+
+            if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT) {
+                event.startTracking();
+                return true;
+            } else if (keyCode == KeyEvent.KEYCODE_DPAD_LEFT) {
+                event.startTracking();
+                return true;
+            } else if (keyCode == KeyEvent.KEYCODE_DPAD_UP) {
+                event.startTracking();
+                return true;
+            } else if (keyCode == KeyEvent.KEYCODE_DPAD_DOWN) {
+                event.startTracking();
+                return true;
+            }
+            if(keyCode == KeyEvent.KEYCODE_BACK){
+                if(event.getSource() == InputDevice.SOURCE_MOUSE)
+                    barridoPantalla.getmListadoVistas().get(barridoPantalla.getPosicionBarrido()).callOnClick();
+                else
+                    onBackPressed();
+                return true;
+            }
+
+        }
+        return false;
     }
 }
 

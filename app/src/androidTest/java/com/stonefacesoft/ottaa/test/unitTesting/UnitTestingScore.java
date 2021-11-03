@@ -16,7 +16,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import static com.stonefacesoft.ottaa.test.JUnitSuiteClasses.testRunning;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
@@ -42,7 +41,7 @@ public class UnitTestingScore extends TestCase {
      * Testing block
      * */
     @Test
-    public void UnitTestingPhrases(){
+    public void UnitTestingScore(){
         score.sumarCantidadVecesCorrectas();//1
         score.sumarCantidVecesIncorretas();//01
         score.sumarCantidVecesIncorretas();//02
@@ -67,8 +66,5 @@ public class UnitTestingScore extends TestCase {
     public TestResult run() {
         return super.run();
     }
-    @Override
-    public int countTestCases() {
-        return testRunning++;
-    }
+
 }

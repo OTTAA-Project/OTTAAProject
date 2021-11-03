@@ -36,8 +36,7 @@ public class ScoreListItem extends RecyclerView.Adapter<ScoreListItem.ScoreViewH
         json=Json.getInstance();
         json.setmContext(this.mContext);
         this.id=id;
-
-        this.myTTs = new textToSpeech(mContext);
+        this.myTTs = textToSpeech.getInstance(this.mContext);
     }
 
 

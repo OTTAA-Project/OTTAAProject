@@ -7,9 +7,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
-import android.text.Editable;
 import android.text.InputType;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
@@ -27,10 +25,19 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.stonefacesoft.ottaa.FirebaseRequests.BajarJsonFirebase;
 import com.stonefacesoft.ottaa.FirebaseRequests.FirebaseDatabaseRequest;
-import com.stonefacesoft.ottaa.utils.Constants;
+import com.stonefacesoft.ottaa.FirebaseRequests.FirebaseUtils;
+import com.stonefacesoft.ottaa.Interfaces.CalendarChangeEvent;
+import com.stonefacesoft.ottaa.Interfaces.FirebaseSuccessListener;
+import com.stonefacesoft.ottaa.Interfaces.LoadUserInformation;
+import com.stonefacesoft.ottaa.utils.ConnectionDetector;
 import com.stonefacesoft.ottaa.utils.Firebase.AnalyticsFirebase;
 import com.stonefacesoft.ottaa.utils.InmersiveMode;
+import com.stonefacesoft.ottaa.utils.DateTextWatcher;
+import com.stonefacesoft.ottaa.utils.constants.Constants;
 import com.stonefacesoft.ottaa.utils.preferences.DataUser;
 import com.stonefacesoft.ottaa.utils.preferences.PreferencesUtil;
 
@@ -39,7 +46,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.regex.Pattern;
 
-public class LoginActivity2Step2 extends AppCompatActivity implements View.OnClickListener, DatePickerDialog.OnDateSetListener, AdapterView.OnItemSelectedListener {
+public class LoginActivity2Step2 extends AppCompatActivity implements View.OnClickListener, DatePickerDialog.OnDateSetListener, AdapterView.OnItemSelectedListener, FirebaseSuccessListener, LoadUserInformation, CalendarChangeEvent {
     private static final String TAG = "LoginActivity2Step2";
     private static final DateFormat FORMATTER = SimpleDateFormat.getDateInstance();
     //UI elemetns
@@ -56,11 +63,13 @@ public class LoginActivity2Step2 extends AppCompatActivity implements View.OnCli
     DataUser userData;
     private String gender;
     private PreferencesUtil preferencesUtil;
+    private StorageReference mStorageRef;
+
     //User variables
     private FirebaseAuth mAuth;
     private FirebaseDatabaseRequest databaseRequest;
     private AnalyticsFirebase mAnalyticsFirebase;
-
+    private FirebaseUtils firebaseUtils;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,17 +77,20 @@ public class LoginActivity2Step2 extends AppCompatActivity implements View.OnCli
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_activity_2);
-
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
         preferencesUtil = new PreferencesUtil(preferences);
         mAuth = FirebaseAuth.getInstance();
+        mStorageRef = FirebaseStorage.getInstance().getReference();
+        firebaseUtils = FirebaseUtils.getInstance();
+        firebaseUtils.setmContext(this);
+        firebaseUtils.setUpFirebaseDatabase();
         mAnalyticsFirebase = new AnalyticsFirebase(this);
+
 
 
         bindUI();
 
         animateEntrance();
-        fillUserData();
 
     }
 
@@ -96,19 +108,12 @@ public class LoginActivity2Step2 extends AppCompatActivity implements View.OnCli
         editTextName = findViewById(R.id.editTextName);
         editTextName.setInputType(InputType.TYPE_NULL);
         editTextBirthday = findViewById(R.id.editTextBirthday);
-        editTextBirthday.setInputType(InputType.TYPE_CLASS_DATETIME);
-
+        new DateTextWatcher(editTextBirthday,this);
         genderSelector = findViewById(R.id.selectorGender);
         genderSelector.setOnItemSelectedListener(this);
-
-        new DateInputMask(editTextBirthday);
         databaseRequest = new FirebaseDatabaseRequest(this);
         convert = true;
-        userData = new DataUser();
-
-
-        //TODO remove the keyboard when entering the screen
-
+        databaseRequest.FillUserInformation(this);
     }
 
     @Override
@@ -143,18 +148,24 @@ public class LoginActivity2Step2 extends AppCompatActivity implements View.OnCli
             case R.id.nextButton:
                 if (availableUserData()) {
                     setUpUserData();
-                    Intent intent = new Intent(LoginActivity2Step2.this, LoginActivity2Step3.class);
-                    startActivity(intent);
-                    finish();
-                    mAnalyticsFirebase.customEvents("Touch", "LoginActivityStep2", "Next1 ");
+                    BajarJsonFirebase bajarJsonFirebase = new BajarJsonFirebase(preferencesUtil.getPreferences(), mAuth, this);
+                    bajarJsonFirebase.setInterfaz(this);
+                    if (ConnectionDetector.isNetworkAvailable(this)) {
+                        final StorageReference mPredictionRef = mStorageRef.child("Archivos_Sugerencias").child("pictos_" + preferencesUtil.getStringValue("prefSexo", "FEMENINO") + "_" + preferencesUtil.getStringValue("prefEdad", "JOVEN") + ".txt");
+                        bajarJsonFirebase.descargarPictosDatabase(mPredictionRef);
+                    }else{
+                        onPictosSugeridosBajados(true);
+                    }
+
                 } else {
-                    Toast.makeText(this,this.getResources().getText( R.string.prediction_data), Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, this.getResources().getText(R.string.prediction_data), Toast.LENGTH_LONG).show();
                 }
                 break;
             case R.id.back_button:
                 mAnalyticsFirebase.customEvents("Touch", "LoginActivityStep2", "Back1");
                 Intent intent2 = new Intent(LoginActivity2Step2.this, LoginActivity2Step2.class);
                 startActivity(intent2);
+                finish();
                 break;
             case R.id.buttonCalendarDialog:
                 mAnalyticsFirebase.customEvents("Touch", "LoginActivityStep2", "calendarButton");
@@ -163,21 +174,73 @@ public class LoginActivity2Step2 extends AppCompatActivity implements View.OnCli
         }
     }
 
-    private void fillUserData() {
+    @Override
+    public void getUserInformation(DataUser dataUser) {
+            userData = dataUser;
+            fillUserData();
+    }
+
+    @Override
+    public void fillUserData() {
         if (mAuth.getCurrentUser() != null) {
-            editTextName.setText(mAuth.getCurrentUser().getDisplayName());
-            Handler handler=new Handler();
+            if(!userData.getFirstAndLastName().isEmpty())
+                editTextName.setText(userData.getFirstAndLastName());
+            else
+                editTextName.setText(mAuth.getCurrentUser().getDisplayName());
+            if(userData.getBirthDate()>0)
+                setUpDateUser(userData.getBirthDate());
+            if(!userData.getGender().isEmpty()){
+                selectIndicator(userData.getGender());
+            }
+            Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    editTextName.setInputType(InputType.TYPE_CLASS_TEXT);
+                    editTextName.setInputType(InputType.TYPE_TEXT_VARIATION_PERSON_NAME);
                 }
-            },2500);
+            }, 2500);
         }
     }
 
-    public void calendarDialog() {
+    private void selectIndicator(String gender) {
+        switch (gender){
+            case "Masculino":
+                genderSelector.setSelection(1);
+            break;
+            case "Femenino":
+                genderSelector.setSelection(2);
+            break;
+            case "Fluid":
+                genderSelector.setSelection(3);
+            break;
+            case "Binary":
+                genderSelector.setSelection(4);
+            break;
+            case "Other":
+                genderSelector.setSelection(5);
+            break;
+            default:
+                genderSelector.setSelection(0);
+        }
+    }
+
+    public void setUpDateUser(long time){
         Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(time);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        int month = calendar.get(Calendar.MONTH)+1;
+        int year = calendar.get(Calendar.YEAR);
+        String value =getValue(day)+""+getValue(month)+""+year;
+        editTextBirthday.setText(value);
+    }
+
+
+
+    public String  getValue(int n) {
+        return (n<=9) ? ("0"+n) : String.valueOf(n);
+    }
+
+    public void calendarDialog() {
         final Calendar cldr = Calendar.getInstance();
         int day = cldr.get(Calendar.DAY_OF_MONTH);
         int month = cldr.get(Calendar.MONTH);
@@ -201,10 +264,9 @@ public class LoginActivity2Step2 extends AppCompatActivity implements View.OnCli
     @Override
     public void onDateSet(android.widget.DatePicker view, int year, int month, int dayOfMonth) {
         convert = false;
-        editTextBirthday.setText(dayOfMonth + "/" + (month + 1) + "/" + year);
         Calendar calendar = Calendar.getInstance();
         calendar.set(year, month, dayOfMonth);
-        userData.setBirthDate(calendar.getTime().getTime());
+        editTextBirthday.setText(getValue(dayOfMonth)+""+getValue(month + 1)+""+year);
     }
 
 
@@ -256,7 +318,7 @@ public class LoginActivity2Step2 extends AppCompatActivity implements View.OnCli
      */
     private boolean validateJavaDate(String strDate) {
         /* Check if date is 'null' */
-        String regex = "^[0-3]?[0-9]/[0-3]?[0-9]/(?:[0-9]{2})?[0-9]{2}$";
+        String regex = "^(1[0-9]|0[1-9]|3[0-1]|2[1-9])/(0[1-9]|1[0-2])/[0-9]{4}$";
         Pattern pattern = Pattern.compile(regex);
         if (strDate.isEmpty())
             return false;
@@ -264,95 +326,50 @@ public class LoginActivity2Step2 extends AppCompatActivity implements View.OnCli
             return pattern.matcher(strDate).matches();
     }
 
-    class DateInputMask implements TextWatcher {
-        //Source https://stackoverflow.com/questions/16889502/how-to-mask-an-edittext-to-show-the-dd-mm-yyyy-date-format
-        private final String ddmmyyyy = "DDMMYYYY";
-        private final Calendar cal = Calendar.getInstance();
-        private final EditText input;
-        private String current = "";
+    @Override
+    public void onDescargaCompleta(int descargaCompleta) {
 
-        public DateInputMask(EditText input) {
-            this.input = input;
-            this.input.addTextChangedListener(this);
-        }
+    }
 
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+    @Override
+    public void onDatosEncontrados(int datosEncontrados) {
 
-        }
+    }
 
+    @Override
+    public void onFotoDescargada(int fotosDescargadas) {
 
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-            if (convert) {
-                if (s.toString().equals(current)) {
-                    return;
-                }
+    }
 
-                String clean = s.toString().replaceAll("[^\\d.]|\\.", "");
-                String cleanC = current.replaceAll("[^\\d.]|\\.", "");
+    @Override
+    public void onArchivosSubidos(boolean subidos) {
 
-                int cl = clean.length();
-                int sel = cl;
-                for (int i = 2; i <= cl && i < 6; i += 2) {
-                    sel++;
-                }
-                //Fix for pressing delete next to a forward slash
-                if (clean.equals(cleanC)) sel--;
+    }
 
-                if (clean.length() < 8) {
-                    clean = clean + ddmmyyyy.substring(clean.length());
-                } else {
-                    //This part makes sure that when we finish entering numbers
-                    //the date is correct, fixing it otherwise
-                    int day = Integer.parseInt(clean.substring(0, 2));
-                    int mon = Integer.parseInt(clean.substring(2, 4));
-                    int year = Integer.parseInt(clean.substring(4, 8));
+    @Override
+    public void onPictosSugeridosBajados(boolean descargado) {
+        Intent intent = new Intent(LoginActivity2Step2.this, LoginActivity2Step3.class);
+        startActivity(intent);
+        finish();
+        mAnalyticsFirebase.customEvents("Touch", "LoginActivityStep2", "Next1 ");
+    }
 
-                    mon = mon < 1 ? 1 : mon > 12 ? 12 : mon;
-                    cal.set(Calendar.MONTH, mon - 1);
-                    year = (year < 1900) ? 1900 : (year > 2100) ? 2100 : year;
-                    cal.set(Calendar.YEAR, year);
-                    // ^ first set year for the line below to work correctly
-                    //with leap years - otherwise, date e.g. 29/02/2012
-                    //would be automatically corrected to 28/02/2012
+    public void toogleKeyBoard(TextView view) {
 
-                    day = (day > cal.getActualMaximum(Calendar.DATE)) ? cal.getActualMaximum(Calendar.DATE) : day;
-                    clean = String.format("%02d%02d%02d", day, mon, year);
-                }
-
-                clean = String.format("%s/%s/%s", clean.substring(0, 2),
-                        clean.substring(2, 4),
-                        clean.substring(4, 8));
-
-                sel = sel < 0 ? 0 : sel;
-                current = clean;
-                input.setText(current);
-                input.setSelection(sel < current.length() ? sel : current.length());
-                userData.setBirthDate(cal.getTime().getTime());
-            }
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-            convert = true;
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (imm.isActive()) {
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        } else {
+            imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT);
         }
     }
 
 
-    public void toogleKeyBoard(TextView view){
-
-        InputMethodManager imm =(InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        if(imm.isActive()){
-            imm.hideSoftInputFromWindow(view.getWindowToken(),0);
-        }else{
-            imm.showSoftInput(view,InputMethodManager.SHOW_IMPLICIT);
-        }
+    @Override
+    public void setCalendarDate(long value) {
+        if(userData != null)
+            userData.setBirthDate(value);
     }
-
-
-
-
 }
 
 

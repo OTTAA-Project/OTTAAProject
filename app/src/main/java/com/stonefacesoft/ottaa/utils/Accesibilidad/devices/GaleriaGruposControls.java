@@ -84,4 +84,10 @@ public class GaleriaGruposControls extends Controls {
         galeriaGrupos.onClick(galeriaGrupos.getBarridoPantalla().getmListadoVistas().get(galeriaGrupos.getBarridoPantalla().getPosicionBarrido()));
         return true;
     }
+
+    @Override
+    public boolean pressBackButton() {
+        galeriaGrupos.getBarridoPantalla().getmListadoVistas().get(galeriaGrupos.getBarridoPantalla().getPosicionBarrido()).callOnClick();
+        return true;
+    }
 }

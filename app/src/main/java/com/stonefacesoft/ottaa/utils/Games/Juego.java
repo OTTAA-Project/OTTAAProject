@@ -7,7 +7,7 @@ import android.util.Log;
 import com.stonefacesoft.ottaa.FirebaseRequests.SubirArchivosFirebase;
 import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.R;
-import com.stonefacesoft.ottaa.utils.Constants;
+import com.stonefacesoft.ottaa.utils.constants.Constants;
 import com.stonefacesoft.ottaa.utils.preferences.User;
 
 import org.json.JSONException;
@@ -77,7 +77,7 @@ public class Juego {
        this.levelId=levelId;
        this.reloj=new Reloj();
        crearObjetoJson();
-       JSONObject score=json.getObjectPuntaje(object);
+       JSONObject score = json.getObjectPuntaje(object);
        if(score!=null){
            try {
                setCalculaPuntos(score.getInt("aciertos"),score.getInt("desaciertos"));
@@ -97,6 +97,8 @@ public class Juego {
        bestStreak=getBestStreak();
 
    }
+
+
 
    public void createUser(){
        this.user =new User(this.mContext);

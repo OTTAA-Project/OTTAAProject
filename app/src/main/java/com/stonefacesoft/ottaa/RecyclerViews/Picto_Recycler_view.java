@@ -10,26 +10,26 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.stonefacesoft.ottaa.Adapters.GaleriaPictosAdapter;
-import com.stonefacesoft.ottaa.Dialogos.Yes_noDialogs;
+import com.stonefacesoft.ottaa.Dialogos.DialogUtils.Yes_noDialogs;
 import com.stonefacesoft.ottaa.Edit_Picto_Visual;
 import com.stonefacesoft.ottaa.Helper.RecyclerItemClickListener;
 import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.R;
-import com.stonefacesoft.ottaa.utils.Constants;
+import com.stonefacesoft.ottaa.utils.constants.Constants;
 import com.stonefacesoft.ottaa.utils.IntentCode;
 import com.stonefacesoft.ottaa.utils.JSONutils;
+import com.stonefacesoft.ottaa.utils.PopupMenuUtils;
+import com.stonefacesoft.ottaa.utils.preferences.User;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 
 public class Picto_Recycler_view extends Custom_recyclerView {
     private int button;
     private GaleriaPictosAdapter galeriaPictos2;
     private int id=-1;
     private final String TAG="Picto_Recycler_View";
+
 
     public Picto_Recycler_view(AppCompatActivity mActivity, FirebaseAuth mAuth) {
         super(mActivity, mAuth);
@@ -43,7 +43,7 @@ public class Picto_Recycler_view extends Custom_recyclerView {
         array=json.getHijosGrupo2(position);
         arrayAux=new JSONArray();
         createRecyclerLayoutManager();
-        galeriaPictos2=new GaleriaPictosAdapter(mActivity,array, R.layout.grid_item_layout,mAuth).loadGlideAttacher();
+        galeriaPictos2=new GaleriaPictosAdapter(mActivity,array, R.layout.grid_item_layout,mAuth).removeOldFiles();
         mRecyclerView.setAdapter(galeriaPictos2);
         mRecyclerView.addOnItemTouchListener(listener());
     }
@@ -128,30 +128,8 @@ public class Picto_Recycler_view extends Custom_recyclerView {
     }
 
     public void ShowpopMenu(View view,int position) {
-
-        popupMenu = new PopupMenu(mActivity, view);
-        popupMenu.inflate(R.menu.popup_menu);
-
-        try {
-            Field field = popupMenu.getClass().getDeclaredField("mPopup");
-            field.setAccessible(true);
-            Object menuPopupHelper = field.get(popupMenu);
-            Class<?> cls = Class.forName("androidx.appcompat.view.menu.MenuPopupHelper");
-
-            Method method = cls.getDeclaredMethod("setForceShowIcon", boolean.class);
-            method.setAccessible(true);
-            method.invoke(menuPopupHelper, true);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        if (sharedPrefsDefault.getInt("premium", 0) == 1) {
-            popupMenu.getMenu().findItem(R.id.item_edit).setEnabled(true);
-        }else{
-            popupMenu.getMenu().findItem(R.id.item_edit).setIcon(R.drawable.ic_padlock);
-            popupMenu.getMenu().findItem(R.id.item_edit).setEnabled(false);
-        }
-
-        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+        new PopupMenuUtils(mActivity,view,
+        new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
 
@@ -161,23 +139,11 @@ public class Picto_Recycler_view extends Custom_recyclerView {
                             // JSONObject aux = pictosDelGrupo.get(position);
                             analyticsFirebase.customEvents("Touch","Galeria Pictos","Edit Pictogram");
                             if (id != -1) {
-                                Intent intent = new Intent(mActivity, Edit_Picto_Visual.class);
-                                intent.putExtra("PositionPadre", button);
-                                intent.putExtra("PositionHijo", position);
-                                intent.putExtra("PictoID", id);
-
-                                try {
-                                    intent.putExtra("Texto", JSONutils.getNombre(galeriaPictos2.getmArrayPictos().getJSONObject(position),sharedPrefsDefault.getString(mActivity.getString(R.string.str_idioma), "en")));
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                                intent.putExtra("esGrupo", false);
-                                myTTS.hablar(mActivity.getString(R.string.editar_pictogram));
-                                json.setmJSONArrayTodosLosGrupos(json.getmJSONArrayTodosLosGrupos());
-                                if (!json.guardarJson(Constants.ARCHIVO_GRUPOS)) {
-                                    Log.i(TAG, "onMenuItemClick: no se pudo guardar el mensaje");
-                                }
-                                mActivity.startActivityForResult(intent, IntentCode.EDITARPICTO.getCode());
+                              if(User.getInstance(mActivity).isPremium()){
+                                  mActivity.startActivityForResult(startEditAction(position), IntentCode.EDITARPICTO.getCode());
+                              }else {
+                                  mActivity.startActivity(startExpiredLicense());
+                              }
                             }
                         }
                         return true;
@@ -189,10 +155,6 @@ public class Picto_Recycler_view extends Custom_recyclerView {
                 return false;
             }
         });
-
-        if (!mActivity.isFinishing() && !mActivity.isDestroyed()) {
-            popupMenu.show();
-        }
     }
 
     @Override
@@ -239,4 +201,33 @@ public class Picto_Recycler_view extends Custom_recyclerView {
             Log.e(TAG, "Error al guardar el json");
         subirGrupos();
     }
+
+
+
+
+    @Override
+    protected Intent startEditAction(int position) {
+        Intent intent = new Intent(mActivity, Edit_Picto_Visual.class);
+        loadPictogramsValue(intent,position);
+        myTTS.hablar(mActivity.getString(R.string.editar_pictogram));
+        json.setmJSONArrayTodosLosGrupos(json.getmJSONArrayTodosLosGrupos());
+        if (!json.guardarJson(Constants.ARCHIVO_GRUPOS)) {
+            Log.i(TAG, "onMenuItemClick: no se pudo guardar el mensaje");
+        }
+        return intent;
+    }
+
+    public void loadPictogramsValue(Intent intent,int position){
+        intent.putExtra("PositionPadre", button);
+        intent.putExtra("PositionHijo", position);
+        intent.putExtra("PictoID", id);
+
+        try {
+            intent.putExtra("Texto", JSONutils.getNombre(galeriaPictos2.getmArrayPictos().getJSONObject(position),sharedPrefsDefault.getString(mActivity.getString(R.string.str_idioma), "en")));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        intent.putExtra("esGrupo", false);
+    }
+
 }

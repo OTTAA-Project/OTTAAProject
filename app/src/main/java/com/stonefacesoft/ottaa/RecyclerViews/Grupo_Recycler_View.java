@@ -13,21 +13,20 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.stonefacesoft.ottaa.Adapters.GaleriaGruposAdapter;
-import com.stonefacesoft.ottaa.Dialogos.Yes_noDialogs;
+import com.stonefacesoft.ottaa.Dialogos.DialogUtils.Yes_noDialogs;
 import com.stonefacesoft.ottaa.Edit_Picto_Visual;
 import com.stonefacesoft.ottaa.GaleriaPictos3;
 import com.stonefacesoft.ottaa.Helper.RecyclerItemClickListener;
 import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.R;
-import com.stonefacesoft.ottaa.utils.Constants;
+import com.stonefacesoft.ottaa.utils.constants.Constants;
 import com.stonefacesoft.ottaa.utils.Firebase.CrashlyticsUtils;
 import com.stonefacesoft.ottaa.utils.IntentCode;
 import com.stonefacesoft.ottaa.utils.JSONutils;
+import com.stonefacesoft.ottaa.utils.PopupMenuUtils;
+import com.stonefacesoft.ottaa.utils.preferences.User;
 
 import org.json.JSONException;
-
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 
 public class Grupo_Recycler_View extends Custom_recyclerView implements  View.OnClickListener {
 
@@ -56,8 +55,10 @@ public class Grupo_Recycler_View extends Custom_recyclerView implements  View.On
         json=Json.getInstance();
         json.setmContext(mActivity);
         array=json.getmJSONArrayTodosLosGrupos();
-        json.setmJSONArrayTodosLosGrupos(array);
-        mGaleriaGruposAdapter.setmArrayGrupos(array);
+        if(array!=null){
+            json.setmJSONArrayTodosLosGrupos(array);
+            mGaleriaGruposAdapter.setmArrayGrupos(array);
+        }
     }
     //Encargado de manejar los doble click y click en cada grupo para abrirlo con sus pictos
 
@@ -66,8 +67,6 @@ public class Grupo_Recycler_View extends Custom_recyclerView implements  View.On
             @Override
             public void onItemClick(View v, final int position) {
                 if (v != null) {
-
-
                     if (position != -1) {
                         try {
                             if (myTTS != null && array.getJSONObject(position).getJSONObject("texto").getString((sharedPrefsDefault.getString(mActivity.getString(R.string
@@ -130,30 +129,18 @@ public class Grupo_Recycler_View extends Custom_recyclerView implements  View.On
             public void onLongClickListener(View view, int position) {
                 if (position != -1) {
                     mPosition = position;
-                    popupMenu = new PopupMenu(mActivity, view);
-                    popupMenu.inflate(R.menu.popup_menu_juego);
-                    popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    PopupMenu.OnMenuItemClickListener listener = new PopupMenu.OnMenuItemClickListener() {
                         @Override
                         public boolean onMenuItemClick(MenuItem menuItem) {
                             switch (menuItem.getItemId()) {
                                 case R.id.item_edit:
                                     analyticsFirebase.customEvents("Touch","Galeria Grupos","Edit Group");
-                                    if (getmPosition() != -1) {
-                                        Intent intent = new Intent(mActivity, Edit_Picto_Visual.class);
-                                        int id = 0;
-                                        try {
-                                            id = array.getJSONObject(getmPosition()).getInt("id");
-                                        } catch (JSONException e) {
-                                            e.printStackTrace();
-                                        }
-                                        intent.putExtra("PositionPadre", getmPosition());
-                                        intent.putExtra("PictoID", id);
-                                        intent.putExtra("esGrupo", true);
-                                        Log.e("GalGr_onMenuItemClick", "Editando un picto");
-                                        myTTS.hablar(mActivity.getResources().getString(R.string.editar_group));
-                                        mActivity.startActivityForResult(intent, IntentCode.EDITARPICTO.getCode());
+                                    if (User.getInstance(mActivity).isPremium()) {
+                                        mActivity.startActivityForResult(startEditAction(), IntentCode.EDITARPICTO.getCode());
                                     }
-
+                                    else{
+                                        mActivity.startActivity(startExpiredLicense());
+                                    }
                                     return true;
                                 case R.id.item_delete:
                                     analyticsFirebase.customEvents("Touch","Galeria Grupos","Delete Group");
@@ -164,37 +151,12 @@ public class Grupo_Recycler_View extends Custom_recyclerView implements  View.On
                                         e.printStackTrace();
                                     }
                                     return true;
-
-
                             }
                             popupMenu.dismiss();
                             return false;
                         }
-                    });
-
-                    if (sharedPrefsDefault.getInt("premium", 0) == 1) {
-                        popupMenu.getMenu().getItem(0).setEnabled(true);
-                        popupMenu.getMenu().getItem(1).setEnabled(true);
-
-                    } else {
-                        popupMenu.getMenu().getItem(0).setEnabled(false);
-                        popupMenu.getMenu().getItem(1).setEnabled(false);
-                        popupMenu.getMenu().getItem(1).setIcon(R.drawable.ic_padlock);
-                        popupMenu.getMenu().getItem(0).setIcon(R.drawable.ic_padlock);
-                    }
-                    try {
-                        Field field = popupMenu.getClass().getDeclaredField("mPopup");
-                        field.setAccessible(true);
-                        Object menuPopupHelper = field.get(popupMenu);
-                        Class<?> cls = Class.forName("androidx.appcompat.view.menu.MenuPopupHelper");
-                        Method method = cls.getDeclaredMethod("setForceShowIcon", boolean.class);
-                        method.setAccessible(true);
-                        method.invoke(menuPopupHelper, true);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                    if(!mActivity.isFinishing())
-                        popupMenu.show();
+                    };
+                new PopupMenuUtils(mActivity,view,listener);
                 }
             }
 
@@ -305,4 +267,27 @@ public class Grupo_Recycler_View extends Custom_recyclerView implements  View.On
             Log.e(TAG, "Error al guardar el json");
         subirGrupos();
     }
+
+    @Override
+    protected Intent startEditAction() {
+            Intent intent = new Intent(mActivity, Edit_Picto_Visual.class);
+            int id = 0;
+            try {
+                id = array.getJSONObject(getmPosition()).getInt("id");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            loadGroupValue(intent,id);
+            Log.e("GalGr_onMenuItemClick", "Editando un picto");
+            myTTS.hablar(mActivity.getResources().getString(R.string.editar_group));
+            return intent;
+    }
+
+    public void loadGroupValue(Intent intent,int id){
+        intent.putExtra("PositionPadre", getmPosition());
+        intent.putExtra("PictoID", id);
+        intent.putExtra("esGrupo", true);
+    }
+
+
 }

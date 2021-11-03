@@ -14,47 +14,14 @@
 
     >
 
-
-    <ImageView
-        android:id="@+id/grid_image"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:scaleType="fitXY"
-        android:layout_margin="@dimen/interpicto_margin"
-        android:src="@drawable/ic_agregar_nuevo"
-        app:layout_constraintBottom_toTopOf="@id/grid_text"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_weight="85" />
-
-    <ImageView
-        android:id="@+id/color_Picto"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:src="@drawable/fizgerald_shape"
-        app:layout_constraintBottom_toTopOf="@id/grid_text"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_weight="85" />
-
-    <TextView
-        android:id="@+id/grid_text"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_margin="5dp"
-        android:gravity="center"
-        android:lines="2"
-        android:text="Pictogramas largos"
-        android:textAllCaps="true"
-        android:textColor="@color/Black"
-        android:textSize="12sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/grid_image"
-        app:layout_constraintVertical_weight="15" />
+<com.stonefacesoft.pictogramslibrary.view.PictoView
+    android:layout_width="0dp"
+    android:layout_height="0dp"
+    android:id="@+id/pictogram"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintBottom_toBottomOf="parent"
+    />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

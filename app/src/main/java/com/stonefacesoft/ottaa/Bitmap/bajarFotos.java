@@ -16,7 +16,7 @@ import com.google.firebase.storage.StorageReference;
 import com.stonefacesoft.ottaa.FirebaseRequests.FirebaseUtils;
 import com.stonefacesoft.ottaa.GaleriaGrupos2;
 import com.stonefacesoft.ottaa.Interfaces.FirebaseSuccessListener;
-import com.stonefacesoft.ottaa.utils.Constants;
+import com.stonefacesoft.ottaa.utils.constants.Constants;
 
 import java.io.File;
 import java.util.ArrayList;

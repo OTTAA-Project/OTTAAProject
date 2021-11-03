@@ -132,16 +132,16 @@
     <string name="borrartalk">Esta función borra el texto después de hablar.</string>
     <string name="str_avanzar_aceptar">Avanzar y aceptar</string>
     <string name="string_sugerencias_dialog">Ahora los pictogramas que se muestran con mas transparencia indican sugerencias , estas sugerencias son tomadas de todos los que usan OTTAA Project, úsalo para poder formar frases con mas facilidad.</string>
-    <string name="str_edit_text">EDITAR TEXTO</string>
-    <string name="str_edit_frame">EDITAR MARCO</string>
-    <string name="str_edit_tags">EDITAR ETIQUETAS</string>
+    <string name="str_edit_text">Texto</string>
+    <string name="str_edit_frame">Marco</string>
+    <string name="str_edit_tags">Etiquetas</string>
     <string name="str_personas">Personas</string>
     <string name="str_sustantivos">Sustantivos</string>
     <string name="str_miscelaneas">Miscelaneas</string>
     <string name="str_adjetivos">Adjetivos</string>
     <string name="str_interacciones">Interacciones</string>
     <string name="str_acciones">Acciones</string>
-    <string name="str_choosing_tags_description">Al elegir TAGs, nos ayuda a predecir mejor cuándo mostrarle ciertos pictos, según el Tiempo, la Ubicación, el Calendario o el Tiempo</string>
+    <string name="str_choosing_tags_description">Al elegir TAGs, nos ayuda a predecir mejor cuándo mostrarle ciertos pictos, según el Tiempo, la Ubicación, el Calendario.</string>
     <string name="str_choose_a_tag">Elegir una etiqueta</string>
     <string name="str_fiztgerald_key">Clave Fitzgerald</string>
     <string name="estamos_cargando_sus_grupos">Cargando grupos ...</string>
@@ -266,5 +266,14 @@
     <string name="book_a_demo_with_one_of_our_specialist_to_help_you_better_understand_our_aac">Reserve una demostración con uno de nuestros especialistas para ayudarlo a comprender mejor nuestra CAA</string>
     <string name="prediction_data">Estos datos son necesarios para la prediccion</string>
     <string name="whatareyoulooking">¿Qué estás buscando?</string>
+    <string name="say_pictogram_name_tittle">Decir el pictograma</string>
+    <string name="say_pictogram_name_description">OTTAA dice el nombre del pictograma al tocarlo</string>
+    <string name="Iam">Hola soy</string>
+    <string name="allphrases">Todas las frases</string>
+    <string name="selectPhavoritePhrases">Seleccionar frases favoritas</string>
+    <string name="FluidUser">Fluido</string>
+    <string name="BinaryUser">Binario</string>
+    <string name="OtherUser">Otro</string>
+    <string name="createPhrasesAlert">Por favor, crea una frase y selecciona el boton compartir</string>
 
 </resources>

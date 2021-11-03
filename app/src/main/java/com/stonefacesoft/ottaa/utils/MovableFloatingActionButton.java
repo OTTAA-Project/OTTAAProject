@@ -1,3 +1,4 @@
+
 package com.stonefacesoft.ottaa.utils;
 
 
@@ -6,9 +7,11 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.stonefacesoft.ottaa.R;
+import com.stonefacesoft.ottaa.utils.AvatarPackage.AvatarUtils;
 
 
 public class MovableFloatingActionButton extends LinearLayout implements View.OnTouchListener {
@@ -102,6 +105,11 @@ public class MovableFloatingActionButton extends LinearLayout implements View.On
             return super.onTouchEvent(motionEvent);
         }
 
+    }
+
+    public void setIcon(){
+        ImageView button =(ImageView) findViewById(R.id.buttonAvatar);
+        new AvatarUtils(getContext(),button).getFirebaseAvatar();
     }
 
 }

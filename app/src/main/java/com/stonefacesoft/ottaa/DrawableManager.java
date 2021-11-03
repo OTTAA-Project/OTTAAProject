@@ -12,7 +12,6 @@ import org.apache.http.impl.client.DefaultHttpClient;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.MalformedURLException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -36,8 +35,6 @@ public class DrawableManager {
         try {
             InputStream is = fetch(urlString);
             Drawable drawable = Drawable.createFromStream(is, "src");
-
-
             if (drawable != null) {
                 drawableMap.put(urlString, drawable);
                 Log.d(TAG, "got a thumbnail drawable: " + drawable.getBounds() + ", "

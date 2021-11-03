@@ -4,9 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".PictureCropper">
+    >
 
-    <com.theartofdev.edmodo.cropper.CropImageView
+    <com.canhub.cropper.CropImageView
         xmlns:custom="http://schemas.android.com/apk/res-auto"
         android:id="@+id/cropImageView"
         android:layout_width="0dp"
@@ -36,7 +36,7 @@
             android:background="@android:color/transparent"
             android:rotation="180"
             android:scaleType="fitCenter"
-            android:tint="@color/White"
+            app:tint="@color/White"
             app:layout_constraintBottom_toBottomOf="@id/constraintLeftButtons"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="@id/constraintLeftButtons"
@@ -64,7 +64,7 @@
             android:layout_height="0dp"
             android:background="@android:color/transparent"
             android:scaleType="fitCenter"
-            android:tint="@color/White"
+            app:tint="@color/White"
             app:layout_constraintBottom_toBottomOf="@id/constraintRightButtons"
             app:layout_constraintEnd_toEndOf="@id/constraintRightButtons"
             app:layout_constraintHorizontal_bias="0.0"
@@ -93,7 +93,7 @@
             android:background="@android:color/transparent"
             android:scaleType="fitCenter"
             android:src="@drawable/ic_cancel_black_24dp"
-            android:tint="@color/White"
+            app:tint="@color/White"
             android:rotation="180"
             app:layout_constraintBottom_toBottomOf="@id/containerBottomMasPictos"
             app:layout_constraintEnd_toStartOf="@id/edit_button"
@@ -107,7 +107,7 @@
             android:layout_height="0dp"
             android:background="@android:color/transparent"
             android:scaleType="fitCenter"
-            android:tint="@color/White"
+            app:tint="@color/White"
             app:layout_constraintBottom_toBottomOf="@id/containerBottomMasPictos"
             app:layout_constraintEnd_toEndOf="@id/containerBottomMasPictos"
             app:layout_constraintStart_toEndOf="@id/back_button"

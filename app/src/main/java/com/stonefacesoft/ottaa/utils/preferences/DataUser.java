@@ -8,6 +8,7 @@ public class DataUser {
     private String gender;
     private String firstAndLastName;
     private String email;
+    private String devices;
     //Todo add the user devices
 
     public DataUser(){}
@@ -49,6 +50,14 @@ public class DataUser {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public void setDevices(String devices){
+        this.devices =devices;
+    }
+
+    public String getDevices() {
+        return devices;
     }
 
     public int getUserAge(){

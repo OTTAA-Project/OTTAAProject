@@ -23,7 +23,7 @@ import com.stonefacesoft.ottaa.utils.preferences.PreferencesUtil;
 public class Item_adapter extends RecyclerView.Adapter<Item_adapter.ItemAdapterViewHolder> {
 
     private final int mLayoutResourceId;
-    private final Context mContext;
+    private  Context mContext;
     private String[] mArrayListItemsnames;
     private String[] mArrayListValues;
 
@@ -32,7 +32,7 @@ public class Item_adapter extends RecyclerView.Adapter<Item_adapter.ItemAdapterV
 
     private View.OnClickListener listener;
 
-    private final PreferencesUtil sharedPreferencesUtil;
+    private PreferencesUtil sharedPreferencesUtil;
 
     private String key, defaultValue;
 
@@ -51,6 +51,11 @@ public class Item_adapter extends RecyclerView.Adapter<Item_adapter.ItemAdapterV
         this.dialogDismiss = dialogToDismiss;
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this.mContext);
         sharedPreferencesUtil = new PreferencesUtil(preferences);
+    }
+
+    public Item_adapter(int mLayoutResourceId,Dialog dialogToDismiss){
+        this.mLayoutResourceId = mLayoutResourceId;
+        this.dialogDismiss = dialogToDismiss;
     }
 
     public Item_adapter setmArrayListItemsNames(String[] mArrayListItemsNames) {

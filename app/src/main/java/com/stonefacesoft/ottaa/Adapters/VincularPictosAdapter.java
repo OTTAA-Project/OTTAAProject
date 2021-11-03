@@ -1,19 +1,14 @@
 package com.stonefacesoft.ottaa.Adapters;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Handler;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -25,15 +20,15 @@ import com.bumptech.glide.RequestBuilder;
 import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.idioma.ConfigurarIdioma;
-import com.stonefacesoft.ottaa.utils.JSONutils;
 import com.stonefacesoft.pictogramslibrary.Classes.Pictogram;
 import com.stonefacesoft.pictogramslibrary.utils.GlideAttatcher;
+import com.stonefacesoft.pictogramslibrary.view.PictoView;
 
+import org.jetbrains.annotations.TestOnly;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -42,13 +37,13 @@ public class VincularPictosAdapter extends RecyclerView.Adapter<VincularPictosAd
 
     //private Context mContext;
     private final int layoutID;
-    private JSONArray mVincularArray;
     private final JSONArray mSelectedPictos;
-    private boolean esFiltrado;
     private final Json json;
     private final ArrayList<Integer> listadoIdPictos;
-    private  GlideAttatcher glideAttatcher;
-    private final Context mContext;
+    private JSONArray mVincularArray;
+    private boolean esFiltrado;
+    private GlideAttatcher glideAttatcher;
+    private Context mContext;
 
     public VincularPictosAdapter(Context mContext, int layoutID, JSONArray mVincularArray, boolean filtro) {
         this.mContext = mContext;
@@ -59,13 +54,20 @@ public class VincularPictosAdapter extends RecyclerView.Adapter<VincularPictosAd
         this.esFiltrado = filtro;
         this.mSelectedPictos = new JSONArray();
         this.listadoIdPictos = new ArrayList<>();
-
-
-
     }
 
-    public VincularPictosAdapter initGlideAttatcher(){
-        this.glideAttatcher=new GlideAttatcher(this.mContext);
+    @TestOnly
+    public VincularPictosAdapter(int layoutID, JSONArray mVincularArray, boolean filtro) {
+        this.json = Json.getInstance();
+        this.layoutID = layoutID;
+        this.mVincularArray = mVincularArray;
+        this.esFiltrado = filtro;
+        this.mSelectedPictos = new JSONArray();
+        this.listadoIdPictos = new ArrayList<>();
+    }
+
+    public VincularPictosAdapter initGlideAttatcher() {
+        this.glideAttatcher = new GlideAttatcher(this.mContext);
         return this;
     }
 
@@ -177,48 +179,32 @@ public class VincularPictosAdapter extends RecyclerView.Adapter<VincularPictosAd
     }
 
     public class VincularViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-
-        ImageView mPictoImageView;
-        ImageView mPictoImageColor;
-        TextView mTextoPicto;
+        PictoView pictoView;
         boolean isSelected;
 
         public VincularViewHolder(View itemView) {
             super(itemView);
-
-            itemView.setOnClickListener(this);
-            mTextoPicto = itemView.findViewById(R.id.grid_text);
-            mPictoImageView = itemView.findViewById(R.id.grid_image);
-            mPictoImageColor = itemView.findViewById(R.id.color_Picto);
-            itemView.setBackgroundColor(mContext.getResources().getColor(R.color.White));
-
+            pictoView = itemView.findViewById(R.id.pictogram);
+            pictoView.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
             try {
                 if (!esFiltrado) {
-                    if (!isSelected) {
-                        v.setBackground(mContext.getResources().getDrawable(R.drawable.picto_shape_select));
-                        isSelected = true;
+                    setBackGroundShape(v, isSelected);
+                    if (isSelected) {
                         mSelectedPictos.put(json.getPictoFromCustomArrayById2(mVincularArray, mVincularArray.getJSONObject(getAdapterPosition()).getInt("id")));
                     } else {
-                        v.setBackground(mContext.getResources().getDrawable(R.drawable.picto_shape));
-                        isSelected = false;
                         int removePos = json.getPosPicto(mSelectedPictos, mVincularArray.getJSONObject(getAdapterPosition()).getInt("id"));
                         if (removePos != -1)
                             mSelectedPictos.remove(removePos);
                     }
-
                 } else {
-                    if (!isSelected) {
-                        v.setBackground(mContext.getResources().getDrawable(R.drawable.picto_shape_select));
-                        isSelected = true;
+                    setBackGroundShape(v, isSelected);
+                    if (isSelected) {
                         mSelectedPictos.put(json.getPictoFromCustomArrayById2(mVincularArray, mVincularArray.getJSONObject(getAdapterPosition()).getInt("id")));
                     } else {
-                        v.setBackground(mContext.getResources().getDrawable(R.drawable.picto_shape));
-
-                        isSelected = false;
                         int removePos = json.getPosPicto(mSelectedPictos, mVincularArray.getJSONObject(getAdapterPosition()).getInt("id"));
                         if (removePos != -1)
                             mSelectedPictos.remove(removePos);
@@ -226,28 +212,37 @@ public class VincularPictosAdapter extends RecyclerView.Adapter<VincularPictosAd
                 }
             } catch (Exception e) {
                 e.printStackTrace();
-                Log.e("TAG", "onClick: error al filtrar pictograma" );
+                Log.e("TAG", "onClick: error al filtrar pictograma");
             }
+            notifyDataSetChanged();
         }
 
-        public int isSelected(int position){
-            int posSelected=-1;
-            if(!isEsFiltrado()){
+        public void setBackGroundShape(View v, boolean isSelected) {
+            if (isSelected)
+                v.setBackground(mContext.getResources().getDrawable(R.drawable.picto_shape_select));
+            else
+                v.setBackground(mContext.getResources().getDrawable(R.drawable.picto_shape));
+            this.isSelected = !isSelected;
+        }
+
+        public int isSelected(int position) {
+            int posSelected = -1;
+            if (!isEsFiltrado()) {
                 try {
-                   posSelected= json.getPosPicto(mSelectedPictos,mVincularArray.getJSONObject(position).getInt("id"));
+                    posSelected = json.getPosPicto(mSelectedPictos, mVincularArray.getJSONObject(position).getInt("id"));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-            }else{
+            } else {
                 try {
-                    posSelected= json.getPosPicto(mSelectedPictos,mVincularArray.getJSONObject(position).getInt("id"));
+                    posSelected = json.getPosPicto(mSelectedPictos, mVincularArray.getJSONObject(position).getInt("id"));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
             }
-            if(posSelected!=-1)
-            isSelected=true;
-           return posSelected;
+            if (posSelected != -1)
+                isSelected = true;
+            return posSelected;
         }
 
 
@@ -255,32 +250,22 @@ public class VincularPictosAdapter extends RecyclerView.Adapter<VincularPictosAd
 
     private class VincularAsync extends AsyncTask<Void, Void, Void> {
 
-        private String mStringTexto;
-        private Drawable mDrawableIcono;
         private final VincularViewHolder mHolder;
         private final int mPosition;
         private JSONObject picto;
-        private final Handler handler = new Handler();
-
-
 
 
         public VincularAsync(VincularViewHolder mHolder, int mPosition) {
-
             this.mHolder = mHolder;
             this.mPosition = mPosition;
-
         }
 
         @Override
         protected Void doInBackground(Void... voids) {
-            Bitmap mBitmap;
-
             try {
                 picto = json.getPictoFromId2(mVincularArray.getJSONObject(mPosition).getInt("id"));
-                //json.getPictoFromCustomArrayById2(json.getmJSONArrayTodosLosPictos(),mVincularArray.getJSONObject(mPosition).getInt("id"));
-                SharedPreferences sharedPrefsDefault = PreferenceManager.getDefaultSharedPreferences(mContext);
-                mStringTexto = JSONutils.getNombre(picto, ConfigurarIdioma.getLanguaje());
+                mHolder.pictoView.setUpContext(mContext);
+                mHolder.pictoView.setUpGlideAttatcher(mContext);
             } catch (JSONException e) {
                 e.printStackTrace();
             } catch (Exception ex) {
@@ -293,46 +278,19 @@ public class VincularPictosAdapter extends RecyclerView.Adapter<VincularPictosAd
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-
             if (picto != null) {
                 try {
-                    mHolder.mTextoPicto.setText(mStringTexto);
-                    Pictogram pictogram=new Pictogram(mVincularArray.getJSONObject(mPosition), ConfigurarIdioma.getLanguaje());
-                    loadDrawable(glideAttatcher,pictogram,mHolder.mPictoImageView);
-                    try {
-                        mHolder.mPictoImageColor.setColorFilter(cargarColor(JSONutils.getTipo(mVincularArray.getJSONObject(mPosition))));
-                        if(mHolder.isSelected(mPosition)!=-1)
-                            mHolder.itemView.setBackground(mContext.getResources().getDrawable(R.drawable.picto_shape_select));
-                        else
-                            mHolder.itemView.setBackground(mContext.getResources().getDrawable(R.drawable.picto_shape));
-
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
+                    mHolder.pictoView.setPictogramsLibraryPictogram(new Pictogram(mVincularArray.getJSONObject(mPosition), ConfigurarIdioma.getLanguaje()));
+                    if (mHolder.isSelected(mPosition) != -1)
+                        mHolder.itemView.setBackground(mContext.getResources().getDrawable(R.drawable.picto_shape_select));
+                    else
+                        mHolder.itemView.setBackground(mContext.getResources().getDrawable(R.drawable.picto_shape));
                 } catch (Exception ex) {
                     ex.printStackTrace();
                 }
             }
-
         }
     }
-    public  void loadDrawable(GlideAttatcher attatcher, Pictogram pictogram, ImageView imageView){
-        if(pictogram.getEditedPictogram().isEmpty()){
-            Drawable drawable=json.getIcono(pictogram.toJsonObject());
-            if(drawable!=null)
-                attatcher.UseCornerRadius(true).loadDrawable(drawable,imageView);
-            else
-                attatcher.UseCornerRadius(true).loadDrawable(mContext.getResources().getDrawable(R.drawable.ic_cloud_download_orange),imageView);
-        }else{
-            File picto=new File(pictogram.getEditedPictogram());
-            if(picto.exists())
-                attatcher.UseCornerRadius(true).loadDrawable(picto,imageView);
-            else
-                attatcher.UseCornerRadius(true).loadDrawable(Uri.parse(pictogram.getUrl()),imageView);
-        }
-    }
-
-
 
 
 }

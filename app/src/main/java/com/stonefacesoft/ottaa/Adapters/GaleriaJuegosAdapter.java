@@ -2,23 +2,17 @@ package com.stonefacesoft.ottaa.Adapters;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.media.ThumbnailUtils;
-import android.net.Uri;
 import android.os.AsyncTask;
-import android.preference.PreferenceManager;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.content.res.AppCompatResources;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -27,14 +21,15 @@ import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.idioma.ConfigurarIdioma;
 import com.stonefacesoft.ottaa.utils.Games.Juego;
-import com.stonefacesoft.ottaa.utils.JSONutils;
-import com.stonefacesoft.pictogramslibrary.Classes.Pictogram;
+import com.stonefacesoft.pictogramslibrary.Classes.GameGroup;
 import com.stonefacesoft.pictogramslibrary.utils.GlideAttatcher;
+import com.stonefacesoft.pictogramslibrary.view.GameGroupView;
 
 import org.json.JSONArray;
-import org.json.JSONException;
+import org.json.JSONObject;
 
-import java.io.File;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 public class GaleriaJuegosAdapter extends RecyclerView.Adapter <GaleriaJuegosAdapter.GruposViewHolder>{
     private final Context mContext;
@@ -105,18 +100,11 @@ public class GaleriaJuegosAdapter extends RecyclerView.Adapter <GaleriaJuegosAda
 
     public class GruposViewHolder extends RecyclerView.ViewHolder {
 
-        private final ImageView mGrupoImageView;
-        private final TextView mTextGrupo;
-        private final TextView textCargarGrupos;
-        private final ImageView mScoreImageView;
+        private GameGroupView mGameGroupView;
 
         public GruposViewHolder(View itemView) {
             super(itemView);
-
-            mTextGrupo = itemView.findViewById(R.id.grid_text);
-            mGrupoImageView = itemView.findViewById(R.id.grid_image);
-            textCargarGrupos = itemView.findViewById(R.id.textoCargandoGrupos);
-            mScoreImageView =itemView.findViewById(R.id.score);
+            mGameGroupView = itemView.findViewById(R.id.gamegroup);
         }
     }
 
@@ -125,6 +113,7 @@ public class GaleriaJuegosAdapter extends RecyclerView.Adapter <GaleriaJuegosAda
         private final int mPosition;
         private final GaleriaJuegosAdapter.GruposViewHolder mHolder;
         private String mStringTexto;
+        private JSONObject aux;
         private Drawable mDrawableIcono;
 
         public CargarGruposAsync(int mPosition, GaleriaJuegosAdapter.GruposViewHolder mHolder) {
@@ -132,6 +121,43 @@ public class GaleriaJuegosAdapter extends RecyclerView.Adapter <GaleriaJuegosAda
             this.mHolder = mHolder;
 
         }
+
+        public void execute(){
+            Executor executor = Executors.newSingleThreadExecutor();
+            Handler handler = new Handler(Looper.getMainLooper());
+            executor.execute(new Runnable() {
+                @Override
+                public void run() {
+                    Bitmap mBitmap;
+                    try {
+                        json = Json.getInstance();
+                        aux = json.getmJSONArrayTodosLosGrupos().getJSONObject(mPosition);
+                        mHolder.mGameGroupView.setUpContext(mContext);
+                        mHolder.mGameGroupView.setUpGlideAttatcher(mContext);
+                    } catch (Exception e) {
+                        Log.e(TAG, "doInBackground: " + e.getMessage());
+
+                        e.printStackTrace();
+                    }
+                    handler.post(()->{
+                        try{
+                            mHolder.mGameGroupView.setPictogramsLibraryGameGroup(new GameGroup(aux,ConfigurarIdioma.getLanguaje()));
+                            int levelId=json.getId(json.getmJSONArrayTodosLosGrupos().getJSONObject(mPosition));
+                            Juego juego=new Juego(mContext,id,levelId);
+                            Drawable drawable=juego.devolverCarita();
+                            drawable.setTint(mContext.getResources().getColor(R.color.NaranjaOTTAA));
+                            if(juego.getScoreClass().getIntentos()>0)
+                                glideAttatcher.loadDrawable(drawable,mHolder.mGameGroupView.getKindOfPictogramImageView());
+                            else
+                                glideAttatcher.loadDrawable(mContext.getResources().getDrawable(R.drawable.ic_remove_orange_24dp),mHolder.mGameGroupView.getKindOfPictogramImageView());
+                        }catch (Exception ex) {
+
+                        }
+                    });
+                }
+            });
+        }
+
 
         @Override
         protected void onPreExecute() {
@@ -144,15 +170,9 @@ public class GaleriaJuegosAdapter extends RecyclerView.Adapter <GaleriaJuegosAda
             Bitmap mBitmap;
             try {
                 json = Json.getInstance();
-                SharedPreferences sharedPrefsDefault = PreferenceManager.getDefaultSharedPreferences(mContext);
-                mStringTexto = JSONutils.getNombre(json.getmJSONArrayTodosLosGrupos().getJSONObject(mPosition), ConfigurarIdioma.getLanguaje());
-                mDrawableIcono = json.getIcono(json.getmJSONArrayTodosLosGrupos().getJSONObject(mPosition));
-                if (mDrawableIcono == null)
-                    mDrawableIcono = AppCompatResources.getDrawable(mContext, R.drawable.ic_cloud_download_orange);
-                mBitmap = ThumbnailUtils.extractThumbnail(((BitmapDrawable) mDrawableIcono).getBitmap(), 150, 150);
-                mDrawableIcono = new BitmapDrawable(mContext.getResources(), mBitmap);
-
-
+                aux = json.getmJSONArrayTodosLosGrupos().getJSONObject(mPosition);
+                this.mHolder.mGameGroupView.setUpContext(mContext);
+                this.mHolder.mGameGroupView.setUpGlideAttatcher(mContext);
             } catch (Exception e) {
                 Log.e(TAG, "doInBackground: " + e.getMessage());
 
@@ -165,39 +185,9 @@ public class GaleriaJuegosAdapter extends RecyclerView.Adapter <GaleriaJuegosAda
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
             //Le asignamos al grupo su texto e icono
-            mHolder.mTextGrupo.setText(mStringTexto);
-            glideAttatcher.attachedOnImaView(mDrawableIcono,this.mHolder.mGrupoImageView);
-            try {
-                int levelId=json.getId(json.getmJSONArrayTodosLosGrupos().getJSONObject(mPosition));
-                Juego juego=new Juego(mContext,id,levelId);
-                Drawable drawable=juego.devolverCarita();
-                drawable.setTint(mContext.getResources().getColor(R.color.NaranjaOTTAA));
-                if(juego.getScoreClass().getIntentos()>0)
-                    glideAttatcher.attachedOnImaView(drawable,this.mHolder.mScoreImageView);
-                else
-                    glideAttatcher.attachedOnImaView(mContext.getResources().getDrawable(R.drawable.ic_remove_orange_24dp),this.mHolder.mScoreImageView);
 
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
             //   mHolder.mGrupoImageView.setImageDrawable(mDrawableIcono);
 
-        }
-    }
-    public  void loadDrawable(GlideAttatcher attatcher, Pictogram pictogram, ImageView imageView){
-        if(pictogram.getEditedPictogram().isEmpty()){
-            Drawable drawable=json.getIcono(pictogram.toJsonObject());
-            if(drawable!=null)
-                attatcher.UseCornerRadius(true).loadDrawable(drawable,imageView);
-            else
-                attatcher.UseCornerRadius(true).loadDrawable(mContext.getResources().getDrawable(R.drawable.ic_cloud_download_orange),imageView);
-        }else{
-            File picto=new File(pictogram.getEditedPictogram());
-            if(picto.exists())
-                attatcher.UseCornerRadius(true).loadDrawable(picto,imageView);
-            else
-                attatcher.UseCornerRadius(true).loadDrawable(Uri.parse(pictogram.getUrl()),imageView);
         }
     }
 }

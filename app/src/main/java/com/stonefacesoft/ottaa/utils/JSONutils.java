@@ -8,6 +8,7 @@ import com.stonefacesoft.ottaa.Prediction.Edad;
 import com.stonefacesoft.ottaa.Prediction.Horario;
 import com.stonefacesoft.ottaa.Prediction.Posicion;
 import com.stonefacesoft.ottaa.Prediction.Sexo;
+import com.stonefacesoft.ottaa.utils.constants.Constants;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -24,6 +25,13 @@ public class JSONutils {
      * @return id from a pictogram or a group
      * */
     private final static String TAG = "JSONUtils";
+    private static JSONutils _JsoNutils;
+
+    public static synchronized JSONutils getInstance(){
+        if(_JsoNutils == null)
+            _JsoNutils = new JSONutils();
+        return _JsoNutils;
+    }
 
 
     //TODO ver porque tiene q ser static
@@ -35,7 +43,6 @@ public class JSONutils {
                 id = object.getInt("id");
                 break;
             }
-
         }
         return id;
     }
@@ -450,9 +457,13 @@ public class JSONutils {
                 pesoSexo = 3, pesoEdad = 5;
         double score;
         JSONObject original = null;
+
         try {
-            frec = json.getInt("frec");
+            frec = 0;
+            if(json.has("frec"))
+                frec = json.getInt("frec");
             id = json.getInt("id");
+
             original = getPictoFromId2(jsonArrayTodosLosPictos,id);
 
         } catch (JSONException e) {
@@ -465,14 +476,17 @@ public class JSONutils {
         sexoUsuario = tieneSexo(original, sexo);
         edadUsuario = tieneEdad(original, edad);
 
+        Log.e(TAG, "score: Agenda:"+agendaUsuario+" horaDeldia:"+horaDelDia +" gps:"+ gps+" sexoUsuario" +sexoUsuario +" edad :"+ edadUsuario);
+
+
         if (esSugerencia) {
             gps = 0;
             agendaUsuario = 0;
             horaDelDia = 0;
         }
+
         score = (frec * pesoFrec) + (agendaUsuario * pesoAgenda) + (gps * pesoGps) + (horaDelDia *
                 pesoHora) + (sexoUsuario * pesoSexo) + (edadUsuario * pesoEdad);
-        Log.d(TAG, "score: "+score +" HoraDia:"+ horaDelDia +", gps:"+ gps+", Sexo Usuario : "+sexoUsuario+", Edad Usuario:"+edadUsuario );
         return score;
     }
 
@@ -570,6 +584,8 @@ public class JSONutils {
         }
         return 0;
     }
+
+
 
 
 

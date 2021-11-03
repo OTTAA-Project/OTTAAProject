@@ -18,6 +18,7 @@
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_header_main"
         app:menu="@menu/activity_main_drawer"
+
         android:background="@drawable/ic_shape_left_singlebutton_white"
         >
 

@@ -5,7 +5,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
-import android.speech.tts.TextToSpeech;
 import android.util.Log;
 import android.view.View;
 import android.view.animation.AnimationUtils;
@@ -16,14 +15,15 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.stonefacesoft.ottaa.Custom_Picto;
-import com.stonefacesoft.ottaa.Dialogos.Dialog_options_level_game;
+import com.stonefacesoft.ottaa.Dialogos.DialogUtils.Dialog_options_level_game;
 import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.utils.Audio.MediaPlayerAudio;
 import com.stonefacesoft.ottaa.utils.CustomToast;
 import com.stonefacesoft.ottaa.utils.Games.CalculaPuntos;
 import com.stonefacesoft.ottaa.utils.JSONutils;
-import com.stonefacesoft.ottaa.utils.Ttsutils.UtilsTTS;
+import com.stonefacesoft.ottaa.utils.textToSpeech;
+import com.stonefacesoft.pictogramslibrary.view.PictoView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -49,10 +49,10 @@ public class ArmarFrases extends AppCompatActivity implements View.OnClickListen
     private ImageButton levelOption;
 
     private ArrayList<View> seleccionN;
-    private Custom_Picto Opcion1;
-    private Custom_Picto Opcion2;
-    private Custom_Picto Opcion3;
-    private Custom_Picto Opcion4;
+    private PictoView Opcion1;
+    private PictoView Opcion2;
+    private PictoView Opcion3;
+    private PictoView Opcion4;
 
     private int level;
 
@@ -70,8 +70,7 @@ public class ArmarFrases extends AppCompatActivity implements View.OnClickListen
 
     private SharedPreferences mDefaultSharedPreferences;
     private ArrayList<JSONObject> listadoPictos;
-    private TextToSpeech mTTS;
-    private UtilsTTS mUtilsTTS;
+    private textToSpeech mTextToSpeech;
 
 
     private CustomToast toast;
@@ -108,9 +107,9 @@ public class ArmarFrases extends AppCompatActivity implements View.OnClickListen
         Agregar.setIdPictogram(0);
 
         numeros=new ArrayList();
-        mDefaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        toast=new CustomToast(this);
-        mUtilsTTS=new UtilsTTS(this,mTTS,toast,mDefaultSharedPreferences);
+        mDefaultSharedPreferences= PreferenceManager.getDefaultSharedPreferences(this);
+        toast=CustomToast.getInstance(this);
+        mTextToSpeech = textToSpeech.getInstance(this);
         listadoPictos=new ArrayList<>();
         seleccion1=findViewById(R.id.Seleccion1);
         seleccion2=findViewById(R.id.Seleccion2);
@@ -246,7 +245,7 @@ public class ArmarFrases extends AppCompatActivity implements View.OnClickListen
                     Log.e(TAG, "onClick: "+devolverFraseCompleta() );
                     Log.e(TAG, "onClick: "+frase.getString("frase") );
                     if(verificarFraseCorrecta()){
-                    mUtilsTTS.hablar(frase.getString("frase"));
+                    mTextToSpeech.hablar(frase.getString("frase"));
                     puntaje.sumarCantidadVecesCorrectas();
                         Handler handler=new Handler();
                         handler.postDelayed(new Runnable() {

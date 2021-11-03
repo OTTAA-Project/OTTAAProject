@@ -5,15 +5,20 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
+import android.speech.tts.UtteranceProgressListener;
 import android.util.Log;
 
+import com.stonefacesoft.ottaa.Interfaces.TTSListener;
 import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.idioma.ConfigurarIdioma;
 import com.stonefacesoft.ottaa.utils.CustomToast;
 import com.stonefacesoft.ottaa.utils.Firebase.CrashlyticsUtils;
 import com.stonefacesoft.ottaa.utils.verificarPaqueteInstalado;
 
+import java.io.File;
+import java.util.HashMap;
 import java.util.Locale;
 /**
  * @author Gonzalo Juarez
@@ -40,11 +45,38 @@ public class UtilsTTS {
     protected Context mContext;
     protected CustomToast alerta;
     protected boolean speak;
+    private TTSListener ttsListener;
+    private String id="TTSOTTAAID";
+    private static UtilsTTS _UtilsTTS;
+    private UtteranceProgressListener utteranceProgressListener = new UtteranceProgressListener() {
+        @Override
+        public void onStart(String utteranceId) {
 
-    public UtilsTTS(Context mContext, TextToSpeech mTTS, CustomToast alerta, SharedPreferences sharedPrefsDefault){
+        }
+
+        @Override
+        public void onDone(String utteranceId) {
+            if(utteranceId.toString().toLowerCase().equals(id.toLowerCase())&&ttsListener!=null){
+                ttsListener.TTSonDone();
+                ttsListener= null;
+            }
+        }
+
+        @Override
+        public void onError(String utteranceId) {
+            if(ttsListener!=null) {
+                ttsListener.TTSonError();
+                ttsListener =null;
+            }
+        }
+    };
+
+
+
+    public UtilsTTS(Context mContext, CustomToast alerta, SharedPreferences sharedPrefsDefault){
         this.mContext=mContext;
         this.alerta=alerta;
-
+        this.sharedPrefsDefault=sharedPrefsDefault;
         this.mTTS=new TextToSpeech(this.mContext, new TextToSpeech.OnInitListener() {
             @Override
             public void onInit(int status) {
@@ -52,14 +84,11 @@ public class UtilsTTS {
                     preparEngineTTS();
                     speak=true;
                 } else if (status == TextToSpeech.ERROR) {
-                    if (mTTS != null)
-                        mTTS.stop();
                     speak=false;
-
                 }
             }
         });
-        this.sharedPrefsDefault=sharedPrefsDefault;
+        this.mTTS.setOnUtteranceProgressListener(utteranceProgressListener);
     }
     /**
      * <h5>Objetive :</h5>
@@ -133,6 +162,10 @@ public class UtilsTTS {
             alerta.mostrarFrase(mContext.getString(R.string.pref_error_TTS));
         }
         // Seteamos los valores de velocidad y tono por defecto
+        setUpTTSVOICE();
+    }
+
+    private void setUpTTSVOICE(){
         float pitch = sharedPrefsDefault.getInt(mContext.getString(R.string.str_pitch_tts), 10);
         float vel = sharedPrefsDefault.getInt(mContext.getString(R.string.str_velocidad_tts), 10);
         //verificamos si el tts personalizado no esta activado, en caso de no estarlo se setea la velocidad del  tts a su velocidad estandar
@@ -144,6 +177,7 @@ public class UtilsTTS {
         mTTS.setPitch(pitch / 10);
         mTTS.setSpeechRate(vel / 10);
     }
+
     /**
      * <h5>Objetive :</h5>
      * <p>Speak the phrase without dialog.</p>
@@ -152,10 +186,13 @@ public class UtilsTTS {
     public void hablar(String frase){
         speak=true;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-
-            mTTS.speak(frase, TextToSpeech.QUEUE_FLUSH, null, null);
+            Bundle bundle = new Bundle();
+            bundle.putString(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID,"");
+            mTTS.speak(frase, TextToSpeech.QUEUE_FLUSH, bundle, id);
         } else {
-            mTTS.speak(frase, TextToSpeech.QUEUE_FLUSH, null);
+            HashMap<String, String> hashTts = new HashMap<String, String>();
+            hashTts.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, id);
+            mTTS.speak(frase, TextToSpeech.QUEUE_FLUSH, hashTts);
         }
     }
     /**
@@ -166,12 +203,35 @@ public class UtilsTTS {
     public void hablarConDialogo(String frase){
         Log.d("texToSpeech_hablar", "Hablar");
         alerta.mostrarFrase(frase);
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            mTTS.speak(frase, TextToSpeech.QUEUE_FLUSH, null, null);
+            Bundle bundle = new Bundle();
+            bundle.putString(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID,"");
+            mTTS.speak(frase, TextToSpeech.QUEUE_FLUSH, bundle, id);
         } else {
-            mTTS.speak(frase, TextToSpeech.QUEUE_FLUSH, null);
+            HashMap<String, String> hashTts = new HashMap<String, String>();
+            hashTts.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, id);
+            mTTS.speak(frase, TextToSpeech.QUEUE_FLUSH, hashTts);
         }
     }
+
+
+    public void SyntetizeFile(String frase, File file){
+        alerta.mostrarFrase(frase);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Bundle bundle = new Bundle();
+            bundle.putString(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID,"");
+            bundle.putInt(TextToSpeech.Engine.KEY_PARAM_STREAM, TextToSpeech.Engine.DEFAULT_STREAM);
+            bundle.putFloat(TextToSpeech.Engine.KEY_PARAM_VOLUME,0.5f);
+            bundle.putFloat(TextToSpeech.Engine.KEY_PARAM_PAN,0);
+            mTTS.synthesizeToFile(frase, bundle,file, id);
+        } else {
+            HashMap<String, String> hashTts = new HashMap<String, String>();
+            hashTts.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, id);
+            mTTS.synthesizeToFile(frase,hashTts,file.getAbsolutePath());
+        }
+    }
+
 
     public TextToSpeech getmTTS() {
         return mTTS;
@@ -180,4 +240,10 @@ public class UtilsTTS {
     public boolean isSpeak() {
         return speak;
     }
+
+    public void setTtsListener(TTSListener ttsListener){
+        this.ttsListener = ttsListener;
+    }
+
+
 }

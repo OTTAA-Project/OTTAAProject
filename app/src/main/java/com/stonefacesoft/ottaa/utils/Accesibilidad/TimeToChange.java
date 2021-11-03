@@ -32,7 +32,7 @@ public class TimeToChange extends android.os.Handler {
 
     public void cambiarBoton(){
         removeAllMessages();
-        if(barridoPantalla.isBarridoActivado())
+        if(barridoPantalla.isBarridoPantalla())
         super.sendMessageDelayed(getHandler().obtainMessage(CHANGE_BUTTON),tiempo*1000);
     }
     public android.os.Handler getHandler()

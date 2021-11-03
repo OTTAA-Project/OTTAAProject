@@ -1,21 +1,20 @@
 package com.stonefacesoft.ottaa.utils;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.net.Uri;
-import android.os.Build;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.speech.tts.TextToSpeech;
-import android.speech.tts.UtteranceProgressListener;
 import android.util.Log;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.stonefacesoft.ottaa.utils.Firebase.AnalyticsFirebase;
 import com.stonefacesoft.ottaa.utils.Ttsutils.UtilsTTS;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
 
 
@@ -24,23 +23,50 @@ import java.util.HashMap;
  */
 
 public class textToSpeech {
-    private TextToSpeech hablar;
-    private final CustomToast alerta;
-    private final SharedPreferences sharedPrefsDefault;
-    private final Context context;
+
+    private SharedPreferences sharedPrefsDefault;
+    private Context context;
+    private CustomToast alerta;
     private boolean esprincipal;
     private String oracion;
     private File file;
     private String outputFile;
-    private final UtilsTTS prepare;
+    private UtilsTTS prepare;
+    private static textToSpeech _MYTTS;
 
-    public textToSpeech(Context context) {
-        this.context = context;
-        alerta = new CustomToast(context);
-        this.sharedPrefsDefault = PreferenceManager.getDefaultSharedPreferences(context);
-        prepare=new UtilsTTS(this.context,hablar,alerta,sharedPrefsDefault);
-        hablar=prepare.getmTTS();
+    public synchronized static textToSpeech getInstance(Context context){
+        if(_MYTTS == null)
+            _MYTTS = new textToSpeech();
+        _MYTTS.prepareTextToSpeech(context);
+        return _MYTTS;
     }
+
+    public synchronized  static textToSpeech getInstance(AppCompatActivity context){
+        if(_MYTTS == null)
+            _MYTTS = new textToSpeech();
+        _MYTTS.prepareTextToSpeech(context);
+        return _MYTTS;
+    }
+
+    private textToSpeech(){
+
+    }
+
+    private textToSpeech(Context context) {
+        this.context = context;
+        this.sharedPrefsDefault = PreferenceManager.getDefaultSharedPreferences(context);
+        alerta =CustomToast.getInstance(this.context);
+        prepare= new UtilsTTS(this.context,alerta,sharedPrefsDefault);
+
+    }
+
+    public void prepareTextToSpeech(Context context){
+        this.context = context;
+        alerta =CustomToast.getInstance(this.context);
+        this.sharedPrefsDefault = PreferenceManager.getDefaultSharedPreferences(context);
+        prepare= new UtilsTTS(context,alerta,sharedPrefsDefault);
+    }
+
 
 
 
@@ -48,52 +74,33 @@ public class textToSpeech {
         Log.e("texToSpeech_hablar", "Hablar");
         this.oracion = frase;
         prepare.hablarConDialogo(oracion);
-
     }
 
     public void hablarSinMostrarFrase(String frase) {
         Log.e("texToSpeech_hablar", "Hablar");
         this.oracion = frase;
         prepare.hablar(oracion);
-
     }
 
     public void hablar(String frase, AnalyticsFirebase mTracker) {
         Log.e("texToSpeech_hablar", "Hablar con Tracker");
         this.oracion = frase;
-        alerta.mostrarFrase(frase, mTracker);
-        prepare.hablar(frase);
+        prepare.hablarConDialogo(frase);
+        mTracker.customEvents("Talk","Principal","Created Phrase");
 
     }
 
 
     public void mute() {
-        hablar.stop();
+        prepare.getmTTS().stop();
     }
 
-    public File grabar(String oracion) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            String fileName = Uri.parse("audio.mp3").getLastPathSegment();
-            try {
-                file = File.createTempFile("audio", ".mp3", context.getExternalCacheDir());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            HashMap<String, String> myHashRender = new HashMap();
-            String wakeUpText = oracion;
-            String destFileName =file.getAbsolutePath();
-            myHashRender.put(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, wakeUpText);
+    public UtilsTTS getUtilsTTS(){
+        return prepare;
+    }
 
-
-            hablar.synthesizeToFile(wakeUpText, myHashRender, file.getAbsolutePath());
-          //file=new File(mContext.getCacheDir(),"audio.wav");
-            Log.e("texToSpeech_grabar_size", file.getTotalSpace() + "");
-            Log.e("texToSpeech_grabar_path", file.getAbsolutePath() + "");
-
-
-        }
-
-        return file;
+    public void grabar(File file,String phrase) {
+           prepare.SyntetizeFile(phrase,file);
     }
 
     public File devolverPathAudio() {
@@ -123,45 +130,25 @@ public class textToSpeech {
     }
 
 
-    public void compartirAudio() {
-
-        String textToShare = oracion;
-
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            hablar.synthesizeToFile(textToShare, null, file, file.getAbsolutePath());
-        }
-        hablar.setOnUtteranceProgressListener(new UtteranceProgressListener() {
-            @Override
-            public void onStart(String utteranceId) {
-            }
-
-            @Override
-            public void onAudioAvailable(String utteranceId, byte[] audio) {
-                final Intent shareIntent = new Intent(Intent.ACTION_SEND);
-                shareIntent.setType("*/*");
-                shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse(file.getAbsolutePath()));
-
-                if (shareIntent.resolveActivity(context.getPackageManager()) != null) {
-                    context.startActivity(shareIntent);
-                }
-                super.onAudioAvailable(utteranceId, audio);
-            }
-
-            @Override
-            public void onDone(String utteranceId) {
-
-
-            }
-
-            @Override
-            public void onError(String utteranceId) {
-            }
-        });
-    }
 
     public TextToSpeech getTTS() {
-        return hablar;
+        return prepare.getmTTS();
+    }
+
+    public void synthesizeToFile(String Oracion, Bundle params,File file){
+        if(prepare.getmTTS()!=null)
+        getTTS().synthesizeToFile(Oracion, params, file, Oracion);
+    }
+
+    public void shutdownTTS(){
+        if(prepare.getmTTS() != null)
+            prepare.getmTTS().shutdown();
+    }
+
+    public boolean isSpeaking(){
+        if(prepare.getmTTS() != null)
+            return prepare.getmTTS().isSpeaking();
+        return false;
     }
 
     public void mostrarAlerta(String mensaje) {
@@ -169,12 +156,9 @@ public class textToSpeech {
     }
 
     public void mostrarAlerta(String mensaje, AnalyticsFirebase mTracker) {
-        alerta.mostrarFrase(mensaje, mTracker);
-
+        alerta.mostrarFrase(mensaje);
+        mTracker.customEvents("Talk","Principal","Created Phrase");
     }
-
-
-
 
 }
 

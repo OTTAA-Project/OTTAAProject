@@ -3,7 +3,7 @@ package com.stonefacesoft.ottaa.utils.Phrases;
 import android.content.Context;
 
 import com.stonefacesoft.ottaa.JSONutils.Json;
-import com.stonefacesoft.ottaa.utils.Constants;
+import com.stonefacesoft.ottaa.utils.constants.Constants;
 import com.stonefacesoft.pictogramslibrary.JsonUtils.JSONObjectManager;
 
 import org.json.JSONArray;
@@ -14,9 +14,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 public class CustomFavoritePhrases {
-    private final Context mContext;
+    private Context mContext;
     private final Json json;
     private JSONArray favoritePhrases;
+    private static CustomFavoritePhrases customFavoritePhrases;
 
     /**
      * the systems show the users favorite phrases
@@ -28,7 +29,26 @@ public class CustomFavoritePhrases {
      *  Cada una de las frases debe estar filtrada por idioma
      * */
 
-     public CustomFavoritePhrases(Context mContext){
+    public synchronized static CustomFavoritePhrases getInstance(Context mContext){
+        if(customFavoritePhrases == null)
+            customFavoritePhrases = new CustomFavoritePhrases(mContext);
+        return customFavoritePhrases;
+    }
+    public synchronized static CustomFavoritePhrases getInstance(){
+        if(customFavoritePhrases == null)
+            customFavoritePhrases = new CustomFavoritePhrases();
+        return customFavoritePhrases;
+    }
+
+
+    private CustomFavoritePhrases(){
+        json=Json.getInstance();
+        favoritePhrases=json.getmJSonArrayFrasesFavoritas();
+        if(favoritePhrases==null)
+            favoritePhrases=new JSONArray();
+    }
+
+     private CustomFavoritePhrases(Context mContext){
          this.mContext=mContext;
          json=Json.getInstance();
          json.setmContext(this.mContext);
@@ -40,10 +60,8 @@ public class CustomFavoritePhrases {
      public boolean addFavoritePhrase(JSONObject object){
          boolean existPhrase=isExist(object);
          if(!existPhrase){
-            if(favoritePhrases.length()<10){
                 favoritePhrases.put(object);
                 return true;
-            }
          }
             return false;
      }

@@ -20,7 +20,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import static com.stonefacesoft.ottaa.test.JUnitSuiteClasses.testRunning;
 
 /**
  * In this class  I was testing the following classes
@@ -44,7 +43,7 @@ public class UnitTestingGetPictogramsById extends TestCase {
     }
 
     @Test
-    public void createRelationShip(){
+    public void unitTestingPictograms(){
         picto1=pictograms.generatePictogram(0,"es","Hola","Hello",5);
         picto2=pictograms.generatePictogram(1,"es","Adios","Good Bye",5);
         picto3=pictograms.generatePictogram(2,"es","Como estas?","How are you",5);
@@ -78,9 +77,5 @@ public class UnitTestingGetPictogramsById extends TestCase {
         return super.run();
     }
 
-    @Override
-    public int countTestCases() {
-        return testRunning++;
-    }
 
 }

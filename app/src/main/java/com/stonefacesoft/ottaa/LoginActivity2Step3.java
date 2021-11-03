@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.stonefacesoft.ottaa.Dialogos.NewDialogsOTTAA;
+import com.stonefacesoft.ottaa.Dialogos.newsDialog.NewDialogsOTTAA;
 import com.stonefacesoft.ottaa.Viewpagers.Viewpager_tutorial;
 import com.stonefacesoft.ottaa.utils.Firebase.AnalyticsFirebase;
 import com.stonefacesoft.ottaa.utils.InmersiveMode;
@@ -20,18 +20,26 @@ import com.stonefacesoft.ottaa.utils.InmersiveMode;
 public class LoginActivity2Step3 extends AppCompatActivity implements View.OnClickListener {
 
     //UI elements
-    ImageView imageViewOrangeBanner;
-    ImageView imageViewThreePeople;
-    TextView textViewLoginBig;
-    TextView textViewLoginSmall;
-    Button buttonNext;
-    Button buttonPrevious;
-    Button buttonTutorial;
+    private ImageView imageViewOrangeBanner;
+    private ImageView imageViewThreePeople;
+    private TextView textViewLoginBig;
+    private TextView textViewLoginSmall;
+    private Button buttonNext;
+    private Button buttonPrevious;
+    private Button buttonTutorial;
+    private Button buttonBookDemo;
+    private Button buttonAutoworkshop;
+    private boolean comingFromMainActivity;
 
     private AnalyticsFirebase mAnalyticsFirebase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Intent intento = getIntent();
+        if(intento!=null){
+            if(intento.hasExtra("comingFromMainActivity"))
+                comingFromMainActivity = true;
+        }
         new InmersiveMode(this);
 
         super.onCreate(savedInstanceState);
@@ -56,39 +64,54 @@ public class LoginActivity2Step3 extends AppCompatActivity implements View.OnCli
         buttonPrevious.setOnClickListener(this);
         buttonTutorial = findViewById(R.id.buttonTutorial);
         buttonTutorial.setOnClickListener(this);
+        buttonAutoworkshop = findViewById(R.id.buttonAutoWorkshop);
+        buttonAutoworkshop.setOnClickListener(this);
+        buttonBookDemo = findViewById(R.id.buttonBookDemo);
+        buttonBookDemo.setOnClickListener(this);
 
-
-
-
-
+        if(comingFromMainActivity){
+            buttonPrevious.setVisibility(View.INVISIBLE);
+            buttonNext.setText(getResources().getText(R.string.exit_general));
+        }
     }
 
     @Override
     public void onClick(View view) {
         int id = view.getId();
-        if (id == R.id.nextButton) {
-            mAnalyticsFirebase.customEvents("Touch","LoginActivityStep3","Next2");
-            Intent intent = new Intent(LoginActivity2Step3.this, LoginActivity2Avatar.class);
-            startActivity(intent);
-            finish();
-        } else if (id == R.id.backButton) {
-            mAnalyticsFirebase.customEvents("Touch","LoginActivityStep3","Back2");
-            Intent intent2 = new Intent(LoginActivity2Step3.this, LoginActivity2Step2.class);
-            startActivity(intent2);
-        } else if (id == R.id.buttonTutorial) {
-            mAnalyticsFirebase.customEvents("Touch","LoginActivityStep3","ButtonTutorial");
-            Intent intent3 = new Intent(LoginActivity2Step3.this, Viewpager_tutorial.class);
-            startActivity(intent3);
-        } else if (id == R.id.buttonAutoWorkshop) {
-            mAnalyticsFirebase.customEvents("Touch","LoginActivityStep3","ButtonAutoWorkShop");
-            new NewDialogsOTTAA(this).showAutoWorkshopDialog();
-        } else if (id == R.id.buttonBookDemo) {
-            mAnalyticsFirebase.customEvents("Touch","LoginActivityStep3","ButtonBookDemo");
-            new NewDialogsOTTAA(this).showBookDemoDialog();
+        switch (id){
+            case R.id.nextButton:
+                if(!comingFromMainActivity){
+                    mAnalyticsFirebase.customEvents("Touch","LoginActivityStep3","Next2");
+                    Intent intent = new Intent(LoginActivity2Step3.this, LoginActivity2Avatar.class);
+                    startActivity(intent);
+                }
+                finish();
+                break;
+            case R.id.back_button:
+                if(!comingFromMainActivity){
+                    mAnalyticsFirebase.customEvents("Touch","LoginActivityStep3","Back2");
+                    Intent intent2 = new Intent(LoginActivity2Step3.this, LoginActivity2Step2.class);
+                    startActivity(intent2);
+                    finish();
+                }
+                break;
+            case R.id.buttonTutorial:
+                mAnalyticsFirebase.customEvents("Touch","LoginActivityStep3","ButtonTutorial");
+                Intent intent3 = new Intent(LoginActivity2Step3.this, Viewpager_tutorial.class);
+                startActivity(intent3);
+                break;
+            case R.id.buttonAutoWorkshop:
+                mAnalyticsFirebase.customEvents("Touch","LoginActivityStep3","ButtonAutoWorkShop");
+                new NewDialogsOTTAA(this).showAutoWorkshopDialog();
+                break;
+            case R.id.buttonBookDemo:
+                mAnalyticsFirebase.customEvents("Touch","LoginActivityStep3","ButtonBookDemo");
+                new NewDialogsOTTAA(this).showBookDemoDialog();
+                break;
         }
     }
 
-    private  void animateEntrance(){
+    private void animateEntrance(){
         TranslateAnimation translateAnimation = new TranslateAnimation(-700, 0, 0, 0);
         translateAnimation.setRepeatMode(Animation.ABSOLUTE);
         translateAnimation.setInterpolator(new AccelerateDecelerateInterpolator());

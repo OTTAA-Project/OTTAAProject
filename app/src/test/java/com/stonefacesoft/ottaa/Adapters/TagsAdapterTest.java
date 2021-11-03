@@ -2,8 +2,7 @@ package com.stonefacesoft.ottaa.Adapters;
 
 import com.stonefacesoft.ottaa.AsignTags;
 import com.stonefacesoft.ottaa.JSONutils.Json;
-import com.stonefacesoft.ottaa.Principal;
-import com.stonefacesoft.ottaa.utils.Constants;
+import com.stonefacesoft.ottaa.utils.constants.Constants;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -16,8 +15,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 public class TagsAdapterTest {
-
-    private AsignTags asignTags = new AsignTags(new Principal());
+    private AsignTags asignTags = new AsignTags();
     private TagsAdapter tagsAdapter = new TagsAdapter();
     @Test
     public void testGetItemViewType() {

@@ -6,18 +6,18 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.InputDevice;
+import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 
 import androidx.annotation.Nullable;
 
-import com.stonefacesoft.ottaa.Custom_Picto;
-import com.stonefacesoft.ottaa.Dialogos.DialogGameProgressInform;
+import com.stonefacesoft.ottaa.Dialogos.DialogUtils.DialogGameProgressInform;
 import com.stonefacesoft.ottaa.Games.Model.MatchPictogramsModel;
 import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.R;
@@ -254,7 +254,7 @@ public class MatchPictograms extends GameViewSelectPictograms {
             enableGuessOption(i);
         }
         if (gamesSettings.isRepeatLection()) {
-            mUtilsTTS.hablarConDialogo(getString(R.string.repeat_pictograms));
+            mTTS.getUtilsTTS().hablarConDialogo(getString(R.string.repeat_pictograms));
             opcion1.setVisibility(View.INVISIBLE);
             opcion2.setVisibility(View.INVISIBLE);
             opcion3.setVisibility(View.INVISIBLE);
@@ -300,7 +300,7 @@ public class MatchPictograms extends GameViewSelectPictograms {
     protected void speakOption(PictoView option) {
         super.speakOption(option);
         if (!gamesSettings.isRepeatLection()) {
-            mUtilsTTS.hablar(option.getCustom_Texto());
+            mTTS.getUtilsTTS().hablar(option.getCustom_Texto());
         }
     }
 
@@ -351,15 +351,7 @@ public class MatchPictograms extends GameViewSelectPictograms {
         from.startAnimation(animation);
     }
 
-    protected void animarPictoReset(Custom_Picto picto) {
 
-        TranslateAnimation animation = new TranslateAnimation(0, 0, 0, 0);
-        animation.setRepeatMode(0);
-        animation.setDuration(500);
-        animation.setFillAfter(true);
-        picto.startAnimation(animation);
-
-    }
 
 
     @Override
@@ -413,16 +405,6 @@ public class MatchPictograms extends GameViewSelectPictograms {
     }
 
 
-    protected void animateGanador(Custom_Picto picto_ganador, int tipo) {
-        switch (tipo) {
-            case 0:
-                selectButtonGanador(picto_ganador.getCustom_Texto()).startAnimation(AnimationUtils.loadAnimation(MatchPictograms.this, R.anim.shake));
-                break;
-            case 1:
-                selectImagenGanadora(picto_ganador.getCustom_Texto()).startAnimation(AnimationUtils.loadAnimation(MatchPictograms.this, R.anim.shake));
-                break;
-        }
-    }
 
     protected PictoView selectButtonGanador(String text) {
         if (guess1.getCustom_Texto().equals(text))
@@ -568,7 +550,7 @@ public class MatchPictograms extends GameViewSelectPictograms {
             if (!numeros.contains(valor)) {
                 numeros.add(valor);
                 name = JSONutils.getNombre(pictogramas[valor],ConfigurarIdioma.getLanguaje());
-                mUtilsTTS.hablar(name);
+                mTTS.getUtilsTTS().hablar(name);
             } else {
                 decirPictoAleatorio();
             }
@@ -680,5 +662,38 @@ public class MatchPictograms extends GameViewSelectPictograms {
                 habilitarPictoGrama(guess4, false);
                 break;
         }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (barridoPantalla.isBarridoActivado()) {
+
+            if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT) {
+                event.startTracking();
+                return true;
+            } else if (keyCode == KeyEvent.KEYCODE_DPAD_LEFT) {
+                event.startTracking();
+                return true;
+            } else if (keyCode == KeyEvent.KEYCODE_DPAD_UP) {
+                event.startTracking();
+                return true;
+            } else if (keyCode == KeyEvent.KEYCODE_DPAD_DOWN) {
+                event.startTracking();
+                return true;
+            }
+            if(keyCode == KeyEvent.KEYCODE_BACK){
+                if(event.getSource() == InputDevice.SOURCE_MOUSE)
+                    barridoPantalla.getmListadoVistas().get(barridoPantalla.getPosicionBarrido()).callOnClick();
+                else
+                    onBackPressed();
+                return true;
+            }
+        }else{
+            if(keyCode == KeyEvent.KEYCODE_BACK){
+                onBackPressed();
+                return true;
+            }
+        }
+        return false;
     }
 }

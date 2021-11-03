@@ -1,5 +1,7 @@
 package com.stonefacesoft.ottaa;
 
+import static com.stonefacesoft.ottaa.utils.constants.Constants.RC_SIGN_IN;
+
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -39,13 +41,13 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.stonefacesoft.ottaa.FirebaseRequests.BajarJsonFirebase;
 import com.stonefacesoft.ottaa.FirebaseRequests.FirebaseDatabaseRequest;
 import com.stonefacesoft.ottaa.Interfaces.FirebaseSuccessListener;
 import com.stonefacesoft.ottaa.idioma.ConfigurarIdioma;
+import com.stonefacesoft.ottaa.utils.CloudFunctionHTTPRequest;
 import com.stonefacesoft.ottaa.utils.Firebase.AnalyticsFirebase;
 import com.stonefacesoft.ottaa.utils.InmersiveMode;
 import com.stonefacesoft.ottaa.utils.IntentCode;
@@ -53,8 +55,6 @@ import com.stonefacesoft.ottaa.utils.ObservableInteger;
 
 import java.io.File;
 import java.util.Locale;
-
-import static com.stonefacesoft.ottaa.utils.Constants.RC_SIGN_IN;
 
 //Code source https://developers.google.com/identity/sign-in/android/sign-in
 
@@ -77,8 +77,6 @@ public class LoginActivity2 extends AppCompatActivity implements View.OnClickLis
     private ObservableInteger observableInteger;
     private BajarJsonFirebase mBajarJsonFirebase;
     private SharedPreferences sharedPrefsDefault;
-    private StorageReference mStorageRef;
-    private DatabaseReference mDatabase;
     private ProgressDialog dialog;
     private String locale;
     private FirebaseAuth.AuthStateListener mAuthListener;
@@ -93,11 +91,7 @@ public class LoginActivity2 extends AppCompatActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_activity_1);
         mAnalyticsFirebase=new AnalyticsFirebase(this);
-
         bindUI();
-
-        // Configure sign-in to request the user's ID, email address, and basic
-        // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
@@ -116,7 +110,7 @@ public class LoginActivity2 extends AppCompatActivity implements View.OnClickLis
 
     private void bindUI(){
         cardViewLogin = findViewById(R.id.cardViewLogin);
-        signInButton = findViewById(R.id.googleSignInButton);
+        signInButton = findViewById(R.id.sign_in_button);
         signInButton.setVisibility(View.INVISIBLE);
         signInButton.setOnClickListener(this);
         textViewLoginBig = findViewById(R.id.textLoginBig);
@@ -148,13 +142,10 @@ public class LoginActivity2 extends AppCompatActivity implements View.OnClickLis
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.googleSignInButton:
-                mAnalyticsFirebase.customEvents("Touch","LoginActivity2","signIn");
-                signIn();
-                break;
-                //TODO put an easter egg when you click the Bubas
-        }
+       if(v.getId() == R.id.sign_in_button){
+           mAnalyticsFirebase.customEvents("Touch","LoginActivity2","signIn");
+           signIn();
+       }
     }
 
     private void signIn() {
@@ -405,6 +396,7 @@ public class LoginActivity2 extends AppCompatActivity implements View.OnClickLis
                     request.subirNombreUsuario(firebaseAuth);
                     request.subirPago(firebaseAuth);
                     request.subirEmail(firebaseAuth);
+                     new CloudFunctionHTTPRequest(LoginActivity2.this,TAG).doHTTPRequest("https://us-central1-ottaa-project.cloudfunctions.net/add2listwelcome");
                    /*Intent mainIntent = new Intent().setClass(LoginActivity.this, Principal.class);
                     startActivity(mainIntent);*/
 

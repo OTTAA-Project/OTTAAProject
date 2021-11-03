@@ -7,6 +7,7 @@ import android.os.PersistableBundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.InputDevice;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -34,7 +35,7 @@ import com.stonefacesoft.ottaa.Viewpagers.viewpager_galeria_pictos;
 import com.stonefacesoft.ottaa.utils.Accesibilidad.BarridoPantalla;
 import com.stonefacesoft.ottaa.utils.Accesibilidad.devices.GaleriaPictosControls;
 import com.stonefacesoft.ottaa.utils.Accesibilidad.scrollActions.ScrollFunctionGaleriaPictos;
-import com.stonefacesoft.ottaa.utils.Constants;
+import com.stonefacesoft.ottaa.utils.constants.Constants;
 import com.stonefacesoft.ottaa.utils.Firebase.AnalyticsFirebase;
 import com.stonefacesoft.ottaa.utils.IntentCode;
 import com.stonefacesoft.ottaa.utils.JSONutils;
@@ -80,7 +81,7 @@ public class GaleriaPictos3 extends AppCompatActivity implements View.OnClickLis
     private int boton;
     private String nombre;
     //ImageButton
-    private ImageButton previus_button, foward_button, cancel_button, edit_button;
+    private ImageButton previous, foward, exit, edit_button;
     private Button btnBarrido;
     private FloatingActionButton btnTalk;
     private BarridoPantalla barridoPantalla;
@@ -191,6 +192,7 @@ public class GaleriaPictos3 extends AppCompatActivity implements View.OnClickLis
                     intent.putExtra("esNuevo", true);
                     intent.putExtra("Padre", boton);
                     intent.putExtra("esGrupo", false);
+                    intent.putExtra("Texto","");
                     myTTS.hablar(getString(R.string.add_pictograma));
                     Log.d(TAG, "onOptionsItemSelected: Creando un nuevo picto");
 
@@ -347,11 +349,12 @@ public class GaleriaPictos3 extends AppCompatActivity implements View.OnClickLis
             if (esVincular || isSorter )
                 showViewPager = false;
         }
-        myTTS = new textToSpeech(this);
+        myTTS = textToSpeech.getInstance(this);
         viewpager_galeria_pictos = new viewpager_galeria_pictos(this, myTTS, boton);
-        previus_button = findViewById(R.id.down_button);
-        foward_button = findViewById(R.id.up_button);
-        cancel_button = findViewById(R.id.back_button);
+        
+        previous = findViewById(R.id.down_button);
+        foward = findViewById(R.id.up_button);
+        exit = findViewById(R.id.back_button);
         edit_button = findViewById(R.id.edit_button);
         btnTalk = findViewById(R.id.btnTalk);
         btnBarrido = findViewById(R.id.btnBarrido);
@@ -363,11 +366,11 @@ public class GaleriaPictos3 extends AppCompatActivity implements View.OnClickLis
         }
         btnBarrido.setOnClickListener(this);
         btnBarrido.setOnTouchListener(this);
-        previus_button.setOnClickListener(this);
-        cancel_button.setOnClickListener(this);
+        previous.setOnClickListener(this);
+        exit.setOnClickListener(this);
         edit_button.setOnClickListener(this);
         btnTalk.setOnClickListener(this);
-        foward_button.setOnClickListener(this);
+        foward.setOnClickListener(this);
         function_scroll = new ScrollFunctionGaleriaPictos(this, this);
         iniciarBarrido();
         viewpager_galeria_pictos.showViewPager(showViewPager);
@@ -417,12 +420,12 @@ public class GaleriaPictos3 extends AppCompatActivity implements View.OnClickLis
     private void iniciarBarrido() {
         ArrayList<View> listadoObjetosBarrido = new ArrayList<>();
         if (!esVincular) {
-            listadoObjetosBarrido.add(cancel_button);
-            listadoObjetosBarrido.add(foward_button);
+            listadoObjetosBarrido.add(previous);
+            listadoObjetosBarrido.add(exit);
             listadoObjetosBarrido.add(btnTalk);
-            listadoObjetosBarrido.add(previus_button);
+            listadoObjetosBarrido.add(foward);
         }
-        barridoPantalla = new BarridoPantalla(this, listadoObjetosBarrido, this);
+        barridoPantalla = new BarridoPantalla(this, listadoObjetosBarrido);
         if (barridoPantalla.isBarridoActivado() && barridoPantalla.devolverpago()) {
             runOnUiThread(new Runnable() {
 
@@ -574,5 +577,34 @@ public class GaleriaPictos3 extends AppCompatActivity implements View.OnClickLis
             analyticsFirebase.customEvents("Touch", "Galeria Pictos", "Previous Button");
         }
         return this;
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (barridoPantalla.isBarridoActivado()) {
+
+            if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT) {
+                event.startTracking();
+                return true;
+            } else if (keyCode == KeyEvent.KEYCODE_DPAD_LEFT) {
+                event.startTracking();
+                return true;
+            } else if (keyCode == KeyEvent.KEYCODE_DPAD_UP) {
+                event.startTracking();
+                return true;
+            } else if (keyCode == KeyEvent.KEYCODE_DPAD_DOWN) {
+                event.startTracking();
+                return true;
+            }
+            if(keyCode == KeyEvent.KEYCODE_BACK){
+                if(event.getSource() == InputDevice.SOURCE_MOUSE)
+                    barridoPantalla.getmListadoVistas().get(barridoPantalla.getPosicionBarrido()).callOnClick();
+                else
+                    onBackPressed();
+                return true;
+            }
+
+        }
+        return false;
     }
 }

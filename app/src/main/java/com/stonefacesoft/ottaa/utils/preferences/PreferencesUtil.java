@@ -19,7 +19,7 @@ public class PreferencesUtil {
         preferences.edit().putString(key,value).apply();
     }
 
-    public String getStringValue(String key,String defaultValue) throws Exception{
+    public String getStringValue(String key,String defaultValue){
         return preferences.getString(key,defaultValue);
     }
 
@@ -55,4 +55,7 @@ public class PreferencesUtil {
         return preferences.getInt(key, value);
     }
 
+    public SharedPreferences getPreferences() {
+        return preferences;
+    }
 }

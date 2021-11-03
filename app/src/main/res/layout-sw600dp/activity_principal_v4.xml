@@ -394,26 +394,25 @@
         custom:layout_constraintTop_toBottomOf="@id/horizontalScrollView2" />
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
         android:src="@drawable/ic_corner"
         app:tint="@color/NaranjaOTTAA"
         android:id="@+id/cornerImageViewLeft"
-        android:layout_marginStart="12dp"
-        android:layout_marginBottom="12dp"
+        android:layout_margin="15dp"
         android:rotation="180"
         android:scaleX="3"
         android:scaleY="3"
         custom:layout_constraintBottom_toTopOf="@id/containerBottomMasPictos"
         custom:layout_constraintStart_toEndOf="@id/constraintLeftButtons" />
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
         android:src="@drawable/ic_corner"
         app:tint="@color/NaranjaOTTAA"
         android:id="@+id/cornerImageViewRight"
         android:rotation="90"
-        android:layout_margin="12dp"
+        android:layout_margin="15dp"
         android:scaleX="3"
         android:scaleY="3"
         custom:layout_constraintBottom_toTopOf="@id/containerBottomMasPictos"
@@ -468,15 +467,15 @@
         custom:layout_constraintTop_toTopOf="parent" />
 
     <com.stonefacesoft.ottaa.utils.MovableFloatingActionButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/sizeAvatarButtonIconMed"
+        android:layout_height="@dimen/sizeAvatarButtonIconMed"
         android:id="@+id/movableButton"
         custom:layout_constraintStart_toStartOf="parent"
         custom:layout_constraintBottom_toTopOf="@id/constraintLeftButtons"
         android:layout_marginStart="@dimen/activity_horizontal_margin"
         android:layout_marginBottom="@dimen/activity_vertical_margin"
         android:visibility="gone"
-        android:onClick="onClick">
+        >
 
         <ImageView
             android:id="@+id/buttonAvatar"
@@ -487,9 +486,6 @@
             android:background="@color/colorTransparent"
             android:contentDescription=""
             android:layout_gravity="center"
-            android:onClick="onClick"/>
-
-
-
+            />
     </com.stonefacesoft.ottaa.utils.MovableFloatingActionButton>
 </androidx.constraintlayout.widget.ConstraintLayout>
