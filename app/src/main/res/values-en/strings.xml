@@ -486,4 +486,7 @@
     <string name="Iam">I am</string>
     <string name="allphrases">All phrases</string>
     <string name="selectPhavoritePhrases">Select Favorite Phrases</string>
+    <string name="FluidUser">Fluid</string>
+    <string name="BinaryUser">Binary</string>
+    <string name="OtherUser">Other</string>
 </resources>

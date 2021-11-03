@@ -241,8 +241,6 @@ dependencies {
     // pictograms library
     implementation 'com.github.OTTAA-Project:PictogramsLibrary:0.1.9.13'
     //Sendgrid integration
-    implementation("io.github.vicmikhailau:MaskedEditText:4.0.7")
-
 }
 
 

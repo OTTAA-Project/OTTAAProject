@@ -489,5 +489,6 @@
     <string name="say_pictogram_name_tittle">قل الرسم التخطيطي</string>
     <string name="say_pictogram_name_description">OTTAA يقول اسم الرسم التخطيطي عند لمسه</string>
     <string name="Iam">مرحبا أنا</string>
+    <string name="FluidUser">مائع</string>
 
 </resources>

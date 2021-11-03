@@ -216,7 +216,7 @@ public class FindAllPictograms_Recycler_View extends Custom_recyclerView impleme
 
         @Override
         protected Void doInBackground(Void... voids) {
-            arasaac = buscarArasaac.HacerBusqueda(texto, texto, mActivity);
+            arasaac = buscarArasaac.HacerBusqueda(texto, ConfigurarIdioma.getLanguaje(), mActivity);
             return null;
         }
 

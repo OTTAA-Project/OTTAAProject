@@ -194,7 +194,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintVertical_weight="1">
 
-                <com.vicmikhailau.maskededittext.MaskedEditText
+                <EditText
                     android:id="@+id/editTextBirthday"
                     android:layout_width="113dp"
                     android:layout_height="52dp"

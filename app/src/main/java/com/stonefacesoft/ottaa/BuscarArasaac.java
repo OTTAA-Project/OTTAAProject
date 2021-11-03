@@ -24,7 +24,7 @@ public class BuscarArasaac {
         Log.d("BuscarAraasaac", "entre!!!!");
         String URL;
 
-        URL = "http://arasaac.org/api/index.php?callback=json&language=" + lang.toUpperCase() + "&word=" + texto +
+        URL = "http://arasaac.org/api/index.php?callback=json&language=" + lang.toUpperCase() + "&word=" + texto.replaceAll(" ","+") +
                 "&catalog=colorpictos&thumbnailsize=150&TXTlocate=4&KEY="+context.getResources().getString(R.string.galeria_araasac_api_key);
         try {
             String SetServerString = "";

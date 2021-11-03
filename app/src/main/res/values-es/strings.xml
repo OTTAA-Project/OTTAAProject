@@ -528,5 +528,8 @@
     <string name="Iam">Hola soy</string>
     <string name="allphrases">Todas las frases</string>
     <string name="selectPhavoritePhrases">Seleccionar frases favoritas</string>
+    <string name="FluidUser">Fluido</string>
+    <string name="BinaryUser">Binario</string>
+    <string name="OtherUser">Otro</string>
 
 </resources>

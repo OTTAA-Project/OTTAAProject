@@ -30,22 +30,23 @@ import com.google.firebase.storage.StorageReference;
 import com.stonefacesoft.ottaa.FirebaseRequests.BajarJsonFirebase;
 import com.stonefacesoft.ottaa.FirebaseRequests.FirebaseDatabaseRequest;
 import com.stonefacesoft.ottaa.FirebaseRequests.FirebaseUtils;
+import com.stonefacesoft.ottaa.Interfaces.CalendarChangeEvent;
 import com.stonefacesoft.ottaa.Interfaces.FirebaseSuccessListener;
 import com.stonefacesoft.ottaa.Interfaces.LoadUserInformation;
 import com.stonefacesoft.ottaa.utils.ConnectionDetector;
 import com.stonefacesoft.ottaa.utils.Firebase.AnalyticsFirebase;
 import com.stonefacesoft.ottaa.utils.InmersiveMode;
+import com.stonefacesoft.ottaa.utils.DateTextWatcher;
 import com.stonefacesoft.ottaa.utils.constants.Constants;
 import com.stonefacesoft.ottaa.utils.preferences.DataUser;
 import com.stonefacesoft.ottaa.utils.preferences.PreferencesUtil;
-import com.vicmikhailau.maskededittext.MaskedEditText;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.regex.Pattern;
 
-public class LoginActivity2Step2 extends AppCompatActivity implements View.OnClickListener, DatePickerDialog.OnDateSetListener, AdapterView.OnItemSelectedListener, FirebaseSuccessListener, LoadUserInformation {
+public class LoginActivity2Step2 extends AppCompatActivity implements View.OnClickListener, DatePickerDialog.OnDateSetListener, AdapterView.OnItemSelectedListener, FirebaseSuccessListener, LoadUserInformation, CalendarChangeEvent {
     private static final String TAG = "LoginActivity2Step2";
     private static final DateFormat FORMATTER = SimpleDateFormat.getDateInstance();
     //UI elemetns
@@ -56,15 +57,13 @@ public class LoginActivity2Step2 extends AppCompatActivity implements View.OnCli
     Button buttonNext;
     Button buttonPrevious;
     EditText editTextName;
-    MaskedEditText editTextBirthday;
+    EditText editTextBirthday;
     Spinner genderSelector;
     boolean convert;
     DataUser userData;
     private String gender;
     private PreferencesUtil preferencesUtil;
     private StorageReference mStorageRef;
-    private String mask ="##/##/####";
-    private MakeWatcher makeWatcher;
 
     //User variables
     private FirebaseAuth mAuth;
@@ -109,13 +108,12 @@ public class LoginActivity2Step2 extends AppCompatActivity implements View.OnCli
         editTextName = findViewById(R.id.editTextName);
         editTextName.setInputType(InputType.TYPE_NULL);
         editTextBirthday = findViewById(R.id.editTextBirthday);
-        editTextBirthday.setInputType(InputType.TYPE_CLASS_DATETIME);
+        new DateTextWatcher(editTextBirthday,this);
         genderSelector = findViewById(R.id.selectorGender);
         genderSelector.setOnItemSelectedListener(this);
         databaseRequest = new FirebaseDatabaseRequest(this);
         convert = true;
         databaseRequest.FillUserInformation(this);
-        makeWatcher = new MakeWatcher(editTextBirthday);
     }
 
     @Override
@@ -191,6 +189,9 @@ public class LoginActivity2Step2 extends AppCompatActivity implements View.OnCli
                 editTextName.setText(mAuth.getCurrentUser().getDisplayName());
             if(userData.getBirthDate()>0)
                 setUpDateUser(userData.getBirthDate());
+            if(!userData.getGender().isEmpty()){
+                selectIndicator(userData.getGender());
+            }
             Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
                 @Override
@@ -201,27 +202,42 @@ public class LoginActivity2Step2 extends AppCompatActivity implements View.OnCli
         }
     }
 
+    private void selectIndicator(String gender) {
+        switch (gender){
+            case "Masculino":
+                genderSelector.setSelection(1);
+            break;
+            case "Femenino":
+                genderSelector.setSelection(2);
+            break;
+            case "Fluid":
+                genderSelector.setSelection(3);
+            break;
+            case "Binary":
+                genderSelector.setSelection(4);
+            break;
+            case "Other":
+                genderSelector.setSelection(5);
+            break;
+            default:
+                genderSelector.setSelection(0);
+        }
+    }
+
     public void setUpDateUser(long time){
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(time);
         int day = calendar.get(Calendar.DAY_OF_MONTH);
         int month = calendar.get(Calendar.MONTH)+1;
         int year = calendar.get(Calendar.YEAR);
-        selectMask(day,month);
-        String value =day+""+month+""+year+"";
+        String value =getValue(day)+""+getValue(month)+""+year;
         editTextBirthday.setText(value);
     }
 
-    public void selectMask(int day,int month){
-        if(month<10&&day<10)
-            mask = "#/#/####";
-        else if(day<10)
-            mask = "#/##/####";
-        else if(month<10)
-            mask = "##/#/####";
-        else
-            mask = "##/##/####";
-        makeWatcher.changeMask();
+
+
+    public String  getValue(int n) {
+        return (n<=9) ? ("0"+n) : String.valueOf(n);
     }
 
     public void calendarDialog() {
@@ -250,9 +266,7 @@ public class LoginActivity2Step2 extends AppCompatActivity implements View.OnCli
         convert = false;
         Calendar calendar = Calendar.getInstance();
         calendar.set(year, month, dayOfMonth);
-        selectMask(dayOfMonth,month+1);
-        userData.setBirthDate(calendar.getTime().getTime());
-        editTextBirthday.setText(dayOfMonth + "" + (month + 1) + "" + year);
+        editTextBirthday.setText(getValue(dayOfMonth)+""+getValue(month + 1)+""+year);
     }
 
 
@@ -350,27 +364,12 @@ public class LoginActivity2Step2 extends AppCompatActivity implements View.OnCli
         }
     }
 
-    public class  MakeWatcher{
-        private MaskedEditText maskedEditText;
-        private String firstMaskValue ="##";
-        private String secondMaskValue="##";
-        private int countValue =0;
 
-        public MakeWatcher(MaskedEditText maskedEditText){
-            this.maskedEditText = maskedEditText;
-            this.maskedEditText.setMask(mask);
-        }
-
-        public MaskedEditText getMaskedEditText() {
-            return maskedEditText;
-        }
-        public void changeMask(){
-            this.maskedEditText.setMask(mask);
-        }
-
-
+    @Override
+    public void setCalendarDate(long value) {
+        if(userData != null)
+            userData.setBirthDate(value);
     }
-
 }
 
 

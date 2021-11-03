@@ -195,19 +195,18 @@
                 app:layout_constraintVertical_weight="1"
                 app:layout_constraintHorizontal_weight="3">
 
-                <com.vicmikhailau.maskededittext.MaskedEditText
+                <EditText
                     android:id="@+id/editTextBirthday"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
-                    android:inputType="date|datetime"
                     android:hint="DD/MM/YYYY"
+                    android:inputType="datetime"
+                    android:windowSoftInputMode="stateAlwaysHidden|adjustResize"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/buttonCalendarDialog"
                     app:layout_constraintHorizontal_weight="4"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:windowSoftInputMode="stateAlwaysHidden|adjustResize"
-                    />
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageButton
                     android:layout_width="0dp"
