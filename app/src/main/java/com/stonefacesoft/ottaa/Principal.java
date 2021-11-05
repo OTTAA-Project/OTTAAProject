@@ -150,7 +150,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
- * V92 en produccion
+ * V93 en produccion con hotfix
  */
 public class Principal extends AppCompatActivity implements View
         .OnClickListener,
