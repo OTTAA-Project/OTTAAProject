@@ -1761,9 +1761,9 @@ public class Principal extends AppCompatActivity implements View
                 json.setPlaceName(placeType);
             }else{
                 placesImplementation.locationRequest();
+                if(myTTS != null)
+                myTTS.mostrarAlerta(getResources().getString(R.string.no_location));
             }
-        }else{
-            myTTS.mostrarAlerta(getResources().getString(R.string.no_location));
         }
     }
 
@@ -2011,7 +2011,6 @@ public class Principal extends AppCompatActivity implements View
         navigationControls = new PrincipalControls(this);
         movableFloatingActionButton.setIcon();
         remoteConfigUtils = RemoteConfigUtils.getInstance();
-
         loadAvatar();
         showAvatar();
     }

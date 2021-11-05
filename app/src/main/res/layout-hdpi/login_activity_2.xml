@@ -201,6 +201,7 @@
                     android:layout_height="0dp"
                     android:hint="DD/MM/YYYY"
                     android:inputType="datetime"
+                    android:maxLength="10"
                     android:windowSoftInputMode="stateAlwaysHidden|adjustResize"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/buttonCalendarDialog"
