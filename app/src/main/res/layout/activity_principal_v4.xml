@@ -400,14 +400,12 @@
         android:scaleY="3"
         android:layout_margin="12dp"
         android:src="@drawable/ic_corner"
-        app:tint="@color/NaranjaOTTAA"
         custom:layout_constraintBottom_toTopOf="@id/containerBottomMasPictos"
         custom:layout_constraintStart_toEndOf="@id/constraintLeftButtons" />
     <ImageView
         android:layout_width="12dp"
         android:layout_height="12dp"
         android:src="@drawable/ic_corner"
-        app:tint="@color/NaranjaOTTAA"
         android:id="@+id/cornerImageViewRight"
         android:rotation="90"
         android:scaleX="3"

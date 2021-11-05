@@ -53,7 +53,8 @@
         <activity
             android:name=".ActivityInformes"
             android:label="@string/title_activity_informes"
-            android:screenOrientation="sensorLandscape"/>
+            android:screenOrientation="sensorLandscape"
+            android:theme="@style/OTTAATheme"/>
 
         <uses-library
             android:name="android.test.runner"
@@ -168,12 +169,14 @@
             android:name=".utils.AboutOttaa"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_about_ottaa"
-            android:screenOrientation="sensorLandscape" />
+            android:screenOrientation="sensorLandscape"
+            android:theme="@style/OTTAATheme"/>
 
         <activity
             android:name=".Games.MatchPictograms"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:screenOrientation="sensorLandscape" />
+            android:screenOrientation="sensorLandscape"
+            android:theme="@style/OTTAATheme"/>
 
         <activity
             android:name=".Games.GameSelector"
@@ -184,22 +187,26 @@
         <activity
             android:name=".Games.DescribirPictograma"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:screenOrientation="sensorLandscape" />
+            android:screenOrientation="sensorLandscape"
+            android:theme="@style/OTTAATheme"/>
 
         <activity
             android:name=".Games.ArmarFrases"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:screenOrientation="sensorLandscape" />
+            android:screenOrientation="sensorLandscape"
+            android:theme="@style/OTTAATheme"/>
 
         <activity
             android:name=".Games.MemoryGame"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:screenOrientation="sensorLandscape" />
+            android:screenOrientation="sensorLandscape"
+            android:theme="@style/OTTAATheme"/>
 
         <activity
             android:name=".Activities.Phrases.VincularFrases"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:screenOrientation="sensorLandscape" />
+            android:screenOrientation="sensorLandscape"
+            android:theme="@style/OTTAATheme"/>
 
         <activity
             android:name=".LoginActivity2"
@@ -215,9 +222,15 @@
             android:screenOrientation="sensorLandscape"
             android:theme="@style/OTTAATheme"/>
 
-        <activity android:name=".Activities.Pictures.AvatarPictureCropper" android:screenOrientation="sensorLandscape"/>
+        <activity
+            android:name=".Activities.Pictures.AvatarPictureCropper"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@style/OTTAATheme"/>
 
-        <activity android:name=".Activities.Pictures.EditPictogramCropper" android:screenOrientation="sensorLandscape"/>
+        <activity
+            android:name=".Activities.Pictures.EditPictogramCropper"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@style/OTTAATheme"/>
 
         <activity
             android:name=".LoginActivity2Avatar"
@@ -230,10 +243,22 @@
             android:theme="@style/OTTAATheme"/>
 
 
-        <activity android:name=".Activities.FindAllPictograms" android:screenOrientation="sensorLandscape" />
-        <activity android:name=".Activities.Phrases.FavoritePhrases" android:screenOrientation="sensorLandscape" />
-        <activity android:name=".Activities.Phrases.MostUsedPhrases" android:screenOrientation="sensorLandscape" />
-        <activity android:name=".Activities.Phrases.AllPhrases" android:screenOrientation="sensorLandscape" />
+        <activity
+            android:name=".Activities.FindAllPictograms"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@style/OTTAATheme"/>
+        <activity
+            android:name=".Activities.Phrases.FavoritePhrases"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@style/OTTAATheme"/>
+        <activity
+            android:name=".Activities.Phrases.MostUsedPhrases"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@style/OTTAATheme"/>
+        <activity
+            android:name=".Activities.Phrases.AllPhrases"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@style/OTTAATheme"/>
 
 
         <meta-data

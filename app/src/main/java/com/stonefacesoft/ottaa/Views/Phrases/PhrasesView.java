@@ -62,7 +62,6 @@ public class PhrasesView extends AppCompatActivity implements View.OnClickListen
 
     public void initComponents() {
         toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
         btnBarrido =findViewById(R.id.btnBarrido);
         foward = findViewById(R.id.down_button);
         previous = findViewById(R.id.up_button);

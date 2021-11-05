@@ -223,9 +223,6 @@ public class prefs extends PreferenceActivity implements SharedPreferences.OnSha
         downloadFilesTask = new DownloadFilesTask(strIdioma_original);
         myTTS =textToSpeech.getInstance(this);
 
-        android.app.ActionBar actionBar = getActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-
         BOOL_TTS = getString(R.string.bool_TTS);
         BOOL_SUBTITULO = getString(R.string.bool_subtitulo);
         STR_TAM_SUBTITULO = getString(R.string.str_subtitulo_tamano);

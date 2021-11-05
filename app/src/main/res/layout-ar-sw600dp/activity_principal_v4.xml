@@ -411,7 +411,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_corner"
-        android:tint="@color/NaranjaOTTAA"
         android:id="@+id/cornerImageViewLeft"
         android:layout_marginStart="12dp"
         android:layout_marginBottom="12dp"
@@ -430,7 +429,6 @@
         android:scaleX="3"
         android:scaleY="3"
         android:src="@drawable/ic_corner"
-        android:tint="@color/NaranjaOTTAA"
         custom:layout_constraintBottom_toTopOf="@id/containerBottomMasPictos"
         custom:layout_constraintEnd_toStartOf="@id/constraintRightButtons" />
 

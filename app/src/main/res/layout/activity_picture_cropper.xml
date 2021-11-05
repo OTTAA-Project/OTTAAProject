@@ -128,8 +128,7 @@
         android:scaleY="3"
         android:src="@drawable/ic_corner"
         app:layout_constraintBottom_toTopOf="@id/containerBottomMasPictos"
-        app:layout_constraintStart_toEndOf="@id/constraintLeftButtons"
-        app:tint="@color/NaranjaOTTAA" />
+        app:layout_constraintStart_toEndOf="@id/constraintLeftButtons"/>
 
     <ImageView
         android:id="@+id/cornerImageViewRight"
@@ -140,7 +139,6 @@
         android:scaleX="3"
         android:scaleY="3"
         android:src="@drawable/ic_corner"
-        app:tint="@color/NaranjaOTTAA"
         app:layout_constraintBottom_toTopOf="@id/containerBottomMasPictos"
         app:layout_constraintEnd_toStartOf="@id/constraintRightButtons" />
 
