@@ -70,6 +70,7 @@ public class LoginActivity2Step2 extends AppCompatActivity implements View.OnCli
     private FirebaseDatabaseRequest databaseRequest;
     private AnalyticsFirebase mAnalyticsFirebase;
     private FirebaseUtils firebaseUtils;
+    private DateTextWatcher dateTextWatcher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,7 +109,7 @@ public class LoginActivity2Step2 extends AppCompatActivity implements View.OnCli
         editTextName = findViewById(R.id.editTextName);
         editTextName.setInputType(InputType.TYPE_NULL);
         editTextBirthday = findViewById(R.id.editTextBirthday);
-        new DateTextWatcher(editTextBirthday,this);
+        dateTextWatcher = new DateTextWatcher(editTextBirthday,this);
         genderSelector = findViewById(R.id.selectorGender);
         genderSelector.setOnItemSelectedListener(this);
         databaseRequest = new FirebaseDatabaseRequest(this);
@@ -232,6 +233,7 @@ public class LoginActivity2Step2 extends AppCompatActivity implements View.OnCli
         int year = calendar.get(Calendar.YEAR);
         String value =getValue(day)+""+getValue(month)+""+year;
         editTextBirthday.setText(value);
+        dateTextWatcher.validateTextWatcher();
     }
 
 
@@ -267,6 +269,7 @@ public class LoginActivity2Step2 extends AppCompatActivity implements View.OnCli
         Calendar calendar = Calendar.getInstance();
         calendar.set(year, month, dayOfMonth);
         editTextBirthday.setText(getValue(dayOfMonth)+""+getValue(month + 1)+""+year);
+        dateTextWatcher.validateTextWatcher();
     }
 
 

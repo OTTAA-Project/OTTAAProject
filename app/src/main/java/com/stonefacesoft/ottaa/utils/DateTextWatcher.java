@@ -1,7 +1,5 @@
 package com.stonefacesoft.ottaa.utils;
 
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
@@ -11,18 +9,17 @@ import com.stonefacesoft.ottaa.Interfaces.CalendarChangeEvent;
 
 import java.util.Calendar;
 
-public class DateTextWatcher implements TextWatcher {
+public class DateTextWatcher  {
     private String current = "";
     private String ddmmyyyy = "DDMMYYYY";
     private Calendar cal = Calendar.getInstance();
     private EditText input;
     private CalendarChangeEvent calendarChangeEvent;
-    private boolean isRunning = true;
-    private boolean isDeleting = false;
+
 
     public DateTextWatcher(EditText input, CalendarChangeEvent calendarChangeEvent) {
         this.input = input;
-      //  this.input.addTextChangedListener(this);
+
         this.input.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -34,21 +31,9 @@ public class DateTextWatcher implements TextWatcher {
         this.calendarChangeEvent = calendarChangeEvent;
     }
 
-    @Override
-    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-    }
 
-    @Override
-    public void onTextChanged(CharSequence s, int start, int before, int count) {
 
-    }
-
-    @Override
-    public void afterTextChanged(Editable s) {
-
-    }
-
-    public void validateText(String s){
+    private void validateText(String s){
         if (!s.toString().equals(current)) {
             String clean = s.toString().replaceAll("[^\\d.]|\\.", "");
             String cleanC = current.replaceAll("[^\\d.]|\\.", "");
@@ -91,4 +76,7 @@ public class DateTextWatcher implements TextWatcher {
         }
     }
 
+    public void validateTextWatcher(){
+        validateText(input.getText().toString());
+    }
 }
