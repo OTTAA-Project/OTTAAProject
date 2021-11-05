@@ -4,6 +4,7 @@ package com.stonefacesoft.ottaa;
 import static com.facebook.FacebookSdk.setAutoLogAppEventsEnabled;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -146,7 +147,7 @@ import java.util.Objects;
  *
  * Review resources de HC pero en la rama reviewresources
  */
-public class Principal extends AppCompatActivity implements View
+public class Principal extends Activity implements View
         .OnClickListener,
         View.OnLongClickListener,
         OnMenuItemClickListener,
@@ -364,7 +365,7 @@ public class Principal extends AppCompatActivity implements View
         Intent intent = getIntent();
         boolean status_bar = intent.getBooleanExtra("status_bar", false);
         if (!status_bar) {
-            supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
+            requestWindowFeature(Window.FEATURE_NO_TITLE);
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         }
         super.onCreate(savedInstanceState);
@@ -1697,10 +1698,10 @@ public class Principal extends AppCompatActivity implements View
                 //Registo que uso un funcion que nos interesa que use
                 analitycsFirebase.customEvents("Touch", "Principal", "Silence");
                 if (mute) {
-                    item.setIcon(getResources().getDrawable(R.drawable.ic_volume_off_white_24dp));
+                    item.setIcon(getResources().getDrawable(R.drawable.ic_baseline_volume_off_24));
                     mute = false;
                 } else {
-                    item.setIcon(getResources().getDrawable(R.drawable.ic_volume_up_white_24dp));
+                    item.setIcon(getResources().getDrawable(R.drawable.ic_baseline_volume_up_24));
                     mute = true;
                 }
                 myTTS.mute();
@@ -2136,8 +2137,9 @@ public class Principal extends AppCompatActivity implements View
         navigationView.setNavigationItemSelectedListener(this);
         navigationView.bringToFront();
         navigationView.setOnApplyWindowInsetsListener((view, windowInsets) -> windowInsets);
-        setSupportActionBar(toolbar);
-        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+
+        //ToDo comentado esto
+        //Objects.requireNonNull(getActionBar()).setDisplayHomeAsUpEnabled(true);
         constraintBotonera = findViewById(R.id.constraintRightButtons);
         inmersiveMode = new InmersiveMode(this);
         gesture = new Gesture(drawerLayout);

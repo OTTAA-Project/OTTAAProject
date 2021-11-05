@@ -196,7 +196,7 @@ public class GestionarBitmap  {
         if (imagenes.size() > 0 && imagenes.get(0) != null) {
 
             Bitmap mBufferPictos = Bitmap.createScaledBitmap(imagenes.get(0), 250, 250, false);
-            Bitmap logo=drawableToBitmap(mContext.getResources().getDrawable(R.drawable.logo_ottaa_dev));
+            Bitmap logo=drawableToBitmap(mContext.getResources().getDrawable(R.drawable.logo_ottaa));
             logo = Bitmap.createScaledBitmap(logo,75,75,true);
 
             mImagenFinalWidth = (mBufferPictos.getWidth()+mDeltax) * imagenes.size()+mDeltax;

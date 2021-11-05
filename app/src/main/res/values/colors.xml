@@ -1,18 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="FondoActionBar" >#FA0</color> />
-    <!--<color name="FondoApp" >#e6e9eb</color> />-->
-    <color name="FondoApp">#112233</color>
-    />
-    <color name="FondoBoton" >#e9e9e9</color>
-    <color name="FondoBotonArriba" >#f9f9f9</color> />
-    <color name="NaranjaOTTAA">#ff8138</color>
-    <!--Color Econovo-->
-    <!--<color name="NaranjaOTTAA">#058D43</color>-->
 
-    <!--Eventos-->
-    <color name="navidad">#E53935</color>
-
+    <color name="fondoApp">#112233</color>
+    <color name="fondoBoton" >#e9e9e9</color>
+    <color name="fondoBotonArriba" >#f9f9f9</color> />
+    <color name="naranjaOTTAA">#ff8138</color>
+    <color name="grisOTTAA">#b4b7b9</color>
 
     <color name="colorPrimary">#ff8138</color>
     <color name="colorSecondary">#b4b7b9</color>

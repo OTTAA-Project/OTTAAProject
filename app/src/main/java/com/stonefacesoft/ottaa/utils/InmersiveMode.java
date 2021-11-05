@@ -1,5 +1,6 @@
 package com.stonefacesoft.ottaa.utils;
 
+import android.app.Activity;
 import android.os.Handler;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
@@ -13,13 +14,13 @@ public class InmersiveMode implements View.OnTouchListener {
     public static final int WITHACTIONBAR = 142;
 
     private final View decorView;
-    private final AppCompatActivity mActivity;
+    private final Activity mActivity;
     private boolean immersive;
     private final Handler handler;
     private final GestureDetector detector;
 
-    public InmersiveMode(AppCompatActivity appCompatActivity){
-        this.mActivity=appCompatActivity;
+    public InmersiveMode(Activity Activity){
+        this.mActivity=Activity;
         this.handler=new Handler();
         this.decorView = this.mActivity.getWindow().getDecorView();
         hideUI();
@@ -49,8 +50,8 @@ public class InmersiveMode implements View.OnTouchListener {
 
     private void hideUI() {
         immersive = true;
-        if (mActivity.getSupportActionBar() != null)
-            mActivity.getSupportActionBar().hide();
+        if (mActivity.getActionBar() != null)
+            mActivity.getActionBar().hide();
         decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                 | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                 | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
@@ -69,8 +70,8 @@ public class InmersiveMode implements View.OnTouchListener {
 
     private void showUI() {
         immersive = false;
-        if (mActivity.getSupportActionBar() != null)
-            mActivity.getSupportActionBar().show();
+        if (mActivity.getActionBar() != null)
+            mActivity.getActionBar().show();
         decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
 
     }

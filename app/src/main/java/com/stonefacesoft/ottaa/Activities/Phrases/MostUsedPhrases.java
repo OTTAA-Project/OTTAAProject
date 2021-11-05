@@ -36,7 +36,7 @@ public class MostUsedPhrases extends PhrasesView {
         myTTS = textToSpeech.getInstance(this);
         most_used_recycler_view.setMyTTS(myTTS);
         most_used_recycler_view.setOnClickListener();
-        btnEditar.setImageDrawable(getResources().getDrawable(R.drawable.ic_search));
+        btnEditar.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_search_24));
         if(barridoPantalla.isBarridoActivado())
             most_used_recycler_view.setScrollVertical(false);
         //      most_used_recycler_view = new MostUsedPhrases_Recycler_View(this,firebaseUser.getmAuth());
@@ -85,7 +85,7 @@ public class MostUsedPhrases extends PhrasesView {
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
         MenuItem menuItem =menu.findItem(R.id.vincular);
-        menuItem.setIcon(getResources().getDrawable(R.drawable.ic_star_black_24dp));
+        menuItem.setIcon(getResources().getDrawable(R.drawable.ic_baseline_star_24));
         menuItem.setVisible(true);
         return true;
     }

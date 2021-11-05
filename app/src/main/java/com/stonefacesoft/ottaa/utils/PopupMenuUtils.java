@@ -31,7 +31,7 @@ public class PopupMenuUtils {
         }
         popupMenu.getMenuInflater().inflate(R.menu.popup_menu,popupMenu.getMenu());
         if (!User.getInstance(context).isPremium()) {
-            popupMenu.getMenu().getItem(0).setIcon(R.drawable.ic_padlock);
+            popupMenu.getMenu().getItem(0).setIcon(R.drawable.ic_baseline_lock_24);
         }
         popupMenu.show();
     }

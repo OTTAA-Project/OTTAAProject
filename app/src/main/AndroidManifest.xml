@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.stonefacesoft.ottaa">
+
     <uses-feature
         android:name="android.hardware.camera"
         android:required="true" />
@@ -32,7 +33,6 @@
         </intent>
     </queries>
     <application
-
         android:allowBackup="true"
         android:configChanges="orientation|keyboardHidden|screenSize"
         android:fullBackupContent="@xml/backup_descriptor"
@@ -44,17 +44,15 @@
         android:requestLegacyExternalStorage="true"
         android:screenOrientation="sensorLandscape"
         android:supportsRtl="true"
-        android:theme="@style/CustomActionBarTheme"
         android:usesCleartextTraffic="true"
-
         tools:targetApi="m">
 
+        <activity
+            android:name=".view.ReportActivity" />
 
-        <activity android:name=".view.ReportActivity" />
         <activity
             android:name=".ActivityInformes"
             android:label="@string/title_activity_informes"
-            android:theme="@style/CustomActionBarTheme.NoActionBar"
             android:screenOrientation="sensorLandscape"/>
 
         <uses-library
@@ -84,14 +82,18 @@
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name" />
+
         <activity
             android:name=".MainJuegos"
             android:label="@string/title_activity_main_juegos"
-            android:screenOrientation="sensorLandscape"/>
+            android:screenOrientation="sensorLandscape"
+            android:theme="@style/OTTAATheme"/>
+
         <activity
             android:name=".welcome.SplashActivity"
             android:label="@string/app_name"
             android:exported="true"
+            android:theme="@style/OTTAATheme"
             android:screenOrientation="sensorLandscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -99,115 +101,135 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <!--
-     Set custom default icon. This is used when no icon is set for incoming notification messages.
-     See README(https://goo.gl/l4GJaQ) for more.
-        -->
-        <!-- <meta-data -->
-        <!-- android:name="com.google.firebase.messaging.default_notification_icon" -->
-        <!-- android:resource="@drawable/icono_blanco"/> -->
-        <!--
-             Set color used with incoming notification messages. This is used when no color is set for the incoming
-             notification message. See README(https://goo.gl/6BKBk7) for more.
-        -->
+
         <activity
             android:name=".Principal"
+            android:theme="@style/OTTAATheme"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:icon="@drawable/ic_launcher_foreground"
             android:label="@string/app_name"
             android:screenOrientation="sensorLandscape" />
-        <!--
-             Set color used with incoming notification messages. This is used when no color is set for the incoming
-             notification message. See README(https://goo.gl/6BKBk7) for more.
-        -->
+
         <activity
             android:name=".prefs"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_configuracion"
             android:screenOrientation="sensorLandscape"
-            android:theme="@android:style/Theme.Holo.Light" />
+            android:theme="@style/OTTAATheme" />
+
         <activity
             android:name=".GaleriaArasaac"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_galeria_pictos"
-            android:screenOrientation="sensorLandscape" />
+            android:screenOrientation="sensorLandscape"
+            android:theme="@style/OTTAATheme"/>
+
         <activity
             android:name=".Viewpagers.Viewpager_tutorial"
             android:label="@string/activity_calendario"
-            android:screenOrientation="sensorLandscape" /> <!-- Referencias de campañas de MKT -->
-        <!-- Used for Google Play Store Campaign Measurement -->
-        <!-- <service -->
-        <!-- android:name="com.google.android.gms.analytics.CampaignTrackingService" -->
-        <!-- android:enabled="true" -->
-        <!-- android:exported="false"/> -->
+            android:screenOrientation="sensorLandscape"
+            android:theme="@style/OTTAATheme"/>
+
         <activity
             android:name=".Edit_Picto_Visual"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_editar"
-            android:screenOrientation="sensorLandscape" /> <!-- GEOFE -->
+            android:screenOrientation="sensorLandscape"
+            android:theme="@style/OTTAATheme"/>
+
         <activity
             android:name=".LicenciaExpirada"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_licencia_expirada"
-            android:screenOrientation="sensorLandscape" />
+            android:screenOrientation="sensorLandscape"
+            android:theme="@style/OTTAATheme"/>
+
         <activity
             android:name=".Games.WhichIsThePicto"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_licencia_expirada"
-            android:screenOrientation="sensorLandscape" />
+            android:screenOrientation="sensorLandscape"
+            android:theme="@style/OTTAATheme"/>
+
         <activity
             android:name=".GaleriaGrupos2"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_galeria_grupos2"
-            android:screenOrientation="sensorLandscape" />
+            android:screenOrientation="sensorLandscape"
+            android:theme="@style/OTTAATheme"/>
+
         <activity
             android:name=".GaleriaPictos3"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:screenOrientation="fullSensor" />
+            android:screenOrientation="fullSensor"
+            android:theme="@style/OTTAATheme"/>
+
         <activity
             android:name=".utils.AboutOttaa"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_about_ottaa"
             android:screenOrientation="sensorLandscape" />
+
         <activity
             android:name=".Games.MatchPictograms"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="sensorLandscape" />
+
         <activity
             android:name=".Games.GameSelector"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:screenOrientation="sensorLandscape" />
+            android:screenOrientation="sensorLandscape"
+            android:theme="@style/OTTAATheme"/>
+
         <activity
             android:name=".Games.DescribirPictograma"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="sensorLandscape" />
+
         <activity
             android:name=".Games.ArmarFrases"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="sensorLandscape" />
+
         <activity
             android:name=".Games.MemoryGame"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="sensorLandscape" />
+
         <activity
             android:name=".Activities.Phrases.VincularFrases"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="sensorLandscape" />
+
         <activity
             android:name=".LoginActivity2"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_login"
-            android:screenOrientation="sensorLandscape" />
+            android:screenOrientation="sensorLandscape"
+            android:theme="@style/OTTAATheme"/>
+
         <activity
             android:name=".LoginActivity2Step2"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_login"
-            android:screenOrientation="sensorLandscape" />
+            android:screenOrientation="sensorLandscape"
+            android:theme="@style/OTTAATheme"/>
+
         <activity android:name=".Activities.Pictures.AvatarPictureCropper" android:screenOrientation="sensorLandscape"/>
+
         <activity android:name=".Activities.Pictures.EditPictogramCropper" android:screenOrientation="sensorLandscape"/>
 
-        <activity android:name=".LoginActivity2Avatar" android:screenOrientation="sensorLandscape" />
-        <activity android:name=".LoginActivity2Step3" android:screenOrientation="sensorLandscape" />
+        <activity
+            android:name=".LoginActivity2Avatar"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@style/OTTAATheme"/>
+
+        <activity
+            android:name=".LoginActivity2Step3"
+            android:screenOrientation="sensorLandscape"
+            android:theme="@style/OTTAATheme"/>
+
+
         <activity android:name=".Activities.FindAllPictograms" android:screenOrientation="sensorLandscape" />
         <activity android:name=".Activities.Phrases.FavoritePhrases" android:screenOrientation="sensorLandscape" />
         <activity android:name=".Activities.Phrases.MostUsedPhrases" android:screenOrientation="sensorLandscape" />

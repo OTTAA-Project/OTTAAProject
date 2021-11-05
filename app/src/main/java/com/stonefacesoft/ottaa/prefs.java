@@ -602,8 +602,8 @@ public class prefs extends PreferenceActivity implements SharedPreferences.OnSha
             //  mBtnBackup.setEnabled(true);
 
         } else {
-            mBoolBarrido.setIcon(R.drawable.locked);
-            mBoolUbicacion.setIcon(R.drawable.locked);
+            mBoolBarrido.setIcon(R.drawable.ic_baseline_lock_24);
+            mBoolUbicacion.setIcon(R.drawable.ic_baseline_lock_24);
             //   mBtnBackup.setIcon(R.drawable.locked);
 
         }
