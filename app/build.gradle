@@ -25,7 +25,7 @@ android {
         applicationId "com.stonefacesoft.ottaa"
         minSdkVersion 21
         targetSdkVersion 31
-        versionCode 92
+        versionCode 93
         versionName "6.7.3" //
         // Enabling multidex support.
         multiDexEnabled true
@@ -208,10 +208,10 @@ dependencies {
     implementation platform('com.google.firebase:firebase-bom:28.3.1')
     implementation 'com.google.firebase:firebase-auth'
     implementation 'com.google.firebase:firebase-config:21.0.1'
-    implementation 'com.google.firebase:firebase-core:19.0.2'
+    implementation 'com.google.firebase:firebase-core:20.0.0'
     implementation 'com.google.firebase:firebase-database:20.0.2'
-    implementation 'com.google.firebase:firebase-messaging:22.0.0'
-    implementation 'com.google.firebase:firebase-inappmessaging-display:20.1.0'
+    implementation 'com.google.firebase:firebase-messaging:23.0.0'
+    implementation 'com.google.firebase:firebase-inappmessaging-display:20.1.1'
     implementation 'com.google.firebase:firebase-perf:20.0.3'
     implementation 'com.google.firebase:firebase-storage:20.0.0'
 
@@ -227,8 +227,8 @@ dependencies {
     // material library
     implementation 'com.google.android.material:material:1.4.0'
 
-    implementation 'com.google.firebase:firebase-crashlytics:18.2.3'
-    implementation 'com.google.firebase:firebase-analytics:19.0.2'
+    implementation 'com.google.firebase:firebase-crashlytics:18.2.4'
+    implementation 'com.google.firebase:firebase-analytics:20.0.0'
     //Guava library
     implementation("com.google.guava:guava:30.1.1-android")
     //Facebook
