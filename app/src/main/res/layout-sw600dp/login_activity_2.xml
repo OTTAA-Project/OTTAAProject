@@ -202,6 +202,7 @@
                     android:hint="DD/MM/YYYY"
                     android:importantForAutofill="no"
                     android:inputType="date|datetime"
+                    android:maxLength="10"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@id/buttonCalendarDialog"
                     app:layout_constraintHorizontal_weight="4"

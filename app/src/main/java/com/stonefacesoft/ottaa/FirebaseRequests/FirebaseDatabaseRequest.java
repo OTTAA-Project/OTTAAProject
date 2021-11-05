@@ -119,6 +119,8 @@ public class FirebaseDatabaseRequest {
                     user.setBirthDate(snapshot.child(Constants.FECHACUMPLE).getValue(Long.class));
                   if(snapshot.hasChild(Constants.GENERO))
                     user.setGender(snapshot.child(Constants.GENERO).getValue(String.class));
+                  else
+                   user.setGender("");
                 }
                 loadUserInformation.getUserInformation(user);
             }
