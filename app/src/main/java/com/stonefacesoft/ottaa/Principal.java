@@ -276,6 +276,7 @@ public class Principal extends AppCompatActivity implements View
     private InmersiveMode inmersiveMode;
     private Gesture gesture;
     //Bandera global del tutorial
+    //version 6.7.5
     private boolean TutoFlag;
     private ImageView menuAvatarIcon;
     private AvatarUtils avatarUtils;
