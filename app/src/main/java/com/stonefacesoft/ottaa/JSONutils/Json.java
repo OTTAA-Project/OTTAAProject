@@ -136,9 +136,10 @@ public class Json implements FindPictogram {
      *
      * @param context Activity or context where implements the object
      */
-    public void setmContext(Context context) {
+    public Json setmContext(Context context) {
         this.mContext = context;
         sharedPrefsDefault = PreferenceManager.getDefaultSharedPreferences(mContext);
+        return this;
     }
 
     /**

@@ -25,8 +25,8 @@ android {
         applicationId "com.stonefacesoft.ottaa"
         minSdkVersion 21
         targetSdkVersion 31
-        versionCode 93
-        versionName "6.7.3" //
+        versionCode 95
+        versionName "6.7.5" //
         // Enabling multidex support.
         multiDexEnabled true
         resConfigs "ar,en,es,it"

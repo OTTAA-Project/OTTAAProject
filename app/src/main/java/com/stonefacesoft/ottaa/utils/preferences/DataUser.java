@@ -5,7 +5,7 @@ import java.util.Calendar;
 public class DataUser {
 
     private long birthDate;
-    private String gender;
+    private String gender ="";
     private String firstAndLastName;
     private String email;
     private String devices;

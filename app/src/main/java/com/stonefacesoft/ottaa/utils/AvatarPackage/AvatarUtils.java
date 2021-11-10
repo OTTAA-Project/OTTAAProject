@@ -61,8 +61,9 @@ public class AvatarUtils {
     };
 
     private void setAvatarByName(Context mContext, String name) {
-        Drawable drawable = mContext.getResources().getDrawable(mContext.getResources().getIdentifier(name, "drawable", mContext.getPackageName()));
-       glideAttatcher.setHeight(imageViewAvatar.getHeight()).setWidth(imageViewAvatar.getHeight()).loadDrawable(drawable,imageViewAvatar);
+
+            Drawable drawable = mContext.getResources().getDrawable(mContext.getResources().getIdentifier(name, "drawable", mContext.getPackageName()));
+            glideAttatcher.setHeight(imageViewAvatar.getHeight()).setWidth(imageViewAvatar.getHeight()).loadDrawable(drawable, imageViewAvatar);
     }
     public void getFirebaseAvatar() {
         this.name = SelectedAvatar.getInstance().getName();
@@ -71,7 +72,7 @@ public class AvatarUtils {
             FirebaseUtils.getInstance().setmContext(mContext);
             FirebaseAuth auth= user.getmAuth();
             if(auth!=null) {
-                String uid = user.getUserUid();
+                String uid = auth.getUid();
                 if(uid != null) {
                     childDatabase = FirebaseUtils.getInstance().getmDatabase().child(Constants.AVATAR).child(uid);
                     childDatabase.addValueEventListener(firebaseChildEventListener);
