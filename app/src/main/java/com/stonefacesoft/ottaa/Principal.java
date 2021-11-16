@@ -16,6 +16,7 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.location.Location;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -697,7 +698,6 @@ public class Principal extends AppCompatActivity implements View
     @Override
     protected void onStart() {
         super.onStart();
-        user.connectClient();
 
     }
 
@@ -1371,6 +1371,9 @@ public class Principal extends AppCompatActivity implements View
             case ConstantsMainActivity.AVATAR:
                 loadAvatar();
                 break;
+            case ConstantsMainActivity.MY_DATA_CHECK_CODE:
+                    myTTS = textToSpeech.getInstance(this);
+                break;
         }
     }
 
@@ -1535,8 +1538,7 @@ public class Principal extends AppCompatActivity implements View
     }
 
     public void CargarJson() {
-        Json.getInstance().setmContext(this);
-        json = Json.getInstance();
+        initJson();
         try {
             json.initJsonArrays();
             json.cargarPictosSugeridosJson();
@@ -2007,32 +2009,15 @@ public class Principal extends AppCompatActivity implements View
     }
 
     private void initComponents() {
-        initFirebaseComponents();
         initFlags();
-        initDefaultSettings();
-        firstUserAuthVerification();
         initBackUp();
         initMenu();
-        initTTS();
         initSelectionComponents();
         initActionButtons();
         initPictograms();
-        initFirstPictograms();
         initAvatar();
-        initLocationIcon();
-        uploadFiles();
-        initBarrido();
-        initPlaceImplementationClass();
-        showMenu();
-        if (TutoFlag) {
-            sharedPrefs.edit().putBoolean("PrimerUso", false).apply();
-        }
-        navigationControls = new PrincipalControls(this);
-        movableFloatingActionButton.setIcon();
-        remoteConfigUtils = RemoteConfigUtils.getInstance();
-        loadAvatar();
-        showAvatar();
-        setOnLongClickListener();
+        new initComponentsClass().execute();
+
     }
 
     private void initLocationIcon() {
@@ -2049,22 +2034,30 @@ public class Principal extends AppCompatActivity implements View
         analitycsFirebase = new AnalyticsFirebase(this);
     }
 
-    private void initDefaultSettings() {
+    private void initDefaultSettings(Context context) {
         sharedPrefsDefault.edit().putBoolean("esmoderador", false).apply();
         ConfigurarIdioma.setLanguage(sharedPrefsDefault.getString(getString(R.string.str_idioma), "en"));
         Log.d(TAG, "ConfigurarIdioma : " + ConfigurarIdioma.getLanguaje());
         new ConfigurarIdioma(getApplicationContext(), ConfigurarIdioma.getLanguaje());
-        Json.getInstance().setmContext(this);
-        json = Json.getInstance();
+        initJson(context);
         json.initSharedPrefs();
         Log.d(TAG, "hashCode: " + json.hashCode());
         timeStamp = getTimeStamp();
         historial = new Historial(json);
-        myTTS = textToSpeech.getInstance(this);
         sharedPrefsDefault.edit().putBoolean("usuario logueado", true).apply();
         cuentaMasPictos = 0;
         placeTypeActual = 0;
         placeActual = 0;
+    }
+
+    private void initJson(Context context){
+        Json.getInstance().setmContext(context);
+        json = Json.getInstance();
+    }
+
+    private void initJson(){
+        Json.getInstance().setmContext(this);
+        json = Json.getInstance();
     }
 
     private void initFlags() {
@@ -2156,6 +2149,7 @@ public class Principal extends AppCompatActivity implements View
         constraintBotonera = findViewById(R.id.constraintRightButtons);
         inmersiveMode = new InmersiveMode(this);
         gesture = new Gesture(drawerLayout);
+        initLocationIcon();
     }
 
 
@@ -2435,5 +2429,43 @@ public class Principal extends AppCompatActivity implements View
         if(firebaseDialog == null)
             firebaseDialog = new Progress_dialog_options(this);
         return firebaseDialog;
+    }
+
+    public class initComponentsClass extends AsyncTask<Void,Void,Void>{
+
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            initFirebaseComponents();
+            firstUserAuthVerification();
+            initDefaultSettings(Principal.this);
+            initTTS();
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void unused) {
+            super.onPostExecute(unused);
+            user.connectClient();
+            initFirstPictograms();
+            uploadFiles();
+            initBarrido();
+            initPlaceImplementationClass();
+            showMenu();
+            if (TutoFlag) {
+                sharedPrefs.edit().putBoolean("PrimerUso", false).apply();
+            }
+            navigationControls = new PrincipalControls(Principal.this);
+            movableFloatingActionButton.setIcon();
+            remoteConfigUtils = RemoteConfigUtils.getInstance();
+            loadAvatar();
+            showAvatar();
+            setOnLongClickListener();
+        }
     }
 }
