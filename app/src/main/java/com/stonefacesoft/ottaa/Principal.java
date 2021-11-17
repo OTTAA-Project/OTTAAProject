@@ -698,7 +698,10 @@ public class Principal extends AppCompatActivity implements View
     @Override
     protected void onStart() {
         super.onStart();
-
+        if(user!= null){
+            if(!user.isConnected())
+                user.connectClient();
+        }
     }
 
     @Override
@@ -1958,7 +1961,6 @@ public class Principal extends AppCompatActivity implements View
     private void loadAvatar() {
         Context context = this;
         AtomicBoolean validContext = new AtomicBoolean(false);
-
                 Executor executor = Executors.newSingleThreadExecutor();
                 Handler handler = new Handler(Looper.getMainLooper());
                 executor.execute(() -> {
@@ -1973,8 +1975,6 @@ public class Principal extends AppCompatActivity implements View
                         }
                     );
                 });
-
-
     }
 
     private void prepareLayout() {

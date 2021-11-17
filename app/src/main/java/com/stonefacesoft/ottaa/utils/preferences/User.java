@@ -92,12 +92,11 @@ public class User {
     public  void disconnectClient(){
         if(mGoogleApiClient.isConnected())
         mGoogleApiClient.disconnect();
-
-
-
-
     }
 
+    public boolean isConnected(){
+        return mGoogleApiClient.isConnected();
+    }
 
 
     public void logOut(){

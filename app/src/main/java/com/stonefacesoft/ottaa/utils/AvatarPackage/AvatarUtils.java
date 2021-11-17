@@ -72,14 +72,27 @@ public class AvatarUtils {
             FirebaseUtils.getInstance().setmContext(mContext);
             FirebaseAuth auth= user.getmAuth();
             if(auth!=null) {
-                String uid = auth.getUid();
-                if(uid != null) {
+                String uid = getUid(auth);
+                if(!uid.isEmpty()) {
                     childDatabase = FirebaseUtils.getInstance().getmDatabase().child(Constants.AVATAR).child(uid);
                     childDatabase.addValueEventListener(firebaseChildEventListener);
                 }
             }
         } else {
             setAvatarByName(mContext, name);
+        }
+    }
+
+    private String getUid(FirebaseAuth auth){
+        String value ="";
+        try{
+            value = auth.getUid();
+            if(value != null)
+                return value;
+            else
+                return "";
+        }catch (Exception ex){
+            return value;
         }
     }
 }

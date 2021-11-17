@@ -38,6 +38,7 @@ import com.stonefacesoft.ottaa.utils.Games.GamesSettings;
 import com.stonefacesoft.ottaa.utils.Games.Juego;
 import com.stonefacesoft.ottaa.utils.textToSpeech;
 import com.stonefacesoft.pictogramslibrary.utils.GlideAttatcher;
+import com.stonefacesoft.pictogramslibrary.utils.ValidateContext;
 import com.stonefacesoft.pictogramslibrary.view.PictoView;
 
 import org.json.JSONArray;
@@ -536,7 +537,8 @@ public class GameViewSelectPictograms extends AppCompatActivity implements View.
     }
     protected void setGuessDrawable(PictoView view){
         Drawable drawable=getDrawable(R.drawable.ic_help_outline_black_24dp);
-        new GlideAttatcher(this).setScale(4).UseCornerRadius(true).loadDrawable(drawable,view.getImageView());
+        if(ValidateContext.isValidContextFromGlide(this))
+            new GlideAttatcher(this).setScale(4).UseCornerRadius(true).loadDrawable(drawable,view.getImageView());
     }
 
     protected void setVisibleText(PictoView view){

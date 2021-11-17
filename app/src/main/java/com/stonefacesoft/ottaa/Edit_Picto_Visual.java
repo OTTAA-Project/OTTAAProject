@@ -1392,7 +1392,7 @@ public class Edit_Picto_Visual extends AppCompatActivity implements View.OnClick
             // Continue only if the File was successfully created
             if (photoFile != null) {
                 selectedImageUri = FileProvider.getUriForFile(this,
-                        "com.stonefacesoft.android.fileprovider",
+                        "com.stonefacesoft.ottaa",
                         photoFile);
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, selectedImageUri);
                 startActivityForResult(takePictureIntent, IntentCode.CAMARA.getCode());
