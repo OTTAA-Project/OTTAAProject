@@ -188,8 +188,8 @@ public class Grupo_Recycler_View extends Custom_recyclerView implements  View.On
         json=Json.getInstance();
         json.setmContext(mActivity);
         array=json.getmJSONArrayTodosLosGrupos();
-        mGaleriaGruposAdapter.setmArrayGrupos(array);
-        mGaleriaGruposAdapter.notifyDataSetChanged();
+        getmGaleriaGruposAdapter().setmArrayGrupos(array);
+        getmGaleriaGruposAdapter().notifyDataSetChanged();
     }
 
     public int getmPosition() {

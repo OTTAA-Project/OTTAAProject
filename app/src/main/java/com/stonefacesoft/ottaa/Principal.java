@@ -741,10 +741,11 @@ public class Principal extends AppCompatActivity implements View
 
     @Override
     protected void onStop() {
-        if (!json.getFallJson() && user.getmAuth().getCurrentUser() != null) {
-            if (isSettings) {
-                subirArchivos.new getTiempoGoogle().execute();
-            }
+        if (!json.getFallJson() && user != null) {
+            if(user.getmAuth().getCurrentUser() != null)
+                if (isSettings) {
+                    subirArchivos.new getTiempoGoogle().execute();
+                }
         }
 
         if (json.getmJSONArrayTodosLosPictos().length() > 0)
