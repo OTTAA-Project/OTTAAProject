@@ -368,11 +368,6 @@ index
 ├── PrimeraUltimaConexion
 └── Usuarios
 ```
-#### File Provider
-if you are a developer you need to append a .debug in the following line android:authorities ="com.stonefacesoft.ottaa"
-In the edit-Pictograms class make the same steps.
-
-Remember to delete .debug in the production environment
 
 ## Code of Conduct
 

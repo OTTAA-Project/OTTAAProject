@@ -603,7 +603,7 @@ public class Json implements FindPictogram {
         return -1;
     }
 
-    public boolean guardarJson(String archivo) {
+    public synchronized boolean guardarJson(String archivo) {
         JSONArray jsonArrayAGuardar = new JSONArray();
         switch (archivo) {
             case Constants.ARCHIVO_PICTOS:

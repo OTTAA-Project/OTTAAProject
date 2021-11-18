@@ -20,7 +20,9 @@ android {
     useLibrary 'android.test.base'
     useLibrary 'android.test.mock'
 
-
+    buildFeatures {
+        buildConfig = true
+    }
     defaultConfig {
         applicationId "com.stonefacesoft.ottaa"
         minSdkVersion 21
@@ -44,6 +46,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             zipAlignEnabled true
             testCoverageEnabled true
+
         }
         sourceSets.debug.resources.srcDirs = ['src/debug/res']
         release {

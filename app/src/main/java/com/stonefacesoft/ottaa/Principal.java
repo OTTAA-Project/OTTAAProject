@@ -357,7 +357,7 @@ public class Principal extends AppCompatActivity implements View
                     mBajarJsonFirebase.setInterfaz(this);
                     getFirebaseDialog().setTitle(getApplicationContext().getResources().getString(R.string.edit_sync)).setMessage(getApplicationContext().getResources().getString(R.string.edit_sync_pict)).setCancelable(false);
                     getFirebaseDialog().mostrarDialogo();
-                    mBajarJsonFirebase.descargarGruposyPictosNuevos();
+                    mBajarJsonFirebase.syncPictogramsandGroups();
                 }
             } catch (JSONException | FiveMbException e) {
                 e.printStackTrace();

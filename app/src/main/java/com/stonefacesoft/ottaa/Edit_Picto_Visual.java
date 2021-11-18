@@ -53,11 +53,11 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
+
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.stonefacesoft.ottaa.Activities.Pictures.EditPictogramCropper;
-import com.stonefacesoft.ottaa.Activities.Pictures.PictureCropper;
 import com.stonefacesoft.ottaa.Bitmap.UriFiles;
 import com.stonefacesoft.ottaa.Dialogos.DialogUtils.Progress_dialog_options;
 import com.stonefacesoft.ottaa.Dialogos.DialogUtils.Yes_no_otheroptionDialog;
@@ -300,7 +300,7 @@ public class Edit_Picto_Visual extends AppCompatActivity implements View.OnClick
             dialogs.setCancelable(false);
             dialogs.setMessage(getApplicationContext().getString(R.string.edit_sync_pict));
             dialogs.mostrarDialogo();
-            bajarJsonFirebase.descargarGruposyPictosNuevos();
+            bajarJsonFirebase.syncPictogramsandGroups();
         }
     }
 
@@ -1392,7 +1392,7 @@ public class Edit_Picto_Visual extends AppCompatActivity implements View.OnClick
             // Continue only if the File was successfully created
             if (photoFile != null) {
                 selectedImageUri = FileProvider.getUriForFile(this,
-                        "com.stonefacesoft.ottaa",
+                        BuildConfig.APPLICATION_ID+".fileprovider",
                         photoFile);
                 takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, selectedImageUri);
                 startActivityForResult(takePictureIntent, IntentCode.CAMARA.getCode());

@@ -23,6 +23,7 @@ import com.stonefacesoft.ottaa.Interfaces.FirebaseSuccessListener;
 import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.idioma.ConfigurarIdioma;
+import com.stonefacesoft.ottaa.utils.Firebase.CrashlyticsUtils;
 import com.stonefacesoft.ottaa.utils.constants.Constants;
 import com.stonefacesoft.ottaa.utils.FilesUtils;
 import com.stonefacesoft.ottaa.utils.ObservableInteger;
@@ -165,7 +166,7 @@ public class BajarJsonFirebase implements OnFailureListener {
         }
     }
 
-    public void descargarGruposyPictosNuevos() {
+    public void syncPictogramsandGroups() {
         if (!mAuth.getCurrentUser().getUid().isEmpty()) {
             locale = Locale.getDefault().getLanguage();
             Log.e("BAF_descGYPN", "locale :" + locale);
@@ -523,7 +524,9 @@ public class BajarJsonFirebase implements OnFailureListener {
                                 observableInteger.set(observableInteger.get() + 1);
                             } catch (Exception ex) {
                                 Log.e(TAG, "Fallo al guardar Grupo json 1");
-                                mStorageRefGrupos = FirebaseStorage.getInstance().getReference().child("Archivos_Paises/grupos/" + "grupos_" + locale + "." + "txt");
+                                CrashlyticsUtils.getInstance().getCrashlytics().log(ex.getMessage());
+                                //Todo add a backup interface
+                                /*mStorageRefGrupos = FirebaseStorage.getInstance().getReference().child("Archivos_Paises/grupos/" + "grupos_" + locale + "." + "txt");
                                 final File gruposUsuarioFile = new File(roothPath, Constants.ARCHIVO_GRUPOS);
                                 mStorageRefGrupos.getFile(gruposUsuarioFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
                                     @Override
@@ -542,7 +545,7 @@ public class BajarJsonFirebase implements OnFailureListener {
                                         }
                                     }
 
-                                });
+                                });*/
                             }
                         }
 
@@ -677,6 +680,9 @@ public class BajarJsonFirebase implements OnFailureListener {
                                 observableInteger.set(observableInteger.get() + 1);
                             } catch (Exception ex) {
                                 Log.e(TAG, "Fallo al guardar pictos json 1");
+                                CrashlyticsUtils.getInstance().getCrashlytics().log(ex.getMessage());
+                                //Todo add a backup interface
+                                /*
                                 mStorageRefPictos = FirebaseStorage.getInstance().getReference().child("Archivos_Paises/pictos/" + "pictos_" + locale + "." + "txt");
                                 final File pictosUsuariosFile = new File(roothPath, Constants.ARCHIVO_PICTOS);
                                 mStorageRefPictos.getFile(pictosUsuariosFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
@@ -694,7 +700,7 @@ public class BajarJsonFirebase implements OnFailureListener {
                                         }
                                     }
 
-                                });
+                                });*/
 
                             }
                         }
