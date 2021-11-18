@@ -100,22 +100,47 @@ public class CompartirArchivos {
         if (historial != null) {
             for (int i = 0; i < this.historial.size(); i++) {
                 Log.d("jsonfile", this.historial.get(i).toString());
-                Drawable draw = null;
+
                 CombineImages combineImages = new CombineImages(mContext);
-                try {
-                    draw = json.getIconWithNullOption(json.getPictoFromId2(this.historial.get(i).getInt("id")));
-                    if (draw != null) {
-                        Bitmap archivo = gestionarBitmap.drawableToBitmap(draw);
-                        imagen = archivo;
-                    }else{
-                        imagen = combineImages.getDrawableFromPictoView(json.getPictoFromId2(this.historial.get(i).getInt("id")),gestionarBitmap);
+                final int position = i ;
+                LoadOnlinePictograms loadOnlinePictograms = new LoadOnlinePictograms() {
+                    @Override
+                    public void preparePictograms() {
+                        try {
+                            Drawable draw = null;
+                            draw = json.getIconWithNullOption(json.getPictoFromId2(historial.get(position).getInt("id")));
+                            if (draw != null) {
+                                Bitmap archivo = gestionarBitmap.drawableToBitmap(draw);
+                                imagen = archivo;
+                            }else{
+                                imagen = combineImages.getDrawableFromPictoView(json.getPictoFromId2(historial.get(position).getInt("id")),gestionarBitmap);
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        loadPictograms(imagen);
                     }
 
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                gestionarBitmap.getImagenes().add(imagen);
-                gestionarBitmap.getIdjson().add(historial.get(i));
+                    @Override
+                    public void loadPictograms(Bitmap bitmap) {
+                        if(bitmap != null) {
+                            gestionarBitmap.getImagenes().add(imagen);
+                        }else{
+                            Bitmap aux = gestionarBitmap.drawableToBitmap(mContext.getResources().getDrawable(R.drawable.ic_baseline_cloud_download_24_big));
+                            gestionarBitmap.getImagenes().add(aux);
+                        }
+                        FileIsCreated();
+                    }
+
+                    @Override
+                    public void FileIsCreated() {
+                        gestionarBitmap.getIdjson().add(historial.get(position));
+                    }
+                };
+
+                loadOnlinePictograms.preparePictograms();
+
             }
             if (gestionarBitmap.getImagenes().size() > 0) {
                 gestionarBitmap.setNombre("imagen.png");

@@ -1,5 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <paths xmlns:android="http://schemas.android.com/apk/res/android">
-    <external-path name="my_images" path="Android/data/com.stonefacesoft.ottaa/files/Pictures" />
-    <external-path name="my_images_debug" path="Android/data/com.stonefacesoft.ottaa.debug/files/Pictures" />
+<files-path
+    name="my_images"
+    path="images/" />
+
+<files-path
+    name="my_docs"
+    path="docs/" />
+
+<external-files-path
+    name="external_files_dir"
+    path="/" />
+
+<cache-path
+    name="cache_dir"
+    path="/" />
+
+<external-cache-path
+    name="external_cache_dir"
+    path="/" />
+
+<external-media-path
+    name="external_media_dir"
+    path="/" />
+
+<external-media-path
+    name="external_media_dir"
+    path="/" />
 </paths>

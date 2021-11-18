@@ -275,6 +275,15 @@ public class Edit_Picto_Visual extends AppCompatActivity implements View.OnClick
     private void validateText(String nombre) {
         if(nombre != null)
             texto = nombre;
+        if(nombre.isEmpty())
+            texto = addPictogramOrGroup();
+    }
+
+    private String addPictogramOrGroup(){
+        if(esGrupo )
+            return getResources().getString(R.string.add_grupo);
+        else
+            return getResources().getString(R.string.add_pictograma);
     }
 
     private void loadPictogramsData() {

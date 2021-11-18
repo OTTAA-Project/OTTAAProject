@@ -683,6 +683,7 @@ public class BajarJsonFirebase implements OnFailureListener {
                                 CrashlyticsUtils.getInstance().getCrashlytics().log(ex.getMessage());
                                 //Todo add a backup interface
                                 /*
+
                                 mStorageRefPictos = FirebaseStorage.getInstance().getReference().child("Archivos_Paises/pictos/" + "pictos_" + locale + "." + "txt");
                                 final File pictosUsuariosFile = new File(roothPath, Constants.ARCHIVO_PICTOS);
                                 mStorageRefPictos.getFile(pictosUsuariosFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
