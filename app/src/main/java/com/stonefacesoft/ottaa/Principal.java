@@ -417,7 +417,6 @@ public class Principal extends AppCompatActivity implements View
 
     @Override
     public void onDescargaCompleta(int termino) {
-
         mCheckDescarga += termino;
         Log.d(TAG, "onDescargaCompleta: " + mCheckDescarga);
 
@@ -430,7 +429,7 @@ public class Principal extends AppCompatActivity implements View
             } catch (FiveMbException e) {
                 e.printStackTrace();
             }
-            Reset();
+            initFirstPictograms();
             getFirebaseDialog().destruirDialogo();
 
         }

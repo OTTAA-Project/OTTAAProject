@@ -546,16 +546,19 @@ public class Json implements FindPictogram {
     private Horario calcularHora() {
         SimpleDateFormat df = new SimpleDateFormat("H");
         Calendar SystemTime = Calendar.getInstance();
-        int time = Integer.parseInt(df.format(SystemTime.getTime()));
-
-        if (time >= 5 && time <= 11) {
-            return Horario.MANANA;
-        } else if (time > 11 && time <= 14) {
-            return Horario.MEDIODIA;
-        } else if (time > 14 && time < 20) {
-            return Horario.TARDE;
-        } else {
-            return Horario.NOCHE;
+        try{
+            int time = Integer.parseInt(df.format(SystemTime.getTime()));
+            if (time >= 5 && time <= 11) {
+                return Horario.MANANA;
+            } else if (time > 11 && time <= 14) {
+                return Horario.MEDIODIA;
+            } else if (time > 14 && time < 20) {
+                return Horario.TARDE;
+            } else {
+                return Horario.NOCHE;
+            }
+        }catch (Exception ex){
+            return Horario.ISEMPTY;
         }
     }
 

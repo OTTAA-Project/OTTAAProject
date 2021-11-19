@@ -523,7 +523,7 @@ public class BajarJsonFirebase implements OnFailureListener {
 
                                 observableInteger.set(observableInteger.get() + 1);
                             } catch (Exception ex) {
-                                Log.e(TAG, "Fallo al guardar Grupo json 1");
+                                Log.e(TAG, "Fallo al guardar Grupo json 1" + ex.getMessage());
                                 CrashlyticsUtils.getInstance().getCrashlytics().log(ex.getMessage());
                                 //Todo add a backup interface
                                 /*mStorageRefGrupos = FirebaseStorage.getInstance().getReference().child("Archivos_Paises/grupos/" + "grupos_" + locale + "." + "txt");
