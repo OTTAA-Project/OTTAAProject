@@ -2339,19 +2339,28 @@ public class Principal extends AppCompatActivity implements View
         getFirebaseDialog().setMessage(getApplicationContext().getResources().getString(R.string.edit_sync_pict));
         getFirebaseDialog().mostrarDialogo();
         File rootPath = new File(this.getCacheDir(), "Archivos_OTTAA");
-        ObservableInteger observableInteger = loadObservableInteger(size);
-        mBajarJsonFirebase.bajarPictos(ConfigurarIdioma.getLanguaje(), rootPath, observableInteger);
-        mBajarJsonFirebase.bajarGrupos(ConfigurarIdioma.getLanguaje(), rootPath, observableInteger);
-        mBajarJsonFirebase.bajarFrases(ConfigurarIdioma.getLanguaje(), rootPath, observableInteger);
+        ObservableInteger observableInteger = loadObservableInteger(size,rootPath);
+        observableInteger.set(0);
         mBajarJsonFirebase.bajarJuego(ConfigurarIdioma.getLanguaje(), rootPath);
         mBajarJsonFirebase.bajarFrasesFavoritas(ConfigurarIdioma.getLanguaje(), rootPath);
     }
 
-    public ObservableInteger loadObservableInteger(int size) {
+    public ObservableInteger loadObservableInteger(int size,File rootPath) {
         ObservableInteger observableInteger = new ObservableInteger();
         observableInteger.setOnIntegerChangeListener(new ObservableInteger.OnIntegerChangeListener() {
             @Override
             public void onIntegerChanged(int newValue) {
+                switch (newValue){
+                    case 0:
+                        mBajarJsonFirebase.bajarPictos(ConfigurarIdioma.getLanguaje(), rootPath, observableInteger);
+                        break;
+                    case 1:
+                        mBajarJsonFirebase.bajarGrupos(ConfigurarIdioma.getLanguaje(), rootPath, observableInteger);
+                        break;
+                    case 2:
+                        mBajarJsonFirebase.bajarFrases(ConfigurarIdioma.getLanguaje(), rootPath, observableInteger);
+                        break;
+                }
                 if (observableInteger.get() == size) {
                     getFirebaseDialog().destruirDialogo();
                     json.resetearError();
