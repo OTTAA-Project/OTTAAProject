@@ -1049,9 +1049,11 @@ public class Principal extends AppCompatActivity implements View
         historial.addPictograma(opcion);
         try {
             int pos = json.getPosPicto(json.getmJSONArrayTodosLosPictos(), pictoPadre.getInt("id"));
-            JSONutils.aumentarFrec(pictoPadre, opcion);
-            json.getmJSONArrayTodosLosPictos().put(pos, pictoPadre);
-            json.guardarJson(Constants.ARCHIVO_PICTOS);
+            if(pos != -1) {
+                JSONutils.aumentarFrec(pictoPadre, opcion);
+                json.getmJSONArrayTodosLosPictos().put(pos, pictoPadre);
+                json.guardarJson(Constants.ARCHIVO_PICTOS);
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -1224,7 +1226,7 @@ public class Principal extends AppCompatActivity implements View
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         Log.d(TAG, "onKeyDown: " + keyCode);
-        if (barridoPantalla.isBarridoActivado()) {
+        if (requestScreenScanningIsEnabled()) {
 
             if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT) {
                 event.startTracking();
@@ -1603,14 +1605,16 @@ public class Principal extends AppCompatActivity implements View
     }
 
     private void addOption(JSONObject opcion, PictoView picto, Animation animation) {
-        Log.d(TAG, "addOption: " + opcion.toString());
-        Pictogram pictogram = new Pictogram(opcion, ConfigurarIdioma.getLanguaje());
-        picto.setUpGlideAttatcher(this);
-        picto.setUpContext(this);
-        picto.setPictogramsLibraryPictogram(pictogram);
-        picto.setVisibility(View.VISIBLE);
-        formatoTransparencia(picto, opcion);
-        picto.startAnimation(animation);
+        if(ValidateContext.isValidContextFromGlide(this)){
+            Log.d(TAG, "addOption: " + opcion.toString());
+            Pictogram pictogram = new Pictogram(opcion, ConfigurarIdioma.getLanguaje());
+            picto.setUpGlideAttatcher(this);
+            picto.setUpContext(this);
+            picto.setPictogramsLibraryPictogram(pictogram);
+            picto.setVisibility(View.VISIBLE);
+            formatoTransparencia(picto, opcion);
+            picto.startAnimation(animation);
+        }
     }
 
     /**
@@ -2476,5 +2480,11 @@ public class Principal extends AppCompatActivity implements View
             showAvatar();
             setOnLongClickListener();
         }
+    }
+
+    private boolean requestScreenScanningIsEnabled(){
+        if(barridoPantalla != null)
+           return barridoPantalla.isBarridoActivado();
+        return false;
     }
 }

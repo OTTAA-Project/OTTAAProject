@@ -162,7 +162,9 @@ public class BarridoPantalla {
     }
 
     public boolean isBarridoActivado() {
-        return settings.isEnabled();
+        if(settings != null)
+            return settings.isEnabled();
+        return false;
     }
 
     public boolean isScrollMode(){
