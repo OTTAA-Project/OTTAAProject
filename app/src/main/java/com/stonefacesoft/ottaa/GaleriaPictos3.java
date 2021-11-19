@@ -385,7 +385,8 @@ public class GaleriaPictos3 extends AppCompatActivity implements View.OnClickLis
         if (mSelectedPictos != null) {
             for (int i = 0; i < mSelectedPictos.length(); i++) {
                 try {
-                    JSONutils.relacionarConGrupo2(todosLosGrupos, boton, mSelectedPictos.getJSONObject(i).getInt("id"));
+                    int id = mSelectedPictos.getJSONObject(i).getInt("id");
+                    JSONutils.relacionarConGrupo2(todosLosGrupos, boton, id);
                     Log.d(TAG, "guardarVincular: " + mSelectedPictos);
                 } catch (JSONException e) {
                     Log.e(TAG, "guardarVincular: Error: " + e.getMessage());
