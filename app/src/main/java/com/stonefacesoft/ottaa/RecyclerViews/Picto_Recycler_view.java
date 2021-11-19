@@ -15,14 +15,15 @@ import com.stonefacesoft.ottaa.Edit_Picto_Visual;
 import com.stonefacesoft.ottaa.Helper.RecyclerItemClickListener;
 import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.R;
-import com.stonefacesoft.ottaa.utils.constants.Constants;
 import com.stonefacesoft.ottaa.utils.IntentCode;
 import com.stonefacesoft.ottaa.utils.JSONutils;
 import com.stonefacesoft.ottaa.utils.PopupMenuUtils;
+import com.stonefacesoft.ottaa.utils.constants.Constants;
 import com.stonefacesoft.ottaa.utils.preferences.User;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 public class Picto_Recycler_view extends Custom_recyclerView {
     private int button;
@@ -202,7 +203,24 @@ public class Picto_Recycler_view extends Custom_recyclerView {
         subirGrupos();
     }
 
-
+    public void guardarDatosGrupoOnlyId() {
+        JSONArray pictosGrupos = json.getmJSONArrayTodosLosGrupos();
+        JSONArray aux = new JSONArray();
+        for (int i = 0; i <array.length() ; i++) {
+            try {
+                JSONObject child = new JSONObject();
+                child.put("id",array.getJSONObject(i));
+                aux.put(child);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        JSONutils.setHijosGrupo2(pictosGrupos, aux, button);
+        json.setmJSONArrayTodosLosGrupos(pictosGrupos);
+        if (!json.guardarJson(Constants.ARCHIVO_GRUPOS))
+            Log.e(TAG, "Error al guardar el json");
+        subirGrupos();
+    }
 
 
     @Override

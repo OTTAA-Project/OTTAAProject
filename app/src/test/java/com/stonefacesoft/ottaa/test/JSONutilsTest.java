@@ -51,7 +51,7 @@ public class JSONutilsTest {
         JSONObject jsonObject = createPictograms(474,"es","manzana","apple",2);
         assertEquals("apple",JSONutils.getNombre(jsonObject,"en"));
         assertEquals("manzana",JSONutils.getNombre(jsonObject,"es"));
-        assertEquals("error",JSONutils.getNombre(jsonObject,"ec"));
+        assertEquals("",JSONutils.getNombre(jsonObject,"ec"));
 
     }
 

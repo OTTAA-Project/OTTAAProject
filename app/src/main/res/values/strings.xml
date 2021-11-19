@@ -807,7 +807,7 @@
     <string name="ScrollSpeedAnalyticsValue">Scroll Speed</string>
     <string name="LocationAnalyticsValue">Location</string>
     <string name="createPhrasesAlert">" Please,  create a phrase and select the share button"</string>
-
+    <string name="fileProviderGeneral">com.stonefacesoft.ottaa</string>
 
 
 </resources>

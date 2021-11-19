@@ -1,5 +1,7 @@
 package com.stonefacesoft.ottaa.test.unitTesting;
 
+import static org.junit.Assert.assertEquals;
+
 import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.NLG;
 import com.stonefacesoft.ottaa.utils.TalkActions.Historial;
@@ -11,9 +13,8 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 
-import static org.junit.Assert.assertEquals;
-
 public class HistorialTest  {
+    private Json json = Json.getInstance();
     private Historial historial =  new Historial(Json.getInstance());
 
     @Test

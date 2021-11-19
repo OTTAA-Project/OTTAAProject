@@ -46,7 +46,6 @@
         android:supportsRtl="true"
         android:theme="@style/CustomActionBarTheme"
         android:usesCleartextTraffic="true"
-
         tools:targetApi="m">
 
 
@@ -236,9 +235,11 @@
 
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="com.stonefacesoft.android.fileprovider"
+            android:authorities="${applicationId}.fileprovider"
             android:exported="false"
-            android:grantUriPermissions="true">
+            android:grantUriPermissions="true"
+            tools:replace="android:authorities"
+            >
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />

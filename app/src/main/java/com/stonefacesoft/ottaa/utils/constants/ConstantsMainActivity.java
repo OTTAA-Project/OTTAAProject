@@ -6,5 +6,6 @@ public class ConstantsMainActivity {
    public static final int GALERIA_GRUPOS = 6;
    public static final int LOGIN_ACTIVITY = 4;
    public static final int AVATAR = 19;
+   public static final int MY_DATA_CHECK_CODE = 0;
 
 }

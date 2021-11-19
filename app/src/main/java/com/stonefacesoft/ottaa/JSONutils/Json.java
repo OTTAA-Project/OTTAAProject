@@ -136,9 +136,10 @@ public class Json implements FindPictogram {
      *
      * @param context Activity or context where implements the object
      */
-    public void setmContext(Context context) {
+    public Json setmContext(Context context) {
         this.mContext = context;
         sharedPrefsDefault = PreferenceManager.getDefaultSharedPreferences(mContext);
+        return this;
     }
 
     /**
@@ -545,16 +546,19 @@ public class Json implements FindPictogram {
     private Horario calcularHora() {
         SimpleDateFormat df = new SimpleDateFormat("H");
         Calendar SystemTime = Calendar.getInstance();
-        int time = Integer.parseInt(df.format(SystemTime.getTime()));
-
-        if (time >= 5 && time <= 11) {
-            return Horario.MANANA;
-        } else if (time > 11 && time <= 14) {
-            return Horario.MEDIODIA;
-        } else if (time > 14 && time < 20) {
-            return Horario.TARDE;
-        } else {
-            return Horario.NOCHE;
+        try{
+            int time = Integer.parseInt(df.format(SystemTime.getTime()));
+            if (time >= 5 && time <= 11) {
+                return Horario.MANANA;
+            } else if (time > 11 && time <= 14) {
+                return Horario.MEDIODIA;
+            } else if (time > 14 && time < 20) {
+                return Horario.TARDE;
+            } else {
+                return Horario.NOCHE;
+            }
+        }catch (Exception ex){
+            return Horario.ISEMPTY;
         }
     }
 
@@ -602,7 +606,7 @@ public class Json implements FindPictogram {
         return -1;
     }
 
-    public boolean guardarJson(String archivo) {
+    public synchronized boolean guardarJson(String archivo) {
         JSONArray jsonArrayAGuardar = new JSONArray();
         switch (archivo) {
             case Constants.ARCHIVO_PICTOS:

@@ -19,11 +19,11 @@ import com.stonefacesoft.ottaa.GaleriaPictos3;
 import com.stonefacesoft.ottaa.Helper.RecyclerItemClickListener;
 import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.R;
-import com.stonefacesoft.ottaa.utils.constants.Constants;
 import com.stonefacesoft.ottaa.utils.Firebase.CrashlyticsUtils;
 import com.stonefacesoft.ottaa.utils.IntentCode;
 import com.stonefacesoft.ottaa.utils.JSONutils;
 import com.stonefacesoft.ottaa.utils.PopupMenuUtils;
+import com.stonefacesoft.ottaa.utils.constants.Constants;
 import com.stonefacesoft.ottaa.utils.preferences.User;
 
 import org.json.JSONException;
@@ -57,7 +57,7 @@ public class Grupo_Recycler_View extends Custom_recyclerView implements  View.On
         array=json.getmJSONArrayTodosLosGrupos();
         if(array!=null){
             json.setmJSONArrayTodosLosGrupos(array);
-            mGaleriaGruposAdapter.setmArrayGrupos(array);
+            getmGaleriaGruposAdapter().setmArrayGrupos(array);
         }
     }
     //Encargado de manejar los doble click y click en cada grupo para abrirlo con sus pictos
@@ -188,8 +188,8 @@ public class Grupo_Recycler_View extends Custom_recyclerView implements  View.On
         json=Json.getInstance();
         json.setmContext(mActivity);
         array=json.getmJSONArrayTodosLosGrupos();
-        mGaleriaGruposAdapter.setmArrayGrupos(array);
-        mGaleriaGruposAdapter.notifyDataSetChanged();
+        getmGaleriaGruposAdapter().setmArrayGrupos(array);
+        getmGaleriaGruposAdapter().notifyDataSetChanged();
     }
 
     public int getmPosition() {
@@ -289,5 +289,10 @@ public class Grupo_Recycler_View extends Custom_recyclerView implements  View.On
         intent.putExtra("esGrupo", true);
     }
 
+    public GaleriaGruposAdapter  getmGaleriaGruposAdapter(){
+        if(mGaleriaGruposAdapter == null)
+            mGaleriaGruposAdapter = new GaleriaGruposAdapter(mActivity, R.layout.grid_group_layout_2, mAuth);
+        return  mGaleriaGruposAdapter;
+    }
 
 }

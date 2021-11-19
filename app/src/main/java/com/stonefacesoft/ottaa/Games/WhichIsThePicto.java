@@ -349,7 +349,6 @@ public class WhichIsThePicto extends AppCompatActivity implements View
                 viewGanador = Opcion4;
                 break;
         }
-        handlerHablar.postDelayed(talkGanador, 600);
         return pictos[ganador];
     }
 
@@ -406,6 +405,7 @@ public class WhichIsThePicto extends AppCompatActivity implements View
             } catch (Exception e) {
             }
         }
+        handlerHablar.postDelayed(talkGanador, 600);
     }
 
     @Override

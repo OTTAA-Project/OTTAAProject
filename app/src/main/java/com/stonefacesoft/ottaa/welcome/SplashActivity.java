@@ -255,7 +255,7 @@ public class SplashActivity extends Activity {
             Handler handler = new Handler(Looper.getMainLooper());
             executor.execute(() -> {
                 try {
-                    Json.getInstance().initJsonArrays();
+                    Json.getInstance().setmContext(getApplicationContext()).initJsonArrays();
                 } catch (JSONException | FiveMbException e) {
                     Log.e(TAG, "borrarPictosViejos: Error" + e.getMessage());
                 }

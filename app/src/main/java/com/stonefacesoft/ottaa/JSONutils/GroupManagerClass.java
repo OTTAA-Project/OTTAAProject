@@ -28,11 +28,11 @@ public class GroupManagerClass {
         return _GroupManagerClass;
     }
 
-    public void setmGroup(JSONArray mGroup) {
+    public synchronized void setmGroup(JSONArray mGroup) {
         this.mGroup = mGroup;
     }
 
-    public JSONArray getmGroup() {
+    public synchronized JSONArray getmGroup() {
         return mGroup;
     }
 }

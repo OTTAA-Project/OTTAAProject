@@ -35,6 +35,7 @@ import com.stonefacesoft.ottaa.utils.textToSpeech;
 import com.stonefacesoft.pictogramslibrary.Classes.Group;
 import com.stonefacesoft.pictogramslibrary.Classes.Pictogram;
 import com.stonefacesoft.pictogramslibrary.utils.GlideAttatcher;
+import com.stonefacesoft.pictogramslibrary.utils.ValidateContext;
 import com.stonefacesoft.pictogramslibrary.view.GroupView;
 
 import org.json.JSONArray;
@@ -225,7 +226,7 @@ public class viewpager_galeria_grupo {
             try {
                 SharedPreferences sharedPrefsDefault = PreferenceManager.getDefaultSharedPreferences(mActivity);
                 JSONObject aux = array.getJSONObject(position);
-                if(aux.has("imagen")) {
+                if(aux.has("imagen")&& ValidateContext.isValidContextFromGlide(mActivity)) {
                     Group group = new Group(aux, ConfigurarIdioma.getLanguaje());
                     grupo.setUpContext(mActivity);
                     grupo.setUpGlideAttatcher(mActivity);

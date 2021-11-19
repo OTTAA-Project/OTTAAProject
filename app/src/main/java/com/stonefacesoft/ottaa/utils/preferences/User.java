@@ -15,6 +15,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.stonefacesoft.ottaa.Interfaces.FirebaseSuccessListener;
 import com.stonefacesoft.ottaa.LoginActivity2;
 import com.stonefacesoft.ottaa.R;
@@ -91,12 +92,11 @@ public class User {
     public  void disconnectClient(){
         if(mGoogleApiClient.isConnected())
         mGoogleApiClient.disconnect();
-
-
-
-
     }
 
+    public boolean isConnected(){
+        return mGoogleApiClient.isConnected();
+    }
 
 
     public void logOut(){
@@ -136,8 +136,16 @@ public class User {
                     .build();
     }
 
+    public String getUserUid(FirebaseUser firebaseUser){
+        return firebaseUser.getUid();
+    }
+
     public String getUserUid(){
         return mAuth.getCurrentUser().getUid();
+    }
+
+    public FirebaseUser getUser(){
+        return mAuth.getCurrentUser();
     }
 
     public boolean isPremium(){

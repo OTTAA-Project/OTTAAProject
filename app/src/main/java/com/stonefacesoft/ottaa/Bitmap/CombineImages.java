@@ -12,6 +12,7 @@ import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.idioma.ConfigurarIdioma;
 import com.stonefacesoft.pictogramslibrary.Classes.Pictogram;
+import com.stonefacesoft.pictogramslibrary.utils.ValidateContext;
 import com.stonefacesoft.pictogramslibrary.view.PictoView;
 
 import org.json.JSONObject;
@@ -74,13 +75,10 @@ public class CombineImages {
             if(imagen == null){
                 Drawable aux = nube;
                 try {
-                    if(pictoView.getGlideAttatcher() != null) {
+                    if(pictoView.getGlideAttatcher() != null && ValidateContext.isValidContextFromGlide(context)) {
                         pictoView.getGlideAttatcher().loadDrawable(Uri.parse(json.getJSONObject("imagen").getString("urlFoto")), pictoView.getImageView());
                     }
-                    imagen = pictoView.getImageView().getDrawable();
-                    if(imagen == null)
-                        imagen = nube;
-                    images.add(imagen);
+                    images.add(getOnlineImage(pictoView.getImageView().getDrawable(),nube));
                 } catch (Exception ex) {
                     images.add(nube);
                 }
@@ -88,5 +86,13 @@ public class CombineImages {
         }
 
 
+    }
+
+    public Drawable getOnlineImage(Drawable resource,Drawable resourceAux){
+        Drawable drawable = null;
+            drawable = resource;
+            if(resource == null)
+                drawable = resourceAux;
+        return drawable;
     }
 }

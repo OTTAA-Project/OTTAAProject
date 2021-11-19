@@ -1,10 +1,8 @@
 package com.stonefacesoft.ottaa.Adapters;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
-import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,6 +30,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 public class VincularPictosAdapter extends RecyclerView.Adapter<VincularPictosAdapter.VincularViewHolder> implements ListPreloader.PreloadModelProvider {
 
@@ -54,6 +54,8 @@ public class VincularPictosAdapter extends RecyclerView.Adapter<VincularPictosAd
         this.esFiltrado = filtro;
         this.mSelectedPictos = new JSONArray();
         this.listadoIdPictos = new ArrayList<>();
+        this.mVincularArray.remove(0);
+
     }
 
     @TestOnly
@@ -64,6 +66,7 @@ public class VincularPictosAdapter extends RecyclerView.Adapter<VincularPictosAd
         this.esFiltrado = filtro;
         this.mSelectedPictos = new JSONArray();
         this.listadoIdPictos = new ArrayList<>();
+        this.mVincularArray.remove(0);
     }
 
     public VincularPictosAdapter initGlideAttatcher() {
@@ -248,6 +251,8 @@ public class VincularPictosAdapter extends RecyclerView.Adapter<VincularPictosAd
 
     }
 
+
+
     private class VincularAsync extends AsyncTask<Void, Void, Void> {
 
         private final VincularViewHolder mHolder;
@@ -264,12 +269,15 @@ public class VincularPictosAdapter extends RecyclerView.Adapter<VincularPictosAd
         protected Void doInBackground(Void... voids) {
             try {
                 picto = json.getPictoFromId2(mVincularArray.getJSONObject(mPosition).getInt("id"));
-                mHolder.pictoView.setUpContext(mContext);
-                mHolder.pictoView.setUpGlideAttatcher(mContext);
+                if(picto!= null){
+                    mHolder.pictoView.setUpContext(mContext);
+                    mHolder.pictoView.setUpGlideAttatcher(mContext);
+                }
             } catch (JSONException e) {
                 e.printStackTrace();
             } catch (Exception ex) {
                 ex.printStackTrace();
+
             }
 
             return null;
@@ -287,6 +295,7 @@ public class VincularPictosAdapter extends RecyclerView.Adapter<VincularPictosAd
                         mHolder.itemView.setBackground(mContext.getResources().getDrawable(R.drawable.picto_shape));
                 } catch (Exception ex) {
                     ex.printStackTrace();
+
                 }
             }
         }

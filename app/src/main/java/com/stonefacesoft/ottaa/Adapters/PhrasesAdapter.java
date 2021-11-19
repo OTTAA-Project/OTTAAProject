@@ -19,6 +19,7 @@ import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.utils.Phrases.CustomFavoritePhrases;
 import com.stonefacesoft.ottaa.utils.textToSpeech;
 import com.stonefacesoft.pictogramslibrary.utils.GlideAttatcher;
+import com.stonefacesoft.pictogramslibrary.utils.ValidateContext;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -139,7 +140,8 @@ public class PhrasesAdapter extends RecyclerView.Adapter<PhrasesAdapter.PhraseAd
                                 }
                                 @Override
                                 public void loadPictograms(Bitmap bitmap) {
-                                    glideAttatcher.UseCornerRadius(true).loadDrawable(bitmap, mHolder.img);
+                                    if(ValidateContext.isValidContextFromGlide(mContext))
+                                     glideAttatcher.UseCornerRadius(true).loadDrawable(bitmap, mHolder.img);
                                 }
 
                                 @Override
