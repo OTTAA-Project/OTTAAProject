@@ -6,9 +6,9 @@ public class DataUser {
 
     private long birthDate;
     private String gender ="";
-    private String firstAndLastName;
-    private String email;
-    private String devices;
+    private String firstAndLastName="";
+    private String email="";
+    private String devices ="";
     //Todo add the user devices
 
     public DataUser(){}
