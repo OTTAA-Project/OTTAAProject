@@ -1,6 +1,9 @@
 package com.stonefacesoft.ottaa.Adapters;
 
-import com.stonefacesoft.ottaa.Principal;
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertTrue;
+
 import com.stonefacesoft.ottaa.R;
 
 import org.json.JSONArray;
@@ -8,23 +11,21 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Test;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertFalse;
-import static junit.framework.Assert.assertTrue;
-
 public class VincularPictosAdapterTest {
 
     private final VincularPictosAdapter vincularPictosAdapter = new VincularPictosAdapter( R.layout.item_grid, createPictogramJSONArray(), false);
 
     @Test
     public void getItemCount() {
-        assertEquals(4, vincularPictosAdapter.getItemCount());
+        assertEquals(3, vincularPictosAdapter.getItemCount());
     }
 
 
     @Test
     public void getmVincularArray() {
-        assertEquals(createPictogramJSONArray().toString(), vincularPictosAdapter.getmVincularArray().toString());
+        JSONArray aux = createPictogramJSONArray();
+        aux.remove(0);
+        assertEquals(aux.toString(), vincularPictosAdapter.getmVincularArray().toString());
     }
 
     @Test
