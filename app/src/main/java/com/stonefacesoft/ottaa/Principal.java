@@ -2020,6 +2020,7 @@ public class Principal extends AppCompatActivity implements View
         initActionButtons();
         initPictograms();
         initAvatar();
+        initTTS();
         new initComponentsClass().execute();
 
     }
@@ -2263,6 +2264,7 @@ public class Principal extends AppCompatActivity implements View
                 checkTTSIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
                 startActivityForResult(checkTTSIntent, IntentCode.MY_DATA_CHECK_CODE.getCode());
             } else {
+
                 Alert();
             }
         } catch (Exception e) {
@@ -2457,7 +2459,6 @@ public class Principal extends AppCompatActivity implements View
             initFirebaseComponents();
             firstUserAuthVerification();
             initDefaultSettings(Principal.this);
-            initTTS();
             return null;
         }
 

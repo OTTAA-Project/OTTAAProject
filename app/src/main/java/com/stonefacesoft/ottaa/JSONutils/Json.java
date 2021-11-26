@@ -7,7 +7,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.os.Build;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.util.Size;
@@ -40,8 +39,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Collections;
-import java.util.Comparator;
 
 /**
  * @author morro
@@ -813,19 +810,24 @@ public class Json implements FindPictogram {
     private JSONArray elegirHijos2(JSONObject padre, boolean esSugerencia) throws JSONException {
 
             JSONArray array = padre.getJSONArray("relacion");
-            ArrayList<JSONObject> relacion = new ArrayList<>();
+            SortPictograms.quickSort(array,0,array.length()-1);
+           /* ArrayList<JSONObject> relacion = new ArrayList<>();
+
             for (int i = 0; i < array.length(); i++) {
                 relacion.add(array.getJSONObject(i));
             }
+            int size = relacion.size();
+            if(size >30)
+                size = 30;
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                relacion.sort(new Comparator<JSONObject>() {
+                relacion.subList(0,size).sort(new Comparator<JSONObject>() {
                     @Override
                     public int compare(JSONObject json1, JSONObject json2) {
                         return compareValues(json1,json2,esSugerencia);
                     }
                 });
             } else {
-                Collections.sort(relacion, new Comparator<JSONObject>() {
+                Collections.sort(relacion.subList(0,size), new Comparator<JSONObject>() {
                     @Override
                     public int compare(JSONObject json1, JSONObject json2) {
                       return compareValues(json1,json2,esSugerencia);
@@ -833,8 +835,11 @@ public class Json implements FindPictogram {
                 });
             }
             Log.d(TAG, "elegirHijos2: Ordenado");
-            return new JSONArray(relacion.toString());
+            return new JSONArray(relacion.toString());*/
+        return array;
     }
+
+
 
     public int compareValues(JSONObject json1,JSONObject json2,boolean esSugerencia){
         double frec1 = 0;

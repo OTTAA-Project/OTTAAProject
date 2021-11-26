@@ -1,10 +1,10 @@
 package com.stonefacesoft.ottaa.utils.preferences;
 
-import org.junit.Before;
-import org.junit.Test;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+
+import org.junit.Before;
+import org.junit.Test;
 
 public class DataUserTest {
 
@@ -29,17 +29,33 @@ public class DataUserTest {
     }
 
     @Test
+    public void getGenderEmpty() {
+
+        assertEquals("",dataUser.getGender());
+    }
+
+    @Test
     public void getFirstAndLastName() {
         dataUser.setFirstAndLastName("Paul");
         assertEquals("Paul",dataUser.getFirstAndLastName());
     }
 
     @Test
+    public void getFirstAndLastNameEmptyValue(){
+        assertEquals("",dataUser.getFirstAndLastName());
+    }
+
+    @Test
     public void getEmail() {
         dataUser.setEmail("yo@gmail.com");
         assertEquals("yo@gmail.com",dataUser.getEmail());
-
     }
+
+    @Test
+    public void getEmailEmptyValue(){
+        assertEquals("",dataUser.getEmail());
+    }
+
 
     @Test
     public void setBirthDate() {
@@ -72,4 +88,22 @@ public class DataUserTest {
         dataUser.setBirthDate(System.currentTimeMillis());
         assertEquals(0,dataUser.getUserAge());
     }
+
+    @Test
+    public void  setDevices(){
+        dataUser.setDevices("Huawei");
+        assertEquals("Huawei",dataUser.getDevices());
+    }
+    @Test
+    public void  getDevicesEmpty(){
+        assertEquals("",dataUser.getDevices());
+    }
+
+    @Test
+    public void  getDevices(){
+        dataUser.setDevices("Samsung");
+        assertEquals("Samsung",dataUser.getDevices());
+    }
+
+
 }
