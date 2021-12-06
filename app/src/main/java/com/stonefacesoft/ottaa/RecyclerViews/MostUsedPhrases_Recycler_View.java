@@ -67,7 +67,8 @@ public class MostUsedPhrases_Recycler_View extends Custom_recyclerView {
             } else {
                 getPositionItem.subtract();
             }
-            mRecyclerView.scrollToPosition(getPositionItem.getPosition());
+            if (mRecyclerView.getAdapter().getItemCount() > 0)
+                mRecyclerView.scrollToPosition(getPositionItem.getPosition());
         }
     }
 
@@ -80,9 +81,9 @@ public class MostUsedPhrases_Recycler_View extends Custom_recyclerView {
 
     @Override
     public void talkAtPosition() {
-        if(createReturnPositionItem()) {
+        if (createReturnPositionItem()) {
             int value = getPositionItem.getPosition();
-            if(validatePosition(value))
+            if (validatePosition(value))
                 mostUsedFavoritePhrasesAdapter.getMyTTs().hablar(mostUsedFavoritePhrasesAdapter.getmFavImagesArrayList().get(value).getTexto());
         }
     }

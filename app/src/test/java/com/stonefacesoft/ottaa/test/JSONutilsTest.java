@@ -465,7 +465,7 @@ public class JSONutilsTest {
         }
         jsonArray.put(jsonObject);
         double scoreBase, scoreTAG;
-        scoreBase = JSONutils.score(jsonObject,false,jsonArray,"none",Sexo.MASCULINO.toString(),Horario.MEDIODIA.toString(),Edad.ADULTO.toString(),Posicion.PARQUE.toString());
+        scoreBase = JSONutils.score(jsonObject,false,"none",Sexo.MASCULINO.toString(),Horario.MEDIODIA.toString(),Edad.ADULTO.toString(),Posicion.PARQUE.toString());
         System.out.println(scoreBase);
         assertEquals(false,false);
         //

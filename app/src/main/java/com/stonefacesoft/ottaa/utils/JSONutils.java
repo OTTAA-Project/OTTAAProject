@@ -2,6 +2,7 @@ package com.stonefacesoft.ottaa.utils;
 
 import android.util.Log;
 
+import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.JSONutils.SearchObjects;
 import com.stonefacesoft.ottaa.Prediction.Clima;
 import com.stonefacesoft.ottaa.Prediction.Edad;
@@ -114,7 +115,7 @@ public class JSONutils {
     public static void setPosicion(JSONObject ob, Posicion posicion) {
         JSONArray arrayPosicion = new JSONArray();
         try {
-            ob.getJSONArray(Constants.UBICACION);
+            if(ob.has(Constants.UBICACION))
             arrayPosicion = ob.getJSONArray(Constants.UBICACION);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -203,7 +204,7 @@ public class JSONutils {
     public static void setHorario(JSONObject ob, Horario horario) {
         JSONArray arrayHora = new JSONArray();
         try {
-            if (ob.getJSONArray(Constants.HORA) != null) {
+            if (ob.has(Constants.HORA)) {
                 arrayHora = ob.getJSONArray(Constants.HORA);
             }
         } catch (JSONException e) {
@@ -227,7 +228,7 @@ public class JSONutils {
     public static void setSexo(JSONObject ob, Sexo sexo) {
         JSONArray arraySexo = new JSONArray();
         try {
-            if (ob.getJSONArray(Constants.SEXO) != null) {
+            if (ob.has(Constants.SEXO)) {
                 arraySexo = ob.getJSONArray(Constants.SEXO);
             }
         } catch (JSONException e) {
@@ -391,25 +392,25 @@ public class JSONutils {
     }
 
     public static JSONObject getPictoFromId2(JSONArray jsonArray, int idABuscar) {
-        try{
-            int position = new SearchObjects().searchItemById(jsonArray, idABuscar);
-            if(position!=-1)
-                return jsonArray.getJSONObject(position);
-        }catch (JSONException ex) {
-            ex.printStackTrace();
-        }
-        int position=new SearchObjects().searchItemById(jsonArray,1024);
-        for (int i = position; i <jsonArray.length() ; i++) {
+        int position = getPositionPicto2(jsonArray,idABuscar);
+        if(position != -1) {
             try {
-                JSONObject object=jsonArray.getJSONObject(i);
-                if(getId(object)==idABuscar)
-                    return jsonArray.getJSONObject(i);
+                return jsonArray.getJSONObject(position);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
         return null;
     }
+
+    public static int getPositionPicto2(JSONArray jsonArray, int idABuscar) {
+        int position = new SearchObjects().searchItemById(jsonArray, idABuscar);
+        if (position != -1)
+            return position;
+        return position;
+    }
+
+
 
     public static JSONArray getHijosGrupo2(JSONObject object, JSONArray jsonArrayTodosLosPictos) {
         JSONArray array = null;
@@ -450,21 +451,19 @@ public class JSONutils {
         return arrayListAEditar;
     }
 
-    public static double score(JSONObject json, boolean esSugerencia, JSONArray jsonArrayTodosLosPictos, String agenda, String sexo, String hora, String edad, String posicion) {
+    public static double score(JSONObject json, boolean esSugerencia, String agenda, String sexo, String hora, String edad, String posicion) {
         int frec = 0, agendaUsuario = 0, gps = 0, horaDelDia = 0, id = 0, present = 0, sexoUsuario,
                 edadUsuario = 0;
         final double pesoFrec = 2, pesoAgenda = 8, pesoGps = 12, pesoHora = 50, pesoPresent = 100,
                 pesoSexo = 3, pesoEdad = 5;
         double score;
-        JSONObject original = null;
-
+        JSONObject original = json;
         try {
             frec = 0;
             if(json.has("frec"))
                 frec = json.getInt("frec");
             id = json.getInt("id");
-
-            original = getPictoFromId2(jsonArrayTodosLosPictos,id);
+            original = getPictoFromId2(Json.getInstance().getmJSONArrayTodosLosPictos(), id);
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -509,10 +508,14 @@ public class JSONutils {
 
     public static int tieneSexo(JSONObject json, String sexo) {
         try {
-            JSONArray array = json.getJSONArray(Constants.SEXO);
-            for (int i = 0; i < array.length(); i++) {
-                if (sexo.equalsIgnoreCase(array.get(i).toString())) {
-                    return 1;
+            if(json == null)
+                return 0;
+            if(json.has(Constants.SEXO)){
+                JSONArray array = json.getJSONArray(Constants.SEXO);
+                for (int i = 0; i < array.length(); i++) {
+                    if (sexo.equalsIgnoreCase(array.get(i).toString())) {
+                        return 1;
+                    }
                 }
             }
         } catch (JSONException e) {
@@ -524,10 +527,14 @@ public class JSONutils {
 
     public static int tieneAgenda(JSONObject json, String agenda) {
         try {
-            JSONArray array = json.getJSONArray(Constants.CALENDARIO);
-            for (int i = 0; i < array.length(); i++) {
-                if (agenda.equals(array.get(i).toString())) {
-                    return 1;
+            if(json == null)
+                return 0;
+            if(json.has(Constants.CALENDARIO)){
+                JSONArray array = json.getJSONArray(Constants.CALENDARIO);
+                for (int i = 0; i < array.length(); i++) {
+                    if (agenda.equals(array.get(i).toString())) {
+                        return 1;
+                    }
                 }
             }
         } catch (JSONException e) {
@@ -538,10 +545,14 @@ public class JSONutils {
 
     public static int tieneHora(JSONObject json, String hora) {
         try {
-            JSONArray array = json.getJSONArray(Constants.HORA);
-            for (int i = 0; i < array.length(); i++) {
-                if (hora.toString().equals(array.get(i).toString())) {
-                    return 1;
+            if(json == null)
+                return 0;
+            if(json.has(Constants.HORA)){
+                JSONArray array = json.getJSONArray(Constants.HORA);
+                for (int i = 0; i < array.length(); i++) {
+                    if (hora.toString().equals(array.get(i).toString())) {
+                        return 1;
+                    }
                 }
             }
         } catch (JSONException e) {
@@ -552,10 +563,14 @@ public class JSONutils {
 
     public static int tieneEdad(JSONObject json, String edad) {
         try {
-            JSONArray array = json.getJSONArray(Constants.EDAD);
-            for (int i = 0; i < array.length(); i++) {
-                if (edad.equals(array.get(i).toString())) {
-                    return 1;
+            if(json == null)
+                return 0;
+            if(json.has(Constants.EDAD)){
+                JSONArray array = json.getJSONArray(Constants.EDAD);
+                for (int i = 0; i < array.length(); i++) {
+                    if (edad.equals(array.get(i).toString())) {
+                        return 1;
+                    }
                 }
             }
         } catch (JSONException e) {
@@ -572,10 +587,14 @@ public class JSONutils {
      * */
     public static int tienePosicion(JSONObject json, String posicion) {
         try {
-            JSONArray array = json.getJSONArray(Constants.UBICACION);
-            for (int i = 0; i < array.length(); i++) {
-                if (posicion.equals(array.get(i).toString())) {
-                    return 1;
+            if(json == null)
+                return 0;
+            if(json.has(Constants.UBICACION)){
+                JSONArray array = json.getJSONArray(Constants.UBICACION);
+                for (int i = 0; i < array.length(); i++) {
+                    if (posicion.equals(array.get(i).toString())) {
+                     return 1;
+                    }
                 }
             }
         } catch (JSONException e) {

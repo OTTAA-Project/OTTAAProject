@@ -36,10 +36,15 @@ public class MemoryGame extends GameViewSelectPictograms {
         super.onCreate(savedInstanceState);
         showDescription(getString(R.string.memory_game));
         model = new MemoryGameModelModel();
-        setUpGame(2);
-        game.setGamelevel(sharedPrefsDefault.getInt("MemoryGameLevel",0));
-        game.setMaxLevel(3);
-        game.setMaxStreak(30);
+        try {
+            setUpGame(2,json.getId(mjJsonArrayTodosLosGrupos.getJSONObject(mPositionPadre)));
+            game.setGamelevel(sharedPrefsDefault.getInt("MemoryGameLevel",0));
+            game.setMaxLevel(3);
+            game.setMaxStreak(30);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
         model = new MemoryGameModelModel();
         changeLevel();
         startGame();

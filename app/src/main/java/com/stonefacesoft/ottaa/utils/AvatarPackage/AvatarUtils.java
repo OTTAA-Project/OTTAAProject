@@ -18,6 +18,7 @@ import com.stonefacesoft.ottaa.utils.ConnectionDetector;
 import com.stonefacesoft.ottaa.utils.constants.Constants;
 import com.stonefacesoft.ottaa.utils.preferences.User;
 import com.stonefacesoft.pictogramslibrary.utils.GlideAttatcher;
+import com.stonefacesoft.pictogramslibrary.utils.ValidateContext;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -61,9 +62,10 @@ public class AvatarUtils {
     };
 
     private void setAvatarByName(Context mContext, String name) {
-
-            Drawable drawable = mContext.getResources().getDrawable(mContext.getResources().getIdentifier(name, "drawable", mContext.getPackageName()));
-            glideAttatcher.setHeight(imageViewAvatar.getHeight()).setWidth(imageViewAvatar.getHeight()).loadDrawable(drawable, imageViewAvatar);
+            if(ValidateContext.isValidContextFromGlide(mContext)) {
+                Drawable drawable = mContext.getResources().getDrawable(mContext.getResources().getIdentifier(name, "drawable", mContext.getPackageName()));
+                glideAttatcher.setHeight(imageViewAvatar.getHeight()).setWidth(imageViewAvatar.getHeight()).loadDrawable(drawable, imageViewAvatar);
+            }
     }
     public void getFirebaseAvatar() {
         this.name = SelectedAvatar.getInstance().getName();

@@ -243,7 +243,7 @@ public abstract class Custom_recyclerView implements SearchView.OnQueryTextListe
      * </item>
      * */
     public void scrollTo(boolean add){
-        if(getPositionItem==null)
+        if(getPositionItem==null && existRecyclerViewAndAdapter())
             getPositionItem = new ReturnPositionItem(mRecyclerView.getAdapter().getItemCount());
         try{
             if(add){
@@ -261,12 +261,20 @@ public abstract class Custom_recyclerView implements SearchView.OnQueryTextListe
         }
     }
 
+    private boolean existRecyclerViewAndAdapter(){
+        if(mRecyclerView!= null)
+            if(mRecyclerView.getAdapter()!=null)
+                return true;
+        return false;
+    }
+
     protected void AlertBorrar(){
 
     }
 
     public void changeData(){
-        mRecyclerView.getAdapter().notifyDataSetChanged();
+        if(existRecyclerViewAndAdapter())
+            mRecyclerView.getAdapter().notifyDataSetChanged();
     }
 
     public void sincronizeData(){
@@ -274,7 +282,7 @@ public abstract class Custom_recyclerView implements SearchView.OnQueryTextListe
     }
 
     public boolean createReturnPositionItem(){
-        if(getPositionItem==null && mRecyclerView!=null && mRecyclerView.getAdapter() !=null)
+        if(getPositionItem==null && existRecyclerViewAndAdapter())
             getPositionItem = new ReturnPositionItem(mRecyclerView.getAdapter().getItemCount());
         return getPositionItem != null;
     }

@@ -75,7 +75,6 @@ public class LicenciaUsuario {
 
     private void cambiarEstadoPremium(String valor) {
         PreferenceManager.getDefaultSharedPreferences(mContext).edit().putInt(Constants.PREMIUM, Integer.parseInt(valor)).apply();
-
     }
 
     private class VerificarPagoUsuario extends AsyncTask<Void, Void, Void> {
@@ -101,81 +100,82 @@ public class LicenciaUsuario {
                     Date startDate = df.parse(dateStr);
                     dateStr = String.valueOf(startDate.getTime() / 1000);
                     Long horaActual = java.lang.Long.parseLong(dateStr);
-                    databaseReference.child(Constants.PAGO).child(mAuth.getCurrentUser().getUid()).addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            if (!dataSnapshot.hasChild(Constants.FECHAPAGO)) {
-                                databaseReference.child(Constants.PRIMERAULTIMACONEXION).child(mAuth.getCurrentUser().getUid()).addValueEventListener(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                        if (dataSnapshot.hasChild(Constants.PRIMERACONEXION)) {
-                                            Long primeraConexion = Long.parseLong(dataSnapshot.child(Constants.PRIMERACONEXION).getValue().toString());
-                                            if (horaActual.compareTo(primeraConexion) > 0) {
-                                                cambiarEstadoPremium(0 + "");
-                                                databaseReference.child(Constants.PAGO).child(mAuth.getCurrentUser().getUid()).child(Constants.PAGO).getRef().setValue(0);
+                    if(mAuth != null) {
+                        databaseReference.child(Constants.PAGO).child(mAuth.getCurrentUser().getUid()).addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                if (!dataSnapshot.hasChild(Constants.FECHAPAGO)) {
+                                    databaseReference.child(Constants.PRIMERAULTIMACONEXION).child(mAuth.getCurrentUser().getUid()).addValueEventListener(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                            if (dataSnapshot.hasChild(Constants.PRIMERACONEXION)) {
+                                                Long primeraConexion = Long.parseLong(dataSnapshot.child(Constants.PRIMERACONEXION).getValue().toString());
+                                                if (horaActual.compareTo(primeraConexion) > 0) {
+                                                    cambiarEstadoPremium(0 + "");
+                                                    databaseReference.child(Constants.PAGO).child(mAuth.getCurrentUser().getUid()).child(Constants.PAGO).getRef().setValue(0);
+                                                }
                                             }
                                         }
-                                    }
 
-                                    @Override
-                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError databaseError) {
 
-                                    }
-                                });
-
-
-                            } else if(dataSnapshot.hasChild(Constants.FECHAVENCIMIENTO)){
-
-                                Long tiempoPago = Long.parseLong(dataSnapshot.child(Constants.FECHAVENCIMIENTO).getValue().toString());
-                                dataSnapshot.getRef().addValueEventListener(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                                        int result = horaActual.compareTo(tiempoPago);
-                                        if (result > 0 || dataSnapshot.child(Constants.PAGO).getValue().toString().contains("0")) {
-                                            dataSnapshot.child(Constants.PAGO).getRef().setValue(0);
-                                            cambiarEstadoPremium(0 + "");
-                                        } else if (dataSnapshot.child(Constants.PAGO).getValue().toString().contains("1")) {
-                                            cambiarEstadoPremium(1 + "");
                                         }
-                                    }
+                                    });
 
-                                    @Override
-                                    public void onCancelled(@NonNull DatabaseError databaseError) {
 
-                                    }
-                                });
+                                } else if (dataSnapshot.hasChild(Constants.FECHAVENCIMIENTO)) {
 
-                            }else if(dataSnapshot.hasChild(Constants.FECHAPAGO)) {
+                                    Long tiempoPago = Long.parseLong(dataSnapshot.child(Constants.FECHAVENCIMIENTO).getValue().toString());
+                                    dataSnapshot.getRef().addValueEventListener(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                                Long tiempoPago = Long.parseLong(dataSnapshot.child(Constants.FECHAPAGO).getValue().toString());
-                                dataSnapshot.getRef().addValueEventListener(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                                        int result = horaActual.compareTo(tiempoPago + Constants.UN_ANIO);
-                                        if (result > 0 || dataSnapshot.child(Constants.PAGO).getValue().toString().contains("0")) {
-                                            dataSnapshot.child(Constants.PAGO).getRef().setValue(0);
-                                            cambiarEstadoPremium(0 + "");
-                                        } else if (dataSnapshot.child(Constants.PAGO).getValue().toString().contains("1")) {
-                                            cambiarEstadoPremium(1 + "");
+                                            int result = horaActual.compareTo(tiempoPago);
+                                            if (result > 0 || dataSnapshot.child(Constants.PAGO).getValue().toString().contains("0")) {
+                                                dataSnapshot.child(Constants.PAGO).getRef().setValue(0);
+                                                cambiarEstadoPremium(0 + "");
+                                            } else if (dataSnapshot.child(Constants.PAGO).getValue().toString().contains("1")) {
+                                                cambiarEstadoPremium(1 + "");
+                                            }
                                         }
-                                    }
 
-                                    @Override
-                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError databaseError) {
 
-                                    }
-                                });
+                                        }
+                                    });
+
+                                } else if (dataSnapshot.hasChild(Constants.FECHAPAGO)) {
+
+                                    Long tiempoPago = Long.parseLong(dataSnapshot.child(Constants.FECHAPAGO).getValue().toString());
+                                    dataSnapshot.getRef().addValueEventListener(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                                            int result = horaActual.compareTo(tiempoPago + Constants.UN_ANIO);
+                                            if (result > 0 || dataSnapshot.child(Constants.PAGO).getValue().toString().contains("0")) {
+                                                dataSnapshot.child(Constants.PAGO).getRef().setValue(0);
+                                                cambiarEstadoPremium(0 + "");
+                                            } else if (dataSnapshot.child(Constants.PAGO).getValue().toString().contains("1")) {
+                                                cambiarEstadoPremium(1 + "");
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                        }
+                                    });
+                                }
                             }
-                        }
 
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
 
-                        }
-                    });
-
+                            }
+                        });
+                    }
                     response.getEntity().getContent().close();
                 } else {
                     //Closes the connection.

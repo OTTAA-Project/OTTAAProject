@@ -4,8 +4,6 @@ import android.content.Context;
 
 import com.stonefacesoft.ottaa.Custom_Picto;
 import com.stonefacesoft.ottaa.JSONutils.Json;
-import com.stonefacesoft.ottaa.utils.JSONutils;
-import com.stonefacesoft.ottaa.utils.exceptions.FiveMbException;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -21,19 +19,6 @@ public class Pictograms {
         this.json=json;
     }
 
-
-    public JSONArray ordenarObjetos(JSONObject father){
-        try {
-            try {
-                return json.cargarOpciones(father,0);
-            } catch (FiveMbException e) {
-                e.printStackTrace();
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
 
     public JSONObject getJson(int id){
         return json.getPictoFromId2(id);

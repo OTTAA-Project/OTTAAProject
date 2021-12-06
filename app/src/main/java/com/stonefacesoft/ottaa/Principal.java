@@ -87,6 +87,7 @@ import com.stonefacesoft.ottaa.FirebaseRequests.SubirBackupFirebase;
 import com.stonefacesoft.ottaa.Interfaces.FirebaseSuccessListener;
 import com.stonefacesoft.ottaa.Interfaces.Make_Click_At_Time;
 import com.stonefacesoft.ottaa.Interfaces.PlaceSuccessListener;
+import com.stonefacesoft.ottaa.Interfaces.SortPictogramsInterface;
 import com.stonefacesoft.ottaa.Interfaces.TTSListener;
 import com.stonefacesoft.ottaa.Interfaces.translateInterface;
 import com.stonefacesoft.ottaa.JSONutils.Json;
@@ -154,7 +155,7 @@ public class Principal extends AppCompatActivity implements View
         .OnClickListener,
         View.OnLongClickListener,
         OnMenuItemClickListener,
-        FirebaseSuccessListener, NavigationView.OnNavigationItemSelectedListener, PlaceSuccessListener, ConnectionCallbacks, translateInterface, View.OnTouchListener, Make_Click_At_Time {
+        FirebaseSuccessListener, NavigationView.OnNavigationItemSelectedListener, PlaceSuccessListener, ConnectionCallbacks, translateInterface, View.OnTouchListener, Make_Click_At_Time , SortPictogramsInterface {
 
     private static final String TAG = "Principal";
     public static boolean cerrarSession = false;// use this variable to notify when the session is closed
@@ -1435,9 +1436,10 @@ public class Principal extends AppCompatActivity implements View
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
         Log.d(TAG, "onKeyUp: " + event.getAction());
-        if (barridoPantalla.isBarridoActivado()) {
-            tocarTeclaAcordeUbicacion(event, keyCode, sharedPrefsDefault.getInt("orientacion_joystick", 0));
-        }
+        if (barridoPantalla!= null)
+            if(barridoPantalla.isBarridoActivado()) {
+                tocarTeclaAcordeUbicacion(event, keyCode, sharedPrefsDefault.getInt("orientacion_joystick", 0));
+            }
         return super.onKeyUp(keyCode, event);
     }
 
@@ -1555,7 +1557,7 @@ public class Principal extends AppCompatActivity implements View
         if (json.getmJSONArrayTodosLosPictos() != null && json.getmJSONArrayTodosLosPictos().length() > 0) {
             try {
                 if (pictoPadre == null || pictoPadre.getInt("id") == 0)
-                    pictoPadre = json.getmJSONArrayTodosLosPictos().getJSONObject(0);
+                    pictoPadre = json.getPictoFromId2(0);
                 cuentaMasPictos = 0;
                 CargarOpciones(json, pictoPadre);
             } catch (JSONException e) {
@@ -1968,7 +1970,6 @@ public class Principal extends AppCompatActivity implements View
                 Executor executor = Executors.newSingleThreadExecutor();
                 Handler handler = new Handler(Looper.getMainLooper());
                 executor.execute(() -> {
-
                     validContext.set(ValidateContext.isValidContextFromGlide(context));
                     avatarUtils = new AvatarUtils(context, menuAvatarIcon);
                     handler.post(() -> {
@@ -2236,15 +2237,7 @@ public class Principal extends AppCompatActivity implements View
     }
 
     private void initFirstPictograms() {
-        if (json.getmJSONArrayTodosLosPictos() != null && json.getmJSONArrayTodosLosPictos().length() > 0&& historial.getListadoPictos().isEmpty()) {
-            try {
-                pictoPadre = json.getmJSONArrayTodosLosPictos().getJSONObject(0);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-        CargarOpciones(json, pictoPadre);   // y despues cargamos las opciones con el orden correspondiente
-        ResetSeleccion();
+        new loadPictograms().execute();
 
     }
 
@@ -2316,24 +2309,14 @@ public class Principal extends AppCompatActivity implements View
 
 
     public void loadChilds(JSONObject padre, Animation alphaAnimation) {
-        try {
             if(padre!= null){
-                JSONArray opciones;
-                opciones = json.cargarOpciones(padre, cuentaMasPictos);
-                loadChildOption(opciones, 0, alphaAnimation);
-                loadChildOption(opciones, 1, alphaAnimation);
-                loadChildOption(opciones, 2, alphaAnimation);
-                loadChildOption(opciones, 3, alphaAnimation);
+                json.cargarOpciones(padre, cuentaMasPictos,this);
             }
             else {
                 json.sumarFallas();
                 CargarOpciones(json,padre);
             }
-        } catch (JSONException e) {
-            Log.e(TAG, "CargarOpciones: " + e.toString());
-        } catch (FiveMbException e) {
-            e.printStackTrace();
-        }
+
     }
 
 
@@ -2446,6 +2429,24 @@ public class Principal extends AppCompatActivity implements View
         return firebaseDialog;
     }
 
+    @Override
+    public void pictogramsAreSorted(JSONArray array) {
+        JSONArray opciones = array;
+        Handler handler = new Handler(Looper.getMainLooper());
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                Animation alphaAnimation = AnimationUtils.loadAnimation(getApplicationContext(),
+                        R.anim.alpha_show);
+                loadChildOption(opciones, 0, alphaAnimation);
+                loadChildOption(opciones, 1, alphaAnimation);
+                loadChildOption(opciones, 2, alphaAnimation);
+                loadChildOption(opciones, 3, alphaAnimation);
+            }
+        });
+
+    }
+
     public class initComponentsClass extends AsyncTask<Void,Void,Void>{
 
 
@@ -2480,6 +2481,22 @@ public class Principal extends AppCompatActivity implements View
             loadAvatar();
             showAvatar();
             setOnLongClickListener();
+        }
+    }
+
+    public class loadPictograms extends AsyncTask<Void,Void,Void>{
+        @Override
+        protected Void doInBackground(Void... voids) {
+            if (json.getmJSONArrayTodosLosPictos() != null && json.getmJSONArrayTodosLosPictos().length() > 0&& historial.getListadoPictos().isEmpty()) {
+                pictoPadre = json.getPictoFromId2(0);
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void unused) {
+            CargarOpciones(json, pictoPadre);   // y despues cargamos las opciones con el orden correspondiente
+            ResetSeleccion();
         }
     }
 

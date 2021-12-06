@@ -13,8 +13,7 @@ public class SearchObjects {
     private static final String TAG = "SearchObjects";
 
     public int searchItemById(JSONArray arreglo, int busqueda) {
-
-        return busquedaBinariaRecursiva(arreglo, busqueda, 0, arreglo.length());
+        return busquedaBinariaRecursiva(arreglo, busqueda, 0, arreglo.length()-1);
     }
 
     public int busquedaBinariaRecursiva(JSONArray arreglo, int busqueda, int izquierda, int derecha) {

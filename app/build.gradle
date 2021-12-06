@@ -28,7 +28,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 31
         versionCode 96
-        versionName "6.7.5" //
+        versionName "6.7.6" //
         // Enabling multidex support.
         multiDexEnabled true
         resConfigs "ar,en,es,it"
@@ -242,14 +242,16 @@ dependencies {
     //TODO add this library to the Wiki
     implementation 'com.github.CanHub:Android-Image-Cropper:3.3.5'
     // pictograms library
-    implementation 'com.github.OTTAA-Project:PictogramsLibrary:0.1.9.15'
+    implementation 'com.github.OTTAA-Project:PictogramsLibrary:0.1.9.16'
     //Sendgrid integration
+    implementation 'com.google.code.gson:gson:2.8.9'
 }
 
 
 configurations {
     all {
         exclude module: 'httpclient'
+        exclude group: "com.google.protobuf", module: "protobuf-lite"
     }
 }
 

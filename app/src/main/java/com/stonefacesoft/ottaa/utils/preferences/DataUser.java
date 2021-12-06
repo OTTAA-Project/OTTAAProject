@@ -4,7 +4,7 @@ import java.util.Calendar;
 
 public class DataUser {
 
-    private long birthDate;
+    private long birthDate = System.currentTimeMillis();
     private String gender ="";
     private String firstAndLastName="";
     private String email="";
