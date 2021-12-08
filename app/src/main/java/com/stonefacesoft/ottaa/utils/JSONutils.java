@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.JSONutils.SearchObjects;
+import com.stonefacesoft.ottaa.JSONutils.sortPictogramsUtils.SortPictograms;
 import com.stonefacesoft.ottaa.Prediction.Clima;
 import com.stonefacesoft.ottaa.Prediction.Edad;
 import com.stonefacesoft.ottaa.Prediction.Horario;
@@ -287,14 +288,13 @@ public class JSONutils {
         boolean nuevo = true;
         try {
             JSONArray array = padre.getJSONArray("relacion");
-            for (int i = 0; i < array.length(); i++) {
-                JSONObject object = array.getJSONObject(i);
-                if (object.getInt("id") == opcion.getInt("id")) {
-                    int frec = object.getInt("frec") + 1;
-                    object.put("frec", frec);
-                    nuevo = false;
-                    break;
-                }
+            new SortPictograms().quickSort(array,0,array.length()-1);
+            int position = getPositionPicto2(array,getId(opcion));
+            if(position != -1){
+                JSONObject object = array.getJSONObject(position);
+                int frec = object.getInt("frec") + 1;
+                object.put("frec", frec);
+                nuevo = false;
             }
             if (nuevo) {
                 crearRelacion(array, opcion.getInt("id"));
@@ -393,6 +393,7 @@ public class JSONutils {
 
     public static JSONObject getPictoFromId2(JSONArray jsonArray, int idABuscar) {
         int position = getPositionPicto2(jsonArray,idABuscar);
+        Log.d(TAG, "getPictoFromId2: "+ position +"id to search"+ idABuscar);
         if(position != -1) {
             try {
                 return jsonArray.getJSONObject(position);

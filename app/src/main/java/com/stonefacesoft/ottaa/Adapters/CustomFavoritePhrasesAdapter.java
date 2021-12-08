@@ -35,6 +35,7 @@ public class CustomFavoritePhrasesAdapter extends RecyclerView.Adapter<CustomFav
         myTTs = textToSpeech.getInstance(this.mContext);
         glideAttatcher=new GlideAttatcher(this.mContext);
         gestionarBitmap=new GestionarBitmap(this.mContext);
+        gestionarBitmap.setColor(android.R.color.white);
 
     }
 

@@ -36,7 +36,7 @@ import org.json.JSONException;
  * Recycler view class
  * */
 public abstract class Custom_recyclerView implements SearchView.OnQueryTextListener, interface_search {
-    private static final String TAG ="Custom_recyclerView" ;
+    protected static final String TAG ="Custom_recyclerView" ;
     protected AppCompatActivity mActivity;
     protected RecyclerView mRecyclerView;
     private int cantColumnnas;

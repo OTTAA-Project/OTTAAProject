@@ -90,7 +90,6 @@ public class Json  {
     private final String eventoActual = "none";
     private Context mContext;
     private String textoTags;
-    private boolean noTieneRelacionHijo = false; //bandera que indica si tiene o no hijos
     private String mListPlaceName = "";
     private ArrayList<Place> placesNames;
     private int cantFallas;
@@ -186,6 +185,11 @@ public class Json  {
 
     public void setmJSONArrayPictosSugeridos(JSONArray mJSONArrayPictosSugeridos) {
         this.mJSONArrayPictosSugeridos = mJSONArrayPictosSugeridos;
+        try {
+            new SortPictograms().quickSort(mJSONArrayPictosSugeridos,0,mJSONArrayPictosSugeridos.length()-1);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     public JSONArray getmJSONArrayTodasLasFotosBackup() {
@@ -851,6 +855,61 @@ public class Json  {
         return null;
     }
 
+    public void loadPictogramsInsideArray(JSONObject father,JSONArray array,JSONArray relationShip,int lasPosition) throws JSONException {
+        for (int i = 0; i <4 ; i++) {
+            int position = i+lasPosition;
+            if(isLessThanArray(relationShip,position)){
+                addChildrenToArray(array,relationShip,position,false);
+            }else{
+                int lastLocation = position - array.length()+i;
+                if(getValueBiggerOrEquals0(lastLocation)){
+                    if(itIsASuggestedLanguage()){
+                        if(mostrarSugerencias(father,lastLocation,array)){
+                            int posPadre = getPosPictoBinarySearch(getmJSONArrayPictosSugeridos(),getId(father));
+                            upgradeIndexOfLoadOptions((relationShip.length() + mJSONArrayPictosSugeridos.getJSONObject(posPadre).getJSONArray("relacion").length()) / 4);
+                        }else{
+                            array.put(i,createAnEmptyObject());
+                            upgradeIndexOfLoadOptions(Constants.VUELTAS_CARRETE+1);
+                        }
+                    }else{
+                        array.put(i,createAnEmptyObject());
+                        upgradeIndexOfLoadOptions(Constants.VUELTAS_CARRETE+1);
+                    }
+                }else{
+                   addChildrenToArray(array,relationShip,position,false);
+                }
+            }
+        }
+    }
+
+    public void upgradeIndexOfLoadOptions(int value){
+        if(Constants.VUELTAS_CARRETE != value)
+            Constants.VUELTAS_CARRETE = value;
+    }
+
+    public boolean isLessThanArray(JSONArray array,int value){
+        return value < array.length();
+    }
+    public boolean getValueBiggerOrEquals0(int value){
+        return value >= 0;
+    }
+
+    public void addChildrenToArray(JSONArray array, JSONArray relationShip, int position,boolean isSuggested) throws JSONException {
+        array.put(getPictoFromId2(relationShip.getJSONObject(position).getInt("id")));
+        array.getJSONObject(array.length() - 1).put("esSugerencia", isSuggested);
+    }
+
+    public boolean itIsASuggestedLanguage(){
+       return  (ConfigurarIdioma.getLanguaje().equals("es") || ConfigurarIdioma.getLanguaje().equals("ca") || ConfigurarIdioma.getLanguaje().equals("en")) && mJSONArrayPictosSugeridos.length() != 0 && sharedPrefsDefault.getBoolean("bool_sugerencias", false);
+    }
+
+    public JSONObject createAnEmptyObject() throws JSONException {
+        JSONObject object = new JSONObject();
+        object.put("id", "-1");
+        return object;
+    }
+
+
 
 
     //TODO ver si se puede optimizar
@@ -864,55 +923,13 @@ public class Json  {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-             try{
-                if (!consultarPago())
-                    sharedPrefsDefault.edit().putBoolean("bool_sugerencias", consultarPago()).apply();
-                JSONArray relacion = elegirHijos2(padre, false); //selecciono el picto padre
-                //   JSONArray relacion =new SortJsonObject().SortArray(padre.getJSONArray("relacion"),this).getArray(this);;
-                //cargo la primera relacion
-                if (noTieneRelacionHijo) {
-                    int pos = getPosPicto(mJSONArrayTodosLosPictos, padre.getInt("id"));
-                    relacion = elegirHijos2(mJSONArrayTodosLosPictos.getJSONObject(pos), false);
-                }
-                //listado de pictos elegidos
+             try {
+                 if (!consultarPago())
+                     sharedPrefsDefault.edit().putBoolean("bool_sugerencias", consultarPago()).apply();
+                 JSONArray relacion = elegirHijos2(padre, false); //selecciono el picto padre
                 JSONArray jsonElegidos = new JSONArray();
                 int ultimaPosicion = cuentaMasPictos * 4; //posicion del picto
-                for (int i = 0; i < 4; i++) {
-                    int position = i + ultimaPosicion;
-                    Log.d(TAG, "cargarOpciones 0: " + ultimaPosicion);
-                    if (position < relacion.length()) {
-                        jsonElegidos.put(getPictoFromId2(relacion.getJSONObject(i + ultimaPosicion).getInt("id")));
-                        jsonElegidos.getJSONObject(jsonElegidos.length() - 1).put("esSugerencia", false);
-                    } else if (position >= relacion.length()) {
-                        int ultimaUbic = ultimaPosicion - relacion.length() + i;
-                        Log.d(TAG, "cargarOpciones 0: " + ultimaUbic + "");
-                        Log.d(TAG, "cargarOpciones 1: " + (ultimaUbic) + "");
-                        if (ultimaUbic < 0) {
-                            jsonElegidos.put(getPictoFromId2(relacion.getJSONObject(relacion.length() + ultimaUbic).getInt("id")));
-                            jsonElegidos.getJSONObject(jsonElegidos.length() - 1).put("esSugerencia", false);
-                        } else if (ultimaUbic >= 0) {
-                            if ((ConfigurarIdioma.getLanguaje().equals("es") || ConfigurarIdioma.getLanguaje().equals("ca") || ConfigurarIdioma.getLanguaje().equals("en")) && mJSONArrayPictosSugeridos.length() != 0 && sharedPrefsDefault.getBoolean("bool_sugerencias", false)) {
-                                if (mostrarSugerencias(padre, ultimaUbic, jsonElegidos)) {
-                                    int posPadre = getPosPictoBinarySearch(getmJSONArrayTodosLosPictos(),padre.getInt("id"));
-                                    Constants.VUELTAS_CARRETE = ((relacion.length() + mJSONArrayPictosSugeridos.getJSONObject(posPadre).getJSONArray("relacion").length()) / 4);
-                                } else {
-                                    JSONObject object = new JSONObject();
-                                    object.put("id", "-1");
-                                    jsonElegidos.put(i, object);
-                                    Constants.VUELTAS_CARRETE = Constants.VUELTAS_CARRETE + 1;
-                                    noTieneRelacionHijo = false;
-                                }
-                            } else {
-
-                                JSONObject object = new JSONObject();
-                                object.put("id", "-1");
-                                jsonElegidos.put(i, object);
-                                Constants.VUELTAS_CARRETE = Constants.VUELTAS_CARRETE + 1;
-                                noTieneRelacionHijo = false;
-                            }
-                        }
-                    }
-                }
+                loadPictogramsInsideArray(padre,jsonElegidos,relacion,ultimaPosicion);
                 sortPictograms.pictogramsAreSorted(jsonElegidos);
             }catch (JSONException ex){
                  Log.e(TAG, "exception: "+ ex.getMessage() );

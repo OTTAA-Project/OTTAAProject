@@ -120,6 +120,7 @@ public class MostUsedFavoritePhrasesAdapter extends RecyclerView.Adapter<MostUse
         protected Void doInBackground(Void... voids) {
 
             mGestionarBitmap = new GestionarBitmap(mContext);
+            mGestionarBitmap.setColor(android.R.color.white);
             try {
                 DatosDeUso mDatosDeUso = new DatosDeUso(mContext);
                 List frases = mDatosDeUso.getArrayListFrasesMasUsadas(4);
