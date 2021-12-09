@@ -42,7 +42,6 @@ import com.stonefacesoft.pictogramslibrary.utils.ValidateContext;
 import com.stonefacesoft.pictogramslibrary.view.PictoView;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -192,13 +191,9 @@ public class GameViewSelectPictograms extends AppCompatActivity implements View.
 
     }
 
-    protected  void setUpGame(int id){
-        try {
-            game=new Juego(this,id,json.getId(mjJsonArrayTodosLosGrupos.getJSONObject(mPositionPadre)));
+    protected  void setUpGame(int id,int parent){
+            game=new Juego(this,id,parent);
             game.startUseTime();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
     }
 
     protected void iniciarComponentes(){
@@ -224,7 +219,7 @@ public class GameViewSelectPictograms extends AppCompatActivity implements View.
         guess4.setOnClickListener(this);
         dialogo=CustomToast.getInstance(this);
         pictogramas=new JSONObject[4];
-        sharedPrefsDefault= PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        sharedPrefsDefault = PreferenceManager.getDefaultSharedPreferences(this);
         gamesSettings.enableSound(sharedPrefsDefault.getBoolean("muteSound",false));
         gamesSettings.enableRepeatFunction(sharedPrefsDefault.getBoolean("repetir",false));
 //        if(mute)

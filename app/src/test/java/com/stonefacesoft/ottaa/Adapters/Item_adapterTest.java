@@ -1,14 +1,13 @@
 package com.stonefacesoft.ottaa.Adapters;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
 import android.app.Dialog;
 
-import com.stonefacesoft.ottaa.Principal;
 import com.stonefacesoft.ottaa.R;
 
 import org.junit.Test;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 
 public class Item_adapterTest {
     private Dialog dialog;
@@ -39,9 +38,6 @@ public class Item_adapterTest {
         adapter.setDefaultValue("Hello");
         assertEquals("Hello",adapter.getDefaultValue());
     }
-
-
-
 
     @Test
     public void testGetItemId() {

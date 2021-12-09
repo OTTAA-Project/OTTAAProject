@@ -7,6 +7,7 @@ import androidx.test.core.app.ApplicationProvider;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.filters.LargeTest;
 
+import com.stonefacesoft.ottaa.Interfaces.SortPictogramsInterface;
 import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.test.Components.Pictograms;
 
@@ -15,7 +16,6 @@ import junit.framework.TestResult;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -27,7 +27,7 @@ import org.junit.runner.RunWith;
  * */
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class UnitTestingGetPictogramsById extends TestCase {
+public class UnitTestingGetPictogramsById extends TestCase implements SortPictogramsInterface {
     private final Context context = ApplicationProvider.getApplicationContext();
     private JSONObject picto1,picto2,picto3,picto4;
     private JSONArray getOpciones;
@@ -57,8 +57,6 @@ public class UnitTestingGetPictogramsById extends TestCase {
         pictograms.addPictogram(picto3);
         pictograms.addPictogram(picto4);
         Log.e("TAG", "createRelationShip: "+picto1.toString() );
-        Log.e("TAG", "createRelationShip: "+pictograms.ordenarObjetos(picto1) );
-        Assert.assertNotNull(pictograms.ordenarObjetos(picto1));//
         assertTrue(!pictograms.getJson().getHijosGrupo2(0).toString().isEmpty());
 
      //   Log.e("TAG", "createRelationShip: "+pictograms.ordenarObjetos(picto1).toString() );
@@ -78,4 +76,8 @@ public class UnitTestingGetPictogramsById extends TestCase {
     }
 
 
+    @Override
+    public void pictogramsAreSorted(JSONArray array) {
+
+    }
 }

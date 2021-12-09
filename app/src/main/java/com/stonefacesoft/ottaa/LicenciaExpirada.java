@@ -67,7 +67,6 @@ public class LicenciaExpirada extends AppCompatActivity implements SharedPrefere
         DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
 
         STR_LOGOUT = "banderaUpload";
-
         viewPager = findViewById(R.id.viewPagerLicenciaExpirada);
 
         licenciaExpiradaAdapter = new LicenciaExpiradaAdapter(LicenciaExpirada.this, images, textos);

@@ -1,16 +1,16 @@
 package com.stonefacesoft.ottaa.Adapters;
 
-import com.stonefacesoft.ottaa.Principal;
+import static junit.framework.Assert.assertEquals;
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.Assert.assertTrue;
+
+import com.stonefacesoft.ottaa.JSONutils.sortPictogramsUtils.SortPictograms;
 import com.stonefacesoft.ottaa.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Test;
-
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertFalse;
-import static junit.framework.Assert.assertTrue;
 
 public class VincularPictosAdapterTest {
 
@@ -24,7 +24,14 @@ public class VincularPictosAdapterTest {
 
     @Test
     public void getmVincularArray() {
-        assertEquals(createPictogramJSONArray().toString(), vincularPictosAdapter.getmVincularArray().toString());
+        JSONArray aux = createPictogramJSONArray();
+        try {
+            new SortPictograms().quickSort(aux,0,aux.length()-1);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        aux.remove(0);
+        assertEquals(aux.toString(), vincularPictosAdapter.getmVincularArray().toString());
     }
 
     @Test
@@ -53,6 +60,7 @@ public class VincularPictosAdapterTest {
         jsonArray.put(createPictograms(22, "es", "quiero", "want", 3));
         jsonArray.put(createPictograms(118, "es", "comer", "eat", 3));
         jsonArray.put(createPictograms(474, "es", "manzana", "apple", 2));
+        jsonArray.put(createPictograms(0, "es", "manzanas", "apple", 2));
         return jsonArray;
     }
 

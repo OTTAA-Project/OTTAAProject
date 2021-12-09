@@ -54,10 +54,15 @@ public class MatchPictograms extends GameViewSelectPictograms {
         showDescription(getString(R.string.join_pictograms));
       //  mDefaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         model = new MatchPictogramsModel();
-        setUpGame(1);
-        game.setGamelevel(sharedPrefsDefault.getInt("MatchPictogramsLevel",0));
-        game.setMaxLevel(3);
-        game.setMaxStreak(16);
+        try {
+            setUpGame(1,json.getId(mjJsonArrayTodosLosGrupos.getJSONObject(mPositionPadre)));
+            game.setGamelevel(sharedPrefsDefault.getInt("MatchPictogramsLevel",0));
+            game.setMaxLevel(3);
+            game.setMaxStreak(16);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
         loadModel();
         model.refreshValueIndex();
         selectRandomOptions();

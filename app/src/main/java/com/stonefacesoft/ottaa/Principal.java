@@ -87,6 +87,7 @@ import com.stonefacesoft.ottaa.FirebaseRequests.SubirBackupFirebase;
 import com.stonefacesoft.ottaa.Interfaces.FirebaseSuccessListener;
 import com.stonefacesoft.ottaa.Interfaces.Make_Click_At_Time;
 import com.stonefacesoft.ottaa.Interfaces.PlaceSuccessListener;
+import com.stonefacesoft.ottaa.Interfaces.SortPictogramsInterface;
 import com.stonefacesoft.ottaa.Interfaces.TTSListener;
 import com.stonefacesoft.ottaa.Interfaces.translateInterface;
 import com.stonefacesoft.ottaa.JSONutils.Json;
@@ -154,7 +155,7 @@ public class Principal extends AppCompatActivity implements View
         .OnClickListener,
         View.OnLongClickListener,
         OnMenuItemClickListener,
-        FirebaseSuccessListener, NavigationView.OnNavigationItemSelectedListener, PlaceSuccessListener, ConnectionCallbacks, translateInterface, View.OnTouchListener, Make_Click_At_Time {
+        FirebaseSuccessListener, NavigationView.OnNavigationItemSelectedListener, PlaceSuccessListener, ConnectionCallbacks, translateInterface, View.OnTouchListener, Make_Click_At_Time , SortPictogramsInterface {
 
     private static final String TAG = "Principal";
     public static boolean cerrarSession = false;// use this variable to notify when the session is closed
@@ -480,7 +481,7 @@ public class Principal extends AppCompatActivity implements View
 
         switch (item.getItemId()) {
             case R.id.item_edit:
-                analitycsFirebase.customEvents("Touch", "Principal", "Edit Pictogram");
+                getAnalyticsFirebase().customEvents("Touch", "Principal", "Edit Pictogram");
                 if (user.isPremium()) {
                     if (onLongOpcion == null) {
                         return true;
@@ -507,7 +508,7 @@ public class Principal extends AppCompatActivity implements View
                 }
                 return true;
             case R.id.item_delete:
-                analitycsFirebase.customEvents("Touch", "Principal", "Delete Pictogram");
+                getAnalyticsFirebase().customEvents("Touch", "Principal", "Delete Pictogram");
                 try {
                     if (onLongOpcion != null)
                         AlertBorrar(json.getId(onLongOpcion));
@@ -1048,7 +1049,7 @@ public class Principal extends AppCompatActivity implements View
         }
         historial.addPictograma(opcion);
         try {
-            int pos = json.getPosPicto(json.getmJSONArrayTodosLosPictos(), pictoPadre.getInt("id"));
+            int pos = JSONutils.getPositionPicto2(json.getmJSONArrayTodosLosPictos(), pictoPadre.getInt("id"));
             if(pos != -1) {
                 JSONutils.aumentarFrec(pictoPadre, opcion);
                 json.getmJSONArrayTodosLosPictos().put(pos, pictoPadre);
@@ -1147,7 +1148,7 @@ public class Principal extends AppCompatActivity implements View
     public boolean onLongClick(View v) {
         if (v.getId() == R.id.btn_borrar) {
             //Registo que uso un funcion que nos interesa que use
-            analitycsFirebase.customEvents("Erase", "Principal", "Erase all pictograms");
+            getAnalyticsFirebase().customEvents("Erase", "Principal", "Erase all pictograms");
             Reset();
         }
         if (editarPicto) {
@@ -1204,10 +1205,10 @@ public class Principal extends AppCompatActivity implements View
 
     public void hablarModoExperimental() {
         if (sharedPrefsDefault.getBoolean(getString(R.string.mBoolModoExperimental), false)) {
-            analitycsFirebase.customEvents("Talk", "Principal", "Phrase With NLG");
+            getAnalyticsFirebase().customEvents("Talk", "Principal", "Phrase With NLG");
             nlgTalkAction();
         } else {
-            analitycsFirebase.customEvents("Talk", "Principal", "Phrase without  NLG");
+            getAnalyticsFirebase().customEvents("Talk", "Principal", "Phrase without  NLG");
             speak();
         }
     }
@@ -1274,7 +1275,7 @@ public class Principal extends AppCompatActivity implements View
                 startFavoritePhrases();
                 break;
             case R.id.action_share:
-                analitycsFirebase.customEvents(ConstantsAnalyticsValues.TOUCH, this.getClass().getName(), ConstantsAnalyticsValues.FAVORITEPHRASES);
+                getAnalyticsFirebase().customEvents(ConstantsAnalyticsValues.TOUCH, this.getClass().getName(), ConstantsAnalyticsValues.FAVORITEPHRASES);
                 shareAction();
                 break;
             case R.id.btn_borrar:
@@ -1435,9 +1436,10 @@ public class Principal extends AppCompatActivity implements View
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
         Log.d(TAG, "onKeyUp: " + event.getAction());
-        if (barridoPantalla.isBarridoActivado()) {
-            tocarTeclaAcordeUbicacion(event, keyCode, sharedPrefsDefault.getInt("orientacion_joystick", 0));
-        }
+        if (barridoPantalla!= null)
+            if(barridoPantalla.isBarridoActivado()) {
+                tocarTeclaAcordeUbicacion(event, keyCode, sharedPrefsDefault.getInt("orientacion_joystick", 0));
+            }
         return super.onKeyUp(keyCode, event);
     }
 
@@ -1555,7 +1557,7 @@ public class Principal extends AppCompatActivity implements View
         if (json.getmJSONArrayTodosLosPictos() != null && json.getmJSONArrayTodosLosPictos().length() > 0) {
             try {
                 if (pictoPadre == null || pictoPadre.getInt("id") == 0)
-                    pictoPadre = json.getmJSONArrayTodosLosPictos().getJSONObject(0);
+                    pictoPadre = json.getPictoFromId2(0);
                 cuentaMasPictos = 0;
                 CargarOpciones(json, pictoPadre);
             } catch (JSONException e) {
@@ -1704,7 +1706,7 @@ public class Principal extends AppCompatActivity implements View
         switch (item.getItemId()) {
             case R.id.action_parar:
                 //Registo que uso un funcion que nos interesa que use
-                analitycsFirebase.customEvents("Touch", "Principal", "Silence");
+                getAnalyticsFirebase().customEvents("Touch", "Principal", "Silence");
                 if (mute) {
                     item.setIcon(getResources().getDrawable(R.drawable.ic_volume_off_white_24dp));
                     mute = false;
@@ -1716,14 +1718,14 @@ public class Principal extends AppCompatActivity implements View
                 sharedPrefs.edit().putBoolean("mBoolMute", mute).apply();
                 break;
             case R.id.action_settings:
-                analitycsFirebase.customEvents("Touch", "Principal", "Settings");
+                getAnalyticsFirebase().customEvents("Touch", "Principal", "Settings");
                 //Abrimos otra pantalla
                 isSettings = true;
                 Intent intent12 = new Intent(Principal.this, prefs.class);
                 startActivityForResult(intent12, IntentCode.CONFIG_SCREEN.getCode());
                 return true;
             case R.id.ubic:
-                analitycsFirebase.customEvents("Touch", "Principal", "Location");
+                getAnalyticsFirebase().customEvents("Touch", "Principal", "Location");
                 useLocation();
                 return true;
             case R.id.exit:
@@ -1736,12 +1738,12 @@ public class Principal extends AppCompatActivity implements View
                 startActivity(intent1);
                 break;
             case R.id.logout:
-                analitycsFirebase.customEvents("Touch", "Principal", "LogOut");
+                getAnalyticsFirebase().customEvents("Touch", "Principal", "LogOut");
                 user.logOut();
                 break;
             case R.id.report:
                 //NOTA firebase analitycs
-                analitycsFirebase.customEvents("Touch", "Principal", "Report");
+                getAnalyticsFirebase().customEvents("Touch", "Principal", "Report");
                 if (sharedPrefsDefault.getInt("premium", 0) == 1) {
                     Intent i = new Intent(getApplicationContext(), ActivityInformes.class);
                     startActivity(i);
@@ -1752,7 +1754,7 @@ public class Principal extends AppCompatActivity implements View
                 break;
             case R.id.about:
                 //NOTA firebase analitycs
-                analitycsFirebase.customEvents("Touch", "Principal", "About that");
+                getAnalyticsFirebase().customEvents("Touch", "Principal", "About that");
                 Intent intent = new Intent(getApplicationContext(), AboutOttaa.class);
                 startActivity(intent);
                 break;
@@ -1854,7 +1856,7 @@ public class Principal extends AppCompatActivity implements View
     }
 
     public void shareAction() {
-        analitycsFirebase.customEvents("Touch", "Principal", "Share");
+        getAnalyticsFirebase().customEvents("Touch", "Principal", "Share");
         if (historial.getListadoPictos().size() > 0) {
             if (!sharedPrefsDefault.getBoolean(getString(R.string.mBoolModoExperimental), false)) {
                 if (myTTS != null) {
@@ -1900,9 +1902,9 @@ public class Principal extends AppCompatActivity implements View
 
     private void analyticsAction(String event0, String event1, String activity, String action) {
         if (barridoPantalla.isBarridoActivado())
-            analitycsFirebase.customEvents(event0, activity, action);
+            getAnalyticsFirebase().customEvents(event0, activity, action);
         else
-            analitycsFirebase.customEvents(event1, activity, action);
+            getAnalyticsFirebase().customEvents(event1, activity, action);
     }
 
     private void sayPictogramName(String name) {
@@ -1942,6 +1944,7 @@ public class Principal extends AppCompatActivity implements View
 
     private void galeriaGruposResult(Intent data) {
         if (data != null) {
+            json.setmJSONArrayTodosLosPictos(json.getmJSONArrayTodosLosPictos());
             Bundle extras = data.getExtras();
             if (extras != null) {
                 int Picto = extras.getInt("ID");
@@ -1968,7 +1971,6 @@ public class Principal extends AppCompatActivity implements View
                 Executor executor = Executors.newSingleThreadExecutor();
                 Handler handler = new Handler(Looper.getMainLooper());
                 executor.execute(() -> {
-
                     validContext.set(ValidateContext.isValidContextFromGlide(context));
                     avatarUtils = new AvatarUtils(context, menuAvatarIcon);
                     handler.post(() -> {
@@ -2020,6 +2022,7 @@ public class Principal extends AppCompatActivity implements View
         initActionButtons();
         initPictograms();
         initAvatar();
+        initTTS();
         new initComponentsClass().execute();
 
     }
@@ -2235,15 +2238,7 @@ public class Principal extends AppCompatActivity implements View
     }
 
     private void initFirstPictograms() {
-        if (json.getmJSONArrayTodosLosPictos() != null && json.getmJSONArrayTodosLosPictos().length() > 0&& historial.getListadoPictos().isEmpty()) {
-            try {
-                pictoPadre = json.getmJSONArrayTodosLosPictos().getJSONObject(0);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-        CargarOpciones(json, pictoPadre);   // y despues cargamos las opciones con el orden correspondiente
-        ResetSeleccion();
+        new loadPictograms().execute();
 
     }
 
@@ -2263,6 +2258,7 @@ public class Principal extends AppCompatActivity implements View
                 checkTTSIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
                 startActivityForResult(checkTTSIntent, IntentCode.MY_DATA_CHECK_CODE.getCode());
             } else {
+
                 Alert();
             }
         } catch (Exception e) {
@@ -2314,24 +2310,14 @@ public class Principal extends AppCompatActivity implements View
 
 
     public void loadChilds(JSONObject padre, Animation alphaAnimation) {
-        try {
             if(padre!= null){
-                JSONArray opciones;
-                opciones = json.cargarOpciones(padre, cuentaMasPictos);
-                loadChildOption(opciones, 0, alphaAnimation);
-                loadChildOption(opciones, 1, alphaAnimation);
-                loadChildOption(opciones, 2, alphaAnimation);
-                loadChildOption(opciones, 3, alphaAnimation);
+                json.cargarOpciones(padre, cuentaMasPictos,this);
             }
             else {
                 json.sumarFallas();
                 CargarOpciones(json,padre);
             }
-        } catch (JSONException e) {
-            Log.e(TAG, "CargarOpciones: " + e.toString());
-        } catch (FiveMbException e) {
-            e.printStackTrace();
-        }
+
     }
 
 
@@ -2381,14 +2367,14 @@ public class Principal extends AppCompatActivity implements View
         if (mute) {
             speakAction();
         } else {
-            myTTS.mostrarAlerta(Oracion, analitycsFirebase);
+            myTTS.mostrarAlerta(Oracion, getAnalyticsFirebase());
         }
         handlerHablar.postDelayed(animarHablar, 10000);
         uploadUserPhrases();
     }
 
     public void speakAction() {
-        myTTS.hablar(Oracion, analitycsFirebase);
+        myTTS.hablar(Oracion, getAnalyticsFirebase());
         savePhrases(Oracion, historial);
         Log.d(TAG, "speak: Time in millis: " + System.currentTimeMillis() / 1000);
         resetSpeakAction();
@@ -2415,9 +2401,15 @@ public class Principal extends AppCompatActivity implements View
 
     public void resetSpeakAction() {
         if (sharedPrefsDefault.getBoolean(getString(R.string.hablarborrar), true)) {
-            analitycsFirebase.customEvents("Talk", "Principal", "Talk and Erase");
+            getAnalyticsFirebase().customEvents("Talk", "Principal", "Talk and Erase");
             Reset();
         }
+    }
+
+    public AnalyticsFirebase getAnalyticsFirebase(){
+        if(analitycsFirebase == null)
+            analitycsFirebase = new AnalyticsFirebase(this);
+        return analitycsFirebase;
     }
 
     public void nlgTalkAction(){
@@ -2444,6 +2436,24 @@ public class Principal extends AppCompatActivity implements View
         return firebaseDialog;
     }
 
+    @Override
+    public void pictogramsAreSorted(JSONArray array) {
+        JSONArray opciones = array;
+        Handler handler = new Handler(Looper.getMainLooper());
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                Animation alphaAnimation = AnimationUtils.loadAnimation(getApplicationContext(),
+                        R.anim.alpha_show);
+                loadChildOption(opciones, 0, alphaAnimation);
+                loadChildOption(opciones, 1, alphaAnimation);
+                loadChildOption(opciones, 2, alphaAnimation);
+                loadChildOption(opciones, 3, alphaAnimation);
+            }
+        });
+
+    }
+
     public class initComponentsClass extends AsyncTask<Void,Void,Void>{
 
 
@@ -2457,7 +2467,6 @@ public class Principal extends AppCompatActivity implements View
             initFirebaseComponents();
             firstUserAuthVerification();
             initDefaultSettings(Principal.this);
-            initTTS();
             return null;
         }
 
@@ -2479,6 +2488,22 @@ public class Principal extends AppCompatActivity implements View
             loadAvatar();
             showAvatar();
             setOnLongClickListener();
+        }
+    }
+
+    public class loadPictograms extends AsyncTask<Void,Void,Void>{
+        @Override
+        protected Void doInBackground(Void... voids) {
+            if (json.getmJSONArrayTodosLosPictos() != null && json.getmJSONArrayTodosLosPictos().length() > 0&& historial.getListadoPictos().isEmpty()) {
+                pictoPadre = json.getPictoFromId2(0);
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void unused) {
+            CargarOpciones(json, pictoPadre);   // y despues cargamos las opciones con el orden correspondiente
+            ResetSeleccion();
         }
     }
 

@@ -10,7 +10,6 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Message;
-import android.os.StrictMode;
 import android.preference.EditTextPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
@@ -44,23 +43,16 @@ import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.idioma.ConfigurarIdioma;
 import com.stonefacesoft.ottaa.idioma.myContextWrapper;
 import com.stonefacesoft.ottaa.utils.Accesibilidad.ControlFacial;
-import com.stonefacesoft.ottaa.utils.constants.Constants;
 import com.stonefacesoft.ottaa.utils.Firebase.AnalyticsFirebase;
 import com.stonefacesoft.ottaa.utils.HandlerComunicationClass;
 import com.stonefacesoft.ottaa.utils.IntentCode;
 import com.stonefacesoft.ottaa.utils.ObservableInteger;
+import com.stonefacesoft.ottaa.utils.constants.Constants;
 import com.stonefacesoft.ottaa.utils.constants.ConstantsAnalyticsValues;
 import com.stonefacesoft.ottaa.utils.preferences.PersonalSwitchPreferences;
 import com.stonefacesoft.ottaa.utils.textToSpeech;
 
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.params.BasicHttpParams;
-import org.apache.http.params.HttpConnectionParams;
-import org.apache.http.params.HttpParams;
-
 import java.io.File;
-import java.io.IOException;
 import java.util.Locale;
 
 /**
@@ -161,28 +153,6 @@ public class prefs extends PreferenceActivity implements SharedPreferences.OnSha
     private FirebaseUtils firebaseUtils;
 
 
-
-    //Chequear si hay internet
-    public static boolean isNetworkAvailable() {
-        Log.d(TAG, "isNetworkAvailable: ");
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
-
-        HttpGet httpGet = new HttpGet("http://www.google.com");
-        HttpParams httpParameters = new BasicHttpParams();
-        int timeoutConnection = 1000;
-        HttpConnectionParams.setConnectionTimeout(httpParameters, timeoutConnection);
-        int timeoutSocket = 1500;
-        HttpConnectionParams.setSoTimeout(httpParameters, timeoutSocket);
-        DefaultHttpClient httpClient = new DefaultHttpClient(httpParameters);
-        try {
-            httpClient.execute(httpGet);
-            return true;
-        } catch (IOException e) {
-            Log.e(TAG, "isNetworkAvailable: Error: " + e.getMessage());
-        }
-        return false;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

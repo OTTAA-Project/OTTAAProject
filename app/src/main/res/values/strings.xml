@@ -363,7 +363,7 @@
     <string name="error_field_required">This field is required</string>
     <string name="strTutorialGame3">What is the winner Pictogram</string>
     <string name="strTutorialGame4">This is the winner picto</string>
-    <string name="strFrasesMasUsadas">Most used phrases</string>
+    <string name="strFrasesMasUsadas">Frequently used phrases</string>
     <string name="image_error_cargar">Please select at least one pictogram when you want to share in a social media</string>
     <string name="useforGame">game precision in the group</string>
     <string name="strTutorialGame2">If you selected this button, you will hear the name of the pictogram to select</string>
@@ -371,7 +371,7 @@
     <string name="tuto_step2_galeriaGrupos">"Pressing the plus (+) icon you can create your own category.\t "</string>
     <string name="tuto_step1_galeriaPictos">"You can choose the picto you want by clicking it. Press and hold to move it. Double tap to edit ,delete or  . "</string>
     <string name="tuto_step1_galeriaGrupos">You will find the picto you want by looking into one of the categories. Press and hold the selected category to move it, or double tap to edit it or delete it.</string>
-    <string name="cu_l_es_el_picto">What\'s the pictogram.</string>
+    <string name="cu_l_es_el_picto">What is the pictogram.</string>
     <string name="button_set_location">Link with this location</string>
     <string name="no_location">No address for this location</string>
     <string name="Disfruta_picto">Enjoy your new pictos based on your location.</string>

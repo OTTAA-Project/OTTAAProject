@@ -206,7 +206,7 @@ public class GestionarBitmap  {
 
             Canvas comboImage = new Canvas(mImagenFinal);
             Paint pintura = preparePaint(20,0,0,0,0,false,true) ;
-            pintura.setColor(mContext.getResources().getColor(R.color.FondoApp));
+            pintura.setColor(mContext.getResources().getColor(color));
             comboImage.drawRect(0,0,mImagenFinal.getWidth(),mImagenFinal.getHeight(),pintura);
             for (int j = 0; j < imagenes.size(); j++) {
                 int despx =j*((mDeltax)+mBufferPictos.getWidth())+mDeltax;

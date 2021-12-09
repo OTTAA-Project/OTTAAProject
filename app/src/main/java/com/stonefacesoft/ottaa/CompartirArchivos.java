@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.StrictMode;
 import android.speech.tts.TextToSpeech;
+import android.speech.tts.UtteranceProgressListener;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
@@ -31,6 +32,7 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Random;
 
 //import cafe.adriel.androidaudioconverter.AndroidAudioConverter;
 //import cafe.adriel.androidaudioconverter.callback.IConvertCallback;
@@ -216,12 +218,50 @@ public class CompartirArchivos {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+                String  mostRecentUtteranceID = (new Random().nextInt() % 12000) + "";
                 Bundle params = new Bundle();
-                params.putString(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID, Oracion);
-                synchronized (file) {
-                }
-                myTTS.synthesizeToFile(Oracion, params, file);
-                compartirAudioPictogramas();
+                params.putString(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID,mostRecentUtteranceID);
+                myTTS.getTTS().setOnUtteranceProgressListener(new UtteranceProgressListener() {
+                    @Override
+                    public void onStart(String utteranceId) {
+
+                    }
+
+                    @Override
+                    public void onDone(String utteranceId) {
+
+                    }
+
+                    @Override
+                    public void onError(String utteranceId) {
+                        Log.e("CompartirArchivos",utteranceId);
+                        onDone("False");
+                    }
+
+                    @Override
+                    public void onStop(String utteranceId, boolean interrupted) {
+                        super.onStop(utteranceId, interrupted);
+                        if(!interrupted)
+                            if(!utteranceId.equals(mostRecentUtteranceID)){
+                                return;
+                            }else{
+                                compartirAudioPictogramas();
+                            }
+                    }
+
+                    @Override
+                    public void onAudioAvailable(String utteranceId, byte[] audio) {
+                        if(utteranceId.equals(mostRecentUtteranceID))
+                            onStop(mostRecentUtteranceID,false);
+                    }
+
+                    @Override
+                    public void onRangeStart(String utteranceId, int start, int end, int frame) {
+                        super.onRangeStart(utteranceId, start, end, frame);
+                    }
+                });
+                myTTS.synthesizeToFile(Oracion, params, file,mostRecentUtteranceID);
+
             }
         });
 

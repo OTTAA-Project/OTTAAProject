@@ -4,11 +4,11 @@ import java.util.Calendar;
 
 public class DataUser {
 
-    private long birthDate;
+    private long birthDate = System.currentTimeMillis();
     private String gender ="";
-    private String firstAndLastName;
-    private String email;
-    private String devices;
+    private String firstAndLastName="";
+    private String email="";
+    private String devices ="";
     //Todo add the user devices
 
     public DataUser(){}
@@ -67,5 +67,7 @@ public class DataUser {
         int age=actualDay.get(Calendar.YEAR)-birthDayDate.get(Calendar.YEAR);
         return age;
     }
+
+
 
 }

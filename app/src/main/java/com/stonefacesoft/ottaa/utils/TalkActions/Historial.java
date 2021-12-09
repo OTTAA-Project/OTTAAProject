@@ -2,12 +2,10 @@ package com.stonefacesoft.ottaa.utils.TalkActions;
 
 import android.util.Log;
 
-import com.stonefacesoft.ottaa.Custom_Picto;
 import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.NLG;
 import com.stonefacesoft.ottaa.utils.JSONutils;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -53,14 +51,10 @@ public class Historial {
             if(!listOfPictograms.isEmpty())
             father=listOfPictograms.get(listOfPictograms.size()-1);
             else
-             father=json.getmJSONArrayTodosLosPictos().getJSONObject(0);
+             father=json.getPictoFromId2(0);
 
         }catch (Exception ex){
-            try {
-                father=json.getmJSONArrayTodosLosPictos().getJSONObject(0);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+            father=json.getPictoFromId2(0);
         }
         return father;
     }
