@@ -18,7 +18,8 @@ public class VincularPictosAdapterTest {
 
     @Test
     public void getItemCount() {
-        assertEquals(3, vincularPictosAdapter.getItemCount());
+
+        assertEquals(4, vincularPictosAdapter.getItemCount());
     }
 
 
