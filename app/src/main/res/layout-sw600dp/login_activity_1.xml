@@ -44,7 +44,7 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toTopOf="@+id/textViewSignIn"
                 android:layout_margin="@dimen/medium_margin"
-                app:layout_constraintVertical_weight="2"
+                app:layout_constraintVertical_weight="3"
                 android:src="@drawable/logo_ottaa"/>
 
             <TextView
@@ -57,7 +57,7 @@
                 app:layout_constraintBottom_toTopOf="@+id/singInContainer"
                 android:textAlignment="center"
                 android:gravity="center"
-                app:layout_constraintVertical_weight="2"
+                app:layout_constraintVertical_weight="6"
                 android:textSize="20sp"
                 android:text="@string/hello_nplease_register_to_continue"/>
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -70,7 +70,7 @@
                 android:layout_marginBottom="@dimen/medium_margin"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintVertical_weight="2"
+                app:layout_constraintVertical_weight="3"
                 >
                 <com.google.android.gms.common.SignInButton
                     android:layout_width="0dp"

@@ -2,6 +2,7 @@ package com.stonefacesoft.ottaa.RecyclerViews;
 
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -125,13 +126,14 @@ public class FindAllPictograms_Recycler_View extends Custom_recyclerView impleme
             public void onItemClick(View view, int position) {
                 try {
                     selectedObject = findAllPictogramsAdapter.getmArrayPictos().getJSONObject(position);
-                    int idPicto =  json.getId(findAllPictogramsAdapter.getmArrayPictos().getJSONObject(position));
-
+                    int idPicto =  json.getId(selectedObject);
                     if (id != idPicto) {
                         id = idPicto;
-                        myTTS.hablar(JSONutils.getNombre(findAllPictogramsAdapter.getmArrayPictos().getJSONObject(position), ConfigurarIdioma.getLanguaje()));
+                        myTTS.hablar(JSONutils.getNombre(selectedObject, ConfigurarIdioma.getLanguaje()));
                     } else {
-                        if(json.getPosPicto(array,idPicto)!=-1){
+                        int posPicto = json.getPosPicto(json.getmJSONArrayTodosLosPictos(),id);
+                        Log.e(TAG, "position pictogram: " + posPicto);
+                        if(posPicto!=-1){
                             Intent databack = new Intent();
                             databack.putExtra("ID", id);
                             mActivity.setResult(IntentCode.SEARCH_ALL_PICTOGRAMS.getCode(), databack);

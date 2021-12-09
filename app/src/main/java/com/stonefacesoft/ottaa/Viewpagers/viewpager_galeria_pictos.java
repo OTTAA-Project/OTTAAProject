@@ -21,7 +21,6 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.stonefacesoft.ottaa.Custom_Picto;
 import com.stonefacesoft.ottaa.Edit_Picto_Visual;
 import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.LicenciaExpirada;
@@ -249,7 +248,9 @@ public class viewpager_galeria_pictos {
             try {
                 picto1.setUpContext(mActivity);
                 picto1.setUpGlideAttatcher(mActivity);
-                picto1.setPictogramsLibraryPictogram(new Pictogram(array.getJSONObject(position),ConfigurarIdioma.getLanguaje()));
+                JSONObject object = array.getJSONObject(position);
+                if(object != null)
+                    picto1.setPictogramsLibraryPictogram(new Pictogram(object,ConfigurarIdioma.getLanguaje()));
             } catch (JSONException e) {
                 e.printStackTrace();
             }

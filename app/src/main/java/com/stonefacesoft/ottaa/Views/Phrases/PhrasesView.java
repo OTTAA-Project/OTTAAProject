@@ -3,6 +3,7 @@ package com.stonefacesoft.ottaa.Views.Phrases;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.InputDevice;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MotionEvent;
 import android.view.View;
@@ -21,7 +22,6 @@ import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.utils.Accesibilidad.BarridoPantalla;
 import com.stonefacesoft.ottaa.utils.Accesibilidad.devices.PhrasesViewControls;
 import com.stonefacesoft.ottaa.utils.Accesibilidad.scrollActions.ScrollFunction;
-import com.stonefacesoft.ottaa.utils.Accesibilidad.scrollActions.ScrollFunctionGaleriaGrupos;
 import com.stonefacesoft.ottaa.utils.Accesibilidad.scrollActions.ScrollFunctionPhraseView;
 import com.stonefacesoft.ottaa.utils.Firebase.AnalyticsFirebase;
 import com.stonefacesoft.ottaa.utils.ReturnPositionItem;
@@ -88,6 +88,36 @@ public class PhrasesView extends AppCompatActivity implements View.OnClickListen
             barridoPantalla.getmListadoVistas().get(barridoPantalla.getPosicionBarrido()).callOnClick();
         }
 
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        Log.d(TAG, "onKeyDown: " + keyCode);
+        if (requestScreenScanningIsEnabled()) {
+
+            if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT) {
+                event.startTracking();
+                return true;
+            } else if (keyCode == KeyEvent.KEYCODE_DPAD_LEFT) {
+                event.startTracking();
+                return true;
+            } else if (keyCode == KeyEvent.KEYCODE_DPAD_UP) {
+                event.startTracking();
+                return true;
+            } else if (keyCode == KeyEvent.KEYCODE_DPAD_DOWN) {
+                event.startTracking();
+                return true;
+            }
+            if (keyCode == KeyEvent.KEYCODE_BACK) {
+                if (event.getSource() == InputDevice.SOURCE_MOUSE)
+                    barridoPantalla.getmListadoVistas().get(barridoPantalla.getPosicionBarrido()).callOnClick();
+                else
+                    onBackPressed();
+                return true;
+            }
+
+        }
+        return false;
     }
 
     @Override
@@ -177,5 +207,11 @@ public class PhrasesView extends AppCompatActivity implements View.OnClickListen
 
     public ScrollFunction getFunction_scroll() {
         return function_scroll;
+    }
+
+    private boolean requestScreenScanningIsEnabled(){
+        if(barridoPantalla != null)
+            return barridoPantalla.isBarridoActivado();
+        return false;
     }
 }

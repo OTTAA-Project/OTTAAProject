@@ -2,18 +2,17 @@ package com.stonefacesoft.ottaa.test.Components;
 
 import android.content.Context;
 
-import com.stonefacesoft.ottaa.Custom_Picto;
+import com.stonefacesoft.ottaa.Interfaces.SortPictogramsInterface;
 import com.stonefacesoft.ottaa.JSONutils.Json;
-import com.stonefacesoft.ottaa.utils.JSONutils;
-import com.stonefacesoft.ottaa.utils.exceptions.FiveMbException;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class Pictograms {
+public class Pictograms implements SortPictogramsInterface{
     private final Context mContext;
     private final Json json;
+    private JSONArray array;
 
     public Pictograms(Context mContext, Json json) {
         this.mContext = mContext;
@@ -23,16 +22,8 @@ public class Pictograms {
     }
 
     public JSONArray ordenarObjetos(JSONObject father) {
-        try {
-            try {
-                return json.cargarOpciones(father, 0);
-            } catch (FiveMbException e) {
-                e.printStackTrace();
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return null;
+                 json.cargarOpciones(father, 0,this::pictogramsAreSorted);
+        return array;
     }
 
     public JSONObject getJson(int id) {
@@ -67,5 +58,10 @@ public class Pictograms {
 
     public Json getJson() {
         return json;
+    }
+
+    @Override
+    public void pictogramsAreSorted(JSONArray array) {
+        this.array = array;
     }
 }

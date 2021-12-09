@@ -779,24 +779,7 @@ public class BajarJsonFirebase implements OnFailureListener {
             }
         });
     }
-    public void bajarDescripcionJuegos(String locale, File roothPath) {
 
-        mStorageRefDescJuegos=FirebaseStorage.getInstance().getReference().child("Archivos_Paises").child("descripcion-pictos").child("desc-"+sharedPrefsDefault.getString("idioma","es")+".txt");
-        final File frasesJuegosPictos=new File(roothPath,Constants.ARCHIVO_JUEGO_DESCRIPCION);
-        mStorageRefDescJuegos.getFile(frasesJuegosPictos).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                try {
-
-                    json.setmJSonArrayDescripciones(json.readJSONArrayFromFile(frasesJuegosPictos.getAbsolutePath()));
-                    json.guardarJson(Constants.ARCHIVO_JUEGO_DESCRIPCION);
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
     public void bajarJuego(String locale, File roothPath) {
 
         Log.e(TAG, "bajar juegos: " );

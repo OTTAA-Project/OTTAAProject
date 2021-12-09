@@ -184,6 +184,7 @@ public class LoginActivity2Step2 extends AppCompatActivity implements View.OnCli
     @Override
     public void fillUserData() {
         if (mAuth.getCurrentUser() != null) {
+            getUserData();
             if(!userData.getFirstAndLastName().isEmpty())
                 editTextName.setText(userData.getFirstAndLastName());
             else
@@ -200,7 +201,9 @@ public class LoginActivity2Step2 extends AppCompatActivity implements View.OnCli
                     editTextName.setInputType(InputType.TYPE_TEXT_VARIATION_PERSON_NAME);
                 }
             }, 2500);
-        }
+
+            }
+
     }
 
     private void selectIndicator(String gender) {
@@ -372,6 +375,12 @@ public class LoginActivity2Step2 extends AppCompatActivity implements View.OnCli
     public void setCalendarDate(long value) {
         if(userData != null)
             userData.setBirthDate(value);
+    }
+
+    public DataUser getUserData() {
+        if(userData == null)
+            userData = new DataUser();
+        return userData;
     }
 }
 
