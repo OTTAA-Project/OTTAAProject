@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.ListPreloader;
 import com.bumptech.glide.RequestBuilder;
 import com.stonefacesoft.ottaa.JSONutils.Json;
+import com.stonefacesoft.ottaa.JSONutils.sortPictogramsUtils.SortPictograms;
 import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.idioma.ConfigurarIdioma;
 import com.stonefacesoft.pictogramslibrary.Classes.Pictogram;
@@ -30,8 +31,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
 
 public class VincularPictosAdapter extends RecyclerView.Adapter<VincularPictosAdapter.VincularViewHolder> implements ListPreloader.PreloadModelProvider {
 
@@ -54,7 +53,9 @@ public class VincularPictosAdapter extends RecyclerView.Adapter<VincularPictosAd
         this.esFiltrado = filtro;
         this.mSelectedPictos = new JSONArray();
         this.listadoIdPictos = new ArrayList<>();
-        this.mVincularArray.remove(0);
+        int position =  Json.getInstance().getPosPictoBinarySearch(this.mVincularArray,0);
+        if(position != -1)
+        this.mVincularArray.remove(position);
 
     }
 
@@ -66,6 +67,13 @@ public class VincularPictosAdapter extends RecyclerView.Adapter<VincularPictosAd
         this.esFiltrado = filtro;
         this.mSelectedPictos = new JSONArray();
         this.listadoIdPictos = new ArrayList<>();
+        try {
+            new SortPictograms().quickSort(mVincularArray,0,mVincularArray.length()-1);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        int position =  Json.getInstance().getPosPictoBinarySearch(this.mVincularArray,0);
+        if(position != -1)
         this.mVincularArray.remove(0);
     }
 
@@ -197,18 +205,18 @@ public class VincularPictosAdapter extends RecyclerView.Adapter<VincularPictosAd
                 if (!esFiltrado) {
                     setBackGroundShape(v, isSelected);
                     if (isSelected) {
-                        mSelectedPictos.put(json.getPictoFromCustomArrayById2(mVincularArray, mVincularArray.getJSONObject(getAdapterPosition()).getInt("id")));
+                        mSelectedPictos.put(json.getPictoFromCustomArrayById2(mVincularArray, json.getId(mVincularArray.getJSONObject(getAdapterPosition()))));
                     } else {
-                        int removePos = json.getPosPicto(mSelectedPictos, mVincularArray.getJSONObject(getAdapterPosition()).getInt("id"));
+                        int removePos = json.getPosPicto(mSelectedPictos, json.getId( mVincularArray.getJSONObject(getAdapterPosition())));
                         if (removePos != -1)
                             mSelectedPictos.remove(removePos);
                     }
                 } else {
                     setBackGroundShape(v, isSelected);
                     if (isSelected) {
-                        mSelectedPictos.put(json.getPictoFromCustomArrayById2(mVincularArray, mVincularArray.getJSONObject(getAdapterPosition()).getInt("id")));
+                        mSelectedPictos.put(json.getPictoFromCustomArrayById2(mVincularArray, json.getId(mVincularArray.getJSONObject(getAdapterPosition()))));
                     } else {
-                        int removePos = json.getPosPicto(mSelectedPictos, mVincularArray.getJSONObject(getAdapterPosition()).getInt("id"));
+                        int removePos = json.getPosPicto(mSelectedPictos, json.getId( mVincularArray.getJSONObject(getAdapterPosition())));
                         if (removePos != -1)
                             mSelectedPictos.remove(removePos);
                     }

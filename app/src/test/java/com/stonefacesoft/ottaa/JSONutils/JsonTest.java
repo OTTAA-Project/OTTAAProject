@@ -522,6 +522,25 @@ public class JsonTest {
     }
 
     @Test
+    public void upgrateIndexValue(){
+        Json json = Json.getInstance();
+        json.upgradeIndexOfLoadOptions(7);
+        Assert.assertTrue(Constants.VUELTAS_CARRETE == 7);
+    }
+
+    @Test
+    public void valueBiggerThanCero(){
+        Json json = Json.getInstance();
+        Assert.assertTrue(json.getValueBiggerOrEquals0(7));
+    }
+
+    @Test
+    public void valueLessCero(){
+        Json json = Json.getInstance();
+        Assert.assertFalse(json.getValueBiggerOrEquals0(-7));
+    }
+
+    @Test
     public void getGrupoFromId() {
         Json json = Json.getInstance();
         JSONObject object = createGroupsJSONArray();
