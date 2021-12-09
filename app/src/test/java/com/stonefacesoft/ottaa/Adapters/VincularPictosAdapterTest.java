@@ -18,13 +18,14 @@ public class VincularPictosAdapterTest {
 
     @Test
     public void getItemCount() {
-        assertEquals(4, vincularPictosAdapter.getItemCount());
+        assertEquals(3, vincularPictosAdapter.getItemCount());
     }
 
 
     @Test
     public void getmVincularArray() {
         JSONArray aux = createPictogramJSONArray();
+
         try {
             new SortPictograms().quickSort(aux,0,aux.length()-1);
         } catch (JSONException e) {
