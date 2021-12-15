@@ -369,8 +369,10 @@ public class Json  {
     }
 
     private double score(JSONObject json, boolean esSugerencia) {
+
         return JSONutils.score(json, esSugerencia, getAgenda(), obtenerSexo(), calcularHora().toString(), obtenerEdad(), calcularPosicion().toString());
     }
+
 
     //TODO hasta aca revisado
 
@@ -1172,6 +1174,8 @@ public class Json  {
             return 0;
         }
     }
+
+
 
     public JSONArray getmJSonArrayFrasesFavoritas() {
         return mJSonArrayFrasesFavoritas;

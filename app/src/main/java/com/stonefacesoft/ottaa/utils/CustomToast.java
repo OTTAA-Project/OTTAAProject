@@ -13,9 +13,11 @@ import android.widget.Toast;
 
 import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.utils.AvatarPackage.AvatarUtils;
+import com.stonefacesoft.pictogramslibrary.utils.ValidateContext;
 
 /**
  * Created by gonzalo on 1/8/18.
+ *
  */
 
 public class CustomToast extends Application {
@@ -84,11 +86,6 @@ public class CustomToast extends Application {
         }
     }
 
-
-
-
-
-
     public void mostrarFrase(CharSequence texto) {
         setUpToast.setTexto(texto.toString()).prepareCustomSubtitle().showToast();
         //personalizarToast();
@@ -126,7 +123,12 @@ public class CustomToast extends Application {
         }
 
         public void showToast() {
-            toast.show();
+            try {
+                toast.show();
+            }catch (Exception ex){
+                if(ValidateContext.isValidContextFromGlide(mContext))
+                    customToast = new CustomToast(mContext);
+            }
         }
 
         public void setUseUpperCase(){
@@ -137,8 +139,11 @@ public class CustomToast extends Application {
         }
 
 
-
     }
 
-
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        toast.cancel();
+    }
 }

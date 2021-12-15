@@ -1054,9 +1054,10 @@ public class Principal extends AppCompatActivity implements View
                 JSONutils.aumentarFrec(pictoPadre, opcion);
                 json.getmJSONArrayTodosLosPictos().put(pos, pictoPadre);
                 json.guardarJson(Constants.ARCHIVO_PICTOS);
+                json.setmJSONArrayTodosLosPictos(json.getmJSONArrayTodosLosPictos());
             }
         } catch (JSONException e) {
-            e.printStackTrace();
+            CrashlyticsUtils.getInstance().getCrashlytics().recordException(e.getCause());
         }
         sayPictogramName(JSONutils.getNombre(opcion, sharedPrefsDefault.getString(getResources().getString(R.string.str_idioma), "en")));
         pictoPadre = opcion;
@@ -1107,6 +1108,7 @@ public class Principal extends AppCompatActivity implements View
                     JSONutils.setJsonEditado2(json.getmJSONArrayTodosLosPictos(), pictoPadre);
                     if (!json.guardarJson(Constants.ARCHIVO_PICTOS))
                         Log.e(TAG, "onClick: Error al guardar pictos sugeridos");
+                    cargarMasPictos();
 
                 } catch (JSONException e) {
                     e.printStackTrace();
