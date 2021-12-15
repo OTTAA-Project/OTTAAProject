@@ -528,17 +528,20 @@ public class WhichIsThePicto extends AppCompatActivity implements View
         }
         Log.e(TAG, "devolverOpcionGanadora: " + value);
         if (ganadorAnterior == value) {
-            devolverValor((int) (Math.random() * 4));
+            devolverValor((int) (Math.random() * 4),0);
         }
         ganadorAnterior = value;
         return value;
     }
 
-    private int devolverValor(int value) {
+    private int devolverValor(int value,int cont) {
+        int sum = cont;
+        if(sum>16)
+            return -1;
         if (!model.hasTheValue(value))
             return value;
         else
-            devolverValor(Math.round((float) Math.random() * mJsonArrayTodosLosPictos.length()));
+            devolverValor(Math.round((float) Math.random() * mJsonArrayTodosLosPictos.length()),sum++);
         return -1;
     }
 
@@ -573,18 +576,18 @@ public class WhichIsThePicto extends AppCompatActivity implements View
                     option.setPictogramsLibraryPictogram(new Pictogram(mJsonArrayTodosLosPictos.getJSONObject(position), ConfigurarIdioma.getLanguaje()));
                     model.loadValue(pos, position);
                 } else {
-                    position = devolverValor(Math.round((float) Math.random() * mJsonArrayTodosLosPictos.length()));
+                    position = devolverValor(Math.round((float) Math.random() * mJsonArrayTodosLosPictos.length()),0);
                     cargarDatosValors(pos);
                     cargarDatosOpcion(position, option, pos);
                 }
             } else {
-                position = devolverValor(Math.round((float) Math.random() * mJsonArrayTodosLosPictos.length()));
+                position = devolverValor(Math.round((float) Math.random() * mJsonArrayTodosLosPictos.length()),0);
                 model.loadValue(pos, position);
                 cargarDatosOpcion(position, option, pos);
             }
         } catch (JSONException e) {
             e.printStackTrace();
-            position = devolverValor(Math.round((float) Math.random() * mJsonArrayTodosLosPictos.length()));
+            position = devolverValor(Math.round((float) Math.random() * mJsonArrayTodosLosPictos.length()),0);
             model.loadValue(pos, position);
             cargarDatosOpcion(position, option, pos);
 

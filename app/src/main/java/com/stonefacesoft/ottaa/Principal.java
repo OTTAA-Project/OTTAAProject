@@ -1359,12 +1359,12 @@ public class Principal extends AppCompatActivity implements View
                 break;
             case ConstantsMainActivity.CONFIG_SCREEN:
                 myTTS =textToSpeech.getInstance(this);
-                barridoPantalla.updateSharePrefs(sharedPrefsDefault).cambiarEstadoBarrido();
+                if(barridoPantalla != null)
+                    barridoPantalla.updateSharePrefs(sharedPrefsDefault).cambiarEstadoBarrido();
                 boolean isEnableScreenScanning = enableDisableScreenScanning();
                 editarPicto = sharedPrefsDefault.getBoolean(getString(R.string.str_editar_picto), true);
                 if (data != null && data.getExtras() != null) {
                     Bundle extras = data.getExtras();
-                    Log.d(TAG, "onActivityResult: Reiniciar: " + extras.getBoolean(getString(R.string.boolean_cambio_idioma), false));
                     if (extras.getBoolean(getString(R.string.boolean_cambio_idioma), false) || extras.getBoolean(getString(R.string.boolean_cambio_mano), false) || !isEnableScreenScanning) {
                         Reset();
                         prepareLayout();
