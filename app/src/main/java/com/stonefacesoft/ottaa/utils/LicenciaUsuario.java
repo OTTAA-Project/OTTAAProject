@@ -160,11 +160,16 @@ public class LicenciaUsuario {
                                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                                             int result = horaActual.compareTo(tiempoPago + Constants.UN_ANIO);
-                                            if (result > 0 || dataSnapshot.child(Constants.PAGO).getValue().toString().contains("0")) {
+                                            if(dataSnapshot.hasChild(Constants.PAGO)){
+                                                if (result > 0 || dataSnapshot.child(Constants.PAGO).getValue().toString().contains("0")) {
+                                                    dataSnapshot.child(Constants.PAGO).getRef().setValue(0);
+                                                    cambiarEstadoPremium(0 + "");
+                                                } else if (dataSnapshot.child(Constants.PAGO).getValue().toString().contains("1")) {
+                                                    cambiarEstadoPremium(1 + "");
+                                                }
+                                            }else{
                                                 dataSnapshot.child(Constants.PAGO).getRef().setValue(0);
-                                                cambiarEstadoPremium(0 + "");
-                                            } else if (dataSnapshot.child(Constants.PAGO).getValue().toString().contains("1")) {
-                                                cambiarEstadoPremium(1 + "");
+                                                cambiarEstadoPremium(0+"");
                                             }
                                         }
 

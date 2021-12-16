@@ -716,6 +716,8 @@ public class Principal extends AppCompatActivity implements View
         }
     }
 
+
+
     @Override
     protected void onRestart() {
         super.onRestart();
@@ -1366,6 +1368,7 @@ public class Principal extends AppCompatActivity implements View
                 if (data != null && data.getExtras() != null) {
                     Bundle extras = data.getExtras();
                     if (extras.getBoolean(getString(R.string.boolean_cambio_idioma), false) || extras.getBoolean(getString(R.string.boolean_cambio_mano), false) || !isEnableScreenScanning) {
+                        json.setmJSONArrayTodosLosPictos(json.getmJSONArrayTodosLosPictos());
                         Reset();
                         prepareLayout();
                         recreate();
@@ -1539,7 +1542,13 @@ public class Principal extends AppCompatActivity implements View
                 }
             });
         } else {
-            btnBarrido.setVisibility(View.GONE);
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    // Stuff that updates the UI
+                    btnBarrido.setVisibility(View.GONE);
+                }
+            });
         }
         if (barridoPantalla.isBarridoActivado())
             editarPicto = false;
@@ -1994,25 +2003,34 @@ public class Principal extends AppCompatActivity implements View
     }
 
     private boolean enableDisableScreenScanning() {
+        Log.e(TAG, "enableDisableScreenScanning visibility: "+ btnBarrido.getVisibility() );
         if (!barridoPantalla.isBarridoActivado()) {
-            if (btnBarrido.getVisibility() == View.GONE)
+            if (btnBarrido.getVisibility() == View.GONE){
+                Log.e(TAG, "enableDisableScreenScanning visibility: "+ btnBarrido.getVisibility() );
                 return true;
+            }
+            else{
             runOnUiThread(new Runnable() {
 
                 @Override
                 public void run() {
                     // Stuff that updates the UI
+                    Log.e(TAG, "enableDisableScreenScanning visibility: "+ btnBarrido.getVisibility() );
                     btnBarrido.setVisibility(View.GONE);
                 }
             });
-            return false;
+                return false;
+            }
         } else if (barridoPantalla.isBarridoActivado() && btnBarrido.getVisibility() == View.GONE) {
             runOnUiThread(() -> {
                 // Stuff that updates the UI
+                Log.e(TAG, "enableDisableScreenScanning visibility: "+ btnBarrido.getVisibility() );
                 btnBarrido.setVisibility(View.VISIBLE);
+
             });
             return true;
         }
+
         return true;
     }
 
@@ -2025,6 +2043,7 @@ public class Principal extends AppCompatActivity implements View
         initPictograms();
         initAvatar();
         initTTS();
+        initBarrido();
         new initComponentsClass().execute();
 
     }
@@ -2478,7 +2497,7 @@ public class Principal extends AppCompatActivity implements View
             user.connectClient();
             initFirstPictograms();
             uploadFiles();
-            initBarrido();
+
             initPlaceImplementationClass();
             showMenu();
             if (TutoFlag) {
