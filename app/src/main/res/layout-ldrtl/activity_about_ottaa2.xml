@@ -15,6 +15,8 @@
         app:layout_constraintEnd_toStartOf="@+id/constraintInfoAbout"
         app:layout_constraintHorizontal_weight="1">
 
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -37,6 +39,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             android:scaleType="fitXY"
+            android:rotationY="180"
             android:src="@drawable/ic_ola_naranja_rot"/>
 
         <TextView
@@ -48,14 +51,14 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toTopOf="@id/constraintTextViewsAbout"
             app:layout_constraintVertical_weight="1"
-            android:layout_marginStart="@dimen/big_fat_margin"
+            android:layout_marginStart="@dimen/medium_margin"
             android:layout_marginTop="@dimen/medium_margin"
             android:layout_marginEnd="@dimen/medium_margin"
             android:text="@string/keep_your_ottaa_up_to_date"
             android:gravity="bottom"
             android:textAlignment="viewEnd"
             android:textColor="@color/White"
-            android:textSize="18sp"
+            android:textSize="25sp"
             android:textStyle="bold"/>
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -67,7 +70,7 @@
             app:layout_constraintTop_toBottomOf="@id/textKeepUpdated"
             app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginStart="@dimen/big_fat_margin"
-            app:layout_constraintVertical_weight="9">
+            app:layout_constraintVertical_weight="5">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="0dp"
@@ -77,11 +80,12 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toTopOf="@id/buttonContactSupport"
-                app:layout_constraintDimensionRatio="7:5"
+                app:layout_constraintDimensionRatio="3:2"
                 app:layout_constraintVertical_weight="5"
-                android:layout_marginTop="@dimen/activity_vertical_margin"
-                android:layout_marginBottom="@dimen/activity_vertical_margin"
-                android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                android:layout_marginTop="@dimen/medium_margin"
+                android:layout_marginBottom="@dimen/medium_margin"
+                android:layout_marginStart="@dimen/medium_margin"
+                android:layout_marginEnd="@dimen/medium_margin"
                 android:background="@drawable/fizgerald_shape"
                 android:backgroundTint="@color/White">
 
@@ -97,7 +101,7 @@
                     android:text="@string/account_info"
                     android:textColor="@color/White"
                     android:textStyle="bold"
-                    android:textSize="15sp"
+                    android:textSize="20sp"
                     android:textAlignment="center"/>
 
                 <TextView
@@ -111,7 +115,7 @@
                     app:layout_constraintEnd_toStartOf="@id/userEmail"
                     app:layout_constraintTop_toBottomOf="@id/textViewAccountTitle"
                     app:layout_constraintBottom_toTopOf="@id/textViewAccountType"
-                    android:layout_marginStart="@dimen/activity_horizontal_margin"/>
+                    android:layout_marginStart="@dimen/medium_margin"/>
 
                 <TextView
                     android:layout_width="0dp"
@@ -119,6 +123,8 @@
                     android:id="@+id/userEmail"
                     android:text=": ottaa@ottaaproject.com"
                     android:textColor="@color/White"
+                    android:textAlignment="center"
+                    android:layout_marginEnd="5dp"
                     app:layout_constraintStart_toEndOf="@id/textViewAccount"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@id/textViewAccount"

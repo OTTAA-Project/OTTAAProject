@@ -40,7 +40,8 @@ public class PhrasesAdapter extends RecyclerView.Adapter<PhrasesAdapter.PhraseAd
     public PhrasesAdapter(Context mContext) {
         this.mContext = mContext;
         phrases = CustomFavoritePhrases.getInstance(mContext);
-        userPhrases = phrases.getJson().getmJSONArrayTodasLasFrases();
+        userPhrases = phrases.getJson().getPhrasesByLanguage();
+
         myTTs = textToSpeech.getInstance(this.mContext);
         glideAttatcher = new GlideAttatcher(this.mContext);
         gestionarBitmap = new GestionarBitmap(this.mContext);

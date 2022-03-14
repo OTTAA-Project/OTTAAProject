@@ -180,7 +180,7 @@ public class LoginActivity2 extends AppCompatActivity implements View.OnClickLis
         } catch (ApiException e) {
             // The ApiException status code indicates the detailed failure reason.
             // Please refer to the GoogleSignInStatusCodes class reference for more information.
-            Log.d(TAG, "signInResult:failed code=" + e.getStatusCode());
+            Log.d(TAG, "signInResult:failed code=" + e.getMessage());
             Toast.makeText(this, R.string.problema_inet, Toast.LENGTH_SHORT).show();
         }
     }
@@ -213,7 +213,7 @@ public class LoginActivity2 extends AppCompatActivity implements View.OnClickLis
 
                     } else {
                         // If sign in fails, display a message to the user.
-                        Log.e(TAG, "onComplete: firebaseAuth fail");
+                        Log.e(TAG, "onComplete: firebaseAuth fail"+task.getException().getMessage());
                         Toast.makeText(LoginActivity2.this, R.string.problema_sign_in,
                                 Toast.LENGTH_SHORT).show();
                     }

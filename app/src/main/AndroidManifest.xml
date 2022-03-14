@@ -191,15 +191,31 @@
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_login"
             android:screenOrientation="sensorLandscape" />
-        <activity android:name=".Activities.Pictures.AvatarPictureCropper" android:screenOrientation="sensorLandscape"/>
-        <activity android:name=".Activities.Pictures.EditPictogramCropper" android:screenOrientation="sensorLandscape"/>
+        <activity android:name=".Activities.Pictures.AvatarPictureCropper"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="sensorLandscape"/>
+        <activity android:name=".Activities.Pictures.EditPictogramCropper"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="sensorLandscape"/>
 
-        <activity android:name=".LoginActivity2Avatar" android:screenOrientation="sensorLandscape" />
-        <activity android:name=".LoginActivity2Step3" android:screenOrientation="sensorLandscape" />
-        <activity android:name=".Activities.FindAllPictograms" android:screenOrientation="sensorLandscape" />
-        <activity android:name=".Activities.Phrases.FavoritePhrases" android:screenOrientation="sensorLandscape" />
-        <activity android:name=".Activities.Phrases.MostUsedPhrases" android:screenOrientation="sensorLandscape" />
-        <activity android:name=".Activities.Phrases.AllPhrases" android:screenOrientation="sensorLandscape" />
+        <activity android:name=".LoginActivity2Avatar"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="sensorLandscape" />
+        <activity android:name=".LoginActivity2Step3"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="sensorLandscape" />
+        <activity android:name=".Activities.FindAllPictograms"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="sensorLandscape" />
+        <activity android:name=".Activities.Phrases.FavoritePhrases"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="sensorLandscape" />
+        <activity android:name=".Activities.Phrases.MostUsedPhrases"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="sensorLandscape" />
+        <activity android:name=".Activities.Phrases.AllPhrases"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="sensorLandscape" />
 
 
         <meta-data

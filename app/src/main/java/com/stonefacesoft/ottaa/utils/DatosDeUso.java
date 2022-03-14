@@ -7,6 +7,7 @@ import android.os.Build;
 import android.util.Log;
 
 import com.stonefacesoft.ottaa.JSONutils.Json;
+import com.stonefacesoft.ottaa.idioma.ConfigurarIdioma;
 import com.stonefacesoft.ottaa.utils.constants.Constants;
 import com.stonefacesoft.ottaa.utils.exceptions.FiveMbException;
 
@@ -60,6 +61,7 @@ public class DatosDeUso {
 
         try {
             frasesOrdenadas = json.readJSONArrayFromFile(Constants.ARCHIVO_FRASES);
+
             Log.e(TAG, "ordenarFrasesPorFrecuencia: " + frasesOrdenadas.toString());
         } catch (JSONException e) {
             e.printStackTrace();
@@ -69,11 +71,7 @@ public class DatosDeUso {
         }
         if (frasesOrdenadas != null) {
             for (int i = 0; i < frasesOrdenadas.length(); i++) {
-                try {
-                    frasesOrdenSort.add(frasesOrdenadas.getJSONObject(i));
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                addPhrase(i);
             }
 
             Collections.sort(frasesOrdenSort, (json1, json2) -> {
@@ -88,6 +86,19 @@ public class DatosDeUso {
                 }
                 return json.compareTo(frec1, frec2);
             });
+        }
+    }
+
+    private void addPhrase(int i){
+        try {
+            if(frasesOrdenadas.getJSONObject(i).has("locale")){
+                if(frasesOrdenadas.getJSONObject(i).getString("locale").toLowerCase().equals(ConfigurarIdioma.getLanguaje().toLowerCase()))
+                    frasesOrdenSort.add(frasesOrdenadas.getJSONObject(i));
+            }else{
+                frasesOrdenSort.add(frasesOrdenadas.getJSONObject(i));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
     }
 

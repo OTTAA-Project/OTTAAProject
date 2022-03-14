@@ -213,6 +213,25 @@ public class Json  {
         return mJSONArrayTodasLasFrases;
     }
 
+    public JSONArray getPhrasesByLanguage(){
+        JSONArray aux = mJSONArrayTodasLasFrases;
+        JSONArray result = new JSONArray();
+        for (int i = 0; i < aux.length(); i++) {
+            try {
+                if(aux.getJSONObject(i).has("locale")){
+                    if(aux.getJSONObject(i).getString("locale").toLowerCase().equals(ConfigurarIdioma.getLanguaje().toLowerCase())) {
+                        Log.e(TAG, "getPhrasesByLanguage: "+aux.getJSONObject(i).toString());
+                        result.put(aux.getJSONObject(i));
+                    }
+                }
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        return result;
+    }
+
     public void setmJSONArrayTodasLasFrases(JSONArray mJSONArrayTodasLasFrases) {
         this.mJSONArrayTodasLasFrases = mJSONArrayTodasLasFrases;
     }

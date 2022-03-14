@@ -468,4 +468,8 @@
     <string name="Iam">Ciao sono</string>
     <string name="FluidUser">Fluido</string>
     <string name="createPhrasesAlert">Per favore, crea una frase e seleziona il pulsante di condivisione</string>
+    <string name="account_type">Tipo di account:</string>
+    <string name="device_name">Nome del dispositivo:</string>
+    <string name="account_info">Informazioni sull\'account</string>
+    <string name="keep_your_ottaa_up_to_date">Tieni aggiornato il tuo OTTAA</string>
 </resources>

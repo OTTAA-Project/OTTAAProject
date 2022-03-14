@@ -532,5 +532,9 @@
     <string name="BinaryUser">Binario</string>
     <string name="OtherUser">Otro</string>
     <string name="createPhrasesAlert">Por favor, crea una frase y selecciona el boton compartir</string>
+    <string name="account_type">Tipo de Cuenta :</string>
+    <string name="device_name">Nombre Del Dispositivo:</string>
+    <string name="account_info">Informacion de la cuenta:</string>
+    <string name="keep_your_ottaa_up_to_date">Manten OTTAA Actualizada</string>
 
 </resources>

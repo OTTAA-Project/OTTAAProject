@@ -11,6 +11,7 @@ apply plugin: 'com.google.gms.google-services'
 
 android {
     signingConfigs {
+
     }
     compileSdkVersion 31
     buildToolsVersion '30.0.3'
@@ -36,6 +37,12 @@ android {
         testHandleProfiling true
         testFunctionalTest true
         testInstrumentationRunnerArguments clearPackageData: 'true'
+    }
+
+    bundle{
+        language{
+            enableSplit = false
+        }
     }
 
     buildTypes {
@@ -208,7 +215,7 @@ dependencies {
     implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 
     // firebase library
-    implementation platform('com.google.firebase:firebase-bom:28.3.1')
+    implementation platform('com.google.firebase:firebase-bom:29.1.0')
     implementation 'com.google.firebase:firebase-auth'
     implementation 'com.google.firebase:firebase-config:21.0.1'
     implementation 'com.google.firebase:firebase-core:20.1.0'

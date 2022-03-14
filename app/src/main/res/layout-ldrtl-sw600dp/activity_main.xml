@@ -6,8 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/drawer_layout"
     tools:openDrawer="start"
-    android:outlineSpotShadowColor="@android:color/transparent"
-    android:outlineAmbientShadowColor="@android:color/transparent"
+
     >
     <com.google.android.material.navigation.NavigationView
         android:layout_margin="15dp"
@@ -18,13 +17,13 @@
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_header_main"
         app:menu="@menu/activity_main_drawer"
-        android:background="@drawable/ic_shape_left_singlebutton_white"
-        >
+
+        android:background="@drawable/ic_shape_left_singlebutton_white">
 
     </com.google.android.material.navigation.NavigationView>
 
     <include
         layout="@layout/app_bar_main"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="match_parent" />
 </androidx.drawerlayout.widget.DrawerLayout>

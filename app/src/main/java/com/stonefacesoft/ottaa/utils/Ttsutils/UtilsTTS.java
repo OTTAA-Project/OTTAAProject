@@ -109,7 +109,7 @@ public class UtilsTTS {
                 case "ar":
                     Log.d("texToSpeech_refreshtts", "ARABE");
 //                    TODO chequear primero si ya esta insltalada
-                    boolean instaladoAr = new verificarPaqueteInstalado(mContext).estaInstalado("com.acapelagroup.android.tts");
+                   /* boolean instaladoAr = new verificarPaqueteInstalado(mContext).estaInstalado("com.acapelagroup.android.tts");
                     if (!instaladoAr) {
                         Log.d("instalarAcapella", "si");
                         mContext.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=com.acapelagroup.android.tts")).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
@@ -117,8 +117,8 @@ public class UtilsTTS {
                         Log.d("instalarAcapella", "no");
 
                         mTTS.setEngineByPackageName("com.acapelagroup.android.tts");
-                    }
-
+                    }*/
+                    localeTTS = new Locale("ar");
                     break;
 
                 case "ca":

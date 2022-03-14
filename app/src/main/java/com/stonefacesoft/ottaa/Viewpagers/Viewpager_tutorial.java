@@ -146,7 +146,7 @@ public class Viewpager_tutorial extends AppCompatActivity {
             if(position==0){
                 previous.setVisibility(View.INVISIBLE);
             }else if(position==imageDescriptions.length-1)
-                next.setText("Listo");
+                next.setText(getContext().getResources().getText(R.string.exit_general));
             previous.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

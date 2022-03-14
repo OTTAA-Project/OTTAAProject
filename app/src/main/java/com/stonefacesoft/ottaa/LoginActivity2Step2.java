@@ -325,11 +325,15 @@ public class LoginActivity2Step2 extends AppCompatActivity implements View.OnCli
     private boolean validateJavaDate(String strDate) {
         /* Check if date is 'null' */
         String regex = "^(1[0-9]|0[1-9]|3[0-1]|2[0-9])/(0[1-9]|1[0-2])/[0-9]{4}$";
+        String aux = strDate.replaceAll("٠","0").replaceAll("١","1").replaceAll("٢","2").
+                replaceAll("٣","3").replaceAll("٤","4").replaceAll("٥","5").replaceAll("٦","6")
+                .replaceAll("٧","7").replaceAll("٨","8").replaceAll("٩","9");
         Pattern pattern = Pattern.compile(regex);
-        if (strDate.isEmpty())
+
+        if (aux.isEmpty())
             return false;
         else
-            return pattern.matcher(strDate).matches();
+            return pattern.matcher(aux).matches();
     }
 
     @Override

@@ -93,6 +93,7 @@
         app:layout_constraintBottom_toTopOf="@id/containerBottomMasPictos"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="25dp"
+        android:layout_marginStart="5dp"
         app:layout_constraintVertical_weight="5" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -108,14 +109,13 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageButton
-            android:id="@+id/down_button"
+            android:id="@+id/up_button"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="@drawable/ic_skip_next_black_24dp"
-
             android:scaleType="fitCenter"
             android:src="@drawable/ic_skip_next_black_24dp"
-            android:tint="@color/White"
+            app:tint="@color/White"
             app:layout_constraintBottom_toBottomOf="@id/constraintLeftButtons"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="@id/constraintLeftButtons"
@@ -124,7 +124,6 @@
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintRightButtons"
@@ -139,14 +138,13 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageButton
-            android:id="@+id/up_button"
+            android:id="@+id/down_button"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="@android:color/transparent"
             android:scaleType="fitCenter"
-            android:rotation="180"
-            android:src="@drawable/ic_skip_next_black_24dp"
-            android:tint="@color/White"
+            android:src="@drawable/ic_skip_previous_black_24dp"
+            app:tint="@color/White"
             app:layout_constraintBottom_toBottomOf="@id/constraintRightButtons"
             app:layout_constraintEnd_toEndOf="@id/constraintRightButtons"
             app:layout_constraintHorizontal_bias="0.0"
@@ -155,7 +153,6 @@
             app:layout_constraintVertical_bias="0.0" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="0dp"
@@ -178,7 +175,7 @@
             android:background="@android:color/transparent"
             android:scaleType="fitCenter"
             android:src="@drawable/ic_cancel_black_24dp"
-            android:tint="@color/White"
+            app:tint="@color/White"
             app:layout_constraintBottom_toBottomOf="@id/containerBottomMasPictos"
             app:layout_constraintEnd_toStartOf="@id/edit_button"
             app:layout_constraintStart_toStartOf="@id/containerBottomMasPictos"
@@ -193,13 +190,13 @@
             android:background="@android:color/transparent"
             android:scaleType="fitCenter"
             android:src="@drawable/ic_edit_white_24dp"
-            android:tint="@color/White"
+            app:tint="@color/White"
             app:layout_constraintBottom_toBottomOf="@id/containerBottomMasPictos"
             app:layout_constraintEnd_toEndOf="@id/containerBottomMasPictos"
             app:layout_constraintStart_toEndOf="@id/back_button"
             app:layout_constraintTop_toTopOf="@id/containerBottomMasPictos"
 
-            />
+            app:layout_constraintVertical_bias="0.0" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -208,15 +205,15 @@
         android:id="@+id/cornerImageViewLeft"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:tint="@color/NaranjaOTTAA"
         android:layout_marginStart="12dp"
         android:layout_marginBottom="12dp"
-        android:rotation="90"
         android:scaleX="3"
         android:scaleY="3"
         android:src="@drawable/ic_corner"
+        android:rotation="90"
         app:layout_constraintBottom_toTopOf="@id/containerBottomMasPictos"
-        app:layout_constraintStart_toEndOf="@id/constraintLeftButtons" />
+        app:layout_constraintStart_toEndOf="@id/constraintLeftButtons"
+        app:tint="@color/NaranjaOTTAA" />
 
     <ImageView
         android:id="@+id/cornerImageViewRight"
@@ -227,7 +224,7 @@
         android:scaleX="3"
         android:scaleY="3"
         android:src="@drawable/ic_corner"
-        android:tint="@color/NaranjaOTTAA"
+        app:tint="@color/NaranjaOTTAA"
         app:layout_constraintBottom_toTopOf="@id/containerBottomMasPictos"
         app:layout_constraintEnd_toStartOf="@id/constraintRightButtons" />
 
@@ -274,8 +271,9 @@
         android:id="@+id/floatting_button"
         android:src="@drawable/ic_touch_app_black_24dp"
         app:maxImageSize="@dimen/sizeFloattingButtonIconMed"
-        android:backgroundTint="@color/colorBlackTrasnparent"
-        app:borderWidth="0dp"
+        android:backgroundTint="@color/color_blue_transparent"
+        app:backgroundTint="@color/Black"
+        app:borderWidth="2dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

@@ -3,6 +3,7 @@ package com.stonefacesoft.ottaa.utils.Phrases;
 import android.content.Context;
 
 import com.stonefacesoft.ottaa.JSONutils.Json;
+import com.stonefacesoft.ottaa.idioma.ConfigurarIdioma;
 import com.stonefacesoft.ottaa.utils.constants.Constants;
 import com.stonefacesoft.pictogramslibrary.JsonUtils.JSONObjectManager;
 
@@ -113,6 +114,21 @@ public class CustomFavoritePhrases {
         } catch (IOException e) {
             e.printStackTrace();
         }
+     }
+
+     public JSONArray getPhrasesByLanguage() {
+         JSONArray phrasesAux = new JSONArray();
+         for (int i = 0; i < favoritePhrases.length(); i++) {
+             try {
+                 if (favoritePhrases.getJSONObject(i).has("locale")) {
+                     if (favoritePhrases.getJSONObject(i).getString("locale").toLowerCase().equals(ConfigurarIdioma.getLanguaje().toLowerCase()))
+                         phrasesAux.put(favoritePhrases.getJSONObject(i));
+                 }
+             } catch (JSONException e) {
+                 e.printStackTrace();
+             }
+         }
+        return phrasesAux;
      }
 
 

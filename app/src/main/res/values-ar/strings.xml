@@ -491,5 +491,9 @@
     <string name="Iam">مرحبا أنا</string>
     <string name="FluidUser">مائع</string>
     <string name="createPhrasesAlert">من فضلك ، قم بإنشاء عبارة وحدد زر المشاركة</string>
+    <string name="account_type">نوع الحساب:</string>
+    <string name="device_name">اسم الجهاز:</string>
+    <string name="account_info">معلومات الحساب</string>
+    <string name="keep_your_ottaa_up_to_date">حافظ على تحديث OTTAA الخاص بك</string>
 
 </resources>

@@ -74,9 +74,9 @@ public class CompartirArchivos {
         Intent sharingIntent = new Intent(Intent.ACTION_SEND);
         sharingIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
         Uri uri = Uri.fromFile(file);
-        sharingIntent.setType("audio/*");
+        sharingIntent.setType("audio/mp3");
         sharingIntent.putExtra(Intent.EXTRA_STREAM, uri);
-        mContext.startActivity(sharingIntent);
+        mContext.startActivity(Intent.createChooser(sharingIntent,mContext.getResources().getString(R.string.pref_enviar)));
     }
 
     //metodo para tomar los pictogramas
@@ -214,7 +214,7 @@ public class CompartirArchivos {
             @Override
             public void onClick(View view) {
                 try {
-                    file = File.createTempFile("audio", ".wav", mContext.getExternalCacheDir());
+                    file = File.createTempFile("audio", ".mp3", mContext.getExternalCacheDir());
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -241,18 +241,18 @@ public class CompartirArchivos {
                     @Override
                     public void onStop(String utteranceId, boolean interrupted) {
                         super.onStop(utteranceId, interrupted);
-                        if(!interrupted)
-                            if(!utteranceId.equals(mostRecentUtteranceID)){
-                                return;
-                            }else{
-                                compartirAudioPictogramas();
-                            }
+
+
                     }
+
 
                     @Override
                     public void onAudioAvailable(String utteranceId, byte[] audio) {
-                        if(utteranceId.equals(mostRecentUtteranceID))
-                            onStop(mostRecentUtteranceID,false);
+                        if(!utteranceId.equals(mostRecentUtteranceID)){
+                            return;
+                        }else{
+                            compartirAudioPictogramas();
+                        }
                     }
 
                     @Override
