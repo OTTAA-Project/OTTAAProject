@@ -41,14 +41,14 @@
             android:textSize="25sp"
             android:gravity="center"
             app:layout_constraintBottom_toBottomOf="@id/Seleccion1"
-            app:layout_constraintEnd_toStartOf="@id/ttsJuego"
+            app:layout_constraintEnd_toStartOf="@id/Seleccion1"
             app:layout_constraintHorizontal_weight="1"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
 
         <ImageButton
             android:id="@+id/ttsJuego"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_toEndOf="@+id/SeleccioneEste"
             android:background="@color/colorTransparent"
@@ -74,14 +74,15 @@
             android:scaleType="fitXY"
             android:src="@drawable/amistad"
             android:layout_margin="@dimen/small_margin"
-            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toTopOf="@id/Option1"
             app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintHorizontal_bias="0.60"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.40"
             app:layout_constraintHorizontal_weight="1"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_weight="2" />
+            app:layout_constraintVertical_weight="2"
+            app:layout_constraintStart_toEndOf="@id/SeleccioneEste"
+            app:layout_constraintEnd_toStartOf="@id/ttsJuego"
+            />
 
 
 
@@ -152,8 +153,8 @@
             app:layout_constraintTop_toTopOf="@id/Option1">
         </com.stonefacesoft.pictogramslibrary.view.PictoView>
 
-        
-        
+
+
 
         <ImageView
             android:id="@+id/ganarImagen"

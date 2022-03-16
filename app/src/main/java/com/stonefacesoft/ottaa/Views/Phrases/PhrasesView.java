@@ -1,5 +1,6 @@
 package com.stonefacesoft.ottaa.Views.Phrases;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.InputDevice;
@@ -7,6 +8,8 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
 
@@ -52,6 +55,12 @@ public class PhrasesView extends AppCompatActivity implements View.OnClickListen
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Intent intent = getIntent();
+        boolean status_bar = intent.getBooleanExtra("status_bar", false);
+        if (!status_bar) {
+            supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        }
         setContentView(R.layout.activity_galeria_grupos2);
         viewPager2 = findViewById(R.id.viewPager_groups);
         viewPager2.setVisibility(View.GONE);

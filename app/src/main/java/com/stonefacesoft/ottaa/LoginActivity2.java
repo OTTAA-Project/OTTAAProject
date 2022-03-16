@@ -5,7 +5,6 @@ import static com.stonefacesoft.ottaa.utils.constants.Constants.RC_SIGN_IN;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
@@ -23,7 +22,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
@@ -34,10 +32,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
@@ -184,7 +180,7 @@ public class LoginActivity2 extends AppCompatActivity implements View.OnClickLis
         } catch (ApiException e) {
             // The ApiException status code indicates the detailed failure reason.
             // Please refer to the GoogleSignInStatusCodes class reference for more information.
-            Log.d(TAG, "signInResult:failed code=" + e.getStatusCode());
+            Log.d(TAG, "signInResult:failed code=" + e.getMessage());
             Toast.makeText(this, R.string.problema_inet, Toast.LENGTH_SHORT).show();
         }
     }
@@ -194,14 +190,12 @@ public class LoginActivity2 extends AppCompatActivity implements View.OnClickLis
         dialogo1.setTitle(getResources().getString(R.string.pref_important_alert));
         dialogo1.setMessage(getResources().getString(R.string.pref_error_312));
         dialogo1.setCancelable(false);
-        dialogo1.setPositiveButton(getResources().getString(R.string.pref_yes_alert), new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialogo1, int id) {
-                String url = "https://play.google.com/store/apps/details?id=com.google.android.gms";
-                Intent i = new Intent(Intent.ACTION_VIEW);
-                i.setData(Uri.parse(url));
-                startActivity(i);
-                finish();
-            }
+        dialogo1.setPositiveButton(getResources().getString(R.string.pref_yes_alert), (dialogo11, id) -> {
+            String url = "https://play.google.com/store/apps/details?id=com.google.android.gms";
+            Intent i = new Intent(Intent.ACTION_VIEW);
+            i.setData(Uri.parse(url));
+            startActivity(i);
+            finish();
         });
         AlertDialog dialog = dialogo1.create();
         dialog.show();
@@ -211,20 +205,17 @@ public class LoginActivity2 extends AppCompatActivity implements View.OnClickLis
 
         AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
         mAuth.signInWithCredential(credential)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            Log.d(TAG, "onComplete: firebaseAuth succesfull");
-                            FirebaseUser user = mAuth.getCurrentUser();
+                .addOnCompleteListener(this, task -> {
+                    if (task.isSuccessful()) {
+                        // Sign in success, update UI with the signed-in user's information
+                        Log.d(TAG, "onComplete: firebaseAuth succesfull");
+                        FirebaseUser user = mAuth.getCurrentUser();
 
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            Log.e(TAG, "onComplete: firebaseAuth fail");
-                            Toast.makeText(LoginActivity2.this, R.string.problema_sign_in,
-                                    Toast.LENGTH_SHORT).show();
-                        }
+                    } else {
+                        // If sign in fails, display a message to the user.
+                        Log.e(TAG, "onComplete: firebaseAuth fail"+task.getException().getMessage());
+                        Toast.makeText(LoginActivity2.this, R.string.problema_sign_in,
+                                Toast.LENGTH_SHORT).show();
                     }
                 });
     }
@@ -315,22 +306,19 @@ public class LoginActivity2 extends AppCompatActivity implements View.OnClickLis
     public void setUpObservableInteger(){
         observableInteger=new ObservableInteger();
         observableInteger.set(0);
-        observableInteger.setOnIntegerChangeListener(new ObservableInteger.OnIntegerChangeListener() {
-            @Override
-            public void onIntegerChanged(int newValue) {
-                if(observableInteger.get()==0) {
-                    Log.d(TAG, "onIntegerChanged: obsInt 0");
-                }
-                if (observableInteger.get() == 1){
-                    Log.d(TAG, "onIntegerChanged: obsInt 1");
-                }
-                if (observableInteger.get() == 2) {
-                    Log.d(TAG, "onIntegerChanged: obsInt 2");
-                    Log.d(TAG, "onIntegerChanged: Se bajo grupos");
-                    dialog.dismiss();
-                    animateTransition();
-                    // chequearArchivoSugerencias();
-                }
+        observableInteger.setOnIntegerChangeListener(newValue -> {
+            if(observableInteger.get()==0) {
+                Log.d(TAG, "onIntegerChanged: obsInt 0");
+            }
+            if (observableInteger.get() == 1){
+                Log.d(TAG, "onIntegerChanged: obsInt 1");
+            }
+            if (observableInteger.get() == 2) {
+                Log.d(TAG, "onIntegerChanged: obsInt 2");
+                Log.d(TAG, "onIntegerChanged: Se bajo grupos");
+                dialog.dismiss();
+                animateTransition();
+                // chequearArchivoSugerencias();
             }
         });
     }
@@ -378,30 +366,25 @@ public class LoginActivity2 extends AppCompatActivity implements View.OnClickLis
     }
 
     private void startmAuthListener() {
-        mAuthListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull final FirebaseAuth firebaseAuth) {
+        mAuthListener = firebaseAuth -> {
 
-                if(firebaseAuth.getCurrentUser()!=null) {
-                    Log.d(TAG, "onAuthStateChanged: currentUser not null");
-                    sharedPrefsDefault.edit().putString(getString(R.string.str_userMail), mAuth.getCurrentUser().getEmail()).apply();
-                    sharedPrefsDefault = getSharedPreferences(sharedPrefsDefault.getString(getString(R.string.str_userMail), "error"), Context.MODE_PRIVATE);
+            if(firebaseAuth.getCurrentUser()!=null) {
+                Log.d(TAG, "onAuthStateChanged: currentUser not null");
+                sharedPrefsDefault.edit().putString(getString(R.string.str_userMail), mAuth.getCurrentUser().getEmail()).apply();
+                sharedPrefsDefault = getSharedPreferences(sharedPrefsDefault.getString(getString(R.string.str_userMail), "error"), Context.MODE_PRIVATE);
 
-                    mBajarJsonFirebase = new BajarJsonFirebase(sharedPrefsDefault, mAuth, getApplicationContext());
-                    mBajarJsonFirebase.setInterfaz(LoginActivity2.this);
-                    locale = Locale.getDefault().getLanguage();
-                    new CloudFunctionHTTPRequest(LoginActivity2.this,TAG).doHTTPRequest("https://us-central1-ottaa-project.cloudfunctions.net/add2listwelcome");
-                    new BackgroundTask().execute();
-                    sharedPrefsDefault.edit().putBoolean("prediccion_usuario", false).apply();
-                    FirebaseDatabaseRequest request = new FirebaseDatabaseRequest(getApplicationContext());
-                    request.subirNombreUsuario(firebaseAuth);
-                    request.subirPago(firebaseAuth);
-                    request.subirEmail(firebaseAuth);
-                   /*Intent mainIntent = new Intent().setClass(LoginActivity.this, Principal.class);
-                    startActivity(mainIntent);*/
-
-                }
-
+                mBajarJsonFirebase = new BajarJsonFirebase(sharedPrefsDefault, mAuth, getApplicationContext());
+                mBajarJsonFirebase.setInterfaz(LoginActivity2.this);
+                locale = Locale.getDefault().getLanguage();
+                new CloudFunctionHTTPRequest(LoginActivity2.this,TAG).doHTTPRequest("https://us-central1-ottaa-project.cloudfunctions.net/add2listwelcome");
+                new BackgroundTask().execute();
+                sharedPrefsDefault.edit().putBoolean("prediccion_usuario", false).apply();
+                FirebaseDatabaseRequest request = new FirebaseDatabaseRequest(getApplicationContext());
+                request.subirNombreUsuario(firebaseAuth);
+                request.subirPago(firebaseAuth);
+                request.subirEmail(firebaseAuth);
+               /*Intent mainIntent = new Intent().setClass(LoginActivity.this, Principal.class);
+                startActivity(mainIntent);*/
 
             }
 

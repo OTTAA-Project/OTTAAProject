@@ -56,32 +56,32 @@ public class AsignTags {
         this.mArrayListTagsPorTipo = new ArrayList<>();
         this.arrayListTodosLosTags = new ArrayList<>();
 
-        String tags = "[{\"id\":379,\"texto\":{\"en\":\"Good morning\",\"es\":\"" + Horario.MANANA + "\"},\"tipo\":\"" + Constants.HORA + "\",\"imagen\":{\"picto\":\"ic_buenos_dias\"}}," +
-                "{\"id\":818,\"texto\":{\"en\":\"summer\",\"es\":\"" + Horario.MEDIODIA + "\"},\"tipo\":\"" + Constants.HORA + "\",\"imagen\":{\"picto\":\"verano\"}}," +
-                "{\"id\":380,\"texto\":{\"en\":\"Good afternoon\",\"es\":\"" + Horario.TARDE + "\"},\"tipo\":\"" + Constants.HORA + "\",\"imagen\":{\"picto\":\"ic_buenas_tardes\"}}," +
-                "{\"id\":381,\"texto\":{\"en\":\"Good night\",\"es\":\"" + Horario.NOCHE + "\"},\"tipo\":\"" + Constants.HORA + "\",\"imagen\":{\"picto\":\"ic_buenas_noches\"}}," +
-                "{\"id\":614,\"texto\":{\"en\":\"grandpa\",\"es\":\"" + Edad.ADULTO + "\"},\"tipo\":\"" + Constants.EDAD + "\",\"imagen\":{\"picto\":\"ic_abuelo\"}}," +
-                "{\"id\":195,\"texto\":{\"en\":\"young\",\"es\":\"" + Edad.JOVEN + "\"},\"tipo\":\"" + Constants.EDAD + "\",\"imagen\":{\"picto\":\"joven\"}}," +
-                "{\"id\":630,\"texto\":{\"en\":\"boy\",\"es\":\"" + Edad.NINO + "\"},\"tipo\":\"" + Constants.EDAD + "\",\"imagen\":{\"picto\":\"nino\"}}," +
-                "{\"id\":651,\"texto\":{\"en\":\"field\",\"es\":\"" + Posicion.ESTADIO + "\"},\"tipo\":\"" + Constants.UBICACION + "\",\"imagen\":{\"picto\":\"cancha\"}}," +
-                "{\"id\":653,\"texto\":{\"en\":\"square\",\"es\":\"" + Posicion.PARQUE + "\"},\"tipo\":\"" + Constants.UBICACION + "\",\"imagen\":{\"picto\":\"plaza\"}}," +
-                "{\"id\":1013,\"texto\":{\"en\":\"movie theater\",\"es\":\"" + Posicion.CINE + "\"},\"tipo\":\"" + Constants.UBICACION + "\",\"imagen\":{\"picto\":\"cine\"}}," +
-                "{\"id\":654,\"texto\":{\"en\":\"computer store\",\"es\":\"" + Posicion.TIENDA + "\"},\"tipo\":\"" + Constants.UBICACION + "\",\"imagen\":{\"picto\":\"tienda_de_informatica\"}}," +
+        String tags = "[{\"id\":379,\"texto\":{\"en\":\"Morning\",\"es\":\"" + Horario.MANANA + "\"},\"tipo\":\"" + Constants.HORA + "\",\"imagen\":{\"picto\":\"ic_buenos_dias\"}}," +
+                "{\"id\":818,\"texto\":{\"en\":\"Noon\",\"es\":\"" + Horario.MEDIODIA + "\"},\"tipo\":\"" + Constants.HORA + "\",\"imagen\":{\"picto\":\"verano\"}}," +
+                "{\"id\":380,\"texto\":{\"en\":\"Afternoon\",\"es\":\"" + Horario.TARDE + "\"},\"tipo\":\"" + Constants.HORA + "\",\"imagen\":{\"picto\":\"ic_buenas_tardes\"}}," +
+                "{\"id\":381,\"texto\":{\"en\":\"Night\",\"es\":\"" + Horario.NOCHE + "\"},\"tipo\":\"" + Constants.HORA + "\",\"imagen\":{\"picto\":\"ic_buenas_noches\"}}," +
+                "{\"id\":614,\"texto\":{\"en\":\"Grandpa\",\"es\":\"" + Edad.ADULTO + "\"},\"tipo\":\"" + Constants.EDAD + "\",\"imagen\":{\"picto\":\"ic_abuelo\"}}," +
+                "{\"id\":195,\"texto\":{\"en\":\"Young\",\"es\":\"" + Edad.JOVEN + "\"},\"tipo\":\"" + Constants.EDAD + "\",\"imagen\":{\"picto\":\"joven\"}}," +
+                "{\"id\":630,\"texto\":{\"en\":\"Boy\",\"es\":\"" + Edad.NINO + "\"},\"tipo\":\"" + Constants.EDAD + "\",\"imagen\":{\"picto\":\"nino\"}}," +
+                "{\"id\":651,\"texto\":{\"en\":\"Field\",\"es\":\"" + Posicion.ESTADIO + "\"},\"tipo\":\"" + Constants.UBICACION + "\",\"imagen\":{\"picto\":\"cancha\"}}," +
+                "{\"id\":653,\"texto\":{\"en\":\"Square\",\"es\":\"" + Posicion.PARQUE + "\"},\"tipo\":\"" + Constants.UBICACION + "\",\"imagen\":{\"picto\":\"plaza\"}}," +
+                "{\"id\":1013,\"texto\":{\"en\":\"Movie theater\",\"es\":\"" + Posicion.CINE + "\"},\"tipo\":\"" + Constants.UBICACION + "\",\"imagen\":{\"picto\":\"cine\"}}," +
+                "{\"id\":654,\"texto\":{\"en\":\"Computer store\",\"es\":\"" + Posicion.TIENDA + "\"},\"tipo\":\"" + Constants.UBICACION + "\",\"imagen\":{\"picto\":\"tienda_de_informatica\"}}," +
                 "{\"id\":687,\"texto\":{\"en\":\"Bar\",\"es\":\"" + Posicion.BAR + "\"},\"tipo\":\"" + Constants.UBICACION + "\",\"imagen\":{\"picto\":\"bar\"}}," +
-                "{\"id\":496,\"texto\":{\"en\":\"coffee\",\"es\":\"" + Posicion.CAFE + "\"},\"tipo\":\"" + Constants.UBICACION + "\",\"imagen\":{\"picto\":\"cafe\"}}," +
+                "{\"id\":496,\"texto\":{\"en\":\"Coffee\",\"es\":\"" + Posicion.CAFE + "\"},\"tipo\":\"" + Constants.UBICACION + "\",\"imagen\":{\"picto\":\"cafe\"}}," +
                 "{\"id\":685,\"texto\":{\"en\":\"Restaurant\",\"es\":\"" + Posicion.RESTAURANT + "\"},\"tipo\":\"" + Constants.UBICACION + "\",\"imagen\":{\"picto\":\"restaurante\"}}," +
-                "{\"id\":672,\"texto\":{\"en\":\"bakery\",\"es\":\"" + Posicion.PANADERIA + "\"},\"tipo\":\"" + Constants.UBICACION + "\",\"imagen\":{\"picto\":\"pan_blanco\"}}," +
-                "{\"id\":652,\"texto\":{\"en\":\"butchery\",\"es\":\"" + Posicion.CARNICERIA + "\"},\"tipo\":\"" + Constants.UBICACION + "\",\"imagen\":{\"picto\":\"carniceria\"}}," +
-                "{\"id\":698,\"texto\":{\"en\":\"greengrocery\",\"es\":\"" + Posicion.VERDULERIA + "\"},\"tipo\":\"" + Constants.UBICACION + "\",\"imagen\":{\"picto\":\"verduleria\"}}," +
-                "{\"id\":655,\"texto\":{\"en\":\"farmacy\",\"es\":\"" + Posicion.FARMACIA + "\"},\"tipo\":\"" + Constants.UBICACION + "\",\"imagen\":{\"picto\":\"ic_farmacia\"}}," +
-                "{\"id\":668,\"texto\":{\"en\":\"hospital\",\"es\":\"" + Posicion.HOSPITAL + "\"},\"tipo\":\"" + Constants.UBICACION + "\",\"imagen\":{\"picto\":\"hospital\"}}," +
-                "{\"id\":662,\"texto\":{\"en\":\"school\",\"es\":\"" + Posicion.ESCUELA + "\"},\"tipo\":\"" + Constants.UBICACION + "\",\"imagen\":{\"picto\":\"ic_escuela\"}}," +
-                "{\"id\":611,\"texto\":{\"en\":\"transportation\",\"es\":\"" + Posicion.ESTACIONDEBUS + "\"},\"tipo\":\"" + Constants.UBICACION + "\",\"imagen\":{\"picto\":\"transportes\"}}," +
-                "{\"id\":1033,\"texto\":{\"en\":\"woman\",\"es\":\"" + Sexo.FEMENINO + "\"},\"tipo\":\"" + Constants.SEXO + "\",\"imagen\":{\"picto\":\"mujer\"}}," +
-                 "{\"id\":1035,\"texto\":{\"en\":\"man\",\"es\":\"" + Sexo.MASCULINO + "\"},\"tipo\":\"" + Constants.SEXO + "\",\"imagen\":{\"picto\":\"hombre\"}}," +
-                 "{\"id\":1036,\"texto\":{\"en\":\"binary\",\"es\":\"" + Sexo.BINARIO + "\"},\"tipo\":\"" + Constants.SEXO + "\",\"imagen\":{\"picto\":\"hombre\"}}," +
-                 "{\"id\":1037,\"texto\":{\"en\":\"fluid\",\"es\":\"" + Sexo.FLUIDO + "\"},\"tipo\":\"" + Constants.SEXO + "\",\"imagen\":{\"picto\":\"hombre\"}}," +
-                "{\"id\":1038,\"texto\":{\"en\":\"others\",\"es\":\"" + Sexo.OTRO + "\"},\"tipo\":\"" + Constants.SEXO + "\",\"imagen\":{\"picto\":\"hombre\"}}]\n";
+                "{\"id\":672,\"texto\":{\"en\":\"Bakery\",\"es\":\"" + Posicion.PANADERIA + "\"},\"tipo\":\"" + Constants.UBICACION + "\",\"imagen\":{\"picto\":\"pan_blanco\"}}," +
+                "{\"id\":652,\"texto\":{\"en\":\"Butchery\",\"es\":\"" + Posicion.CARNICERIA + "\"},\"tipo\":\"" + Constants.UBICACION + "\",\"imagen\":{\"picto\":\"carniceria\"}}," +
+                "{\"id\":698,\"texto\":{\"en\":\"Greengrocery\",\"es\":\"" + Posicion.VERDULERIA + "\"},\"tipo\":\"" + Constants.UBICACION + "\",\"imagen\":{\"picto\":\"verduleria\"}}," +
+                "{\"id\":655,\"texto\":{\"en\":\"Farmacy\",\"es\":\"" + Posicion.FARMACIA + "\"},\"tipo\":\"" + Constants.UBICACION + "\",\"imagen\":{\"picto\":\"ic_farmacia\"}}," +
+                "{\"id\":668,\"texto\":{\"en\":\"Hospital\",\"es\":\"" + Posicion.HOSPITAL + "\"},\"tipo\":\"" + Constants.UBICACION + "\",\"imagen\":{\"picto\":\"hospital\"}}," +
+                "{\"id\":662,\"texto\":{\"en\":\"School\",\"es\":\"" + Posicion.ESCUELA + "\"},\"tipo\":\"" + Constants.UBICACION + "\",\"imagen\":{\"picto\":\"ic_escuela\"}}," +
+                "{\"id\":611,\"texto\":{\"en\":\"Transportation\",\"es\":\"" + Posicion.ESTACIONDEBUS + "\"},\"tipo\":\"" + Constants.UBICACION + "\",\"imagen\":{\"picto\":\"transportes\"}}," +
+                "{\"id\":1033,\"texto\":{\"en\":\"Woman\",\"es\":\"" + Sexo.FEMENINO + "\"},\"tipo\":\"" + Constants.SEXO + "\",\"imagen\":{\"picto\":\"mujer\"}}," +
+                 "{\"id\":1035,\"texto\":{\"en\":\"Man\",\"es\":\"" + Sexo.MASCULINO + "\"},\"tipo\":\"" + Constants.SEXO + "\",\"imagen\":{\"picto\":\"hombre\"}}," +
+                 "{\"id\":1036,\"texto\":{\"en\":\"Binary\",\"es\":\"" + Sexo.BINARIO + "\"},\"tipo\":\"" + Constants.SEXO + "\",\"imagen\":{\"picto\":\"hombre\"}}," +
+                 "{\"id\":1037,\"texto\":{\"en\":\"Fluid\",\"es\":\"" + Sexo.FLUIDO + "\"},\"tipo\":\"" + Constants.SEXO + "\",\"imagen\":{\"picto\":\"hombre\"}}," +
+                "{\"id\":1038,\"texto\":{\"en\":\"Others\",\"es\":\"" + Sexo.OTRO + "\"},\"tipo\":\"" + Constants.SEXO + "\",\"imagen\":{\"picto\":\"hombre\"}}]\n";
 
         arrayListTodosLosTags = JSONutils.stringToArrayList(tags);
 
@@ -243,7 +243,7 @@ public class AsignTags {
             try {
                 JSONArray jsonArray = new JSONArray();
                 for (int i = 0; i < mArrayListSelectedTAGS.size(); i++) {
-                    jsonArray.put(mArrayListSelectedTAGS.get(i).getJSONObject("texto").getString("es"));
+                    jsonArray.put(mArrayListSelectedTAGS.get(i).getJSONObject("texto").getString("en"));
                     Log.d(TAG, "guardarTags: " + jsonArray);
                 }
                 picto.put("tags", jsonArray);
@@ -256,6 +256,7 @@ public class AsignTags {
         }
 
     }
+
 
 
     public class ModificarTags extends AsyncTask<Void, Void, Boolean> {

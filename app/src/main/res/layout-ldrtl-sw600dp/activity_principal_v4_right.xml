@@ -8,7 +8,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
-
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="0dp"
+        android:layout_height="?attr/actionBarSize"
+        custom:layout_constraintStart_toStartOf="parent"
+        custom:layout_constraintEnd_toEndOf="parent"
+        custom:layout_constraintTop_toTopOf="parent"
+        android:background="@color/NaranjaOTTAA"
+        android:visibility="visible"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        android:titleTextAppearance="@color/White"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
 
 
     <HorizontalScrollView
@@ -17,7 +28,7 @@
         android:id="@+id/horizontalScrollView2"
         custom:layout_constraintStart_toStartOf="parent"
         custom:layout_constraintEnd_toEndOf="parent"
-        custom:layout_constraintTop_toTopOf="parent"
+        custom:layout_constraintTop_toBottomOf="@id/toolbar"
         custom:layout_constraintBottom_toTopOf="@id/constraintPictos"
         android:layout_marginStart="@dimen/activity_horizontal_margin"
         android:layout_marginEnd="@dimen/activity_horizontal_margin"
@@ -272,49 +283,6 @@
         custom:layout_constraintTop_toTopOf="@id/constraintPictos">
 
         <ImageButton
-
-            android:id="@+id/action_share"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_margin="10dp"
-            custom:layout_constraintTop_toTopOf="parent"
-            custom:layout_constraintBottom_toTopOf="@id/btnFavoritos"
-            custom:layout_constraintStart_toStartOf="parent"
-            custom:layout_constraintEnd_toEndOf="parent"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:scaleType="fitCenter"
-            android:src="@drawable/ic_share_black_24dp"
-            android:contentDescription="Delete one picto, press and hold to delete everything" />
-
-
-        <ImageButton
-            android:id="@+id/btnFavoritos"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_margin="10dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="Favorites"
-            android:scaleType="fitCenter"
-            android:src="@drawable/ic_favorite_black_24dp"
-            custom:layout_constraintBottom_toBottomOf="parent"
-            custom:layout_constraintEnd_toEndOf="parent"
-            custom:layout_constraintStart_toStartOf="parent"
-            custom:layout_constraintTop_toBottomOf="@id/action_share" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLeftButtons"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:background="@drawable/ic_shape_right_orange"
-        custom:layout_constraintStart_toStartOf="parent"
-        custom:layout_constraintBottom_toBottomOf="parent"
-        custom:layout_constraintTop_toTopOf="@id/constraintPictos"
-        custom:layout_constraintEnd_toStartOf="@id/containerBottomMasPictos"
-        android:layout_marginTop="120dp"
-        custom:layout_constraintHorizontal_weight="1">
-
-        <ImageButton
             android:id="@+id/action_reiniciar"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -345,6 +313,49 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLeftButtons"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/ic_shape_right_orange"
+        custom:layout_constraintStart_toStartOf="parent"
+        custom:layout_constraintBottom_toBottomOf="parent"
+        custom:layout_constraintTop_toTopOf="@id/constraintPictos"
+        custom:layout_constraintEnd_toStartOf="@id/containerBottomMasPictos"
+        android:layout_marginTop="120dp"
+        custom:layout_constraintHorizontal_weight="1">
+        <ImageButton
+
+            android:id="@+id/action_share"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="10dp"
+            custom:layout_constraintTop_toTopOf="parent"
+            custom:layout_constraintBottom_toTopOf="@id/btnFavoritos"
+            custom:layout_constraintStart_toStartOf="parent"
+            custom:layout_constraintEnd_toEndOf="parent"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_share_black_24dp"
+            android:contentDescription="Delete one picto, press and hold to delete everything" />
+
+
+        <ImageButton
+            android:id="@+id/btnFavoritos"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="10dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Favorites"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_favorite_black_24dp"
+            custom:layout_constraintBottom_toBottomOf="parent"
+            custom:layout_constraintEnd_toEndOf="parent"
+            custom:layout_constraintStart_toStartOf="parent"
+            custom:layout_constraintTop_toBottomOf="@id/action_share" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:id="@+id/containerBottomMasPictos"
@@ -364,10 +375,12 @@
             android:contentDescription="Here you find the gallery with all the pictograms"
             android:scaleType="fitCenter"
             android:src="@drawable/ic_view_day_black_24dp"
-            custom:layout_constraintStart_toStartOf="parent"
+
             custom:layout_constraintBottom_toBottomOf="parent"
+            custom:layout_constraintEnd_toEndOf="parent"
+            custom:layout_constraintStart_toEndOf="@id/btn_borrar"
             custom:layout_constraintTop_toTopOf="parent"
-            custom:layout_constraintEnd_toStartOf="@id/btn_borrar" />
+            />
 
 
         <ImageButton
@@ -378,10 +391,11 @@
             android:scaleType="fitCenter"
             android:src="@drawable/ic_backspace_black_24dp"
             android:tint="@color/White"
+            custom:layout_constraintStart_toStartOf="parent"
             custom:layout_constraintBottom_toBottomOf="parent"
-            custom:layout_constraintEnd_toEndOf="parent"
-            custom:layout_constraintStart_toEndOf="@id/btnMasPictos"
-            custom:layout_constraintTop_toTopOf="parent" />
+            custom:layout_constraintTop_toTopOf="parent"
+            custom:layout_constraintEnd_toStartOf="@id/btnMasPictos"
+            />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -465,14 +479,14 @@
         android:src="@drawable/ic_touch_app_black_24dp"
         custom:maxImageSize="@dimen/sizeFloattingButtonIconMed"
         android:backgroundTint="@color/color_blue_transparent"
-        custom:backgroundTint="@color/Black"
-        custom:borderWidth="2dp"
+        custom:backgroundTint="@color/Black"        custom:borderWidth="0dp"
         custom:layout_constraintStart_toStartOf="parent"
         custom:layout_constraintEnd_toEndOf="parent"
         custom:layout_constraintTop_toTopOf="parent" />
+
     <com.stonefacesoft.ottaa.utils.MovableFloatingActionButton
-        android:layout_width="@dimen/sizeAvatarButtonIconMed"
-        android:layout_height="@dimen/sizeAvatarButtonIconMed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:id="@+id/movableButton"
         custom:layout_constraintStart_toStartOf="parent"
         custom:layout_constraintBottom_toTopOf="@id/constraintLeftButtons"

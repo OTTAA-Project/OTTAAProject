@@ -91,6 +91,7 @@ import com.stonefacesoft.ottaa.Interfaces.SortPictogramsInterface;
 import com.stonefacesoft.ottaa.Interfaces.TTSListener;
 import com.stonefacesoft.ottaa.Interfaces.translateInterface;
 import com.stonefacesoft.ottaa.JSONutils.Json;
+import com.stonefacesoft.ottaa.JSONutils.Json0Recover;
 import com.stonefacesoft.ottaa.idioma.ConfigurarIdioma;
 import com.stonefacesoft.ottaa.idioma.myContextWrapper;
 import com.stonefacesoft.ottaa.utils.AboutOttaa;
@@ -716,6 +717,8 @@ public class Principal extends AppCompatActivity implements View
         }
     }
 
+
+
     @Override
     protected void onRestart() {
         super.onRestart();
@@ -912,10 +915,12 @@ public class Principal extends AppCompatActivity implements View
         Opcion2.setEnabled(true);
         Opcion3.setEnabled(true);
         Opcion4.setEnabled(true);
+
         if (json.getCantFallas() ==0)
             loadChilds(padre, alphaAnimation);
         if(json.getCantFallas()<4 && json.getCantFallas()>0)
             downloadFailedFile(3);
+
     }
 
 
@@ -1054,9 +1059,10 @@ public class Principal extends AppCompatActivity implements View
                 JSONutils.aumentarFrec(pictoPadre, opcion);
                 json.getmJSONArrayTodosLosPictos().put(pos, pictoPadre);
                 json.guardarJson(Constants.ARCHIVO_PICTOS);
+                json.setmJSONArrayTodosLosPictos(json.getmJSONArrayTodosLosPictos());
             }
         } catch (JSONException e) {
-            e.printStackTrace();
+            CrashlyticsUtils.getInstance().getCrashlytics().recordException(e.getCause());
         }
         sayPictogramName(JSONutils.getNombre(opcion, sharedPrefsDefault.getString(getResources().getString(R.string.str_idioma), "en")));
         pictoPadre = opcion;
@@ -1107,6 +1113,7 @@ public class Principal extends AppCompatActivity implements View
                     JSONutils.setJsonEditado2(json.getmJSONArrayTodosLosPictos(), pictoPadre);
                     if (!json.guardarJson(Constants.ARCHIVO_PICTOS))
                         Log.e(TAG, "onClick: Error al guardar pictos sugeridos");
+                    cargarMasPictos();
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -1357,13 +1364,14 @@ public class Principal extends AppCompatActivity implements View
                 break;
             case ConstantsMainActivity.CONFIG_SCREEN:
                 myTTS =textToSpeech.getInstance(this);
-                barridoPantalla.updateSharePrefs(sharedPrefsDefault).cambiarEstadoBarrido();
+                if(barridoPantalla != null)
+                    barridoPantalla.updateSharePrefs(sharedPrefsDefault).cambiarEstadoBarrido();
                 boolean isEnableScreenScanning = enableDisableScreenScanning();
                 editarPicto = sharedPrefsDefault.getBoolean(getString(R.string.str_editar_picto), true);
                 if (data != null && data.getExtras() != null) {
                     Bundle extras = data.getExtras();
-                    Log.d(TAG, "onActivityResult: Reiniciar: " + extras.getBoolean(getString(R.string.boolean_cambio_idioma), false));
                     if (extras.getBoolean(getString(R.string.boolean_cambio_idioma), false) || extras.getBoolean(getString(R.string.boolean_cambio_mano), false) || !isEnableScreenScanning) {
+                        json.setmJSONArrayTodosLosPictos(json.getmJSONArrayTodosLosPictos());
                         Reset();
                         prepareLayout();
                         recreate();
@@ -1537,7 +1545,13 @@ public class Principal extends AppCompatActivity implements View
                 }
             });
         } else {
-            btnBarrido.setVisibility(View.GONE);
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    // Stuff that updates the UI
+                    btnBarrido.setVisibility(View.GONE);
+                }
+            });
         }
         if (barridoPantalla.isBarridoActivado())
             editarPicto = false;
@@ -1992,25 +2006,34 @@ public class Principal extends AppCompatActivity implements View
     }
 
     private boolean enableDisableScreenScanning() {
+        Log.e(TAG, "enableDisableScreenScanning visibility: "+ btnBarrido.getVisibility() );
         if (!barridoPantalla.isBarridoActivado()) {
-            if (btnBarrido.getVisibility() == View.GONE)
+            if (btnBarrido.getVisibility() == View.GONE){
+                Log.e(TAG, "enableDisableScreenScanning visibility: "+ btnBarrido.getVisibility() );
                 return true;
+            }
+            else{
             runOnUiThread(new Runnable() {
 
                 @Override
                 public void run() {
                     // Stuff that updates the UI
+                    Log.e(TAG, "enableDisableScreenScanning visibility: "+ btnBarrido.getVisibility() );
                     btnBarrido.setVisibility(View.GONE);
                 }
             });
-            return false;
+                return false;
+            }
         } else if (barridoPantalla.isBarridoActivado() && btnBarrido.getVisibility() == View.GONE) {
             runOnUiThread(() -> {
                 // Stuff that updates the UI
+                Log.e(TAG, "enableDisableScreenScanning visibility: "+ btnBarrido.getVisibility() );
                 btnBarrido.setVisibility(View.VISIBLE);
+
             });
             return true;
         }
+
         return true;
     }
 
@@ -2023,6 +2046,7 @@ public class Principal extends AppCompatActivity implements View
         initPictograms();
         initAvatar();
         initTTS();
+        initBarrido();
         new initComponentsClass().execute();
 
     }
@@ -2309,20 +2333,18 @@ public class Principal extends AppCompatActivity implements View
     }
 
 
-    public void loadChilds(JSONObject padre, Animation alphaAnimation) {
+    public void loadChilds(JSONObject padre, Animation alphaAnimation){
             if(padre!= null){
                 json.cargarOpciones(padre, cuentaMasPictos,this);
             }
             else {
-                json.sumarFallas();
-                CargarOpciones(json,padre);
+                if(ConnectionDetector.isNetworkAvailable(getApplicationContext())){
+                    json.sumarFallas();
+                    CargarOpciones(json,padre);
+                }
             }
 
     }
-
-
-
-
 
     public void downloadFailedFile(int size) {
         getFirebaseDialog().setTitle(getApplicationContext().getResources().getString(R.string.edit_sync));
@@ -2476,7 +2498,7 @@ public class Principal extends AppCompatActivity implements View
             user.connectClient();
             initFirstPictograms();
             uploadFiles();
-            initBarrido();
+
             initPlaceImplementationClass();
             showMenu();
             if (TutoFlag) {
@@ -2497,13 +2519,31 @@ public class Principal extends AppCompatActivity implements View
             if (json.getmJSONArrayTodosLosPictos() != null && json.getmJSONArrayTodosLosPictos().length() > 0&& historial.getListadoPictos().isEmpty()) {
                 pictoPadre = json.getPictoFromId2(0);
             }
+            if(pictoPadre == null){
+                JSONObject object= new Json0Recover().createJson();
+                json.getmJSONArrayTodosLosPictos().put(object);
+                json.setmJSONArrayTodosLosPictos(json.getmJSONArrayTodosLosPictos());
+                json.guardarJson(Constants.ARCHIVO_PICTOS);
+                try {
+                    json.refreshJsonArrays();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                } catch (FiveMbException e) {
+                    e.printStackTrace();
+                }finally {
+                    pictoPadre =  json.getPictoFromId2(0);
+                }
+            }
             return null;
         }
 
         @Override
         protected void onPostExecute(Void unused) {
-            CargarOpciones(json, pictoPadre);   // y despues cargamos las opciones con el orden correspondiente
-            ResetSeleccion();
+            if (pictoPadre != null) {
+                CargarOpciones(json, pictoPadre);   // y despues cargamos las opciones con el orden correspondiente
+                ResetSeleccion();
+            }
+
         }
     }
 

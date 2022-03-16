@@ -83,7 +83,7 @@
         app:layout_constraintStart_toEndOf="@id/constraintLeftButtons"
         app:layout_constraintBottom_toTopOf="@id/containerBottomMasPictos"
         android:layout_marginTop="5dp"
-        android:layout_marginBottom="25dp"
+        android:layout_marginEnd="5dp"
         app:layout_constraintVertical_weight="5" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -105,7 +105,7 @@
             android:background="@drawable/ic_skip_next_black_24dp"
             android:scaleType="fitCenter"
             android:src="@drawable/ic_skip_next_black_24dp"
-            android:tint="@color/White"
+            app:tint="@color/White"
             app:layout_constraintBottom_toBottomOf="@id/constraintLeftButtons"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="@id/constraintLeftButtons"
@@ -134,8 +134,7 @@
             android:layout_height="0dp"
             android:background="@android:color/transparent"
             android:scaleType="fitCenter"
-            android:rotation="180"
-            android:src="@drawable/ic_skip_next_black_24dp"
+            android:src="@drawable/ic_skip_previous_black_24dp"
             android:tint="@color/White"
             app:layout_constraintBottom_toBottomOf="@id/constraintRightButtons"
             app:layout_constraintEnd_toEndOf="@id/constraintRightButtons"
@@ -271,7 +270,8 @@
         android:id="@+id/floatting_button"
         android:src="@drawable/ic_touch_app_black_24dp"
         app:maxImageSize="@dimen/sizeFloattingButtonIconMed"
-        android:backgroundTint="@color/colorBlackTrasnparent"
+        android:backgroundTint="@color/color_blue_transparent"
+        app:backgroundTint="@color/Black"
         app:borderWidth="0dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

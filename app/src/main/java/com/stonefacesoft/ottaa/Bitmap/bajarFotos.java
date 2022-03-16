@@ -4,6 +4,8 @@ package com.stonefacesoft.ottaa.Bitmap;
 import android.net.Uri;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
@@ -22,8 +24,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
-
-import androidx.annotation.NonNull;
 
 
 public class bajarFotos {
@@ -61,11 +61,18 @@ public class bajarFotos {
         mDatabase.child(Constants.FOTOS).child(uid.replace(" ","")).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                String urlPhoto=dataSnapshot.child("url_foto").getValue().toString();
-                String name=dataSnapshot.child("nombre_foto").getValue().toString();
-                Log.d(TAG, "onDataChange: "+ urlPhoto);
-                if(dataSnapshot!=null)
+                if(dataSnapshot!= null){
+                    String urlPhoto="";
+                    String name ="";
+                    if(dataSnapshot.hasChild("url_foto")) {
+                        dataSnapshot.child("url_foto").getValue().toString();
+                    }
+                    if(dataSnapshot.hasChild("nombre_foto"))
+                        name=dataSnapshot.child("nombre_foto").getValue().toString();
+                    Log.d(TAG, "onDataChange: "+ urlPhoto);
+                    if(!urlPhoto.isEmpty()&&!name.isEmpty())
                     downloadUserImages(urlPhoto,name);
+                }
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {

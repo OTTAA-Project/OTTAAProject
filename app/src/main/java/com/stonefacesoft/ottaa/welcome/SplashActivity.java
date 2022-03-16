@@ -231,17 +231,14 @@ public class SplashActivity extends Activity {
         public void execute(){
             Executor executor = Executors.newSingleThreadExecutor();
             Handler handler = new Handler(Looper.getMainLooper());
-            executor.execute(new Runnable() {
-                @Override
-                public void run() {
-                    borrarPictosViejos();
-                    handler.post(() -> {
-                        mProgressBar.setVisibility(View.GONE);
-                        Intent mainIntent = new Intent().setClass(SplashActivity.this, Principal.class);
-                        startActivity(mainIntent);
-                        finish();
-                    });
-                }
+            executor.execute(() -> {
+                borrarPictosViejos();
+                handler.post(() -> {
+                    mProgressBar.setVisibility(View.GONE);
+                    Intent mainIntent = new Intent().setClass(SplashActivity.this, Principal.class);
+                    startActivity(mainIntent);
+                    finish();
+                });
             });
         }
 
@@ -259,7 +256,7 @@ public class SplashActivity extends Activity {
                 } catch (JSONException | FiveMbException e) {
                     Log.e(TAG, "borrarPictosViejos: Error" + e.getMessage());
                 }
-                handler.post(() -> accessDashboard());
+                handler.post(SplashActivity.this::accessDashboard);
             });
         }
     }

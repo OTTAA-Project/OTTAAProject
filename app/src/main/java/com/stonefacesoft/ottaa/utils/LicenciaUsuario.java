@@ -92,7 +92,8 @@ public class LicenciaUsuario {
                 StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
                 StrictMode.setThreadPolicy(policy);
                 HttpClient httpclient = new DefaultHttpClient();
-                HttpResponse response = httpclient.execute(new HttpGet("https://google.com/"));
+                HttpGet httpGet = new HttpGet("https://google.com");
+                HttpResponse response = httpclient.execute(httpGet);
                 StatusLine statusLine = response.getStatusLine();
                 if (statusLine.getStatusCode() == HttpStatus.SC_OK) {
                     DateFormat df = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss z", Locale.ENGLISH);
@@ -160,11 +161,16 @@ public class LicenciaUsuario {
                                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                                             int result = horaActual.compareTo(tiempoPago + Constants.UN_ANIO);
-                                            if (result > 0 || dataSnapshot.child(Constants.PAGO).getValue().toString().contains("0")) {
+                                            if(dataSnapshot.hasChild(Constants.PAGO)){
+                                                if (result > 0 || dataSnapshot.child(Constants.PAGO).getValue().toString().contains("0")) {
+                                                    dataSnapshot.child(Constants.PAGO).getRef().setValue(0);
+                                                    cambiarEstadoPremium(0 + "");
+                                                } else if (dataSnapshot.child(Constants.PAGO).getValue().toString().contains("1")) {
+                                                    cambiarEstadoPremium(1 + "");
+                                                }
+                                            }else{
                                                 dataSnapshot.child(Constants.PAGO).getRef().setValue(0);
-                                                cambiarEstadoPremium(0 + "");
-                                            } else if (dataSnapshot.child(Constants.PAGO).getValue().toString().contains("1")) {
-                                                cambiarEstadoPremium(1 + "");
+                                                cambiarEstadoPremium(0+"");
                                             }
                                         }
 

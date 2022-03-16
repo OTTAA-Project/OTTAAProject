@@ -106,7 +106,7 @@
                 android:id="@+id/textoCompartir"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Texto"
+                android:text="@string/str_edit_text"
                 android:gravity="center"
                 android:textSize="20sp"
                 app:layout_constraintBottom_toBottomOf="parent"

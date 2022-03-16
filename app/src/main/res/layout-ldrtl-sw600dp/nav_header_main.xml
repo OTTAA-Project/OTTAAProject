@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:background="@drawable/dialog_round_shape_orange"
+    android:gravity="bottom"
+    android:orientation="vertical"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:theme="@style/ThemeOverlay.AppCompat.Dark">
+    <ImageView
+        android:id="@+id/avatarIconMain"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/imageView"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:contentDescription="@string/nav_header_desc"
+        android:paddingTop="@dimen/nav_header_vertical_spacing"
+        app:srcCompat="@drawable/ic_avatar35"
+        android:background="@android:color/transparent"
+        app:layout_constraintHorizontal_weight="2"
+        android:minWidth="50dp"
+        android:minHeight="50dp"
+        android:maxWidth="200dp"
+        android:maxHeight="200dp"
+        app:layout_constraintDimensionRatio="1:1"
+        android:layout_margin="0dp"
+        android:backgroundTint="@color/White"
+
+        />
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintStart_toEndOf="@id/avatarIconMain"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:contentDescription="@string/nav_header_desc"
+        android:paddingTop="@dimen/nav_header_vertical_spacing"
+        android:rotationY="180"
+        app:srcCompat="@drawable/logo_ottaa"
+        android:background="@android:color/transparent"
+        app:tint="@color/White"
+        app:layout_constraintHorizontal_weight="4"
+        />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

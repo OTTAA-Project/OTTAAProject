@@ -490,4 +490,8 @@
     <string name="BinaryUser">Binary</string>
     <string name="OtherUser">Other</string>
     <string name="createPhrasesAlert">" Please,  create a phrase and select the share button"</string>
+    <string name="account_type">Account Type:</string>
+    <string name="device_name">Device name:</string>
+    <string name="account_info">Account Info</string>
+    <string name="keep_your_ottaa_up_to_date">Keep your OTTAA up-to-date</string>
 </resources>

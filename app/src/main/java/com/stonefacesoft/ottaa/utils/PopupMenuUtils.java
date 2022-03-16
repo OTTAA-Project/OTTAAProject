@@ -6,12 +6,14 @@ import android.widget.PopupMenu;
 
 import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.utils.preferences.User;
+import com.stonefacesoft.pictogramslibrary.utils.ValidateContext;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
 public class PopupMenuUtils {
     public PopupMenuUtils(Context context, View view, PopupMenu.OnMenuItemClickListener listener){
+      if(ValidateContext.isValidContextFromGlide(context)){
         PopupMenu popupMenu = new PopupMenu(context, view);
         popupMenu.setOnMenuItemClickListener(listener);
         try {
@@ -34,5 +36,6 @@ public class PopupMenuUtils {
             popupMenu.getMenu().getItem(0).setIcon(R.drawable.ic_padlock);
         }
         popupMenu.show();
+      }
     }
 }

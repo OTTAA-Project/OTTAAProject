@@ -10,6 +10,7 @@ import com.stonefacesoft.ottaa.Prediction.Edad;
 import com.stonefacesoft.ottaa.Prediction.Horario;
 import com.stonefacesoft.ottaa.Prediction.Posicion;
 import com.stonefacesoft.ottaa.Prediction.Sexo;
+import com.stonefacesoft.ottaa.utils.Firebase.CrashlyticsUtils;
 import com.stonefacesoft.ottaa.utils.constants.Constants;
 
 import org.json.JSONArray;
@@ -301,6 +302,7 @@ public class JSONutils {
             }
         } catch (JSONException e) {
             e.printStackTrace();
+            CrashlyticsUtils.getInstance().getCrashlytics().recordException(e.getCause());
         }
     }
 
@@ -442,6 +444,7 @@ public class JSONutils {
      * @param jsonObjectAEditar pictogram or group to modify
      * */
     public static JSONArray setJsonEditado2(JSONArray arrayListAEditar, JSONObject jsonObjectAEditar) throws JSONException {
+
         for (int i = 0; i < arrayListAEditar.length(); i++) {
             JSONObject object = arrayListAEditar.getJSONObject(i);
             if (object.getInt("id") == jsonObjectAEditar.getInt("id")) {
@@ -451,6 +454,15 @@ public class JSONutils {
         }
         return arrayListAEditar;
     }
+
+    public static JSONArray setJsonEditado2Pictograms(JSONArray arrayListAEditar, JSONObject jsonObjectAEditar) throws JSONException {
+        int pos = getPositionPicto2(arrayListAEditar,getId(jsonObjectAEditar));
+        if(pos != -1)
+            arrayListAEditar.put(pos,jsonObjectAEditar);
+        return arrayListAEditar;
+    }
+
+
 
     public static double score(JSONObject json, boolean esSugerencia, String agenda, String sexo, String hora, String edad, String posicion) {
         int frec = 0, agendaUsuario = 0, gps = 0, horaDelDia = 0, id = 0, present = 0, sexoUsuario,
@@ -468,6 +480,7 @@ public class JSONutils {
 
         } catch (JSONException e) {
             e.printStackTrace();
+            CrashlyticsUtils.getInstance().getCrashlytics().recordException(e);
         }
 
         agendaUsuario = tieneAgenda(original, agenda);
@@ -485,10 +498,64 @@ public class JSONutils {
             horaDelDia = 0;
         }
 
+
         score = (frec * pesoFrec) + (agendaUsuario * pesoAgenda) + (gps * pesoGps) + (horaDelDia *
                 pesoHora) + (sexoUsuario * pesoSexo) + (edadUsuario * pesoEdad);
-        return score;
+
+        return returnScoreByHour(id,hora,score);
     }
+
+    public static double returnScoreByHour(int id,String horario,double score){
+        int[] value;
+        switch (id){
+            case 379:
+                value = getArrayPosition(getPositionByHour(horario));
+                if(value[0] == 1)
+                    return score;
+                else
+                    return 0;
+            case 380:
+                value = getArrayPosition(getPositionByHour(horario));
+                if(value[1] ==1)
+                    return score;
+                else
+                    return 0;
+            case 381:
+                value = getArrayPosition(getPositionByHour(horario));
+                if(value[2] ==1)
+                    return score;
+                else
+                    return 0;
+            default:
+                return score;
+        }
+    }
+
+    public static int getPositionByHour(String hour){
+        switch (hour){
+            case "MANANA":
+                return 0;
+            case "MEDIODIA":
+                return 1;
+            case "TARDE":
+                return 1;
+            case "NOCHE":
+                return 2;
+        }
+        return 0;
+    }
+
+    private static int[] getArrayPosition(int position){
+        int value[] = new int[3];
+        for (int i = 0; i <3 ; i++) {
+            if(i == position) {
+                value[i] = 1;
+            }
+        }
+        return value;
+    }
+
+
 
 //    public void setAgenda(JSONObject ob) {
 //        JSONArray arrayAgenda = new JSONArray();

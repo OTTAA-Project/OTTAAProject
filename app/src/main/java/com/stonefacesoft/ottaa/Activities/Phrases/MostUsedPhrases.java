@@ -65,7 +65,8 @@ public class MostUsedPhrases extends PhrasesView {
                 break;
             case R.id.btnTalk:
                 mAnalyticsFirebase.customEvents("Touch","MostUsedPhrases","Talk Action");
-                most_used_recycler_view.talkAtPosition();
+                if(most_used_recycler_view.getArray().length()>0)
+                    most_used_recycler_view.talkAtPosition();
                 break;
         }
     }

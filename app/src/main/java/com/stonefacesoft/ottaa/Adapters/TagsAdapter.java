@@ -5,13 +5,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.R;
+import com.stonefacesoft.ottaa.idioma.ConfigurarIdioma;
 import com.stonefacesoft.pictogramslibrary.view.PictoView;
 
 import org.json.JSONException;
@@ -71,7 +70,7 @@ public class TagsAdapter extends RecyclerView.Adapter<TagsAdapter.TagsViewHolder
 
         //Le ponemos los atributos a cada elemento, texto, imagen, tipo
         try {
-            holder.pictoView.setCustom_Texto(mArrayListElementos.get(position).getJSONObject("texto").getString("es"));
+            holder.pictoView.setCustom_Texto(mArrayListElementos.get(position).getJSONObject("texto").getString(getLanguage(ConfigurarIdioma.getLanguaje())));
             int id = mContext.getResources().getIdentifier(mArrayListElementos.get(position).getJSONObject("imagen").getString("picto"), "drawable", mContext.getPackageName());
             holder.pictoView.getImageView().setImageResource(id);
             //holder.mPictoImageView.setBackgroundColor(cargarColor(json.getTipo(mArrayListElementos.get(position))));
@@ -82,6 +81,17 @@ public class TagsAdapter extends RecyclerView.Adapter<TagsAdapter.TagsViewHolder
             e.printStackTrace();
         }
     }
+    private String getLanguage(String value){
+        switch (value){
+            case "es":
+                return value;
+            case "en":
+                return value;
+            default:
+                return "en";
+        }
+    }
+
 
     //Estos dos metodos si o si para que no se borre el elemento o se cambie (shuffle) de posicion cuando la view no es mas visible
     @Override
