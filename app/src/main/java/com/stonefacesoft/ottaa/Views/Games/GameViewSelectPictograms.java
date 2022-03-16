@@ -561,9 +561,14 @@ public class GameViewSelectPictograms extends AppCompatActivity implements View.
     public void onLowMemory() {
         super.onLowMemory();
         this.onTrimMemory(TRIM_MEMORY_RUNNING_LOW);
-        player.reset();
-        music.reset();
+        resetAudio(player);
+        resetAudio(music);
         Log.d(TAG, "onLowMemory: Trimming Memory");
+    }
+
+    public void resetAudio(MediaPlayerAudio audio){
+        if(audio!= null)
+            audio.reset();
     }
 
     public void playCorrectSound(){

@@ -91,6 +91,7 @@ import com.stonefacesoft.ottaa.Interfaces.SortPictogramsInterface;
 import com.stonefacesoft.ottaa.Interfaces.TTSListener;
 import com.stonefacesoft.ottaa.Interfaces.translateInterface;
 import com.stonefacesoft.ottaa.JSONutils.Json;
+import com.stonefacesoft.ottaa.JSONutils.Json0Recover;
 import com.stonefacesoft.ottaa.idioma.ConfigurarIdioma;
 import com.stonefacesoft.ottaa.idioma.myContextWrapper;
 import com.stonefacesoft.ottaa.utils.AboutOttaa;
@@ -914,10 +915,12 @@ public class Principal extends AppCompatActivity implements View
         Opcion2.setEnabled(true);
         Opcion3.setEnabled(true);
         Opcion4.setEnabled(true);
+
         if (json.getCantFallas() ==0)
             loadChilds(padre, alphaAnimation);
         if(json.getCantFallas()<4 && json.getCantFallas()>0)
             downloadFailedFile(3);
+
     }
 
 
@@ -2330,20 +2333,18 @@ public class Principal extends AppCompatActivity implements View
     }
 
 
-    public void loadChilds(JSONObject padre, Animation alphaAnimation) {
+    public void loadChilds(JSONObject padre, Animation alphaAnimation){
             if(padre!= null){
                 json.cargarOpciones(padre, cuentaMasPictos,this);
             }
             else {
-                json.sumarFallas();
-                CargarOpciones(json,padre);
+                if(ConnectionDetector.isNetworkAvailable(getApplicationContext())){
+                    json.sumarFallas();
+                    CargarOpciones(json,padre);
+                }
             }
 
     }
-
-
-
-
 
     public void downloadFailedFile(int size) {
         getFirebaseDialog().setTitle(getApplicationContext().getResources().getString(R.string.edit_sync));
@@ -2518,13 +2519,31 @@ public class Principal extends AppCompatActivity implements View
             if (json.getmJSONArrayTodosLosPictos() != null && json.getmJSONArrayTodosLosPictos().length() > 0&& historial.getListadoPictos().isEmpty()) {
                 pictoPadre = json.getPictoFromId2(0);
             }
+            if(pictoPadre == null){
+                JSONObject object= new Json0Recover().createJson();
+                json.getmJSONArrayTodosLosPictos().put(object);
+                json.setmJSONArrayTodosLosPictos(json.getmJSONArrayTodosLosPictos());
+                json.guardarJson(Constants.ARCHIVO_PICTOS);
+                try {
+                    json.refreshJsonArrays();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                } catch (FiveMbException e) {
+                    e.printStackTrace();
+                }finally {
+                    pictoPadre =  json.getPictoFromId2(0);
+                }
+            }
             return null;
         }
 
         @Override
         protected void onPostExecute(Void unused) {
-            CargarOpciones(json, pictoPadre);   // y despues cargamos las opciones con el orden correspondiente
-            ResetSeleccion();
+            if (pictoPadre != null) {
+                CargarOpciones(json, pictoPadre);   // y despues cargamos las opciones con el orden correspondiente
+                ResetSeleccion();
+            }
+
         }
     }
 

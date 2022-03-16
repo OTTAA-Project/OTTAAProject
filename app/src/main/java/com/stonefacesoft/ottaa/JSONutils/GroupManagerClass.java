@@ -6,7 +6,7 @@ import org.json.JSONArray;
  *
  * */
 public class GroupManagerClass {
-    private static volatile GroupManagerClass _GroupManagerClass;
+    private static GroupManagerClass _GroupManagerClass;
     private JSONArray mGroup;
 
     private GroupManagerClass(){
@@ -24,7 +24,6 @@ public class GroupManagerClass {
                 }
             }
         }
-
         return _GroupManagerClass;
     }
 

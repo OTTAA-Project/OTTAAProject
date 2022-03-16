@@ -81,7 +81,12 @@ public class MediaPlayerAudio implements MediaPlayer.OnPreparedListener {
     public void playOhOhSound() {
         player = MediaPlayer.create(mContext, R.raw.ohoh);
         complete = true;
-        player.setOnPreparedListener(this);
+        prepareListener();
+    }
+
+    public void prepareListener(){
+        if(player!=null)
+            player.setOnPreparedListener(this);
     }
 
     public void stop() {
@@ -92,9 +97,13 @@ public class MediaPlayerAudio implements MediaPlayer.OnPreparedListener {
     public void playMusic() {
         player = MediaPlayer.create(mContext, R.raw.funckygroove);
         playSound(true);
-        player.setLooping(true);
+        setLooping(true);
     }
 
+    public void setLooping(boolean value){
+        if(player != null)
+            player.setLooping(value);
+    }
     public void setVolumenAudio(float value) {
         audioLevel = value;
     }
@@ -143,7 +152,8 @@ public class MediaPlayerAudio implements MediaPlayer.OnPreparedListener {
     }
 
     public void reset() {
-        player.reset();
+        if(player!=null)
+            player.reset();
     }
 
 
