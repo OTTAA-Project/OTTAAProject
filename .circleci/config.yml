@@ -1,7 +1,7 @@
 version: 2.1
 orbs:
-  gradle: circleci/gradle@2.1.0
-  android: circleci/android@1.0.3
+  gradle: circleci/gradle@2.2.0
+  android: circleci/android@2.0.2
 
 workflows:
   main:

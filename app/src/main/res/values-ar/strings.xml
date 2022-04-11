@@ -495,5 +495,11 @@
     <string name="device_name">اسم الجهاز:</string>
     <string name="account_info">معلومات الحساب</string>
     <string name="keep_your_ottaa_up_to_date">حافظ على تحديث OTTAA الخاص بك</string>
+    <string name="Vocabulary">كلمات</string>
+    <string name="activity">نشاط</string>
+    <string name="pictograms_by_phrases_in_average">الرسوم التوضيحية بالعبارات في المتوسط</string>
+    <string name="created_phrases_in_the_last_7_days">خلق العبارات في الأيام السبعة الماضية</string>
+    <string name="ottaa_score_is_a_measure_of_the_app_s_general_use_using_data_such_as_the_use_of_the_last_days_and_the_average_pictograms_by_phrase">OTTAA-Score عبارة عن مقياس للاستخدام العام للتطبيق ، باستخدام بيانات مثل استخدام الأيام الأخيرة ومتوسط الصور التوضيحية حسب العبارة.</string>
+    <string name="most_used_groups">المجموعات الأكثر استخدامًا</string>
 
 </resources>
