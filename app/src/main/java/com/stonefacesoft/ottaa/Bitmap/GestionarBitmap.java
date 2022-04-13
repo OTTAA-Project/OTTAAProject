@@ -146,7 +146,7 @@ public class GestionarBitmap  {
         {
             try {
                 //si es temporal creo un archivo en la cache
-                imgs = File.createTempFile(nombre, ".jpg", mContext.getExternalCacheDir());
+                imgs = File.createTempFile(nombre, ".png", mContext.getCacheDir());
             } catch (IOException e) {
                 e.printStackTrace();
             }

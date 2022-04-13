@@ -1,5 +1,6 @@
 package com.stonefacesoft.ottaa.utils;
 
+
 import android.os.Handler;
 import android.view.GestureDetector;
 import android.view.MotionEvent;

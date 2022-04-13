@@ -812,6 +812,12 @@
     <string name="device_name">Device name:</string>
     <string name="account_info">Account Info</string>
     <string name="keep_your_ottaa_up_to_date">Keep your OTTAA up-to-date</string>
+    <string name="Vocabulary">Vocabulary</string>
+    <string name="activity">Activity</string>
+    <string name="pictograms_by_phrases_in_average">Pictograms by phrases in average</string>
+    <string name="created_phrases_in_the_last_7_days">Created Phrases in the last 7 days</string>
+    <string name="ottaa_score_is_a_measure_of_the_app_s_general_use_using_data_such_as_the_use_of_the_last_days_and_the_average_pictograms_by_phrase">OTTAA-Score is a measure of the app\'s general use, using data such as the use of the last days and the average pictograms by phrase.</string>
+    <string name="most_used_groups">Most used groups</string>
 
 
 </resources>

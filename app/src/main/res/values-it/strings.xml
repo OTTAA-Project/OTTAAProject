@@ -472,4 +472,10 @@
     <string name="device_name">Nome del dispositivo:</string>
     <string name="account_info">Informazioni sull\'account</string>
     <string name="keep_your_ottaa_up_to_date">Tieni aggiornato il tuo OTTAA</string>
+    <string name="Vocabulary">Vocabolario</string>
+    <string name="activity">Attività</string>
+    <string name="pictograms_by_phrases_in_average">Pittogrammi per frasi in media</string>
+    <string name="created_phrases_in_the_last_7_days">Frasi create negli ultimi sette giorni</string>
+    <string name="ottaa_score_is_a_measure_of_the_app_s_general_use_using_data_such_as_the_use_of_the_last_days_and_the_average_pictograms_by_phrase">L\'OTTAA-Score è una misura dell\'utilizzo generale dell\'app, utilizzando dati come l\'utilizzo degli ultimi giorni e la media dei pittogrammi per frase.</string>
+    <string name="most_used_groups">Gruppi più utilizzati</string>
 </resources>

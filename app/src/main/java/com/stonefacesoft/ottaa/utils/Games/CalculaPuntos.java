@@ -20,18 +20,28 @@ public class CalculaPuntos {
 
     }
 
+    /**
+     * Increment the correct value
+     * */
     public void sumarCantidadVecesCorrectas(){
         this.aciertos++;
     }
 
+    /**
+     * Increment the wrong value
+     * */
     public void sumarCantidVecesIncorretas(){
         this.desaciertos++;
     }
-
+    /**
+     * @return  Return an integer value. That value is the result to add two values.
+     * */
     private int calcularTotal(){
         return total= aciertos + desaciertos;
     }
-
+    /**
+     * @return  Return the average value of the correct answers.
+     * */
     public float calcularValor(){
         score=0;
         if(calcularTotal()==0) {
@@ -42,19 +52,29 @@ public class CalculaPuntos {
         return score;
     }
 
+    /**
+     * @param aciertos Correct answers
+     * */
     public void setAciertos(int aciertos) {
         this.aciertos = aciertos;
     }
-
+    /**
+     * @param desaciertos wrong answers
+     * */
     public void setDesaciertos(int desaciertos) {
         Log.d(TAG, "setDesaciertos: " + desaciertos);
         this.desaciertos = desaciertos;
     }
-
+    /**
+     * @param total All the tries.
+     * */
     public void setIntentos(int total) {
         this.total = total;
     }
 
+    /**
+     * @return Return the total of tries.
+     * */
     public int getIntentos(){
         calcularTotal();
         return total;
