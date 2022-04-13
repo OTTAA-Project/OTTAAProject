@@ -26,6 +26,9 @@
         <intent>
             <action android:name="android.media.action.IMAGE_CAPTURE" />
         </intent>
+        <intent>
+            <action android:name="android.intent.action.MEDIA_SHARED"/>
+        </intent>
     </queries>
     <application
 
@@ -242,6 +245,7 @@
             android:authorities="${applicationId}.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true"
+            android:forceUriPermissions="true"
             tools:replace="android:authorities"
             >
             <meta-data
