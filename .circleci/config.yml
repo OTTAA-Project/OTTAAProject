@@ -246,7 +246,7 @@ jobs:
   InstrumentationTest:
     <<: *android_config
     docker:
-      - image: cimg/android:2022.03
+      - image: circleci/android:api-29
         auth:
           username: $DOCKER_USER
           password: $DOCKER_PASSWORD
