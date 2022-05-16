@@ -101,7 +101,7 @@ public class LicenciaUsuario {
                     Date startDate = df.parse(dateStr);
                     dateStr = String.valueOf(startDate.getTime() / 1000);
                     Long horaActual = java.lang.Long.parseLong(dateStr);
-                    if(mAuth != null) {
+                    if(mAuth.getCurrentUser().getUid() != null) {
                         databaseReference.child(Constants.PAGO).child(mAuth.getCurrentUser().getUid()).addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

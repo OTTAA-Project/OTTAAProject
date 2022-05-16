@@ -42,6 +42,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.stonefacesoft.ottaa.Activities.Pictures.AvatarPictureCropper;
 import com.stonefacesoft.ottaa.FirebaseRequests.FirebaseUtils;
+import com.stonefacesoft.ottaa.utils.ActivityUtilsEstatus;
 import com.stonefacesoft.ottaa.utils.AvatarPackage.SelectedAvatar;
 import com.stonefacesoft.ottaa.utils.ConnectionDetector;
 import com.stonefacesoft.ottaa.utils.Firebase.AnalyticsFirebase;
@@ -67,17 +68,17 @@ public class LoginActivity2Avatar extends AppCompatActivity implements View.OnCl
     private final ValueEventListener firebaseEventListener = new ValueEventListener() {
         @Override
         public void onDataChange(@NonNull DataSnapshot snapshot) {
-            Context mContext = LoginActivity2Avatar.this;
+
             if (snapshot.hasChild("url_foto")) {
                 Log.d(TAG, "onDataChange:" + snapshot.child("url_foto").toString());
-                Glide.with(mContext).load(Uri.parse(snapshot.child("url_foto").getValue().toString())).into(imageViewAvatar);
+                Glide.with(getApplicationContext()).load(Uri.parse(snapshot.child("url_foto").getValue().toString())).into(imageViewAvatar);
             } else if (snapshot.exists()) {
                 String name = snapshot.getValue().toString();
                 Log.d(TAG, "onDataChange:" + name);
                 name = name.replace("avatar", "ic_avatar");
-                setAvatarByName(mContext, name);
+                setAvatarByName(name);
             } else {
-                setAvatarByName(mContext, "ic_avatar11");
+                setAvatarByName("ic_avatar11");
             }
         }
 
@@ -361,7 +362,7 @@ public class LoginActivity2Avatar extends AppCompatActivity implements View.OnCl
             childDatabase = FirebaseUtils.getInstance().getmDatabase().child(Constants.AVATAR).child(mAuth.getCurrentUser().getUid());
             childDatabase.addListenerForSingleValueEvent(firebaseEventListener);
         } else {
-            setAvatarByName(this, "ic_avatar11");
+            setAvatarByName("ic_avatar11");
         }
 
     }
@@ -369,9 +370,9 @@ public class LoginActivity2Avatar extends AppCompatActivity implements View.OnCl
     /**
      * this method shows the avatar picture on the ImageViewAvatar
      */
-    public void setAvatarByName(Context mContext, String name) {
-        Drawable drawable = mContext.getResources().getDrawable(mContext.getResources().getIdentifier(name, "drawable", mContext.getPackageName()));
-        Glide.with(mContext).load(drawable).into(imageViewAvatar);
+    public void setAvatarByName(String name) {
+        Drawable drawable = LoginActivity2Avatar.this.getResources().getDrawable(LoginActivity2Avatar.this.getResources().getIdentifier(name, "drawable", LoginActivity2Avatar.this.getPackageName()));
+        Glide.with(LoginActivity2Avatar.this).load(drawable).into(imageViewAvatar);
     }
 
 

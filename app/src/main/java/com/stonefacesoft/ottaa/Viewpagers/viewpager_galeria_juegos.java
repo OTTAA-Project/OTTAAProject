@@ -108,7 +108,6 @@ public class viewpager_galeria_juegos {
         public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
             super.onViewCreated(view, savedInstanceState);
             GameCard card=view.findViewById(R.id.card1);
-            //TODO Gonzalo esto esta creando de nuevo lo que se creo en MainJuegos
             switch (position) {
                 case 0:
                     card.prepareCardView( R.string.whichpictogram, R.string.which_description_name, R.drawable.whats_picto, createOnClickListener(mActivity, GameSelector.class, "notigames"));

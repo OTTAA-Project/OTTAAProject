@@ -247,8 +247,8 @@ public class ViewPager_Game_Grupo {
 
                 try {
                     GameGroup gameGroup=new GameGroup(array.getJSONObject(position), ConfigurarIdioma.getLanguaje());
-                    grupo.setUpContext(mActivity);
-                    grupo.setUpGlideAttatcher(mActivity);
+                    grupo.setUpContext(view.getContext());
+                    grupo.setUpGlideAttatcher(view.getContext());
                     grupo.setPictogramsLibraryGameGroup(gameGroup);
                     int levelId=json.getId(array.getJSONObject(position));
                     Juego juego=new Juego(mActivity,id,levelId);

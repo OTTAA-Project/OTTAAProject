@@ -265,15 +265,17 @@ public class WhichIsThePicto extends AppCompatActivity implements View
 
         //Puntaje
 
-
-        mTutorialFlag = sharedPrefsDefault.getBoolean("PrimerUsoJuegos", true);
-
-        animGameScore = new AnimGameScore(this, mAnimationWin);
-        function_scroll = new ScrollFuntionGames(this);
-        iniciarBarrido();
-        gameControl = new GameControl(this);
-        PrimerNivel();
-        hideView();
+        if(mJsonArrayTodosLosPictos.length()>4){
+            mTutorialFlag = sharedPrefsDefault.getBoolean("PrimerUsoJuegos", true);
+            animGameScore = new AnimGameScore(this, mAnimationWin);
+            function_scroll = new ScrollFuntionGames(this);
+            iniciarBarrido();
+            gameControl = new GameControl(this);
+            PrimerNivel();
+            hideView();
+        }else{
+            onBackPressed();
+        }
     }
 
     @Override
@@ -568,9 +570,6 @@ public class WhichIsThePicto extends AppCompatActivity implements View
         try {
             if (mJsonArrayTodosLosPictos.getJSONObject(position) != null) {
                 if (!JSONutils.getNombre(mJsonArrayTodosLosPictos.getJSONObject(position),sharedPrefsDefault.getString(getString(R.string.str_idioma), "en")).equals("")) {
-                 //   option.setCustom_Img(json.getIcono(mJsonArrayTodosLosPictos.getJSONObject(position)));
-                //    option.setCustom_Color(cargarColor(JSONutils.getTipo(mJsonArrayTodosLosPictos.getJSONObject(position))));
-              //      option.setCustom_Texto(JSONutils.getNombre(mJsonArrayTodosLosPictos.getJSONObject(position),sharedPrefsDefault.getString(getString(R.string.str_idioma), "en")));
                     option.setUpContext(this);
                     option.setUpGlideAttatcher(this);
                     option.setPictogramsLibraryPictogram(new Pictogram(mJsonArrayTodosLosPictos.getJSONObject(position), ConfigurarIdioma.getLanguaje()));
@@ -590,9 +589,8 @@ public class WhichIsThePicto extends AppCompatActivity implements View
             position = devolverValor(Math.round((float) Math.random() * mJsonArrayTodosLosPictos.length()),0);
             model.loadValue(pos, position);
             cargarDatosOpcion(position, option, pos);
-
         } finally {
-            if (pos == model.getValueIndex().length - 1) {
+            if (pos == model.getValueIndex().length-1) {
                 elegirGanador();
                 Seleccion1.setCustom_Img(getResources().getDrawable(R.drawable.agregar_picto_transp));
                 Log.d(TAG, "cargarDatosOpcion: " + viewGanador.getCustom_Texto());
