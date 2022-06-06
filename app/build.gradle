@@ -106,6 +106,7 @@ android {
         targetCompatibility 1.8
         sourceCompatibility 1.8
     }
+    namespace 'com.stonefacesoft.ottaa'
 
 }
 
@@ -243,8 +244,9 @@ dependencies {
     //Image Cropper
     implementation 'com.github.CanHub:Android-Image-Cropper:3.3.5'
     // pictograms library
-    implementation 'com.github.OTTAA-Project:PictogramsLibrary:0.1.9.23'
+    implementation 'com.github.OTTAA-Project:PictogramsLibrary:0.1.9.25'
     //Sendgrid integration
+    implementation 'com.android.volley:volley:1.2.1'
 }
 
 

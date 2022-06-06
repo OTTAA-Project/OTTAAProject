@@ -141,7 +141,7 @@ public class PhrasesAdapter extends RecyclerView.Adapter<PhrasesAdapter.PhraseAd
                                 }
                                 @Override
                                 public void loadPictograms(Bitmap bitmap) {
-                                    if(ValidateContext.isValidContextFromGlide(mContext))
+                                    if(ValidateContext.isValidContext(mContext))
                                      glideAttatcher.UseCornerRadius(true).loadDrawable(bitmap, mHolder.img);
                                 }
 

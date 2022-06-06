@@ -532,7 +532,7 @@ public class GameViewSelectPictograms extends AppCompatActivity implements View.
     }
     protected void setGuessDrawable(PictoView view){
         Drawable drawable=getDrawable(R.drawable.ic_help_outline_black_24dp);
-        if(ValidateContext.isValidContextFromGlide(this))
+        if(ValidateContext.isValidContext(this))
             new GlideAttatcher(this).setScale(4).UseCornerRadius(true).loadDrawable(drawable,view.getImageView());
     }
 

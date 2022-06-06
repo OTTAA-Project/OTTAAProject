@@ -13,7 +13,7 @@ import java.lang.reflect.Method;
 
 public class PopupMenuUtils {
     public PopupMenuUtils(Context context, View view, PopupMenu.OnMenuItemClickListener listener){
-      if(ValidateContext.isValidContextFromGlide(context)){
+      if(ValidateContext.isValidContext(context)){
         PopupMenu popupMenu = new PopupMenu(context, view);
         popupMenu.setOnMenuItemClickListener(listener);
         try {
