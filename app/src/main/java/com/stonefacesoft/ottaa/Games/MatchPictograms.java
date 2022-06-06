@@ -29,6 +29,9 @@ import com.stonefacesoft.ottaa.utils.JSONutils;
 import com.stonefacesoft.pictogramslibrary.view.PictoView;
 
 import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.lang.reflect.Array;
 
 public class MatchPictograms extends GameViewSelectPictograms {
 
@@ -51,29 +54,33 @@ public class MatchPictograms extends GameViewSelectPictograms {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        showDescription(getString(R.string.join_pictograms));
+        if(hijos.length()>4){
+            showDescription(getString(R.string.join_pictograms));
       //  mDefaultSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        model = new MatchPictogramsModel();
-        try {
-            setUpGame(1,json.getId(mjJsonArrayTodosLosGrupos.getJSONObject(mPositionPadre)));
-            game.setGamelevel(sharedPrefsDefault.getInt("MatchPictogramsLevel",0));
-            game.setMaxLevel(3);
-            game.setMaxStreak(16);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+            model = new MatchPictogramsModel();
+            try {
+                setUpGame(1,json.getId(mjJsonArrayTodosLosGrupos.getJSONObject(mPositionPadre)));
+                game.setGamelevel(sharedPrefsDefault.getInt("MatchPictogramsLevel",0));
+                game.setMaxLevel(3);
+                game.setMaxStreak(16);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
 
-        loadModel();
-        model.refreshValueIndex();
-        selectRandomOptions();
-        numeros.clear();
-        loadLevePictograms();
-        numeros.clear();
-        guess1.setCustom_Img(getDrawable(R.drawable.ic_help_outline_black_24dp));
-        guess2.setCustom_Img(getDrawable(R.drawable.ic_help_outline_black_24dp));
-        guess3.setCustom_Img(getDrawable(R.drawable.ic_help_outline_black_24dp));
-        guess4.setCustom_Img(getDrawable(R.drawable.ic_help_outline_black_24dp));
-        animGameScore = new AnimGameScore(this, mAnimationWin);
+            loadModel();
+            model.refreshValueIndex();
+            selectRandomOptions();
+            numeros.clear();
+            loadLevePictograms();
+            numeros.clear();
+            guess1.setCustom_Img(getDrawable(R.drawable.ic_help_outline_black_24dp));
+            guess2.setCustom_Img(getDrawable(R.drawable.ic_help_outline_black_24dp));
+            guess3.setCustom_Img(getDrawable(R.drawable.ic_help_outline_black_24dp));
+            guess4.setCustom_Img(getDrawable(R.drawable.ic_help_outline_black_24dp));
+            animGameScore = new AnimGameScore(this, mAnimationWin);
+        }else{
+            onBackPressed();
+        }
     }
 
 
@@ -171,28 +178,27 @@ public class MatchPictograms extends GameViewSelectPictograms {
     protected void cargarOpcion(int pos) {
         switch (pos) {
             case 0:
-                opcion1.setCustom_Img(json.getIcono(pictogramas[0]));
-                opcion1.setInvisibleCustomTexto();
-                opcion1.setCustom_Texto(JSONutils.getNombre(pictogramas[0], ConfigurarIdioma.getLanguaje()));
+                setIcon(opcion1,pictogramas[0]);
                 break;
             case 1:
-                opcion2.setCustom_Img(json.getIcono(pictogramas[1]));
-                opcion2.setInvisibleCustomTexto();
-                opcion2.setCustom_Texto(JSONutils.getNombre(pictogramas[1],ConfigurarIdioma.getLanguaje()));
+                setIcon(opcion2,pictogramas[1]);
                 break;
             case 2:
-                opcion3.setCustom_Img(json.getIcono(pictogramas[2]));
-                opcion3.setInvisibleCustomTexto();
-                opcion3.setCustom_Texto(JSONutils.getNombre(pictogramas[2],ConfigurarIdioma.getLanguaje()));
-
+                setIcon(opcion3,pictogramas[2]);
                 break;
             case 3:
-                opcion4.setCustom_Img(json.getIcono(pictogramas[3]));
-                opcion4.setInvisibleCustomTexto();
-                opcion4.setCustom_Texto(JSONutils.getNombre(pictogramas[3],ConfigurarIdioma.getLanguaje()));
+                setIcon(opcion4,pictogramas[3]);
                 break;
         }
 
+    }
+
+    public void setIcon(PictoView option, JSONObject object){
+        if(object!=null){
+            option.setCustom_Img(json.getIcono(object));
+            option.setInvisibleCustomTexto();
+            option.setCustom_Texto(JSONutils.getNombre(object,ConfigurarIdioma.getLanguaje()));
+        }
     }
 
     protected void cargarValores(int pos) {

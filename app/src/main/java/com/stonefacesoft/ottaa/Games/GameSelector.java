@@ -86,9 +86,7 @@ public class GameSelector extends AppCompatActivity implements View.OnClickListe
     @SuppressLint("ResourceType")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        /*Obtenemos extras del intent*/
         Intent intento = getIntent();
-        /*Quitamos la barra de navegacion y la ponemos en naranja y la default de ottaa*/
         boolean status_bar = intento.getBooleanExtra("status_bar", false);
         if (!status_bar) {
             supportRequestWindowFeature(Window.FEATURE_NO_TITLE);

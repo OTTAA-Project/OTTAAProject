@@ -246,8 +246,8 @@ public class viewpager_galeria_pictos {
             super.onViewCreated(view, savedInstanceState);
             picto1=view.findViewById(R.id.Option1);
             try {
-                picto1.setUpContext(mActivity);
-                picto1.setUpGlideAttatcher(mActivity);
+                picto1.setUpContext(view.getContext());
+                picto1.setUpGlideAttatcher(view.getContext());
                 JSONObject object = array.getJSONObject(position);
                 if(object != null)
                     picto1.setPictogramsLibraryPictogram(new Pictogram(object,ConfigurarIdioma.getLanguaje()));

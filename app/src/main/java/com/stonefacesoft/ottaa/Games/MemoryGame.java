@@ -24,6 +24,8 @@ import com.stonefacesoft.pictogramslibrary.view.PictoView;
 
 import org.json.JSONException;
 
+import java.util.Scanner;
+
 public class MemoryGame extends GameViewSelectPictograms {
 
 
@@ -34,21 +36,25 @@ public class MemoryGame extends GameViewSelectPictograms {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        showDescription(getString(R.string.memory_game));
-        model = new MemoryGameModelModel();
-        try {
-            setUpGame(2,json.getId(mjJsonArrayTodosLosGrupos.getJSONObject(mPositionPadre)));
-            game.setGamelevel(sharedPrefsDefault.getInt("MemoryGameLevel",0));
-            game.setMaxLevel(3);
-            game.setMaxStreak(30);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        if(hijos.length()>4){
+            showDescription(getString(R.string.memory_game));
+            model = new MemoryGameModelModel();
+            try {
+                setUpGame(2,json.getId(mjJsonArrayTodosLosGrupos.getJSONObject(mPositionPadre)));
+                game.setGamelevel(sharedPrefsDefault.getInt("MemoryGameLevel",0));
+                game.setMaxLevel(3);
+                game.setMaxStreak(30);
+            }catch (JSONException e) {
+                e.printStackTrace();
+            }
 
-        model = new MemoryGameModelModel();
-        changeLevel();
-        startGame();
-        animGameScore = new AnimGameScore(this, mAnimationWin);
+            model = new MemoryGameModelModel();
+            changeLevel();
+            startGame();
+            animGameScore = new AnimGameScore(this, mAnimationWin);
+        }else{
+            onBackPressed();
+        }
     }
 
     @Override
@@ -243,17 +249,14 @@ public class MemoryGame extends GameViewSelectPictograms {
     }
 
 
-    /**
-     *
-     */
-
-
     public void setOption(PictoView option, int row, int column) {
         try {
-            Log.d("TAG", "setOption: " + pictogramas[model.getMatrixIdPictogram()[row][column]].toString());
-            option.setCustom_Texto(pictogramas[model.getMatrixIdPictogram()[row][column]].getJSONObject("texto").getString(ConfigurarIdioma.getLanguaje()));
-        } catch (JSONException e) {
-            e.printStackTrace();
+            if(model.getMatrixIdPictogram().length>0){
+                int value = model.getMatrixIdPictogram()[row][column];
+                option.setCustom_Texto(pictogramas[value].getJSONObject("texto").getString(ConfigurarIdioma.getLanguaje()));
+            }
+        }catch (Exception ex){
+            ex.printStackTrace();
         }
         option.setVisibleText();
         option.setCustom_Img(json.getIcono(pictogramas[model.getMatrixIdPictogram()[row][column]]));
@@ -507,4 +510,6 @@ public class MemoryGame extends GameViewSelectPictograms {
         }
         return false;
     }
+
+
 }
