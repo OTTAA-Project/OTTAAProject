@@ -14,6 +14,7 @@ import com.stonefacesoft.ottaa.BuscarArasaac;
 import com.stonefacesoft.ottaa.Dialogos.DialogUtils.Progress_dialog_options;
 import com.stonefacesoft.ottaa.Helper.ItemTouchHelperAdapter;
 import com.stonefacesoft.ottaa.Helper.RecyclerItemClickListener;
+import com.stonefacesoft.ottaa.Interfaces.SearchAraasacPictogram;
 import com.stonefacesoft.ottaa.Interfaces.translateInterface;
 import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.idioma.ConfigurarIdioma;
@@ -199,12 +200,13 @@ public class FindAllPictograms_Recycler_View extends Custom_recyclerView impleme
         }
     }
 
-    private class HTTPRequest extends AsyncTask<Void, Void, Void> {
+    private class HTTPRequest extends AsyncTask<Void, Void, Void> implements SearchAraasacPictogram {
 
         //        private ProgressDialog progressDialog = new ProgressDialog(GaleriaArasaac.this);
         String texto;
 
         public HTTPRequest(String texto) {
+            buscarArasaac.setSearchAraasacPictogram(this);
             this.texto = texto;
         }
 
@@ -218,7 +220,7 @@ public class FindAllPictograms_Recycler_View extends Custom_recyclerView impleme
 
         @Override
         protected Void doInBackground(Void... voids) {
-            arasaac = buscarArasaac.HacerBusqueda(texto, ConfigurarIdioma.getLanguaje(), mActivity);
+            buscarArasaac.HacerBusqueda(texto, ConfigurarIdioma.getLanguaje(), mActivity);
             return null;
         }
 
@@ -258,6 +260,11 @@ public class FindAllPictograms_Recycler_View extends Custom_recyclerView impleme
                 progress_dialog_options.destruirDialogo();
         }
 
+        @Override
+        public void findPictograms(JSONObject value) {
+            arasaac = value;
+            onPostExecute(null);
+        }
     }
 
     public Progress_dialog_options getProgress_dialog_options() {

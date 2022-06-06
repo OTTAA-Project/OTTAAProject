@@ -75,7 +75,7 @@ public class CombineImages {
             if(imagen == null){
                 Drawable aux = nube;
                 try {
-                    if(pictoView.getGlideAttatcher() != null && ValidateContext.isValidContextFromGlide(context)) {
+                    if(pictoView.getGlideAttatcher() != null && ValidateContext.isValidContext(context)) {
                         pictoView.getGlideAttatcher().loadDrawable(Uri.parse(json.getJSONObject("imagen").getString("urlFoto")), pictoView.getImageView());
                     }
                     images.add(getOnlineImage(pictoView.getImageView().getDrawable(),nube));

@@ -81,6 +81,10 @@ public class gridViewAdapter extends ArrayAdapter {
         }
     }
 
+    public void setData1(ArrayList<JSONObject> data1) {
+        this.data1 = data1;
+    }
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View row = convertView;
@@ -246,8 +250,10 @@ public class gridViewAdapter extends ArrayAdapter {
         protected Void doInBackground(Void... voids) {
 //            texto = json.getNombre(data.get(mPosition));
             try {
-                if (data.size() > 0)
-                    img = drawableManager.fetchDrawable((String) data.get(mPosition).get("imagePNGURL"));
+                if (data.size() > 0){
+                    if(mPosition<data.size())
+                        img = drawableManager.fetchDrawable((String) data.get(mPosition).get("imagePNGURL"));
+                }
             } catch (JSONException e) {
                 e.printStackTrace();
             }

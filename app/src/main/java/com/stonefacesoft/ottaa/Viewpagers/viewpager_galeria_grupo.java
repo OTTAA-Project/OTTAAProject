@@ -226,7 +226,7 @@ public class viewpager_galeria_grupo {
             try {
                 SharedPreferences sharedPrefsDefault = PreferenceManager.getDefaultSharedPreferences(mActivity);
                 JSONObject aux = array.getJSONObject(position);
-                if(aux.has("imagen")&& ValidateContext.isValidContextFromGlide(mActivity)) {
+                if(aux.has("imagen")&& ValidateContext.isValidContext(mActivity)) {
                     Group group = new Group(aux, ConfigurarIdioma.getLanguaje());
                     grupo.setUpContext(mActivity);
                     grupo.setUpGlideAttatcher(mActivity);

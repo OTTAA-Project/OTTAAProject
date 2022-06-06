@@ -161,7 +161,6 @@ public class MemoryGame extends GameViewSelectPictograms {
                 setOption(guess4, 1, 3);
                 isCorrect(guess4);
                 speakOption(guess4);
-                //hacerClickOpcion(false);
                 break;
             case R.id.action_parar:
                 gamesSettings.enableSound(gamesSettings.changeStatus(gamesSettings.isSoundOn()));
