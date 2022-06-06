@@ -396,6 +396,8 @@ public class Principal extends AppCompatActivity implements View
             }
         });
         initComponents();
+        System.gc();
+
     }
 
     public void AlertCheckPlayService() {
@@ -1958,6 +1960,7 @@ public class Principal extends AppCompatActivity implements View
 
     private void galeriaGruposResult(Intent data) {
         if (data != null) {
+           //todo review here because the json can be null
             json.setmJSONArrayTodosLosPictos(json.getmJSONArrayTodosLosPictos());
             Bundle extras = data.getExtras();
             if (extras != null) {
