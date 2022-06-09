@@ -345,6 +345,7 @@ public class MemoryGame extends GameViewSelectPictograms {
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
         menu.getItem(2).setVisible(false);
+        menu.getItem(1).setVisible(false);
         return true;
     }
 
@@ -509,6 +510,8 @@ public class MemoryGame extends GameViewSelectPictograms {
         }
         return false;
     }
+
+
 
 
 }

@@ -210,14 +210,6 @@ public class FindAllPictograms_Recycler_View extends Custom_recyclerView impleme
             this.texto = texto;
         }
 
-        // can use UI thread here
-        protected void onPreExecute() {
-//            progressDialog = ProgressDialog.show(GaleriaArasaac.this, "", "Saving changes...",
-//                    true,false);
-//            progressDialog.setMessage(getResources().getString(R.string.pref_cargando_DB));
-//            progressDialog.show();
-        }
-
         @Override
         protected Void doInBackground(Void... voids) {
             buscarArasaac.HacerBusqueda(texto, ConfigurarIdioma.getLanguaje(), mActivity);

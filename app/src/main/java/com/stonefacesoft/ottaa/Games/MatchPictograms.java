@@ -368,14 +368,16 @@ public class MatchPictograms extends GameViewSelectPictograms {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        sharedPrefsDefault.edit().putInt("MatchPictogramsLevel",game.getGamelevel()).apply();
+        if(game!=null){
+            sharedPrefsDefault.edit().putInt("MatchPictogramsLevel",game.getGamelevel()).apply();
+            game.endUseTime();
+            game.guardarObjetoJson();
+            game.subirDatosJuegosFirebase();
+        }
         stopAudio();
         Intent databack = new Intent();
         setResult(3, databack);
         databack.putExtra("Boton", mPositionPadre);
-        game.endUseTime();
-        game.guardarObjetoJson();
-        game.subirDatosJuegosFirebase();
         this.finish();
 
     }
