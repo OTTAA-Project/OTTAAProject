@@ -252,7 +252,7 @@ public class ViewPager_Game_Grupo {
                     grupo.setPictogramsLibraryGameGroup(gameGroup);
                     int levelId=json.getId(array.getJSONObject(position));
                     Juego juego=new Juego(mActivity,id,levelId);
-                    Drawable drawable=juego.devolverCarita();
+                    Drawable drawable=juego.getSmiley();
                     drawable.setTint(mActivity.getResources().getColor(R.color.NaranjaOTTAA));
 
                     if(juego.getScoreClass().getIntentos()>=2)

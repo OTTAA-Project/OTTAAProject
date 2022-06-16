@@ -12,7 +12,6 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.stonefacesoft.ottaa.Bitmap.UriFiles;
-import com.stonefacesoft.ottaa.GaleriaArasaac;
 import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.utils.IntentCode;
 
@@ -127,14 +126,6 @@ public class DownloadTask extends AsyncTask<String, Integer, String> {
       return null;
    }
 
-//        @Override
-//        protected void onProgressUpdate(Integer... progress) {
-//            super.onProgressUpdate(progress);
-//            // if we get here, length is known, now set indeterminate to false
-//            mProgressDialog.setIndeterminate(false);
-//            mProgressDialog.setMax(100);
-//            mProgressDialog.setProgress(progress[0]);
-//        }
 
    @Override
    protected void onPostExecute(String result) {

@@ -144,7 +144,7 @@ public class GaleriaJuegosAdapter extends RecyclerView.Adapter <GaleriaJuegosAda
                             mHolder.mGameGroupView.setPictogramsLibraryGameGroup(new GameGroup(aux,ConfigurarIdioma.getLanguaje()));
                             int levelId=json.getId(json.getmJSONArrayTodosLosGrupos().getJSONObject(mPosition));
                             Juego juego=new Juego(mContext,id,levelId);
-                            Drawable drawable=juego.devolverCarita();
+                            Drawable drawable=juego.getSmiley();
                             drawable.setTint(mContext.getResources().getColor(R.color.NaranjaOTTAA));
                             if(juego.getScoreClass().getIntentos()>0)
                                 glideAttatcher.loadDrawable(drawable,mHolder.mGameGroupView.getKindOfPictogramImageView());

@@ -21,6 +21,7 @@ public class Grupo_Recycler_View_Sort extends Custom_recyclerView {
         array=json.getmJSONArrayTodosLosGrupos();
         arrayAux=json.getmJSONArrayTodosLosGrupos();
         createRecyclerLayoutManager();
+
     }
     public void cargarGrupo(){
 

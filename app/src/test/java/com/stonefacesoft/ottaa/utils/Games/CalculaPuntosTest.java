@@ -39,8 +39,8 @@ public class CalculaPuntosTest {
         calculaPuntos.sumarCantidadVecesCorrectas();
         calculaPuntos.sumarCantidadVecesCorrectas();
         calculaPuntos.sumarCantidVecesIncorretas();
-        System.out.println(calculaPuntos.calcularValor());
-        assertEquals(75.0,calculaPuntos.calcularValor(),0);
+        System.out.println(calculaPuntos.getResult());
+        assertEquals(75.0,calculaPuntos.getResult(),0);
     }
 
     @Test
@@ -74,7 +74,7 @@ public class CalculaPuntosTest {
         calculaPuntos.setIntentos(4);
         calculaPuntos.setAciertos(3);
         calculaPuntos.setDesaciertos(1);
-        calculaPuntos.calcularValor();
+        calculaPuntos.getResult();
         assertEquals(75,calculaPuntos.getScore(),0);
     }
 
@@ -97,7 +97,7 @@ public class CalculaPuntosTest {
         try {
             object.put("aciertos",calculaPuntos.getAciertos());
             object.put("desaciertos",calculaPuntos.getDesaciertos());
-            object.put("score",calculaPuntos.calcularValor());
+            object.put("score",calculaPuntos.getResult());
             object.put("intentos",calculaPuntos.getScore());
         } catch (JSONException e) {
             e.printStackTrace();

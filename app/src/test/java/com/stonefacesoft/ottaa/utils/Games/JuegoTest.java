@@ -1,6 +1,5 @@
 package com.stonefacesoft.ottaa.utils.Games;
 
-import com.stonefacesoft.ottaa.Games.WhichIsThePicto;
 import com.stonefacesoft.ottaa.R;
 
 import org.junit.Test;
@@ -15,13 +14,13 @@ public class JuegoTest {
     @Test
     public void testStartUseTime() {
         juego.startUseTime();
-        assertNotNull(juego.getReloj().getHorainicio());
+        assertNotNull(juego.getChronometer().getHorainicio());
     }
 
     @Test
     public void testEndUseTime() {
         juego.endUseTime();
-        assertNotNull(juego.getReloj().getHorafin());
+        assertNotNull(juego.getChronometer().getHorafin());
     }
 
     @Test
@@ -76,8 +75,8 @@ public class JuegoTest {
         juego.incrementWrong();
         juego.incrementWrong();
         juego.incrementWrong();
-        System.out.println(" Return face nº :"+juego.devolverCaritaInt());
-        assertEquals(juego.getSmiley(2),juego.devolverCaritaInt());
+        System.out.println(" Return face nº :"+juego.getSmileyInteger());
+        assertEquals(juego.getSmiley(2),juego.getSmileyInteger());
     }
 
     public void testGetObject() {
@@ -92,7 +91,7 @@ public class JuegoTest {
     }
 
     public void testGetReloj() {
-        assertNotNull(juego.getReloj());
+        assertNotNull(juego.getChronometer());
     }
 
     public void testAgregarDatosConsulta() {

@@ -827,7 +827,6 @@ public class prefs extends PreferenceActivity implements SharedPreferences.OnSha
                     if (value != null)
                         sharedPrefsDefault.edit().putInt(preferences, Integer.parseInt(value)).apply();
                 }
-
             }
         }).ShowDialog();
 

@@ -1,15 +1,10 @@
 package com.stonefacesoft.ottaa;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
-import android.os.PowerManager;
 import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -27,7 +22,6 @@ import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.MenuItemCompat;
 
-import com.stonefacesoft.ottaa.Bitmap.UriFiles;
 import com.stonefacesoft.ottaa.Interfaces.SearchAraasacPictogram;
 import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.utils.ConnectionDetector;
@@ -38,17 +32,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.text.SimpleDateFormat;
+
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
+
 
 //import android.widget.SearchView;
 
@@ -85,7 +71,6 @@ public class GaleriaArasaac extends AppCompatActivity implements SearchView.OnQu
         pictosDelGrupo = new ArrayList<>();
         Json.getInstance().setmContext(this);
         json = Json.getInstance();
-
         //Implemento el manejador de preferencias
         sharedPrefsDefault = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         buscarArasaac = new BuscarArasaac();
@@ -188,7 +173,6 @@ public class GaleriaArasaac extends AppCompatActivity implements SearchView.OnQu
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == IntentCode.EDITARPICTO.getCode()) {
             openIntent();

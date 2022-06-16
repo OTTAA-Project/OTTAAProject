@@ -246,8 +246,9 @@ public class JSONutils {
 
     public static void setEdad(JSONObject ob, Edad edad) {
         JSONArray arrayEdad = new JSONArray();
+        System.out.println(ob.toString());
         try {
-            if (ob.getJSONArray(Constants.EDAD) != null) {
+            if (ob.has(Constants.EDAD)) {
                 arrayEdad = ob.getJSONArray(Constants.EDAD);
             }
         } catch (JSONException e) {
@@ -264,7 +265,7 @@ public class JSONutils {
     public static void setClima(JSONObject ob, Clima clima) {
         JSONArray arrayClima = new JSONArray();
         try {
-            if (ob.getJSONArray(Constants.CLIMA) != null) {
+            if (ob.has(Constants.CLIMA)) {
                 arrayClima = ob.getJSONArray(Constants.CLIMA);
             }
         } catch (JSONException e) {

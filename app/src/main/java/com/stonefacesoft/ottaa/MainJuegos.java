@@ -213,7 +213,6 @@ public class MainJuegos extends AppCompatActivity implements View.OnClickListene
         }
     }
 
-
     @Override
     public void OnClickBarrido() {
         if(function_scroll.isClickEnabled()&&barridoPantalla.getmListadoVistas().get(barridoPantalla.getPosicionBarrido()).getId()==R.id.btnTodosLosPictos)

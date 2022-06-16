@@ -1149,13 +1149,13 @@ public class Json  {
         try {
             return mJSonArrayJuegos.getJSONObject(0).getJSONObject(idGame + "").getJSONObject(leveId + "");
         } catch (JSONException e) {
-            e.printStackTrace();
+            return null;
         }
-        return null;
     }
 
     public JSONObject getObjectPuntaje(JSONObject object) {
         try {
+            if(object.has("puntaje"))
             return object.getJSONObject("puntaje");
         } catch (JSONException e) {
             e.printStackTrace();

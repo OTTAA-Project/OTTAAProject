@@ -6,12 +6,12 @@ import android.os.Message;
 import android.util.Log;
 import android.widget.ImageView;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
+import com.android.volley.toolbox.ImageLoader;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,6 +21,7 @@ import java.util.Map;
 public class DrawableManager {
     private final Map<String, Drawable> drawableMap;
     private final String TAG="DrawableManager";
+    private ImageLoader imageLoader;
 
     public DrawableManager() {
         drawableMap = new HashMap<String, Drawable>();
@@ -41,7 +42,7 @@ public class DrawableManager {
                         + drawable.getIntrinsicHeight() + "," + drawable.getIntrinsicWidth() + ", "
                         + drawable.getMinimumHeight() + "," + drawable.getMinimumWidth());
             } else {
-                Log.w(TAG, "could not get thumbnail");
+                Log.d(TAG, "could not get thumbnail");
             }
 
             return drawable;
@@ -51,34 +52,12 @@ public class DrawableManager {
         }
     }
 
-    public void fetchDrawableOnThread(final String urlString, final ImageView imageView) {
-        if (drawableMap.containsKey(urlString)) {
-            imageView.setImageDrawable(drawableMap.get(urlString));
-        }
 
-        final Handler handler = new Handler() {
-            @Override
-            public void handleMessage(Message message) {
-                imageView.setImageDrawable((Drawable) message.obj);
-            }
-        };
-
-        Thread thread = new Thread() {
-            @Override
-            public void run() {
-
-                Drawable drawable = fetchDrawable(urlString);
-                Message message = handler.obtainMessage(1, drawable);
-                handler.sendMessage(message);
-            }
-        };
-        thread.start();
-    }
 
     private InputStream fetch(String urlString) throws IOException {
-        DefaultHttpClient httpClient = new DefaultHttpClient();
-        HttpGet request = new HttpGet(urlString);
-        HttpResponse response = httpClient.execute(request);
-        return response.getEntity().getContent();
+        URL url = new URL(urlString);
+        HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+        urlConnection.connect();
+        return urlConnection.getInputStream();
     }
 }

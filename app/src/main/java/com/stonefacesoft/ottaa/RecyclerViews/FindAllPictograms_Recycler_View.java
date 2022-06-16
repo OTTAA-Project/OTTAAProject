@@ -239,7 +239,6 @@ public class FindAllPictograms_Recycler_View extends Custom_recyclerView impleme
                         picto.setType(tipo);
                         picto.setId((int) System.currentTimeMillis());
                         arrayAux.put(arrayAux.length(), picto.toJsonObject());
-                        //  array.put(array.length(),(JSONObject) jsonArray.get(i));
                     }
                     onPictosFiltrados();
                 }

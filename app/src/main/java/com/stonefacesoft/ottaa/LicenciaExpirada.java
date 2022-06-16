@@ -80,7 +80,6 @@ public class LicenciaExpirada extends AppCompatActivity implements SharedPrefere
         Button mLoginActivityBtn = findViewById(R.id.btnLoginActivity);
         remoteConfigUtils = RemoteConfigUtils.getInstance();
 
-
         mSignOutButton = findViewById(R.id.mSignOutBtn);
         mSignOutButton.setClickable(true);
         mSignOutButton.setEnabled(false);
@@ -97,8 +96,6 @@ public class LicenciaExpirada extends AppCompatActivity implements SharedPrefere
                                 LicenciaExpirada.this, LoginActivity2.class);
                         startActivity(mainIntent);
                         finish();
-
-
                     }
                 });
             }
@@ -117,13 +114,9 @@ public class LicenciaExpirada extends AppCompatActivity implements SharedPrefere
         mLoginActivityBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
                 Intent mainIntent = new Intent().setClass(LicenciaExpirada.this, Principal.class);
                 startActivity(mainIntent);
                 finish();
-
-
             }
         });
         mLicenciaBtn.setOnClickListener(new View.OnClickListener() {
@@ -149,22 +142,14 @@ public class LicenciaExpirada extends AppCompatActivity implements SharedPrefere
 
                     }
                 });
-
-
                 // Note the Chooser below. If no applications match,
                 // Android displays a system message.So here there is no need for try-catch.
-
             }
         });
 
         mDatabase.child("Usuarios").child(mAuth.getCurrentUser().getUid()).child("UConexion").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-
-
-//                Actual = java.lang.Long.parseLong(dataSnapshot.getValue().toString());
-//                SimpleDateFormat formatter = new SimpleDateFormat("EEEE, MMMM d, yyyy ");
-//                String dateString = formatter.format(new Date(Actual * 1000L));
                     remoteConfigUtils.setActivateDeactivateConfig(LicenciaExpirada.this, new OnCompleteListener<Boolean>() {
                         @Override
                         public void onComplete(@NonNull Task<Boolean> task) {
@@ -177,7 +162,6 @@ public class LicenciaExpirada extends AppCompatActivity implements SharedPrefere
                             }
                         }
                     });
-
             }
 
             @Override
@@ -225,16 +209,13 @@ public class LicenciaExpirada extends AppCompatActivity implements SharedPrefere
     }
 
     class RemindTask extends TimerTask {
-
         @Override
         public void run() {
-
             // As the TimerTask run on a seprate thread from UI thread we have
             // to call runOnUiThread to do work on UI thread.
             runOnUiThread(new Runnable() {
                 public void run() {
-
-                    if (funcion > 3) { // In my case the number of pages are 5
+                    if (funcion > 3) { // In my case the number of pages are 4
                         funcion = 0;
                     } else {
                         viewPager.setCurrentItem(funcion++);

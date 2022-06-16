@@ -3,7 +3,6 @@ package com.stonefacesoft.ottaa.Games;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.InputDevice;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -19,12 +18,9 @@ import com.stonefacesoft.ottaa.Views.Games.GameViewSelectPictograms;
 import com.stonefacesoft.ottaa.idioma.ConfigurarIdioma;
 import com.stonefacesoft.ottaa.utils.Games.AnimGameScore;
 import com.stonefacesoft.ottaa.utils.Games.Juego;
-import com.stonefacesoft.ottaa.utils.JSONutils;
 import com.stonefacesoft.pictogramslibrary.view.PictoView;
 
 import org.json.JSONException;
-
-import java.util.Scanner;
 
 public class MemoryGame extends GameViewSelectPictograms {
 
@@ -83,84 +79,46 @@ public class MemoryGame extends GameViewSelectPictograms {
     protected void cargarOpcion(int pos) {
         switch (pos) {
             case 0:
-                opcion1.setCustom_Img(json.getIcono(pictogramas[0]));
-                opcion1.setCustom_Texto(JSONutils.getNombre(pictogramas[0],sharedPrefsDefault.getString(getString(R.string.str_idioma), "en")));
-                opcion1.setInvisibleCustomTexto();
+                hideText(opcion1,pictogramas[0]);
                 break;
             case 1:
-                opcion2.setCustom_Img(json.getIcono(pictogramas[1]));
-                opcion2.setCustom_Texto(JSONutils.getNombre(pictogramas[1],sharedPrefsDefault.getString(getString(R.string.str_idioma), "en")));
-                opcion1.setInvisibleCustomTexto();
+                hideText(opcion2,pictogramas[1]);
                 break;
             case 2:
-
-                opcion3.setCustom_Img(json.getIcono(pictogramas[2]));
-                opcion3.setCustom_Texto(JSONutils.getNombre(pictogramas[2],sharedPrefsDefault.getString(getString(R.string.str_idioma), "en")));
-                opcion1.setInvisibleCustomTexto();
+                hideText(opcion2,pictogramas[2]);
                 break;
             case 3:
-                opcion4.setCustom_Img(json.getIcono(pictogramas[3]));
-                opcion4.setCustom_Texto(JSONutils.getNombre(pictogramas[3],sharedPrefsDefault.getString(getString(R.string.str_idioma), "en")));
-                opcion1.setInvisibleCustomTexto();
+                hideText(opcion3,pictogramas[3]);
                 break;
         }
-
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.Option1:
-
-                setOption(opcion1, 0, 0);
-                lastPosicion = 0;
-                isCorrect(opcion1);
-                speakOption(opcion1);
+                selectOption(opcion1,0,0,0);
                 break;
             case R.id.Option2:
-
-                setOption(opcion2, 0, 1);
-                lastPosicion = 1;
-                isCorrect(opcion2);
-                speakOption(opcion2);
-                //hacerClickOpcion(true);
+                selectOption(opcion2,0,0,1);
                 break;
             case R.id.Option3:
-                setOption(opcion3, 0, 2);
-                lastPosicion = 2;
-                isCorrect(opcion3);
-                speakOption(opcion3);
-                //hacerClickOpcion(true);
+                selectOption(opcion3,0,0,2);
                 break;
             case R.id.Option4:
-                setOption(opcion4, 0, 3);
-                lastPosicion = 3;
-                isCorrect(opcion4);
-                speakOption(opcion4);
-                //hacerClickOpcion(true);
+                selectOption(opcion4,0,0,3);
                 break;
             case R.id.Guess1:
-                setOption(guess1, 1, 0);
-                isCorrect(guess1);
-                speakOption(guess1);
-                //hacerClickOpcion(false);
+                selectGuessOption(guess1,1,0);
                 break;
             case R.id.Guess2:
-                setOption(guess2, 1, 1);
-                isCorrect(guess2);
-                speakOption(guess2);
-                //hacerClickOpcion(false);
+                selectGuessOption(guess2,1,1);
                 break;
             case R.id.Guess3:
-                setOption(guess3, 1, 2);
-                isCorrect(guess3);
-                speakOption(guess3);
-                //hacerClickOpcion(false);
+                selectGuessOption(guess3,1,2);
                 break;
             case R.id.Guess4:
-                setOption(guess4, 1, 3);
-                isCorrect(guess4);
-                speakOption(guess4);
+                selectGuessOption(guess4,1,3);
                 break;
             case R.id.action_parar:
                 gamesSettings.enableSound(gamesSettings.changeStatus(gamesSettings.isSoundOn()));
@@ -172,11 +130,11 @@ public class MemoryGame extends GameViewSelectPictograms {
         }
     }
 
-    protected void animarPictoGanador(PictoView from, PictoView to) {
+    protected void animateWinnerPictogram(PictoView from, PictoView to) {
 
     }
 
-    protected void hacerClickOpcion(boolean esPicto) {
+    protected void makeClickOption(boolean esPicto) {
         if (gamesSettings.isHelpFunction())
             handlerHablar.postDelayed(animarHablar, 1000);
 
@@ -185,21 +143,23 @@ public class MemoryGame extends GameViewSelectPictograms {
     @Override
     protected void esCorrecto(boolean esPicto) {
         super.esCorrecto(esPicto);
-
     }
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        sharedPrefsDefault.edit().putInt("MemoryGameLevel",game.getGamelevel()).apply();
+
         player.stop();
         music.stop();
         Intent databack = new Intent();
         databack.putExtra("Boton", mPositionPadre);
         setResult(3, databack);
-        game.endUseTime();
-        game.guardarObjetoJson();
-        game.subirDatosJuegosFirebase();
+        if(game!=null) {
+            sharedPrefsDefault.edit().putInt("MemoryGameLevel", game.getGamelevel()).apply();
+            game.endUseTime();
+            game.saveJsonObjects();
+            game.uploadFirebaseGameData();
+        }
         this.finish();
     }
 
@@ -293,22 +253,14 @@ public class MemoryGame extends GameViewSelectPictograms {
         model.resetHistory();
         selectRandomOptions();
         model.addRandomIndex();
-        setGuessDrawable(guess1);
-        setGuessDrawable(guess2);
-        setGuessDrawable(guess3);
-        setGuessDrawable(guess4);
-        setGuessDrawable(opcion1);
-        setGuessDrawable(opcion2);
-        setGuessDrawable(opcion3);
-        setGuessDrawable(opcion4);
-        setInvisibleText(guess1);
-        setInvisibleText(guess2);
-        setInvisibleText(guess3);
-        setInvisibleText(guess4);
-        setInvisibleText(opcion1);
-        setInvisibleText(opcion2);
-        setInvisibleText(opcion3);
-        setInvisibleText(opcion4);
+        hidePictogramText(guess1);
+        hidePictogramText(guess2);
+        hidePictogramText(guess3);
+        hidePictogramText(guess4);
+        hidePictogramText(opcion1);
+        hidePictogramText(opcion2);
+        hidePictogramText(opcion3);
+        hidePictogramText(opcion4);
         showGuessItem();
     }
 
@@ -432,26 +384,6 @@ public class MemoryGame extends GameViewSelectPictograms {
         model.createArray();
     }
 
-    public void showGuessItem(){
-        switch (game.getGamelevel()){
-            case 0:
-                opcion3.setVisibility(View.INVISIBLE);
-                opcion4.setVisibility(View.INVISIBLE);
-                guess3.setVisibility(View.INVISIBLE);
-                guess4.setVisibility(View.INVISIBLE);
-                break;
-            case 1:
-                opcion3.setVisibility(View.VISIBLE);
-                guess3.setVisibility(View.VISIBLE);
-                opcion4.setVisibility(View.INVISIBLE);
-                guess4.setVisibility(View.INVISIBLE);
-                break;
-            case 2:
-                opcion4.setVisibility(View.VISIBLE);
-                guess4.setVisibility(View.VISIBLE);
-                break;
-        }
-    }
 
     @Override
     protected void speakOption(PictoView option) {
@@ -460,19 +392,19 @@ public class MemoryGame extends GameViewSelectPictograms {
     }
 
     @Override
-    protected void bloquearOpcionPictograma(int opc, PictoView btn) {
+    protected void lockPictogramOption(int opc, PictoView btn) {
         switch (opc){
             case 0:
-                animarPictoGanador(opcion1, btn);
+                animateWinnerPictogram(opcion1, btn);
                 break;
             case 1:
-                animarPictoGanador(opcion2, btn);
+                animateWinnerPictogram(opcion2, btn);
                 break;
             case 2:
-                animarPictoGanador(opcion3, btn);
+                animateWinnerPictogram(opcion3, btn);
                 break;
             case 3:
-                animarPictoGanador(opcion4, btn);
+                animateWinnerPictogram(opcion4, btn);
                 break;
         }
     }
@@ -511,7 +443,17 @@ public class MemoryGame extends GameViewSelectPictograms {
         return false;
     }
 
+    private void selectOption(PictoView option,int position,int row,int column){
+        setOption(option, row, column);
+        lastPosicion = position;
+        isCorrect(option);
+        speakOption(option);
+    }
 
-
+    private void selectGuessOption(PictoView pictoView,int row,int column){
+        setOption(pictoView, row, column);
+        isCorrect(pictoView);
+        speakOption(pictoView);
+    }
 
 }

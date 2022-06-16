@@ -34,6 +34,7 @@ public class Picto_Recycler_view extends Custom_recyclerView {
 
     public Picto_Recycler_view(AppCompatActivity mActivity, FirebaseAuth mAuth) {
         super(mActivity, mAuth);
+
     }
 
 
@@ -63,6 +64,8 @@ public class Picto_Recycler_view extends Custom_recyclerView {
         galeriaPictos2.notifyDataSetChanged();
         mRecyclerView.invalidate();
     }
+
+
     /**
      * this method set up the visibility around a recycler view
      *

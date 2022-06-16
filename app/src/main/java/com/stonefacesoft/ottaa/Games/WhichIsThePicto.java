@@ -288,8 +288,8 @@ public class WhichIsThePicto extends AppCompatActivity implements View
             Log.e(TAG, "onBackPressed: Error al guardar grupos ");
 
         game.endUseTime();
-        game.guardarObjetoJson();
-        game.subirDatosJuegosFirebase();
+        game.saveJsonObjects();
+        game.uploadFirebaseGameData();
 
         handlerHablar.removeCallbacks(animarHablar);
         decirPicto.removeCallbacks(talkGanador);
@@ -464,7 +464,7 @@ public class WhichIsThePicto extends AppCompatActivity implements View
         if (Acerto) {
             game.incrementCorrect();
             game.incrementTimesRight();
-            Drawable drawable = game.devolverCarita();
+            Drawable drawable = game.getSmiley();
             drawable.setTint(getResources().getColor(R.color.colorWhite));
             mMenu.getItem(0).setIcon(drawable).setVisible(true);
             if (game.isChangeLevel()) {
@@ -475,7 +475,7 @@ public class WhichIsThePicto extends AppCompatActivity implements View
         } else {
             game.incrementWrong();
 
-            Drawable drawable = game.devolverCarita();
+            Drawable drawable = game.getSmiley();
             drawable.setTint(getResources().getColor(R.color.colorWhite));
             mMenu.getItem(0).setIcon(drawable).setVisible(true);
 
@@ -484,7 +484,7 @@ public class WhichIsThePicto extends AppCompatActivity implements View
     }
 
     private double getPuntaje() {
-        return game.getScoreClass().calcularValor();
+        return game.getScoreClass().getResult();
     }
 
 
@@ -763,7 +763,7 @@ public class WhichIsThePicto extends AppCompatActivity implements View
     private void setMenuScoreIcon() {
         Drawable drawable = null;
         if (game != null)
-            drawable = game.devolverCarita();
+            drawable = game.getSmiley();
         if (game.getScore() == 0) {
             drawable = getResources().getDrawable(R.drawable.ic_sentiment_very_satisfied_white_24dp);
         }

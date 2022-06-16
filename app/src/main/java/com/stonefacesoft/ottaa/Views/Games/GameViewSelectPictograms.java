@@ -27,6 +27,7 @@ import androidx.appcompat.widget.Toolbar;
 import com.stonefacesoft.ottaa.Interfaces.Make_Click_At_Time;
 import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.R;
+import com.stonefacesoft.ottaa.idioma.ConfigurarIdioma;
 import com.stonefacesoft.ottaa.utils.Accesibilidad.BarridoPantalla;
 import com.stonefacesoft.ottaa.utils.Accesibilidad.devices.GameControl;
 import com.stonefacesoft.ottaa.utils.Accesibilidad.scrollActions.ScrollFuntionGames;
@@ -36,6 +37,7 @@ import com.stonefacesoft.ottaa.utils.Firebase.AnalyticsFirebase;
 import com.stonefacesoft.ottaa.utils.Games.AnimGameScore;
 import com.stonefacesoft.ottaa.utils.Games.GamesSettings;
 import com.stonefacesoft.ottaa.utils.Games.Juego;
+import com.stonefacesoft.ottaa.utils.JSONutils;
 import com.stonefacesoft.ottaa.utils.textToSpeech;
 import com.stonefacesoft.pictogramslibrary.utils.GlideAttatcher;
 import com.stonefacesoft.pictogramslibrary.utils.ValidateContext;
@@ -171,12 +173,12 @@ public class GameViewSelectPictograms extends AppCompatActivity implements View.
     /**
      * This method enables the pictograms in a determined moment
      * */
-    protected void habilitarPictoGrama(PictoView picto,boolean esBoton) {
+    protected void enablePictogram(PictoView picto, boolean isButton) {
         picto.setEnabled(true);
         picto.setAlpha(1f);
         picto.setVisibility(View.VISIBLE);
-        animarPictoReset(picto);
-        if(esBoton)
+        animatePictoAndReset(picto);
+        if(isButton)
             picto.setInvisibleCustomTexto();
     }
 
@@ -303,35 +305,35 @@ public class GameViewSelectPictograms extends AppCompatActivity implements View.
 
 
 
-    public void reiniciar(){
+    public void reset(){
 
     }
 
-    protected void bloquearOpcionPictograma(int opc, PictoView btn){
+    protected void lockPictogramOption(int opc, PictoView btn){
 
     }
 
-    protected void hacerClickOpcion(boolean esPicto){
+    protected void makeClickOption(boolean esPicto){
     }
 
     protected void speakOption(PictoView option){
         player.pauseAudio();
     }
-    protected void reiniciarLeccion(){
+    protected void restartLection(){
 
     }
 
     protected void cargarPuntos(){
-        game.getScoreClass().calcularValor();
+        game.getScoreClass().getResult();
         drawImageAtPosition();
     }
 
     //Anima el picto correctamente seleccionado
-    protected void animarPictoGanador(PictoView from, PictoView to) {
+    protected void animateWinnerPictogram(PictoView from, PictoView to) {
 
     }
 
-    protected void animarPictoReset(PictoView picto) {
+    protected void animatePictoAndReset(PictoView picto) {
 
         TranslateAnimation animation = new TranslateAnimation(0, 0, 0, 0);
         animation.setRepeatMode(0);
@@ -349,19 +351,12 @@ public class GameViewSelectPictograms extends AppCompatActivity implements View.
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-
         //la variable temporal galeria grupos se la usa para modificar puntaje
-
     }
 
     protected int GetPosicionLastButton(){
         return 0;
     }
-
-
-
-
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -402,7 +397,7 @@ public class GameViewSelectPictograms extends AppCompatActivity implements View.
     }
 
     protected void drawImageAtPosition(){
-        Drawable drawable=game.devolverCarita();
+        Drawable drawable=game.getSmiley();
         drawable.setTint(getResources().getColor(R.color.colorWhite));
         mMenu.getItem(0).setIcon(drawable);
     }
@@ -476,10 +471,6 @@ public class GameViewSelectPictograms extends AppCompatActivity implements View.
         }else{
             btnBarrido.setVisibility(View.GONE);
         }
-
-
-
-
     }
 
 
@@ -590,7 +581,7 @@ public class GameViewSelectPictograms extends AppCompatActivity implements View.
     protected void setMenuScoreIcon(){
         Drawable drawable=null;
         if (game != null)
-            drawable=game.devolverCarita();
+            drawable=game.getSmiley();
         if (game.getScore() == 0) {
             drawable = getResources().getDrawable(R.drawable.ic_sentiment_very_satisfied_white_24dp);
         }
@@ -617,5 +608,41 @@ public class GameViewSelectPictograms extends AppCompatActivity implements View.
         music.stop();
         player.stop();
     }
+
+    protected void setVisibilityOptionsAndGuess(PictoView view1,PictoView view2,int visibility){
+        view1.setVisibility(visibility);
+        view2.setVisibility(visibility);
+    }
+
+    protected void showGuessItem(){
+        switch (game.getGamelevel()){
+            case 0:
+                setVisibilityOptionsAndGuess(opcion3,guess3,View.INVISIBLE);
+                setVisibilityOptionsAndGuess(opcion4,guess4,View.INVISIBLE);
+                break;
+            case 1:
+                setVisibilityOptionsAndGuess(opcion3,guess3,View.VISIBLE);
+                setVisibilityOptionsAndGuess(opcion4,guess4,View.INVISIBLE);
+                break;
+            case 2:
+                setVisibilityOptionsAndGuess(opcion4,guess4,View.VISIBLE);
+                break;
+        }
+    }
+
+    public void hideText(PictoView option, JSONObject object){
+        if(object!=null){
+            option.setCustom_Img(json.getIcono(object));
+            option.setInvisibleCustomTexto();
+            option.setCustom_Texto(JSONutils.getNombre(object, ConfigurarIdioma.getLanguaje()));
+        }
+    }
+
+    public void hidePictogramText(PictoView option){
+        setGuessDrawable(option);
+        setInvisibleText(option);
+    }
+
+
 
 }

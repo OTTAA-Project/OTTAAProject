@@ -121,19 +121,8 @@ public class gridViewAdapter extends ArrayAdapter {
               }
 
 
-       }}/*else
-        {
-
-            color = 0xFF0000FF; // Opaque Blue
-
-        }*/
-
-
-
-
-//        new CargarRow(position, holder).execute();
-        // vvvvvvvvvveeeeeeeeeeeeeerrrrrrrrrrrrrrrr http://lucasr.org/2012/04/05/performance-tips-for-androids-listview/
-        if(esInet)
+       }}
+       if(esInet)
         {
             try {
                 new CargarRow(position, holder).execute();
@@ -149,7 +138,6 @@ public class gridViewAdapter extends ArrayAdapter {
             holder.pictoView.setCustom_Color(cargarColor(JSONutils.getWordType(data.get(position))));
 
         }
-//        }
         return row;
     }
 
@@ -248,7 +236,6 @@ public class gridViewAdapter extends ArrayAdapter {
 
         @Override
         protected Void doInBackground(Void... voids) {
-//            texto = json.getNombre(data.get(mPosition));
             try {
                 if (data.size() > 0){
                     if(mPosition<data.size())
@@ -266,7 +253,6 @@ public class gridViewAdapter extends ArrayAdapter {
          */
         protected void onPostExecute(final Void unused) {
             if (mHolder.position == mPosition) {
-//                mHolder.imageTitle.setText(texto);
                 glideAttatcher.loadDrawable(img,mHolder.pictoView.getImageView());
             }
         }
@@ -299,4 +285,6 @@ public class gridViewAdapter extends ArrayAdapter {
         }
         notifyDataSetChanged();
     }
+
+
 }

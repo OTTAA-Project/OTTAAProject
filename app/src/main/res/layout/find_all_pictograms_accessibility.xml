@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/FondoApp"
+    tools:mContext="com.stonefacesoft.ottaa.GaleriaGrupos2">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/NaranjaOTTAA"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        android:titleTextAppearance="@color/White"
+        app:layout_constraintBottom_toTopOf="@id/linearContainer"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_weight="1"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <Button
+        android:id="@+id/btnBarrido"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@android:color/transparent"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar" />
+
+    <LinearLayout
+        android:id="@+id/linearContainer"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@id/containerBottomMasPictos"
+        app:layout_constraintEnd_toStartOf="@id/constraintRightButtons"
+        app:layout_constraintStart_toEndOf="@id/constraintLeftButtons"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:layout_constraintVertical_weight="5"
+        android:layout_marginBottom="5dp"
+        >
+
+        <TextView
+            android:id="@+id/textoCargandoGrupos"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/button_radius"
+            android:text="@string/estamos_cargando_sus_grupos"
+            android:textStyle="bold"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/textoCargandoPictos"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/button_radius"
+            android:text="@string/estamos_cargando_sus_pictos"
+            android:textStyle="bold"
+            android:visibility="gone" />
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
+            android:visibility="gone" />
+        <include
+            layout="@layout/findallpictograms"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintTop_toBottomOf="@id/toolbar"
+            app:layout_constraintEnd_toStartOf="@id/constraintRightButtons"
+            app:layout_constraintStart_toEndOf="@id/constraintLeftButtons"
+            app:layout_constraintBottom_toTopOf="@id/containerBottomMasPictos"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="25dp"
+            app:layout_constraintVertical_weight="5" />
+
+    </LinearLayout>
+
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLeftButtons"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="250dp"
+        android:background="@drawable/ic_shape_left_orange"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/containerBottomMasPictos"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageButton
+            android:id="@+id/up_button"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/ic_skip_next_black_24dp"
+            android:rotation="180"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_skip_next_black_24dp"
+            android:tint="@color/White"
+            app:layout_constraintBottom_toBottomOf="@id/constraintLeftButtons"
+            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintEnd_toEndOf="@id/constraintLeftButtons"
+            app:layout_constraintStart_toStartOf="@id/constraintLeftButtons"
+            app:layout_constraintTop_toTopOf="@id/constraintLeftButtons" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintRightButtons"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="250dp"
+        android:background="@drawable/ic_shape_right_orange"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toEndOf="@id/containerBottomMasPictos"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageButton
+            android:id="@+id/down_button"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@android:color/transparent"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_skip_next_black_24dp"
+            android:tint="@color/White"
+            app:layout_constraintBottom_toBottomOf="@id/constraintRightButtons"
+            app:layout_constraintEnd_toEndOf="@id/constraintRightButtons"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@id/constraintRightButtons"
+            app:layout_constraintTop_toTopOf="@id/constraintRightButtons"
+            app:layout_constraintVertical_bias="0.0" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:id="@+id/containerBottomMasPictos"
+        android:background="@drawable/ic_shape_bottom_orange"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/constraintRightButtons"
+        app:layout_constraintHorizontal_weight="6"
+        app:layout_constraintStart_toEndOf="@id/constraintLeftButtons"
+        app:layout_constraintTop_toBottomOf="@id/linearContainer"
+        app:layout_constraintVertical_weight="1"
+
+        >
+
+        <ImageButton
+            android:id="@+id/back_button"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@android:color/transparent"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_cancel_black_24dp"
+            android:tint="@color/White"
+            android:rotation="180"
+            app:layout_constraintBottom_toBottomOf="@id/containerBottomMasPictos"
+            app:layout_constraintEnd_toStartOf="@id/edit_button"
+            app:layout_constraintStart_toStartOf="@id/containerBottomMasPictos"
+            app:layout_constraintTop_toTopOf="@id/containerBottomMasPictos"
+
+            />
+
+        <ImageButton
+            android:id="@+id/edit_button"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@android:color/transparent"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_edit_white_24dp"
+            android:tint="@color/White"
+            app:layout_constraintBottom_toBottomOf="@id/containerBottomMasPictos"
+            app:layout_constraintEnd_toEndOf="@id/containerBottomMasPictos"
+            app:layout_constraintStart_toEndOf="@id/back_button"
+            app:layout_constraintTop_toTopOf="@id/containerBottomMasPictos"
+
+            app:layout_constraintVertical_bias="0.0" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ImageView
+        android:id="@+id/cornerImageViewLeft"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginBottom="12dp"
+        android:rotation="180"
+        android:scaleX="3"
+        android:scaleY="3"
+        android:src="@drawable/ic_corner"
+        app:layout_constraintBottom_toTopOf="@id/containerBottomMasPictos"
+        app:layout_constraintStart_toEndOf="@id/constraintLeftButtons"
+        app:tint="@color/NaranjaOTTAA" />
+
+    <ImageView
+        android:id="@+id/cornerImageViewRight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp"
+        android:rotation="90"
+        android:scaleX="3"
+        android:scaleY="3"
+        android:src="@drawable/ic_corner"
+        app:tint="@color/NaranjaOTTAA"
+        app:layout_constraintBottom_toTopOf="@id/containerBottomMasPictos"
+        app:layout_constraintEnd_toStartOf="@id/constraintRightButtons" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="25dp"
+        android:clickable="false"
+        android:elevation="0dp"
+        app:backgroundTint="@color/FondoApp"
+        app:fabCustomSize="100dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/containerBottomMasPictos">
+
+    </com.google.android.material.floatingactionbutton.FloatingActionButton>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btnTalk"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="25dp"
+        android:elevation="20dp"
+        android:src="@drawable/icono_ottaa"
+        android:tint="@color/White"
+        app:backgroundTint="@color/NaranjaOTTAA"
+        app:fabCustomSize="80dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/containerBottomMasPictos"
+        app:maxImageSize="60dp">
+
+    </com.google.android.material.floatingactionbutton.FloatingActionButton>
+
+
+
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:layout_width="@dimen/sizeFloattingButtonMed"
+        android:layout_height="@dimen/sizeFloattingButtonMed"
+        android:visibility="gone"
+        android:id="@+id/floatting_button"
+        android:src="@drawable/ic_touch_app_black_24dp"
+        app:maxImageSize="@dimen/sizeFloattingButtonIconMed"
+        android:backgroundTint="@color/color_blue_transparent"
+        app:backgroundTint="@color/Black"
+        app:borderWidth="2dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

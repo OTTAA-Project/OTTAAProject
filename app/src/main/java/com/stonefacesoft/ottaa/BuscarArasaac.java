@@ -39,13 +39,7 @@ public class BuscarArasaac {
     }
 
     public void HacerBusqueda(String texto, String lang, Context context){
-
-        //HttpClient Client = new DefaultHttpClient();
-
-        // Create URL string
-        Log.d("BuscarAraasaac", "entre!!!!");
         String direction;
-
         direction = "http://old.arasaac.org/api/index.php?callback=json&language=" + lang.toUpperCase() + "&word=" + texto.replaceAll(" ","+") +
                 "%&catalog=colorpictos&thumbnailsize=150&TXTlocate=4&KEY="+context.getResources().getString(R.string.galeria_araasac_api_key);
         RequestQueue requestQueue = Volley.newRequestQueue(context,new HurlStack());
@@ -59,7 +53,6 @@ public class BuscarArasaac {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                Log.d("BuscarAraasac", response );
             }
         }, new Response.ErrorListener() {
             @Override
@@ -67,7 +60,6 @@ public class BuscarArasaac {
                 Log.i("BuscarAraasac","Error :" + error.getMessage());
             }
         });
-
         requestQueue.add(stringRequest);
     }
 

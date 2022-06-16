@@ -17,6 +17,7 @@ public class PhrasesRecyclerView extends Custom_recyclerView {
         super(mActivity, mAuth);
         cantColumnas = 1;
         setArray();
+
     }
 
     public void setArray() {
@@ -24,7 +25,6 @@ public class PhrasesRecyclerView extends Custom_recyclerView {
         createRecyclerLayoutManager();
         adapter = new SelectFavoritePhrasesAdapter(mActivity);
         mRecyclerView.setAdapter(adapter);
-
     }
 
     @Override
