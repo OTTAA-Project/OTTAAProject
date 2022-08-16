@@ -6,7 +6,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.stonefacesoft.ottaa.Adapters.FindAllPictogramsAdapter;
@@ -46,10 +48,12 @@ public class FindAllPictograms_Recycler_View extends Custom_recyclerView impleme
 
     }
 
+
+
     public void setArray() {
          array = json.getHijosGrupo2(json.getPosPicto(json.getmJSONArrayTodosLosGrupos(),24));
         createRecyclerLayoutManager();
-        findAllPictogramsAdapter = new FindAllPictogramsAdapter(mActivity, R.layout.pictorecyclerviewitem, array, true);
+        findAllPictogramsAdapter = new FindAllPictogramsAdapter(mActivity, R.layout.grid_item_layout, array, true);
         mRecyclerView.setAdapter(findAllPictogramsAdapter);
         mRecyclerView.addOnItemTouchListener(listener());
     }
@@ -72,6 +76,8 @@ public class FindAllPictograms_Recycler_View extends Custom_recyclerView impleme
         findAllPictogramsAdapter.setEsFiltrado(true);
         mRecyclerView.getAdapter().notifyDataSetChanged();
     }
+
+
 
     @Override
     public boolean onQueryTextSubmit(String query) {
@@ -120,6 +126,8 @@ public class FindAllPictograms_Recycler_View extends Custom_recyclerView impleme
     public void onDropItem() {
 
     }
+
+
 
     private RecyclerItemClickListener listener() {
         return new RecyclerItemClickListener(mRecyclerView, mActivity, new RecyclerItemClickListener.OnItemClickListener() {
@@ -274,4 +282,6 @@ public class FindAllPictograms_Recycler_View extends Custom_recyclerView impleme
         }
 
     }
+
+
 }

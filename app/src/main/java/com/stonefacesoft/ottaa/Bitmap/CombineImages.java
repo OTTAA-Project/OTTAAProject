@@ -3,17 +3,16 @@ package com.stonefacesoft.ottaa.Bitmap;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.util.Log;
 
 import androidx.appcompat.content.res.AppCompatResources;
 
 import com.stonefacesoft.ottaa.DrawableManager;
+import com.stonefacesoft.ottaa.Interfaces.DrawableInterface;
 import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.idioma.ConfigurarIdioma;
 import com.stonefacesoft.pictogramslibrary.Classes.Pictogram;
-import com.stonefacesoft.pictogramslibrary.utils.ValidateContext;
 import com.stonefacesoft.pictogramslibrary.view.PictoView;
 
 import org.json.JSONObject;
@@ -25,9 +24,10 @@ import java.util.ArrayList;
  * @author Gonzalo Juarez
  */
 
-public class CombineImages {
+public class CombineImages implements DrawableInterface {
     private ArrayList<Drawable> images;
     private Context context;
+    private final String TAG = "CombineImages";
 
     public CombineImages(Context context){
         this.context = context;
@@ -78,17 +78,8 @@ public class CombineImages {
             if(imagen == null){
                 try {
                     DrawableManager drawableManager = new DrawableManager();
-                    Drawable drawable = drawableManager.fetchDrawable(json.getJSONObject("imagen").getString("urlFoto"));
-                    images.add(getOnlineImage(drawable,nube));
+                    Drawable drawable = drawableManager.fetchDrawable(json.getJSONObject("imagen").getString("urlFoto"),this);
                 } catch (Exception ex) {
-                    /*try{
-                        if(pictoView.getGlideAttatcher() != null && ValidateContext.isValidContext(context)) {
-                            pictoView.getGlideAttatcher().loadDrawable(Uri.parse(json.getJSONObject("imagen").getString("urlFoto")), pictoView.getImageView());
-                        }
-                        images.add(getOnlineImage(pictoView.getImageView().getDrawable(),nube));
-                    }catch (Exception ex1){
-                        images.add(nube);
-                    }*/
                     images.add(nube);
                 }
             }
@@ -100,5 +91,15 @@ public class CombineImages {
             if(drawable == null)
                 drawable = resourceAux;
         return drawable;
+    }
+
+    @Override
+    public Drawable getDrawable(Drawable drawable) {
+        return drawable;
+    }
+
+    @Override
+    public void fetchDrawable(Drawable drawable) {
+        images.add(drawable);
     }
 }

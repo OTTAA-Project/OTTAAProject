@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -83,7 +84,12 @@ public class GaleriaPictosAdapter extends RecyclerView.Adapter<GaleriaPictosAdap
 
     @Override
     public void onBindViewHolder(PictosViewHolder holder, int position) {
-        new cargarPictosAsync(holder, position).execute();
+        if(!mArrayPictos.isNull(position))
+            new cargarPictosAsync(holder, position).execute();
+        else {
+            mArrayPictos.remove(position);
+            notifyDataSetChanged();
+        }
     }
 
     //metodo que se encarga de mover el json
@@ -196,6 +202,7 @@ public class GaleriaPictosAdapter extends RecyclerView.Adapter<GaleriaPictosAdap
 
     }
 
+
     // precargamos las imagenes en glide
     @NonNull
     @Override
@@ -284,8 +291,7 @@ public class GaleriaPictosAdapter extends RecyclerView.Adapter<GaleriaPictosAdap
                 if (aux != null) {
                     mHolder.pictoView.setPictogramsLibraryPictogram(new Pictogram(aux, ConfigurarIdioma.getLanguaje()));
                 }
-            } catch (Exception ex){
-                notifyDataSetChanged();
+            } catch (Exception ex) {
             }
         }
     }

@@ -122,44 +122,6 @@ public class PhrasesAdapter extends RecyclerView.Adapter<PhrasesAdapter.PhraseAd
         private FavModel favModel;
 
 
-        /*
-        public void execute(){
-            Executor executor = Executors.newSingleThreadExecutor();
-            Handler handler = new Handler(Looper.getMainLooper());
-            executor.execute(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        favModel.setPictogram(userPhrases.getJSONObject(mPosition));
-                        favModel.setTexto(userPhrases.getString(mPosition));
-                        mHolder.position = mPosition;
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                    handler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            gestionarBitmap.getBitmapDeFrase(mHolder.phrase,new LoadOnlinePictograms() {
-                                @Override
-                                public void preparePictograms() {
-                                }
-                                @Override
-                                public void loadPictograms(Bitmap bitmap) {
-                                    favModel.setImagen(bitmap);
-                                }
-
-                                @Override
-                                public void FileIsCreated() {
-
-                                }
-                            });
-
-                        }
-                    });
-                }
-            });
-        }*/
-
         @Override
         protected Void doInBackground(Void... voids) {
             mFavImagesArrayList = new ArrayList<>();
@@ -194,7 +156,7 @@ public class PhrasesAdapter extends RecyclerView.Adapter<PhrasesAdapter.PhraseAd
 
         @Override
         protected void onPostExecute(Void unused) {
-            super.onPostExecute(unused);
+            notifyDataSetChanged();
         }
     }
 

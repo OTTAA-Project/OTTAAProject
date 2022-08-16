@@ -13,7 +13,7 @@ android {
     signingConfigs {
 
     }
-    compileSdkVersion 32
+    compileSdkVersion 33
     buildToolsVersion '30.0.3'
 
     useLibrary 'org.apache.http.legacy'
@@ -27,7 +27,7 @@ android {
     defaultConfig {
         applicationId "com.stonefacesoft.ottaa"
         minSdkVersion 21
-        targetSdkVersion 32
+        targetSdkVersion 33
         versionCode 97
         versionName "6.7.7" //
         // Enabling multidex support.
@@ -123,7 +123,7 @@ repositories {
 }
 dependencies {
 
-    implementation 'com.google.firebase:firebase-crashlytics-buildtools:2.8.1'
+    //implementation 'com.google.firebase:firebase-crashlytics-buildtools:2.8.1'
     testImplementation "org.json:json:20210307"
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
@@ -154,7 +154,7 @@ dependencies {
     //play services library
     implementation 'com.google.android.gms:play-services-analytics:18.0.1'
     implementation 'com.google.android.gms:play-services-auth:20.2.0'
-    implementation 'com.google.android.gms:play-services-base:18.0.1'
+    implementation 'com.google.android.gms:play-services-base:18.1.0'
     implementation 'com.google.android.gms:play-services-location:20.0.0'
 
     //implementation
@@ -162,8 +162,8 @@ dependencies {
     implementation 'com.airbnb.android:lottie:3.0.0'
     implementation group: 'com.google.apis', name: 'google-api-services-translate', version: 'v2-rev48-1.22.0'
     implementation group: 'com.google.api-client', name: 'google-api-client-gson', version: '1.25.0'
-    implementation 'androidx.navigation:navigation-fragment:2.4.2'
-    implementation 'androidx.navigation:navigation-ui:2.4.2'
+    implementation 'androidx.navigation:navigation-fragment:2.5.0'
+    implementation 'androidx.navigation:navigation-ui:2.5.0'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
     testImplementation 'junit:junit:4.13.2'
     testImplementation "org.mockito:mockito-core:3.10.0"
@@ -218,14 +218,15 @@ dependencies {
     // firebase library
     implementation platform('com.google.firebase:firebase-bom:30.1.0')
     implementation 'com.google.firebase:firebase-auth'
-    implementation 'com.google.firebase:firebase-config:21.1.0'
-    implementation 'com.google.firebase:firebase-core:21.0.0'
+    implementation 'com.google.firebase:firebase-config:21.1.1'
+    implementation 'com.google.firebase:firebase-core:21.1.0'
     implementation 'com.google.firebase:firebase-database:20.0.5'
-    implementation 'com.google.firebase:firebase-messaging:23.0.5'
+    implementation 'com.google.firebase:firebase-messaging:23.0.6'
     implementation 'com.google.firebase:firebase-inappmessaging-display:20.1.2'
     implementation 'com.google.firebase:firebase-perf:20.1.0'
     implementation 'com.google.firebase:firebase-storage:20.0.1'
-
+    implementation 'com.google.firebase:firebase-crashlytics:18.2.12'
+    implementation 'com.google.firebase:firebase-analytics:21.1.0'
 
     implementation "io.grpc:grpc-okhttp:1.44.1"
 
@@ -233,9 +234,6 @@ dependencies {
 
     // material library
     implementation 'com.google.android.material:material:1.6.1'
-
-    implementation 'com.google.firebase:firebase-crashlytics:18.2.11'
-    implementation 'com.google.firebase:firebase-analytics:21.0.0'
     //Guava library
     implementation("com.google.guava:guava:30.1.1-android")
     //Facebook
@@ -244,7 +242,7 @@ dependencies {
     //Image Cropper
     implementation 'com.github.CanHub:Android-Image-Cropper:4.3.0'
     // pictograms library
-    implementation 'com.github.OTTAA-Project:PictogramsLibrary:0.1.9.27'
+    implementation 'com.github.OTTAA-Project:PictogramsLibrary:0.19.38'
     //Sendgrid integration
     implementation 'com.android.volley:volley:1.2.1'
 }

@@ -126,6 +126,7 @@ public abstract class Custom_recyclerView implements SearchView.OnQueryTextListe
     protected void createRecyclerLayoutManager(){
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(mActivity, calcularCantidadColumnas());
         mRecyclerView.setLayoutManager(mLayoutManager);
+
     }
 
     public void setSearchView(SearchView searchView) {

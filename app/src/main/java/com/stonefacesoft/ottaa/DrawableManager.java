@@ -7,6 +7,7 @@ import android.util.Log;
 import android.widget.ImageView;
 
 import com.android.volley.toolbox.ImageLoader;
+import com.stonefacesoft.ottaa.Interfaces.DrawableInterface;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -50,6 +51,33 @@ public class DrawableManager {
             Log.e(TAG, "fetchDrawable failed", e);
             return null;
         }
+    }
+
+    public Drawable fetchDrawable(String urlString, DrawableInterface drawableInterface) {
+        if (drawableMap.containsKey(urlString)) {
+            return drawableMap.get(urlString);
+        }
+
+        Log.d(this.getClass().getSimpleName(), "image url:" + urlString);
+        try {
+            InputStream is = fetch(urlString);
+            Drawable drawable = Drawable.createFromStream(is, "src");
+            if (drawable != null) {
+                drawableMap.put(urlString, drawable);
+                Log.d(TAG, "got a thumbnail drawable: " + drawable.getBounds() + ", "
+                        + drawable.getIntrinsicHeight() + "," + drawable.getIntrinsicWidth() + ", "
+                        + drawable.getMinimumHeight() + "," + drawable.getMinimumWidth());
+            } else {
+                Log.d(TAG, "could not get thumbnail");
+            }
+
+            drawableInterface.getDrawable(drawable);
+            drawableInterface.fetchDrawable(drawable);
+        } catch (IOException e) {
+            Log.e(TAG, "fetchDrawable failed", e);
+
+        }
+        return null;
     }
 
 

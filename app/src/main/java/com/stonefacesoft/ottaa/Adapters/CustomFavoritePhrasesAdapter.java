@@ -2,6 +2,9 @@ package com.stonefacesoft.ottaa.Adapters;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.stonefacesoft.ottaa.Bitmap.GestionarBitmap;
+import com.stonefacesoft.ottaa.FavModel;
 import com.stonefacesoft.ottaa.Interfaces.LoadOnlinePictograms;
 import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.utils.Phrases.CustomFavoritePhrases;
@@ -20,6 +24,7 @@ import com.stonefacesoft.pictogramslibrary.utils.GlideAttatcher;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CustomFavoritePhrasesAdapter extends RecyclerView.Adapter<CustomFavoritePhrasesAdapter.FavoritePhrases>{
@@ -28,6 +33,8 @@ public class CustomFavoritePhrasesAdapter extends RecyclerView.Adapter<CustomFav
     private final textToSpeech myTTs;
     private final GlideAttatcher glideAttatcher;
     private final GestionarBitmap gestionarBitmap;
+    protected ArrayList<FavModel> mFavImagesArrayList;
+    private final String TAG = "CustomFavorite";
 
     public CustomFavoritePhrasesAdapter(Context mContext) {
         this.mContext = mContext;
@@ -36,12 +43,8 @@ public class CustomFavoritePhrasesAdapter extends RecyclerView.Adapter<CustomFav
         glideAttatcher=new GlideAttatcher(this.mContext);
         gestionarBitmap=new GestionarBitmap(this.mContext);
         gestionarBitmap.setColor(android.R.color.white);
-
+        new CargarFrasesAsync().execute();
     }
-
-
-
-
 
     @NonNull
     @Override
@@ -59,7 +62,8 @@ public class CustomFavoritePhrasesAdapter extends RecyclerView.Adapter<CustomFav
 
     @Override
     public void onBindViewHolder(@NonNull FavoritePhrases holder, int position) {
-        loadObject(holder,position);
+       // loadObject(holder,position);
+       loadHolder(holder,position);
     }
 
     @Override
@@ -82,7 +86,13 @@ public class CustomFavoritePhrasesAdapter extends RecyclerView.Adapter<CustomFav
         public FavoritePhrases(@NonNull View itemView) {
             super(itemView);
             img=itemView.findViewById(R.id.frase);
+            try {
+                phrase = phrases.getPhrases().getJSONObject(position);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
+
 
         public void setImg(ImageView img) {
             this.img = img;
@@ -90,6 +100,17 @@ public class CustomFavoritePhrasesAdapter extends RecyclerView.Adapter<CustomFav
 
         public void setPhrase(JSONObject phrase) {
             this.phrase = phrase;
+        }
+
+    }
+
+    public void loadHolder(FavoritePhrases holder, int position){
+        try{
+            holder.img.setImageBitmap(mFavImagesArrayList.get(position).getImagen());
+            holder.setPhrase(mFavImagesArrayList.get(position).getPictogram());
+            holder.position= mFavImagesArrayList.get(position).getPosition();
+        }catch (Exception ex){
+
         }
     }
 
@@ -104,7 +125,7 @@ public class CustomFavoritePhrasesAdapter extends RecyclerView.Adapter<CustomFav
                 }
                 @Override
                 public void loadPictograms(Bitmap bitmap) {
-                    glideAttatcher.UseCornerRadius(true).loadDrawable(bitmap,holder.img);
+                    holder.img.setImageBitmap(bitmap);
                 }
 
                 @Override
@@ -122,6 +143,51 @@ public class CustomFavoritePhrasesAdapter extends RecyclerView.Adapter<CustomFav
             });
         } catch (JSONException e) {
             e.printStackTrace();
+        }
+    }
+
+    protected class CargarFrasesAsync  extends AsyncTask<Void, Void, Void> {
+
+        private String mStringTexto;
+        private Drawable mDrawableIcono;
+        private FavModel favModel;
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            mFavImagesArrayList = new ArrayList<>();
+            for (int i = 0; i < phrases.getPhrases().length(); i++) {
+                try {
+                    FavModel favModel = new FavModel();
+                    favModel.setPosition(i);
+                    favModel.setPictogram(phrases.getPhrases().getJSONObject(i));
+                    favModel.setTexto(phrases.getPhrases().getString(i));
+                    gestionarBitmap.getBitmapDeFrase(favModel.getPictogram(),new LoadOnlinePictograms() {
+                        @Override
+                        public void preparePictograms() {
+                        }
+                        @Override
+                        public void loadPictograms(Bitmap bitmap) {
+                            favModel.setImagen(bitmap);
+                        }
+
+                        @Override
+                        public void FileIsCreated() {
+
+                        }});
+                    mFavImagesArrayList.add(favModel);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void unused) {
+            notifyDataSetChanged();
         }
     }
 }

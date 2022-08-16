@@ -66,4 +66,9 @@ public class FindAllPictograms extends AppCompatActivity {
 
         super.onBackPressed();
     }
+
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+    }
 }

@@ -254,9 +254,8 @@ public class BajarJsonFirebase implements OnFailureListener {
                                                         }
                                                   }
                                                 });
-                                                bajarJuego(locale,rootPath);
                                                 bajarFrasesFavoritas(locale,rootPath);
-
+                                                bajarJuego(locale,rootPath);
                                             } catch (Exception e) {
                                                 e.printStackTrace();
                                             }

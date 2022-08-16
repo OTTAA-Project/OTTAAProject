@@ -76,6 +76,8 @@ public class SelectFavoritePhrasesAdapter extends PhrasesAdapter{
         }
     }
 
+
+
     @Override
     public void itemAction(JSONObject phrase, View v) {
         super.itemAction(phrase,v);
