@@ -6,9 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.stonefacesoft.ottaa.Adapters.FindAllPictogramsAdapter;
@@ -40,7 +38,6 @@ public class FindAllPictograms_Recycler_View extends Custom_recyclerView impleme
     private Progress_dialog_options progress_dialog_options;
     private JSONObject selectedObject;
     private com.stonefacesoft.ottaa.utils.traducirTexto traducirTexto;
-
     public FindAllPictograms_Recycler_View(AppCompatActivity appCompatActivity, FirebaseAuth mAuth) {
         super(appCompatActivity, mAuth);
         buscarArasaac = new BuscarArasaac();
@@ -51,7 +48,7 @@ public class FindAllPictograms_Recycler_View extends Custom_recyclerView impleme
 
 
     public void setArray() {
-         array = json.getHijosGrupo2(json.getPosPicto(json.getmJSONArrayTodosLosGrupos(),24));
+        array = json.getHijosGrupo2(json.getPosPicto(json.getmJSONArrayTodosLosGrupos(),24));
         createRecyclerLayoutManager();
         findAllPictogramsAdapter = new FindAllPictogramsAdapter(mActivity, R.layout.grid_item_layout, array, true);
         mRecyclerView.setAdapter(findAllPictogramsAdapter);
@@ -66,13 +63,13 @@ public class FindAllPictograms_Recycler_View extends Custom_recyclerView impleme
 
     @Override
     public void onPictosNoFiltrados() {
-        findAllPictogramsAdapter.setmVincularArray(array);
+        findAllPictogramsAdapter.setmArrayPictos(array);
         findAllPictogramsAdapter.setEsFiltrado(false);
         mRecyclerView.getAdapter().notifyDataSetChanged();
     }
 
     public void filtrarPictogramas() {
-        findAllPictogramsAdapter.setmVincularArray(arrayAux);
+        findAllPictogramsAdapter.setmArrayPictos(arrayAux);
         findAllPictogramsAdapter.setEsFiltrado(true);
         mRecyclerView.getAdapter().notifyDataSetChanged();
     }
@@ -100,6 +97,7 @@ public class FindAllPictograms_Recycler_View extends Custom_recyclerView impleme
             } while (cont <= cant);
             //Nos aseguramos que es vincular o no, si lo es seteamos el array nuevo de pictos filtrados
             //para que el adapter trabaje con ese array.
+
             if(ConnectionDetector.isNetworkAvailable(mActivity)){
                 new HTTPRequest(query).execute();
                 mSearchView.setQuery(query, false);

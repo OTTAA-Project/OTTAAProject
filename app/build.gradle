@@ -139,7 +139,7 @@ dependencies {
 
     // Optional -- Mockito framework
     //androidx library
-    implementation 'androidx.appcompat:appcompat:1.4.2'
+    implementation 'androidx.appcompat:appcompat:1.5.0'
     implementation 'androidx.browser:browser:1.4.0'
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation "androidx.core:core:1.8.0"
@@ -221,7 +221,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-config:21.1.1'
     implementation 'com.google.firebase:firebase-core:21.1.0'
     implementation 'com.google.firebase:firebase-database:20.0.5'
-    implementation 'com.google.firebase:firebase-messaging:23.0.6'
+    implementation 'com.google.firebase:firebase-messaging:23.0.7'
     implementation 'com.google.firebase:firebase-inappmessaging-display:20.1.2'
     implementation 'com.google.firebase:firebase-perf:20.1.0'
     implementation 'com.google.firebase:firebase-storage:20.0.1'
@@ -242,7 +242,7 @@ dependencies {
     //Image Cropper
     implementation 'com.github.CanHub:Android-Image-Cropper:4.3.0'
     // pictograms library
-    implementation 'com.github.OTTAA-Project:PictogramsLibrary:0.19.38'
+    implementation 'com.github.OTTAA-Project:PictogramsLibrary:0.19.43'
     //Sendgrid integration
     implementation 'com.android.volley:volley:1.2.1'
 }

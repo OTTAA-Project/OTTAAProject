@@ -1,18 +1,12 @@
 package com.stonefacesoft.ottaa.Adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.content.res.AppCompatResources;
@@ -23,10 +17,7 @@ import com.bumptech.glide.RequestBuilder;
 import com.stonefacesoft.ottaa.Helper.ItemTouchHelperAdapter;
 import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.R;
-import com.stonefacesoft.ottaa.utils.ConnectionDetector;
 import com.stonefacesoft.ottaa.idioma.ConfigurarIdioma;
-import com.stonefacesoft.ottaa.utils.JSONutils;
-import com.stonefacesoft.ottaa.utils.MemoryUtils;
 import com.stonefacesoft.pictogramslibrary.Classes.Pictogram;
 import com.stonefacesoft.pictogramslibrary.utils.GlideAttatcher;
 import com.stonefacesoft.pictogramslibrary.view.PictoView;
@@ -35,18 +26,15 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 public class FindAllPictogramsAdapter extends RecyclerView.Adapter<FindAllPictogramsAdapter.FindAllPictogramsHolder> implements ListPreloader.PreloadModelProvider, ItemTouchHelperAdapter {
     private final String TAG = "FindAllPictogramsAD";
-    //private Context mContext;
     private final int layoutID;
-    private JSONArray mSelectedPictos;
-    private final ArrayList<Integer> listadoIdPictos;
+    private final JSONArray mSelectedPictos;
     private final Context mContext;
-    private JSONArray mVincularArray;
+    private JSONArray mArrayPictos;
     private boolean esFiltrado;
     private Json json;
 
@@ -54,14 +42,12 @@ public class FindAllPictogramsAdapter extends RecyclerView.Adapter<FindAllPictog
     public FindAllPictogramsAdapter(Context mContext, int layoutID, JSONArray mVincularArray, boolean filtro) {
         this.mContext = mContext;
         this.layoutID = layoutID;
-        this.mVincularArray = mVincularArray;
+        this.mArrayPictos = mVincularArray;
         this.esFiltrado = filtro;
         this.mSelectedPictos = new JSONArray();
-        this.listadoIdPictos = new ArrayList<>();
-
-
     }
 
+    @NonNull
     @Override
     public FindAllPictogramsHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(mContext).inflate(layoutID, parent, false);
@@ -70,44 +56,19 @@ public class FindAllPictogramsAdapter extends RecyclerView.Adapter<FindAllPictog
 
     @Override
     public void onBindViewHolder(@NonNull FindAllPictogramsHolder holder, int position) {
-        holder.setIsRecyclable(true);
-        if(!mVincularArray.isNull(position)){
+        if(!mArrayPictos.isNull(position)){
             new VincularAsync(holder, position).execute();
         }
         else{
-            mVincularArray.remove(position);
+            mArrayPictos.remove(position);
         }
     }
 
     @Override
-    public void setStateRestorationPolicy(@NonNull StateRestorationPolicy strategy) {
-        super.setStateRestorationPolicy(strategy);
-    }
-
-    @Override
-    public boolean onFailedToRecycleView(@NonNull FindAllPictogramsHolder holder) {
-        return super.onFailedToRecycleView(holder);
-    }
-
-    @Override
-    public void onDetachedFromRecyclerView(@NonNull RecyclerView recyclerView) {
-        super.onDetachedFromRecyclerView(recyclerView);
-    }
-
-    @Override
-    public void onViewDetachedFromWindow(@NonNull FindAllPictogramsHolder holder) {
-        super.onViewDetachedFromWindow(holder);
-    }
-
-
-
-
-
-    @Override
     public int getItemCount() {
-        if (mVincularArray == null)
+        if (mArrayPictos == null)
             return 0;
-        return mVincularArray.length();
+        return mArrayPictos.length();
     }
 
 
@@ -121,19 +82,12 @@ public class FindAllPictogramsAdapter extends RecyclerView.Adapter<FindAllPictog
 
     //Sin este get y set no le puedo decir al adaptador que los datos cambiaron en galeria picto
     public JSONArray getmArrayPictos() {
-        return mVincularArray;
+        return mArrayPictos;
     }
 
-    public void setmVincularArray(JSONArray mVincularArray) {
-        this.mVincularArray = mVincularArray;
+    public void setmArrayPictos(JSONArray mArrayPictos) {
+        this.mArrayPictos = mArrayPictos;
     }
-
-
-
-
-
-    //Para actualizar en el caso de ser filtrado o no
-
 
     public boolean isEsFiltrado() {
         return esFiltrado;
@@ -154,36 +108,16 @@ public class FindAllPictogramsAdapter extends RecyclerView.Adapter<FindAllPictog
         return position;
     }
 
-    private Integer cargarColor(int tipo) {
-        switch (tipo) {
-            case 1:
-                return mContext.getResources().getColor(R.color.Yellow);
-            case 2:
-                return mContext.getResources().getColor(R.color.Orange);
-            case 3:
-                return mContext.getResources().getColor(R.color.YellowGreen);
-            case 4:
-                return mContext.getResources().getColor(R.color.DodgerBlue);
-            case 5:
-                return mContext.getResources().getColor(R.color.Magenta);
-            case 6:
-                return mContext.getResources().getColor(R.color.Black);
-            default:
-                return mContext.getResources().getColor(R.color.White);
-        }
-    }
-
     @NonNull
     @Override
     public List getPreloadItems(int position) {
         JSONObject picto = null;
         Drawable drawable;
         try {
-            picto = json.getPictoFromId2(mVincularArray.getJSONObject(position).getInt("id"));
+            picto = json.getPictoFromId2(mArrayPictos.getJSONObject(position).getInt("id"));
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        //json.getPictoFromCustomArrayById2(json.getmJSONArrayTodosLosPictos(),mVincularArray.getJSONObject(mPosition).getInt("id"));
         drawable = json.getIcono(picto);
         if (drawable == null)
             drawable = AppCompatResources.getDrawable(mContext, R.drawable.ic_cloud_download_orange);
@@ -197,6 +131,7 @@ public class FindAllPictogramsAdapter extends RecyclerView.Adapter<FindAllPictog
         return null;
     }
 
+    @SuppressLint("CheckResult")
     @Override
     public void onViewRecycled(@NonNull FindAllPictogramsHolder holder) {
         holder.pictoView.setGlideAttatcher(new GlideAttatcher(holder.pictoView.getContext()));
@@ -213,10 +148,7 @@ public class FindAllPictogramsAdapter extends RecyclerView.Adapter<FindAllPictog
      *
      * */
     public void loadDrawable( int id,PictoView pictoView) {
-        boolean showKindOfView = false;
-        if (json.getPictoFromId2(id)== null){
-            showKindOfView = true;
-        }
+        boolean showKindOfView = json.getPictoFromId2(id) == null;
         if (showKindOfView) {
             pictoView.getKindOfPictogramImageView().setVisibility(View.VISIBLE);
         } else {
@@ -270,11 +202,9 @@ public class FindAllPictogramsAdapter extends RecyclerView.Adapter<FindAllPictog
         }
 
 
-
         @Override
         protected Void doInBackground(Void... voids) {try {
-                picto = mVincularArray.getJSONObject(mPosition);
-                pictogram = new Pictogram(picto,ConfigurarIdioma.getLanguaje());
+                picto = mArrayPictos.getJSONObject(mPosition);
                 if(picto!=null){
                     mHolder.pictoView.setUpContext(mContext);
                     mHolder.pictoView.setUpGlideAttatcher(mContext);
@@ -290,7 +220,7 @@ public class FindAllPictogramsAdapter extends RecyclerView.Adapter<FindAllPictog
             super.onPostExecute(aVoid);
                 try {
                     if(picto!=null) {
-                        mHolder.pictoView.setPictogramsLibraryPictogram(pictogram);
+                        mHolder.pictoView.setPictogramsLibraryPictogram(new Pictogram(picto,ConfigurarIdioma.getLanguaje()));
                         loadDrawable(json.getId(picto), mHolder.pictoView);
                     }
                 } catch (Exception ex) {
@@ -301,18 +231,19 @@ public class FindAllPictogramsAdapter extends RecyclerView.Adapter<FindAllPictog
 
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     public FindAllPictogramsAdapter removeOldFiles(){
         JSONArray aux = new JSONArray();
-        for (int i = 0; i < mVincularArray.length(); i++) {
+        for (int i = 0; i < mArrayPictos.length(); i++) {
             try {
-                if(mVincularArray.getJSONObject(i).has("imagen")){
-                    aux.put(mVincularArray.getJSONObject(i));
+                if(mArrayPictos.getJSONObject(i).has("imagen")){
+                    aux.put(mArrayPictos.getJSONObject(i));
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
-        mVincularArray = aux;
+        mArrayPictos = aux;
         notifyDataSetChanged();
         return this;
     }

@@ -599,10 +599,12 @@ public class Json  {
 
     public int compareTo(double frec1, double frec2) {
         // descending order
-        if (frec1 > frec2)
+        if (frec1 > frec2){
             return -1;
-        if (frec2 < frec1)
+        }
+        if (frec2 > frec1){
             return 1;
+        }
         return (int) (frec2 - frec1);
     }
 
