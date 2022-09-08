@@ -34,17 +34,16 @@ public class CombineImages implements DrawableInterface {
         images = new ArrayList<>();
     }
 
-    public void loadPictogram(Json json,JSONObject child){
-        try {
+    public void loadPictogram(Json json,JSONObject child)throws Exception{
+
             Drawable nube = AppCompatResources.getDrawable(context, R.drawable.ic_baseline_cloud_download_24_big);//para evitar que no funcionen las frases mas usadas se pone el icono de la nube
             Drawable imagen = json.getIconWithNullOption(child);
             if(imagen != null)
                 images.add(imagen);
             else
                 loadPictogramsLogo(child,imagen,nube);
-        } catch (Exception e) {
-            Log.e("CombineImages", "loadPictogram: "+e.getLocalizedMessage().toLowerCase());
-        }
+
+
     }
 
     public PictoView preparePictoView() throws Exception{

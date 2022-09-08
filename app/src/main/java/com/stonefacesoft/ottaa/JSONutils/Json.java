@@ -77,15 +77,15 @@ public class Json  {
     //Declaro el manejador de preferencia
     protected static SharedPreferences sharedPrefsDefault;
     //Json singleton
-    private static volatile Json _instance;
+    private static Json _instance;
     private static boolean fallaJson;
     private final int idGps = 0;
     // Arraylist de Json
     private ArrayList<JSONObject> mArrayListTodasLasFotosBackup;
     private JSONArray mJSONArrayPictosSugeridos;
-    private volatile JSONArray mJSONArrayTodosLosGrupos;
-    private volatile JSONArray mJSONArrayTodasLasFrases;
-    private volatile JSONArray mJSONArrayTodosLosPictos;
+    private JSONArray mJSONArrayTodosLosGrupos;
+    private JSONArray mJSONArrayTodasLasFrases;
+    private JSONArray mJSONArrayTodosLosPictos;
     private JSONArray mJSONArrayTodasLasFotosBackup;
     private JSONArray mJSonArrayJuegos;
     private JSONArray mJSonArrayFrasesFavoritas;

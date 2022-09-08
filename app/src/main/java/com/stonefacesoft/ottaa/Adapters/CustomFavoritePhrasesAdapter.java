@@ -110,7 +110,7 @@ public class CustomFavoritePhrasesAdapter extends RecyclerView.Adapter<CustomFav
             holder.setPhrase(mFavImagesArrayList.get(position).getPictogram());
             holder.position= mFavImagesArrayList.get(position).getPosition();
         }catch (Exception ex){
-
+            Log.e(TAG, "doInBackground: "+ ex.getMessage() );
         }
     }
 
@@ -178,6 +178,7 @@ public class CustomFavoritePhrasesAdapter extends RecyclerView.Adapter<CustomFav
 
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    Log.e(TAG, "doInBackground: "+ e.getMessage() );
                 }
 
             }
