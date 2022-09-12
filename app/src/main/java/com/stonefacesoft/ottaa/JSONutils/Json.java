@@ -220,7 +220,6 @@ public class Json  {
             try {
                 if(aux.getJSONObject(i).has("locale")){
                     if(aux.getJSONObject(i).getString("locale").toLowerCase().equals(ConfigurarIdioma.getLanguaje().toLowerCase())) {
-                        Log.e(TAG, "getPhrasesByLanguage: "+aux.getJSONObject(i).toString());
                         result.put(aux.getJSONObject(i));
                     }
                 }
@@ -729,6 +728,15 @@ public class Json  {
             }
         }
         return arrayListADevolver;
+    }
+
+    public JSONObject getJsonByPosition(JSONArray array,int position){
+        try{
+            return array.getJSONObject(position);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     //Ya esta

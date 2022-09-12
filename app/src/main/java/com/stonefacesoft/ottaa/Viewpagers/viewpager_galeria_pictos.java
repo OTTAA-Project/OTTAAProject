@@ -21,6 +21,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.perf.metrics.AddTrace;
 import com.stonefacesoft.ottaa.Edit_Picto_Visual;
 import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.LicenciaExpirada;
@@ -28,6 +29,7 @@ import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.idioma.ConfigurarIdioma;
 import com.stonefacesoft.ottaa.utils.IntentCode;
 import com.stonefacesoft.ottaa.utils.JSONutils;
+import com.stonefacesoft.ottaa.utils.constants.ConstantsGroupGalery;
 import com.stonefacesoft.ottaa.utils.textToSpeech;
 import com.stonefacesoft.pictogramslibrary.Classes.Pictogram;
 import com.stonefacesoft.pictogramslibrary.utils.GlideAttatcher;
@@ -174,20 +176,37 @@ public class viewpager_galeria_pictos {
 
     }
 
+
     public void OnClickItem() {
         if (array.length() > 0) {
             int position = viewPager.getCurrentItem();
             if (isSelectedItem) {
-                Intent databack = new Intent();
-                try {
-                    databack.putExtra("ID", array.getJSONObject(viewPager.getCurrentItem()).getInt("id"));
-                } catch (JSONException e) {
-                    Log.e(TAG, "OnClickItem: Error: " + e.getMessage());
-                }
-                databack.putExtra("Boton", parent_button);
-                mActivity.setResult(IntentCode.GALERIA_PICTOS.getCode(), databack);
-                mActivity.finish();
+               finishApp(position);
             } else {
+                saidName(position);
+                isSelectedItem = true;
+            }
+        }
+    }
+
+    public void finishApp(int position){
+        Intent databack = new Intent();
+
+        try {
+            databack.putExtra("ID",json.getId(json.getJsonByPosition(array,position)));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        databack.putExtra("Boton", parent_button);
+        mActivity.setResult(ConstantsGroupGalery.GALERIAPICTOS, databack);
+        mActivity.finish();
+    }
+
+    public void saidName(int position){
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
                 String name = "";
                 try {
                     SharedPreferences sharedPrefsDefault = android.preference.PreferenceManager.getDefaultSharedPreferences(mActivity);
@@ -196,9 +215,9 @@ public class viewpager_galeria_pictos {
                     Log.e(TAG, "OnClickItem: Error: " + e.getMessage());
                 }
                 myTTS.hablar(name);
-                isSelectedItem = true;
             }
-        }
+        });
+        thread.start();
     }
 
     public static class fragmentPicto extends Fragment {
@@ -211,7 +230,7 @@ public class viewpager_galeria_pictos {
 
         }
 
-        //instancio el objeto
+
         public viewpager_galeria_pictos.fragmentPicto newInstance(Integer position1){
             viewpager_galeria_pictos.fragmentPicto fragmentPicto=new viewpager_galeria_pictos.fragmentPicto();
             Bundle args = new Bundle();
@@ -219,7 +238,7 @@ public class viewpager_galeria_pictos {
             fragmentPicto.setArguments(args);
             return fragmentPicto;
         }
-        //creo la posicion del objeto
+
         @Override
         public void onCreate(@Nullable Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
@@ -229,7 +248,7 @@ public class viewpager_galeria_pictos {
         }
 
 
-        //creo la vista del objeto
+
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
@@ -282,38 +301,14 @@ public class viewpager_galeria_pictos {
                 picto1.getGlideAttatcher().clearMemory();
         }
 
-        private Integer cargarColor(int tipo) {
-            switch (tipo) {
-                case 1:
-                    return getResources().getColor(R.color.Yellow);
-                case 2:
-                    return getResources().getColor(R.color.Orange);
-                case 3:
-                    return getResources().getColor(R.color.YellowGreen);
-                case 4:
-                    return getResources().getColor(R.color.DodgerBlue);
-                case 5:
-                    return getResources().getColor(R.color.Magenta);
-                case 6:
-                    return getResources().getColor(R.color.Black);
-                default:
-                    return getResources().getColor(R.color.White);
-            }
-        }
+
 
         private void loadPictogram(PictoView custom_picto){
-        //    try {
-             //   SharedPreferences sharedPrefsDefault = android.preference.PreferenceManager.getDefaultSharedPreferences(mActivity);
-             //   custom_picto.setCustom_Texto(JSONutils.getNombre(array.getJSONObject(position),sharedPrefsDefault.getString(mActivity.getString(R.string.str_idioma), "en")));
-             //   custom_picto.setCustom_Color(cargarColor(JSONutils.getTipo(array.getJSONObject(position))));
-             //   Pictogram pictogram=new Pictogram(array.getJSONObject(position), ConfigurarIdioma.getLanguaje());
-             //   GlideAttatcher attatcher=new GlideAttatcher(mActivity);
-             //   loadDrawable(attatcher,pictogram,custom_picto.getImg());
                 custom_picto.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         if(custom_picto.isClicked()){
-                            Intent databack = new Intent();
+                              Intent databack = new Intent();
                             try {
                                 databack.putExtra("ID",array.getJSONObject(position).getInt("id"));
                             } catch (JSONException e) {
@@ -327,33 +322,10 @@ public class viewpager_galeria_pictos {
                             custom_picto.setClicked(true);
                             myTTS.hablar(custom_picto.getCustom_Texto());
                         }
-
                     }
-                });/*
-            } catch (JSONException e) {
-                Log.e(TAG, "loadPictogram: Error: " + e.getMessage());
-                custom_picto.setVisibility(View.INVISIBLE);
-                custom_picto.setEnabled(false);
-            }*/
-        }
-
-
-    }
-
-    public static  void loadDrawable(GlideAttatcher attatcher, Pictogram pictogram, ImageView imageView){
-        if(pictogram.getEditedPictogram().isEmpty()){
-            JSONObject picto=pictogram.toJsonObject();
-            Drawable drawable=json.getIcono(picto);
-            if(drawable!=null)
-                attatcher.UseCornerRadius(true).loadDrawable(drawable,imageView);
-            else
-                attatcher.UseCornerRadius(true).loadDrawable(mActivity.getResources().getDrawable(R.drawable.ic_cloud_download_orange),imageView);
-        }else{
-            File picto=new File(pictogram.getEditedPictogram());
-            if(picto.exists())
-                attatcher.UseCornerRadius(true).loadDrawable(picto,imageView);
-            else
-                attatcher.UseCornerRadius(true).loadDrawable(Uri.parse(pictogram.getUrl()),imageView);
+                });
         }
     }
+
+
 }

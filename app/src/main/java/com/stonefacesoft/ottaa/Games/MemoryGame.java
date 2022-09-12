@@ -11,6 +11,7 @@ import android.view.View;
 
 import androidx.annotation.Nullable;
 
+import com.google.firebase.perf.metrics.AddTrace;
 import com.stonefacesoft.ottaa.Dialogos.DialogUtils.DialogGameProgressInform;
 import com.stonefacesoft.ottaa.Games.Model.MemoryGameModelModel;
 import com.stonefacesoft.ottaa.R;
@@ -29,6 +30,7 @@ public class MemoryGame extends GameViewSelectPictograms {
     private int foundPictos = 0;
     protected MemoryGameModelModel model;
 
+    @AddTrace(name = "MemoryGame", enabled = true /* optional */)
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

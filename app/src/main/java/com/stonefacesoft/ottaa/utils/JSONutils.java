@@ -246,7 +246,6 @@ public class JSONutils {
 
     public static void setEdad(JSONObject ob, Edad edad) {
         JSONArray arrayEdad = new JSONArray();
-        System.out.println(ob.toString());
         try {
             if (ob.has(Constants.EDAD)) {
                 arrayEdad = ob.getJSONArray(Constants.EDAD);
@@ -490,7 +489,7 @@ public class JSONutils {
         sexoUsuario = tieneSexo(original, sexo);
         edadUsuario = tieneEdad(original, edad);
 
-        Log.e(TAG, "score: Agenda:"+agendaUsuario+" horaDeldia:"+horaDelDia +" gps:"+ gps+" sexoUsuario" +sexoUsuario +" edad :"+ edadUsuario);
+        Log.d(TAG, "score: Agenda:"+agendaUsuario+" horaDeldia:"+horaDelDia +" gps:"+ gps+" sexoUsuario" +sexoUsuario +" edad :"+ edadUsuario);
 
 
         if (esSugerencia) {

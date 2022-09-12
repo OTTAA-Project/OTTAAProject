@@ -25,6 +25,7 @@ import androidx.appcompat.widget.Toolbar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.perf.metrics.AddTrace;
 import com.stonefacesoft.ottaa.FirebaseRequests.SubirArchivosFirebase;
 import com.stonefacesoft.ottaa.Interfaces.Make_Click_At_Time;
 import com.stonefacesoft.ottaa.JSONutils.Json;
@@ -89,6 +90,7 @@ public class GaleriaPictos3 extends AppCompatActivity implements View.OnClickLis
     private AnalyticsFirebase analyticsFirebase;
     private GaleriaPictosControls navigationControl;
 
+    @AddTrace(name = "GaleriaPictos3", enabled = true /* optional */)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -362,7 +364,6 @@ public class GaleriaPictos3 extends AppCompatActivity implements View.OnClickLis
 
         if (esVincular || isSorter) {
             edit_button.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_save_white_24));
-
         }
         btnBarrido.setOnClickListener(this);
         btnBarrido.setOnTouchListener(this);
@@ -450,6 +451,7 @@ public class GaleriaPictos3 extends AppCompatActivity implements View.OnClickLis
     public boolean onTouch(View view, MotionEvent event) {
         return navigationControl.makeClick(event);
     }
+
 
     @Override
     public void OnClickBarrido() {

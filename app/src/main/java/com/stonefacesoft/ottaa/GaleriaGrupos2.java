@@ -37,6 +37,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.perf.metrics.AddTrace;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.stonefacesoft.ottaa.Activities.FindAllPictograms;
@@ -128,6 +129,7 @@ public class GaleriaGrupos2 extends AppCompatActivity implements OnStartDragList
     private GaleriaGruposControls deviceControl;
     private DownloadPictures downloadPictures;
 
+    @AddTrace(name = "GaleriaGrupos2", enabled = true /* optional */)
     @SuppressLint("ResourceType")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -299,28 +301,32 @@ public class GaleriaGrupos2 extends AppCompatActivity implements OnStartDragList
     /**
      * FIN Chequear y bajar datos firebase con child listener
      **/
-
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         Log.d(TAG, "onActivityResult: Entering ActivityResult");
         switch (requestCode){
             case ConstantsGroupGalery
                     .GALERIAPICTOS:
-                viewpager.updateData();
-                if(recycler_view_grupo != null)
-                    recycler_view_grupo.setGrupos();
+                if(resultCode  != ConstantsGroupGalery.RETURNGALERIAPICTOSDATA){
+                    viewpager.updateData();
+                    if(recycler_view_grupo != null)
+                        recycler_view_grupo.setGrupos();
+                }
                 returnData(data);
                 break;
             case ConstantsMainActivity
                     .EDITARPICTO :
                 loadData();
                break;
-            case ConstantsGroupGalery.ORDENAR:
+            case ConstantsGroupGalery.SORTACTION:
                 loadData();
                 break;
             case ConstantsGroupGalery.SEARCH_ALL_PICTOGRAMS:
                 loadData();
                 returnData(data);
             break;
+            case ConstantsGroupGalery.RETURNGALERIAPICTOSDATA:
+                returnData(data);
+                break;
         }
 
 
@@ -352,13 +358,11 @@ public class GaleriaGrupos2 extends AppCompatActivity implements OnStartDragList
 
         super.onActivityResult(requestCode, resultCode, data);
     }
-
     private void returnData(Intent data){
         if(data != null){
             if (data.getExtras() != null) {
                 Bundle extras = data.getExtras();
                 int Picto = extras.getInt("ID");
-                Log.e("GaleriaGrupo ", " PictoID: " + Picto);
                 if (Picto != 0 && Picto != -1) {
                     Intent databack = new Intent();
                     databack.putExtra("ID", Picto);

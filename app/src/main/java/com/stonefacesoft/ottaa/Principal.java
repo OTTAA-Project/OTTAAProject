@@ -4,6 +4,7 @@ package com.stonefacesoft.ottaa;
 import static com.facebook.FacebookSdk.setAutoLogAppEventsEnabled;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -43,6 +44,10 @@ import android.widget.PopupMenu.OnMenuItemClickListener;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -68,6 +73,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.database.annotations.Nullable;
 import com.google.firebase.installations.FirebaseInstallations;
+import com.google.firebase.perf.metrics.AddTrace;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.stonefacesoft.ottaa.Activities.Phrases.FavoritePhrases;
@@ -85,6 +91,7 @@ import com.stonefacesoft.ottaa.FirebaseRequests.SubirArchivosFirebase;
 import com.stonefacesoft.ottaa.FirebaseRequests.SubirBackupFirebase;
 import com.stonefacesoft.ottaa.Interfaces.FailReadPictogramOrigin;
 import com.stonefacesoft.ottaa.Interfaces.FirebaseSuccessListener;
+import com.stonefacesoft.ottaa.Interfaces.LoadPictograms;
 import com.stonefacesoft.ottaa.Interfaces.Make_Click_At_Time;
 import com.stonefacesoft.ottaa.Interfaces.PlaceSuccessListener;
 import com.stonefacesoft.ottaa.Interfaces.SortPictogramsInterface;
@@ -156,7 +163,7 @@ public class Principal extends AppCompatActivity implements View
         .OnClickListener,
         View.OnLongClickListener,
         OnMenuItemClickListener,
-        FirebaseSuccessListener, NavigationView.OnNavigationItemSelectedListener, PlaceSuccessListener, ConnectionCallbacks, translateInterface, View.OnTouchListener, Make_Click_At_Time , SortPictogramsInterface {
+        FirebaseSuccessListener, NavigationView.OnNavigationItemSelectedListener, PlaceSuccessListener, ConnectionCallbacks, translateInterface, View.OnTouchListener, Make_Click_At_Time , SortPictogramsInterface, LoadPictograms {
 
     private static final String TAG = "Principal";
     public static boolean cerrarSession = false;// use this variable to notify when the session is closed
@@ -954,11 +961,7 @@ public class Principal extends AppCompatActivity implements View
         }
     }
 
-    private void cargarSelec(JSONObject jsonObject) {
-        CargarOracion(jsonObject, sharedPrefsDefault.getString(getString(R.string.str_idioma), "en"));
-        CargarSeleccion(jsonObject);
-        CantClicks++;
-    }
+
 
     private void volver() {
         pictoPadre = historial.removePictograms(false);
@@ -979,7 +982,12 @@ public class Principal extends AppCompatActivity implements View
             return;
         }
         historial.addPictograma(opcion);
-        /*try {
+        createRelationShip(opcion,this);
+        sayPictogramName(JSONutils.getNombre(opcion, sharedPrefsDefault.getString(getResources().getString(R.string.str_idioma), "en")));
+    }
+
+    private void createRelationShip(JSONObject opcion,LoadPictograms loadPictograms){
+        try {
             int pos = JSONutils.getPositionPicto2(json.getmJSONArrayTodosLosPictos(), pictoPadre.getInt("id"));
             if(pos != -1) {
                 JSONutils.aumentarFrec(pictoPadre, opcion);
@@ -989,11 +997,9 @@ public class Principal extends AppCompatActivity implements View
             }
         } catch (JSONException e) {
             CrashlyticsUtils.getInstance().getCrashlytics().recordException(e.getCause());
-        }*/
-        sayPictogramName(JSONutils.getNombre(opcion, sharedPrefsDefault.getString(getResources().getString(R.string.str_idioma), "en")));
+        }
         pictoPadre = opcion;
-        cargarSelec(pictoPadre);
-        loadOptions(json, opcion);
+        loadPictograms.loadSelection(pictoPadre);
     }
 
     private void cargarMasPictos() {
@@ -1171,8 +1177,6 @@ public class Principal extends AppCompatActivity implements View
 
     @Override
     public void onClick(View v) {
-        View vista = findViewById(v.getId());
-        Log.d(TAG, "onClick: " + vista.getId());
         switch (v.getId()) {
             case R.id.Option1:
                 onClickOption(opcion1, Opcion1_clicker);
@@ -1476,7 +1480,6 @@ public class Principal extends AppCompatActivity implements View
             try {
                 if (pictoPadre == null || pictoPadre.getInt("id") == 0)
                     pictoPadre = json.getPictoFromId2(0);
-
                 cuentaMasPictos = 0;
                 if(pictoPadre != null)
                     loadOptions(json, pictoPadre);
@@ -1940,6 +1943,7 @@ public class Principal extends AppCompatActivity implements View
         return true;
     }
 
+    @AddTrace(name = "InitComponents", enabled = true /* optional */)
     private void initComponents() {
         initFlags();
         initBackUp();
@@ -2092,7 +2096,7 @@ public class Principal extends AppCompatActivity implements View
         }
     }
 
-
+    @AddTrace(name = "setOnLongClickListener", enabled = true /* optional */)
     private void setOnLongClickListener(){
         botonFavoritos.setOnClickListener(this);
         talk.setOnClickListener(this);
@@ -2221,11 +2225,9 @@ public class Principal extends AppCompatActivity implements View
                     loadOptions(json,padre);
                 }
             }
-
     }
 
     public void downloadFailedFile(int size) {
-
         getFirebaseDialog().setTitle(getApplicationContext().getResources().getString(R.string.edit_sync));
         getFirebaseDialog().setMessage(getApplicationContext().getResources().getString(R.string.edit_sync_pict));
         getFirebaseDialog().mostrarDialogo();
@@ -2354,6 +2356,14 @@ public class Principal extends AppCompatActivity implements View
             }
         });
 
+    }
+
+    @Override
+    public void loadSelection(JSONObject jsonObject) {
+        CargarOracion(jsonObject, sharedPrefsDefault.getString(getString(R.string.str_idioma), "en"));
+        CargarSeleccion(jsonObject);
+        CantClicks++;
+        loadOptions(json, jsonObject);
     }
 
     public class initComponentsClass extends AsyncTask<Void,Void,Void>{

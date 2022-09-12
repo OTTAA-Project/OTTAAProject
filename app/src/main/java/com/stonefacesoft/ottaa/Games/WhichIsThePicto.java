@@ -33,6 +33,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.google.firebase.perf.metrics.AddTrace;
 import com.stonefacesoft.ottaa.Dialogos.DialogUtils.DialogGameProgressInform;
 import com.stonefacesoft.ottaa.idioma.ConfigurarIdioma;
 import com.stonefacesoft.ottaa.utils.Games.GamesSettings;
@@ -171,6 +172,7 @@ public class WhichIsThePicto extends AppCompatActivity implements View
 
     }
 
+    @AddTrace(name = "WhichIsThePicto", enabled = true /* optional */)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //Ocultamos la barra de notificaciones

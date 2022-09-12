@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.ItemTouchHelper;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.perf.metrics.AddTrace;
 import com.stonefacesoft.ottaa.Adapters.GaleriaGruposAdapter;
 import com.stonefacesoft.ottaa.Dialogos.DialogUtils.Yes_noDialogs;
 import com.stonefacesoft.ottaa.Edit_Picto_Visual;
@@ -184,6 +185,7 @@ public class Grupo_Recycler_View extends Custom_recyclerView implements  View.On
 
     }
 
+    @AddTrace(name = "setGroups", enabled = true /* optional */)
     public void setGrupos(){
         json=Json.getInstance();
         json.setmContext(mActivity);

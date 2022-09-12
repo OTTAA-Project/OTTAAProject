@@ -21,6 +21,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.perf.metrics.AddTrace;
 import com.stonefacesoft.ottaa.Edit_Picto_Visual;
 import com.stonefacesoft.ottaa.GaleriaPictos3;
 import com.stonefacesoft.ottaa.JSONutils.Json;
@@ -162,7 +163,7 @@ public class viewpager_galeria_grupo {
         else
             viewPager.setVisibility(View.GONE);
     }
-
+    @AddTrace(name = "updateDataViewPager", enabled = true /* optional */)
     public void updateData() {
         json = Json.getInstance();
         json.setmContext(mActivity);
