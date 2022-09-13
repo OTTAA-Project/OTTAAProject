@@ -63,7 +63,7 @@ public class viewpager_galeria_pictos {
     private final fragmentPicto fragment;
     private boolean isSelectedItem;
     private final SharedPreferences sharedPrefDefault;
-    private static String idioma;
+
 
 
 
@@ -72,7 +72,6 @@ public class viewpager_galeria_pictos {
         viewpager_galeria_pictos.myTTS = myTTS;
         viewpager_galeria_pictos.parent_button = parent_button;
         this.sharedPrefDefault = PreferenceManager.getDefaultSharedPreferences(mActivity);
-        idioma = sharedPrefDefault.getString(mActivity.getResources().getString(R.string.str_idioma), "en");
         this.viewPager = viewpager_galeria_pictos.mActivity.findViewById(R.id.viewPager_groups);
         json = Json.getInstance();
         json.setmContext(mActivity);
@@ -160,8 +159,7 @@ public class viewpager_galeria_pictos {
                 Log.e(TAG, "editItem: Error: " + e.getMessage());
             }
             try {
-                SharedPreferences sharedPrefsDefault = android.preference.PreferenceManager.getDefaultSharedPreferences(mActivity);
-                intent.putExtra("Texto", JSONutils.getNombre(array.getJSONObject(viewPager.getCurrentItem()),sharedPrefsDefault.getString(mActivity.getString(R.string.str_idioma), "en")));
+                intent.putExtra("Texto", JSONutils.getNombre(array.getJSONObject(viewPager.getCurrentItem()),ConfigurarIdioma.getLanguaje()));
             } catch (JSONException e) {
                 Log.e(TAG, "editItem: Error: " + e.getMessage());
             }
@@ -189,17 +187,14 @@ public class viewpager_galeria_pictos {
         }
     }
 
-    public void finishApp(int position){
-        Intent databack = new Intent();
-
+    public final void finishApp(int position){
+        int id = 0;
         try {
-            databack.putExtra("ID",json.getId(json.getJsonByPosition(array,position)));
+            id=json.getId(json.getJsonByPosition(array,position));
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-        databack.putExtra("Boton", parent_button);
-        mActivity.setResult(ConstantsGroupGalery.GALERIAPICTOS, databack);
+        mActivity.setResult(ConstantsGroupGalery.RETURNGALERIAPICTOSDATA, new Intent().putExtra("ID",id).putExtra("Boton",parent_button));
         mActivity.finish();
     }
 
@@ -209,8 +204,7 @@ public class viewpager_galeria_pictos {
             public void run() {
                 String name = "";
                 try {
-                    SharedPreferences sharedPrefsDefault = android.preference.PreferenceManager.getDefaultSharedPreferences(mActivity);
-                    name = JSONutils.getNombre(array.getJSONObject(position),sharedPrefsDefault.getString(mActivity.getString(R.string.str_idioma), "en"));
+                    name = JSONutils.getNombre(array.getJSONObject(position),ConfigurarIdioma.getLanguaje());
                 } catch (JSONException e) {
                     Log.e(TAG, "OnClickItem: Error: " + e.getMessage());
                 }

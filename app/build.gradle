@@ -242,7 +242,7 @@ dependencies {
     //Image Cropper
     implementation 'com.github.CanHub:Android-Image-Cropper:4.3.0'
     // pictograms library
-    implementation 'com.github.OTTAA-Project:PictogramsLibrary:0.19.43'
+    implementation 'com.github.OTTAA-Project:PictogramsLibrary:0.19.45'
     //Sendgrid integration
     implementation 'com.android.volley:volley:1.2.1'
 }

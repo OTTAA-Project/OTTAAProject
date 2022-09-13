@@ -1709,8 +1709,12 @@ public class Principal extends AppCompatActivity implements View
         GlideAttatcher attatcher = new GlideAttatcher(this);
         if (pictogram.getEditedPictogram().isEmpty()) {
             Log.d(TAG, "loadDrawable: "+ pictogram.getPictogram());
-            attatcher.UseCornerRadius(true).loadDrawable(this.getResources().getDrawable(this.getContext().getResources().getIdentifier(pictogram.getPictogram(),
+            if(!pictogram.getPictogram().startsWith("https://")){
+                attatcher.UseCornerRadius(true).loadDrawable(this.getResources().getDrawable(this.getContext().getResources().getIdentifier(pictogram.getPictogram(),
                     "drawable", this.getPackageName())), getImageView(position));
+            }else{
+                attatcher.UseCornerRadius(true).loadDrawable(Uri.parse(pictogram.getPictogram()), getImageView(position));
+            }
         } else {
             Log.d(TAG, "loadDrawable: "+ pictogram.getEditedPictogram());
             File picto = new File(pictogram.getEditedPictogram());
@@ -1860,11 +1864,10 @@ public class Principal extends AppCompatActivity implements View
                 break;
         }
     }
-
-    private void galeriaGruposResult(Intent data) {
+    @AddTrace(name = "GaleriaGruposResult",enabled = true)
+    private final void galeriaGruposResult(Intent data) {
         if (data != null) {
-           //todo review here because the json can be null
-            json.setmJSONArrayTodosLosPictos(json.getmJSONArrayTodosLosPictos());
+            json.setmJSONArrayTodosLosPictos(Json.getInstance().getmJSONArrayTodosLosPictos());
             Bundle extras = data.getExtras();
             if (extras != null) {
                 int Picto = extras.getInt("ID");

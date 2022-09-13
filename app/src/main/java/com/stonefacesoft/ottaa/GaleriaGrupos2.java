@@ -358,15 +358,14 @@ public class GaleriaGrupos2 extends AppCompatActivity implements OnStartDragList
 
         super.onActivityResult(requestCode, resultCode, data);
     }
-    private void returnData(Intent data){
+
+    private final void returnData(Intent data){
         if(data != null){
             if (data.getExtras() != null) {
                 Bundle extras = data.getExtras();
                 int Picto = extras.getInt("ID");
                 if (Picto != 0 && Picto != -1) {
-                    Intent databack = new Intent();
-                    databack.putExtra("ID", Picto);
-                    setResult(IntentCode.GALERIA_GRUPOS.getCode(), databack);
+                    setResult(IntentCode.GALERIA_GRUPOS.getCode(), new Intent().putExtra("ID",Picto));
                     finish();
                 }
             }
