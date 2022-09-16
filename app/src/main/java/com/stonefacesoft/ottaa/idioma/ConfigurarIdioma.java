@@ -16,6 +16,8 @@ import java.util.Locale;
 public class ConfigurarIdioma {
     private Context mContex;
     private static String language = "en";
+    private static Locale locale;
+
     private static boolean enableScreenScanning;
     public static void setLanguage(String name){
         language = name;
@@ -30,6 +32,7 @@ public class ConfigurarIdioma {
         Configuration config=new Configuration();
         Resources resources=context.getResources();
         config.locale=locale;
+        this.locale = locale;
        // context.getApplicationContext().getResources().updateConfiguration(config,context.getResources().getDisplayMetrics());
         this.mContex=context;
         resources.updateConfiguration(config, resources.getDisplayMetrics());
@@ -50,5 +53,7 @@ public class ConfigurarIdioma {
         return mContex;
     }
 
-
+    public static Locale getLocale() {
+        return locale;
+    }
 }

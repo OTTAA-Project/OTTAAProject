@@ -1,16 +1,27 @@
 package com.stonefacesoft.ottaa.utils.Audio;
 
+import static java.nio.ByteOrder.BIG_ENDIAN;
+import static java.nio.ByteOrder.LITTLE_ENDIAN;
+
 import android.content.Context;
+import android.media.MediaDataSource;
+import android.media.MediaRecorder;
+import android.net.rtp.AudioCodec;
+import android.os.Build;
 import android.os.Environment;
 import android.util.Log;
+
+import androidx.annotation.RequiresApi;
+
 
 import java.io.File;
 import java.io.IOException;
 
+
 public class AudioEncoder {
     private Context mContext;
     private File file;
-    private  AudioEncoder audioEncoder;
+
 
     public AudioEncoder( Context mContext){
         this.mContext = mContext;
@@ -25,10 +36,10 @@ public class AudioEncoder {
         return file;
     }
 
-    public void createFile(){
-        File storageDir = mContext.getExternalFilesDir(Environment.DIRECTORY_MUSIC);
+    public void createFile(String name){
+
         try {
-            file = File.createTempFile("audio",".wav",storageDir);
+            file = File.createTempFile(name,".wav");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -37,4 +48,6 @@ public class AudioEncoder {
     public Context getmContext() {
         return mContext;
     }
+
+
 }

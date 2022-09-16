@@ -139,10 +139,10 @@ dependencies {
 
     // Optional -- Mockito framework
     //androidx library
-    implementation 'androidx.appcompat:appcompat:1.5.0'
+    implementation 'androidx.appcompat:appcompat:1.5.1'
     implementation 'androidx.browser:browser:1.4.0'
     implementation 'androidx.cardview:cardview:1.0.0'
-    implementation "androidx.core:core:1.8.0"
+    implementation "androidx.core:core:1.9.0"
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.gridlayout:gridlayout:1.0.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
@@ -162,8 +162,8 @@ dependencies {
     implementation 'com.airbnb.android:lottie:3.0.0'
     implementation group: 'com.google.apis', name: 'google-api-services-translate', version: 'v2-rev48-1.22.0'
     implementation group: 'com.google.api-client', name: 'google-api-client-gson', version: '1.25.0'
-    implementation 'androidx.navigation:navigation-fragment:2.5.1'
-    implementation 'androidx.navigation:navigation-ui:2.5.1'
+    implementation 'androidx.navigation:navigation-fragment:2.5.2'
+    implementation 'androidx.navigation:navigation-ui:2.5.2'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
     testImplementation 'junit:junit:4.13.2'
     testImplementation "org.mockito:mockito-core:3.10.0"
@@ -245,6 +245,10 @@ dependencies {
     implementation 'com.github.OTTAA-Project:PictogramsLibrary:0.19.45'
     //Sendgrid integration
     implementation 'com.android.volley:volley:1.2.1'
+
+
+
+
 }
 
 

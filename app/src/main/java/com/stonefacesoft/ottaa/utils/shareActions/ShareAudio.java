@@ -32,20 +32,24 @@ public class ShareAudio extends ShareAction implements com.stonefacesoft.ottaa.I
 
     @Override
     public void prepareFile() {
-        sentMessage.setType("audio/mp4");
+        sentMessage.setType("audio/*");
         prepareAudio();
     }
 
     private void prepareAudio(){
         if(audioEncoder == null)
             audioEncoder = new AudioEncoder(mContext);
-        audioEncoder.createFile();
+
+        audioEncoder.createFile(phrase.trim());
+
 
         String  mostRecentUtteranceID = (new Random().nextInt() % 12000) + "";
         Bundle params = new Bundle();
         params.putString(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID,"audio.wav");
-        params.putString(TextToSpeech.Engine.KEY_PARAM_STREAM,String.valueOf(AudioManager.MODE_NORMAL));
-
+        params.putInt(TextToSpeech.Engine.KEY_PARAM_STREAM,AudioManager.STREAM_DTMF);
+        params.putFloat(TextToSpeech.Engine.KEY_PARAM_VOLUME,1.0f);
+        params.putFloat(TextToSpeech.Engine.KEY_PARAM_PAN,0.5f);
+        params.putInt(TextToSpeech.Engine.KEY_FEATURE_NETWORK_TIMEOUT_MS,1000);
         result = myTTS.getTTS().setOnUtteranceProgressListener(new UtteranceProgressListener() {
             boolean isFinish;
             @Override
@@ -55,7 +59,7 @@ public class ShareAudio extends ShareAction implements com.stonefacesoft.ottaa.I
 
             @Override
             public void onDone(String utteranceId) {
-                if(isFinish)
+                if(isFinish&& utteranceId.contains("audio"))
                     getResult();
                 else
                     Log.d(TAG, "onDone: false");
@@ -73,7 +77,7 @@ public class ShareAudio extends ShareAction implements com.stonefacesoft.ottaa.I
             }
 
         });
-        myTTS.getTTS().synthesizeToFile(phrase+"  ",params,audioEncoder.getFile(),"audio.m4a");
+        myTTS.getTTS().synthesizeToFile(phrase+"  ",params,audioEncoder.getFile(),"audio.wav");
     }
 
     @Override
@@ -88,7 +92,10 @@ public class ShareAudio extends ShareAction implements com.stonefacesoft.ottaa.I
 
     @Override
     public void getResult() {
-        if(result == TextToSpeech.SUCCESS)
+        if(result == TextToSpeech.SUCCESS){
             share();
+        }
     }
+
+
 }
