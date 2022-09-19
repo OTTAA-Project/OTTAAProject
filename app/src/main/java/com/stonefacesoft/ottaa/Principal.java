@@ -59,6 +59,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import com.airbnb.lottie.LottieAnimationView;
 import com.facebook.BuildConfig;
 import com.facebook.FacebookSdk;
+import com.google.android.exoplayer2.transformer.Transformer;
 import com.google.android.gms.common.api.internal.ConnectionCallbacks;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -285,6 +286,8 @@ public class Principal extends AppCompatActivity implements View
     private ImageButton masPictos;
     private ImageButton todosLosPictos;
     private ImageButton resetButton;
+
+    private Transformer transformer;
 
 
     public static byte[] getBytesFromInputStream(InputStream is) throws IOException {
@@ -1335,7 +1338,8 @@ public class Principal extends AppCompatActivity implements View
     public void onTextoTraducido(boolean traduccion) {
         if (traduccion) {
             if (myTTS != null) {
-                CompartirArchivos compartirArchivos = new CompartirArchivos(this, myTTS);
+                initTransformer();
+                CompartirArchivos compartirArchivos = new CompartirArchivos(this, myTTS,transformer);
                 compartirArchivos.setHistorial(historial.getListadoPictos());
                 Oracion = traducirfrase.getTexto();
                 compartirArchivos.seleccionarFormato(Oracion);
@@ -1783,7 +1787,7 @@ public class Principal extends AppCompatActivity implements View
         if (historial.getListadoPictos().size() > 0) {
             if (!sharedPrefsDefault.getBoolean(getString(R.string.mBoolModoExperimental), false)) {
                 if (myTTS != null) {
-                    CompartirArchivos compartirArchivos = new CompartirArchivos(getContext(), myTTS);
+                    CompartirArchivos compartirArchivos = new CompartirArchivos(getContext(), myTTS,transformer);
                     compartirArchivos.setHistorial(historial.getListadoPictos());
                     compartirArchivos.seleccionarFormato(Oracion);
                 }
@@ -2496,5 +2500,9 @@ public class Principal extends AppCompatActivity implements View
         if(aux != null)
             return aux.getImageview();
         return null;
+    }
+
+    public void initTransformer(){
+        transformer = new Transformer.Builder(this).build();
     }
 }

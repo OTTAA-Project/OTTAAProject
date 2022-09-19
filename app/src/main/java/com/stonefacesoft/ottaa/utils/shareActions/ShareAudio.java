@@ -12,6 +12,10 @@ import android.util.Log;
 
 import androidx.core.content.FileProvider;
 
+import com.google.android.exoplayer2.MediaItem;
+import com.google.android.exoplayer2.transformer.TransformationException;
+import com.google.android.exoplayer2.transformer.TransformationResult;
+import com.google.android.exoplayer2.transformer.Transformer;
 import com.stonefacesoft.ottaa.BuildConfig;
 import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.utils.Audio.AudioEncoder;
@@ -24,10 +28,12 @@ public class ShareAudio extends ShareAction implements com.stonefacesoft.ottaa.I
     private final textToSpeech myTTS;
     private AudioEncoder audioEncoder;
     private int result;
+    private Transformer transformer;
 
-    public ShareAudio(Context mContext, String phrase, textToSpeech myTTS) {
+    public ShareAudio(Context mContext, String phrase, textToSpeech myTTS,Transformer transformer) {
         super(mContext, phrase);
         this.myTTS = myTTS;
+        this.transformer = transformer;
     }
 
     @Override
@@ -85,7 +91,7 @@ public class ShareAudio extends ShareAction implements com.stonefacesoft.ottaa.I
         if (Build.VERSION.SDK_INT >= 30)
             sentMessage.putExtra(Intent.EXTRA_STREAM, FileProvider.getUriForFile(mContext, BuildConfig.APPLICATION_ID + ".fileprovider", audioEncoder.getFile()));
         else
-            sentMessage.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(audioEncoder.getFile()));
+            sentMessage.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(audioEncoder.getAux()));
         sentMessage.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         mContext.startActivity(Intent.createChooser(sentMessage,mContext.getResources().getString(R.string.pref_enviar)));
     }
@@ -93,8 +99,20 @@ public class ShareAudio extends ShareAction implements com.stonefacesoft.ottaa.I
     @Override
     public void getResult() {
         if(result == TextToSpeech.SUCCESS){
-            share();
+              audioEncoder.transformation(transformer,new Transformer.Listener() {
+                  @Override
+                  public void onTransformationCompleted(MediaItem inputMediaItem, TransformationResult transformationResult) {
+                      share();
+                  }
+
+                  @Override
+                  public void onTransformationError(MediaItem inputMediaItem, TransformationException exception) {
+                      Transformer.Listener.super.onTransformationError(inputMediaItem, exception);
+                  }
+              },audioEncoder.getFile());
+          
         }
+
     }
 
 
