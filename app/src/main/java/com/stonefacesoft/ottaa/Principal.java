@@ -4,7 +4,6 @@ package com.stonefacesoft.ottaa;
 import static com.facebook.FacebookSdk.setAutoLogAppEventsEnabled;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -44,10 +43,6 @@ import android.widget.PopupMenu.OnMenuItemClickListener;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -55,6 +50,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.facebook.BuildConfig;
@@ -90,6 +86,7 @@ import com.stonefacesoft.ottaa.FirebaseRequests.BajarJsonFirebase;
 import com.stonefacesoft.ottaa.FirebaseRequests.FirebaseUtils;
 import com.stonefacesoft.ottaa.FirebaseRequests.SubirArchivosFirebase;
 import com.stonefacesoft.ottaa.FirebaseRequests.SubirBackupFirebase;
+import com.stonefacesoft.ottaa.Interfaces.AudioTransformationListener;
 import com.stonefacesoft.ottaa.Interfaces.FailReadPictogramOrigin;
 import com.stonefacesoft.ottaa.Interfaces.FirebaseSuccessListener;
 import com.stonefacesoft.ottaa.Interfaces.LoadPictograms;
@@ -108,6 +105,7 @@ import com.stonefacesoft.ottaa.utils.Accesibilidad.Gesture;
 import com.stonefacesoft.ottaa.utils.Accesibilidad.SayActivityName;
 import com.stonefacesoft.ottaa.utils.Accesibilidad.devices.PrincipalControls;
 import com.stonefacesoft.ottaa.utils.Accesibilidad.scrollActions.ScrollFunctionMainActivity;
+import com.stonefacesoft.ottaa.utils.Audio.FileEncoder;
 import com.stonefacesoft.ottaa.utils.AvatarPackage.Avatar;
 import com.stonefacesoft.ottaa.utils.AvatarPackage.AvatarUtils;
 import com.stonefacesoft.ottaa.utils.ConnectionDetector;
@@ -164,7 +162,7 @@ public class Principal extends AppCompatActivity implements View
         .OnClickListener,
         View.OnLongClickListener,
         OnMenuItemClickListener,
-        FirebaseSuccessListener, NavigationView.OnNavigationItemSelectedListener, PlaceSuccessListener, ConnectionCallbacks, translateInterface, View.OnTouchListener, Make_Click_At_Time , SortPictogramsInterface, LoadPictograms {
+        FirebaseSuccessListener, NavigationView.OnNavigationItemSelectedListener, PlaceSuccessListener, ConnectionCallbacks, translateInterface, View.OnTouchListener, Make_Click_At_Time , SortPictogramsInterface, LoadPictograms, AudioTransformationListener {
 
     private static final String TAG = "Principal";
     public static boolean cerrarSession = false;// use this variable to notify when the session is closed
@@ -287,7 +285,7 @@ public class Principal extends AppCompatActivity implements View
     private ImageButton todosLosPictos;
     private ImageButton resetButton;
 
-    private Transformer transformer;
+
 
 
     public static byte[] getBytesFromInputStream(InputStream is) throws IOException {
@@ -395,6 +393,7 @@ public class Principal extends AppCompatActivity implements View
                 }
             }
         });
+
         initComponents();
         System.gc();
 
@@ -700,10 +699,12 @@ public class Principal extends AppCompatActivity implements View
     @Override
     protected void onStart() {
         super.onStart();
-        if(user!= null){
+        if (user!= null){
             if(!user.isConnected())
                 user.connectClient();
         }
+
+
     }
 
     @Override
@@ -1338,8 +1339,7 @@ public class Principal extends AppCompatActivity implements View
     public void onTextoTraducido(boolean traduccion) {
         if (traduccion) {
             if (myTTS != null) {
-                initTransformer();
-                CompartirArchivos compartirArchivos = new CompartirArchivos(this, myTTS,transformer);
+                CompartirArchivos compartirArchivos = new CompartirArchivos(this, myTTS,this);
                 compartirArchivos.setHistorial(historial.getListadoPictos());
                 Oracion = traducirfrase.getTexto();
                 compartirArchivos.seleccionarFormato(Oracion);
@@ -1787,7 +1787,7 @@ public class Principal extends AppCompatActivity implements View
         if (historial.getListadoPictos().size() > 0) {
             if (!sharedPrefsDefault.getBoolean(getString(R.string.mBoolModoExperimental), false)) {
                 if (myTTS != null) {
-                    CompartirArchivos compartirArchivos = new CompartirArchivos(getContext(), myTTS,transformer);
+                    CompartirArchivos compartirArchivos = new CompartirArchivos(getContext(), myTTS,this);
                     compartirArchivos.setHistorial(historial.getListadoPictos());
                     compartirArchivos.seleccionarFormato(Oracion);
                 }
@@ -2373,6 +2373,11 @@ public class Principal extends AppCompatActivity implements View
         loadOptions(json, jsonObject);
     }
 
+    @Override
+    public void startAudioTransformation(Transformer.Listener listener, String pathFile, String locationPath) {
+        new FileEncoder(this).encodeAudioFile(listener,pathFile,locationPath);
+    }
+
     public class initComponentsClass extends AsyncTask<Void,Void,Void>{
         boolean used = false;
 
@@ -2500,9 +2505,5 @@ public class Principal extends AppCompatActivity implements View
         if(aux != null)
             return aux.getImageview();
         return null;
-    }
-
-    public void initTransformer(){
-        transformer = new Transformer.Builder(this).build();
     }
 }

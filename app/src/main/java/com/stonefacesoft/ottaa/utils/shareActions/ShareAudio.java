@@ -12,13 +12,15 @@ import android.util.Log;
 
 import androidx.core.content.FileProvider;
 
+
 import com.google.android.exoplayer2.MediaItem;
 import com.google.android.exoplayer2.transformer.TransformationException;
 import com.google.android.exoplayer2.transformer.TransformationResult;
 import com.google.android.exoplayer2.transformer.Transformer;
 import com.stonefacesoft.ottaa.BuildConfig;
+import com.stonefacesoft.ottaa.Interfaces.AudioTransformationListener;
 import com.stonefacesoft.ottaa.R;
-import com.stonefacesoft.ottaa.utils.Audio.AudioEncoder;
+import com.stonefacesoft.ottaa.utils.Audio.AudioFileCreator;
 import com.stonefacesoft.ottaa.utils.textToSpeech;
 
 import java.util.Random;
@@ -26,25 +28,25 @@ import java.util.Random;
 public class ShareAudio extends ShareAction implements com.stonefacesoft.ottaa.Interfaces.ShareAudio {
 
     private final textToSpeech myTTS;
-    private AudioEncoder audioEncoder;
+    private AudioFileCreator audioEncoder;
     private int result;
-    private Transformer transformer;
+    private AudioTransformationListener transformationListener;
 
-    public ShareAudio(Context mContext, String phrase, textToSpeech myTTS,Transformer transformer) {
+    public ShareAudio(Context mContext, String phrase, textToSpeech myTTS,AudioTransformationListener transformer) {
         super(mContext, phrase);
         this.myTTS = myTTS;
-        this.transformer = transformer;
+        this.transformationListener = transformer;
     }
 
     @Override
     public void prepareFile() {
-        sentMessage.setType("audio/*");
+        sentMessage.setType("audio/ogg");
         prepareAudio();
     }
 
     private void prepareAudio(){
         if(audioEncoder == null)
-            audioEncoder = new AudioEncoder(mContext);
+            audioEncoder = new AudioFileCreator(mContext);
 
         audioEncoder.createFile(phrase.trim());
 
@@ -87,32 +89,32 @@ public class ShareAudio extends ShareAction implements com.stonefacesoft.ottaa.I
     }
 
     @Override
+    public void getResult() {
+        if(result == TextToSpeech.SUCCESS){
+            audioEncoder.transformation(transformationListener,new Transformer.Listener() {
+                @Override
+                public void onTransformationCompleted(MediaItem inputMediaItem, TransformationResult transformationResult) {
+                    share();
+                }
+
+                @Override
+                public void onTransformationError(MediaItem inputMediaItem, TransformationException exception) {
+                    Transformer.Listener.super.onTransformationError(inputMediaItem, exception);
+                }
+            });
+
+        }
+
+    }
+
+    @Override
     public void share() {
         if (Build.VERSION.SDK_INT >= 30)
-            sentMessage.putExtra(Intent.EXTRA_STREAM, FileProvider.getUriForFile(mContext, BuildConfig.APPLICATION_ID + ".fileprovider", audioEncoder.getFile()));
+            sentMessage.putExtra(Intent.EXTRA_STREAM, FileProvider.getUriForFile(mContext, BuildConfig.APPLICATION_ID + ".fileprovider", audioEncoder.getAux()));
         else
             sentMessage.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(audioEncoder.getAux()));
         sentMessage.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         mContext.startActivity(Intent.createChooser(sentMessage,mContext.getResources().getString(R.string.pref_enviar)));
-    }
-
-    @Override
-    public void getResult() {
-        if(result == TextToSpeech.SUCCESS){
-              audioEncoder.transformation(transformer,new Transformer.Listener() {
-                  @Override
-                  public void onTransformationCompleted(MediaItem inputMediaItem, TransformationResult transformationResult) {
-                      share();
-                  }
-
-                  @Override
-                  public void onTransformationError(MediaItem inputMediaItem, TransformationException exception) {
-                      Transformer.Listener.super.onTransformationError(inputMediaItem, exception);
-                  }
-              },audioEncoder.getFile());
-          
-        }
-
     }
 
 

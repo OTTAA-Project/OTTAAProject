@@ -247,8 +247,10 @@ dependencies {
     implementation 'com.android.volley:volley:1.2.1'
 
     implementation 'com.google.android.exoplayer:exoplayer:2.18.1'
+    implementation 'com.google.android.exoplayer:exoplayer-dash:2.18.1'
     implementation 'com.google.android.exoplayer:exoplayer-transformer:2.18.1'
     implementation 'com.google.android.exoplayer:exoplayer-core:2.18.1'
+
 
 
 
