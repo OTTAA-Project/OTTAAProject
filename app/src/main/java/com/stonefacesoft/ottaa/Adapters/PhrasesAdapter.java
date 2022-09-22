@@ -38,7 +38,7 @@ public class PhrasesAdapter extends RecyclerView.Adapter<PhrasesAdapter.PhraseAd
     protected final textToSpeech myTTs;
     protected final GlideAttatcher glideAttatcher;
     protected final GestionarBitmap gestionarBitmap;
-    private  ArrayList<FavModel> mFavImagesArrayList;
+    protected   ArrayList<FavModel> mFavImagesArrayList;
 
 
     public PhrasesAdapter(Context mContext) {

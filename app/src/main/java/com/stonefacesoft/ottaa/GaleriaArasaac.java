@@ -22,6 +22,7 @@ import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.MenuItemCompat;
 
+import com.google.firebase.perf.metrics.AddTrace;
 import com.stonefacesoft.ottaa.Interfaces.SearchAraasacPictogram;
 import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.utils.ConnectionDetector;
@@ -56,6 +57,7 @@ public class GaleriaArasaac extends AppCompatActivity implements SearchView.OnQu
     private Json json;
     private gridViewAdapter gridAdapter;
 
+    @AddTrace(name = "GaleriaArasaac", enabled = true /* optional */)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Intent intento = getIntent();

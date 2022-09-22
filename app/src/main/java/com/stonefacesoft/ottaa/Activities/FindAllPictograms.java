@@ -9,6 +9,7 @@ import androidx.appcompat.widget.SearchView;
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.perf.metrics.AddTrace;
 import com.stonefacesoft.ottaa.FirebaseRequests.FirebaseUtils;
 import com.stonefacesoft.ottaa.FirebaseRequests.SubirArchivosFirebase;
 import com.stonefacesoft.ottaa.R;
@@ -26,6 +27,7 @@ public class FindAllPictograms extends AppCompatActivity {
     private SubirArchivosFirebase uploadFile;
     private FirebaseUtils firebaseUtils;
 
+    @AddTrace(name = "FindAllPictograms", enabled = true /* optional */)
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

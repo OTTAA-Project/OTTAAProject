@@ -12,6 +12,7 @@ import com.stonefacesoft.ottaa.Interfaces.DrawableInterface;
 import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.idioma.ConfigurarIdioma;
+import com.stonefacesoft.ottaa.utils.ConnectionDetector;
 import com.stonefacesoft.pictogramslibrary.Classes.Pictogram;
 import com.stonefacesoft.pictogramslibrary.view.PictoView;
 
@@ -34,17 +35,16 @@ public class CombineImages implements DrawableInterface {
         images = new ArrayList<>();
     }
 
-    public void loadPictogram(Json json,JSONObject child){
-        try {
+    public void loadPictogram(Json json,JSONObject child)throws Exception{
+
             Drawable nube = AppCompatResources.getDrawable(context, R.drawable.ic_baseline_cloud_download_24_big);//para evitar que no funcionen las frases mas usadas se pone el icono de la nube
             Drawable imagen = json.getIconWithNullOption(child);
             if(imagen != null)
                 images.add(imagen);
             else
                 loadPictogramsLogo(child,imagen,nube);
-        } catch (Exception e) {
-            Log.e("CombineImages", "loadPictogram: "+e.getLocalizedMessage().toLowerCase());
-        }
+
+
     }
 
     public PictoView preparePictoView() throws Exception{
@@ -77,8 +77,12 @@ public class CombineImages implements DrawableInterface {
             pictoView.setUpGlideAttatcher(context);
             if(imagen == null){
                 try {
-                    DrawableManager drawableManager = new DrawableManager();
-                    Drawable drawable = drawableManager.fetchDrawable(json.getJSONObject("imagen").getString("urlFoto"),this);
+                    if(ConnectionDetector.isNetworkAvailable(context)) {
+                        DrawableManager drawableManager = new DrawableManager();
+                        drawableManager.fetchDrawable(json.getJSONObject("imagen").getString("urlFoto"), this);
+                    }else{
+                        images.add(nube);
+                    }
                 } catch (Exception ex) {
                     images.add(nube);
                 }

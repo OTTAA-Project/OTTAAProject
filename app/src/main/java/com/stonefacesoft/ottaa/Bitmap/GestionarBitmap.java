@@ -354,6 +354,8 @@ public class GestionarBitmap  {
         if(combineImages(20, 20) != null ) {
             bitmap = getRoundedCornerBitmap(combineImages(20, 2), 20);
             loadOnlinePictograms.loadPictograms(bitmap);
+        }else{
+            Log.d(TAG, "getBitmapDeFrase: "+ "Combine Images Error");
         }
 
     }
@@ -387,9 +389,13 @@ public class GestionarBitmap  {
         JSONArray array = null;
         try {
             array = getJsonArray(phrase);
-            for (int i = 0; i < array.length(); i++) {
+            for (int i = 0; i <= array.length()-1; i++) {
                 picto = json.getPictoFromId2(array.getJSONObject(i).getInt("id"));
-                mCombineImages.loadPictogram(json,picto);
+                try {
+                    mCombineImages.loadPictogram(json, picto);
+                }catch (Exception ex){
+                    Log.e(TAG, "preparePhrase: Image not found" );
+                }
             }
         } catch (JSONException e) {
             e.printStackTrace();

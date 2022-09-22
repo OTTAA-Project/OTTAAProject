@@ -3,6 +3,7 @@ package com.stonefacesoft.ottaa.Adapters;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,6 +52,7 @@ public class GaleriaPictosAdapter extends RecyclerView.Adapter<GaleriaPictosAdap
         this.mArrayPictos = mArrayPictos;
         this.uploadFirebaseFile = new SubirArchivosFirebase(mContext);
         this.mAuth = auth;
+        removeOldFiles();
     }
     public GaleriaPictosAdapter removeOldFiles(){
         JSONArray aux = new JSONArray();
@@ -80,10 +82,29 @@ public class GaleriaPictosAdapter extends RecyclerView.Adapter<GaleriaPictosAdap
 
     @Override
     public void onBindViewHolder(PictosViewHolder holder, int position) {
-        if(!mArrayPictos.isNull(position))
+        if(!mArrayPictos.isNull(position)) {
             new cargarPictosAsync(holder, position).execute();
-        else {
-            mArrayPictos.remove(position);
+        }else{
+            try {
+                mArrayPictos.remove(position);
+                notifyDataSetChanged();
+            }catch (Exception ex){
+                onViewDetachedFromWindow(holder);
+            }
+        }
+    }
+
+
+
+    @Override
+    public void onViewAttachedToWindow(@NonNull PictosViewHolder holder) {
+
+    }
+
+    @Override
+    public void onViewDetachedFromWindow(@NonNull PictosViewHolder holder) {
+        if(holder.pictoView == null){
+            mArrayPictos.remove(holder.position);
             notifyDataSetChanged();
         }
     }
@@ -197,6 +218,7 @@ public class GaleriaPictosAdapter extends RecyclerView.Adapter<GaleriaPictosAdap
     }
 
     public class PictosViewHolder extends RecyclerView.ViewHolder {
+        int position = -1;
         PictoView pictoView;
         public PictosViewHolder(View itemView) {
             super(itemView);
@@ -232,9 +254,11 @@ public class GaleriaPictosAdapter extends RecyclerView.Adapter<GaleriaPictosAdap
         protected Void doInBackground(Void... voids) {
             try {
                 aux = mArrayPictos.getJSONObject(mPosition);
+                mHolder.position = mPosition;
                 if(aux !=  null){
                     mHolder.pictoView.setUpContext(mContext);
                     mHolder.pictoView.setUpGlideAttatcher(mContext);
+
                 }
             } catch (Exception e) {
                 e.getMessage();
@@ -251,6 +275,7 @@ public class GaleriaPictosAdapter extends RecyclerView.Adapter<GaleriaPictosAdap
                     mHolder.pictoView.setPictogramsLibraryPictogram(new Pictogram(aux, ConfigurarIdioma.getLanguaje()));
                 }
             } catch (Exception ex) {
+
             }
         }
     }

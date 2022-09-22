@@ -16,6 +16,7 @@ import com.stonefacesoft.ottaa.RecyclerViews.Favorite_Phrases_recycler_view;
 import com.stonefacesoft.ottaa.Views.Phrases.PhrasesView;
 import com.stonefacesoft.ottaa.utils.Accesibilidad.SayActivityName;
 import com.stonefacesoft.ottaa.utils.IntentCode;
+import com.stonefacesoft.ottaa.utils.constants.Constants;
 
 public class FavoritePhrases extends PhrasesView {
 
@@ -77,6 +78,8 @@ public class FavoritePhrases extends PhrasesView {
         finish();
     }
 
+
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
@@ -92,9 +95,19 @@ public class FavoritePhrases extends PhrasesView {
             SharedPreferences defaultSharedPreferences= PreferenceManager.getDefaultSharedPreferences(this);
             SayActivityName.getInstance(this).sayTitle(getResources().getString(R.string.frases_musadas));
             defaultSharedPreferences.edit().putInt("favoritePhrase",0).apply();
-            startActivity(new Intent(this,MostUsedPhrases.class));
+            startActivityForResult(new Intent(this,MostUsedPhrases.class), IntentCode.GALERIA_GRUPOS.getCode());
             finish();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == IntentCode.VINCULAR_FRASES.getCode() && resultCode == RESULT_OK){
+            if(data.getBooleanExtra("updateView",false)){
+               favorite_phrases_recycler_view.updateData();
+            }
+        }
     }
 }

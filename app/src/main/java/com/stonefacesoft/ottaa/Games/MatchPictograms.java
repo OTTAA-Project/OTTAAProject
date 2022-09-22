@@ -17,6 +17,7 @@ import android.widget.Button;
 
 import androidx.annotation.Nullable;
 
+import com.google.firebase.perf.metrics.AddTrace;
 import com.stonefacesoft.ottaa.Dialogos.DialogUtils.DialogGameProgressInform;
 import com.stonefacesoft.ottaa.Games.Model.MatchPictogramsModel;
 import com.stonefacesoft.ottaa.JSONutils.Json;
@@ -45,7 +46,7 @@ public class MatchPictograms extends GameViewSelectPictograms {
     };
     private MatchPictogramsModel model;
 
-
+    @AddTrace(name = "MatchPictograms", enabled = true /* optional */)
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

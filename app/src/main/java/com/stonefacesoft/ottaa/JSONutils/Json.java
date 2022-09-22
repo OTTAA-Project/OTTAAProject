@@ -77,15 +77,15 @@ public class Json  {
     //Declaro el manejador de preferencia
     protected static SharedPreferences sharedPrefsDefault;
     //Json singleton
-    private static volatile Json _instance;
+    private static Json _instance;
     private static boolean fallaJson;
     private final int idGps = 0;
     // Arraylist de Json
     private ArrayList<JSONObject> mArrayListTodasLasFotosBackup;
     private JSONArray mJSONArrayPictosSugeridos;
-    private volatile JSONArray mJSONArrayTodosLosGrupos;
-    private volatile JSONArray mJSONArrayTodasLasFrases;
-    private volatile JSONArray mJSONArrayTodosLosPictos;
+    private JSONArray mJSONArrayTodosLosGrupos;
+    private JSONArray mJSONArrayTodasLasFrases;
+    private JSONArray mJSONArrayTodosLosPictos;
     private JSONArray mJSONArrayTodasLasFotosBackup;
     private JSONArray mJSonArrayJuegos;
     private JSONArray mJSonArrayFrasesFavoritas;
@@ -220,7 +220,6 @@ public class Json  {
             try {
                 if(aux.getJSONObject(i).has("locale")){
                     if(aux.getJSONObject(i).getString("locale").toLowerCase().equals(ConfigurarIdioma.getLanguaje().toLowerCase())) {
-                        Log.e(TAG, "getPhrasesByLanguage: "+aux.getJSONObject(i).toString());
                         result.put(aux.getJSONObject(i));
                     }
                 }
@@ -729,6 +728,15 @@ public class Json  {
             }
         }
         return arrayListADevolver;
+    }
+
+    public JSONObject getJsonByPosition(JSONArray array,int position){
+        try{
+            return array.getJSONObject(position);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     //Ya esta

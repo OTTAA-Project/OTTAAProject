@@ -51,9 +51,11 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+
 import com.airbnb.lottie.LottieAnimationView;
 import com.facebook.BuildConfig;
 import com.facebook.FacebookSdk;
+import com.google.android.exoplayer2.transformer.Transformer;
 import com.google.android.gms.common.api.internal.ConnectionCallbacks;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -68,6 +70,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.database.annotations.Nullable;
 import com.google.firebase.installations.FirebaseInstallations;
+import com.google.firebase.perf.metrics.AddTrace;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.stonefacesoft.ottaa.Activities.Phrases.FavoritePhrases;
@@ -83,8 +86,10 @@ import com.stonefacesoft.ottaa.FirebaseRequests.BajarJsonFirebase;
 import com.stonefacesoft.ottaa.FirebaseRequests.FirebaseUtils;
 import com.stonefacesoft.ottaa.FirebaseRequests.SubirArchivosFirebase;
 import com.stonefacesoft.ottaa.FirebaseRequests.SubirBackupFirebase;
+import com.stonefacesoft.ottaa.Interfaces.AudioTransformationListener;
 import com.stonefacesoft.ottaa.Interfaces.FailReadPictogramOrigin;
 import com.stonefacesoft.ottaa.Interfaces.FirebaseSuccessListener;
+import com.stonefacesoft.ottaa.Interfaces.LoadPictograms;
 import com.stonefacesoft.ottaa.Interfaces.Make_Click_At_Time;
 import com.stonefacesoft.ottaa.Interfaces.PlaceSuccessListener;
 import com.stonefacesoft.ottaa.Interfaces.SortPictogramsInterface;
@@ -100,6 +105,7 @@ import com.stonefacesoft.ottaa.utils.Accesibilidad.Gesture;
 import com.stonefacesoft.ottaa.utils.Accesibilidad.SayActivityName;
 import com.stonefacesoft.ottaa.utils.Accesibilidad.devices.PrincipalControls;
 import com.stonefacesoft.ottaa.utils.Accesibilidad.scrollActions.ScrollFunctionMainActivity;
+import com.stonefacesoft.ottaa.utils.Audio.FileEncoder;
 import com.stonefacesoft.ottaa.utils.AvatarPackage.Avatar;
 import com.stonefacesoft.ottaa.utils.AvatarPackage.AvatarUtils;
 import com.stonefacesoft.ottaa.utils.ConnectionDetector;
@@ -156,7 +162,7 @@ public class Principal extends AppCompatActivity implements View
         .OnClickListener,
         View.OnLongClickListener,
         OnMenuItemClickListener,
-        FirebaseSuccessListener, NavigationView.OnNavigationItemSelectedListener, PlaceSuccessListener, ConnectionCallbacks, translateInterface, View.OnTouchListener, Make_Click_At_Time , SortPictogramsInterface {
+        FirebaseSuccessListener, NavigationView.OnNavigationItemSelectedListener, PlaceSuccessListener, ConnectionCallbacks, translateInterface, View.OnTouchListener, Make_Click_At_Time , SortPictogramsInterface, LoadPictograms, AudioTransformationListener {
 
     private static final String TAG = "Principal";
     public static boolean cerrarSession = false;// use this variable to notify when the session is closed
@@ -280,6 +286,8 @@ public class Principal extends AppCompatActivity implements View
     private ImageButton resetButton;
 
 
+
+
     public static byte[] getBytesFromInputStream(InputStream is) throws IOException {
         try (ByteArrayOutputStream os = new ByteArrayOutputStream()) {
             byte[] buffer = new byte[0xFFFF];
@@ -385,6 +393,7 @@ public class Principal extends AppCompatActivity implements View
                 }
             }
         });
+
         initComponents();
         System.gc();
 
@@ -690,10 +699,12 @@ public class Principal extends AppCompatActivity implements View
     @Override
     protected void onStart() {
         super.onStart();
-        if(user!= null){
+        if (user!= null){
             if(!user.isConnected())
                 user.connectClient();
         }
+
+
     }
 
     @Override
@@ -954,11 +965,7 @@ public class Principal extends AppCompatActivity implements View
         }
     }
 
-    private void cargarSelec(JSONObject jsonObject) {
-        CargarOracion(jsonObject, sharedPrefsDefault.getString(getString(R.string.str_idioma), "en"));
-        CargarSeleccion(jsonObject);
-        CantClicks++;
-    }
+
 
     private void volver() {
         pictoPadre = historial.removePictograms(false);
@@ -979,7 +986,12 @@ public class Principal extends AppCompatActivity implements View
             return;
         }
         historial.addPictograma(opcion);
-        /*try {
+        createRelationShip(opcion,this);
+        sayPictogramName(JSONutils.getNombre(opcion, sharedPrefsDefault.getString(getResources().getString(R.string.str_idioma), "en")));
+    }
+
+    private void createRelationShip(JSONObject opcion,LoadPictograms loadPictograms){
+        try {
             int pos = JSONutils.getPositionPicto2(json.getmJSONArrayTodosLosPictos(), pictoPadre.getInt("id"));
             if(pos != -1) {
                 JSONutils.aumentarFrec(pictoPadre, opcion);
@@ -989,11 +1001,9 @@ public class Principal extends AppCompatActivity implements View
             }
         } catch (JSONException e) {
             CrashlyticsUtils.getInstance().getCrashlytics().recordException(e.getCause());
-        }*/
-        sayPictogramName(JSONutils.getNombre(opcion, sharedPrefsDefault.getString(getResources().getString(R.string.str_idioma), "en")));
+        }
         pictoPadre = opcion;
-        cargarSelec(pictoPadre);
-        loadOptions(json, opcion);
+        loadPictograms.loadSelection(pictoPadre);
     }
 
     private void cargarMasPictos() {
@@ -1171,8 +1181,6 @@ public class Principal extends AppCompatActivity implements View
 
     @Override
     public void onClick(View v) {
-        View vista = findViewById(v.getId());
-        Log.d(TAG, "onClick: " + vista.getId());
         switch (v.getId()) {
             case R.id.Option1:
                 onClickOption(opcion1, Opcion1_clicker);
@@ -1331,7 +1339,7 @@ public class Principal extends AppCompatActivity implements View
     public void onTextoTraducido(boolean traduccion) {
         if (traduccion) {
             if (myTTS != null) {
-                CompartirArchivos compartirArchivos = new CompartirArchivos(this, myTTS);
+                CompartirArchivos compartirArchivos = new CompartirArchivos(this, myTTS,this);
                 compartirArchivos.setHistorial(historial.getListadoPictos());
                 Oracion = traducirfrase.getTexto();
                 compartirArchivos.seleccionarFormato(Oracion);
@@ -1476,7 +1484,6 @@ public class Principal extends AppCompatActivity implements View
             try {
                 if (pictoPadre == null || pictoPadre.getInt("id") == 0)
                     pictoPadre = json.getPictoFromId2(0);
-
                 cuentaMasPictos = 0;
                 if(pictoPadre != null)
                     loadOptions(json, pictoPadre);
@@ -1706,8 +1713,12 @@ public class Principal extends AppCompatActivity implements View
         GlideAttatcher attatcher = new GlideAttatcher(this);
         if (pictogram.getEditedPictogram().isEmpty()) {
             Log.d(TAG, "loadDrawable: "+ pictogram.getPictogram());
-            attatcher.UseCornerRadius(true).loadDrawable(this.getResources().getDrawable(this.getContext().getResources().getIdentifier(pictogram.getPictogram(),
+            if(!pictogram.getPictogram().startsWith("https://")){
+                attatcher.UseCornerRadius(true).loadDrawable(this.getResources().getDrawable(this.getContext().getResources().getIdentifier(pictogram.getPictogram(),
                     "drawable", this.getPackageName())), getImageView(position));
+            }else{
+                attatcher.UseCornerRadius(true).loadDrawable(Uri.parse(pictogram.getPictogram()), getImageView(position));
+            }
         } else {
             Log.d(TAG, "loadDrawable: "+ pictogram.getEditedPictogram());
             File picto = new File(pictogram.getEditedPictogram());
@@ -1776,7 +1787,7 @@ public class Principal extends AppCompatActivity implements View
         if (historial.getListadoPictos().size() > 0) {
             if (!sharedPrefsDefault.getBoolean(getString(R.string.mBoolModoExperimental), false)) {
                 if (myTTS != null) {
-                    CompartirArchivos compartirArchivos = new CompartirArchivos(getContext(), myTTS);
+                    CompartirArchivos compartirArchivos = new CompartirArchivos(getContext(), myTTS,this);
                     compartirArchivos.setHistorial(historial.getListadoPictos());
                     compartirArchivos.seleccionarFormato(Oracion);
                 }
@@ -1857,11 +1868,10 @@ public class Principal extends AppCompatActivity implements View
                 break;
         }
     }
-
-    private void galeriaGruposResult(Intent data) {
+    @AddTrace(name = "GaleriaGruposResult",enabled = true)
+    private final void galeriaGruposResult(Intent data) {
         if (data != null) {
-           //todo review here because the json can be null
-            json.setmJSONArrayTodosLosPictos(json.getmJSONArrayTodosLosPictos());
+            json.setmJSONArrayTodosLosPictos(Json.getInstance().getmJSONArrayTodosLosPictos());
             Bundle extras = data.getExtras();
             if (extras != null) {
                 int Picto = extras.getInt("ID");
@@ -1940,6 +1950,7 @@ public class Principal extends AppCompatActivity implements View
         return true;
     }
 
+    @AddTrace(name = "InitComponents", enabled = true /* optional */)
     private void initComponents() {
         initFlags();
         initBackUp();
@@ -2092,7 +2103,7 @@ public class Principal extends AppCompatActivity implements View
         }
     }
 
-
+    @AddTrace(name = "setOnLongClickListener", enabled = true /* optional */)
     private void setOnLongClickListener(){
         botonFavoritos.setOnClickListener(this);
         talk.setOnClickListener(this);
@@ -2221,11 +2232,9 @@ public class Principal extends AppCompatActivity implements View
                     loadOptions(json,padre);
                 }
             }
-
     }
 
     public void downloadFailedFile(int size) {
-
         getFirebaseDialog().setTitle(getApplicationContext().getResources().getString(R.string.edit_sync));
         getFirebaseDialog().setMessage(getApplicationContext().getResources().getString(R.string.edit_sync_pict));
         getFirebaseDialog().mostrarDialogo();
@@ -2354,6 +2363,19 @@ public class Principal extends AppCompatActivity implements View
             }
         });
 
+    }
+
+    @Override
+    public void loadSelection(JSONObject jsonObject) {
+        CargarOracion(jsonObject, sharedPrefsDefault.getString(getString(R.string.str_idioma), "en"));
+        CargarSeleccion(jsonObject);
+        CantClicks++;
+        loadOptions(json, jsonObject);
+    }
+
+    @Override
+    public void startAudioTransformation(Transformer.Listener listener, String pathFile, String locationPath) {
+        new FileEncoder(this).encodeAudioFile(listener,pathFile,locationPath);
     }
 
     public class initComponentsClass extends AsyncTask<Void,Void,Void>{

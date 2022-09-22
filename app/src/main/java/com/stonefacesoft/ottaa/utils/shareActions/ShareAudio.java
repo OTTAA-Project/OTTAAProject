@@ -12,40 +12,53 @@ import android.util.Log;
 
 import androidx.core.content.FileProvider;
 
+
+import com.google.android.exoplayer2.MediaItem;
+import com.google.android.exoplayer2.transformer.TransformationException;
+import com.google.android.exoplayer2.transformer.TransformationResult;
+import com.google.android.exoplayer2.transformer.Transformer;
 import com.stonefacesoft.ottaa.BuildConfig;
+import com.stonefacesoft.ottaa.Interfaces.AudioTransformationListener;
 import com.stonefacesoft.ottaa.R;
-import com.stonefacesoft.ottaa.utils.Audio.AudioEncoder;
+import com.stonefacesoft.ottaa.utils.Audio.AudioFileCreator;
 import com.stonefacesoft.ottaa.utils.textToSpeech;
 
 import java.util.Random;
-
-public class ShareAudio extends ShareAction{
+//https://stackoverflow.com/questions/23299582/android-tts-synthesizetofile-doesnt-work review that example
+public class ShareAudio extends ShareAction implements com.stonefacesoft.ottaa.Interfaces.ShareAudio {
 
     private final textToSpeech myTTS;
-    private AudioEncoder audioEncoder;
+    private AudioFileCreator audioEncoder;
+    private int result;
+    private AudioTransformationListener transformationListener;
 
-    public ShareAudio(Context mContext, String phrase, textToSpeech myTTS) {
+    public ShareAudio(Context mContext, String phrase, textToSpeech myTTS,AudioTransformationListener transformer) {
         super(mContext, phrase);
         this.myTTS = myTTS;
+        this.transformationListener = transformer;
     }
 
     @Override
     public void prepareFile() {
-        sentMessage.setType("audio/wav");
+        sentMessage.setType("audio/ogg");
         prepareAudio();
     }
 
     private void prepareAudio(){
         if(audioEncoder == null)
-            audioEncoder = new AudioEncoder(mContext);
-        audioEncoder.createFile();
-        file = audioEncoder.getFile();
+            audioEncoder = new AudioFileCreator(mContext);
+
+        audioEncoder.createFile(phrase.trim());
+
+
         String  mostRecentUtteranceID = (new Random().nextInt() % 12000) + "";
         Bundle params = new Bundle();
         params.putString(TextToSpeech.Engine.KEY_PARAM_UTTERANCE_ID,"audio.wav");
-        params.putString(TextToSpeech.Engine.KEY_PARAM_STREAM,String.valueOf(AudioManager.MODE_NORMAL));
-
-        myTTS.getTTS().setOnUtteranceProgressListener(new UtteranceProgressListener() {
+        params.putInt(TextToSpeech.Engine.KEY_PARAM_STREAM,AudioManager.STREAM_DTMF);
+        params.putFloat(TextToSpeech.Engine.KEY_PARAM_VOLUME,1.0f);
+        params.putFloat(TextToSpeech.Engine.KEY_PARAM_PAN,0.5f);
+        params.putInt(TextToSpeech.Engine.KEY_FEATURE_NETWORK_TIMEOUT_MS,1000);
+        result = myTTS.getTTS().setOnUtteranceProgressListener(new UtteranceProgressListener() {
             boolean isFinish;
             @Override
             public void onStart(String utteranceId) {
@@ -54,11 +67,12 @@ public class ShareAudio extends ShareAction{
 
             @Override
             public void onDone(String utteranceId) {
-                if(isFinish){
-                    //compartirAudioPictogramas();
-                   share();
-                }
+                if(isFinish&& utteranceId.contains("audio"))
+                    getResult();
+                else
+                    Log.d(TAG, "onDone: false");
             }
+
 
             @Override
             public void onError(String utteranceId) {
@@ -70,26 +84,38 @@ public class ShareAudio extends ShareAction{
                 isFinish = true;
             }
 
-            @Override
-            public void onStop(String utteranceId, boolean interrupted) {
-                super.onStop(utteranceId, interrupted);
-            }
-
-            @Override
-            public void onRangeStart(String utteranceId, int start, int end, int frame) {
-                super.onRangeStart(utteranceId, start, end, frame);
-            }
         });
-        myTTS.getTTS().synthesizeToFile(phrase+"  ",params,file,"audio.wav");
+        myTTS.getTTS().synthesizeToFile(phrase+"  ",params,audioEncoder.getFile(),"audio.wav");
+    }
+
+    @Override
+    public void getResult() {
+        if(result == TextToSpeech.SUCCESS){
+            audioEncoder.transformation(transformationListener,new Transformer.Listener() {
+                @Override
+                public void onTransformationCompleted(MediaItem inputMediaItem, TransformationResult transformationResult) {
+                    share();
+                }
+
+                @Override
+                public void onTransformationError(MediaItem inputMediaItem, TransformationException exception) {
+                    Transformer.Listener.super.onTransformationError(inputMediaItem, exception);
+                }
+            });
+
+        }
+
     }
 
     @Override
     public void share() {
         if (Build.VERSION.SDK_INT >= 30)
-            sentMessage.putExtra(Intent.EXTRA_STREAM, FileProvider.getUriForFile(mContext, BuildConfig.APPLICATION_ID + ".fileprovider", file));
+            sentMessage.putExtra(Intent.EXTRA_STREAM, FileProvider.getUriForFile(mContext, BuildConfig.APPLICATION_ID + ".fileprovider", audioEncoder.getAux()));
         else
-            sentMessage.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(file));
+            sentMessage.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(audioEncoder.getAux()));
         sentMessage.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         mContext.startActivity(Intent.createChooser(sentMessage,mContext.getResources().getString(R.string.pref_enviar)));
     }
+
+
 }

@@ -35,6 +35,7 @@ import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.perf.metrics.AddTrace;
 import com.stonefacesoft.ottaa.Bitmap.GestionarBitmap;
 import com.stonefacesoft.ottaa.Interfaces.CloudFunctionResponse;
 import com.stonefacesoft.ottaa.Interfaces.LoadOnlinePictograms;
@@ -75,6 +76,7 @@ public class ActivityInformes extends AppCompatActivity implements CloudFunction
     private GestionarBitmap gestionarBitmap;
     ScoreHelper scoreHelper;
 
+    @AddTrace(name = "ActivityInformes", enabled = true /* optional */)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
