@@ -389,7 +389,7 @@ public class GestionarBitmap  {
         JSONArray array = null;
         try {
             array = getJsonArray(phrase);
-            for (int i = 0; i < array.length(); i++) {
+            for (int i = 0; i <= array.length()-1; i++) {
                 picto = json.getPictoFromId2(array.getJSONObject(i).getInt("id"));
                 try {
                     mCombineImages.loadPictogram(json, picto);

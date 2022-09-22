@@ -33,6 +33,11 @@ public class Favorite_Phrases_recycler_view extends Custom_recyclerView {
         });
     }
 
+    public void updateData(){
+        array = customFavoritePhrases.getPhrases();
+
+    }
+
     @Override
     public void sincronizeData() {
         getPositionItem.updateSize(adapter.getItemCount());

@@ -85,7 +85,7 @@ public class CustomFavoritePhrasesAdapter extends RecyclerView.Adapter<CustomFav
         private int position;
         public FavoritePhrases(@NonNull View itemView) {
             super(itemView);
-            img=itemView.findViewById(R.id.frase);
+            img = itemView.findViewById(R.id.frase);
             try {
                 phrase = phrases.getPhrases().getJSONObject(position);
             } catch (JSONException e) {

@@ -12,6 +12,7 @@ import com.stonefacesoft.ottaa.Interfaces.DrawableInterface;
 import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.idioma.ConfigurarIdioma;
+import com.stonefacesoft.ottaa.utils.ConnectionDetector;
 import com.stonefacesoft.pictogramslibrary.Classes.Pictogram;
 import com.stonefacesoft.pictogramslibrary.view.PictoView;
 
@@ -76,8 +77,12 @@ public class CombineImages implements DrawableInterface {
             pictoView.setUpGlideAttatcher(context);
             if(imagen == null){
                 try {
-                    DrawableManager drawableManager = new DrawableManager();
-                    Drawable drawable = drawableManager.fetchDrawable(json.getJSONObject("imagen").getString("urlFoto"),this);
+                    if(ConnectionDetector.isNetworkAvailable(context)) {
+                        DrawableManager drawableManager = new DrawableManager();
+                        drawableManager.fetchDrawable(json.getJSONObject("imagen").getString("urlFoto"), this);
+                    }else{
+                        images.add(nube);
+                    }
                 } catch (Exception ex) {
                     images.add(nube);
                 }

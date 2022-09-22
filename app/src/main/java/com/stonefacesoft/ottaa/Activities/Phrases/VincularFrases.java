@@ -69,7 +69,8 @@ public class VincularFrases extends PhrasesView {
     public void onBackPressed() {
         super.onBackPressed();
         Intent databack = new Intent();
-        setResult(IntentCode.GALERIA_GRUPOS.getCode(), databack);
+        setResult(IntentCode.VINCULAR_FRASES.getCode(), databack);
+        databack.putExtra("updateView",true);
         finish();
     }
     @Override
