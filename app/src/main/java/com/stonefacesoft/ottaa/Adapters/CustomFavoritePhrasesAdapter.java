@@ -29,20 +29,25 @@ import java.util.List;
 
 public class CustomFavoritePhrasesAdapter extends RecyclerView.Adapter<CustomFavoritePhrasesAdapter.FavoritePhrases>{
     private final Context mContext;
-    private final CustomFavoritePhrases phrases;
+    private CustomFavoritePhrases phrases;
     private final textToSpeech myTTs;
     private final GlideAttatcher glideAttatcher;
     private final GestionarBitmap gestionarBitmap;
-    protected ArrayList<FavModel> mFavImagesArrayList;
+    protected volatile ArrayList<FavModel> mFavImagesArrayList;
     private final String TAG = "CustomFavorite";
 
     public CustomFavoritePhrasesAdapter(Context mContext) {
         this.mContext = mContext;
-        phrases=CustomFavoritePhrases.getInstance(mContext);
+        phrases = new CustomFavoritePhrases(mContext);
         myTTs = textToSpeech.getInstance(this.mContext);
         glideAttatcher=new GlideAttatcher(this.mContext);
         gestionarBitmap=new GestionarBitmap(this.mContext);
         gestionarBitmap.setColor(android.R.color.white);
+        new CargarFrasesAsync().execute();
+    }
+
+    public void updateData(){
+        phrases = new CustomFavoritePhrases(mContext);
         new CargarFrasesAsync().execute();
     }
 
@@ -54,6 +59,8 @@ public class CustomFavoritePhrasesAdapter extends RecyclerView.Adapter<CustomFav
                 .inflate(R.layout.item_favoritos_row, parent, false);
         return new CustomFavoritePhrasesAdapter.FavoritePhrases(itemView);
     }
+
+
 
     @Override
     public void onBindViewHolder(@NonNull FavoritePhrases holder, int position, @NonNull List<Object> payloads) {
@@ -148,9 +155,7 @@ public class CustomFavoritePhrasesAdapter extends RecyclerView.Adapter<CustomFav
 
     protected class CargarFrasesAsync  extends AsyncTask<Void, Void, Void> {
 
-        private String mStringTexto;
-        private Drawable mDrawableIcono;
-        private FavModel favModel;
+
 
         @Override
         protected Void doInBackground(Void... voids) {

@@ -15,6 +15,7 @@ import com.stonefacesoft.ottaa.FavModel;
 import com.stonefacesoft.ottaa.Interfaces.LoadOnlinePictograms;
 import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.utils.JSONutils;
+import com.stonefacesoft.ottaa.utils.Phrases.CustomFavoritePhrases;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -28,6 +29,7 @@ public class SelectFavoritePhrasesAdapter extends PhrasesAdapter{
 
     public SelectFavoritePhrasesAdapter(Context mContext) {
         super(mContext);
+
     }
 
     @Override

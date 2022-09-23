@@ -1,9 +1,11 @@
 package com.stonefacesoft.ottaa.Activities.Phrases;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,9 +16,12 @@ import androidx.annotation.Nullable;
 import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.RecyclerViews.Favorite_Phrases_recycler_view;
 import com.stonefacesoft.ottaa.Views.Phrases.PhrasesView;
+import com.stonefacesoft.ottaa.utils.Accesibilidad.BarridoPantalla;
 import com.stonefacesoft.ottaa.utils.Accesibilidad.SayActivityName;
 import com.stonefacesoft.ottaa.utils.IntentCode;
 import com.stonefacesoft.ottaa.utils.constants.Constants;
+
+import java.util.ArrayList;
 
 public class FavoritePhrases extends PhrasesView {
 
@@ -101,13 +106,42 @@ public class FavoritePhrases extends PhrasesView {
         return super.onOptionsItemSelected(item);
     }
 
+
+
+    @SuppressLint("MissingSuperCall")
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == IntentCode.VINCULAR_FRASES.getCode() && resultCode == RESULT_OK){
-            if(data.getBooleanExtra("updateView",false)){
-               favorite_phrases_recycler_view.updateData();
+        Log.e(TAG, "onActivityResult: Entering ActivityResult");
+        if(resultCode == IntentCode.VINCULAR_FRASES.getCode()){
+            Bundle bundle = data.getExtras();
+            int value = bundle.getInt("updateView",0);
+            if(value ==1){
+                favorite_phrases_recycler_view.updateData();
             }
+        }
+    }
+
+    @Override
+    protected void iniciarBarrido() {
+        ArrayList<View> listadoObjetosBarrido = new ArrayList<>();
+        listadoObjetosBarrido.add(previous);
+        listadoObjetosBarrido.add(exit);
+        listadoObjetosBarrido.add(btnTalk);
+        listadoObjetosBarrido.add(foward);
+        barridoPantalla = new BarridoPantalla(this, listadoObjetosBarrido);
+        if (barridoPantalla.isBarridoActivado() && barridoPantalla.devolverpago()) {
+            runOnUiThread(new Runnable() {
+
+                @Override
+                public void run() {
+                    // Stuff that updates the UI
+                    btnBarrido.setVisibility(View.VISIBLE);
+                    if(barridoPantalla.isBarridoActivado())
+                        barridoPantalla.changeButtonVisibility();
+                }
+            });
+        }else{
+            btnBarrido.setVisibility(View.GONE);
         }
     }
 }

@@ -2,6 +2,7 @@ package com.stonefacesoft.ottaa.Activities.Phrases;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,6 +21,7 @@ public class VincularFrases extends PhrasesView {
 
     private PhrasesRecyclerView recyclerView;
     private SubirArchivosFirebase subirArchivos;
+    private int fileIsSaved = 0;
 
 
     @Override
@@ -42,7 +44,6 @@ public class VincularFrases extends PhrasesView {
 
     @Override
     public void onClick(View v) {
-        super.onClick(v);
         switch (v.getId()){
             case R.id.up_button:
                 mAnalyticsFirebase.customEvents("Touch","VincularFrases","Favorite Phrases UpButton");
@@ -60,6 +61,7 @@ public class VincularFrases extends PhrasesView {
                 mAnalyticsFirebase.customEvents("Touch","VincularFrases","SaveFavoritePhrases");
                 recyclerView.savePhrases();
                 subirArchivos.uploadFavoritePhrases(subirArchivos.getmDatabase(firebaseUser.getmAuth(), Constants.FrasesFavoritas),subirArchivos.getmStorageRef(firebaseUser.getmAuth(),Constants.FrasesFavoritas));
+                fileIsSaved = 1;
                 onBackPressed();
                 break;
         }
@@ -67,10 +69,10 @@ public class VincularFrases extends PhrasesView {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+        Log.e(TAG, "onBackPressed: Volviendooo" );
         Intent databack = new Intent();
+        databack.putExtra("updateView",fileIsSaved);
         setResult(IntentCode.VINCULAR_FRASES.getCode(), databack);
-        databack.putExtra("updateView",true);
         finish();
     }
     @Override

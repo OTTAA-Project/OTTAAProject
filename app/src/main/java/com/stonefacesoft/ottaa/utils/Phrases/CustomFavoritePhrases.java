@@ -16,8 +16,8 @@ import java.io.IOException;
 
 public class CustomFavoritePhrases {
     private Context mContext;
-    private final Json json;
-    private JSONArray favoritePhrases;
+    private Json json;
+    private volatile JSONArray favoritePhrases;
     private static CustomFavoritePhrases customFavoritePhrases;
 
     /**
@@ -30,26 +30,17 @@ public class CustomFavoritePhrases {
      *  Cada una de las frases debe estar filtrada por idioma
      * */
 
-    public synchronized static CustomFavoritePhrases getInstance(Context mContext){
-        if(customFavoritePhrases == null)
-            customFavoritePhrases = new CustomFavoritePhrases(mContext);
-        return customFavoritePhrases;
-    }
-    public synchronized static CustomFavoritePhrases getInstance(){
-        if(customFavoritePhrases == null)
-            customFavoritePhrases = new CustomFavoritePhrases();
-        return customFavoritePhrases;
-    }
 
 
-    private CustomFavoritePhrases(){
+
+    public CustomFavoritePhrases(){
         json=Json.getInstance();
         favoritePhrases=json.getmJSonArrayFrasesFavoritas();
         if(favoritePhrases==null)
             favoritePhrases=new JSONArray();
     }
 
-     private CustomFavoritePhrases(Context mContext){
+     public CustomFavoritePhrases(Context mContext){
          this.mContext=mContext;
          json=Json.getInstance();
          json.setmContext(this.mContext);

@@ -33,7 +33,7 @@ import java.util.concurrent.Executors;
 
 public class PhrasesAdapter extends RecyclerView.Adapter<PhrasesAdapter.PhraseAdapter> {
     protected final Context mContext;
-    protected final CustomFavoritePhrases phrases;
+    protected CustomFavoritePhrases phrases;
     protected JSONArray userPhrases;
     protected final textToSpeech myTTs;
     protected final GlideAttatcher glideAttatcher;
@@ -44,7 +44,7 @@ public class PhrasesAdapter extends RecyclerView.Adapter<PhrasesAdapter.PhraseAd
     public PhrasesAdapter(Context mContext) {
         this.mContext = mContext;
         mFavImagesArrayList = new ArrayList<>();
-        phrases = CustomFavoritePhrases.getInstance(mContext);
+        phrases = new CustomFavoritePhrases(mContext);
         userPhrases = phrases.getJson().getPhrasesByLanguage();
         myTTs = textToSpeech.getInstance(this.mContext);
         glideAttatcher = new GlideAttatcher(this.mContext);

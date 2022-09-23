@@ -129,10 +129,7 @@ public class PhrasesView extends AppCompatActivity implements View.OnClickListen
         return false;
     }
 
-    @Override
-    public void onBackPressed() {
 
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -152,8 +149,8 @@ public class PhrasesView extends AppCompatActivity implements View.OnClickListen
         listadoObjetosBarrido.add(previous);
         listadoObjetosBarrido.add(exit);
         listadoObjetosBarrido.add(btnTalk);
+        listadoObjetosBarrido.add(btnEditar);
         listadoObjetosBarrido.add(foward);
-        //  listadoObjetosBarrido.add(editButton);
         barridoPantalla = new BarridoPantalla(this, listadoObjetosBarrido);
         if (barridoPantalla.isBarridoActivado() && barridoPantalla.devolverpago()) {
             runOnUiThread(new Runnable() {

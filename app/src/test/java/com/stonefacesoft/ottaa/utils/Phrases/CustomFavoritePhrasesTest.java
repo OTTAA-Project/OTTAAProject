@@ -11,7 +11,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 public class CustomFavoritePhrasesTest {
-    CustomFavoritePhrases customFavoritePhrases = CustomFavoritePhrases.getInstance();
+    CustomFavoritePhrases customFavoritePhrases = new CustomFavoritePhrases();
 
     @Test
     public void addFavoritePhrase() {
