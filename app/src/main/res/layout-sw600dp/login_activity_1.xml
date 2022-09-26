@@ -12,9 +12,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/constraint_orange"
-        app:layout_constraintVertical_weight="5"
-
-        />
+        app:layout_constraintVertical_weight="5" />
 
     <androidx.cardview.widget.CardView
         android:layout_width="0dp"
