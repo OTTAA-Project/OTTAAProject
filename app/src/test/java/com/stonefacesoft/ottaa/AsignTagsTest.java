@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import com.stonefacesoft.ottaa.Interfaces.DialogInterfaceTags;
 import com.stonefacesoft.ottaa.Interfaces.TagInterfazJson;
@@ -14,6 +15,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.Test;
+import org.junit.internal.runners.statements.Fail;
 
 import java.util.ArrayList;
 
@@ -48,6 +50,7 @@ public class AsignTagsTest implements DialogInterfaceTags, TagInterfazJson {
     @Test
     public void testCargarTags() {
         try {
+            asignTags.setExtras(createPictogramJSONArray().getJSONObject(0),false);
             asignTags.setTagsToPicto(createPictogramJSONArray().getJSONObject(0));
         } catch (JSONException e) {
             e.printStackTrace();
@@ -60,7 +63,6 @@ public class AsignTagsTest implements DialogInterfaceTags, TagInterfazJson {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
     }
     @Test
     public void testAsignarTags() {

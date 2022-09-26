@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.stonefacesoft.ottaa.Interfaces.AudioTransformationListener;
 import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.utils.exceptions.FiveMbException;
 import com.stonefacesoft.ottaa.utils.shareActions.ShareAudio;
@@ -46,10 +47,12 @@ public class CompartirArchivos {
     private boolean actionShare;
     private File file;
     private GlideAttatcher attatcher;
+    private AudioTransformationListener transformerListener;
 
 
 
-    public CompartirArchivos(Context context1, textToSpeech myTTS) {
+    public CompartirArchivos(Context context1, textToSpeech myTTS, AudioTransformationListener transformerListener) {
+        this.transformerListener = transformerListener;
         this.mContext = context1;
         actionShare = true;
         attatcher = new GlideAttatcher(mContext);
@@ -109,7 +112,7 @@ public class CompartirArchivos {
         compartirAudio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new ShareAudio(mContext,Oracion,myTTS).prepareFile();
+                new ShareAudio(mContext,Oracion,myTTS,transformerListener).prepareFile();
           }
         });
 

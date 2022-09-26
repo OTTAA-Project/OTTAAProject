@@ -31,6 +31,7 @@ public class Game_Recyler_View extends Custom_recyclerView {
         this.id=id;
         array=json.getmJSONArrayTodosLosGrupos();
         createRecyclerLayoutManager();
+
     }
 
 

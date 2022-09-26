@@ -35,9 +35,11 @@ import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.perf.metrics.AddTrace;
 import com.stonefacesoft.ottaa.Bitmap.GestionarBitmap;
 import com.stonefacesoft.ottaa.Interfaces.CloudFunctionResponse;
 import com.stonefacesoft.ottaa.Interfaces.LoadOnlinePictograms;
+import com.stonefacesoft.ottaa.idioma.ConfigurarIdioma;
 import com.stonefacesoft.ottaa.utils.CircularProgressBar;
 import com.stonefacesoft.ottaa.utils.ConnectionDetector;
 import com.stonefacesoft.ottaa.utils.CustomToast;
@@ -75,6 +77,7 @@ public class ActivityInformes extends AppCompatActivity implements CloudFunction
     private GestionarBitmap gestionarBitmap;
     ScoreHelper scoreHelper;
 
+    @AddTrace(name = "ActivityInformes", enabled = true /* optional */)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -318,6 +321,7 @@ public class ActivityInformes extends AppCompatActivity implements CloudFunction
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                 assert user != null;
                 params.put("UserID", user.getEmail());
+                params.put("Language",ConfigurarIdioma.getLanguaje());
                 return params;
             }
         };
@@ -369,6 +373,7 @@ public class ActivityInformes extends AppCompatActivity implements CloudFunction
                 //TODO revisar que este assert este bien
                 assert user != null;
                 params.put("UserID", user.getEmail());
+                params.put("Language", ConfigurarIdioma.getLanguaje());
                 return params;
             }
         };

@@ -460,27 +460,13 @@ public class AsignTags {
         return mArrayListTagsPorTipo;
     }
 
-    public void setTagsToPictogram(JSONObject picto) throws JSONException{
+    public void setTagsToPictogram(JSONObject picto) {
         if (picto != null) {
             ArrayList<Horario> tagHora = new ArrayList<>();
             ArrayList<Edad> tagEdad = new ArrayList<>();
             ArrayList<Sexo> tagSexo = new ArrayList<>();
             ArrayList<Posicion> tagPosicion = new ArrayList<>();
-            for (int i = 0; i < mArrayListSelectedTAGS.size(); i++) {
-                if (getHorario(mArrayListSelectedTAGS.get(i).getInt("id")) != null) {
-                    tagHora.add(getHorario(mArrayListSelectedTAGS.get(i).getInt("id")));
-                }
-                if (getEdad(mArrayListSelectedTAGS.get(i).getInt("id")) != null) {
-                    tagEdad.add(getEdad(mArrayListSelectedTAGS.get(i).getInt("id")));
-                }
-                if (getSexo(mArrayListSelectedTAGS.get(i).getInt("id")) != null) {
-                    tagSexo.add(getSexo(mArrayListSelectedTAGS.get(i).getInt("id")));
-                }
-                if (getPosicion(mArrayListSelectedTAGS.get(i).getInt("id")) != null) {
-                    tagPosicion.add(getPosicion(mArrayListSelectedTAGS.get(i).getInt("id")));
-                }
-            }
-
+            getTags(tagHora,tagEdad,tagSexo,tagPosicion);
             for (int i = 0; i < tagHora.size(); i++) {
                 JSONutils.setHorario(picto, tagHora.get(i));
             }
@@ -496,5 +482,41 @@ public class AsignTags {
 
         }
     }
+
+    private void getTags(ArrayList<Horario> tagHora,ArrayList<Edad> tagEdad,ArrayList<Sexo> tagSexo,ArrayList<Posicion> tagPosicion){
+        for (int i = 0; i < mArrayListSelectedTAGS.size(); i++) {
+            try {
+                if (getHorario(mArrayListSelectedTAGS.get(i).getInt("id")) != null) {
+                    tagHora.add(getHorario(mArrayListSelectedTAGS.get(i).getInt("id")));
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            try {
+                if (getEdad(mArrayListSelectedTAGS.get(i).getInt("id")) != null) {
+                    tagEdad.add(getEdad(mArrayListSelectedTAGS.get(i).getInt("id")));
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            try {
+                if (getSexo(mArrayListSelectedTAGS.get(i).getInt("id")) != null) {
+                    tagSexo.add(getSexo(mArrayListSelectedTAGS.get(i).getInt("id")));
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            try {
+                if (getPosicion(mArrayListSelectedTAGS.get(i).getInt("id")) != null) {
+                    tagPosicion.add(getPosicion(mArrayListSelectedTAGS.get(i).getInt("id")));
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+
+
 
 }

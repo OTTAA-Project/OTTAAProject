@@ -27,6 +27,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.perf.metrics.AddTrace;
 import com.stonefacesoft.ottaa.Games.GameCard;
 import com.stonefacesoft.ottaa.Games.GameSelector;
 import com.stonefacesoft.ottaa.Interfaces.Make_Click_At_Time;
@@ -69,6 +70,7 @@ public class MainJuegos extends AppCompatActivity implements View.OnClickListene
 
     private static final String TAG = "MainJuegos";
 
+    @AddTrace(name = "MainJuegos", enabled = true /* optional */)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Intent intent = getIntent();
@@ -212,7 +214,6 @@ public class MainJuegos extends AppCompatActivity implements View.OnClickListene
             btnBarrido.setVisibility(View.GONE);
         }
     }
-
 
     @Override
     public void OnClickBarrido() {

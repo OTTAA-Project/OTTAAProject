@@ -15,6 +15,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.util.Log;
 
+import com.google.android.datatransport.cct.internal.LogEvent;
 import com.stonefacesoft.ottaa.Interfaces.LoadOnlinePictograms;
 import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.R;
@@ -124,9 +125,13 @@ public class GestionarBitmap  {
                 Log.e("errorGB_StoreImage_Foto", "File not found: " + e.getMessage());
             } catch(IOException e){
                 Log.e("errorGB_StoreImage_Foto", "Error accessing file: " + e.getMessage());
-            }finally {
+            }
+
+        try{
             loadOnlinePictograms.loadPictograms(image);
             loadOnlinePictograms.FileIsCreated();
+        }catch (Exception ex){
+            Log.e(TAG, "storeImage: "+ex.getMessage() );
         }
             Log.d("GB_StoreImage_Foto", "PATH>> " + mCurrentPhotoPath);
     }
@@ -266,7 +271,7 @@ public class GestionarBitmap  {
             drawable.draw(canvas);
         }
         }catch (Exception ex){
-
+            Log.e(TAG, "drawableToBitmap: "+ ex.getMessage() );
         }
         return bitmap;
     }
@@ -298,7 +303,7 @@ public class GestionarBitmap  {
 
 
     public File getImgs() {
-        imgs=getOutputMediaFile();
+        imgs = getOutputMediaFile();
         return imgs;
     }
 
@@ -343,11 +348,14 @@ public class GestionarBitmap  {
 
     //Devolvemos un bitmap con todos los pictos componentes de una frase
     public void getBitmapDeFrase(JSONObject frase,LoadOnlinePictograms loadOnlinePictograms) {
+        Log.e(TAG, "Phrase :"+frase);
         preparePhrase(frase);
         Bitmap bitmap = null;
         if(combineImages(20, 20) != null ) {
             bitmap = getRoundedCornerBitmap(combineImages(20, 2), 20);
             loadOnlinePictograms.loadPictograms(bitmap);
+        }else{
+            Log.d(TAG, "getBitmapDeFrase: "+ "Combine Images Error");
         }
 
     }
@@ -377,11 +385,17 @@ public class GestionarBitmap  {
     public void  preparePhrase(JSONObject phrase){
         CombineImages mCombineImages = new CombineImages(mContext);
         imagenes = new ArrayList<>();
+        JSONObject picto = null;
+        JSONArray array = null;
         try {
-            JSONArray array =getJsonArray(phrase);
-            for (int i = 0; i < array.length(); i++) {
-                JSONObject picto = json.getPictoFromId2(array.getJSONObject(i).getInt("id"));
-                mCombineImages.loadPictogram(json,picto);
+            array = getJsonArray(phrase);
+            for (int i = 0; i <= array.length()-1; i++) {
+                picto = json.getPictoFromId2(array.getJSONObject(i).getInt("id"));
+                try {
+                    mCombineImages.loadPictogram(json, picto);
+                }catch (Exception ex){
+                    Log.e(TAG, "preparePhrase: Image not found" );
+                }
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -390,6 +404,7 @@ public class GestionarBitmap  {
         for (int i = 0; i < aux.size() ; i++) {
             imagenes.add(drawableToBitmap(aux.get(i)));
         }
+
     }
 
     public void setLoadOnlinePictograms(LoadOnlinePictograms loadOnlinePictograms) {

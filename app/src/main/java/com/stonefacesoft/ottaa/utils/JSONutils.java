@@ -247,7 +247,7 @@ public class JSONutils {
     public static void setEdad(JSONObject ob, Edad edad) {
         JSONArray arrayEdad = new JSONArray();
         try {
-            if (ob.getJSONArray(Constants.EDAD) != null) {
+            if (ob.has(Constants.EDAD)) {
                 arrayEdad = ob.getJSONArray(Constants.EDAD);
             }
         } catch (JSONException e) {
@@ -264,7 +264,7 @@ public class JSONutils {
     public static void setClima(JSONObject ob, Clima clima) {
         JSONArray arrayClima = new JSONArray();
         try {
-            if (ob.getJSONArray(Constants.CLIMA) != null) {
+            if (ob.has(Constants.CLIMA)) {
                 arrayClima = ob.getJSONArray(Constants.CLIMA);
             }
         } catch (JSONException e) {
@@ -489,7 +489,7 @@ public class JSONutils {
         sexoUsuario = tieneSexo(original, sexo);
         edadUsuario = tieneEdad(original, edad);
 
-        Log.e(TAG, "score: Agenda:"+agendaUsuario+" horaDeldia:"+horaDelDia +" gps:"+ gps+" sexoUsuario" +sexoUsuario +" edad :"+ edadUsuario);
+        Log.d(TAG, "score: Agenda:"+agendaUsuario+" horaDeldia:"+horaDelDia +" gps:"+ gps+" sexoUsuario" +sexoUsuario +" edad :"+ edadUsuario);
 
 
         if (esSugerencia) {

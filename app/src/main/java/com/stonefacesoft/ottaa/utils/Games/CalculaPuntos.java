@@ -42,7 +42,7 @@ public class CalculaPuntos {
     /**
      * @return  Return the average value of the correct answers.
      * */
-    public float calcularValor(){
+    public float getResult(){
         score=0;
         if(calcularTotal()==0) {
             return 0;
@@ -97,7 +97,7 @@ public class CalculaPuntos {
         try {
             object.put("aciertos",aciertos);
             object.put("desaciertos",desaciertos);
-            object.put("score",calcularValor());
+            object.put("score", getResult());
             object.put("intentos",getIntentos());
         } catch (JSONException e) {
             Log.e(TAG, "getPuntaje: " + e.getMessage());

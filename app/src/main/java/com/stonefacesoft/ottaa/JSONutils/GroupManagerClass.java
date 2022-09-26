@@ -6,8 +6,8 @@ import org.json.JSONArray;
  *
  * */
 public class GroupManagerClass {
-    private static GroupManagerClass _GroupManagerClass;
-    private JSONArray mGroup;
+    private volatile static GroupManagerClass _GroupManagerClass;
+    private volatile JSONArray mGroup;
 
     private GroupManagerClass(){
         this.mGroup=new JSONArray();

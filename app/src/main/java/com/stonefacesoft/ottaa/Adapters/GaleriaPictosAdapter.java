@@ -1,9 +1,9 @@
 package com.stonefacesoft.ottaa.Adapters;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,8 +32,6 @@ import org.json.JSONObject;
 import java.util.Collections;
 import java.util.List;
 
-//import android.support.v7.content.res.AppCompatResources;
-//import android.support.v7.widget.RecyclerView;
 
 public class GaleriaPictosAdapter extends RecyclerView.Adapter<GaleriaPictosAdapter.PictosViewHolder> implements ItemTouchHelperAdapter, ListPreloader.PreloadModelProvider {
 
@@ -54,6 +52,7 @@ public class GaleriaPictosAdapter extends RecyclerView.Adapter<GaleriaPictosAdap
         this.mArrayPictos = mArrayPictos;
         this.uploadFirebaseFile = new SubirArchivosFirebase(mContext);
         this.mAuth = auth;
+        removeOldFiles();
     }
     public GaleriaPictosAdapter removeOldFiles(){
         JSONArray aux = new JSONArray();
@@ -83,13 +82,36 @@ public class GaleriaPictosAdapter extends RecyclerView.Adapter<GaleriaPictosAdap
 
     @Override
     public void onBindViewHolder(PictosViewHolder holder, int position) {
-        new cargarPictosAsync(holder, position).execute();
+        if(!mArrayPictos.isNull(position)) {
+            new cargarPictosAsync(holder, position).execute();
+        }else{
+            try {
+                mArrayPictos.remove(position);
+                notifyDataSetChanged();
+            }catch (Exception ex){
+                onViewDetachedFromWindow(holder);
+            }
+        }
+    }
+
+
+
+    @Override
+    public void onViewAttachedToWindow(@NonNull PictosViewHolder holder) {
+
+    }
+
+    @Override
+    public void onViewDetachedFromWindow(@NonNull PictosViewHolder holder) {
+        if(holder.pictoView == null){
+            mArrayPictos.remove(holder.position);
+            notifyDataSetChanged();
+        }
     }
 
     //metodo que se encarga de mover el json
     @Override
     public void onItemMove(int fromIndex, int toIndex) {
-
                 try {
                     JSONObject json1 = mArrayPictos.getJSONObject(fromIndex);
                     JSONObject json2 = mArrayPictos.getJSONObject(toIndex);
@@ -106,9 +128,6 @@ public class GaleriaPictosAdapter extends RecyclerView.Adapter<GaleriaPictosAdap
                         notifyItemRangeChanged(toIndex, fromIndex - toIndex + 1);
 
                 }
-
-
-
         }
 
 
@@ -169,34 +188,13 @@ public class GaleriaPictosAdapter extends RecyclerView.Adapter<GaleriaPictosAdap
         return 0;
     }
 
-
-
-    private Integer cargarColor(int tipo) {
-        switch (tipo) {
-            case 1:
-                return mContext.getResources().getColor(R.color.Yellow);
-            case 2:
-                return mContext.getResources().getColor(R.color.Orange);
-            case 3:
-                return mContext.getResources().getColor(R.color.YellowGreen);
-            case 4:
-                return mContext.getResources().getColor(R.color.DodgerBlue);
-            case 5:
-                return mContext.getResources().getColor(R.color.Magenta);
-            case 6:
-                return mContext.getResources().getColor(R.color.Black);
-            default:
-                return mContext.getResources().getColor(R.color.White);
-        }
-    }
-
     @Override
     public void onViewRecycled(@NonNull PictosViewHolder holder) {
         super.onViewRecycled(holder);
 
     }
 
-    // precargamos las imagenes en glide
+
     @NonNull
     @Override
     public List getPreloadItems(int position) {
@@ -207,8 +205,6 @@ public class GaleriaPictosAdapter extends RecyclerView.Adapter<GaleriaPictosAdap
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        //json.getPictoFromCustomArrayById2(json.getmJSONArrayTodosLosPictos(),mVincularArray.getJSONObject(mPosition).getInt("id"));
-
         drawable = json.getIcono(picto);
         if (drawable == null)
             drawable = AppCompatResources.getDrawable(mContext, R.drawable.ic_cloud_download_orange);
@@ -222,16 +218,12 @@ public class GaleriaPictosAdapter extends RecyclerView.Adapter<GaleriaPictosAdap
     }
 
     public class PictosViewHolder extends RecyclerView.ViewHolder {
-
+        int position = -1;
         PictoView pictoView;
-
         public PictosViewHolder(View itemView) {
             super(itemView);
             pictoView = itemView.findViewById(R.id.pictogram);
         }
-
-
-
     }
 
 
@@ -241,8 +233,6 @@ public class GaleriaPictosAdapter extends RecyclerView.Adapter<GaleriaPictosAdap
         //Pasamos el holder y la posicion que nos da el onBindViewHolder para poder asignarle a cada elemento
         // en el onPostExecute que cargue el texto y la imagen de ese picto.
         //De esta forma el onBindViewHolder ejecuta el AsyncTask y esto va cargando asyncronamente mientras se desplaza
-        private String mStringTexto="";
-        private Drawable mDrawableIcono;
         private final PictosViewHolder mHolder;
         private final int mPosition;
         private JSONObject aux;
@@ -262,13 +252,13 @@ public class GaleriaPictosAdapter extends RecyclerView.Adapter<GaleriaPictosAdap
 
         @Override
         protected Void doInBackground(Void... voids) {
-
-            Bitmap mBitmap;
             try {
                 aux = mArrayPictos.getJSONObject(mPosition);
+                mHolder.position = mPosition;
                 if(aux !=  null){
                     mHolder.pictoView.setUpContext(mContext);
                     mHolder.pictoView.setUpGlideAttatcher(mContext);
+
                 }
             } catch (Exception e) {
                 e.getMessage();
@@ -284,8 +274,8 @@ public class GaleriaPictosAdapter extends RecyclerView.Adapter<GaleriaPictosAdap
                 if (aux != null) {
                     mHolder.pictoView.setPictogramsLibraryPictogram(new Pictogram(aux, ConfigurarIdioma.getLanguaje()));
                 }
-            } catch (Exception ex){
-                notifyDataSetChanged();
+            } catch (Exception ex) {
+
             }
         }
     }

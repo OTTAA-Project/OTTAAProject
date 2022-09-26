@@ -1,18 +1,12 @@
 package com.stonefacesoft.ottaa.Adapters;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.AsyncTask;
-import android.os.Handler;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.content.res.AppCompatResources;
@@ -23,64 +17,58 @@ import com.bumptech.glide.RequestBuilder;
 import com.stonefacesoft.ottaa.Helper.ItemTouchHelperAdapter;
 import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.R;
-import com.stonefacesoft.ottaa.utils.ConnectionDetector;
 import com.stonefacesoft.ottaa.idioma.ConfigurarIdioma;
-import com.stonefacesoft.ottaa.utils.JSONutils;
 import com.stonefacesoft.pictogramslibrary.Classes.Pictogram;
 import com.stonefacesoft.pictogramslibrary.utils.GlideAttatcher;
+import com.stonefacesoft.pictogramslibrary.view.PictoView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 public class FindAllPictogramsAdapter extends RecyclerView.Adapter<FindAllPictogramsAdapter.FindAllPictogramsHolder> implements ListPreloader.PreloadModelProvider, ItemTouchHelperAdapter {
     private final String TAG = "FindAllPictogramsAD";
-    //private Context mContext;
     private final int layoutID;
     private final JSONArray mSelectedPictos;
-    private final Json json;
-    private final ArrayList<Integer> listadoIdPictos;
-    private final GlideAttatcher glideAttatcher;
     private final Context mContext;
-    private JSONArray mVincularArray;
+    private JSONArray mArrayPictos;
     private boolean esFiltrado;
+    private Json json;
+
 
     public FindAllPictogramsAdapter(Context mContext, int layoutID, JSONArray mVincularArray, boolean filtro) {
         this.mContext = mContext;
-        Json.getInstance().setmContext(this.mContext);
-        this.json = Json.getInstance();
         this.layoutID = layoutID;
-        this.mVincularArray = mVincularArray;
+        this.mArrayPictos = mVincularArray;
         this.esFiltrado = filtro;
         this.mSelectedPictos = new JSONArray();
-        this.listadoIdPictos = new ArrayList<>();
-        this.glideAttatcher = new GlideAttatcher(this.mContext);
-
-
     }
 
+    @NonNull
     @Override
     public FindAllPictogramsHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(mContext).inflate(layoutID, parent, false);
-
         return new FindAllPictogramsHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull FindAllPictogramsHolder holder, int position) {
-        new VincularAsync(holder, position).execute();
+        if(!mArrayPictos.isNull(position)){
+            new VincularAsync(holder, position).execute();
+        }
+        else{
+            mArrayPictos.remove(position);
+        }
     }
-
 
     @Override
     public int getItemCount() {
-        if (mVincularArray == null)
+        if (mArrayPictos == null)
             return 0;
-        return mVincularArray.length();
+        return mArrayPictos.length();
     }
 
 
@@ -94,15 +82,12 @@ public class FindAllPictogramsAdapter extends RecyclerView.Adapter<FindAllPictog
 
     //Sin este get y set no le puedo decir al adaptador que los datos cambiaron en galeria picto
     public JSONArray getmArrayPictos() {
-        return mVincularArray;
+        return mArrayPictos;
     }
 
-    public void setmVincularArray(JSONArray mVincularArray) {
-        this.mVincularArray = mVincularArray;
+    public void setmArrayPictos(JSONArray mArrayPictos) {
+        this.mArrayPictos = mArrayPictos;
     }
-
-    //Para actualizar en el caso de ser filtrado o no
-
 
     public boolean isEsFiltrado() {
         return esFiltrado;
@@ -123,37 +108,16 @@ public class FindAllPictogramsAdapter extends RecyclerView.Adapter<FindAllPictog
         return position;
     }
 
-    private Integer cargarColor(int tipo) {
-        switch (tipo) {
-            case 1:
-                return mContext.getResources().getColor(R.color.Yellow);
-            case 2:
-                return mContext.getResources().getColor(R.color.Orange);
-            case 3:
-                return mContext.getResources().getColor(R.color.YellowGreen);
-            case 4:
-                return mContext.getResources().getColor(R.color.DodgerBlue);
-            case 5:
-                return mContext.getResources().getColor(R.color.Magenta);
-            case 6:
-                return mContext.getResources().getColor(R.color.Black);
-            default:
-                return mContext.getResources().getColor(R.color.White);
-        }
-    }
-
     @NonNull
     @Override
     public List getPreloadItems(int position) {
         JSONObject picto = null;
         Drawable drawable;
         try {
-            picto = json.getPictoFromId2(mVincularArray.getJSONObject(position).getInt("id"));
+            picto = json.getPictoFromId2(mArrayPictos.getJSONObject(position).getInt("id"));
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        //json.getPictoFromCustomArrayById2(json.getmJSONArrayTodosLosPictos(),mVincularArray.getJSONObject(mPosition).getInt("id"));
-
         drawable = json.getIcono(picto);
         if (drawable == null)
             drawable = AppCompatResources.getDrawable(mContext, R.drawable.ic_cloud_download_orange);
@@ -167,40 +131,28 @@ public class FindAllPictogramsAdapter extends RecyclerView.Adapter<FindAllPictog
         return null;
     }
 
+    @SuppressLint("CheckResult")
     @Override
     public void onViewRecycled(@NonNull FindAllPictogramsHolder holder) {
+        holder.pictoView.setGlideAttatcher(new GlideAttatcher(holder.pictoView.getContext()));
+        holder.pictoView.getGlideAttatcher().loadDrawable(holder.pictoView.getCustom_Imagen(),holder.pictoView.getImageView());
         super.onViewRecycled(holder);
-        glideAttatcher.clearMemory();
     }
+
+    @Override
+    public void onBindViewHolder(@NonNull FindAllPictogramsHolder holder, int position, @NonNull List<Object> payloads) {
+        super.onBindViewHolder(holder, position, payloads);
+    }
+
     /**
      *
      * */
-    public void loadDrawable(GlideAttatcher attatcher, Pictogram pictogram, ImageView imageView, ImageView kindOfView) {
-        boolean showKindOfView = false;
-        if (pictogram.getEditedPictogram().isEmpty()) {
-            Drawable drawable = json.getIcono(pictogram.toJsonObject());
-            showKindOfView = false;
-            if (drawable != null)
-                attatcher.UseCornerRadius(true).loadDrawable(drawable, imageView);
-            else
-                attatcher.UseCornerRadius(true).loadDrawable(mContext.getResources().getDrawable(R.drawable.ic_cloud_download_orange), imageView);
-        } else {
-            if (json.getPictoFromId2(pictogram.getId()) != null)
-                if (ConnectionDetector.isNetworkAvailable(mContext))
-                    attatcher.UseCornerRadius(true).loadDrawable(Uri.parse(pictogram.getUrl()), imageView);
-                else
-                    attatcher.UseCornerRadius(true).loadDrawable(pictogram.getEditedPictogram(), imageView);
-            else {
-                attatcher.UseCornerRadius(true).loadDrawable(Uri.parse(pictogram.getUrl()), imageView);
-                showKindOfView = true;
-            }
-            Log.d(TAG, "loadDrawable:"+"Find all Pictograms" );
-        }
+    public void loadDrawable( int id,PictoView pictoView) {
+        boolean showKindOfView = json.getPictoFromId2(id) == null;
         if (showKindOfView) {
-            kindOfView.setVisibility(View.VISIBLE);
-            attatcher.UseCornerRadius(true).loadDrawable(mContext.getResources().getDrawable(R.drawable.ic_cloud_download_orange), kindOfView);
+            pictoView.getKindOfPictogramImageView().setVisibility(View.VISIBLE);
         } else {
-            kindOfView.setVisibility(View.GONE);
+            pictoView.getKindOfPictogramImageView().setVisibility(View.GONE);
         }
     }
 
@@ -218,88 +170,81 @@ public class FindAllPictogramsAdapter extends RecyclerView.Adapter<FindAllPictog
     public void onDropItem() {
 
     }
-
     public class FindAllPictogramsHolder extends RecyclerView.ViewHolder {
-
-        ImageView mPictoImageView;
-        ImageView mPictoImageColor;
-        ImageView mKindOfPictogram;
-        TextView mTextoPicto;
-        boolean isSelected;
-
+        PictoView pictoView;
         public FindAllPictogramsHolder(View itemView) {
             super(itemView);
-            mTextoPicto = itemView.findViewById(R.id.grid_text);
-            mPictoImageView = itemView.findViewById(R.id.Imagen_Picto);
-            mPictoImageColor = itemView.findViewById(R.id.color_Picto);
-            mKindOfPictogram = itemView.findViewById(R.id.kind_of_Picto);
-            itemView.setBackgroundColor(mContext.getResources().getColor(R.color.White));
+            pictoView = itemView.findViewById(R.id.pictogram);
         }
     }
+
+
+
 
     private class VincularAsync extends AsyncTask<Void, Void, Void> {
 
         private final FindAllPictogramsHolder mHolder;
         private final int mPosition;
-        private final Handler handler = new Handler();
-        private String mStringTexto;
-        private Drawable mDrawableIcono;
         private JSONObject picto;
+        private Pictogram pictogram;
 
 
         public VincularAsync(FindAllPictogramsHolder mHolder, int mPosition) {
-
             this.mHolder = mHolder;
             this.mPosition = mPosition;
-
         }
 
         @Override
-        protected Void doInBackground(Void... voids) {
-            Bitmap mBitmap;
+        protected void onPreExecute() {
+            super.onPreExecute();
+            json = Json.getInstance();
+            Json.getInstance().setmContext(mContext);
+        }
 
-            try {
-                processPictogram(mVincularArray.getJSONObject(mPosition));
-                mStringTexto = JSONutils.getNombre(picto, ConfigurarIdioma.getLanguaje());
-            } catch (JSONException e) {
-                e.printStackTrace();
+
+        @Override
+        protected Void doInBackground(Void... voids) {try {
+                picto = mArrayPictos.getJSONObject(mPosition);
+                if(picto!=null){
+                    mHolder.pictoView.setUpContext(mContext);
+                    mHolder.pictoView.setUpGlideAttatcher(mContext);
+                }
+            } catch (Exception e) {
+                e.getMessage();
             }
-
             return null;
         }
 
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-
-            if (picto != null) {
                 try {
-                    mHolder.mTextoPicto.setText(mStringTexto);
-                    Pictogram pictogram = new Pictogram(mVincularArray.getJSONObject(mPosition), ConfigurarIdioma.getLanguaje());
-                    loadDrawable(glideAttatcher, pictogram, mHolder.mPictoImageView,mHolder.mKindOfPictogram);
-                    mHolder.mPictoImageColor.setColorFilter(cargarColor(JSONutils.getTipo(picto)));
-                    mHolder.itemView.setBackground(mContext.getResources().getDrawable(R.drawable.picto_shape));
-
+                    if(picto!=null) {
+                        mHolder.pictoView.setPictogramsLibraryPictogram(new Pictogram(picto,ConfigurarIdioma.getLanguaje()));
+                        loadDrawable(json.getId(picto), mHolder.pictoView);
+                    }
                 } catch (Exception ex) {
-                    ex.printStackTrace();
+                    ex.getMessage();
                 }
-            }
 
         }
 
+    }
 
-
-        public void processPictogram(JSONObject object) {
-
+    @SuppressLint("NotifyDataSetChanged")
+    public FindAllPictogramsAdapter removeOldFiles(){
+        JSONArray aux = new JSONArray();
+        for (int i = 0; i < mArrayPictos.length(); i++) {
             try {
-                picto = json.getPictoFromId2(object.getInt("id"));
+                if(mArrayPictos.getJSONObject(i).has("imagen")){
+                    aux.put(mArrayPictos.getJSONObject(i));
+                }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-            if (picto == null) {
-                picto = object;
-            }
-
         }
+        mArrayPictos = aux;
+        notifyDataSetChanged();
+        return this;
     }
 }

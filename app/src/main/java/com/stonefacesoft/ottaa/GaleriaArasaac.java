@@ -1,15 +1,10 @@
 package com.stonefacesoft.ottaa;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
-import android.os.PowerManager;
 import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -27,26 +22,20 @@ import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.MenuItemCompat;
 
-import com.stonefacesoft.ottaa.Bitmap.UriFiles;
+import com.google.firebase.perf.metrics.AddTrace;
+import com.stonefacesoft.ottaa.Interfaces.SearchAraasacPictogram;
 import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.utils.ConnectionDetector;
 import com.stonefacesoft.ottaa.utils.IntentCode;
+import com.stonefacesoft.ottaa.utils.Pictures.DownloadTask;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.text.SimpleDateFormat;
+
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
+
 
 //import android.widget.SearchView;
 
@@ -66,7 +55,9 @@ public class GaleriaArasaac extends AppCompatActivity implements SearchView.OnQu
     ImageView ImagenArasaac;
     TextView TextoArasaac;
     private Json json;
+    private gridViewAdapter gridAdapter;
 
+    @AddTrace(name = "GaleriaArasaac", enabled = true /* optional */)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Intent intento = getIntent();
@@ -82,26 +73,14 @@ public class GaleriaArasaac extends AppCompatActivity implements SearchView.OnQu
         pictosDelGrupo = new ArrayList<>();
         Json.getInstance().setmContext(this);
         json = Json.getInstance();
-
         //Implemento el manejador de preferencias
         sharedPrefsDefault = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-
-
         buscarArasaac = new BuscarArasaac();
-        new cargarImg().execute();
-
         ImagenArasaac = findViewById(R.id.ImageArasaac);
         ImagenArasaac.setVisibility(View.VISIBLE);
         TextoArasaac = findViewById(R.id.TextoArasaac);
         TextoArasaac.setVisibility(View.VISIBLE);
         TextoArasaac.setTextColor(getResources().getColor(R.color.colorWhite));
-
-
-
-
-
-//        openIntent();
-
     }
 
     @Override
@@ -153,15 +132,14 @@ public class GaleriaArasaac extends AppCompatActivity implements SearchView.OnQu
 
     private void openIntent()
     {
-//        Intent intent = getIntent();
-//        boton = intent.getIntExtra("Boton", 0);
-
-//        pictosDelGrupo = Json.getHijosGrupo(Json.getmArrayListTodosLosGruposJson().get(boton));
         GridView gridView = findViewById(R.id.gridView);
-
-        gridViewAdapter gridAdapter = null;
         try {
-            gridAdapter = new gridViewAdapter(this, R.layout.grid_item_layout, pictosDelGrupo, json, true);
+            if(gridAdapter ==null)
+                gridAdapter = new gridViewAdapter(gridView.getContext(), R.layout.grid_item_layout, pictosDelGrupo, json, true);
+            else{
+                gridAdapter.setData1(pictosDelGrupo);
+                gridAdapter.notifyDataSetChanged();
+            }
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -178,9 +156,7 @@ public class GaleriaArasaac extends AppCompatActivity implements SearchView.OnQu
                     String url = pictosDelGrupo.get(position).getString("imagePNGURL");
                     text = pictosDelGrupo.get(position).getString("name");
                     tipo = pictosDelGrupo.get(position).getInt("wordTYPE");
-                    //                    if (isDownloadManagerAvailable(this)) { descargarImagen(url);}
-                    // execute this when the downloader must be fired
-                    final DownloadTask downloadTask = new DownloadTask(GaleriaArasaac.this);
+                    final DownloadTask downloadTask = new DownloadTask(GaleriaArasaac.this,text,tipo);
                     downloadTask.execute(url);
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -197,14 +173,8 @@ public class GaleriaArasaac extends AppCompatActivity implements SearchView.OnQu
         });
     }
 
-    ///////////////////////////////  Descargar Archivo  ////////////////////////////////////////////
-
-
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == IntentCode.EDITARPICTO.getCode()) {
             openIntent();
@@ -213,136 +183,6 @@ public class GaleriaArasaac extends AppCompatActivity implements SearchView.OnQu
 
     // usually, subclasses of AsyncTask are declared inside the activity class.
 // that way, you can easily modify the UI thread from here
-    private class DownloadTask extends AsyncTask<String, Integer, String> {
-
-        private final Context context;
-        private PowerManager.WakeLock mWakeLock;
-        private ProgressDialog mProgressDialog = new ProgressDialog(GaleriaArasaac.this);
-        String path;
-
-        public DownloadTask(Context context) {
-            this.context = context;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            mProgressDialog = ProgressDialog.show(GaleriaArasaac.this, "", context.getResources().getString( R.string.downloadingFoto),
-                    true,false);
-            super.onPreExecute();
-            // take CPU lock to prevent CPU from going off if the user
-            // presses the power button during download
-            PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
-            mWakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,
-                    getClass().getName());
-            mWakeLock.acquire(10 * 60 * 1000L /*10 minutes*/);
-        }
-
-        public void execute1(){
-            Executor executor = Executors.newSingleThreadExecutor();
-            Handler handler = new Handler(Looper.getMainLooper());
-
-        }
-
-        @Override
-        protected String doInBackground(String... sUrl) {
-            InputStream input = null;
-            OutputStream output = null;
-            HttpURLConnection connection = null;
-            try {
-                URL url = new URL(sUrl[0]);
-                connection = (HttpURLConnection) url.openConnection();
-                connection.connect();
-
-                // expect HTTP 200 OK, so we don't mistakenly save error report
-                // instead of the file
-                if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
-                    return "Server returned HTTP " + connection.getResponseCode()
-                            + " " + connection.getResponseMessage();
-                }
-
-                // this will be useful to display download percentage
-                // might be -1: server did not report the length
-                int fileLength = connection.getContentLength();
-
-                // download the file
-                String timeStamp = new SimpleDateFormat("ddMMyyyy_HHmmss").format(new Date());
-                String mImageName="/MI_"+timeStamp+".png";
-                input = connection.getInputStream();
-                String pathAux="";
-                UriFiles files=new UriFiles(context);
-                files.dir();
-
-
-                path =files.getPath() + mImageName;
-                output = new FileOutputStream(path);
-
-                byte[] data = new byte[4096];
-                long total = 0;
-                int count;
-                while ((count = input.read(data)) != -1) {
-                    // allow canceling with back button
-                    if (isCancelled()) {
-                        input.close();
-                        return null;
-                    }
-                    total += count;
-                    // publishing the progress....
-                    if (fileLength > 0) // only if total length is known
-                        publishProgress((int) (total * 100 / fileLength));
-                    output.write(data, 0, count);
-                }
-            } catch (Exception e) {
-                return e.toString();
-            } finally {
-                try {
-                    if (output != null)
-                        output.close();
-                    if (input != null)
-                        input.close();
-                } catch (IOException ignored) {
-
-                }
-                if (connection != null)
-                    connection.disconnect();
-            }
-            return null;
-        }
-
-//        @Override
-//        protected void onProgressUpdate(Integer... progress) {
-//            super.onProgressUpdate(progress);
-//            // if we get here, length is known, now set indeterminate to false
-//            mProgressDialog.setIndeterminate(false);
-//            mProgressDialog.setMax(100);
-//            mProgressDialog.setProgress(progress[0]);
-//        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            mWakeLock.release();
-            Intent databack = new Intent();
-            if (mProgressDialog.isShowing()) {
-                try {
-                    mProgressDialog.dismiss();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-            if (result != null) {
-                Toast.makeText(context, getString(R.string.error_download) + result, Toast.LENGTH_LONG).show();
-            }
-            else{
-                Toast.makeText(context, R.string.file_download, Toast.LENGTH_SHORT).show();
-                databack.putExtra("Path", path);
-                databack.putExtra("Type", tipo);
-                databack.putExtra("Text", text);
-
-            }
-            setResult(IntentCode.ARASAAC.getCode(), databack);
-            finish();
-        }
-
-    }
 
     @Override
     public boolean onQueryTextSubmit(String query) {
@@ -357,30 +197,30 @@ public class GaleriaArasaac extends AppCompatActivity implements SearchView.OnQu
 
     @Override
     public boolean onQueryTextChange(String newText) {
-//        Toast.makeText(this, newText, Toast.LENGTH_SHORT).show();
         return false;
     }
 
-    private class HTTPRequest extends AsyncTask<Void, Void, Void> {
+    private class HTTPRequest extends AsyncTask<Void, Void, Void> implements SearchAraasacPictogram {
 
-//        private ProgressDialog progressDialog = new ProgressDialog(GaleriaArasaac.this);
+        private ProgressDialog progressDialog = new ProgressDialog(GaleriaArasaac.this);
         String texto;
 
         public HTTPRequest(String texto)
         {
             this.texto = texto;
+            buscarArasaac.setSearchAraasacPictogram(this);
         }
         // can use UI thread here
         protected void onPreExecute() {
-//            progressDialog = ProgressDialog.show(GaleriaArasaac.this, "", "Saving changes...",
-//                    true,false);
-//            progressDialog.setMessage(getResources().getString(R.string.pref_cargando_DB));
-//            progressDialog.show();
+            progressDialog = ProgressDialog.show(GaleriaArasaac.this, "", "Saving changes...",
+                    true,false);
+            progressDialog.setMessage(getResources().getString(R.string.pref_cargando_DB));
+            progressDialog.show();
         }
 
         @Override
         protected Void doInBackground(Void... voids) {
-            arasaac = buscarArasaac.HacerBusqueda(texto, sharedPrefsDefault.getString(getApplicationContext().getString(R.string.str_idioma),"en"),GaleriaArasaac.this);
+            buscarArasaac.HacerBusqueda(texto, sharedPrefsDefault.getString(getApplicationContext().getString(R.string.str_idioma),"en"),GaleriaArasaac.this);
             return null;
         }
 
@@ -389,6 +229,7 @@ public class GaleriaArasaac extends AppCompatActivity implements SearchView.OnQu
          * @param unused
          */
         protected void onPostExecute(final Void unused) {
+            progressDialog.dismiss();
             ImagenArasaac.setVisibility(View.GONE);
             TextoArasaac.setVisibility(View.GONE);
             try {
@@ -397,34 +238,23 @@ public class GaleriaArasaac extends AppCompatActivity implements SearchView.OnQu
                     pictosDelGrupo.clear();
                     for (int i = 0; i < jsonArray.length(); i++) {
                         pictosDelGrupo.add((JSONObject) jsonArray.get(i));
-                        openIntent();
                     }
+                    openIntent();
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
                 Toast.makeText(GaleriaArasaac.this, R.string.problema_inet, Toast.LENGTH_LONG).show();
             }
         }
-    }
 
-    private class cargarImg extends AsyncTask<Void, Void, Void> {
-
-        Drawable drawable;
         @Override
-        protected Void doInBackground(Void... voids) {
-            DrawableManager drawableManager = new DrawableManager();
-            drawable = drawableManager.fetchDrawable("http://arasaac.org/repositorio/originales/30482.png");
-            return null;
+        public void findPictograms(JSONObject value) {
+            arasaac = value;
+            onPostExecute(null);
         }
 
-        /**
-         * Una vez que paso el tiempo de espera ilumino la parte adecuando
-         * @param unused
-         */
-        protected void onPostExecute(final Void unused) {
-//            Opcion1.setCustom_Img(drawable);
-        }
     }
+
 
     @Override
     protected void onPause() {
@@ -438,10 +268,4 @@ public class GaleriaArasaac extends AppCompatActivity implements SearchView.OnQu
         Json.getInstance().setmContext(this);
     }
 
-    private int convertToPx(int dp) {
-        // Get the screen's density scale
-        final float scale = getResources().getDisplayMetrics().density;
-        // Convert the dps to pixels, based on density scale
-        return (int) (dp * scale + 0.5f);
-    }
 }

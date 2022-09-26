@@ -28,6 +28,7 @@ import com.stonefacesoft.ottaa.utils.constants.Constants;
 import com.stonefacesoft.ottaa.utils.FilesUtils;
 import com.stonefacesoft.ottaa.utils.ObservableInteger;
 import com.stonefacesoft.ottaa.utils.exceptions.FiveMbException;
+import com.stonefacesoft.ottaa.utils.preferences.User;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -254,9 +255,8 @@ public class BajarJsonFirebase implements OnFailureListener {
                                                         }
                                                   }
                                                 });
-                                                bajarJuego(locale,rootPath);
                                                 bajarFrasesFavoritas(locale,rootPath);
-
+                                                bajarJuego(locale,rootPath);
                                             } catch (Exception e) {
                                                 e.printStackTrace();
                                             }
@@ -709,6 +709,11 @@ public class BajarJsonFirebase implements OnFailureListener {
                     }).addOnFailureListener(BajarJsonFirebase.this);
                 } else {
                     mStorageRefPictos = FirebaseStorage.getInstance().getReference().child("Archivos_Paises/pictos/" + "pictos_" + locale + "." + "txt");
+                    String gender = getGenderByValue();
+                    Log.d(TAG, "Gender onDataChange: "+ gender);
+                    if(locale.equals("es"))
+                        mStorageRefPictos = FirebaseStorage.getInstance().getReference().child("Archivos_Paises/pictos/es/pictos_es_"+gender+".txt");
+
                     final File pictosUsuariosFile = new File(roothPath, Constants.ARCHIVO_PICTOS);
                     mStorageRefPictos.getFile(pictosUsuariosFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
                         @Override
@@ -739,6 +744,19 @@ public class BajarJsonFirebase implements OnFailureListener {
 
             }
         });
+    }
+
+    private String getGenderByValue(){
+       String value = sharedPrefsDefault.getString(Constants.GENERO,"other");
+        Log.d(TAG, "getGenderByValue: "+value);
+       switch (value.toLowerCase()){
+           case "femenino":
+               return "f";
+           case "masculino":
+               return "m";
+           default:
+               return "gen";
+       }
     }
 
     public void bajarFrasesJuegos(String locale, File roothPath) {

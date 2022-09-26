@@ -23,7 +23,8 @@ public enum IntentCode {
     CUSTOMPHRASES(16),
     PICK_IMAGE(17),
     SEARCH_ALL_PICTOGRAMS(18),
-    AVATAR(19);
+    AVATAR(19),
+    VINCULAR_FRASES(20);
 
     private final int code;
 

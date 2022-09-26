@@ -54,6 +54,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 
+import com.google.firebase.perf.metrics.AddTrace;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -200,7 +201,7 @@ public class Edit_Picto_Visual extends AppCompatActivity implements View.OnClick
     private AnalyticsFirebase analyticsFirebase;
     private File photoFile;
 
-
+    @AddTrace(name = "EditPicto", enabled = true /* optional */)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 

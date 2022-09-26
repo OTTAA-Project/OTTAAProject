@@ -33,6 +33,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.google.firebase.perf.metrics.AddTrace;
 import com.stonefacesoft.ottaa.Dialogos.DialogUtils.DialogGameProgressInform;
 import com.stonefacesoft.ottaa.idioma.ConfigurarIdioma;
 import com.stonefacesoft.ottaa.utils.Games.GamesSettings;
@@ -171,6 +172,7 @@ public class WhichIsThePicto extends AppCompatActivity implements View
 
     }
 
+    @AddTrace(name = "WhichIsThePicto", enabled = true /* optional */)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //Ocultamos la barra de notificaciones
@@ -265,15 +267,17 @@ public class WhichIsThePicto extends AppCompatActivity implements View
 
         //Puntaje
 
-
-        mTutorialFlag = sharedPrefsDefault.getBoolean("PrimerUsoJuegos", true);
-
-        animGameScore = new AnimGameScore(this, mAnimationWin);
-        function_scroll = new ScrollFuntionGames(this);
-        iniciarBarrido();
-        gameControl = new GameControl(this);
-        PrimerNivel();
-        hideView();
+        if(mJsonArrayTodosLosPictos.length()>4){
+            mTutorialFlag = sharedPrefsDefault.getBoolean("PrimerUsoJuegos", true);
+            animGameScore = new AnimGameScore(this, mAnimationWin);
+            function_scroll = new ScrollFuntionGames(this);
+            iniciarBarrido();
+            gameControl = new GameControl(this);
+            PrimerNivel();
+            hideView();
+        }else{
+            onBackPressed();
+        }
     }
 
     @Override
@@ -286,8 +290,8 @@ public class WhichIsThePicto extends AppCompatActivity implements View
             Log.e(TAG, "onBackPressed: Error al guardar grupos ");
 
         game.endUseTime();
-        game.guardarObjetoJson();
-        game.subirDatosJuegosFirebase();
+        game.saveJsonObjects();
+        game.uploadFirebaseGameData();
 
         handlerHablar.removeCallbacks(animarHablar);
         decirPicto.removeCallbacks(talkGanador);
@@ -462,7 +466,7 @@ public class WhichIsThePicto extends AppCompatActivity implements View
         if (Acerto) {
             game.incrementCorrect();
             game.incrementTimesRight();
-            Drawable drawable = game.devolverCarita();
+            Drawable drawable = game.getSmiley();
             drawable.setTint(getResources().getColor(R.color.colorWhite));
             mMenu.getItem(0).setIcon(drawable).setVisible(true);
             if (game.isChangeLevel()) {
@@ -473,7 +477,7 @@ public class WhichIsThePicto extends AppCompatActivity implements View
         } else {
             game.incrementWrong();
 
-            Drawable drawable = game.devolverCarita();
+            Drawable drawable = game.getSmiley();
             drawable.setTint(getResources().getColor(R.color.colorWhite));
             mMenu.getItem(0).setIcon(drawable).setVisible(true);
 
@@ -482,7 +486,7 @@ public class WhichIsThePicto extends AppCompatActivity implements View
     }
 
     private double getPuntaje() {
-        return game.getScoreClass().calcularValor();
+        return game.getScoreClass().getResult();
     }
 
 
@@ -568,9 +572,6 @@ public class WhichIsThePicto extends AppCompatActivity implements View
         try {
             if (mJsonArrayTodosLosPictos.getJSONObject(position) != null) {
                 if (!JSONutils.getNombre(mJsonArrayTodosLosPictos.getJSONObject(position),sharedPrefsDefault.getString(getString(R.string.str_idioma), "en")).equals("")) {
-                 //   option.setCustom_Img(json.getIcono(mJsonArrayTodosLosPictos.getJSONObject(position)));
-                //    option.setCustom_Color(cargarColor(JSONutils.getTipo(mJsonArrayTodosLosPictos.getJSONObject(position))));
-              //      option.setCustom_Texto(JSONutils.getNombre(mJsonArrayTodosLosPictos.getJSONObject(position),sharedPrefsDefault.getString(getString(R.string.str_idioma), "en")));
                     option.setUpContext(this);
                     option.setUpGlideAttatcher(this);
                     option.setPictogramsLibraryPictogram(new Pictogram(mJsonArrayTodosLosPictos.getJSONObject(position), ConfigurarIdioma.getLanguaje()));
@@ -590,9 +591,8 @@ public class WhichIsThePicto extends AppCompatActivity implements View
             position = devolverValor(Math.round((float) Math.random() * mJsonArrayTodosLosPictos.length()),0);
             model.loadValue(pos, position);
             cargarDatosOpcion(position, option, pos);
-
         } finally {
-            if (pos == model.getValueIndex().length - 1) {
+            if (pos == model.getValueIndex().length-1) {
                 elegirGanador();
                 Seleccion1.setCustom_Img(getResources().getDrawable(R.drawable.agregar_picto_transp));
                 Log.d(TAG, "cargarDatosOpcion: " + viewGanador.getCustom_Texto());
@@ -765,7 +765,7 @@ public class WhichIsThePicto extends AppCompatActivity implements View
     private void setMenuScoreIcon() {
         Drawable drawable = null;
         if (game != null)
-            drawable = game.devolverCarita();
+            drawable = game.getSmiley();
         if (game.getScore() == 0) {
             drawable = getResources().getDrawable(R.drawable.ic_sentiment_very_satisfied_white_24dp);
         }

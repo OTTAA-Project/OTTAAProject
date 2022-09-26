@@ -14,6 +14,7 @@ import com.stonefacesoft.ottaa.BuscarArasaac;
 import com.stonefacesoft.ottaa.Dialogos.DialogUtils.Progress_dialog_options;
 import com.stonefacesoft.ottaa.Helper.ItemTouchHelperAdapter;
 import com.stonefacesoft.ottaa.Helper.RecyclerItemClickListener;
+import com.stonefacesoft.ottaa.Interfaces.SearchAraasacPictogram;
 import com.stonefacesoft.ottaa.Interfaces.translateInterface;
 import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.idioma.ConfigurarIdioma;
@@ -37,7 +38,6 @@ public class FindAllPictograms_Recycler_View extends Custom_recyclerView impleme
     private Progress_dialog_options progress_dialog_options;
     private JSONObject selectedObject;
     private com.stonefacesoft.ottaa.utils.traducirTexto traducirTexto;
-
     public FindAllPictograms_Recycler_View(AppCompatActivity appCompatActivity, FirebaseAuth mAuth) {
         super(appCompatActivity, mAuth);
         buscarArasaac = new BuscarArasaac();
@@ -45,10 +45,12 @@ public class FindAllPictograms_Recycler_View extends Custom_recyclerView impleme
 
     }
 
+
+
     public void setArray() {
-         array = json.getHijosGrupo2(json.getPosPicto(json.getmJSONArrayTodosLosGrupos(),24));
+        array = json.getHijosGrupo2(json.getPosPicto(json.getmJSONArrayTodosLosGrupos(),24));
         createRecyclerLayoutManager();
-        findAllPictogramsAdapter = new FindAllPictogramsAdapter(mActivity, R.layout.pictorecyclerviewitem, array, true);
+        findAllPictogramsAdapter = new FindAllPictogramsAdapter(mActivity, R.layout.grid_item_layout, array, true);
         mRecyclerView.setAdapter(findAllPictogramsAdapter);
         mRecyclerView.addOnItemTouchListener(listener());
     }
@@ -61,16 +63,18 @@ public class FindAllPictograms_Recycler_View extends Custom_recyclerView impleme
 
     @Override
     public void onPictosNoFiltrados() {
-        findAllPictogramsAdapter.setmVincularArray(array);
+        findAllPictogramsAdapter.setmArrayPictos(array);
         findAllPictogramsAdapter.setEsFiltrado(false);
         mRecyclerView.getAdapter().notifyDataSetChanged();
     }
 
     public void filtrarPictogramas() {
-        findAllPictogramsAdapter.setmVincularArray(arrayAux);
+        findAllPictogramsAdapter.setmArrayPictos(arrayAux);
         findAllPictogramsAdapter.setEsFiltrado(true);
         mRecyclerView.getAdapter().notifyDataSetChanged();
     }
+
+
 
     @Override
     public boolean onQueryTextSubmit(String query) {
@@ -93,6 +97,7 @@ public class FindAllPictograms_Recycler_View extends Custom_recyclerView impleme
             } while (cont <= cant);
             //Nos aseguramos que es vincular o no, si lo es seteamos el array nuevo de pictos filtrados
             //para que el adapter trabaje con ese array.
+
             if(ConnectionDetector.isNetworkAvailable(mActivity)){
                 new HTTPRequest(query).execute();
                 mSearchView.setQuery(query, false);
@@ -119,6 +124,8 @@ public class FindAllPictograms_Recycler_View extends Custom_recyclerView impleme
     public void onDropItem() {
 
     }
+
+
 
     private RecyclerItemClickListener listener() {
         return new RecyclerItemClickListener(mRecyclerView, mActivity, new RecyclerItemClickListener.OnItemClickListener() {
@@ -199,26 +206,19 @@ public class FindAllPictograms_Recycler_View extends Custom_recyclerView impleme
         }
     }
 
-    private class HTTPRequest extends AsyncTask<Void, Void, Void> {
+    private class HTTPRequest extends AsyncTask<Void, Void, Void> implements SearchAraasacPictogram {
 
         //        private ProgressDialog progressDialog = new ProgressDialog(GaleriaArasaac.this);
         String texto;
 
         public HTTPRequest(String texto) {
+            buscarArasaac.setSearchAraasacPictogram(this);
             this.texto = texto;
-        }
-
-        // can use UI thread here
-        protected void onPreExecute() {
-//            progressDialog = ProgressDialog.show(GaleriaArasaac.this, "", "Saving changes...",
-//                    true,false);
-//            progressDialog.setMessage(getResources().getString(R.string.pref_cargando_DB));
-//            progressDialog.show();
         }
 
         @Override
         protected Void doInBackground(Void... voids) {
-            arasaac = buscarArasaac.HacerBusqueda(texto, ConfigurarIdioma.getLanguaje(), mActivity);
+            buscarArasaac.HacerBusqueda(texto, ConfigurarIdioma.getLanguaje(), mActivity);
             return null;
         }
 
@@ -245,7 +245,6 @@ public class FindAllPictograms_Recycler_View extends Custom_recyclerView impleme
                         picto.setType(tipo);
                         picto.setId((int) System.currentTimeMillis());
                         arrayAux.put(arrayAux.length(), picto.toJsonObject());
-                        //  array.put(array.length(),(JSONObject) jsonArray.get(i));
                     }
                     onPictosFiltrados();
                 }
@@ -258,6 +257,11 @@ public class FindAllPictograms_Recycler_View extends Custom_recyclerView impleme
                 progress_dialog_options.destruirDialogo();
         }
 
+        @Override
+        public void findPictograms(JSONObject value) {
+            arasaac = value;
+            onPostExecute(null);
+        }
     }
 
     public Progress_dialog_options getProgress_dialog_options() {
@@ -276,4 +280,6 @@ public class FindAllPictograms_Recycler_View extends Custom_recyclerView impleme
         }
 
     }
+
+
 }

@@ -53,11 +53,14 @@ public abstract class Custom_recyclerView implements SearchView.OnQueryTextListe
     protected SearchView mSearchView;
     protected JSONArray array;
     protected JSONArray arrayAux;
+    protected JSONArray arrayWithoutRelation;
+
     protected  int posItem;
     protected  int cantColumnas;
     protected  int cantFilas;
     protected AnalyticsFirebase analyticsFirebase;
     protected boolean scrollVertical = true;
+
 
 
 
@@ -70,10 +73,6 @@ public abstract class Custom_recyclerView implements SearchView.OnQueryTextListe
         analyticsFirebase=new AnalyticsFirebase(this.mActivity);
         mRecyclerView.setVisibility(View.VISIBLE);
         cantColumnas=calcularCantidadColumnas();
-        if(cantColumnas<=3)
-        cantFilas=calcularCantidadFilas()/2;
-       else
-        cantFilas=calcularCantidadFilas();
     }
 
     protected int calcularCantidadColumnas() {
@@ -120,7 +119,6 @@ public abstract class Custom_recyclerView implements SearchView.OnQueryTextListe
     public void showRecyclerView(boolean show){
         if(!show){
             mRecyclerView.setVisibility(View.VISIBLE);
-
         }
         else
             mRecyclerView.setVisibility(View.GONE);
@@ -128,6 +126,7 @@ public abstract class Custom_recyclerView implements SearchView.OnQueryTextListe
     protected void createRecyclerLayoutManager(){
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(mActivity, calcularCantidadColumnas());
         mRecyclerView.setLayoutManager(mLayoutManager);
+
     }
 
     public void setSearchView(SearchView searchView) {
@@ -222,18 +221,7 @@ public abstract class Custom_recyclerView implements SearchView.OnQueryTextListe
     public JSONArray getArrayAux() {
         return arrayAux;
     }
-    /**
-     * Return the number of rows
-     * */
-    public int calcularCantidadFilas(){
-        Display display = mActivity.getWindowManager().getDefaultDisplay();
-        DisplayMetrics outMetrics = new DisplayMetrics();
-        display.getMetrics(outMetrics);
 
-        float density = mActivity.getResources().getDisplayMetrics().density;
-        float dpHeight = outMetrics.heightPixels / density;
-        return Math.round(dpHeight / 200);
-    }
     /**
      * Recycler view page scroll
      * @param add
@@ -243,8 +231,17 @@ public abstract class Custom_recyclerView implements SearchView.OnQueryTextListe
      * </item>
      * */
     public void scrollTo(boolean add){
-        if(getPositionItem==null && existRecyclerViewAndAdapter())
-            getPositionItem = new ReturnPositionItem(mRecyclerView.getAdapter().getItemCount());
+        float items = 0;
+        if(existRecyclerViewAndAdapter()){
+            items = mRecyclerView.getAdapter().getItemCount();
+            cantFilas = getNumberOfCells(cantFilas,(int) Math.ceil(items/cantColumnas));
+            if(getPositionItem!=null){
+                getPositionItem.updateSize(cantFilas);
+            }
+        }
+        if(getPositionItem==null && existRecyclerViewAndAdapter()){
+            getPositionItem = new ReturnPositionItem(cantFilas);
+        }
         try{
             if(add){
                 posItem = getPositionItem.add();
@@ -252,9 +249,7 @@ public abstract class Custom_recyclerView implements SearchView.OnQueryTextListe
             else{
                 posItem = getPositionItem.subtract();
             }
-            int total=cantColumnas*cantFilas;
-            int positionNavigate=posItem*total;
-            Log.e(TAG, "navigateRecyclerView: "+positionNavigate );
+            int positionNavigate=posItem*cantColumnas;
             mRecyclerView.scrollToPosition(positionNavigate);
         }catch (Exception ex){
 
@@ -332,6 +327,12 @@ public abstract class Custom_recyclerView implements SearchView.OnQueryTextListe
     }
     protected Intent startEditAction(int position){
         return null;
+    }
+
+    protected int getNumberOfCells(int value,int result){
+        if(value!= result)
+            return result;
+        return  value;
     }
 
 }

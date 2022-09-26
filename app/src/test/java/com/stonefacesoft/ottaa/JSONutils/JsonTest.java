@@ -512,13 +512,13 @@ public class JsonTest {
     public void compareToABiggerThanB() {
         Json json = Json.getInstance();
         int value = json.compareTo(35f,25f);
-        Assert.assertTrue(value == -1);
+        Assert.assertEquals(value , -1);
     }
     @Test
     public void compareToBBiggerThanA() {
         Json json = Json.getInstance();
         int value = json.compareTo(25f,35f);
-        Assert.assertTrue(value == 1);
+        Assert.assertEquals(value, 1);
     }
 
     @Test

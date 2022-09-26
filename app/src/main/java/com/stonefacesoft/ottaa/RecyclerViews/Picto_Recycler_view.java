@@ -34,6 +34,7 @@ public class Picto_Recycler_view extends Custom_recyclerView {
 
     public Picto_Recycler_view(AppCompatActivity mActivity, FirebaseAuth mAuth) {
         super(mActivity, mAuth);
+
     }
 
 
@@ -44,7 +45,7 @@ public class Picto_Recycler_view extends Custom_recyclerView {
         array=json.getHijosGrupo2(position);
         arrayAux=new JSONArray();
         createRecyclerLayoutManager();
-        galeriaPictos2=new GaleriaPictosAdapter(mActivity,array, R.layout.grid_item_layout,mAuth).removeOldFiles();
+        galeriaPictos2=new GaleriaPictosAdapter(mActivity,array, R.layout.grid_item_layout,mAuth);
         mRecyclerView.setAdapter(galeriaPictos2);
         mRecyclerView.addOnItemTouchListener(listener());
     }
@@ -63,6 +64,8 @@ public class Picto_Recycler_view extends Custom_recyclerView {
         galeriaPictos2.notifyDataSetChanged();
         mRecyclerView.invalidate();
     }
+
+
     /**
      * this method set up the visibility around a recycler view
      *

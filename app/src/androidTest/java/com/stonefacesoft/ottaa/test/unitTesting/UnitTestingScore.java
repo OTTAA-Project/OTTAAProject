@@ -46,12 +46,12 @@ public class UnitTestingScore extends TestCase {
         score.sumarCantidVecesIncorretas();//01
         score.sumarCantidVecesIncorretas();//02
         score.sumarCantidadVecesCorrectas();//2
-        Log.e("TAG", "UnitTestingPhrases: "+score.calcularValor() );
+        Log.e("TAG", "UnitTestingPhrases: "+score.getResult() );
         score.sumarCantidadVecesCorrectas();//3
         score.sumarCantidadVecesCorrectas();//4
         score.sumarCantidadVecesCorrectas();//5
-        Log.e("TAG", "UnitTestingPhrases: "+score.calcularValor() );
-        System.out.println(" This is the score"+score.calcularValor());
+        Log.e("TAG", "UnitTestingPhrases: "+score.getResult() );
+        System.out.println(" This is the score"+score.getResult());
         String text=score.getAciertos()+"";
         assertThat(score.getAciertos(),is(5));
         assertThat(score.getDesaciertos(),is(2));

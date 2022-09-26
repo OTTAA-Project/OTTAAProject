@@ -46,7 +46,7 @@ public class UnitTestingGame extends TestCase {
         System.out.println("The score has been passed :"+game.getScore());
         else
             Assert.fail("The score is empty");
-        game.guardarObjetoJson();
+        game.saveJsonObjects();
     }
 
     @Override

@@ -13,6 +13,7 @@ import androidx.core.content.FileProvider;
 import com.stonefacesoft.ottaa.Bitmap.CombineImages;
 import com.stonefacesoft.ottaa.Bitmap.GestionarBitmap;
 import com.stonefacesoft.ottaa.BuildConfig;
+import com.stonefacesoft.ottaa.DrawableManager;
 import com.stonefacesoft.ottaa.Interfaces.LoadOnlinePictograms;
 import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.R;

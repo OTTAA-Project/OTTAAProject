@@ -3,6 +3,7 @@ package com.stonefacesoft.ottaa.Adapters;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.LayoutInflater;
@@ -14,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.stonefacesoft.ottaa.Bitmap.GestionarBitmap;
+import com.stonefacesoft.ottaa.FavModel;
 import com.stonefacesoft.ottaa.Interfaces.LoadOnlinePictograms;
 import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.utils.Phrases.CustomFavoritePhrases;
@@ -25,27 +27,30 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 public class PhrasesAdapter extends RecyclerView.Adapter<PhrasesAdapter.PhraseAdapter> {
     protected final Context mContext;
-    protected final CustomFavoritePhrases phrases;
+    protected CustomFavoritePhrases phrases;
     protected JSONArray userPhrases;
     protected final textToSpeech myTTs;
     protected final GlideAttatcher glideAttatcher;
     protected final GestionarBitmap gestionarBitmap;
+    protected   ArrayList<FavModel> mFavImagesArrayList;
 
 
     public PhrasesAdapter(Context mContext) {
         this.mContext = mContext;
-        phrases = CustomFavoritePhrases.getInstance(mContext);
+        mFavImagesArrayList = new ArrayList<>();
+        phrases = new CustomFavoritePhrases(mContext);
         userPhrases = phrases.getJson().getPhrasesByLanguage();
-
         myTTs = textToSpeech.getInstance(this.mContext);
         glideAttatcher = new GlideAttatcher(this.mContext);
         gestionarBitmap = new GestionarBitmap(this.mContext);
         gestionarBitmap.setColor(android.R.color.white);
+        new CargarFrasesAsync().execute();
     }
 
 
@@ -59,7 +64,7 @@ public class PhrasesAdapter extends RecyclerView.Adapter<PhrasesAdapter.PhraseAd
 
     @Override
     public void onBindViewHolder(@NonNull  PhraseAdapter holder, int position) {
-        new CargarFrasesAsync(position, holder).execute();
+        loadHolder(holder,position);
     }
 
     @Override
@@ -73,6 +78,7 @@ public class PhrasesAdapter extends RecyclerView.Adapter<PhrasesAdapter.PhraseAd
 
     public void setUserPhrases(JSONArray favoritesPhrases) {
         this.userPhrases = favoritesPhrases;
+        new CargarFrasesAsync().execute();
     }
 
 
@@ -109,54 +115,49 @@ public class PhrasesAdapter extends RecyclerView.Adapter<PhrasesAdapter.PhraseAd
 
     }
 
-    protected class CargarFrasesAsync  {
+    protected class CargarFrasesAsync  extends AsyncTask<Void, Void, Void> {
 
-        private final int mPosition;
-        private final PhraseAdapter mHolder;
         private String mStringTexto;
         private Drawable mDrawableIcono;
+        private FavModel favModel;
 
-        public CargarFrasesAsync(int mPosition, PhraseAdapter mHolder) {
-            this.mPosition = mPosition;
-            this.mHolder = mHolder;
-        }
-        public void execute(){
-            Executor executor = Executors.newSingleThreadExecutor();
-            Handler handler = new Handler(Looper.getMainLooper());
-            executor.execute(new Runnable() {
-                @Override
-                public void run() {
-                    try {
-                        mHolder.phrase = userPhrases.getJSONObject(mPosition);
-                        mHolder.position = mPosition;
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                    handler.post(new Runnable() {
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            mFavImagesArrayList = new ArrayList<>();
+            for (int i = 0; i < userPhrases.length(); i++) {
+                try {
+                    FavModel favModel = new FavModel();
+                    favModel.setPosition(i);
+                    favModel.setPictogram(userPhrases.getJSONObject(i));
+                    favModel.setTexto(userPhrases.getString(i));
+                    gestionarBitmap.getBitmapDeFrase(favModel.getPictogram(),new LoadOnlinePictograms() {
                         @Override
-                        public void run() {
-                            gestionarBitmap.getBitmapDeFrase(mHolder.phrase,new LoadOnlinePictograms() {
-                                @Override
-                                public void preparePictograms() {
-                                }
-                                @Override
-                                public void loadPictograms(Bitmap bitmap) {
-                                    if(ValidateContext.isValidContextFromGlide(mContext))
-                                     glideAttatcher.UseCornerRadius(true).loadDrawable(bitmap, mHolder.img);
-                                }
-
-                                @Override
-                                public void FileIsCreated() {
-
-                                }
-                            });
-
+                        public void preparePictograms() {
                         }
-                    });
+                        @Override
+                        public void loadPictograms(Bitmap bitmap) {
+                            favModel.setImagen(bitmap);
+                        }
+
+                        @Override
+                        public void FileIsCreated() {
+
+                        }});
+                    mFavImagesArrayList.add(favModel);
+                } catch (JSONException e) {
+                    e.printStackTrace();
                 }
-            });
+
+            }
+
+            return null;
         }
 
+        @Override
+        protected void onPostExecute(Void unused) {
+            notifyDataSetChanged();
+        }
     }
 
     public void itemAction(JSONObject phrase,View v){
@@ -164,6 +165,16 @@ public class PhrasesAdapter extends RecyclerView.Adapter<PhrasesAdapter.PhraseAd
             myTTs.hablar(phrase.getString("frase"));
         } catch (JSONException e) {
             e.printStackTrace();
+        }
+    }
+
+    public void loadHolder(PhraseAdapter holder,int position){
+        try{
+            holder.img.setImageBitmap(mFavImagesArrayList.get(position).getImagen());
+            holder.setPhrase(mFavImagesArrayList.get(position).getPictogram());
+            holder.position= mFavImagesArrayList.get(position).getPosition();
+        }catch (Exception ex){
+
         }
     }
 }

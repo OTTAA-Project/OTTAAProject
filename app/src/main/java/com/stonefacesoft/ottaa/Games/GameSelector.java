@@ -28,6 +28,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.perf.metrics.AddTrace;
 import com.stonefacesoft.ottaa.Helper.RecyclerItemClickListener;
 import com.stonefacesoft.ottaa.Interfaces.Make_Click_At_Time;
 import com.stonefacesoft.ottaa.JSONutils.Json;
@@ -82,13 +83,11 @@ public class GameSelector extends AppCompatActivity implements View.OnClickListe
     private FloatingActionButton btnSelector;
 
 
-
+    @AddTrace(name = "GameSelector", enabled = true /* optional */)
     @SuppressLint("ResourceType")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        /*Obtenemos extras del intent*/
         Intent intento = getIntent();
-        /*Quitamos la barra de navegacion y la ponemos en naranja y la default de ottaa*/
         boolean status_bar = intento.getBooleanExtra("status_bar", false);
         if (!status_bar) {
             supportRequestWindowFeature(Window.FEATURE_NO_TITLE);

@@ -13,7 +13,6 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.location.Location;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -52,9 +51,11 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+
 import com.airbnb.lottie.LottieAnimationView;
 import com.facebook.BuildConfig;
 import com.facebook.FacebookSdk;
+import com.google.android.exoplayer2.transformer.Transformer;
 import com.google.android.gms.common.api.internal.ConnectionCallbacks;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -69,6 +70,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.database.annotations.Nullable;
 import com.google.firebase.installations.FirebaseInstallations;
+import com.google.firebase.perf.metrics.AddTrace;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.stonefacesoft.ottaa.Activities.Phrases.FavoritePhrases;
@@ -84,7 +86,10 @@ import com.stonefacesoft.ottaa.FirebaseRequests.BajarJsonFirebase;
 import com.stonefacesoft.ottaa.FirebaseRequests.FirebaseUtils;
 import com.stonefacesoft.ottaa.FirebaseRequests.SubirArchivosFirebase;
 import com.stonefacesoft.ottaa.FirebaseRequests.SubirBackupFirebase;
+import com.stonefacesoft.ottaa.Interfaces.AudioTransformationListener;
+import com.stonefacesoft.ottaa.Interfaces.FailReadPictogramOrigin;
 import com.stonefacesoft.ottaa.Interfaces.FirebaseSuccessListener;
+import com.stonefacesoft.ottaa.Interfaces.LoadPictograms;
 import com.stonefacesoft.ottaa.Interfaces.Make_Click_At_Time;
 import com.stonefacesoft.ottaa.Interfaces.PlaceSuccessListener;
 import com.stonefacesoft.ottaa.Interfaces.SortPictogramsInterface;
@@ -100,10 +105,12 @@ import com.stonefacesoft.ottaa.utils.Accesibilidad.Gesture;
 import com.stonefacesoft.ottaa.utils.Accesibilidad.SayActivityName;
 import com.stonefacesoft.ottaa.utils.Accesibilidad.devices.PrincipalControls;
 import com.stonefacesoft.ottaa.utils.Accesibilidad.scrollActions.ScrollFunctionMainActivity;
+import com.stonefacesoft.ottaa.utils.Audio.FileEncoder;
 import com.stonefacesoft.ottaa.utils.AvatarPackage.Avatar;
 import com.stonefacesoft.ottaa.utils.AvatarPackage.AvatarUtils;
 import com.stonefacesoft.ottaa.utils.ConnectionDetector;
 import com.stonefacesoft.ottaa.utils.CustomToast;
+import com.stonefacesoft.ottaa.utils.EnumImageView;
 import com.stonefacesoft.ottaa.utils.Firebase.AnalyticsFirebase;
 import com.stonefacesoft.ottaa.utils.Firebase.CrashlyticsUtils;
 import com.stonefacesoft.ottaa.utils.InmersiveMode;
@@ -143,7 +150,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Locale;
 import java.util.Objects;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -156,17 +162,15 @@ public class Principal extends AppCompatActivity implements View
         .OnClickListener,
         View.OnLongClickListener,
         OnMenuItemClickListener,
-        FirebaseSuccessListener, NavigationView.OnNavigationItemSelectedListener, PlaceSuccessListener, ConnectionCallbacks, translateInterface, View.OnTouchListener, Make_Click_At_Time , SortPictogramsInterface {
+        FirebaseSuccessListener, NavigationView.OnNavigationItemSelectedListener, PlaceSuccessListener, ConnectionCallbacks, translateInterface, View.OnTouchListener, Make_Click_At_Time , SortPictogramsInterface, LoadPictograms, AudioTransformationListener {
 
     private static final String TAG = "Principal";
     public static boolean cerrarSession = false;// use this variable to notify when the session is closed
     private static FirebaseSuccessListener mFirebaseSuccessListener;
-    //Declaro el fecha y hora del sistema
-    //Obtengo la hora del dia y le doy formatofirebase an error ocurred
-    // booleano para hacer refreshTTS solo para el 2do TTS
+
     private final Handler handlerHablar = new Handler();
     public Uri bajarGrupos;
-    public Json json;
+    public volatile Json json;
     public String dateStr;
     // JSONObject que usamoss
     JSONObject pictoPadre, opcion1, opcion2, opcion3, opcion4, onLongOpcion;
@@ -180,16 +184,7 @@ public class Principal extends AppCompatActivity implements View
     private NavigationView navigationView;
     private PrincipalControls navigationControls;
     //Declaracion de los botones
-    private ImageButton Seleccion1;
-    private ImageButton Seleccion2;
-    private ImageButton Seleccion3;
-    private ImageButton Seleccion4;
-    private ImageButton Seleccion5;
-    private ImageButton Seleccion6;
-    private ImageButton Seleccion7;
-    private ImageButton Seleccion8;
-    private ImageButton Seleccion9;
-    private ImageButton Seleccion10;
+
     private PictoView Opcion1;
     private PictoView Opcion2;
     private PictoView Opcion3;
@@ -198,6 +193,7 @@ public class Principal extends AppCompatActivity implements View
     private timer_pictogram_clicker Opcion2_clicker;
     private timer_pictogram_clicker Opcion3_clicker;
     private timer_pictogram_clicker Opcion4_clicker;
+    private boolean uploadFile = true;
 
     //Declaracion de variables del TTS
     private User user;
@@ -288,6 +284,8 @@ public class Principal extends AppCompatActivity implements View
     private ImageButton masPictos;
     private ImageButton todosLosPictos;
     private ImageButton resetButton;
+
+
 
 
     public static byte[] getBytesFromInputStream(InputStream is) throws IOException {
@@ -395,7 +393,10 @@ public class Principal extends AppCompatActivity implements View
                 }
             }
         });
+
         initComponents();
+        System.gc();
+
     }
 
     public void AlertCheckPlayService() {
@@ -432,9 +433,9 @@ public class Principal extends AppCompatActivity implements View
                 e.printStackTrace();
             }
             initFirstPictograms();
-            getFirebaseDialog().destruirDialogo();
 
         }
+        getFirebaseDialog().destruirDialogo();
 
     }
 
@@ -471,7 +472,6 @@ public class Principal extends AppCompatActivity implements View
         ImageButton view_instance = findViewById(Rid);
         android.view.ViewGroup.LayoutParams params = view_instance.getLayoutParams();
         params.width = view_instance.getLayoutParams().height;
-        Log.d(TAG, "AjustarAncho: " + "Ancho " + params.width + " Alto " + params.height);
         view_instance.setLayoutParams(params);
         ImageButton button = new ImageButton(getApplicationContext());
         button.setLayoutParams(params);
@@ -699,10 +699,12 @@ public class Principal extends AppCompatActivity implements View
     @Override
     protected void onStart() {
         super.onStart();
-        if(user!= null){
+        if (user!= null){
             if(!user.isConnected())
                 user.connectClient();
         }
+
+
     }
 
     @Override
@@ -826,103 +828,39 @@ public class Principal extends AppCompatActivity implements View
      * @param opcion
      */
     private void CargarSeleccion(JSONObject opcion) {
-        GlideAttatcher attatcher = new GlideAttatcher(this);
         Pictogram pictogram = new Pictogram(opcion, ConfigurarIdioma.getLanguaje());
-        switch (CantClicks) {
-            case 0:
-                loadDrawable(attatcher, pictogram, Seleccion1);
-                Seleccion1.startAnimation(AnimationUtils.loadAnimation(this, R.anim.overshoot_arriba));
-                Seleccion2.setImageDrawable(getResources().getDrawable(R.drawable.icono_ottaa));
-                break;
-            case 1:
-                loadDrawable(attatcher, pictogram, Seleccion2);
-                Seleccion2.startAnimation(AnimationUtils.loadAnimation(this, R.anim.overshoot_arriba));
-                Seleccion3.setImageDrawable(getResources().getDrawable(R.drawable.icono_ottaa));
-                break;
-            case 2:
-                loadDrawable(attatcher, pictogram, Seleccion3);
-                Seleccion3.startAnimation(AnimationUtils.loadAnimation(this, R.anim.overshoot_arriba));
-                Seleccion4.setImageDrawable(getResources().getDrawable(R.drawable.icono_ottaa));
-                break;
-            case 3:
-                loadDrawable(attatcher, pictogram, Seleccion4);
-                Seleccion4.startAnimation(AnimationUtils.loadAnimation(this, R.anim.overshoot_arriba));
-                Seleccion5.setImageDrawable(getResources().getDrawable(R.drawable.icono_ottaa));
-                break;
-            case 4:
-                loadDrawable(attatcher, pictogram, Seleccion5);
-                Seleccion5.startAnimation(AnimationUtils.loadAnimation(this, R.anim.overshoot_arriba));
-                Seleccion6.setImageDrawable(getResources().getDrawable(R.drawable.icono_ottaa));
-                break;
-            case 5:
-                loadDrawable(attatcher, pictogram, Seleccion6);
-                Seleccion6.startAnimation(AnimationUtils.loadAnimation(this, R.anim.overshoot_arriba));
-                Seleccion7.setImageDrawable(getResources().getDrawable(R.drawable.icono_ottaa));
-                break;
-            case 6:
-                loadDrawable(attatcher, pictogram, Seleccion7);
-                Seleccion7.startAnimation(AnimationUtils.loadAnimation(this, R.anim.overshoot_arriba));
-                Seleccion8.setImageDrawable(getResources().getDrawable(R.drawable.icono_ottaa));
-                break;
-            case 7:
-                loadDrawable(attatcher, pictogram, Seleccion8);
-                Seleccion8.startAnimation(AnimationUtils.loadAnimation(this, R.anim.overshoot_arriba));
-                Seleccion9.setImageDrawable(getResources().getDrawable(R.drawable.icono_ottaa));
-                break;
-            case 8:
-                loadDrawable(attatcher, pictogram, Seleccion9);
-                Seleccion10.setImageDrawable(getResources().getDrawable(R.drawable.icono_ottaa));
-                Seleccion9.startAnimation(AnimationUtils.loadAnimation(this, R.anim.overshoot_arriba));
-            case 9:
-                loadDrawable(attatcher, pictogram, Seleccion10);
-                Seleccion10.startAnimation(AnimationUtils.loadAnimation(this, R.anim.overshoot_arriba));
-                break;
+        int value = CantClicks+1;
+        if(CantClicks<=9){
+            loadDrawable( pictogram, CantClicks);
+             ImageView aux = getImageView(value);
+             if(aux != null)
+                aux.setImageDrawable(getResources().getDrawable(R.drawable.icono_ottaa));
         }
-
     }
 
     /**
      * Inicializa la barra de seleccion poniendo la imagen por defecto
      */
     private void inicializar_seleccion() {
-        Seleccion1.setImageDrawable(Agregar.getCustom_Imagen());
-        Seleccion1.startAnimation(AnimationUtils.loadAnimation(this, R.anim.overshoot_arriba));
-        Seleccion2.setImageDrawable(Agregar.getCustom_Imagen());
-        Seleccion2.startAnimation(AnimationUtils.loadAnimation(this, R.anim.overshoot_arriba));
-        Seleccion3.setImageDrawable(Agregar.getCustom_Imagen());
-        Seleccion3.startAnimation(AnimationUtils.loadAnimation(this, R.anim.overshoot_arriba));
-        Seleccion4.setImageDrawable(Agregar.getCustom_Imagen());
-        Seleccion4.startAnimation(AnimationUtils.loadAnimation(this, R.anim.overshoot_arriba));
-        Seleccion5.setImageDrawable(Agregar.getCustom_Imagen());
-        Seleccion5.startAnimation(AnimationUtils.loadAnimation(this, R.anim.overshoot_arriba));
-        Seleccion6.setImageDrawable(Agregar.getCustom_Imagen());
-        Seleccion6.startAnimation(AnimationUtils.loadAnimation(this, R.anim.overshoot_arriba));
-        Seleccion7.setImageDrawable(Agregar.getCustom_Imagen());
-        Seleccion7.startAnimation(AnimationUtils.loadAnimation(this, R.anim.overshoot_arriba));
-        Seleccion8.setImageDrawable(Agregar.getCustom_Imagen());
-        Seleccion8.startAnimation(AnimationUtils.loadAnimation(this, R.anim.overshoot_arriba));
-        Seleccion9.setImageDrawable(Agregar.getCustom_Imagen());
-        Seleccion9.startAnimation(AnimationUtils.loadAnimation(this, R.anim.overshoot_arriba));
-        Seleccion10.setImageDrawable(Agregar.getCustom_Imagen());
-        Seleccion10.startAnimation(AnimationUtils.loadAnimation(this, R.anim.overshoot_arriba));
+        for (int i = 0; i < 10; i++) {
+            getImageView(i).setImageDrawable(Agregar.getCustom_Imagen());
+            getImageView(i).startAnimation(AnimationUtils.loadAnimation(this, R.anim.overshoot_arriba));
+        }
     }
 
     @SuppressLint("Range")
-    private void CargarOpciones(Json json, JSONObject padre) {
+    private void loadOptions(Json json, JSONObject padre) {
         Animation alphaAnimation = AnimationUtils.loadAnimation(getApplicationContext(),
                 R.anim.alpha_show);
         Opcion1.setEnabled(true);
         Opcion2.setEnabled(true);
         Opcion3.setEnabled(true);
         Opcion4.setEnabled(true);
-
         if (json.getCantFallas() ==0)
             loadChilds(padre, alphaAnimation);
-        if(json.getCantFallas()<4 && json.getCantFallas()>0)
-            downloadFailedFile(3);
-
+       if(json.getCantFallas()<4 && json.getCantFallas()>0)
+           downloadFailedFile(3);
     }
-
 
     public void loadChildOption(JSONArray opciones, int index, Animation alphaAnimation) {
         try {
@@ -1011,7 +949,7 @@ public class Principal extends AppCompatActivity implements View
         pictoPadre = historial.removePictograms(true);
         ResetSeleccion();
         cuentaMasPictos = 0;
-        CargarOpciones(json, pictoPadre);
+        loadOptions(json, pictoPadre);
     }
 
     public void ResetSeleccion() {
@@ -1027,14 +965,9 @@ public class Principal extends AppCompatActivity implements View
         }
     }
 
-    private void cargarSelec(JSONObject jsonObject) {
-        CargarOracion(jsonObject, sharedPrefsDefault.getString(getString(R.string.str_idioma), "en"));
-        CargarSeleccion(jsonObject);
-        CantClicks++;
-    }
+
 
     private void volver() {
-
         pictoPadre = historial.removePictograms(false);
         ResetSeleccion();
         cuentaMasPictos = 0;
@@ -1042,7 +975,7 @@ public class Principal extends AppCompatActivity implements View
             CargarSeleccion(historial.getListadoPictos().get(i));
             CantClicks++;
         }
-        CargarOpciones(json, pictoPadre);
+        loadOptions(json, pictoPadre);
     }
 
     private void click(JSONObject opcion) {
@@ -1053,6 +986,11 @@ public class Principal extends AppCompatActivity implements View
             return;
         }
         historial.addPictograma(opcion);
+        createRelationShip(opcion,this);
+        sayPictogramName(JSONutils.getNombre(opcion, sharedPrefsDefault.getString(getResources().getString(R.string.str_idioma), "en")));
+    }
+
+    private void createRelationShip(JSONObject opcion,LoadPictograms loadPictograms){
         try {
             int pos = JSONutils.getPositionPicto2(json.getmJSONArrayTodosLosPictos(), pictoPadre.getInt("id"));
             if(pos != -1) {
@@ -1064,11 +1002,8 @@ public class Principal extends AppCompatActivity implements View
         } catch (JSONException e) {
             CrashlyticsUtils.getInstance().getCrashlytics().recordException(e.getCause());
         }
-        sayPictogramName(JSONutils.getNombre(opcion, sharedPrefsDefault.getString(getResources().getString(R.string.str_idioma), "en")));
         pictoPadre = opcion;
-        cargarSelec(pictoPadre);
-        CargarOpciones(json, opcion);
-        Log.d(TAG, "click: " + opcion.toString());
+        loadPictograms.loadSelection(pictoPadre);
     }
 
     private void cargarMasPictos() {
@@ -1076,7 +1011,7 @@ public class Principal extends AppCompatActivity implements View
         if (cuentaMasPictos > Constants.VUELTAS_CARRETE) {
             cuentaMasPictos = 0;
         }
-        CargarOpciones(json, pictoPadre);
+        loadOptions(json, pictoPadre);
     }
 
     public void AlertBorrar(final int pos) {
@@ -1119,7 +1054,7 @@ public class Principal extends AppCompatActivity implements View
                     e.printStackTrace();
                 }
                 dialogs.cancelarDialogo();
-                CargarOpciones(json, pictoPadre);
+                loadOptions(json, pictoPadre);
             }
         });
 
@@ -1188,25 +1123,8 @@ public class Principal extends AppCompatActivity implements View
     }
 
     private void AnimarHablar() {
-        switch (CantClicks) {
-            case 1:
-                Seleccion2.startAnimation(AnimationUtils.loadAnimation(this, R.anim.shake));
-                break;
-            case 2:
-                Seleccion3.startAnimation(AnimationUtils.loadAnimation(this, R.anim.shake));
-                break;
-            case 3:
-                Seleccion4.startAnimation(AnimationUtils.loadAnimation(this, R.anim.shake));
-                break;
-            case 4:
-                Seleccion5.startAnimation(AnimationUtils.loadAnimation(this, R.anim.shake));
-                break;
-            case 5:
-                Seleccion6.startAnimation(AnimationUtils.loadAnimation(this, R.anim.shake));
-                break;
-            case 6:
-                Seleccion7.startAnimation(AnimationUtils.loadAnimation(this, R.anim.shake));
-                break;
+        if(CantClicks<9){
+            getImageView(CantClicks).startAnimation(AnimationUtils.loadAnimation(this, R.anim.shake));
         }
     }
 
@@ -1263,8 +1181,6 @@ public class Principal extends AppCompatActivity implements View
 
     @Override
     public void onClick(View v) {
-        View vista = findViewById(v.getId());
-        Log.d(TAG, "onClick: " + vista.getId());
         switch (v.getId()) {
             case R.id.Option1:
                 onClickOption(opcion1, Opcion1_clicker);
@@ -1329,15 +1245,7 @@ public class Principal extends AppCompatActivity implements View
 
     }
 
-    public void updateLanguaje() {
-        Locale locale = new Locale(sharedPrefsDefault.getString(this.getString(R.string.str_idioma), "en"));
-        Locale.setDefault(locale);
-        Resources res = this.getResources();
-        Configuration config = new Configuration(res.getConfiguration());
-        config.setLocale(locale);
-        this.createConfigurationContext(config);
 
-    }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
@@ -1431,7 +1339,7 @@ public class Principal extends AppCompatActivity implements View
     public void onTextoTraducido(boolean traduccion) {
         if (traduccion) {
             if (myTTS != null) {
-                CompartirArchivos compartirArchivos = new CompartirArchivos(this, myTTS);
+                CompartirArchivos compartirArchivos = new CompartirArchivos(this, myTTS,this);
                 compartirArchivos.setHistorial(historial.getListadoPictos());
                 Oracion = traducirfrase.getTexto();
                 compartirArchivos.seleccionarFormato(Oracion);
@@ -1525,17 +1433,7 @@ public class Principal extends AppCompatActivity implements View
          * Preparo el inicio del barrido de pantalla, para eso es necesario pasarle el listado de objetos
          * */
         ArrayList<View> listadoObjetosBarrido = new ArrayList<>();
-        listadoObjetosBarrido.add(Opcion1);
-        listadoObjetosBarrido.add(Opcion2);
-        listadoObjetosBarrido.add(Opcion3);
-        listadoObjetosBarrido.add(Opcion4);
-        listadoObjetosBarrido.add(botonFavoritos);
-        listadoObjetosBarrido.add(borrar);
-        listadoObjetosBarrido.add(talk);
-        listadoObjetosBarrido.add(masPictos);
-        listadoObjetosBarrido.add(todosLosPictos);
-        listadoObjetosBarrido.add(resetButton);
-        barridoPantalla = new BarridoPantalla(this, listadoObjetosBarrido);
+        barridoPantalla = new BarridoPantalla(this, addObjects(listadoObjetosBarrido));
         if (barridoPantalla.isBarridoActivado() && barridoPantalla.devolverpago()) {
             runOnUiThread(new Runnable() {
                 @Override
@@ -1555,7 +1453,20 @@ public class Principal extends AppCompatActivity implements View
         }
         if (barridoPantalla.isBarridoActivado())
             editarPicto = false;
+    }
 
+    private ArrayList<View> addObjects(ArrayList<View> listadoObjetosBarrido){
+        listadoObjetosBarrido.add(Opcion1);
+        listadoObjetosBarrido.add(Opcion2);
+        listadoObjetosBarrido.add(Opcion3);
+        listadoObjetosBarrido.add(Opcion4);
+        listadoObjetosBarrido.add(botonFavoritos);
+        listadoObjetosBarrido.add(borrar);
+        listadoObjetosBarrido.add(talk);
+        listadoObjetosBarrido.add(masPictos);
+        listadoObjetosBarrido.add(todosLosPictos);
+        listadoObjetosBarrido.add(resetButton);
+        return listadoObjetosBarrido;
     }
 
     public void CargarJson() {
@@ -1568,12 +1479,14 @@ public class Principal extends AppCompatActivity implements View
         } catch (FiveMbException e) {
             e.printStackTrace();
         }
+
         if (json.getmJSONArrayTodosLosPictos() != null && json.getmJSONArrayTodosLosPictos().length() > 0) {
             try {
                 if (pictoPadre == null || pictoPadre.getInt("id") == 0)
                     pictoPadre = json.getPictoFromId2(0);
                 cuentaMasPictos = 0;
-                CargarOpciones(json, pictoPadre);
+                if(pictoPadre != null)
+                    loadOptions(json, pictoPadre);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -1621,7 +1534,7 @@ public class Principal extends AppCompatActivity implements View
     }
 
     private void addOption(JSONObject opcion, PictoView picto, Animation animation) {
-        if(ValidateContext.isValidContextFromGlide(this)){
+        if(ValidateContext.isValidContext(this)){
             Log.d(TAG, "addOption: " + opcion.toString());
             Pictogram pictogram = new Pictogram(opcion, ConfigurarIdioma.getLanguaje());
             picto.setUpGlideAttatcher(this);
@@ -1647,31 +1560,23 @@ public class Principal extends AppCompatActivity implements View
                 R.anim.alpha_dismiss);
 
         if (opcion1 == null) {
-            Opcion2.startAnimation(animation);
-            Opcion3.startAnimation(animation);
-            Opcion4.startAnimation(animation);
-            Opcion2.setVisibility(View.INVISIBLE);
-            Opcion3.setVisibility(View.INVISIBLE);
-            Opcion4.setVisibility(View.INVISIBLE);
-            Opcion2.setEnabled(false);
-            Opcion3.setEnabled(false);
-            Opcion4.setEnabled(false);
-
+            setInvisibleOption(Opcion2,animation);
+            setInvisibleOption(Opcion3,animation);
+            setInvisibleOption(Opcion4,animation);
         } else if (opcion2 == null && opcion1 != null) {
-            Opcion3.startAnimation(animation);
-            Opcion4.startAnimation(animation);
-            Opcion3.setVisibility(View.INVISIBLE);
-            Opcion4.setVisibility(View.INVISIBLE);
-            Opcion3.setEnabled(false);
-            Opcion4.setEnabled(false);
-
+            setInvisibleOption(Opcion3,animation);
+            setInvisibleOption(Opcion4,animation);
         } else if (opcion3 == null && opcion2 != null) {
-            Opcion4.startAnimation(animation);
-            Opcion4.setVisibility(View.INVISIBLE);
-            Opcion4.setEnabled(false);
+            setInvisibleOption(Opcion4,animation);
         } else if (opcion4 == null && opcion3 != null && Opcion3.getVisibility() == View.VISIBLE) {
             Opcion4.setVisibility(View.VISIBLE);
         }
+    }
+
+    private void setInvisibleOption(PictoView option,Animation animation){
+        option.startAnimation(animation);
+        option.setVisibility(View.INVISIBLE);
+        option.setEnabled(false);
     }
 
 
@@ -1804,17 +1709,25 @@ public class Principal extends AppCompatActivity implements View
         return function_scroll;
     }
 
-    public void loadDrawable(GlideAttatcher attatcher, Pictogram pictogram, ImageView imageView) {
+    public void loadDrawable( Pictogram pictogram,int position) {
+        GlideAttatcher attatcher = new GlideAttatcher(this);
         if (pictogram.getEditedPictogram().isEmpty()) {
-            attatcher.UseCornerRadius(true).loadDrawable(this.getResources().getDrawable(this.getContext().getResources().getIdentifier(pictogram.getPictogram(),
-                    "drawable", this.getPackageName())), imageView);
+            Log.d(TAG, "loadDrawable: "+ pictogram.getPictogram());
+            if(!pictogram.getPictogram().startsWith("https://")){
+                attatcher.UseCornerRadius(true).loadDrawable(this.getResources().getDrawable(this.getContext().getResources().getIdentifier(pictogram.getPictogram(),
+                    "drawable", this.getPackageName())), getImageView(position));
+            }else{
+                attatcher.UseCornerRadius(true).loadDrawable(Uri.parse(pictogram.getPictogram()), getImageView(position));
+            }
         } else {
+            Log.d(TAG, "loadDrawable: "+ pictogram.getEditedPictogram());
             File picto = new File(pictogram.getEditedPictogram());
             if (picto.exists())
-                attatcher.UseCornerRadius(true).loadDrawable(picto, imageView);
+                attatcher.UseCornerRadius(true).loadDrawable(picto, getImageView(position));
             else
-                attatcher.UseCornerRadius(true).loadDrawable(Uri.parse(pictogram.getUrl()), imageView);
+                attatcher.UseCornerRadius(true).loadDrawable(Uri.parse(pictogram.getUrl()), getImageView(position));
         }
+        getImageView(position).startAnimation(AnimationUtils.loadAnimation(this, R.anim.overshoot_arriba));
     }
 
     public void showAvatar() {
@@ -1874,7 +1787,7 @@ public class Principal extends AppCompatActivity implements View
         if (historial.getListadoPictos().size() > 0) {
             if (!sharedPrefsDefault.getBoolean(getString(R.string.mBoolModoExperimental), false)) {
                 if (myTTS != null) {
-                    CompartirArchivos compartirArchivos = new CompartirArchivos(getContext(), myTTS);
+                    CompartirArchivos compartirArchivos = new CompartirArchivos(getContext(), myTTS,this);
                     compartirArchivos.setHistorial(historial.getListadoPictos());
                     compartirArchivos.seleccionarFormato(Oracion);
                 }
@@ -1955,10 +1868,10 @@ public class Principal extends AppCompatActivity implements View
                 break;
         }
     }
-
-    private void galeriaGruposResult(Intent data) {
+    @AddTrace(name = "GaleriaGruposResult",enabled = true)
+    private final void galeriaGruposResult(Intent data) {
         if (data != null) {
-            json.setmJSONArrayTodosLosPictos(json.getmJSONArrayTodosLosPictos());
+            json.setmJSONArrayTodosLosPictos(Json.getInstance().getmJSONArrayTodosLosPictos());
             Bundle extras = data.getExtras();
             if (extras != null) {
                 int Picto = extras.getInt("ID");
@@ -1973,7 +1886,7 @@ public class Principal extends AppCompatActivity implements View
     private void editPictoResult(Intent data) {
         Log.d(TAG, "onActivityResult: EditarPicto");
         try {
-            CargarOpciones(json, pictoPadre);
+            loadOptions(json, pictoPadre);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -1985,7 +1898,7 @@ public class Principal extends AppCompatActivity implements View
                 Executor executor = Executors.newSingleThreadExecutor();
                 Handler handler = new Handler(Looper.getMainLooper());
                 executor.execute(() -> {
-                    validContext.set(ValidateContext.isValidContextFromGlide(context));
+                    validContext.set(ValidateContext.isValidContext(context));
                     avatarUtils = new AvatarUtils(context, menuAvatarIcon);
                     handler.post(() -> {
                         if(validContext.get()) {
@@ -2037,6 +1950,7 @@ public class Principal extends AppCompatActivity implements View
         return true;
     }
 
+    @AddTrace(name = "InitComponents", enabled = true /* optional */)
     private void initComponents() {
         initFlags();
         initBackUp();
@@ -2113,9 +2027,6 @@ public class Principal extends AppCompatActivity implements View
             /**
              * Referencias Storage grupos pictos frases
              * */
-            //     mStorageRefPictos = subirArchivos.getmStorageRef(mAuth, "pictos");
-            //    mStorageRefGrupos = subirArchivos.getmStorageRef(mAuth, "grupos");
-            //   mStorageRefFrases = subirArchivos.getmStorageRef(mAuth, "frases");
             /**
              * Referencias database grupos pictos frases
              */
@@ -2185,41 +2096,20 @@ public class Principal extends AppCompatActivity implements View
 
 
     private void initSelectionComponents() {
-        Seleccion1 = findViewById(R.id.Seleccion1);
-        Seleccion2 = findViewById(R.id.Seleccion2);
-        Seleccion3 = findViewById(R.id.Seleccion3);
-        Seleccion4 = findViewById(R.id.Seleccion4);
-        Seleccion5 = findViewById(R.id.Seleccion5);
-        Seleccion6 = findViewById(R.id.Seleccion6);
-        Seleccion7 = findViewById(R.id.Seleccion7);
-        Seleccion8 = findViewById(R.id.Seleccion8);
-        Seleccion9 = findViewById(R.id.Seleccion9);
-        Seleccion10 = findViewById(R.id.Seleccion10);
-        AjustarAncho(R.id.Seleccion1);
-        AjustarAncho(R.id.Seleccion2);
-        AjustarAncho(R.id.Seleccion3);
-        AjustarAncho(R.id.Seleccion4);
-        AjustarAncho(R.id.Seleccion5);
-        AjustarAncho(R.id.Seleccion6);
-        AjustarAncho(R.id.Seleccion7);
-        AjustarAncho(R.id.Seleccion8);
-        AjustarAncho(R.id.Seleccion9);
-        AjustarAncho(R.id.Seleccion10);
+        for (int i = 0; i < 10; i++) {
+            int id = getResources().getIdentifier("Seleccion"+(i+1),"id",getPackageName());
+            getSelectedImage(i).setImageview(findViewById(id));
+            AjustarAncho(id);
+        }
     }
 
+    @AddTrace(name = "setOnLongClickListener", enabled = true /* optional */)
     private void setOnLongClickListener(){
         botonFavoritos.setOnClickListener(this);
         talk.setOnClickListener(this);
-        setClickLongListener(Seleccion1);
-        setClickLongListener(Seleccion2);
-        setClickLongListener(Seleccion3);
-        setClickLongListener(Seleccion4);
-        setClickLongListener(Seleccion5);
-        setClickLongListener(Seleccion6);
-        setClickLongListener(Seleccion7);
-        setClickLongListener(Seleccion8);
-        setClickLongListener(Seleccion9);
-        setClickLongListener(Seleccion10);
+        for (int i = 0; i < 10; i++) {
+            setClickLongListener(getImageView(i));
+        }
         setClickLongListener(borrar);
         setClickLongListener(masPictos);
         setClickLongListener(todosLosPictos);
@@ -2263,7 +2153,6 @@ public class Principal extends AppCompatActivity implements View
 
     private void initFirstPictograms() {
         new loadPictograms().execute();
-
     }
 
     private void initAvatar() {
@@ -2340,10 +2229,9 @@ public class Principal extends AppCompatActivity implements View
             else {
                 if(ConnectionDetector.isNetworkAvailable(getApplicationContext())){
                     json.sumarFallas();
-                    CargarOpciones(json,padre);
+                    loadOptions(json,padre);
                 }
             }
-
     }
 
     public void downloadFailedFile(int size) {
@@ -2373,6 +2261,7 @@ public class Principal extends AppCompatActivity implements View
                         mBajarJsonFirebase.bajarFrases(ConfigurarIdioma.getLanguaje(), rootPath, observableInteger);
                         break;
                 }
+                System.out.println("size:"+ size);
                 if (observableInteger.get() == size) {
                     getFirebaseDialog().destruirDialogo();
                     json.resetearError();
@@ -2476,8 +2365,21 @@ public class Principal extends AppCompatActivity implements View
 
     }
 
-    public class initComponentsClass extends AsyncTask<Void,Void,Void>{
+    @Override
+    public void loadSelection(JSONObject jsonObject) {
+        CargarOracion(jsonObject, sharedPrefsDefault.getString(getString(R.string.str_idioma), "en"));
+        CargarSeleccion(jsonObject);
+        CantClicks++;
+        loadOptions(json, jsonObject);
+    }
 
+    @Override
+    public void startAudioTransformation(Transformer.Listener listener, String pathFile, String locationPath) {
+        new FileEncoder(this).encodeAudioFile(listener,pathFile,locationPath);
+    }
+
+    public class initComponentsClass extends AsyncTask<Void,Void,Void>{
+        boolean used = false;
 
         @Override
         protected void onPreExecute() {
@@ -2498,7 +2400,6 @@ public class Principal extends AppCompatActivity implements View
             user.connectClient();
             initFirstPictograms();
             uploadFiles();
-
             initPlaceImplementationClass();
             showMenu();
             if (TutoFlag) {
@@ -2513,37 +2414,57 @@ public class Principal extends AppCompatActivity implements View
         }
     }
 
-    public class loadPictograms extends AsyncTask<Void,Void,Void>{
+    public class loadPictograms extends AsyncTask<Void,Void,Void> implements FailReadPictogramOrigin {
+        boolean used;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
         @Override
         protected Void doInBackground(Void... voids) {
             if (json.getmJSONArrayTodosLosPictos() != null && json.getmJSONArrayTodosLosPictos().length() > 0&& historial.getListadoPictos().isEmpty()) {
-                pictoPadre = json.getPictoFromId2(0);
+               pictoPadre = json.getPictoFromId2(0);
+                new Json0Recover().backupPictogram0(getApplicationContext(),pictoPadre,this);
             }
             if(pictoPadre == null){
-                JSONObject object= new Json0Recover().createJson();
-                json.getmJSONArrayTodosLosPictos().put(object);
-                json.setmJSONArrayTodosLosPictos(json.getmJSONArrayTodosLosPictos());
-                json.guardarJson(Constants.ARCHIVO_PICTOS);
-                try {
-                    json.refreshJsonArrays();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                } catch (FiveMbException e) {
-                    e.printStackTrace();
-                }finally {
-                    pictoPadre =  json.getPictoFromId2(0);
-                }
+                new Json0Recover().restorePictogram0(getApplicationContext(),this);
             }
             return null;
         }
 
         @Override
         protected void onPostExecute(Void unused) {
-            if (pictoPadre != null) {
-                CargarOpciones(json, pictoPadre);   // y despues cargamos las opciones con el orden correspondiente
-                ResetSeleccion();
-            }
+           if(used) {
+                used = false;
+               ResetSeleccion();
+           }
+        }
 
+        @Override
+        public void setParent(JSONObject parent) {
+            json.getmJSONArrayTodosLosPictos().put(parent);
+            json.setmJSONArrayTodosLosPictos(json.getmJSONArrayTodosLosPictos());
+            json.guardarJson(Constants.ARCHIVO_PICTOS);
+            try {
+                json.refreshJsonArrays();
+            } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (FiveMbException e) {
+                e.printStackTrace();
+            }finally {
+                pictoPadre =  json.getPictoFromId2(0);
+            }
+            loadDialog();
+        }
+
+        @Override
+        public void loadDialog() {
+            if (pictoPadre != null) {
+                loadOptions(json, pictoPadre);   // y despues cargamos las opciones con el orden correspondiente
+                used = true;
+            }
         }
     }
 
@@ -2551,5 +2472,38 @@ public class Principal extends AppCompatActivity implements View
         if(barridoPantalla != null)
            return barridoPantalla.isBarridoActivado();
         return false;
+    }
+
+    private EnumImageView getSelectedImage(int option){
+        switch (option){
+            case 0:
+                return EnumImageView.ImageView1;
+            case 1:
+                return EnumImageView.ImageView2;
+            case 2:
+                return EnumImageView.ImageView3;
+            case 3:
+                return EnumImageView.ImageView4;
+            case 4:
+                return EnumImageView.ImageView5;
+            case 5:
+                return EnumImageView.ImageView6;
+            case 6:
+                return EnumImageView.ImageView7;
+            case 7:
+                return EnumImageView.ImageView8;
+            case 8:
+                return EnumImageView.ImageView9;
+            case 9:
+                return EnumImageView.ImageView10;
+            default:
+                return null;
+        }
+    }
+    private ImageView getImageView(int position){
+        EnumImageView aux = getSelectedImage(position);
+        if(aux != null)
+            return aux.getImageview();
+        return null;
     }
 }

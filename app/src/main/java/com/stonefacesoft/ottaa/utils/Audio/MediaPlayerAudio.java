@@ -5,6 +5,7 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 
 import com.stonefacesoft.ottaa.R;
+import com.stonefacesoft.pictogramslibrary.utils.ValidateContext;
 
 import java.io.File;
 
@@ -41,47 +42,60 @@ public class MediaPlayerAudio implements MediaPlayer.OnPreparedListener {
     }
 
     public void playYesSound() {
-        player = MediaPlayer.create(mContext, R.raw.yay);
-        complete = false;
-        player.setOnPreparedListener(this);
+        if(ValidateContext.isValidContext(mContext)){
+            player = MediaPlayer.create(mContext, R.raw.yay);
+            complete = false;
+            player.setOnPreparedListener(this);
+        }
     }
 
     public void playYupi1Sound() {
-        player = MediaPlayer.create(mContext, R.raw.yupi_1);
-        complete = true;
-        player.setOnPreparedListener(this);
+        if(ValidateContext.isValidContext(mContext)){
+            player = MediaPlayer.create(mContext, R.raw.yupi_1);
+            complete = true;
+            player.setOnPreparedListener(this);
+        }
     }
 
     public void playYupi2Sound() {
-        player = MediaPlayer.create(mContext, R.raw.yupi_2);
-        complete = true;
-        player.setOnPreparedListener(this);
+        if(ValidateContext.isValidContext(mContext)) {
+            player = MediaPlayer.create(mContext, R.raw.yupi_2);
+            complete = true;
+            player.setOnPreparedListener(this);
+        }
     }
 
     public void playYouWin() {
-        player = MediaPlayer.create(mContext, R.raw.you_win);
-        complete = true;
-        player.setOnPreparedListener(this);
-
+        if(ValidateContext.isValidContext(mContext)) {
+            player = MediaPlayer.create(mContext, R.raw.you_win);
+            complete = true;
+            player.setOnPreparedListener(this);
+        }
     }
 
     public void playTadaSound() {
-        player = MediaPlayer.create(mContext, R.raw.tada);
-        complete = true;
-        player.setOnPreparedListener(this);
+        if(ValidateContext.isValidContext(mContext)) {
+            player = MediaPlayer.create(mContext, R.raw.tada);
+            complete = true;
+            player.setOnPreparedListener(this);
+        }
     }
 
 
     public void playNoSound() {
-        player = MediaPlayer.create(mContext, R.raw.wrong);
-        complete = true;
-        player.setOnPreparedListener(this);
+        if(ValidateContext.isValidContext(mContext)) {
+            player = MediaPlayer.create(mContext, R.raw.wrong);
+            complete = true;
+            player.setOnPreparedListener(this);
+        }
     }
 
     public void playOhOhSound() {
-        player = MediaPlayer.create(mContext, R.raw.ohoh);
-        complete = true;
-        prepareListener();
+        if(ValidateContext.isValidContext(mContext)) {
+            player = MediaPlayer.create(mContext, R.raw.ohoh);
+            complete = true;
+            prepareListener();
+        }
     }
 
     public void prepareListener(){
@@ -95,9 +109,11 @@ public class MediaPlayerAudio implements MediaPlayer.OnPreparedListener {
     }
 
     public void playMusic() {
-        player = MediaPlayer.create(mContext, R.raw.funckygroove);
-        playSound(true);
-        setLooping(true);
+        if(ValidateContext.isValidContext(mContext)) {
+            player = MediaPlayer.create(mContext, R.raw.funckygroove);
+            playSound(true);
+            setLooping(true);
+        }
     }
 
     public void setLooping(boolean value){
@@ -137,9 +153,11 @@ public class MediaPlayerAudio implements MediaPlayer.OnPreparedListener {
     }
 
     public void playedCustomFile(File f) {
-        player = MediaPlayer.create(mContext, Uri.fromFile(f));
-        playSound(true);
-        player.setLooping(false);
+        if(ValidateContext.isValidContext(mContext)) {
+            player = MediaPlayer.create(mContext, Uri.fromFile(f));
+            playSound(true);
+            player.setLooping(false);
+        }
     }
 
     public MediaPlayer getPlayer() {
@@ -155,6 +173,4 @@ public class MediaPlayerAudio implements MediaPlayer.OnPreparedListener {
         if(player!=null)
             player.reset();
     }
-
-
 }

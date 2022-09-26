@@ -126,7 +126,7 @@ public class CustomToast extends Application {
             try {
                 toast.show();
             }catch (Exception ex){
-                if(ValidateContext.isValidContextFromGlide(mContext))
+                if(ValidateContext.isValidContext(mContext))
                     customToast = new CustomToast(mContext);
             }
         }

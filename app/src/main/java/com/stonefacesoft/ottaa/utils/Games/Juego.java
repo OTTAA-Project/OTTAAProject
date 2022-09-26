@@ -38,13 +38,13 @@ public class Juego {
     private final int game;
     private final int levelId;
     private int gamelevel;
-    private CalculaPuntos puntos;//Todo propiedad puntos , getScore
+    private CalculaPuntos score;//Todo propiedad puntos , getScore
     private long useTime = 0;
     private int cantEntradas;
     private int correctStreak;
     private int bestStreak;
     private boolean streak;
-    private final Reloj reloj;
+    private final Reloj chronometer;
     private final Json json;
     private User user;
     private SubirArchivosFirebase subirArchivosFirebase;
@@ -75,7 +75,7 @@ public class Juego {
        this.json.setmContext(this.mContext);
        this.game = id;
        this.levelId=levelId;
-       this.reloj=new Reloj();
+       this.chronometer =new Reloj();
        crearObjetoJson();
        JSONObject score = json.getObjectPuntaje(object);
        if(score!=null){
@@ -90,9 +90,9 @@ public class Juego {
            setCalculaPuntos(0,0);
        }
        try {
-           reloj.setLastClock(object.getLong("time_use"));
+           chronometer.setLastClock(object.getLong("time_use"));
        } catch (JSONException e) {
-           reloj.setLastClock(0);
+           chronometer.setLastClock(0);
        }
        bestStreak=getBestStreak();
 
@@ -115,17 +115,17 @@ public class Juego {
    }
 
    private void setCalculaPuntos(int correct,int incorrect){
-       puntos=new CalculaPuntos();
-       puntos.setAciertos(correct);
-       puntos.setDesaciertos(incorrect);
+       score =new CalculaPuntos();
+       score.setAciertos(correct);
+       score.setDesaciertos(incorrect);
 
    }
 
    public void startUseTime(){
-        reloj.setHorainicio(System.currentTimeMillis());
+        chronometer.setHorainicio(System.currentTimeMillis());
    }
    public void endUseTime(){
-        reloj.setHorafin(System.currentTimeMillis());
+        chronometer.setHorafin(System.currentTimeMillis());
    }
 
 
@@ -138,7 +138,7 @@ public class Juego {
             bestStreak=correctStreak;
             saveBestStreak();
         }
-        puntos.sumarCantidadVecesCorrectas();
+        score.sumarCantidadVecesCorrectas();
    }
    public void incrementWrong(){
         if(correctStreak>=bestStreak){
@@ -146,7 +146,7 @@ public class Juego {
            saveBestStreak();
         }
         correctStreak=0;
-        puntos.sumarCantidVecesIncorretas();
+        score.sumarCantidVecesIncorretas();
    }
 
    public void incrementTimesRight(){
@@ -163,7 +163,8 @@ public class Juego {
 
     public int getBestStreak() {
         try {
-            bestStreak=object.getInt("best_streak");
+            if(object.has("best_streak"))
+                bestStreak=object.getInt("best_streak");
         } catch (JSONException e) {
             e.printStackTrace();
 
@@ -175,36 +176,20 @@ public class Juego {
         return game;
     }
 
-
-    public Drawable devolverCaritaPosicion(int position){
-       return mContext.getResources().getDrawable(iconArrayActive[position]);
+    public Drawable getSmiley() {
+       return  mContext.getResources().getDrawable(getSmileyInteger());
     }
-
-    public Drawable devolverCarita() {
-       puntos.calcularValor();
-        if(puntos.getScore()<20)
-            return devolverCaritaPosicion(0);
-        else if(puntos.getScore()>=20&&puntos.getScore()<40)
-            return devolverCaritaPosicion(1);
-        else if(puntos.getScore()>=40&&puntos.getScore()<60)
-            return devolverCaritaPosicion(2);
-        else if(puntos.getScore()>=60&&puntos.getScore()<80)
-            return devolverCaritaPosicion(3);
-        else if(puntos.getScore()>=80&&puntos.getScore()<=100)
-            return devolverCaritaPosicion(4);
-        return devolverCaritaPosicion(0);
-    }
-    public int devolverCaritaInt() {
-       puntos.calcularValor();
-        if(puntos.calcularValor()<20)
+    public int getSmileyInteger() {
+       float result = score.getResult();
+        if(result<20)
             return iconArrayActive[0];
-        else if(puntos.getScore()>=20&&puntos.getScore()<40)
+        else if(result>=20&& result<40)
             return iconArrayActive[1];
-        else if(puntos.getScore()>=40&&puntos.getScore()<60)
+        else if(result>=40&& result<60)
             return iconArrayActive[2];
-        else if(puntos.getScore()>=60&&puntos.getScore()<80)
+        else if(result>=60&& result<80)
             return iconArrayActive[3];
-        else if(puntos.getScore()>=80&&puntos.getScore()<=100)
+        else if(result>=80&& result<=100)
             return iconArrayActive[4];
         return iconArrayActive[0];
     }
@@ -213,19 +198,26 @@ public class Juego {
 
     public void saveBestStreak(){
         try {
-            if(bestStreak>object.getInt("best_streak")) {
+            if(bestStreak>getRealStreak()) {
                 object.put("best_streak", bestStreak);
                 Log.d(TAG, "the best streak has been selected ");
             }
         } catch (JSONException e) {
             e.printStackTrace();
-            try {
+            /*try {
                 object.put("best_streak",bestStreak);
                 Log.d(TAG, "The best streak has been created");
             } catch (JSONException e1) {
                 Log.e(TAG, "saveBestStreak Error: " + e.getMessage());
-            }
+            }*/
         }
+    }
+
+    private int getRealStreak() throws JSONException {
+       int value=0;
+        if(object.has("best_streak"))
+            value = object.getInt("best_streak");
+       return value;
     }
 
     private void crearObjetoJson(){
@@ -247,37 +239,37 @@ public class Juego {
     }
 
     public CalculaPuntos getScoreClass() {
-        return puntos;
+        return score;
     }
 
     public float getScore() {
-        return puntos.getScore();
+        return score.getScore();
     }
 
-    public Reloj getReloj() {
-        return reloj;
+    public Reloj getChronometer() {
+        return chronometer;
     }
 
     public void agregarDatosConsulta(){
         try {
             saveBestStreak();
-            object.put("puntaje",puntos.getPuntaje());
-            object.accumulate("Reloj",reloj.getRelojToJsonObject());
-            object.put("time_use",reloj.getLastUsedTime());
+            object.put("puntaje", score.getPuntaje());
+            object.accumulate("Reloj", chronometer.getRelojToJsonObject());
+            object.put("time_use", chronometer.getLastUsedTime());
         } catch (JSONException e) {
             Log.e(TAG, "agregarDatosConsulta: Error" + e.getMessage());
         }
 
     }
 
-    public void subirDatosJuegosFirebase(){
+    public void uploadFirebaseGameData(){
        if(user == null)
            createUser();
        if(subirArchivosFirebase==null)
            this.subirArchivosFirebase=new SubirArchivosFirebase(this.mContext);
         subirArchivosFirebase.subirJuegos(subirArchivosFirebase.getmDatabase(user.getmAuth(),Constants.JUEGOS),subirArchivosFirebase.getmStorageRef(user.getmAuth(),Constants.JUEGOS));
     }
-    public void guardarObjetoJson() {
+    public void saveJsonObjects() {
         agregarDatosConsulta();
         json.agregarJuego(object);
         json.guardarJson(Constants.ARCHIVO_JUEGO);

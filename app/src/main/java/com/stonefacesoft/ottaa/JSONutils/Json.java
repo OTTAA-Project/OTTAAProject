@@ -13,6 +13,8 @@ import android.util.Log;
 import android.util.Size;
 
 import com.google.android.libraries.places.api.model.Place;
+import com.stonefacesoft.ottaa.DrawableManager;
+import com.stonefacesoft.ottaa.Interfaces.DrawableInterface;
 import com.stonefacesoft.ottaa.Interfaces.SortPictogramsInterface;
 import com.stonefacesoft.ottaa.JSONutils.sortPictogramsUtils.SortPictograms;
 import com.stonefacesoft.ottaa.Prediction.Clima;
@@ -75,7 +77,7 @@ public class Json  {
     //Declaro el manejador de preferencia
     protected static SharedPreferences sharedPrefsDefault;
     //Json singleton
-    private static volatile Json _instance;
+    private static Json _instance;
     private static boolean fallaJson;
     private final int idGps = 0;
     // Arraylist de Json
@@ -116,8 +118,6 @@ public class Json  {
         if (_instance == null) {
 
             synchronized (Json.class) {
-                //chequeamos por segunda vez si la instancia no es nula
-                //Si no existe una instancia disponible  , creamos una
                 if (_instance == null) {
                     _instance = new Json();
 
@@ -200,16 +200,16 @@ public class Json  {
         this.mJSONArrayTodasLasFotosBackup = mJSONArrayTodasLasFotosBackup;
     }
 
-    public synchronized JSONArray getmJSONArrayTodosLosGrupos() {
+    public JSONArray getmJSONArrayTodosLosGrupos() {
         return GroupManagerClass.getInstance().getmGroup();
     }
 
-    public synchronized void setmJSONArrayTodosLosGrupos(JSONArray mJSONArrayTodosLosGrupos) {
+    public  void setmJSONArrayTodosLosGrupos(JSONArray mJSONArrayTodosLosGrupos) {
         this.mJSONArrayTodosLosGrupos = mJSONArrayTodosLosGrupos;
         GroupManagerClass.getInstance().setmGroup(this.mJSONArrayTodosLosGrupos);
     }
 
-    public JSONArray getmJSONArrayTodasLasFrases() {
+    public  JSONArray getmJSONArrayTodasLasFrases() {
         return mJSONArrayTodasLasFrases;
     }
 
@@ -220,7 +220,6 @@ public class Json  {
             try {
                 if(aux.getJSONObject(i).has("locale")){
                     if(aux.getJSONObject(i).getString("locale").toLowerCase().equals(ConfigurarIdioma.getLanguaje().toLowerCase())) {
-                        Log.e(TAG, "getPhrasesByLanguage: "+aux.getJSONObject(i).toString());
                         result.put(aux.getJSONObject(i));
                     }
                 }
@@ -291,6 +290,8 @@ public class Json  {
         return null;
     }
 
+
+
     public Drawable getIconWithNullOption(JSONObject object) {
         try {
             JSONObject jsonObjectImage = JSONutils.getImagen(object);
@@ -303,10 +304,23 @@ public class Json  {
                     return mContext.getResources().getDrawable(mContext.getResources().getIdentifier(jsonObjectImage.getString("picto"),
                             "drawable", mContext.getPackageName()));
                 case 3:
-                    return null;
+                    DrawableManager drawableManager = new DrawableManager();
+                    return drawableManager.fetchDrawable(jsonObjectImage.getString("urlFoto"), new DrawableInterface() {
+                        @Override
+                        public Drawable getDrawable(Drawable drawable) {
+                            return drawable;
+                        }
+
+                        @Override
+                        public void fetchDrawable(Drawable drawable) {
+
+                        }
+                    });
             }
         } catch (JSONException e) {
             e.printStackTrace();
+            return null;
+        }catch (Exception ex){
             return null;
         }
         return null;
@@ -341,14 +355,9 @@ public class Json  {
                 else
                     d = null;
             }
-
         }
         return d;
     }
-
-
-
-
 
     private String getAgenda() {
         return eventoActual;
@@ -589,10 +598,12 @@ public class Json  {
 
     public int compareTo(double frec1, double frec2) {
         // descending order
-        if (frec1 > frec2)
+        if (frec1 > frec2){
             return -1;
-        if (frec2 > frec1)
+        }
+        if (frec2 > frec1){
             return 1;
+        }
         return (int) (frec2 - frec1);
     }
 
@@ -717,6 +728,15 @@ public class Json  {
             }
         }
         return arrayListADevolver;
+    }
+
+    public JSONObject getJsonByPosition(JSONArray array,int position){
+        try{
+            return array.getJSONObject(position);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     //Ya esta
@@ -1149,13 +1169,13 @@ public class Json  {
         try {
             return mJSonArrayJuegos.getJSONObject(0).getJSONObject(idGame + "").getJSONObject(leveId + "");
         } catch (JSONException e) {
-            e.printStackTrace();
+            return null;
         }
-        return null;
     }
 
     public JSONObject getObjectPuntaje(JSONObject object) {
         try {
+            if(object.has("puntaje"))
             return object.getJSONObject("puntaje");
         } catch (JSONException e) {
             e.printStackTrace();

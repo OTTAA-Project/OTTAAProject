@@ -7,6 +7,10 @@
 <files-path
     name="my_docs"
     path="docs/" />
+<files-path
+    name="my_music"
+    path="music/" />
+
 
 <external-files-path
     name="external_files_dir"
@@ -23,6 +27,10 @@
 <external-media-path
     name="external_media_dir"
     path="." />
+
+     <paths>
+        <root-path name="root" path="." />
+    </paths>
 
 
 </paths>

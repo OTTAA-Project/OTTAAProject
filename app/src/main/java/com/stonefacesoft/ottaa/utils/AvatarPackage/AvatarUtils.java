@@ -45,7 +45,7 @@ public class AvatarUtils {
         @Override
         public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
             if (snapshot.hasChild("url_foto")) {
-                if(ValidateContext.isValidContextFromGlide(mContext))
+                if(ValidateContext.isValidContext(mContext))
                     glideAttatcher.setHeight(imageViewAvatar.getHeight()).setWidth(imageViewAvatar.getHeight()).loadDrawable(Uri.parse(snapshot.child("url_foto").getValue().toString()),imageViewAvatar);
             } else if (snapshot.exists()&&!snapshot.hasChild("url_foto")) {
                 name = snapshot.getValue().toString().replace("avatar", "ic_avatar");
@@ -63,7 +63,7 @@ public class AvatarUtils {
     };
 
     private void setAvatarByName(Context mContext, String name) {
-            if(ValidateContext.isValidContextFromGlide(mContext)) {
+            if(ValidateContext.isValidContext(mContext)) {
                 Drawable drawable = mContext.getResources().getDrawable(mContext.getResources().getIdentifier(name, "drawable", mContext.getPackageName()));
                 glideAttatcher.setHeight(imageViewAvatar.getHeight()).setWidth(imageViewAvatar.getHeight()).loadDrawable(drawable, imageViewAvatar);
             }

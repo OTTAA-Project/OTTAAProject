@@ -33,17 +33,21 @@ import com.stonefacesoft.ottaa.FirebaseRequests.FirebaseUtils;
 import com.stonefacesoft.ottaa.Interfaces.CalendarChangeEvent;
 import com.stonefacesoft.ottaa.Interfaces.FirebaseSuccessListener;
 import com.stonefacesoft.ottaa.Interfaces.LoadUserInformation;
+import com.stonefacesoft.ottaa.idioma.ConfigurarIdioma;
 import com.stonefacesoft.ottaa.utils.ConnectionDetector;
 import com.stonefacesoft.ottaa.utils.DateTextWatcher;
 import com.stonefacesoft.ottaa.utils.Firebase.AnalyticsFirebase;
 import com.stonefacesoft.ottaa.utils.InmersiveMode;
+import com.stonefacesoft.ottaa.utils.ObservableInteger;
 import com.stonefacesoft.ottaa.utils.constants.Constants;
 import com.stonefacesoft.ottaa.utils.preferences.DataUser;
 import com.stonefacesoft.ottaa.utils.preferences.PreferencesUtil;
 
+import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Locale;
 import java.util.regex.Pattern;
 
 public class LoginActivity2Step2 extends AppCompatActivity implements View.OnClickListener, DatePickerDialog.OnDateSetListener, AdapterView.OnItemSelectedListener, FirebaseSuccessListener, LoadUserInformation, CalendarChangeEvent {
@@ -71,6 +75,8 @@ public class LoginActivity2Step2 extends AppCompatActivity implements View.OnCli
     private AnalyticsFirebase mAnalyticsFirebase;
     private FirebaseUtils firebaseUtils;
     private DateTextWatcher dateTextWatcher;
+    private BajarJsonFirebase mBajarJsonFirebase;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -358,10 +364,7 @@ public class LoginActivity2Step2 extends AppCompatActivity implements View.OnCli
 
     @Override
     public void onPictosSugeridosBajados(boolean descargado) {
-        Intent intent = new Intent(LoginActivity2Step2.this, LoginActivity2Step3.class);
-        startActivity(intent);
-        finish();
-        mAnalyticsFirebase.customEvents("Touch", "LoginActivityStep2", "Next1 ");
+        downloadFiles();
     }
 
     public void toogleKeyBoard(TextView view) {
@@ -386,6 +389,31 @@ public class LoginActivity2Step2 extends AppCompatActivity implements View.OnCli
             userData = new DataUser();
         return userData;
     }
+    public void downloadFiles() {
+        String locale = Locale.getDefault().getLanguage();
+        File rootPath = new File(getApplicationContext().getCacheDir(), "Archivos_OTTAA");
+        if (!rootPath.exists()) {
+            rootPath.mkdirs();//si no existe el directorio lo creamos
+        }
+        if(mBajarJsonFirebase == null)
+            mBajarJsonFirebase = new BajarJsonFirebase(preferencesUtil.getPreferences(),mAuth,this);
+        ObservableInteger observableInteger = new ObservableInteger();
+        observableInteger.setOnIntegerChangeListener(new ObservableInteger.OnIntegerChangeListener() {
+            @Override
+            public void onIntegerChanged(int newValue) {
+                if(newValue == 1) {
+                    Intent intent = new Intent(LoginActivity2Step2.this, LoginActivity2Step3.class);
+                    startActivity(intent);
+                    finish();
+                    mAnalyticsFirebase.customEvents("Touch", "LoginActivityStep2", "Next1 ");
+                }
+            }
+        });
+        mBajarJsonFirebase.bajarPictos(locale, rootPath, observableInteger);
+
+
+    }
+
 }
 
 

@@ -42,7 +42,7 @@ public class UnitTestingScore extends TestCase {
         score.sumarCantidadVecesCorrectas();//3
         score.sumarCantidadVecesCorrectas();//4
         score.sumarCantidadVecesCorrectas();//5
-        System.out.println(" This is the score"+score.calcularValor());
+        System.out.println(" This is the score"+score.getResult());
         String text=score.getAciertos()+"";
         Assert.assertTrue(score.getAciertos()==5);
         Assert.assertTrue(score.getDesaciertos()==2);

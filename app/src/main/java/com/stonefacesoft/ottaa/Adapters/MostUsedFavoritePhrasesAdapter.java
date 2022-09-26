@@ -161,6 +161,7 @@ public class MostUsedFavoritePhrasesAdapter extends RecyclerView.Adapter<MostUse
             super.onPostExecute(aVoid);
             if(progressBarListener!=null)
                 progressBarListener.dismisProgressBar();
+            notifyDataSetChanged();
         }
     }
 }

@@ -44,10 +44,10 @@ public class DialogGameProgressInform extends DialogUtils {
         racha=dialog.findViewById(R.id.racha_max);
         Correct.setText(game.getScoreClass().getAciertos()+"");
         Wrong.setText(game.getScoreClass().getDesaciertos()+"");
-        cant_uso.setText(game.getReloj().getTimeInMinutes()+"");
+        cant_uso.setText(game.getChronometer().getTimeInMinutes()+"");
         racha.setText(game.getBestStreak()+"");
         imageView=dialog.findViewById(R.id.status_face);
-        imageView.setImageDrawable(game.devolverCarita());
+        imageView.setImageDrawable(game.getSmiley());
     }
 
     public void showDialog(){

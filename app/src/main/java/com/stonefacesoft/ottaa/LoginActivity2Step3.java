@@ -84,6 +84,7 @@ public class LoginActivity2Step3 extends AppCompatActivity implements View.OnCli
                     mAnalyticsFirebase.customEvents("Touch","LoginActivityStep3","Next2");
                     Intent intent = new Intent(LoginActivity2Step3.this, LoginActivity2Avatar.class);
                     startActivity(intent);
+                    finish();
                 }
                 finish();
                 break;

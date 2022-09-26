@@ -1,5 +1,6 @@
 package com.stonefacesoft.ottaa.RecyclerViews;
 
+import android.util.Log;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,6 +13,7 @@ import com.stonefacesoft.ottaa.utils.Phrases.CustomFavoritePhrases;
 public class Favorite_Phrases_recycler_view extends Custom_recyclerView {
     private CustomFavoritePhrasesAdapter adapter;
     private CustomFavoritePhrases customFavoritePhrases;
+    private final String TAG ="Favorite_phrase";
 
     public Favorite_Phrases_recycler_view(AppCompatActivity mActivity, FirebaseAuth mAuth) {
         super(mActivity, mAuth);
@@ -19,7 +21,7 @@ public class Favorite_Phrases_recycler_view extends Custom_recyclerView {
     }
 
     public void setArray() {
-        customFavoritePhrases = CustomFavoritePhrases.getInstance(mActivity);
+        customFavoritePhrases = new CustomFavoritePhrases(mActivity);
         array = customFavoritePhrases.getPhrases();
         arrayAux = customFavoritePhrases.getPhrases();
         createRecyclerLayoutManager();
@@ -31,6 +33,11 @@ public class Favorite_Phrases_recycler_view extends Custom_recyclerView {
                 talkAtPosition();
             }
         });
+    }
+
+    public void updateData(){
+        array = new CustomFavoritePhrases(mActivity).getPhrases();
+        adapter.updateData();
     }
 
     @Override
