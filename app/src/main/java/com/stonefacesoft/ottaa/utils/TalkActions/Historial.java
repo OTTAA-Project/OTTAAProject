@@ -6,6 +6,8 @@ import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.NLG;
 import com.stonefacesoft.ottaa.utils.JSONutils;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -78,6 +80,36 @@ public class Historial {
         Log.d(TAG, "talkWithtNLG: "+ Phrase );
         return Phrase;
     }
+
+    public JSONObject nlgObject(){
+        JSONObject object = new JSONObject();
+        JSONArray word = new JSONArray(),types = new JSONArray();
+
+        for (int i = 0; i < listOfPictograms.size(); i++) {
+            try {
+                word.put(i,JSONutils.getNombre(listOfPictograms.get(i),"es").toLowerCase());
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            try {
+                types.put(i,JSONutils.getType(listOfPictograms.get(i)));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        try {
+            object.put("words",word);
+            object.put("types",types);
+            object.put("language","es");
+            object.put("props",new JSONObject());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return object;
+    }
+
+
+
 
 
 }

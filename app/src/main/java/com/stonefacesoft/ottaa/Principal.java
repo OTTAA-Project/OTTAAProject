@@ -116,6 +116,7 @@ import com.stonefacesoft.ottaa.utils.Firebase.CrashlyticsUtils;
 import com.stonefacesoft.ottaa.utils.InmersiveMode;
 import com.stonefacesoft.ottaa.utils.IntentCode;
 import com.stonefacesoft.ottaa.utils.JSONutils;
+import com.stonefacesoft.ottaa.utils.TalkActions.ProcessPhrase;
 import com.stonefacesoft.ottaa.utils.UserLicence.LicenciaUsuario;
 import com.stonefacesoft.ottaa.utils.MovableFloatingActionButton;
 import com.stonefacesoft.ottaa.utils.ObservableInteger;
@@ -266,6 +267,7 @@ public class Principal extends AppCompatActivity implements View
     private FirebaseUtils firebaseUtils;
     private TextView toolbarPlace;
     private TraducirFrase traducirFrase;
+    private ProcessPhrase processPhrase;
     private PlacesImplementation placesImplementation;
     private Progress_dialog_options firebaseDialog;
     private ImageButton btn_share;
@@ -2324,12 +2326,23 @@ public class Principal extends AppCompatActivity implements View
     }
 
     public void nlgTalkAction(){
-        Oracion = EjecutarNLG();
-        if (!sharedPrefsDefault.getString(getString(R.string.str_idioma), "en").equals("en")) {
-            traducirFrase = new TraducirFrase(this, sharedPrefsDefault, animationView, getApplicationContext(), Oracion);
-            traducirFrase.setOracion(Oracion);
-            traducirFrase.execute();
-        } else {
+        if(ConnectionDetector.isNetworkAvailable(this)){
+            Oracion = EjecutarNLG();
+            if (!sharedPrefsDefault.getString(getString(R.string.str_idioma), "en").equals("en")) {
+                if(sharedPrefsDefault.getString(getString(R.string.str_idioma), "en").equals("es")){
+                    processPhrase = new ProcessPhrase(this, sharedPrefsDefault, animationView, getApplicationContext(), Oracion);
+                    processPhrase.setOracion(Oracion);
+                    processPhrase.execute(historial.nlgObject());
+
+                }else{
+                    traducirFrase = new TraducirFrase(this, sharedPrefsDefault, animationView, getApplicationContext(), Oracion);
+                    traducirFrase.setOracion(Oracion);
+                    traducirFrase.execute();
+                }
+            } else {
+                speak();
+            }
+        }else{
             speak();
         }
     }
