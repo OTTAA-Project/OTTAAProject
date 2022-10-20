@@ -13,6 +13,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.content.res.Configuration;
+import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -1714,8 +1715,9 @@ public class Principal extends AppCompatActivity implements View
         if (pictogram.getEditedPictogram().isEmpty()) {
             Log.d(TAG, "loadDrawable: "+ pictogram.getPictogram());
             if(!pictogram.getPictogram().startsWith("https://")){
-                attatcher.UseCornerRadius(true).loadDrawable(this.getResources().getDrawable(this.getContext().getResources().getIdentifier(pictogram.getPictogram(),
-                    "drawable", this.getPackageName())), getImageView(position));
+                Drawable drawable = Json.getInstance().getIcono(pictogram.getObject());
+                if(drawable != null)
+                    attatcher.UseCornerRadius(true).loadDrawable(drawable, getImageView(position));
             }else{
                 attatcher.UseCornerRadius(true).loadDrawable(Uri.parse(pictogram.getPictogram()), getImageView(position));
             }
