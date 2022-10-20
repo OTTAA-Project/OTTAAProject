@@ -69,6 +69,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.database.annotations.Nullable;
+import com.google.firebase.inappmessaging.FirebaseInAppMessaging;
 import com.google.firebase.installations.FirebaseInstallations;
 import com.google.firebase.perf.metrics.AddTrace;
 import com.google.firebase.storage.FirebaseStorage;
@@ -393,6 +394,7 @@ public class Principal extends AppCompatActivity implements View
                 }
             }
         });
+
 
         initComponents();
         System.gc();
@@ -1869,13 +1871,15 @@ public class Principal extends AppCompatActivity implements View
         }
     }
     @AddTrace(name = "GaleriaGruposResult",enabled = true)
-    private final void galeriaGruposResult(Intent data) {
+    private void galeriaGruposResult(Intent data) {
         if (data != null) {
+            if(json==null) {
+                json = Json.getInstance();
+            }
             json.setmJSONArrayTodosLosPictos(Json.getInstance().getmJSONArrayTodosLosPictos());
             Bundle extras = data.getExtras();
             if (extras != null) {
                 int Picto = extras.getInt("ID");
-                Log.d(TAG, "onActivityResult: Obteniendo Picto" + Picto);
                 if (Picto != 0) {
                     click(json.getPictoFromId2(Picto));
                 }
