@@ -317,9 +317,18 @@ public class JSONutilsTest {
     //TODO no entiendo que hace este metodo ni como funciona
     @Test
     public void add2allTest() {
-        JSONArray jsonArrayGrupo = createGrupoJSONArray();
+        JSONArray jsonArrayGrupo = createGrupoJSONArrayAll();
 
         JSONutils.addToAllRelacion2(jsonArrayGrupo,1);
+
+        assertEquals(2,jsonArrayGrupo.length());
+
+    }
+    @Test
+    public void add2allTestNull() {
+        JSONArray jsonArrayGrupo = createGrupoJSONArrayAll();
+
+        JSONutils.addToAllRelacion2(null,1);
 
         assertEquals(2,jsonArrayGrupo.length());
 
@@ -522,6 +531,14 @@ public class JSONutilsTest {
     private JSONArray createGrupoJSONArray(){
         try {
             return new JSONArray("[{\"id\":0,\"texto\":{\"en\":\"Actions\",\"es\":\"ACCIONES\"},\"tipo\":0,\"imagen\":{\"picto\":\"verbos\"},\"relacion\":[{\"id\":1,\"texto\":{\"en\":\"escort\",\"es\":\"acompañar\"},\"tipo\":3,\"imagen\":{\"picto\":\"ic_acompanar\"},\"relacion\":[],\"agenda\":0,\"gps\":0},{\"id\":2,\"texto\":{\"en\":\"turn off\",\"es\":\"apagar\"},\"tipo\":3,\"imagen\":{\"picto\":\"ic_apagar_television\"},\"relacion\":[{\"id\":1016,\"frec\":2},{\"id\":1019,\"frec\":1},{\"id\":773,\"frec\":2},{\"id\":774,\"frec\":2}],\"agenda\":0,\"gps\":0},{\"id\":3,\"texto\":{\"en\":\"turn the volume down\",\"es\":\"bajar volumen\"},\"tipo\":3,\"imagen\":{\"picto\":\"ic_volumen_menos\"},\"relacion\":[],\"agenda\":0,\"gps\":0},{\"id\":4,\"texto\":{\"en\":\"erase\",\"es\":\"borrar\"},\"tipo\":3,\"imagen\":{\"picto\":\"ic_borrar\"},\"relacion\":[],\"agenda\":0,\"gps\":0}],\"frecuencia\":1},{\"id\":1,\"texto\":{\"en\":\"Adjectives\",\"es\":\"ADJETIVOS\"},\"tipo\":0,\"imagen\":{\"picto\":\"descripcion\"},\"relacion\":[{\"id\":118,\"frec\":1},{\"id\":121,\"frec\":1},{\"id\":122,\"frec\":1}],\"frecuencia\":1}]");
+        } catch (JSONException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    private JSONArray createGrupoJSONArrayAll(){
+        try {
+            return new JSONArray("[{\"id\":0,\"texto\":{\"en\":\"ALL\",\"es\":\"Todos\"},\"tipo\":0,\"imagen\":{\"picto\":\"verbos\"},\"relacion\":[{\"id\":1,\"texto\":{\"en\":\"escort\",\"es\":\"acompañar\"},\"tipo\":3,\"imagen\":{\"picto\":\"ic_acompanar\"},\"relacion\":[],\"agenda\":0,\"gps\":0},{\"id\":2,\"texto\":{\"en\":\"turn off\",\"es\":\"apagar\"},\"tipo\":3,\"imagen\":{\"picto\":\"ic_apagar_television\"},\"relacion\":[{\"id\":1016,\"frec\":2},{\"id\":1019,\"frec\":1},{\"id\":773,\"frec\":2},{\"id\":774,\"frec\":2}],\"agenda\":0,\"gps\":0},{\"id\":3,\"texto\":{\"en\":\"turn the volume down\",\"es\":\"bajar volumen\"},\"tipo\":3,\"imagen\":{\"picto\":\"ic_volumen_menos\"},\"relacion\":[],\"agenda\":0,\"gps\":0},{\"id\":4,\"texto\":{\"en\":\"erase\",\"es\":\"borrar\"},\"tipo\":3,\"imagen\":{\"picto\":\"ic_borrar\"},\"relacion\":[],\"agenda\":0,\"gps\":0}],\"frecuencia\":1},{\"id\":1,\"texto\":{\"en\":\"Adjectives\",\"es\":\"ADJETIVOS\"},\"tipo\":0,\"imagen\":{\"picto\":\"descripcion\"},\"relacion\":[{\"id\":118,\"frec\":1},{\"id\":121,\"frec\":1},{\"id\":122,\"frec\":1}],\"frecuencia\":1}]");
         } catch (JSONException e) {
             e.printStackTrace();
             return null;
