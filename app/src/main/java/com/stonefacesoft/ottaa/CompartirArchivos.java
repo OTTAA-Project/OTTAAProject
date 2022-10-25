@@ -112,7 +112,7 @@ public class CompartirArchivos {
         compartirAudio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new ShareAudio(mContext,Oracion,myTTS,transformerListener).prepareFile();
+                new ShareAudio(mContext,Oracion,myTTS,transformerListener,dialog).prepareFile();
           }
         });
 
