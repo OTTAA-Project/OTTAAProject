@@ -244,7 +244,7 @@ public class JsonTest {
         Assert.assertTrue(json.tieneTag(object,Constants.CLIMA));
     }
     @Test
-    public void tagNullOption() {
+    public void tagEmptyOption() {
         Json json = Json.getInstance();
         JSONObject object = new JSONObject();
         boolean exist = true;
@@ -254,6 +254,19 @@ public class JsonTest {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        Assert.assertFalse(exist);
+    }
+    @Test
+    public void tagNullOption() {
+        Json json = Json.getInstance();
+        JSONObject object = new JSONObject();
+        boolean exist = true;
+        try {
+            object.put("tags",null);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        exist = json.tieneTag(object,"testing");
         Assert.assertFalse(exist);
     }
 

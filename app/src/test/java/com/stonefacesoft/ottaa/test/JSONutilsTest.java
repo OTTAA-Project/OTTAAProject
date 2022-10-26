@@ -390,6 +390,17 @@ public class JSONutilsTest {
             e.printStackTrace();
         }
     }
+    @Test
+    public void getHijosGrupos2EmptyTest() {
+        JSONArray jsonArrayGrupos = createGrupoJSONArray();
+        JSONArray jsonArrayPictos = createPictogramJSONArrayEmpty();
+        try {
+            JSONArray jsonArrayHijos = JSONutils.getHijosGrupo2(jsonArrayGrupos.getJSONObject(1),jsonArrayPictos);
+            assertEquals(0,jsonArrayHijos.length());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
 
     @Test
     public void setJsonEditadoTest() {
@@ -481,6 +492,44 @@ public class JSONutilsTest {
 
         //
     }
+    @Test
+    public void scoreTestSuggestedPictogram() {
+        //
+        JSONArray jsonArray = createGrupoJSONArray();
+        JSONObject jsonObject = createPictograms(474,"es","manzana","apple",2);
+        try {
+            jsonObject.put("frec",2);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        jsonArray.put(jsonObject);
+        double scoreBase, scoreTAG;
+        scoreBase = JSONutils.score(jsonObject,true,"none",Sexo.MASCULINO.toString(),Horario.MEDIODIA.toString(),Edad.ADULTO.toString(),Posicion.PARQUE.toString());
+        System.out.println(scoreBase);
+        assertEquals(4.0d,scoreBase,0);
+        //
+
+        //
+    }
+    @Test
+    public void scoreTestNullPictogram() {
+        //
+        JSONArray jsonArray = createGrupoJSONArray();
+        JSONObject jsonObject = createPictograms(474,"es","manzana","apple",2);
+        try {
+            jsonObject.put("frec",10);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        jsonArray.put(jsonObject);
+        double scoreBase, scoreTAG;
+        scoreBase = JSONutils.score(jsonObject,true,"none",Sexo.MASCULINO.toString(),Horario.MEDIODIA.toString(),Edad.ADULTO.toString(),Posicion.PARQUE.toString());
+        System.out.println(scoreBase);
+        assertEquals(20.0d,scoreBase,0);
+        //
+
+        //
+    }
 
 
 
@@ -525,6 +574,10 @@ public class JSONutilsTest {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        return jsonArray;
+    }
+    private JSONArray createPictogramJSONArrayEmpty(){
+        JSONArray jsonArray = new JSONArray();
         return jsonArray;
     }
 
