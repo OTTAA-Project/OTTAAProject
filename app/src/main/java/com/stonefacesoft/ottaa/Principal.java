@@ -747,6 +747,8 @@ public class Principal extends AppCompatActivity implements View
 
     @Override
     protected void onStop() {
+        if(json == null)
+            json =  Json.getInstance();
         if (!json.getFallJson() && user != null) {
             if(user.getmAuth().getCurrentUser() != null)
                 if (isSettings) {
