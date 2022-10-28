@@ -355,7 +355,9 @@ public class JSONutils {
     }
 
     public static int getId(JSONObject jsonObject) throws JSONException {
-        return jsonObject.getInt("id");
+        if(jsonObject!=null&&jsonObject.has("id"))
+            return jsonObject.getInt("id");
+        return -1;
     }
 
     public static void addToAllRelacion2(JSONArray arrayListGrupos, int padre) {
