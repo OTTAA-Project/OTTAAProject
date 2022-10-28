@@ -1,5 +1,6 @@
 package com.stonefacesoft.ottaa.utils.shareActions;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
@@ -31,11 +32,13 @@ public class ShareAudio extends ShareAction implements com.stonefacesoft.ottaa.I
     private AudioFileCreator audioEncoder;
     private int result;
     private AudioTransformationListener transformationListener;
+    private Dialog dialog;
 
-    public ShareAudio(Context mContext, String phrase, textToSpeech myTTS,AudioTransformationListener transformer) {
+    public ShareAudio(Context mContext, String phrase, textToSpeech myTTS,AudioTransformationListener transformer,Dialog dialog) {
         super(mContext, phrase);
         this.myTTS = myTTS;
         this.transformationListener = transformer;
+        this.dialog = dialog;
     }
 
     @Override
@@ -47,8 +50,14 @@ public class ShareAudio extends ShareAction implements com.stonefacesoft.ottaa.I
     private void prepareAudio(){
         if(audioEncoder == null)
             audioEncoder = new AudioFileCreator(mContext);
+        String aux  = phrase;
+        try{
+            audioEncoder.createFile(phrase.trim());
+        }catch (Exception ex){
+            audioEncoder.createFile(phrase);
+        }
 
-        audioEncoder.createFile(phrase.trim());
+
 
 
         String  mostRecentUtteranceID = (new Random().nextInt() % 12000) + "";
@@ -85,36 +94,47 @@ public class ShareAudio extends ShareAction implements com.stonefacesoft.ottaa.I
             }
 
         });
-        myTTS.getTTS().synthesizeToFile(phrase+"  ",params,audioEncoder.getFile(),"audio.wav");
+        if(audioEncoder.getFile()!=null)
+            myTTS.getTTS().synthesizeToFile(phrase+"  ",params,audioEncoder.getFile(),"audio.wav");
+        else
+           share();
     }
 
     @Override
     public void getResult() {
         if(result == TextToSpeech.SUCCESS){
-            audioEncoder.transformation(transformationListener,new Transformer.Listener() {
-                @Override
-                public void onTransformationCompleted(MediaItem inputMediaItem, TransformationResult transformationResult) {
-                    share();
-                }
+            if(audioEncoder.getFile()!= null) {
+                audioEncoder.transformation(transformationListener, new Transformer.Listener() {
+                    @Override
+                    public void onTransformationCompleted(MediaItem inputMediaItem, TransformationResult transformationResult) {
+                        share();
+                    }
 
-                @Override
-                public void onTransformationError(MediaItem inputMediaItem, TransformationException exception) {
-                    Transformer.Listener.super.onTransformationError(inputMediaItem, exception);
-                }
-            });
+                    @Override
+                    public void onTransformationError(MediaItem inputMediaItem, TransformationException exception) {
+                        Transformer.Listener.super.onTransformationError(inputMediaItem, exception);
 
+                    }
+                });
+            }
         }
 
     }
 
     @Override
     public void share() {
-        if (Build.VERSION.SDK_INT >= 30)
-            sentMessage.putExtra(Intent.EXTRA_STREAM, FileProvider.getUriForFile(mContext, BuildConfig.APPLICATION_ID + ".fileprovider", audioEncoder.getAux()));
-        else
-            sentMessage.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(audioEncoder.getAux()));
-        sentMessage.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        mContext.startActivity(Intent.createChooser(sentMessage,mContext.getResources().getString(R.string.pref_enviar)));
+        if(audioEncoder.getAux()!=null){
+            if (Build.VERSION.SDK_INT >= 30)
+                sentMessage.putExtra(Intent.EXTRA_STREAM, FileProvider.getUriForFile(mContext, BuildConfig.APPLICATION_ID + ".fileprovider", audioEncoder.getAux()));
+            else
+                sentMessage.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(audioEncoder.getAux()));
+            sentMessage.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            mContext.startActivity(Intent.createChooser(sentMessage,mContext.getResources().getString(R.string.pref_enviar)));
+        }else{
+            myTTS.mostrarAlerta(mContext.getString(R.string.error_tts));
+            if(dialog != null)
+                dialog.dismiss();
+        }
     }
 
 
