@@ -96,6 +96,29 @@ public class JSONutils {
         return 0;
     }
 
+    public static String getType(JSONObject object){
+        try{
+            int value = object.getInt("tipo");
+            switch (value){
+                case 1:
+                    return "SUBJ";
+                case 2:
+                    return "NOUN";
+                case 3:
+                    return "VERB";
+                case 4:
+                    return "ADJ";
+                case 5:
+                   return "NONE";
+                case 6:
+                    return  "MISC";
+            }
+        }catch (JSONException e){
+            e.printStackTrace();
+        }
+        return "NONE";
+    }
+
     public static int getWordType(JSONObject object) {
         try {
             return object.getInt("wordTYPE");
