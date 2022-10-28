@@ -202,6 +202,7 @@ public class GestionarBitmap  {
 
             Bitmap mBufferPictos = Bitmap.createScaledBitmap(imagenes.get(0), 250, 250, false);
             Bitmap logo=drawableToBitmap(mContext.getResources().getDrawable(R.drawable.logo_ottaa_dev));
+            Bitmap nube=drawableToBitmap(mContext.getResources().getDrawable(R.drawable.ic_cloud_download_orange));
             logo = Bitmap.createScaledBitmap(logo,75,75,true);
 
             mImagenFinalWidth = (mBufferPictos.getWidth()+mDeltax) * imagenes.size()+mDeltax;
@@ -215,7 +216,10 @@ public class GestionarBitmap  {
             comboImage.drawRect(0,0,mImagenFinal.getWidth(),mImagenFinal.getHeight(),pintura);
             for (int j = 0; j < imagenes.size(); j++) {
                 int despx =j*((mDeltax)+mBufferPictos.getWidth())+mDeltax;
-                comboImage.drawBitmap(redimensionarImagenMaximo(imagenes.get(j), mBufferPictos.getWidth(), mBufferPictos.getHeight()), despx, mDeltay, null);
+                if(imagenes.get(j)!=null)
+                    comboImage.drawBitmap(redimensionarImagenMaximo(imagenes.get(j), mBufferPictos.getWidth(), mBufferPictos.getHeight()), despx, mDeltay, null);
+                else
+                    comboImage.drawBitmap(redimensionarImagenMaximo(nube, mBufferPictos.getWidth(), mBufferPictos.getHeight()), despx, mDeltay, null);
             }
             Paint pinturas= preparePaint(20,200,255,255,255,false,true);
             int mPosicionLogoX,mPosicionLogoY;

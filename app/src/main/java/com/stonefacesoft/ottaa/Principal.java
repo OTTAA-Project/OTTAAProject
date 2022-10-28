@@ -399,6 +399,7 @@ public class Principal extends AppCompatActivity implements View
         });
 
 
+
         initComponents();
         System.gc();
 
