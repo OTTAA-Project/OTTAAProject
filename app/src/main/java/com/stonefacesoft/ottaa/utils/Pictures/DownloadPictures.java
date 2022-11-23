@@ -55,24 +55,15 @@ public class DownloadPictures {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 int size = (int) dataSnapshot.getChildrenCount();
-                Log.e("UsersPictures", "onDataChange: " + size);
                 if (downloadDialog != null) {
-
                     downloadDialog.setMax((int) dataSnapshot.getChildrenCount());
                 }
-                //  pd.setMax((int) dataSnapshot.getChildrenCount());
-                //si el valor a obtener del mapeo no esta vacio
-
-                int value = 0;
                 showDismissDialog.sendMessage(0);
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     String child = snapshot.getValue().toString();
                     bajar.setFileDirectory(mDirectorio);
-                    Log.e("UserUid", "onDataChange: "+ child );
                     bajar.bajarFoto(child, !dataSnapshot.getChildren().iterator().hasNext(),firebaseUtils);
                 }
-
-
             }
 
             @Override
@@ -85,7 +76,6 @@ public class DownloadPictures {
     public void requestPermission() {
         bajar = new bajarFotos();
         bajar.setInterfaz(mFbSuccessListenerInterfaz);
-        Log.e("GalGr_bajarFotos: ", "" + mDirectorio);
         mDirectorio = new UriFiles(mActivity.getApplicationContext()).dir();
         String[] text = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE};
         requestActivityPermission();

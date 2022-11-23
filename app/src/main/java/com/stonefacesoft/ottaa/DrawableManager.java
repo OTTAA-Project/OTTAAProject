@@ -67,12 +67,13 @@ public class DrawableManager {
                 Log.d(TAG, "got a thumbnail drawable: " + drawable.getBounds() + ", "
                         + drawable.getIntrinsicHeight() + "," + drawable.getIntrinsicWidth() + ", "
                         + drawable.getMinimumHeight() + "," + drawable.getMinimumWidth());
+                drawableInterface.getDrawable(drawable);
+                drawableInterface.fetchDrawable(drawable);
             } else {
                 Log.d(TAG, "could not get thumbnail");
             }
 
-            drawableInterface.getDrawable(drawable);
-            drawableInterface.fetchDrawable(drawable);
+
         } catch (IOException e) {
             Log.e(TAG, "fetchDrawable failed", e);
 
@@ -83,9 +84,12 @@ public class DrawableManager {
 
 
     private InputStream fetch(String urlString) throws IOException {
+        Log.d(TAG, "url saved : "+ urlString);
         URL url = new URL(urlString);
         HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
         urlConnection.connect();
-        return urlConnection.getInputStream();
+        if(urlConnection.getAllowUserInteraction())
+            return urlConnection.getInputStream();
+        return  null;
     }
 }

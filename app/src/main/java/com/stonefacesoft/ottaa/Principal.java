@@ -136,6 +136,7 @@ import com.stonefacesoft.ottaa.utils.textToSpeech;
 import com.stonefacesoft.ottaa.utils.timer_pictogram_clicker;
 import com.stonefacesoft.ottaa.utils.traducirTexto;
 import com.stonefacesoft.pictogramslibrary.Classes.Pictogram;
+import com.stonefacesoft.pictogramslibrary.CloudStorageManager;
 import com.stonefacesoft.pictogramslibrary.utils.GlideAttatcher;
 import com.stonefacesoft.pictogramslibrary.utils.ValidateContext;
 import com.stonefacesoft.pictogramslibrary.view.PictoView;
@@ -397,9 +398,8 @@ public class Principal extends AppCompatActivity implements View
                 }
             }
         });
-
-
-
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        CloudStorageManager.getInstance().setStorage(storage);
         initComponents();
         System.gc();
 
