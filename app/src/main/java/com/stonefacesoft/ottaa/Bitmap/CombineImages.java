@@ -1,5 +1,6 @@
 package com.stonefacesoft.ottaa.Bitmap;
 
+import android.accounts.NetworkErrorException;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
@@ -16,6 +17,7 @@ import com.stonefacesoft.ottaa.utils.ConnectionDetector;
 import com.stonefacesoft.pictogramslibrary.Classes.Pictogram;
 import com.stonefacesoft.pictogramslibrary.view.PictoView;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -30,15 +32,16 @@ public class CombineImages implements DrawableInterface {
     private Context context;
     private final String TAG = "CombineImages";
 
-    public CombineImages(Context context){
+    public CombineImages(Context context) {
         this.context = context;
         images = new ArrayList<>();
     }
 
-    public void loadPictogram(Json json,JSONObject child){
 
+
+    public void loadPictogram(Json json,JSONObject child){
             Drawable nube = AppCompatResources.getDrawable(context, R.drawable.ic_baseline_cloud_download_24_big);//para evitar que no funcionen las frases mas usadas se pone el icono de la nube
-            Drawable imagen = nube;
+            Drawable imagen = null;
             imagen = json.getIcono(child);
             if(imagen != null)
                 images.add(imagen);
@@ -72,21 +75,23 @@ public class CombineImages implements DrawableInterface {
         return images;
     }
     public void loadPictogramsLogo(JSONObject json,Drawable imagen,Drawable nube) {
+
         if (json != null) {
             PictoView pictoView = new PictoView(context);
             pictoView.setUpContext(context);
             pictoView.setUpGlideAttatcher(context);
             if(imagen == null){
-                try {
-                    if(ConnectionDetector.isNetworkAvailable(context)) {
+                if(ConnectionDetector.isNetworkAvailable(context)) {
                         DrawableManager drawableManager = new DrawableManager();
-                        drawableManager.fetchDrawable(json.getJSONObject("imagen").getString("urlFoto"), this);
-                    }else{
+                          try {
+                              drawableManager.fetchDrawable(json.getJSONObject("imagen").getString("urlFoto"), this);
+                          } catch (JSONException e) {
+                              e.printStackTrace();
+                          }
+
+                    }else
                         images.add(nube);
-                    }
-                } catch (Exception ex) {
-                    images.add(nube);
-                }
+
             }
         }
     }
@@ -106,5 +111,7 @@ public class CombineImages implements DrawableInterface {
     @Override
     public void fetchDrawable(Drawable drawable) {
         images.add(drawable);
+
     }
+
 }

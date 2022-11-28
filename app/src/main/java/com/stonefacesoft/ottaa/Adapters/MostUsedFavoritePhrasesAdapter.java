@@ -140,6 +140,11 @@ public class MostUsedFavoritePhrasesAdapter extends RecyclerView.Adapter<MostUse
                             public void FileIsCreated() {
 
                             }
+
+                            @Override
+                            public void FileIsCreated(Bitmap bitmap) {
+
+                            }
                         });
                         try {
                             model.setTexto(mDatosDeUso.getFrasesOrdenadas().get(i).getString("frase"));

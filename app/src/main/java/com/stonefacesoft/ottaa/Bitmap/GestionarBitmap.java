@@ -352,15 +352,8 @@ public class GestionarBitmap  {
 
     //Devolvemos un bitmap con todos los pictos componentes de una frase
     public void getBitmapDeFrase(JSONObject frase,LoadOnlinePictograms loadOnlinePictograms) {
-        Log.e(TAG, "Phrase :"+frase);
-        preparePhrase(frase);
-        Bitmap bitmap = null;
-        if(combineImages(20, 20) != null ) {
-            bitmap = getRoundedCornerBitmap(combineImages(20, 2), 20);
-            loadOnlinePictograms.loadPictograms(bitmap);
-        }else{
-            Log.d(TAG, "getBitmapDeFrase: "+ "Combine Images Error");
-        }
+        preparePhrase(frase,loadOnlinePictograms);
+
 
     }
 
@@ -386,7 +379,7 @@ public class GestionarBitmap  {
         return  frase.getJSONArray("picto_componentes");
     }
 
-    public void  preparePhrase(JSONObject phrase){
+    public void  preparePhrase(JSONObject phrase,LoadOnlinePictograms loadOnlinePictograms){
         CombineImages mCombineImages = new CombineImages(mContext);
         imagenes = new ArrayList<>();
         JSONObject picto = null;
@@ -407,6 +400,14 @@ public class GestionarBitmap  {
         ArrayList<Drawable> aux = mCombineImages.getImages();
         for (int i = 0; i < aux.size() ; i++) {
             imagenes.add(drawableToBitmap(aux.get(i)));
+        }
+
+        Bitmap bitmap = null;
+        if(combineImages(20, 20) != null ) {
+            bitmap = getRoundedCornerBitmap(combineImages(20, 2), 20);
+            loadOnlinePictograms.loadPictograms(bitmap);
+        }else{
+            Log.d(TAG, "getBitmapDeFrase: "+ "Combine Images Error");
         }
 
     }

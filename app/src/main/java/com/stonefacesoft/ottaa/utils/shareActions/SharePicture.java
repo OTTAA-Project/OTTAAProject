@@ -89,6 +89,11 @@ public class SharePicture extends ShareAction{
                     public void FileIsCreated() {
                         gestionarBitmap.getIdjson().add(historial.get(position));
                     }
+
+                    @Override
+                    public void FileIsCreated(Bitmap bitmap) {
+
+                    }
                 };
 
                 loadOnlinePictograms.preparePictograms();
@@ -117,6 +122,11 @@ public class SharePicture extends ShareAction{
                                 Log.e(TAG, "FileIsCreated: " );
                             }
                         }
+
+                    }
+
+                    @Override
+                    public void FileIsCreated(Bitmap bitmap) {
 
                     }
                 });

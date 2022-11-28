@@ -61,7 +61,7 @@ import com.stonefacesoft.ottaa.utils.Accesibilidad.scrollActions.ScrollFunctionG
 import com.stonefacesoft.ottaa.utils.constants.Constants;
 import com.stonefacesoft.ottaa.utils.Firebase.AnalyticsFirebase;
 import com.stonefacesoft.ottaa.utils.IntentCode;
-import com.stonefacesoft.ottaa.utils.Pictures.DownloadPictures;
+import com.stonefacesoft.ottaa.utils.Pictures.DownloadFirebasePictures;
 import com.stonefacesoft.ottaa.utils.constants.ConstantsGroupGalery;
 import com.stonefacesoft.ottaa.utils.constants.ConstantsMainActivity;
 import com.stonefacesoft.ottaa.utils.textToSpeech;
@@ -127,7 +127,9 @@ public class GaleriaGrupos2 extends AppCompatActivity implements OnStartDragList
     private AnalyticsFirebase analyticsFirebase;
     private FirebaseUtils firebaseUtils;
     private GaleriaGruposControls deviceControl;
-    private DownloadPictures downloadPictures;
+    private DownloadFirebasePictures downloadFirebasePictures;
+    private boolean editarPicto;
+
 
     @AddTrace(name = "GaleriaGrupos2", enabled = true /* optional */)
     @SuppressLint("ResourceType")
@@ -158,6 +160,7 @@ public class GaleriaGrupos2 extends AppCompatActivity implements OnStartDragList
         cargarGruposJson.execute();
         function_scroll=new ScrollFunctionGaleriaGrupos(this,this);
         showDismissDialog=new ShowDismissDialog();
+        editarPicto = sharedPrefsDefault.getBoolean(getString(R.string.str_editar_picto), true);
 
         /*Manejo de preferencias de cada usuario**/
         sharedPrefsDefault = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
@@ -472,19 +475,21 @@ public class GaleriaGrupos2 extends AppCompatActivity implements OnStartDragList
 
             case R.id.nuevo:
                 analyticsFirebase.customEvents("Touch", "Galeria Grupos", "add Group");
-                if (sharedPrefsDefault.getInt("premium", 0) == 1) {
-                    /*Aca vamos a editar picto visual que maneja tanto para grupos como para pictos*/
-                    Intent intent = new Intent(GaleriaGrupos2.this, Edit_Picto_Visual.class);
-                    intent.putExtra("esNuevo", true);
-                    intent.putExtra("Padre", boton);
-                    intent.putExtra("esGrupo", true);
-                    intent.putExtra("Texto","");
-                    myTTS.hablar(getString(R.string.add_grupo));
-                    Log.d(TAG, "onOptionsItemSelected: Creating new Group");
-                    startActivityForResult(intent, IntentCode.EDITARPICTO.getCode());
-                } else {
-                    Intent i = new Intent(GaleriaGrupos2.this, LicenciaExpirada.class);
-                    startActivity(i);
+                if(editarPicto){
+                  if (sharedPrefsDefault.getInt("premium", 0) == 1) {
+                      /*Aca vamos a editar picto visual que maneja tanto para grupos como para pictos*/
+                      Intent intent = new Intent(GaleriaGrupos2.this, Edit_Picto_Visual.class);
+                      intent.putExtra("esNuevo", true);
+                      intent.putExtra("Padre", boton);
+                      intent.putExtra("esGrupo", true);
+                      intent.putExtra("Texto","");
+                      myTTS.hablar(getString(R.string.add_grupo));
+                      Log.d(TAG, "onOptionsItemSelected: Creating new Group");
+                      startActivityForResult(intent, IntentCode.EDITARPICTO.getCode());
+                  } else {
+                      Intent i = new Intent(GaleriaGrupos2.this, LicenciaExpirada.class);
+                      startActivity(i);
+                  }
                 }
                 return true;
 
@@ -533,9 +538,9 @@ public class GaleriaGrupos2 extends AppCompatActivity implements OnStartDragList
 
     //------ metodos relacionados con las fotos --------
     private void accionBajarFoto() {
-        if(downloadPictures==null)
-            downloadPictures=new DownloadPictures(this,showDismissDialog,this);
-        downloadPictures.setUpDirectory();
+        if(downloadFirebasePictures ==null)
+            downloadFirebasePictures =new DownloadFirebasePictures(this,showDismissDialog,this);
+        downloadFirebasePictures.setUpDirectory();
 
     }
 

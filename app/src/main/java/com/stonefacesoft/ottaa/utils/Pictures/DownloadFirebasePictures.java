@@ -24,7 +24,7 @@ import java.io.File;
 
 import static com.stonefacesoft.ottaa.GaleriaGrupos2.downloadDialog;
 
-public class DownloadPictures {
+public class DownloadFirebasePictures {
     private String name;
     private String StoragePath;
     private String texto;
@@ -38,7 +38,7 @@ public class DownloadPictures {
     private final FirebaseSuccessListener mFbSuccessListenerInterfaz;
 
 
-    public DownloadPictures(AppCompatActivity mActivity, GaleriaGrupos2.ShowDismissDialog showDismissDialog, FirebaseSuccessListener mFbSuccessListenerInterfaz) {
+    public DownloadFirebasePictures(AppCompatActivity mActivity, GaleriaGrupos2.ShowDismissDialog showDismissDialog, FirebaseSuccessListener mFbSuccessListenerInterfaz) {
         this.mActivity = mActivity;
         firebaseUtils = FirebaseUtils.getInstance();
         firebaseUtils.setmContext(this.mActivity);

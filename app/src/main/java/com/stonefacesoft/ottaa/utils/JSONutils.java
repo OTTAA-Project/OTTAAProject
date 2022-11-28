@@ -119,6 +119,41 @@ public class JSONutils {
         return "NONE";
     }
 
+    public static int getTypeAsInteger(JSONObject object){
+        try{
+            String value = object.getString("part_of_speech");
+            switch (value){
+                case "subject":
+                    return 1;
+                case "noun":
+                    return 2;
+                case "verb":
+                    return 3;
+                case "adjetive":
+                    return 4;
+                case "none":
+                   return 5;
+                case "miscellaneous":
+                    return  6;
+            }
+        }catch (JSONException e){
+            e.printStackTrace();
+        }
+        return 5;
+    }
+
+    public static String getUriFromGlobalSymbols(JSONObject object){
+        try {
+            return object.getString("image_url");
+        } catch (JSONException e) {
+            e.printStackTrace();
+
+        }
+        return "";
+    }
+
+
+
     public static int getWordType(JSONObject object) {
         try {
             return object.getInt("wordTYPE");

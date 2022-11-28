@@ -17,13 +17,20 @@ import com.android.volley.toolbox.Volley;
 import com.google.android.datatransport.cct.internal.LogEvent;
 import com.google.api.LogDescriptor;
 import com.stonefacesoft.ottaa.Interfaces.SearchAraasacPictogram;
+import com.stonefacesoft.ottaa.utils.StringFormatter;
+
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.charset.Charset;
+import java.nio.charset.CharsetDecoder;
+import java.nio.charset.StandardCharsets;
 
 import kotlin.Result;
 
@@ -31,8 +38,8 @@ import kotlin.Result;
  * Created by Cristian on 21/6/2016.
  */
 public class BuscarArasaac {
+    private final String TAG = "BuscarArasaac";
     SearchAraasacPictogram searchAraasacPictogram;
-    JSONObject arasaac;
 
     public void setSearchAraasacPictogram(SearchAraasacPictogram searchAraasacPictogram) {
         this.searchAraasacPictogram = searchAraasacPictogram;
@@ -40,16 +47,17 @@ public class BuscarArasaac {
 
     public void HacerBusqueda(String texto, String lang, Context context){
         String direction;
-        direction = "http://old.arasaac.org/api/index.php?callback=json&language=" + lang.toUpperCase() + "&word=" + texto.replaceAll(" ","+") +
-                "%&catalog=colorpictos&thumbnailsize=150&TXTlocate=4&KEY="+context.getResources().getString(R.string.galeria_araasac_api_key);
-        RequestQueue requestQueue = Volley.newRequestQueue(context,new HurlStack());
+        String key = context.getResources().getString(R.string.galeria_araasac_api_key);
+        String aux =texto.replaceAll(" ","_");
+        String globalsymbol = "https://globalsymbols.com/api/v1/labels/search?query="+texto+"&symbolset=arasaac&language="+changeLanguage(lang)+"&limit=100";
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
         requestQueue.start();
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, direction, new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, globalsymbol, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 try {
-                    arasaac = new JSONObject(response);
-                    searchAraasacPictogram.findPictograms(arasaac);
+                    JSONArray object = new JSONArray(response);
+                    searchAraasacPictogram.findPictograms(object);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -57,10 +65,33 @@ public class BuscarArasaac {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.i("BuscarAraasac","Error :" + error.getMessage());
+                Log.e("BuscarAraasac","Error :" + error.getMessage());
             }
         });
+
         requestQueue.add(stringRequest);
+    }
+
+    private String changeLanguage(String lang){
+        String language = "eng";
+        switch (lang){
+            case "es":
+                return "spa";
+            case "pt":
+                return "por";
+            case "ca":
+                return "cat";
+            case "fr":
+                return "fra";
+            case "it":
+                return "ita";
+            case "ar":
+                return "ara";
+            case "da":
+                return "dan";
+            default:
+                return language;
+        }
     }
 
 }
