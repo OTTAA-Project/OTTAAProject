@@ -353,9 +353,15 @@ public class GestionarBitmap  {
     //Devolvemos un bitmap con todos los pictos componentes de una frase
     public void getBitmapDeFrase(JSONObject frase,LoadOnlinePictograms loadOnlinePictograms) {
         preparePhrase(frase,loadOnlinePictograms);
-
-
+        Bitmap bitmap = null;
+        if(combineImages(20, 20) != null ) {
+            bitmap = getRoundedCornerBitmap(combineImages(20, 2), 20);
+            loadOnlinePictograms.loadPictograms(bitmap);
+        }else{
+            Log.d(TAG, "getBitmapDeFrase: "+ "Combine Images Error");
+        }
     }
+
 
 
     public void setEscribirTexto(boolean escribirTexto) {
@@ -380,37 +386,27 @@ public class GestionarBitmap  {
     }
 
     public void  preparePhrase(JSONObject phrase,LoadOnlinePictograms loadOnlinePictograms){
-        CombineImages mCombineImages = new CombineImages(mContext);
         imagenes = new ArrayList<>();
+        CombineImages mCombineImages = new CombineImages(mContext);
         JSONObject picto = null;
         JSONArray array = null;
+
         try {
             array = getJsonArray(phrase);
             for (int i = 0; i <= array.length()-1; i++) {
                 picto = json.getPictoFromId2(array.getJSONObject(i).getInt("id"));
-                try {
-                    mCombineImages.loadPictogram(json, picto);
-                }catch (Exception ex){
-                    Log.e(TAG, "preparePhrase: Image not found" );
+                Drawable drawable = mCombineImages.loadPictogram(json,picto);
+                if(drawable == null){
+                    drawable = mCombineImages.loadPictogramsLogo(picto);
                 }
+                if(drawable !=null)
+                imagenes.add(drawableToBitmap(drawable));
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        ArrayList<Drawable> aux = mCombineImages.getImages();
-        for (int i = 0; i < aux.size() ; i++) {
-            imagenes.add(drawableToBitmap(aux.get(i)));
-        }
-
-        Bitmap bitmap = null;
-        if(combineImages(20, 20) != null ) {
-            bitmap = getRoundedCornerBitmap(combineImages(20, 2), 20);
-            loadOnlinePictograms.loadPictograms(bitmap);
-        }else{
-            Log.d(TAG, "getBitmapDeFrase: "+ "Combine Images Error");
-        }
-
     }
+
 
     public void setLoadOnlinePictograms(LoadOnlinePictograms loadOnlinePictograms) {
         this.loadOnlinePictograms = loadOnlinePictograms;

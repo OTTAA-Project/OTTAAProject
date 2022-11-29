@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.stonefacesoft.ottaa.Bitmap.CombineImages;
 import com.stonefacesoft.ottaa.Bitmap.GestionarBitmap;
 import com.stonefacesoft.ottaa.FavModel;
 import com.stonefacesoft.ottaa.Interfaces.LoadOnlinePictograms;
@@ -190,7 +191,7 @@ public class CustomFavoritePhrasesAdapter extends RecyclerView.Adapter<CustomFav
 
                         }
                     });
-                    mFavImagesArrayList.add(favModel);
+
 
                 } catch (JSONException e) {
                     e.printStackTrace();

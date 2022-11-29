@@ -39,19 +39,13 @@ public class CombineImages implements DrawableInterface {
 
 
 
-    public void loadPictogram(Json json,JSONObject child){
-            Drawable nube = AppCompatResources.getDrawable(context, R.drawable.ic_baseline_cloud_download_24_big);//para evitar que no funcionen las frases mas usadas se pone el icono de la nube
+    public Drawable loadPictogram(Json json,JSONObject child){
             Drawable imagen = null;
             imagen = json.getIcono(child);
-            if(imagen != null)
-                images.add(imagen);
-            else
-                loadPictogramsLogo(child,imagen,nube);
-
-
+            return imagen;
     }
 
-    public PictoView preparePictoView() throws Exception{
+    public PictoView preparePictoView(){
         PictoView pictoView = new PictoView(context);
         pictoView.setUpContext(context);
         pictoView.setUpGlideAttatcher(context);
@@ -60,40 +54,38 @@ public class CombineImages implements DrawableInterface {
 
     public Bitmap getDrawableFromPictoView(JSONObject json,GestionarBitmap gestionarBitmap){
         Bitmap bitmap = null;
-        try {
             PictoView pictoView = preparePictoView();
             pictoView.setPictogramsLibraryPictogram(new Pictogram(json, ConfigurarIdioma.getLanguaje()));
             Drawable draw = pictoView.getImageView().getDrawable();
             bitmap = gestionarBitmap.drawableToBitmap(draw);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
         return bitmap;
+    }
+    public Drawable getDrawableToPhrase(JSONObject json){
+            PictoView pictoView = preparePictoView();
+            pictoView.setPictogramsLibraryPictogram(new Pictogram(json, ConfigurarIdioma.getLanguaje()));
+            return pictoView.getImageView().getDrawable();
     }
 
     public ArrayList<Drawable> getImages() {
         return images;
     }
-    public void loadPictogramsLogo(JSONObject json,Drawable imagen,Drawable nube) {
-
+    public Drawable loadPictogramsLogo(JSONObject json) {
+        Drawable nube = AppCompatResources.getDrawable(context, R.drawable.ic_baseline_cloud_download_24_big);//para evitar que no funcionen las frases mas usadas se pone el icono de la nube
+        Drawable icon = null;
         if (json != null) {
-            PictoView pictoView = new PictoView(context);
-            pictoView.setUpContext(context);
-            pictoView.setUpGlideAttatcher(context);
-            if(imagen == null){
                 if(ConnectionDetector.isNetworkAvailable(context)) {
-                        DrawableManager drawableManager = new DrawableManager();
-                          try {
-                              drawableManager.fetchDrawable(json.getJSONObject("imagen").getString("urlFoto"), this);
-                          } catch (JSONException e) {
-                              e.printStackTrace();
-                          }
-
-                    }else
-                        images.add(nube);
+                    DrawableManager drawableManager = new DrawableManager();
+                    try {
+                      icon =  drawableManager.fetchDrawable(json.getJSONObject("imagen").getString("urlFoto"));
+                    } catch (JSONException e) {
+                        Log.e(TAG, "exception: "+e.getMessage() );
+                       icon = nube;
+                    }
 
             }
         }
+        return icon;
     }
 
     public Drawable getOnlineImage(Drawable resource,Drawable resourceAux){
@@ -112,6 +104,11 @@ public class CombineImages implements DrawableInterface {
     public void fetchDrawable(Drawable drawable) {
         images.add(drawable);
 
+    }
+
+    @Override
+    public void fetchDrawable(Drawable drawable, int position) {
+        images.add(position,drawable);
     }
 
 }

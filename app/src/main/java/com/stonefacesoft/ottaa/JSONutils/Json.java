@@ -318,6 +318,11 @@ public class Json  {
                         public void fetchDrawable(Drawable drawable) {
 
                         }
+
+                        @Override
+                        public void fetchDrawable(Drawable drawable, int position) {
+
+                        }
                     });
             }
         } catch (JSONException e) {

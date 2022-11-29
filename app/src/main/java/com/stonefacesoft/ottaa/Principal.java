@@ -138,6 +138,7 @@ import com.stonefacesoft.ottaa.utils.traducirTexto;
 import com.stonefacesoft.pictogramslibrary.Classes.Pictogram;
 import com.stonefacesoft.pictogramslibrary.CloudStorageManager;
 import com.stonefacesoft.pictogramslibrary.utils.GlideAttatcher;
+import com.stonefacesoft.pictogramslibrary.utils.PictogramsLibrarySettings;
 import com.stonefacesoft.pictogramslibrary.utils.ValidateContext;
 import com.stonefacesoft.pictogramslibrary.view.PictoView;
 
