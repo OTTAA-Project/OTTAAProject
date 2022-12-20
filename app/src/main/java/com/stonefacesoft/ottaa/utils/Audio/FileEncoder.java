@@ -35,11 +35,8 @@ public class FileEncoder {
                 transformationRequest.buildUpon().setAudioMimeType(MimeTypes.AUDIO_OGG);
                 transformer = new  Transformer.Builder(mContext).setLooper(Looper.myLooper()).setTransformationRequest(transformationRequest).addListener(listener).build();
                 MediaItem mediaItem = MediaItem.fromUri(Uri.fromFile(new File(filePath)));
-                try {
-                    transformer.startTransformation(mediaItem,locationPath);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                transformer.startTransformation(mediaItem,locationPath);
+
             }
         });
 

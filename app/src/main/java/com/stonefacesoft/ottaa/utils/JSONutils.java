@@ -29,6 +29,7 @@ public class JSONutils {
      * */
     private final static String TAG = "JSONUtils";
     private static JSONutils _JsoNutils;
+    public static boolean useVolley;
 
     public static synchronized JSONutils getInstance(){
         if(_JsoNutils == null)
@@ -120,8 +121,16 @@ public class JSONutils {
     }
 
     public static int getTypeAsInteger(JSONObject object){
+        if(!useVolley){
+            try {
+                return object.getInt("wordType");
+            } catch (JSONException e) {
+                return 6;
+            }
+        }
         try{
-            String value = object.getString("part_of_speech");
+            JSONObject picto = object.getJSONObject("picto");
+            String value = picto.getString("part_of_speech");
             switch (value){
                 case "subject":
                     return 1;
@@ -151,8 +160,36 @@ public class JSONutils {
         }
         return "";
     }
+    public static String getUriFromAraasac(JSONObject object){
+        try {
+            return object.getString("imagePNGURL");
+        } catch (JSONException e) {
+            e.printStackTrace();
 
+        }
+        return "";
+    }
 
+    public static String getUriByApi( JSONObject object) throws JSONException {
+        if(useVolley){
+            JSONObject picto = object.getJSONObject("picto");
+            return getUriFromGlobalSymbols(picto);
+        }
+        else
+            return getUriFromAraasac(object);
+    }
+
+    public static String getStringByApi(JSONObject object) throws JSONException {
+        if(useVolley){
+            return StringFormatter.decodeCharsUTF8(   object.getString("text"));
+        }
+        else
+            return object.getString("name");
+    }
+
+    public static void setUseVolley(boolean useVolley) {
+        JSONutils.useVolley = useVolley;
+    }
 
     public static int getWordType(JSONObject object) {
         try {

@@ -9,6 +9,7 @@ import androidx.appcompat.widget.SearchView;
 import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.security.ProviderInstaller;
 import com.google.firebase.perf.metrics.AddTrace;
 import com.stonefacesoft.ottaa.FirebaseRequests.FirebaseUtils;
 import com.stonefacesoft.ottaa.FirebaseRequests.SubirArchivosFirebase;
@@ -55,6 +56,7 @@ public class FindAllPictograms extends AppCompatActivity {
         findAllPictograms_recycler_view.setArray();
         findAllPictograms_recycler_view.setUploadFirebaseFile(uploadFile);
         findAllPictograms_recycler_view.showRecyclerView(false);
+
     }
 
     @Override

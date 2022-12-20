@@ -157,9 +157,9 @@ public class GaleriaArasaac extends AppCompatActivity implements SearchView.OnQu
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
                 try {
-                    String url = JSONutils.getUriFromGlobalSymbols(pictosDelGrupo.get(position).getJSONObject("picto"));
-                    text = StringFormatter.decodeCharsUTF8(pictosDelGrupo.get(position).getString("text"));
-                    tipo = JSONutils.getTypeAsInteger(pictosDelGrupo.get(position).getJSONObject("picto"));
+                    String url = JSONutils.getUriByApi(pictosDelGrupo.get(position));
+                    text = JSONutils.getStringByApi(pictosDelGrupo.get(position));
+                    tipo = JSONutils.getTypeAsInteger(pictosDelGrupo.get(position));
                     final DownloadArasaac downloadTask = new DownloadArasaac(GaleriaArasaac.this,text,tipo);
                     downloadTask.execute(url);
                 } catch (JSONException e) {
@@ -251,13 +251,18 @@ public class GaleriaArasaac extends AppCompatActivity implements SearchView.OnQu
         }
 
         @Override
-        public void findPictograms(JSONObject value) {
+        public void findPictogramsJsonObject(JSONObject value) {
             arasaac = value;
+            try {
+                pictogramsResult = new JSONArray(arasaac.getJSONArray("symbols"));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
             onPostExecute(null);
         }
 
         @Override
-        public void findPictograms(JSONArray value) {
+        public void findPictogramsJsonArray(JSONArray value) {
             pictogramsResult = value;
             onPostExecute(null);
         }

@@ -1,7 +1,6 @@
 package com.stonefacesoft.ottaa;
 
 
-import static com.facebook.FacebookSdk.setAutoLogAppEventsEnabled;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -54,8 +53,6 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 
 import com.airbnb.lottie.LottieAnimationView;
-import com.facebook.BuildConfig;
-import com.facebook.FacebookSdk;
 import com.google.android.exoplayer2.transformer.Transformer;
 import com.google.android.gms.common.api.internal.ConnectionCallbacks;
 import com.google.android.gms.location.LocationRequest;
@@ -385,10 +382,7 @@ public class Principal extends AppCompatActivity implements View
         sharedPrefsDefault = PreferenceManager.getDefaultSharedPreferences(this);
         prepareLayout();
         //Facebook analytics
-        setAutoLogAppEventsEnabled(true);
-        if (BuildConfig.DEBUG) {
-            FacebookSdk.setIsDebugEnabled(true);
-        }
+
         FirebaseInstallations.getInstance().getId().addOnCompleteListener(new OnCompleteListener<String>() {
             @Override
             public void onComplete(@NonNull Task<String> task) {

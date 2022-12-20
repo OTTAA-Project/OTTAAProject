@@ -7,7 +7,7 @@ import android.preference.PreferenceManager;
 
 import androidx.annotation.NonNull;
 
-import com.facebook.appevents.AppEventsLogger;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -67,15 +67,9 @@ public class FirebaseDatabaseRequest {
         mDatabase.child(Constants.PAGO).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                AppEventsLogger logger = AppEventsLogger.newLogger(mContext);
-                if (!dataSnapshot.hasChild(auth.getCurrentUser().getUid())){
+                if (!dataSnapshot.hasChild(auth.getCurrentUser().getUid())) {
                     dataSnapshot.child(auth.getCurrentUser().getUid()).child(Constants.PAGO).getRef().setValue("0");
-
-                        logger.logEvent("Usuario Nuevo");
-                }else{
-                        logger.logEvent("Usuario Viejo");
                 }
-
             }
 
             @Override

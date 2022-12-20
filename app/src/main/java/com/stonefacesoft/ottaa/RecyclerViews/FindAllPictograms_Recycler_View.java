@@ -229,6 +229,7 @@ public class FindAllPictograms_Recycler_View extends Custom_recyclerView impleme
 
         //        private ProgressDialog progressDialog = new ProgressDialog(GaleriaArasaac.this);
         String texto;
+        boolean useVolley;
 
         public HTTPRequest(String texto) {
             buscarArasaac.setSearchAraasacPictogram(this);
@@ -250,12 +251,12 @@ public class FindAllPictograms_Recycler_View extends Custom_recyclerView impleme
             try {
                 if (arasaacPictogramsResult!= null) {
 
-                    for (int i = 0; i < arasaacPictogramsResult.length(); i++) {
+                    for (int i = 0; i < arasaacPictogramsResult.length()-1; i++) {
                         JSONObject pictogram = arasaacPictogramsResult.getJSONObject(i);
                         Pictogram picto = new Pictogram();
-                        String url = JSONutils.getUriFromGlobalSymbols(pictogram.getJSONObject("picto"));
-                        String text = StringFormatter.decodeCharsUTF8(pictogram.getString("text"));
-                        int tipo = JSONutils.getTypeAsInteger(pictogram.getJSONObject("picto"));
+                        String url = JSONutils.getUriByApi(pictogram);
+                        String text = JSONutils.getStringByApi(pictogram);
+                        int tipo = JSONutils.getTypeAsInteger(pictogram);
                         picto.setLocale(sharedPrefsDefault.getString(mActivity.getResources().getString(R.string.str_idioma), "en"));
                         picto.setName_en(text);
                         picto.setName(text);
@@ -277,13 +278,18 @@ public class FindAllPictograms_Recycler_View extends Custom_recyclerView impleme
         }
 
         @Override
-        public void findPictograms(JSONObject value) {
+        public void findPictogramsJsonObject(JSONObject value) {
             arasaac = value;
+            try {
+                arasaacPictogramsResult = arasaac.getJSONArray("symbols");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
             onPostExecute(null);
         }
 
         @Override
-        public void findPictograms(JSONArray value) {
+        public void findPictogramsJsonArray(JSONArray value) {
             arasaacPictogramsResult = value;
             onPostExecute(null);
         }

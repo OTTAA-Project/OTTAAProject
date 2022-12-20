@@ -150,12 +150,13 @@ dependencies {
     implementation 'androidx.preference:preference:1.2.0'
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
     // places library
-    implementation 'com.google.android.libraries.places:places:2.7.0'
+    implementation 'com.google.android.libraries.places:places:3.0.0'
     //play services library
     implementation 'com.google.android.gms:play-services-analytics:18.0.2'
     implementation 'com.google.android.gms:play-services-auth:20.4.0'
     implementation 'com.google.android.gms:play-services-base:18.1.0'
     implementation 'com.google.android.gms:play-services-location:21.0.1'
+    implementation 'com.google.http-client:google-http-client:1.34.2'
 
     //implementation
     implementation 'com.android.volley:volley:1.2.1'
@@ -221,7 +222,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-config:21.2.0'
     implementation 'com.google.firebase:firebase-core:21.1.1'
     implementation 'com.google.firebase:firebase-database:20.1.0'
-    implementation 'com.google.firebase:firebase-messaging:23.1.0'
+    implementation 'com.google.firebase:firebase-messaging:23.1.1'
     implementation 'com.google.firebase:firebase-inappmessaging-display:20.2.0'
     implementation 'com.google.firebase:firebase-perf:20.3.0'
     implementation 'com.google.firebase:firebase-storage:20.1.0'
@@ -236,9 +237,7 @@ dependencies {
     implementation 'com.google.android.material:material:1.7.0'
     //Guava library
     implementation("com.google.guava:guava:30.1.1-android")
-    //Facebook
-    implementation 'com.facebook.android:facebook-android-sdk:8.2.0'
-    implementation 'com.facebook.android:facebook-core:12.3.0'
+
     //Image Cropper
     implementation 'com.github.CanHub:Android-Image-Cropper:4.3.0'
     // pictograms library
@@ -246,10 +245,10 @@ dependencies {
     //Sendgrid integration
     implementation 'com.android.volley:volley:1.2.1'
 
-    implementation 'com.google.android.exoplayer:exoplayer:2.18.1'
-    implementation 'com.google.android.exoplayer:exoplayer-dash:2.18.1'
-    implementation 'com.google.android.exoplayer:exoplayer-transformer:2.18.1'
-    implementation 'com.google.android.exoplayer:exoplayer-core:2.18.1'
+    implementation 'com.google.android.exoplayer:exoplayer:2.18.2'
+    implementation 'com.google.android.exoplayer:exoplayer-dash:2.18.2'
+    implementation 'com.google.android.exoplayer:exoplayer-transformer:2.18.2'
+    implementation 'com.google.android.exoplayer:exoplayer-core:2.18.2'
 
 
 
