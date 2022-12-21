@@ -107,6 +107,8 @@ public class BuscarArasaac {
     }
 
 
+
+
     private void requestHttp(String request){
         try {
             StringBuilder resultado = new StringBuilder();

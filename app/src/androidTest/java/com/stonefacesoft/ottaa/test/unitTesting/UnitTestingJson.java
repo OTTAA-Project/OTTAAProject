@@ -29,19 +29,11 @@ public class UnitTestingJson extends TestCase {
     public void JsonTesting(){
         json=Json.getInstance();
         json.setmContext(context);
-        try {
-            json.initJsonArrays();
-
-            pictos=json.getmJSONArrayTodosLosPictos();
+        json.initJsonArrays();
+        pictos=json.getmJSONArrayTodosLosPictos();
             //json.crearGrupo("hola","hello","",0);
+        Log.e("TAG", "JsonTesting: "+json.getmJSONArrayTodosLosGrupos().toString() );
 
-            Log.e("TAG", "JsonTesting: "+json.getmJSONArrayTodosLosGrupos().toString() );
-        } catch (JSONException e) {
-            e.printStackTrace();
-            Log.e("TAG", "JsonTesting: error" );
-        } catch (FiveMbException e) {
-            e.printStackTrace();
-        }
     }
 
     @Override

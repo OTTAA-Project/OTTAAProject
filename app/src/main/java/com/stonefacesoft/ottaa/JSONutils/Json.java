@@ -145,23 +145,63 @@ public class Json  {
     /**
      * Load all the jsonArray objects
      */
-    public void initJsonArrays() throws JSONException, FiveMbException {
+    public void initJsonArrays() {
         //Cargo por unica vez los archivos al array
-        mJSONArrayTodosLosPictos = readJSONArrayFromFile(Constants.ARCHIVO_PICTOS);
-        new SortPictograms().quickSort(mJSONArrayTodosLosPictos,0,mJSONArrayTodosLosPictos.length()-1);
-        mJSONArrayTodosLosGrupos = readJSONArrayFromFile(Constants.ARCHIVO_GRUPOS);
-        GroupManagerClass.getInstance().setmGroup(mJSONArrayTodosLosGrupos);
-        mJSONArrayTodasLasFrases = readJSONArrayFromFile(Constants.ARCHIVO_FRASES);
-        mJSONArrayPictosSugeridos = readJSONArrayFromFile(Constants.ARCHIVO_PICTOS_DATABASE);
-        mJSonArrayFrasesFavoritas = readJSONArrayFromFile(Constants.ARCHIVO_FRASES_FAVORITAS);
-        mJSonArrayJuegos = readJSONArrayFromFile(Constants.ARCHIVO_JUEGO);
+        try {
+            mJSONArrayTodosLosPictos = readJSONArrayFromFile(Constants.ARCHIVO_PICTOS);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (FiveMbException e) {
+            e.printStackTrace();
+        }
+        try {
+            new SortPictograms().quickSort(mJSONArrayTodosLosPictos,0,mJSONArrayTodosLosPictos.length()-1);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        try {
+            mJSONArrayTodosLosGrupos = readJSONArrayFromFile(Constants.ARCHIVO_GRUPOS);
+            GroupManagerClass.getInstance().setmGroup(mJSONArrayTodosLosGrupos);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (FiveMbException e) {
+            e.printStackTrace();
+        }
+        try {
+            mJSONArrayTodasLasFrases = readJSONArrayFromFile(Constants.ARCHIVO_FRASES);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (FiveMbException e) {
+            e.printStackTrace();
+        }
+        try {
+            mJSONArrayPictosSugeridos = readJSONArrayFromFile(Constants.ARCHIVO_PICTOS_DATABASE);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (FiveMbException e) {
+            e.printStackTrace();
+        }
+        try {
+            mJSonArrayFrasesFavoritas = readJSONArrayFromFile(Constants.ARCHIVO_FRASES_FAVORITAS);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (FiveMbException e) {
+            e.printStackTrace();
+        }
+        try {
+            mJSonArrayJuegos = readJSONArrayFromFile(Constants.ARCHIVO_JUEGO);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (FiveMbException e) {
+            e.printStackTrace();
+        }
 
     }
 
     /**
      * Update the JsonArray
      */
-    public void refreshJsonArrays() throws JSONException, FiveMbException {
+    public void refreshJsonArrays(){
         initJsonArrays();
     }
 

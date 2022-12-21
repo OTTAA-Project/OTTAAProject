@@ -159,24 +159,23 @@ public class SubirArchivosFirebase {
         mDatabasePictos.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull final DataSnapshot pictosSnapshot) {
-                if (pictosSnapshot.exists())
+                if (pictosSnapshot.exists()){
                     mFbSuccessListenerInterfaz.onDatosEncontrados(Constants.PICTOS_ENCONTRADOS);
-
-
+                }
                 mDatabaseGrupos.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull final DataSnapshot gruposSnapshot) {
 
-                        if (gruposSnapshot.exists())
+                        if (gruposSnapshot.exists()){
                             mFbSuccessListenerInterfaz.onDatosEncontrados(Constants.GRUPOS_ENCONTRADOS);
-
-
+                        }
                         mDatabaseFrases.addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot frasesSnapshot) {
 
-                                if (frasesSnapshot.exists())
+                                if (frasesSnapshot.exists()){
                                     mFbSuccessListenerInterfaz.onDatosEncontrados(Constants.FRASES_ENCTONRADOS);
+                                }
                             }
 
                             @Override
@@ -191,6 +190,7 @@ public class SubirArchivosFirebase {
                     public void onCancelled(@NonNull DatabaseError databaseError) {
 
                     }
+
                 });
             }
 
@@ -198,6 +198,8 @@ public class SubirArchivosFirebase {
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
+
+
         });
 
     }

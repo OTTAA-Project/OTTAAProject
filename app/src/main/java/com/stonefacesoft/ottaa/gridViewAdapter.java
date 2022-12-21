@@ -111,13 +111,14 @@ public class gridViewAdapter extends ArrayAdapter {
                }
          }
         }
+
+         new CargarRow(position, holder).execute();
         try {
-            new CargarRow(position, holder).execute();
-            holder.pictoView.setCustom_Texto(StringFormatter.decodeCharsUTF8(data.get(position).getString("text")));
-            holder.pictoView.setCustom_Color(cargarColor(JSONutils.getTypeAsInteger(data.get(position).getJSONObject("picto"))));
+            holder.pictoView.setCustom_Texto(JSONutils.getStringByApi(data.get(position)));
         } catch (JSONException e) {
-                   e.printStackTrace();
+            e.printStackTrace();
         }
+        holder.pictoView.setCustom_Color(cargarColor(JSONutils.getTypeAsInteger(data.get(position))));
 
 
        return row;
@@ -165,13 +166,13 @@ public class gridViewAdapter extends ArrayAdapter {
 
         @Override
         protected Void doInBackground(Void... voids) {
-            try {
                 if (data.size() > 0){
-                    uri =JSONutils.getUriFromGlobalSymbols( data.get(mPosition).getJSONObject("picto"));
+                    try {
+                        uri =JSONutils.getUriByApi(data.get(mPosition));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
             return null;
         }
 

@@ -254,7 +254,7 @@ public class GaleriaArasaac extends AppCompatActivity implements SearchView.OnQu
         public void findPictogramsJsonObject(JSONObject value) {
             arasaac = value;
             try {
-                pictogramsResult = new JSONArray(arasaac.getJSONArray("symbols"));
+                pictogramsResult = arasaac.getJSONArray("symbols");
             } catch (JSONException e) {
                 e.printStackTrace();
             }

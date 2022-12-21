@@ -251,11 +251,7 @@ public class SplashActivity extends Activity {
             Executor executor = Executors.newSingleThreadExecutor();
             Handler handler = new Handler(Looper.getMainLooper());
             executor.execute(() -> {
-                try {
-                    Json.getInstance().setmContext(getApplicationContext()).initJsonArrays();
-                } catch (JSONException | FiveMbException e) {
-                    Log.e(TAG, "borrarPictosViejos: Error" + e.getMessage());
-                }
+                Json.getInstance().setmContext(getApplicationContext()).initJsonArrays();
                 handler.post(SplashActivity.this::accessDashboard);
             });
         }
