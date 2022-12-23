@@ -399,6 +399,11 @@ public class ActivityInformes extends AppCompatActivity implements CloudFunction
 
                 }
 
+                @Override
+                public void FileIsCreated(Bitmap bitmap) {
+
+                }
+
             });
             MyRunnable obj = new MyRunnable(mostUsedSentencesArray);
             handler.post(obj);
@@ -430,6 +435,11 @@ public class ActivityInformes extends AppCompatActivity implements CloudFunction
 
                     @Override
                     public void FileIsCreated() {
+
+                    }
+
+                    @Override
+                    public void FileIsCreated(Bitmap bitmap) {
 
                     }
                 });

@@ -1,6 +1,7 @@
 package com.stonefacesoft.ottaa;
 
 import android.content.Context;
+import android.os.Build;
 import android.util.Log;
 
 import com.android.volley.Cache;
@@ -15,15 +16,38 @@ import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.datatransport.cct.internal.LogEvent;
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.security.ProviderInstaller;
 import com.google.api.LogDescriptor;
 import com.stonefacesoft.ottaa.Interfaces.SearchAraasacPictogram;
+import com.stonefacesoft.ottaa.utils.JSONutils;
+import com.stonefacesoft.ottaa.utils.StringFormatter;
+
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.charset.Charset;
+import java.nio.charset.CharsetDecoder;
+import java.nio.charset.StandardCharsets;
+import java.security.KeyStore;
+import java.security.NoSuchAlgorithmException;
+
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSession;
+import javax.net.ssl.SSLSocketFactory;
+import javax.net.ssl.TrustManagerFactory;
 
 import kotlin.Result;
 
@@ -31,8 +55,9 @@ import kotlin.Result;
  * Created by Cristian on 21/6/2016.
  */
 public class BuscarArasaac {
+    private final String TAG = "BuscarArasaac";
     SearchAraasacPictogram searchAraasacPictogram;
-    JSONObject arasaac;
+    private boolean useVolley;
 
     public void setSearchAraasacPictogram(SearchAraasacPictogram searchAraasacPictogram) {
         this.searchAraasacPictogram = searchAraasacPictogram;
@@ -40,16 +65,33 @@ public class BuscarArasaac {
 
     public void HacerBusqueda(String texto, String lang, Context context){
         String direction;
-        direction = "http://old.arasaac.org/api/index.php?callback=json&language=" + lang.toUpperCase() + "&word=" + texto.replaceAll(" ","+") +
-                "%&catalog=colorpictos&thumbnailsize=150&TXTlocate=4&KEY="+context.getResources().getString(R.string.galeria_araasac_api_key);
+        String key = context.getResources().getString(R.string.galeria_araasac_api_key);
+
+        String aux =texto.replaceAll(" ","_");
+        String globalsymbol = "https://globalsymbols.com/api/v1/labels/search?query="+texto+"&symbolset=arasaac&language="+changeLanguage(lang)+"&limit=100";
+        String araasac = "http://old.arasaac.org/api/index.php?callback=json&language="+lang+"&word="+aux+"%&catalog=colorpictos&thumbnailsize=150&TXTlocate=4&KEY="+key;
+        if(Build.VERSION.SDK_INT<= Build.VERSION_CODES.M){
+            JSONutils.setUseVolley(false);
+            requestHttp(araasac);
+        }
+        else{
+            JSONutils.setUseVolley(true);
+            requestVolley(context,globalsymbol);
+        }
+    }
+
+
+    private void requestVolley(Context context,String request){
         RequestQueue requestQueue = Volley.newRequestQueue(context,new HurlStack());
+
+
         requestQueue.start();
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, direction, new Response.Listener<String>() {
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, request, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 try {
-                    arasaac = new JSONObject(response);
-                    searchAraasacPictogram.findPictograms(arasaac);
+                    JSONArray object = new JSONArray(response);
+                    searchAraasacPictogram.findPictogramsJsonArray(object);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -57,10 +99,69 @@ public class BuscarArasaac {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.i("BuscarAraasac","Error :" + error.getMessage());
+                Log.e("BuscarAraasac","Error :" + error.getMessage());
             }
         });
+
         requestQueue.add(stringRequest);
+    }
+
+
+
+
+    private void requestHttp(String request){
+        try {
+            StringBuilder resultado = new StringBuilder();
+            String encodeUrl = request.replaceAll("%","%25");
+            URL url = new URL(encodeUrl);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("GET");
+
+            BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            String response;
+            while ((response = reader.readLine())!=null){
+                resultado.append(response);
+            }
+            reader.close();
+            JSONObject object = new JSONObject(resultado.toString());
+            searchAraasacPictogram.findPictogramsJsonObject(object);
+        } catch (Exception ex) {
+            Log.e("error_BuscarAraasac", ex.toString());
+        }
+    }
+
+    private HostnameVerifier mVerifier(String host){
+        HostnameVerifier hostnameVerifier = new HostnameVerifier() {
+            @Override
+            public boolean verify(String hostname, SSLSession session) {
+                HostnameVerifier hv = HttpsURLConnection.getDefaultHostnameVerifier();
+                return hv.verify(host,session);
+            }
+        };
+        return hostnameVerifier;
+    }
+
+
+    private String changeLanguage(String lang){
+        String language = "eng";
+        switch (lang){
+            case "es":
+                return "spa";
+            case "pt":
+                return "por";
+            case "ca":
+                return "cat";
+            case "fr":
+                return "fra";
+            case "it":
+                return "ita";
+            case "ar":
+                return "ara";
+            case "da":
+                return "dan";
+            default:
+                return language;
+        }
     }
 
 }

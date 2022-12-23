@@ -1,7 +1,6 @@
 package com.stonefacesoft.ottaa;
 
 
-import static com.facebook.FacebookSdk.setAutoLogAppEventsEnabled;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -13,6 +12,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.content.res.Configuration;
+import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -53,8 +53,6 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 
 import com.airbnb.lottie.LottieAnimationView;
-import com.facebook.BuildConfig;
-import com.facebook.FacebookSdk;
 import com.google.android.exoplayer2.transformer.Transformer;
 import com.google.android.gms.common.api.internal.ConnectionCallbacks;
 import com.google.android.gms.location.LocationRequest;
@@ -69,6 +67,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.database.annotations.Nullable;
+import com.google.firebase.inappmessaging.FirebaseInAppMessaging;
 import com.google.firebase.installations.FirebaseInstallations;
 import com.google.firebase.perf.metrics.AddTrace;
 import com.google.firebase.storage.FirebaseStorage;
@@ -116,6 +115,7 @@ import com.stonefacesoft.ottaa.utils.Firebase.CrashlyticsUtils;
 import com.stonefacesoft.ottaa.utils.InmersiveMode;
 import com.stonefacesoft.ottaa.utils.IntentCode;
 import com.stonefacesoft.ottaa.utils.JSONutils;
+import com.stonefacesoft.ottaa.utils.TalkActions.ProcessPhrase;
 import com.stonefacesoft.ottaa.utils.UserLicence.LicenciaUsuario;
 import com.stonefacesoft.ottaa.utils.MovableFloatingActionButton;
 import com.stonefacesoft.ottaa.utils.ObservableInteger;
@@ -133,6 +133,7 @@ import com.stonefacesoft.ottaa.utils.textToSpeech;
 import com.stonefacesoft.ottaa.utils.timer_pictogram_clicker;
 import com.stonefacesoft.ottaa.utils.traducirTexto;
 import com.stonefacesoft.pictogramslibrary.Classes.Pictogram;
+import com.stonefacesoft.pictogramslibrary.CloudStorageManager;
 import com.stonefacesoft.pictogramslibrary.utils.GlideAttatcher;
 import com.stonefacesoft.pictogramslibrary.utils.ValidateContext;
 import com.stonefacesoft.pictogramslibrary.view.PictoView;
@@ -266,6 +267,7 @@ public class Principal extends AppCompatActivity implements View
     private FirebaseUtils firebaseUtils;
     private TextView toolbarPlace;
     private TraducirFrase traducirFrase;
+    private ProcessPhrase processPhrase;
     private PlacesImplementation placesImplementation;
     private Progress_dialog_options firebaseDialog;
     private ImageButton btn_share;
@@ -345,8 +347,6 @@ public class Principal extends AppCompatActivity implements View
 
     @Override
     public void onDatosEncontrados(int datosEncontrados) {
-        ConnectionDetector mConnectionDetector = new ConnectionDetector(getApplicationContext());
-
         mCheckDatos += datosEncontrados;
         Log.d(TAG, "onDatosEncontrados: " + mCheckDatos);
         if (mCheckDatos == Constants.TODO_ENCONTRADO) {
@@ -359,8 +359,15 @@ public class Principal extends AppCompatActivity implements View
                     getFirebaseDialog().mostrarDialogo();
                     mBajarJsonFirebase.syncPictogramsandGroups();
                 }
-            } catch (JSONException | FiveMbException e) {
+            } catch (JSONException e) {
+                Log.e(TAG, "onDatosEncontrados: "+e.getMessage() );
                 e.printStackTrace();
+            }catch (FiveMbException ex){
+                Log.e(TAG, "onDatosEncontrados: "+ex.getMessage() );
+                ex.printStackTrace();
+            }catch (Exception exe){
+                Log.e(TAG, "onDatosEncontrados: "+exe.getMessage() );
+                exe.printStackTrace();
             }
         } else {
             Log.e(TAG, "onDatosEncontrados: No existen datos");
@@ -379,10 +386,7 @@ public class Principal extends AppCompatActivity implements View
         sharedPrefsDefault = PreferenceManager.getDefaultSharedPreferences(this);
         prepareLayout();
         //Facebook analytics
-        setAutoLogAppEventsEnabled(true);
-        if (BuildConfig.DEBUG) {
-            FacebookSdk.setIsDebugEnabled(true);
-        }
+
         FirebaseInstallations.getInstance().getId().addOnCompleteListener(new OnCompleteListener<String>() {
             @Override
             public void onComplete(@NonNull Task<String> task) {
@@ -393,7 +397,6 @@ public class Principal extends AppCompatActivity implements View
                 }
             }
         });
-
         initComponents();
         System.gc();
 
@@ -425,13 +428,7 @@ public class Principal extends AppCompatActivity implements View
 
         if (mCheckDescarga == Constants.TODO_DESCARGADO) {
             mCheckDescarga = 0;
-            try {
-                json.refreshJsonArrays();
-            } catch (JSONException e) {
-                Log.e(TAG, "onDescargaCompleta: Error al refrescar los pictos" + e.toString());
-            } catch (FiveMbException e) {
-                e.printStackTrace();
-            }
+            json.refreshJsonArrays();
             initFirstPictograms();
 
         }
@@ -746,6 +743,8 @@ public class Principal extends AppCompatActivity implements View
 
     @Override
     protected void onStop() {
+        if(json == null)
+            json =  Json.getInstance();
         if (!json.getFallJson() && user != null) {
             if(user.getmAuth().getCurrentUser() != null)
                 if (isSettings) {
@@ -1089,7 +1088,6 @@ public class Principal extends AppCompatActivity implements View
     @Override
     public boolean onLongClick(View v) {
         if (v.getId() == R.id.btn_borrar) {
-            //Registo que uso un funcion que nos interesa que use
             getAnalyticsFirebase().customEvents("Erase", "Principal", "Erase all pictograms");
             Reset();
         }
@@ -1151,7 +1149,6 @@ public class Principal extends AppCompatActivity implements View
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        Log.d(TAG, "onKeyDown: " + keyCode);
         if (requestScreenScanningIsEnabled()) {
 
             if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT) {
@@ -1308,7 +1305,6 @@ public class Principal extends AppCompatActivity implements View
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 try {
                     String valuePago = dataSnapshot.child(Constants.PAGO).getValue() + "";
-                    Log.d(TAG, "onDataChange: PagoDatabase: " + valuePago);
                     if (Integer.parseInt(valuePago) == 0) {
                         sharedPrefsDefault.edit().putBoolean(Constants.BARRIDO_BOOL, false).apply();
                         sharedPrefsDefault.edit().putInt(Constants.PREMIUM, 0).apply();
@@ -1351,7 +1347,6 @@ public class Principal extends AppCompatActivity implements View
 
     @Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
-        Log.d(TAG, "onKeyUp: " + event.getAction());
         if (barridoPantalla!= null)
             if(barridoPantalla.isBarridoActivado()) {
                 tocarTeclaAcordeUbicacion(event, keyCode, sharedPrefsDefault.getInt("orientacion_joystick", 0));
@@ -1471,14 +1466,8 @@ public class Principal extends AppCompatActivity implements View
 
     public void CargarJson() {
         initJson();
-        try {
-            json.initJsonArrays();
-            json.cargarPictosSugeridosJson();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        } catch (FiveMbException e) {
-            e.printStackTrace();
-        }
+        json.initJsonArrays();
+        json.cargarPictosSugeridosJson();
 
         if (json.getmJSONArrayTodosLosPictos() != null && json.getmJSONArrayTodosLosPictos().length() > 0) {
             try {
@@ -1535,7 +1524,6 @@ public class Principal extends AppCompatActivity implements View
 
     private void addOption(JSONObject opcion, PictoView picto, Animation animation) {
         if(ValidateContext.isValidContext(this)){
-            Log.d(TAG, "addOption: " + opcion.toString());
             Pictogram pictogram = new Pictogram(opcion, ConfigurarIdioma.getLanguaje());
             picto.setUpGlideAttatcher(this);
             picto.setUpContext(this);
@@ -1584,7 +1572,6 @@ public class Principal extends AppCompatActivity implements View
     public void onLowMemory() {
         super.onLowMemory();
         this.onTrimMemory(TRIM_MEMORY_RUNNING_LOW);
-        Log.d(TAG, "onLowMemory: Trimming Memory");
     }
 
     @Override
@@ -1620,7 +1607,6 @@ public class Principal extends AppCompatActivity implements View
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle presses on the action bar items
-        Log.d(TAG, "onNavigationItemSelected: ");
         Bundle bundle = new Bundle();
         switch (item.getItemId()) {
             case R.id.action_parar:
@@ -1688,7 +1674,6 @@ public class Principal extends AppCompatActivity implements View
                 Place place = placesImplementation.getPlace();
                 String name = placesImplementation.getPlaceName(place);
                 String placeType = placesImplementation.getPlaceType(place);
-                Log.d(TAG, "onOptionsItemSelected: " + name + " " + placeType);
                 locationItem.setTitle(name + " : " + placesImplementation.getPlaceName(placeType));
                 json.setPlaceName(placeType);
             }else{
@@ -1712,15 +1697,14 @@ public class Principal extends AppCompatActivity implements View
     public void loadDrawable( Pictogram pictogram,int position) {
         GlideAttatcher attatcher = new GlideAttatcher(this);
         if (pictogram.getEditedPictogram().isEmpty()) {
-            Log.d(TAG, "loadDrawable: "+ pictogram.getPictogram());
             if(!pictogram.getPictogram().startsWith("https://")){
-                attatcher.UseCornerRadius(true).loadDrawable(this.getResources().getDrawable(this.getContext().getResources().getIdentifier(pictogram.getPictogram(),
-                    "drawable", this.getPackageName())), getImageView(position));
+                Drawable drawable = Json.getInstance().getIcono(pictogram.getObject());
+                if(drawable != null)
+                    attatcher.UseCornerRadius(true).loadDrawable(drawable, getImageView(position));
             }else{
                 attatcher.UseCornerRadius(true).loadDrawable(Uri.parse(pictogram.getPictogram()), getImageView(position));
             }
         } else {
-            Log.d(TAG, "loadDrawable: "+ pictogram.getEditedPictogram());
             File picto = new File(pictogram.getEditedPictogram());
             if (picto.exists())
                 attatcher.UseCornerRadius(true).loadDrawable(picto, getImageView(position));
@@ -1741,7 +1725,6 @@ public class Principal extends AppCompatActivity implements View
                         myTTS.getUtilsTTS().setTtsListener(new TTSListener() {
                             @Override
                             public void TTSonDone() {
-                                Log.d(TAG, "TTSonDone: ");
                                 Principal.this.runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
@@ -1792,7 +1775,6 @@ public class Principal extends AppCompatActivity implements View
                     compartirArchivos.seleccionarFormato(Oracion);
                 }
             } else if (sharedPrefsDefault.getBoolean(getString(R.string.mBoolModoExperimental), false)) {
-                Log.d(TAG, "onClick: " + historial.getListadoPictos().toString());
                 traducirfrase = new traducirTexto(getApplication());
                 if (Oracion.isEmpty() && historial.getListadoPictos().size() > 0)
                     CargarOracion(historial.getListadoPictos().get(0), sharedPrefsDefault.getString(getString(R.string.str_idioma), "en"));
@@ -1869,13 +1851,15 @@ public class Principal extends AppCompatActivity implements View
         }
     }
     @AddTrace(name = "GaleriaGruposResult",enabled = true)
-    private final void galeriaGruposResult(Intent data) {
+    private void galeriaGruposResult(Intent data) {
         if (data != null) {
+            if(json==null) {
+                json = Json.getInstance();
+            }
             json.setmJSONArrayTodosLosPictos(Json.getInstance().getmJSONArrayTodosLosPictos());
             Bundle extras = data.getExtras();
             if (extras != null) {
                 int Picto = extras.getInt("ID");
-                Log.d(TAG, "onActivityResult: Obteniendo Picto" + Picto);
                 if (Picto != 0) {
                     click(json.getPictoFromId2(Picto));
                 }
@@ -1884,7 +1868,6 @@ public class Principal extends AppCompatActivity implements View
     }
 
     private void editPictoResult(Intent data) {
-        Log.d(TAG, "onActivityResult: EditarPicto");
         try {
             loadOptions(json, pictoPadre);
         } catch (Exception e) {
@@ -1977,6 +1960,7 @@ public class Principal extends AppCompatActivity implements View
         firebaseUtils.setUpFirebaseDatabase();
         mDatabase = firebaseUtils.getmDatabase();
         analitycsFirebase = new AnalyticsFirebase(this);
+        CloudStorageManager.getInstance().setStorage(mStorageRef.getStorage());
     }
 
     private void initDefaultSettings(Context context) {
@@ -2273,7 +2257,6 @@ public class Principal extends AppCompatActivity implements View
     }
 
     public void speakBlock() {
-        Log.d(TAG, "speak: Oracion:" + Oracion);
         handlerHablar.removeCallbacks(animarHablar);
         if (mute) {
             speakAction();
@@ -2287,7 +2270,6 @@ public class Principal extends AppCompatActivity implements View
     public void speakAction() {
         myTTS.hablar(Oracion, getAnalyticsFirebase());
         savePhrases(Oracion, historial);
-        Log.d(TAG, "speak: Time in millis: " + System.currentTimeMillis() / 1000);
         resetSpeakAction();
     }
 
@@ -2324,12 +2306,23 @@ public class Principal extends AppCompatActivity implements View
     }
 
     public void nlgTalkAction(){
-        Oracion = EjecutarNLG();
-        if (!sharedPrefsDefault.getString(getString(R.string.str_idioma), "en").equals("en")) {
-            traducirFrase = new TraducirFrase(this, sharedPrefsDefault, animationView, getApplicationContext(), Oracion);
-            traducirFrase.setOracion(Oracion);
-            traducirFrase.execute();
-        } else {
+        if(ConnectionDetector.isNetworkAvailable(this)){
+            Oracion = EjecutarNLG();
+            if (!sharedPrefsDefault.getString(getString(R.string.str_idioma), "en").equals("en")) {
+                if(sharedPrefsDefault.getString(getString(R.string.str_idioma), "en").equals("es")){
+                    processPhrase = new ProcessPhrase(this, sharedPrefsDefault, animationView, getApplicationContext(), Oracion);
+                    processPhrase.setOracion(Oracion);
+                    processPhrase.execute(historial.nlgObject());
+
+                }else{
+                    traducirFrase = new TraducirFrase(this, sharedPrefsDefault, animationView, getApplicationContext(), Oracion);
+                    traducirFrase.setOracion(Oracion);
+                    traducirFrase.execute();
+                }
+            } else {
+                speak();
+            }
+        }else{
             speak();
         }
     }
@@ -2447,15 +2440,8 @@ public class Principal extends AppCompatActivity implements View
             json.getmJSONArrayTodosLosPictos().put(parent);
             json.setmJSONArrayTodosLosPictos(json.getmJSONArrayTodosLosPictos());
             json.guardarJson(Constants.ARCHIVO_PICTOS);
-            try {
-                json.refreshJsonArrays();
-            } catch (JSONException e) {
-                e.printStackTrace();
-            } catch (FiveMbException e) {
-                e.printStackTrace();
-            }finally {
-                pictoPadre =  json.getPictoFromId2(0);
-            }
+            json.refreshJsonArrays();
+            pictoPadre =  json.getPictoFromId2(0);
             loadDialog();
         }
 

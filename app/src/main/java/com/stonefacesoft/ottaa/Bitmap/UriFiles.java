@@ -6,7 +6,6 @@ import android.os.Environment;
 
 import java.io.File;
 
-import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class UriFiles {
 
@@ -21,7 +20,7 @@ public class UriFiles {
     public String downloadBeforeAndroidQ(){
         String pathAux = Environment.getExternalStorageDirectory()
                 + "/Android/data/"
-                + getApplicationContext().getPackageName()
+                + mContext.getApplicationContext().getPackageName()
                 + "/Files";
         return pathAux;
     }

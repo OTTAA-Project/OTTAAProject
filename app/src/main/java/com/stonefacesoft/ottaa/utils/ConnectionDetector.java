@@ -20,16 +20,6 @@ public class ConnectionDetector {
     public static boolean isNetworkAvailable(Context mContext) {
        m_context=mContext;
        ConnectivityManager connectivityManager=(ConnectivityManager) m_context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Network[] networks = connectivityManager.getAllNetworks();
-            NetworkInfo networkInfo;
-            for (Network mNetwork : networks) {
-                networkInfo = connectivityManager.getNetworkInfo(mNetwork);
-                if (networkInfo.getState().equals(NetworkInfo.State.CONNECTED)) {
-                    return true;
-                }
-            }
-        }else {
             if (connectivityManager != null) {
                 //noinspection deprecation
                 NetworkInfo[] info = connectivityManager.getAllNetworkInfo();
@@ -41,23 +31,13 @@ public class ConnectionDetector {
                     }
                 }
             }
-        }
+
         return false;
     }
 
     public static boolean isNetworkAvailable(Activity mContext) {
         mActivity=mContext;
         ConnectivityManager connectivityManager=(ConnectivityManager) mActivity.getSystemService(Context.CONNECTIVITY_SERVICE);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Network[] networks = connectivityManager.getAllNetworks();
-            NetworkInfo networkInfo;
-            for (Network mNetwork : networks) {
-                networkInfo = connectivityManager.getNetworkInfo(mNetwork);
-                if (networkInfo.getState().equals(NetworkInfo.State.CONNECTED)) {
-                    return true;
-                }
-            }
-        }else {
             if (connectivityManager != null) {
                 //noinspection deprecation
                 NetworkInfo[] info = connectivityManager.getAllNetworkInfo();
@@ -69,7 +49,6 @@ public class ConnectionDetector {
                     }
                 }
             }
-        }
         return false;
     }
 

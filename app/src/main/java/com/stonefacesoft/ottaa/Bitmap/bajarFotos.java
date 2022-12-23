@@ -65,11 +65,10 @@ public class bajarFotos {
                     String urlPhoto="";
                     String name ="";
                     if(dataSnapshot.hasChild("url_foto")) {
-                        dataSnapshot.child("url_foto").getValue().toString();
+                       urlPhoto = getSubstringUri(dataSnapshot.child("url_foto").getValue().toString());
                     }
                     if(dataSnapshot.hasChild("nombre_foto"))
                         name=dataSnapshot.child("nombre_foto").getValue().toString();
-                    Log.d(TAG, "onDataChange: "+ urlPhoto);
                     if(!urlPhoto.isEmpty()&&!name.isEmpty())
                     downloadUserImages(urlPhoto,name);
                 }
@@ -81,72 +80,17 @@ public class bajarFotos {
         });
     }
 
-    //Que hace sta clase?
-    public void collectUserData(Map<String,Object> users) {
 
-        int i = 0;
-        ArrayList<String> urlfotos = new ArrayList<>();
-
-        //iterate through each user, ignoring their UID
-        for (Map.Entry<String, Object> entry : users.entrySet()){
-
-            //Creamos un map para obtener los datos del usuario en firebase
-            if(!users.entrySet().isEmpty()) {
-                if(entry.getValue()!=null){
-                    Map userData = (Map) entry.getValue();
-                    urlfotos.add((String) userData.get("nombre_foto"));
-                    urlfotos.add((String) userData.get("url_foto"));
-                    urlfotos.add((String) userData.get("texto_picto"));
-                    downloadUserImages(((String) userData.get("url_foto")),((String) userData.get("nombre_foto")));
-
-                }
-            }
-
-
-        }
-    }
 
     private void downloadUserImages(String url_foto, final String nombre_picto){
-        //bajarFotos_DUI bajarFotos_downloadUserImages
         FirebaseStorage storage = FirebaseStorage.getInstance();
-        AtomicInteger atomicInteger = new AtomicInteger(0);
-        Log.d(TAG, "downloadUserImages: "+url_foto);
         try{
             StorageReference mReference = storage.getReferenceFromUrl(String.valueOf(url_foto));
-            String name=nombre_picto;
-
-            if(mReference.toString().contains(".png")) {
-                name=nombre_picto.replace(".jpg",".png");
-            }
-
-            Log.d(TAG,"bajarFotos_DUI : "+"nombreArchivo :"+name);
-            final File pictosUsuarioFile = new File(dir,name);
-            //metodo para bajar la foto en caso de no existir
+            final File pictosUsuarioFile = new File(dir,replaceJPGAsPNG(nombre_picto,mReference));
             if(!pictosUsuarioFile.exists()){
-                mReference.getFile(Uri.fromFile(pictosUsuarioFile)).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                        if(taskSnapshot.getTask().isComplete()) {
-                            Log.d(TAG,"bajarFoto_dowldUsrImag :"+" Downloading Pictures");
-                            if(mFbSuccessListenerInterfaz!=null)
-                                 mFbSuccessListenerInterfaz.onFotoDescargada(Constants.FOTO_DESCARGADA);
-                            Log.d(TAG,"position : "+"onSuccess: "+position +" - size:"+ size );
-                            if(isThelast)
-                                GaleriaGrupos2.showDismissDialog.sendMessage(0);
-                        }
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.e(TAG,"bajarFoto_dowldUsrImag : "+"Downloading picture error.\n" +
-                                "The error has  happened  at the position :"+position+" ,and the list size is : "+ size);
-                            GaleriaGrupos2.showDismissDialog.sendMessage(0);
-                    }
-                });
+                downloadFile(mReference,pictosUsuarioFile);
             }else{
-                Log.d(TAG,"bajarFoto_dowldUsrImag : "+"Los archivos ya existen y estan descargados");
                 mFbSuccessListenerInterfaz.onFotoDescargada(Constants.FOTOS_YA_DESCARGADAS);
-                Log.d(TAG,"position "+ "onSuccess: "+position +" - size:"+ size );
                 if(isThelast)
                     GaleriaGrupos2.showDismissDialog.sendMessage(0);
             }
@@ -155,5 +99,40 @@ public class bajarFotos {
             Log.e(TAG,"error "+ex.getMessage());
             GaleriaGrupos2.showDismissDialog.sendMessage(0);
         }
+    }
+
+    private String replaceJPGAsPNG(String pictoName,StorageReference mReference){
+        String name = pictoName;
+        if(mReference.toString().contains(".png"))
+            name = pictoName.replace(".jpg",".png");
+        if(mReference.toString().contains("null"))
+            name = pictoName.substring(0,pictoName.lastIndexOf("null"))+".jpg";
+        return name;
+    }
+
+    private String getSubstringUri(String path){
+        String result = path;
+        if(path.contains("?alt"))
+            result = path.substring(0,path.lastIndexOf("?alt"));
+        return result;
+    }
+
+    private void downloadFile(StorageReference mReference,File file){
+        mReference.getFile(Uri.fromFile(file)).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                if(taskSnapshot.getTask().isComplete()) {
+                    if(mFbSuccessListenerInterfaz!=null)
+                        mFbSuccessListenerInterfaz.onFotoDescargada(Constants.FOTO_DESCARGADA);
+                    if(isThelast)
+                        GaleriaGrupos2.showDismissDialog.sendMessage(0);
+                }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                GaleriaGrupos2.showDismissDialog.sendMessage(0);
+            }
+        });
     }
 }

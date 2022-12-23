@@ -202,6 +202,7 @@ public class GestionarBitmap  {
 
             Bitmap mBufferPictos = Bitmap.createScaledBitmap(imagenes.get(0), 250, 250, false);
             Bitmap logo=drawableToBitmap(mContext.getResources().getDrawable(R.drawable.logo_ottaa_dev));
+            Bitmap nube=drawableToBitmap(mContext.getResources().getDrawable(R.drawable.ic_cloud_download_orange));
             logo = Bitmap.createScaledBitmap(logo,75,75,true);
 
             mImagenFinalWidth = (mBufferPictos.getWidth()+mDeltax) * imagenes.size()+mDeltax;
@@ -215,7 +216,10 @@ public class GestionarBitmap  {
             comboImage.drawRect(0,0,mImagenFinal.getWidth(),mImagenFinal.getHeight(),pintura);
             for (int j = 0; j < imagenes.size(); j++) {
                 int despx =j*((mDeltax)+mBufferPictos.getWidth())+mDeltax;
-                comboImage.drawBitmap(redimensionarImagenMaximo(imagenes.get(j), mBufferPictos.getWidth(), mBufferPictos.getHeight()), despx, mDeltay, null);
+                if(imagenes.get(j)!=null)
+                    comboImage.drawBitmap(redimensionarImagenMaximo(imagenes.get(j), mBufferPictos.getWidth(), mBufferPictos.getHeight()), despx, mDeltay, null);
+                else
+                    comboImage.drawBitmap(redimensionarImagenMaximo(nube, mBufferPictos.getWidth(), mBufferPictos.getHeight()), despx, mDeltay, null);
             }
             Paint pinturas= preparePaint(20,200,255,255,255,false,true);
             int mPosicionLogoX,mPosicionLogoY;
@@ -348,8 +352,7 @@ public class GestionarBitmap  {
 
     //Devolvemos un bitmap con todos los pictos componentes de una frase
     public void getBitmapDeFrase(JSONObject frase,LoadOnlinePictograms loadOnlinePictograms) {
-        Log.e(TAG, "Phrase :"+frase);
-        preparePhrase(frase);
+        preparePhrase(frase,loadOnlinePictograms);
         Bitmap bitmap = null;
         if(combineImages(20, 20) != null ) {
             bitmap = getRoundedCornerBitmap(combineImages(20, 2), 20);
@@ -357,8 +360,8 @@ public class GestionarBitmap  {
         }else{
             Log.d(TAG, "getBitmapDeFrase: "+ "Combine Images Error");
         }
-
     }
+
 
 
     public void setEscribirTexto(boolean escribirTexto) {
@@ -382,30 +385,28 @@ public class GestionarBitmap  {
         return  frase.getJSONArray("picto_componentes");
     }
 
-    public void  preparePhrase(JSONObject phrase){
-        CombineImages mCombineImages = new CombineImages(mContext);
+    public void  preparePhrase(JSONObject phrase,LoadOnlinePictograms loadOnlinePictograms){
         imagenes = new ArrayList<>();
+        CombineImages mCombineImages = new CombineImages(mContext);
         JSONObject picto = null;
         JSONArray array = null;
+
         try {
             array = getJsonArray(phrase);
             for (int i = 0; i <= array.length()-1; i++) {
                 picto = json.getPictoFromId2(array.getJSONObject(i).getInt("id"));
-                try {
-                    mCombineImages.loadPictogram(json, picto);
-                }catch (Exception ex){
-                    Log.e(TAG, "preparePhrase: Image not found" );
+                Drawable drawable = mCombineImages.loadPictogram(json,picto);
+                if(drawable == null){
+                    drawable = mCombineImages.loadPictogramsLogo(picto);
                 }
+                if(drawable !=null)
+                imagenes.add(drawableToBitmap(drawable));
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        ArrayList<Drawable> aux = mCombineImages.getImages();
-        for (int i = 0; i < aux.size() ; i++) {
-            imagenes.add(drawableToBitmap(aux.get(i)));
-        }
-
     }
+
 
     public void setLoadOnlinePictograms(LoadOnlinePictograms loadOnlinePictograms) {
         this.loadOnlinePictograms = loadOnlinePictograms;

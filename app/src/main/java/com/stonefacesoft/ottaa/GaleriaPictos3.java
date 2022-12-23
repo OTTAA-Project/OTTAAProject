@@ -89,6 +89,8 @@ public class GaleriaPictos3 extends AppCompatActivity implements View.OnClickLis
     private ScrollFunctionGaleriaPictos function_scroll;
     private AnalyticsFirebase analyticsFirebase;
     private GaleriaPictosControls navigationControl;
+    private boolean editarPicto;
+
 
     @AddTrace(name = "GaleriaPictos3", enabled = true /* optional */)
     @Override
@@ -104,6 +106,7 @@ public class GaleriaPictos3 extends AppCompatActivity implements View.OnClickLis
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_galeria_grupos2);
         sharedPrefsDefault = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        editarPicto = sharedPrefsDefault.getBoolean(getString(R.string.str_editar_picto), true);
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         initComponents();
@@ -184,46 +187,51 @@ public class GaleriaPictos3 extends AppCompatActivity implements View.OnClickLis
                 return true;
             case R.id.nuevo:
                 analyticsFirebase.customEvents("Touch", "Galeria Pictos", "Add Pictogram");
-                if (sharedPrefsDefault.getInt("premium", 0) == 1) {
+                if(editarPicto){
+                   if (sharedPrefsDefault.getInt("premium", 0) == 1) {
 
-                    Bundle bundle = new Bundle();
-                    bundle.putString(FirebaseAnalytics.Param.ACHIEVEMENT_ID, "Nuevo Picto");
-                    mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.UNLOCK_ACHIEVEMENT, bundle);
+                       Bundle bundle = new Bundle();
+                       bundle.putString(FirebaseAnalytics.Param.ACHIEVEMENT_ID, "Nuevo Picto");
+                       mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.UNLOCK_ACHIEVEMENT, bundle);
 
-                    Intent intent = new Intent(GaleriaPictos3.this, Edit_Picto_Visual.class);
-                    intent.putExtra("esNuevo", true);
-                    intent.putExtra("Padre", boton);
-                    intent.putExtra("esGrupo", false);
-                    intent.putExtra("Texto","");
-                    myTTS.hablar(getString(R.string.add_pictograma));
-                    Log.d(TAG, "onOptionsItemSelected: Creando un nuevo picto");
+                       Intent intent = new Intent(GaleriaPictos3.this, Edit_Picto_Visual.class);
+                       intent.putExtra("esNuevo", true);
+                       intent.putExtra("Padre", boton);
+                       intent.putExtra("esGrupo", false);
+                       intent.putExtra("Texto","");
+                       myTTS.hablar(getString(R.string.add_pictograma));
+                       Log.d(TAG, "onOptionsItemSelected: Creando un nuevo picto");
 
-                    startActivityForResult(intent, IntentCode.EDITARPICTO.getCode());
-                    return true;
-                } else {
-                    Intent i = new Intent(GaleriaPictos3.this, LicenciaExpirada.class);
-                    startActivity(i);
+                       startActivityForResult(intent, IntentCode.EDITARPICTO.getCode());
+                       return true;
+                   } else {
+                       Intent i = new Intent(GaleriaPictos3.this, LicenciaExpirada.class);
+                       startActivity(i);
+                  }
                 }
+
                 return true;
 
             case R.id.vincular:
                 analyticsFirebase.customEvents("Touch", "Galeria Pictos", "Vinculate Pictograms");
-                if (sharedPrefsDefault.getInt("premium", 0) == 1) {
+                if(editarPicto){
+                 if (sharedPrefsDefault.getInt("premium", 0) == 1) {
 
-                    Bundle bundle = new Bundle();
-                    bundle.putString(FirebaseAnalytics.Param.ACHIEVEMENT_ID, "Vincular");
-                    mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.UNLOCK_ACHIEVEMENT, bundle);
+                     Bundle bundle = new Bundle();
+                     bundle.putString(FirebaseAnalytics.Param.ACHIEVEMENT_ID, "Vincular");
+                     mFirebaseAnalytics.logEvent(FirebaseAnalytics.Event.UNLOCK_ACHIEVEMENT, bundle);
 
-                    Intent intent2 = new Intent(GaleriaPictos3.this, GaleriaPictos3.class);
-                    intent2.putExtra("Boton", boton);
-                    intent2.putExtra("esVincular", true);
-                    intent2.putExtra("Nombre", nombre);
+                     Intent intent2 = new Intent(GaleriaPictos3.this, GaleriaPictos3.class);
+                     intent2.putExtra("Boton", boton);
+                     intent2.putExtra("esVincular", true);
+                     intent2.putExtra("Nombre", nombre);
 
 
-                    startActivityForResult(intent2, IntentCode.VINCULAR.getCode());
-                } else {
-                    Intent i = new Intent(GaleriaPictos3.this, LicenciaExpirada.class);
-                    startActivity(i);
+                     startActivityForResult(intent2, IntentCode.VINCULAR.getCode());
+                 } else {
+                         Intent i = new Intent(GaleriaPictos3.this, LicenciaExpirada.class);
+                      startActivity(i);
+                 }
                 }
                 return true;
             case R.id.order_items:

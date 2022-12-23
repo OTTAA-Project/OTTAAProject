@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.ThumbnailUtils;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Looper;
@@ -19,6 +20,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import com.stonefacesoft.ottaa.JSONutils.Json;
+import com.stonefacesoft.ottaa.utils.StringFormatter;
 import com.stonefacesoft.ottaa.utils.constants.Constants;
 import com.stonefacesoft.ottaa.utils.JSONutils;
 import com.stonefacesoft.ottaa.utils.exceptions.FiveMbException;
@@ -45,24 +47,21 @@ public class gridViewAdapter extends ArrayAdapter {
     private final int layoutResourceId;
     private ArrayList<JSONObject> data = new ArrayList();
     private ArrayList<JSONObject> data1 = new ArrayList();
-    private JSONArray data2 = new JSONArray();
     private final Json json;
     private final ArrayList<Integer> posicionPictos;
     private final ArrayList<int[][]> posicionPicto;
-    private final boolean esInet;
     private final DrawableManager drawableManager;
     private final ArrayList<JSONObject> pictosSeleccionados1;
     private final SharedPreferences sharedPrefsDefault;
     private final String lang;
     private final GlideAttatcher glideAttatcher;
 
-    public gridViewAdapter(Context context, int layoutResourceId, ArrayList data, Json json, boolean esInet) throws FiveMbException {
+    public gridViewAdapter(Context context, int layoutResourceId, ArrayList data, Json json) throws FiveMbException {
         super(context, layoutResourceId, data);
         this.layoutResourceId = layoutResourceId;
         this.context = context;
         this.data = data;
         this.json = json;
-        this.esInet = esInet;
         glideAttatcher=new GlideAttatcher(this.context);
         pictosSeleccionados1 = new ArrayList<>();//genero el listado de pictos a elegir
         posicionPictos = new ArrayList<>();//genero el listado de pictos a elegir
@@ -72,13 +71,8 @@ public class gridViewAdapter extends ArrayAdapter {
         sharedPrefsDefault = PreferenceManager.getDefaultSharedPreferences(context);
         lang = sharedPrefsDefault.getString(context.getResources().getString(R.string.str_idioma),
                 Locale.getDefault().getLanguage());
+        data1.addAll(data);
 
-        data1.addAll(data);//tomo todosu el listado
-        try {
-            data2 = JSONutils.getHijosGrupo2(json.getmJSONArrayTodosLosPictos(),json.readJSONArrayFromFile(Constants.ARCHIVO_GRUPOS).getJSONObject(JSONutils.getIDfromNombre("ALL", json.readJSONArrayFromFile(Constants.ARCHIVO_GRUPOS))));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
     }
 
     public void setData1(ArrayList<JSONObject> data1) {
@@ -103,42 +97,31 @@ public class gridViewAdapter extends ArrayAdapter {
         }
         holder.position = position;
 
-       if(posicionPictos.size()>0)
-       {for(int i=0;i<posicionPicto.size();i++) {
+         if(posicionPictos.size()>0) {
+            for(int i=0;i<posicionPicto.size();i++) {
+              try {
+                     if(posicionPicto.get(i)[0][1]==position) {
+                         Log.d("gridView_getView_picto", ""+pictosSeleccionados1.get(i).toString());
+                         Log.d("gridView_getView_pos", ""+posicionPictos.get(i));
+                         Log.d("gridView_getView_json",json.getId(pictosSeleccionados1.get(i))+"");
 
-             try {
-
-                    if(posicionPicto.get(i)[0][1]==position)
-                    {
-                        Log.d("gridView_getView_picto", ""+pictosSeleccionados1.get(i).toString());
-                        Log.d("gridView_getView_pos", ""+posicionPictos.get(i));
-                        Log.d("gridView_getView_json",json.getId(pictosSeleccionados1.get(i))+"");
-
-                    }
-
-             } catch (Exception e) {
-                  e.printStackTrace();
-              }
-
-
-       }}
-       if(esInet)
-        {
-            try {
-                new CargarRow(position, holder).execute();
-                holder.pictoView.setCustom_Texto(data.get(position).getString("name"));
-                holder.pictoView.setCustom_Color(cargarColor(JSONutils.getWordType(data.get(position))));
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }else
-        {
-            new CargarImg(position, holder).execute();
-            holder.pictoView.setCustom_Texto(JSONutils.getNombre(data.get(position),sharedPrefsDefault.getString(context.getString(R.string.str_idioma), "en")));
-            holder.pictoView.setCustom_Color(cargarColor(JSONutils.getWordType(data.get(position))));
-
+                     }
+              } catch (Exception e) {
+                   e.printStackTrace();
+               }
+         }
         }
-        return row;
+
+         new CargarRow(position, holder).execute();
+        try {
+            holder.pictoView.setCustom_Texto(JSONutils.getStringByApi(data.get(position)));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        holder.pictoView.setCustom_Color(cargarColor(JSONutils.getTypeAsInteger(data.get(position))));
+
+
+       return row;
     }
 
     private Integer cargarColor (int tipo)
@@ -168,64 +151,11 @@ public class gridViewAdapter extends ArrayAdapter {
         return pictosSeleccionados1;
     }
 
-    private class CargarImg extends AsyncTask<Void, Void, Void> {
-
-        private final int mPosition;
-        private final ViewHolder mHolder;
-        //String texto;
-        Drawable img;
-
-        public CargarImg(int position, ViewHolder holder) {
-            mPosition = position;
-            mHolder = holder;
-        }
-
-        @Override
-        protected Void doInBackground(Void... voids) {
-            try{
-                img = json.getIcono(data.get(mPosition));
-                Bitmap b;
-                ThumbnailUtils thumbnailUtils = new ThumbnailUtils();
-
-                b = ThumbnailUtils.extractThumbnail(((BitmapDrawable)img).getBitmap(),150,150);
-                img = new BitmapDrawable(context.getResources(), b);
-                }catch (Exception e){
-                showToast(context.getString(R.string.sync_pictos));
-
-                }
-            return null;
-        }
-
-        //Creamos este metodo para poder llamar al custom_toast para evitar el error can't call this from a non-UI thread o
-        //Can't create handler inside thread that has not called Looper.prepare() , por que no se puede crear un Toast adentro de un doInBackground
-        public void showToast(final String toast) {
-            new Handler(Looper.getMainLooper()).post(new Runnable() {
-                public void run() {
-                    // do something
-
-                    Toast.makeText(getContext(), toast, Toast.LENGTH_SHORT).show();
-                }
-            });
-
-        }
-
-        /**
-         * Una vez que paso el tiempo de espera ilumino la parte adecuando
-         * @param unused
-         */
-        protected void onPostExecute(final Void unused) {
-            if (mHolder.position == mPosition) {
-                glideAttatcher.loadDrawable(img,mHolder.pictoView.getImageView());
-            }
-            else {
-                glideAttatcher.loadDrawable(context.getResources().getDrawable(R.drawable.ic_agregar_nuevo),mHolder.pictoView.getImageView());
-            }
-        }
-    }
 
     private class CargarRow extends AsyncTask<Void, Void, Void> {
         private final int mPosition;
         private final ViewHolder mHolder;
+        private String uri;
         //String texto;
         Drawable img;
 
@@ -236,14 +166,13 @@ public class gridViewAdapter extends ArrayAdapter {
 
         @Override
         protected Void doInBackground(Void... voids) {
-            try {
                 if (data.size() > 0){
-                    if(mPosition<data.size())
-                        img = drawableManager.fetchDrawable((String) data.get(mPosition).get("imagePNGURL"));
+                    try {
+                        uri =JSONutils.getUriByApi(data.get(mPosition));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
             return null;
         }
 
@@ -253,7 +182,12 @@ public class gridViewAdapter extends ArrayAdapter {
          */
         protected void onPostExecute(final Void unused) {
             if (mHolder.position == mPosition) {
-                glideAttatcher.loadDrawable(img,mHolder.pictoView.getImageView());
+                try {
+                    glideAttatcher.loadDrawable( uri,mHolder.pictoView.getImageView());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+              //  glideAttatcher.loadDrawable(img,mHolder.pictoView.getImageView());
             }
         }
     }
@@ -263,28 +197,7 @@ public class gridViewAdapter extends ArrayAdapter {
         int position;
     }
 
-    public void filter(String charText) {
-        String s=null;
-        HashSet hashSet= new HashSet<String>();
 
-        charText = charText.toLowerCase(Locale.getDefault());
-        data.clear();
-        if (charText.length() == 0) {
-            data.addAll(data1);
-        }
-        else {
-                String lang;
-                SharedPreferences sharedPrefsDefault = PreferenceManager.getDefaultSharedPreferences(context);
-                lang = sharedPrefsDefault.getString(context.getResources().getString(R.string.str_idioma), Locale.getDefault().getLanguage());
-                for (JSONObject wp : data1) {
-                if ((wp.optJSONObject("texto").optString(lang).toLowerCase(Locale.getDefault()).contains(charText)))//&&(headerText.get(i).toLowerCase(Locale.getDefault()).contains(wp.brandName.substring(0,1))))
-                {
-                    data.add(wp);
-                }
-            }
-        }
-        notifyDataSetChanged();
-    }
 
 
 }

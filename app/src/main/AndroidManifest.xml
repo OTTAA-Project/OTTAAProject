@@ -28,7 +28,9 @@
         <intent>
             <action android:name="android.intent.action.MEDIA_SHARED"/>
         </intent>
+
     </queries>
+
     <application
 
         android:allowBackup="true"
@@ -44,7 +46,7 @@
         android:supportsRtl="true"
         android:theme="@style/CustomActionBarTheme"
         android:usesCleartextTraffic="true"
-        tools:targetApi="m">
+        tools:targetApi="M">
 
 
         <activity android:name=".view.ReportActivity" />
@@ -64,23 +66,12 @@
             android:name="android.test.mock"
             android:required="false" />
 
-        <meta-data
-            android:name="com.facebook.sdk.ApplicationId"
-            android:value="@string/facebook_app_id" />
-        <meta-data
-            android:name="com.facebook.sdk.AutoLogAppEventsEnabled"
-            android:value="false" />
-        <meta-data
-            android:name="com.facebook.sdk.CodelessDebugLogEnabled"
-            android:value="true" />
+
         <meta-data
             android:name="firebase_performance_logcat_enabled"
             android:value="true" />
 
-        <activity
-            android:name="com.facebook.FacebookActivity"
-            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
-            android:label="@string/app_name" />
+
         <activity
             android:name=".MainJuegos"
             android:label="@string/title_activity_main_juegos"

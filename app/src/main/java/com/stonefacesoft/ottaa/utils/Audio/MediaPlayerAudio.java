@@ -43,58 +43,40 @@ public class MediaPlayerAudio implements MediaPlayer.OnPreparedListener {
 
     public void playYesSound() {
         if(ValidateContext.isValidContext(mContext)){
-            player = MediaPlayer.create(mContext, R.raw.yay);
-            complete = false;
-            player.setOnPreparedListener(this);
+            createPlayer(mContext,R.raw.yay);
+            prepareListener();
         }
     }
 
     public void playYupi1Sound() {
         if(ValidateContext.isValidContext(mContext)){
-            player = MediaPlayer.create(mContext, R.raw.yupi_1);
-            complete = true;
-            player.setOnPreparedListener(this);
+            createPlayer(mContext,R.raw.yupi_1);
+            prepareListener();
         }
     }
 
     public void playYupi2Sound() {
         if(ValidateContext.isValidContext(mContext)) {
-            player = MediaPlayer.create(mContext, R.raw.yupi_2);
-            complete = true;
-            player.setOnPreparedListener(this);
-        }
-    }
-
-    public void playYouWin() {
-        if(ValidateContext.isValidContext(mContext)) {
-            player = MediaPlayer.create(mContext, R.raw.you_win);
-            complete = true;
-            player.setOnPreparedListener(this);
-        }
-    }
-
-    public void playTadaSound() {
-        if(ValidateContext.isValidContext(mContext)) {
-            player = MediaPlayer.create(mContext, R.raw.tada);
-            complete = true;
-            player.setOnPreparedListener(this);
+                createPlayer(mContext,R.raw.yupi_2);
+                prepareListener();
         }
     }
 
 
-    public void playNoSound() {
-        if(ValidateContext.isValidContext(mContext)) {
-            player = MediaPlayer.create(mContext, R.raw.wrong);
-            complete = true;
-            player.setOnPreparedListener(this);
-        }
-    }
 
     public void playOhOhSound() {
         if(ValidateContext.isValidContext(mContext)) {
-            player = MediaPlayer.create(mContext, R.raw.ohoh);
-            complete = true;
+            createPlayer(mContext,R.raw.ohoh);
             prepareListener();
+        }
+    }
+
+    public void createPlayer(Context mContext,int resource){
+        try{
+            player = MediaPlayer.create(mContext,resource);
+            complete = true;
+        }catch (Exception ex){
+            complete = false;
         }
     }
 

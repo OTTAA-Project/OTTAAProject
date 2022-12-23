@@ -64,15 +64,41 @@ public class DrawableManager {
             Drawable drawable = Drawable.createFromStream(is, "src");
             if (drawable != null) {
                 drawableMap.put(urlString, drawable);
-                Log.d(TAG, "got a thumbnail drawable: " + drawable.getBounds() + ", "
-                        + drawable.getIntrinsicHeight() + "," + drawable.getIntrinsicWidth() + ", "
-                        + drawable.getMinimumHeight() + "," + drawable.getMinimumWidth());
+                drawableInterface.getDrawable(drawable);
+                drawableInterface.fetchDrawable(drawable);
             } else {
                 Log.d(TAG, "could not get thumbnail");
             }
 
-            drawableInterface.getDrawable(drawable);
-            drawableInterface.fetchDrawable(drawable);
+
+        } catch (IOException e) {
+            Log.e(TAG, "fetchDrawable failed", e);
+
+        }
+        return null;
+    }
+
+    public Drawable fetchDrawable(String urlString,int position, DrawableInterface drawableInterface) {
+        if (drawableMap.containsKey(urlString)) {
+            return drawableMap.get(urlString);
+        }
+
+        Log.d(this.getClass().getSimpleName(), "image url:" + urlString);
+        try {
+            InputStream is = fetch(urlString);
+            Drawable drawable = Drawable.createFromStream(is, "src");
+            if (drawable != null) {
+                drawableMap.put(urlString, drawable);
+                Log.d(TAG, "got a thumbnail drawable: " + drawable.getBounds() + ", "
+                        + drawable.getIntrinsicHeight() + "," + drawable.getIntrinsicWidth() + ", "
+                        + drawable.getMinimumHeight() + "," + drawable.getMinimumWidth());
+                drawableInterface.getDrawable(drawable);
+                drawableInterface.fetchDrawable(drawable);
+            } else {
+                Log.d(TAG, "could not get thumbnail");
+            }
+
+
         } catch (IOException e) {
             Log.e(TAG, "fetchDrawable failed", e);
 
@@ -83,9 +109,12 @@ public class DrawableManager {
 
 
     private InputStream fetch(String urlString) throws IOException {
+        Log.d(TAG, "url saved : "+ urlString);
         URL url = new URL(urlString);
         HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
         urlConnection.connect();
-        return urlConnection.getInputStream();
+        if(urlConnection.getAllowUserInteraction())
+            return urlConnection.getInputStream();
+        return  null;
     }
 }

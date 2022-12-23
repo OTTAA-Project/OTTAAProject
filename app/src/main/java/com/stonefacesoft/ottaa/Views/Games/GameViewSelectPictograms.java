@@ -563,18 +563,17 @@ public class GameViewSelectPictograms extends AppCompatActivity implements View.
     }
 
     public void playCorrectSound(){
-        int i = (int) (Math.random() * 3);
+        int i = (int) (Math.random() * 4);
         Log.d(TAG, "playCorrectSound: "+i);
         switch (i){
-            case 0:
-                player.playYesSound();
-                break;
             case 1:
                 player.playYupi1Sound();
                 break;
             case 2:
                 player.playYupi2Sound();
                 break;
+            default:
+                player.playYesSound();
         }
     }
 

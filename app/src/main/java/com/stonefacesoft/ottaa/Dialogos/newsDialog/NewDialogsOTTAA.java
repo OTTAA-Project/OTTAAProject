@@ -335,6 +335,11 @@ public class NewDialogsOTTAA implements FirebaseSuccessListener {
                             public void FileIsCreated() {
 
                             }
+
+                            @Override
+                            public void FileIsCreated(Bitmap bitmap) {
+
+                            }
                         });
 
                         try {

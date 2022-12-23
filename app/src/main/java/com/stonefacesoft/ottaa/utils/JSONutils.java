@@ -29,6 +29,7 @@ public class JSONutils {
      * */
     private final static String TAG = "JSONUtils";
     private static JSONutils _JsoNutils;
+    public static boolean useVolley;
 
     public static synchronized JSONutils getInstance(){
         if(_JsoNutils == null)
@@ -94,6 +95,100 @@ public class JSONutils {
             e.printStackTrace();
         }
         return 0;
+    }
+
+    public static String getType(JSONObject object){
+        try{
+            int value = object.getInt("tipo");
+            switch (value){
+                case 1:
+                    return "SUBJ";
+                case 2:
+                    return "NOUN";
+                case 3:
+                    return "VERB";
+                case 4:
+                    return "ADJ";
+                case 5:
+                   return "NONE";
+                case 6:
+                    return  "MISC";
+            }
+        }catch (JSONException e){
+            e.printStackTrace();
+        }
+        return "NONE";
+    }
+
+    public static int getTypeAsInteger(JSONObject object){
+        if(!useVolley){
+            try {
+                return object.getInt("wordType");
+            } catch (JSONException e) {
+                return 6;
+            }
+        }
+        try{
+            JSONObject picto = object.getJSONObject("picto");
+            String value = picto.getString("part_of_speech");
+            switch (value){
+                case "subject":
+                    return 1;
+                case "noun":
+                    return 2;
+                case "verb":
+                    return 3;
+                case "adjetive":
+                    return 4;
+                case "none":
+                   return 5;
+                case "miscellaneous":
+                    return  6;
+            }
+        }catch (JSONException e){
+            e.printStackTrace();
+        }
+        return 5;
+    }
+
+    public static String getUriFromGlobalSymbols(JSONObject object){
+        try {
+            return object.getString("image_url");
+        } catch (JSONException e) {
+            e.printStackTrace();
+
+        }
+        return "";
+    }
+    public static String getUriFromAraasac(JSONObject object){
+        try {
+            return object.getString("imagePNGURL");
+        } catch (JSONException e) {
+            e.printStackTrace();
+
+        }
+        return "";
+    }
+
+    public static String getUriByApi( JSONObject object) throws JSONException {
+        if(useVolley){
+            JSONObject picto = object.getJSONObject("picto");
+            return getUriFromGlobalSymbols(picto);
+        }
+        else
+            return getUriFromAraasac(object);
+    }
+
+    public static String getStringByApi(JSONObject object) throws JSONException {
+        if(useVolley){
+            return StringFormatter.decodeCharsUTF8(   object.getString("text"));
+        }
+        else
+            return object.getString("name");
+    }
+
+    public static void setUseVolley(boolean useVolley) {
+        JSONutils.useVolley = useVolley;
     }
 
     public static int getWordType(JSONObject object) {
@@ -332,7 +427,9 @@ public class JSONutils {
     }
 
     public static int getId(JSONObject jsonObject) throws JSONException {
-        return jsonObject.getInt("id");
+        if(jsonObject!=null&&jsonObject.has("id"))
+            return jsonObject.getInt("id");
+        return -1;
     }
 
     public static void addToAllRelacion2(JSONArray arrayListGrupos, int padre) {

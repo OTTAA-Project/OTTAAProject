@@ -2,14 +2,11 @@ package com.stonefacesoft.ottaa.Viewpagers;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,7 +18,6 @@ import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.perf.metrics.AddTrace;
 import com.stonefacesoft.ottaa.Edit_Picto_Visual;
 import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.LicenciaExpirada;
@@ -32,14 +28,11 @@ import com.stonefacesoft.ottaa.utils.JSONutils;
 import com.stonefacesoft.ottaa.utils.constants.ConstantsGroupGalery;
 import com.stonefacesoft.ottaa.utils.textToSpeech;
 import com.stonefacesoft.pictogramslibrary.Classes.Pictogram;
-import com.stonefacesoft.pictogramslibrary.utils.GlideAttatcher;
 import com.stonefacesoft.pictogramslibrary.view.PictoView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.io.File;
 
 /**
  * @author Gonzalo Juarez
@@ -181,7 +174,7 @@ public class viewpager_galeria_pictos {
             if (isSelectedItem) {
                finishApp(position);
             } else {
-                saidName(position);
+                sayName(position);
                 isSelectedItem = true;
             }
         }
@@ -198,20 +191,14 @@ public class viewpager_galeria_pictos {
         mActivity.finish();
     }
 
-    public void saidName(int position){
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                String name = "";
-                try {
-                    name = JSONutils.getNombre(array.getJSONObject(position),ConfigurarIdioma.getLanguaje());
-                } catch (JSONException e) {
-                    Log.e(TAG, "OnClickItem: Error: " + e.getMessage());
-                }
-                myTTS.hablar(name);
-            }
-        });
-        thread.start();
+    public void sayName(int position){
+        String name = "";
+        try {
+            name = JSONutils.getNombre(array.getJSONObject(position),ConfigurarIdioma.getLanguaje());
+        } catch (JSONException e) {
+            Log.e(TAG, "OnClickItem: Error: " + e.getMessage());
+        }
+        myTTS.hablar(name);
     }
 
     public static class fragmentPicto extends Fragment {

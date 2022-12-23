@@ -2,6 +2,7 @@ package com.stonefacesoft.ottaa.JSONutils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -9,10 +10,12 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.preference.PreferenceManager;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.util.Size;
 
 import com.google.android.libraries.places.api.model.Place;
+import com.stonefacesoft.ottaa.BuildConfig;
 import com.stonefacesoft.ottaa.DrawableManager;
 import com.stonefacesoft.ottaa.Interfaces.DrawableInterface;
 import com.stonefacesoft.ottaa.Interfaces.SortPictogramsInterface;
@@ -142,23 +145,63 @@ public class Json  {
     /**
      * Load all the jsonArray objects
      */
-    public void initJsonArrays() throws JSONException, FiveMbException {
+    public void initJsonArrays() {
         //Cargo por unica vez los archivos al array
-        mJSONArrayTodosLosPictos = readJSONArrayFromFile(Constants.ARCHIVO_PICTOS);
-        new SortPictograms().quickSort(mJSONArrayTodosLosPictos,0,mJSONArrayTodosLosPictos.length()-1);
-        mJSONArrayTodosLosGrupos = readJSONArrayFromFile(Constants.ARCHIVO_GRUPOS);
-        GroupManagerClass.getInstance().setmGroup(mJSONArrayTodosLosGrupos);
-        mJSONArrayTodasLasFrases = readJSONArrayFromFile(Constants.ARCHIVO_FRASES);
-        mJSONArrayPictosSugeridos = readJSONArrayFromFile(Constants.ARCHIVO_PICTOS_DATABASE);
-        mJSonArrayFrasesFavoritas = readJSONArrayFromFile(Constants.ARCHIVO_FRASES_FAVORITAS);
-        mJSonArrayJuegos = readJSONArrayFromFile(Constants.ARCHIVO_JUEGO);
+        try {
+            mJSONArrayTodosLosPictos = readJSONArrayFromFile(Constants.ARCHIVO_PICTOS);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (FiveMbException e) {
+            e.printStackTrace();
+        }
+        try {
+            new SortPictograms().quickSort(mJSONArrayTodosLosPictos,0,mJSONArrayTodosLosPictos.length()-1);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        try {
+            mJSONArrayTodosLosGrupos = readJSONArrayFromFile(Constants.ARCHIVO_GRUPOS);
+            GroupManagerClass.getInstance().setmGroup(mJSONArrayTodosLosGrupos);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (FiveMbException e) {
+            e.printStackTrace();
+        }
+        try {
+            mJSONArrayTodasLasFrases = readJSONArrayFromFile(Constants.ARCHIVO_FRASES);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (FiveMbException e) {
+            e.printStackTrace();
+        }
+        try {
+            mJSONArrayPictosSugeridos = readJSONArrayFromFile(Constants.ARCHIVO_PICTOS_DATABASE);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (FiveMbException e) {
+            e.printStackTrace();
+        }
+        try {
+            mJSonArrayFrasesFavoritas = readJSONArrayFromFile(Constants.ARCHIVO_FRASES_FAVORITAS);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (FiveMbException e) {
+            e.printStackTrace();
+        }
+        try {
+            mJSonArrayJuegos = readJSONArrayFromFile(Constants.ARCHIVO_JUEGO);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (FiveMbException e) {
+            e.printStackTrace();
+        }
 
     }
 
     /**
      * Update the JsonArray
      */
-    public void refreshJsonArrays() throws JSONException, FiveMbException {
+    public void refreshJsonArrays(){
         initJsonArrays();
     }
 
@@ -315,6 +358,11 @@ public class Json  {
                         public void fetchDrawable(Drawable drawable) {
 
                         }
+
+                        @Override
+                        public void fetchDrawable(Drawable drawable, int position) {
+
+                        }
                     });
             }
         } catch (JSONException e) {
@@ -341,6 +389,17 @@ public class Json  {
             d.draw(canvas);
         }
         return d;
+    }
+
+    public String getPath(Uri uri) {
+        String[] projection = {MediaStore.Images.Media.DATA};
+        Cursor cursor = mContext.getContentResolver().query(uri, projection, null, null, null);
+        if (cursor != null) {
+            int column_index = cursor
+                    .getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            cursor.moveToFirst();
+            return cursor.getString(column_index);
+        } else return null;
     }
 
     public Drawable AbrirBitmap(String path,int opt) {

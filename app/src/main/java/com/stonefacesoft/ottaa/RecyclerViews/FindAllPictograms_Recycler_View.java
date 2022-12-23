@@ -14,11 +14,14 @@ import com.stonefacesoft.ottaa.BuscarArasaac;
 import com.stonefacesoft.ottaa.Dialogos.DialogUtils.Progress_dialog_options;
 import com.stonefacesoft.ottaa.Helper.ItemTouchHelperAdapter;
 import com.stonefacesoft.ottaa.Helper.RecyclerItemClickListener;
+import com.stonefacesoft.ottaa.Interfaces.FindAllPictogramsInterface;
 import com.stonefacesoft.ottaa.Interfaces.SearchAraasacPictogram;
 import com.stonefacesoft.ottaa.Interfaces.translateInterface;
 import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.idioma.ConfigurarIdioma;
 import com.stonefacesoft.ottaa.utils.ConnectionDetector;
+import com.stonefacesoft.ottaa.utils.Pictures.DownloadPictogram;
+import com.stonefacesoft.ottaa.utils.StringFormatter;
 import com.stonefacesoft.ottaa.utils.constants.Constants;
 import com.stonefacesoft.ottaa.utils.IntentCode;
 import com.stonefacesoft.ottaa.utils.JSONutils;
@@ -34,6 +37,7 @@ public class FindAllPictograms_Recycler_View extends Custom_recyclerView impleme
     private BuscarArasaac buscarArasaac;
     private FindAllPictogramsAdapter findAllPictogramsAdapter;
     private JSONObject arasaac;
+    private JSONArray arasaacPictogramsResult;
     private int id;
     private Progress_dialog_options progress_dialog_options;
     private JSONObject selectedObject;
@@ -186,19 +190,34 @@ public class FindAllPictograms_Recycler_View extends Custom_recyclerView impleme
                 selectedObject.put("relacion",new JSONArray());
                 JSONutils.setNombre(selectedObject,JSONutils.getNombre(selectedObject,ConfigurarIdioma.getLanguaje()),traducirTexto.getTexto(),ConfigurarIdioma.getLanguaje(),"en");
                 json.addAraasacPictogramFromInternet(selectedObject);
-                JSONObject relacion = new JSONObject();
-                relacion.put("id",json.getId(selectedObject));
-                relacion.put("frec",0);
-                json.addPictogramToAll(relacion);
-                //  databack.putExtra("Boton", button);
-                json.guardarJson(Constants.ARCHIVO_GRUPOS);
-                json.guardarJson(Constants.ARCHIVO_PICTOS);
-                subirPictos();
-                subirGrupos();
-                Intent databack = new Intent();
-                databack.putExtra("ID", id);
-                mActivity.setResult(IntentCode.SEARCH_ALL_PICTOGRAMS.getCode(), databack);
-                mActivity.finish();
+
+                Pictogram pictogram = new Pictogram(selectedObject,ConfigurarIdioma.getLanguaje());
+
+                new DownloadPictogram(mActivity, pictogram.getName(), pictogram.getType(), selectedObject, new FindAllPictogramsInterface() {
+                    @Override
+                    public void downloadPictogram(Pictogram result) {
+                        try {
+                            JSONObject relacion = new JSONObject();
+                            relacion.put("id",json.getId(result.toJsonObject()));
+                            relacion.put("frec",0);
+                            json.addPictogramToAll(relacion);
+                            //  databack.putExtra("Boton", button);
+                            json.guardarJson(Constants.ARCHIVO_GRUPOS);
+                            json.guardarJson(Constants.ARCHIVO_PICTOS);
+                            subirPictos();
+                            subirGrupos();
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                        Intent databack = new Intent();
+                        databack.putExtra("ID", id);
+                        mActivity.setResult(IntentCode.SEARCH_ALL_PICTOGRAMS.getCode(), databack);
+                        mActivity.finish();
+                    }
+                }).execute(pictogram.getUrl());
+
+
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -210,6 +229,7 @@ public class FindAllPictograms_Recycler_View extends Custom_recyclerView impleme
 
         //        private ProgressDialog progressDialog = new ProgressDialog(GaleriaArasaac.this);
         String texto;
+        boolean useVolley;
 
         public HTTPRequest(String texto) {
             buscarArasaac.setSearchAraasacPictogram(this);
@@ -229,14 +249,14 @@ public class FindAllPictograms_Recycler_View extends Custom_recyclerView impleme
          */
         protected void onPostExecute(final Void unused) {
             try {
-                if (arasaac != null && arasaac.getJSONArray("symbols") != null) {
-                    JSONArray jsonArray = arasaac.getJSONArray("symbols");
-                    for (int i = 0; i < jsonArray.length(); i++) {
-                        JSONObject pictogram = jsonArray.getJSONObject(i);
+                if (arasaacPictogramsResult!= null) {
+
+                    for (int i = 0; i < arasaacPictogramsResult.length()-1; i++) {
+                        JSONObject pictogram = arasaacPictogramsResult.getJSONObject(i);
                         Pictogram picto = new Pictogram();
-                        String url = pictogram.getString("imagePNGURL");
-                        String text = pictogram.getString("name");
-                        int tipo = pictogram.getInt("wordTYPE");
+                        String url = JSONutils.getUriByApi(pictogram);
+                        String text = JSONutils.getStringByApi(pictogram);
+                        int tipo = JSONutils.getTypeAsInteger(pictogram);
                         picto.setLocale(sharedPrefsDefault.getString(mActivity.getResources().getString(R.string.str_idioma), "en"));
                         picto.setName_en(text);
                         picto.setName(text);
@@ -258,8 +278,19 @@ public class FindAllPictograms_Recycler_View extends Custom_recyclerView impleme
         }
 
         @Override
-        public void findPictograms(JSONObject value) {
+        public void findPictogramsJsonObject(JSONObject value) {
             arasaac = value;
+            try {
+                arasaacPictogramsResult = arasaac.getJSONArray("symbols");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            onPostExecute(null);
+        }
+
+        @Override
+        public void findPictogramsJsonArray(JSONArray value) {
+            arasaacPictogramsResult = value;
             onPostExecute(null);
         }
     }

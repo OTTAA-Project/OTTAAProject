@@ -27,7 +27,10 @@ import com.stonefacesoft.ottaa.Interfaces.SearchAraasacPictogram;
 import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.utils.ConnectionDetector;
 import com.stonefacesoft.ottaa.utils.IntentCode;
+import com.stonefacesoft.ottaa.utils.JSONutils;
+import com.stonefacesoft.ottaa.utils.Pictures.DownloadArasaac;
 import com.stonefacesoft.ottaa.utils.Pictures.DownloadTask;
+import com.stonefacesoft.ottaa.utils.StringFormatter;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -50,6 +53,7 @@ public class GaleriaArasaac extends AppCompatActivity implements SearchView.OnQu
     ArrayList<JSONObject> pictosDelGrupo;
     private BuscarArasaac buscarArasaac;
     private JSONObject arasaac;
+    private JSONArray pictogramsResult;
     private String text = "";
     private int tipo = 0;
     ImageView ImagenArasaac;
@@ -135,7 +139,7 @@ public class GaleriaArasaac extends AppCompatActivity implements SearchView.OnQu
         GridView gridView = findViewById(R.id.gridView);
         try {
             if(gridAdapter ==null)
-                gridAdapter = new gridViewAdapter(gridView.getContext(), R.layout.grid_item_layout, pictosDelGrupo, json, true);
+                gridAdapter = new gridViewAdapter(gridView.getContext(), R.layout.grid_item_layout, pictosDelGrupo, json);
             else{
                 gridAdapter.setData1(pictosDelGrupo);
                 gridAdapter.notifyDataSetChanged();
@@ -153,10 +157,10 @@ public class GaleriaArasaac extends AppCompatActivity implements SearchView.OnQu
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
                 try {
-                    String url = pictosDelGrupo.get(position).getString("imagePNGURL");
-                    text = pictosDelGrupo.get(position).getString("name");
-                    tipo = pictosDelGrupo.get(position).getInt("wordTYPE");
-                    final DownloadTask downloadTask = new DownloadTask(GaleriaArasaac.this,text,tipo);
+                    String url = JSONutils.getUriByApi(pictosDelGrupo.get(position));
+                    text = JSONutils.getStringByApi(pictosDelGrupo.get(position));
+                    tipo = JSONutils.getTypeAsInteger(pictosDelGrupo.get(position));
+                    final DownloadArasaac downloadTask = new DownloadArasaac(GaleriaArasaac.this,text,tipo);
                     downloadTask.execute(url);
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -233,11 +237,10 @@ public class GaleriaArasaac extends AppCompatActivity implements SearchView.OnQu
             ImagenArasaac.setVisibility(View.GONE);
             TextoArasaac.setVisibility(View.GONE);
             try {
-                if (arasaac != null && arasaac.getJSONArray("symbols") != null) {
-                    JSONArray jsonArray = arasaac.getJSONArray("symbols");
+                if (pictogramsResult != null) {
                     pictosDelGrupo.clear();
-                    for (int i = 0; i < jsonArray.length(); i++) {
-                        pictosDelGrupo.add((JSONObject) jsonArray.get(i));
+                    for (int i = 0; i < pictogramsResult.length(); i++) {
+                        pictosDelGrupo.add(pictogramsResult.getJSONObject(i));
                     }
                     openIntent();
                 }
@@ -248,8 +251,19 @@ public class GaleriaArasaac extends AppCompatActivity implements SearchView.OnQu
         }
 
         @Override
-        public void findPictograms(JSONObject value) {
+        public void findPictogramsJsonObject(JSONObject value) {
             arasaac = value;
+            try {
+                pictogramsResult = arasaac.getJSONArray("symbols");
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            onPostExecute(null);
+        }
+
+        @Override
+        public void findPictogramsJsonArray(JSONArray value) {
+            pictogramsResult = value;
             onPostExecute(null);
         }
 

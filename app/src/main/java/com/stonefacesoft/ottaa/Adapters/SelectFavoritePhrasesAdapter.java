@@ -34,12 +34,12 @@ public class SelectFavoritePhrasesAdapter extends PhrasesAdapter{
 
     @Override
     public void onBindViewHolder(@NonNull PhraseAdapter holder, int position) {
-        loadHolder(holder,position);
+        execute(holder,position);
     }
 
 
-/*
-        public void execute(){
+
+    public void execute(PhraseAdapter mHolder,int mPosition){
             Executor executor = Executors.newSingleThreadExecutor();
             Handler handler = new Handler(Looper.getMainLooper());
             executor.execute(()->{
@@ -64,6 +64,11 @@ public class SelectFavoritePhrasesAdapter extends PhrasesAdapter{
                         public void FileIsCreated() {
 
                         }
+
+                        @Override
+                        public void FileIsCreated(Bitmap bitmap) {
+
+                        }
                     });
                     boolean isExist = phrases.isExist(mHolder.phrase);
                     if (isExist)
@@ -71,7 +76,8 @@ public class SelectFavoritePhrasesAdapter extends PhrasesAdapter{
                     else
                         mHolder.img.setBackgroundColor(mContext.getResources().getColor(R.color.FondoApp));
                 });
-            });*/
+            });
+    }
 
 
 

@@ -20,8 +20,8 @@ import java.io.IOException;
 
 public class AudioFileCreator extends AppCompatActivity {
     private Context mContext;
-    private File file;
-    private File aux;
+    private File file = null;
+    private File aux = null;
 
 
 
@@ -62,7 +62,8 @@ public class AudioFileCreator extends AppCompatActivity {
     }
 
     public void transformation(AudioTransformationListener transformationListener, Transformer.Listener listener){
-      transformationListener.startAudioTransformation(listener,file.getPath(),aux.getPath());
+      if(file!=null)
+        transformationListener.startAudioTransformation(listener,file.getPath(),aux.getPath());
     }
 
     public File getAux() {

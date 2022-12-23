@@ -102,6 +102,30 @@ public class SortPictogramsTest  {
             e.printStackTrace();
         }
     }
+    @Test
+    public void heapsortNullValue(){
+
+        JSONArray array = null;
+        JSONObject object = createPictogramJSONArray();
+        try {
+            array = object.getJSONArray("array");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        try {
+          new  SortPictograms().heapSort(array);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        try {
+            int result =JSONutils.getId(null);
+            assertTrue(result == -1);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+
 
     private JSONObject createPictogramJSONArray() {
         JSONArray jsonArray = new JSONArray();

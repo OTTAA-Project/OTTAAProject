@@ -27,13 +27,12 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 public class DownloadTask extends AsyncTask<String, Integer, String> {
-   private AppCompatActivity appCompatActivity;
-
-   private PowerManager.WakeLock mWakeLock;
-   private ProgressDialog mProgressDialog;
-   String path;
-   String text;
-   int tipo;
+   protected AppCompatActivity appCompatActivity;
+   protected PowerManager.WakeLock mWakeLock;
+   protected ProgressDialog mProgressDialog;
+   protected String path;
+   protected  String text;
+   protected int tipo;
 
    public DownloadTask(AppCompatActivity context,String text,int tipo) {
       this.appCompatActivity = context;
@@ -84,7 +83,7 @@ public class DownloadTask extends AsyncTask<String, Integer, String> {
 
          // download the file
          String timeStamp = new SimpleDateFormat("ddMMyyyy_HHmmss").format(new Date());
-         String mImageName="/MI_"+timeStamp+".png";
+         String mImageName="/MI_"+timeStamp+".jpg";
          input = connection.getInputStream();
          String pathAux="";
          UriFiles files=new UriFiles(appCompatActivity);
@@ -130,27 +129,15 @@ public class DownloadTask extends AsyncTask<String, Integer, String> {
    @Override
    protected void onPostExecute(String result) {
       mWakeLock.release();
-      Intent databack = new Intent();
-      if (mProgressDialog.isShowing()) {
-         try {
-            mProgressDialog.dismiss();
-         } catch (Exception e) {
-            e.printStackTrace();
-         }
-      }
-      if (result != null) {
-         Toast.makeText(appCompatActivity, appCompatActivity.getString(R.string.error_download) + result, Toast.LENGTH_LONG).show();
-      }
-      else{
-         Toast.makeText(appCompatActivity, R.string.file_download, Toast.LENGTH_SHORT).show();
-         databack.putExtra("Path", path);
-         databack.putExtra("Type", tipo);
-         databack.putExtra("Text", text);
+      makeAction(result);
 
-      }
-      appCompatActivity.setResult(IntentCode.ARASAAC.getCode(), databack);
-      appCompatActivity.finish();
    }
+
+   protected void makeAction(String result){
+
+   }
+
+
 
 }
 

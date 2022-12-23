@@ -50,7 +50,7 @@ public class PhrasesAdapter extends RecyclerView.Adapter<PhrasesAdapter.PhraseAd
         glideAttatcher = new GlideAttatcher(this.mContext);
         gestionarBitmap = new GestionarBitmap(this.mContext);
         gestionarBitmap.setColor(android.R.color.white);
-        new CargarFrasesAsync().execute();
+     //    new CargarFrasesAsync().execute();
     }
 
 
@@ -64,7 +64,7 @@ public class PhrasesAdapter extends RecyclerView.Adapter<PhrasesAdapter.PhraseAd
 
     @Override
     public void onBindViewHolder(@NonNull  PhraseAdapter holder, int position) {
-        loadHolder(holder,position);
+        execute(holder,position);
     }
 
     @Override
@@ -115,6 +115,42 @@ public class PhrasesAdapter extends RecyclerView.Adapter<PhrasesAdapter.PhraseAd
 
     }
 
+    public void execute(PhraseAdapter mHolder,int mPosition){
+        Executor executor = Executors.newSingleThreadExecutor();
+        Handler handler = new Handler(Looper.getMainLooper());
+        executor.execute(()->{
+            Bitmap mBitmap;
+            try {
+                mHolder.phrase = userPhrases.getJSONObject(mPosition);
+                mHolder.position = mPosition;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            handler.post(()->{
+                gestionarBitmap.getBitmapDeFrase(mHolder.phrase,new LoadOnlinePictograms() {
+                    @Override
+                    public void preparePictograms() {
+                    }
+
+                    @Override
+                    public void loadPictograms(Bitmap bitmap) {
+                        glideAttatcher.UseCornerRadius(true).loadDrawable(bitmap, mHolder.img);
+                    }
+                    @Override
+                    public void FileIsCreated() {
+
+                    }
+
+                    @Override
+                    public void FileIsCreated(Bitmap bitmap) {
+
+                    }
+                });
+
+            });
+        });
+    }
+
     protected class CargarFrasesAsync  extends AsyncTask<Void, Void, Void> {
 
         private String mStringTexto;
@@ -143,11 +179,18 @@ public class PhrasesAdapter extends RecyclerView.Adapter<PhrasesAdapter.PhraseAd
                         @Override
                         public void FileIsCreated() {
 
-                        }});
+                        }
+
+                        @Override
+                        public void FileIsCreated(Bitmap bitmap) {
+
+                        }
+                    });
                     mFavImagesArrayList.add(favModel);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+
 
             }
 
