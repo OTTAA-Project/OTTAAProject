@@ -29,7 +29,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 33
         versionCode 100
-        versionName "6.7.10" //
+        versionName "6.7.11" //
         // Enabling multidex support.
         multiDexEnabled true
         resConfigs 'ar,en,es,it'
