@@ -13,6 +13,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.view.Window;
@@ -21,10 +22,13 @@ import android.widget.ProgressBar;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -43,6 +47,7 @@ import com.stonefacesoft.ottaa.utils.CloudFunctionHTTPRequest;
 import com.stonefacesoft.ottaa.utils.CustomToast;
 import com.stonefacesoft.ottaa.utils.DatosDeUso;
 import com.stonefacesoft.ottaa.utils.Firebase.AnalyticsFirebase;
+import com.stonefacesoft.ottaa.utils.RemoteConfigUtils;
 import com.stonefacesoft.ottaa.utils.ReturnPositionItem;
 import com.stonefacesoft.ottaa.utils.exceptions.FiveMbException;
 
@@ -553,8 +558,20 @@ public class NewDialogsOTTAA implements FirebaseSuccessListener {
     }
 
     private void openCalendly(  ) {
-        Intent browse = new Intent( Intent.ACTION_VIEW , Uri.parse("https://calendly.com/santiagocioffi/30min?month=2021-10"));
-        mActivity.startActivity(browse);
+        RemoteConfigUtils remoteConfigUtils = RemoteConfigUtils.getInstance();
+        remoteConfigUtils.setActivateDeactivateConfig(mActivity, new OnCompleteListener() {
+            @Override
+            public void onComplete(@NonNull Task task) {
+                if(task.isSuccessful()){
+                    String url = "";
+                    url = remoteConfigUtils.getStringByName("capacitacion_ottaa");
+                    Log.d(TAG, "onComplete: "+url);
+                    Intent browse = new Intent( Intent.ACTION_VIEW , Uri.parse(url));
+                    mActivity.startActivity(Intent.createChooser(browse,"Browse With"));
+                }
+            }
+        });
+
     }
 
 
