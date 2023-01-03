@@ -85,4 +85,8 @@ public class RemoteConfigUtils implements RemoteConfigListener.PriceListener,Rem
     public String avatarMessages() {
         return mFirebaseRemoteConfig.getString("AvatarMessage");
     }
+
+    public String getStringByName(String key){
+        return mFirebaseRemoteConfig.getString(key);
+    }
 }

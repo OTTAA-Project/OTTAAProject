@@ -14,6 +14,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.stonefacesoft.ottaa.Dialogos.newsDialog.NewDialogsOTTAA;
 import com.stonefacesoft.ottaa.Viewpagers.Viewpager_tutorial;
+import com.stonefacesoft.ottaa.utils.ConnectionDetector;
+import com.stonefacesoft.ottaa.utils.CustomToast;
 import com.stonefacesoft.ottaa.utils.Firebase.AnalyticsFirebase;
 import com.stonefacesoft.ottaa.utils.InmersiveMode;
 
@@ -30,7 +32,7 @@ public class LoginActivity2Step3 extends AppCompatActivity implements View.OnCli
     private Button buttonBookDemo;
     private Button buttonAutoworkshop;
     private boolean comingFromMainActivity;
-
+    private ConnectionDetector connectionDetector;
     private AnalyticsFirebase mAnalyticsFirebase;
 
     @Override
@@ -40,6 +42,7 @@ public class LoginActivity2Step3 extends AppCompatActivity implements View.OnCli
             if(intento.hasExtra("comingFromMainActivity"))
                 comingFromMainActivity = true;
         }
+        connectionDetector = new ConnectionDetector(this);
         new InmersiveMode(this);
 
         super.onCreate(savedInstanceState);
@@ -102,12 +105,20 @@ public class LoginActivity2Step3 extends AppCompatActivity implements View.OnCli
                 startActivity(intent3);
                 break;
             case R.id.buttonAutoWorkshop:
-                mAnalyticsFirebase.customEvents("Touch","LoginActivityStep3","ButtonAutoWorkShop");
-                new NewDialogsOTTAA(this).showAutoWorkshopDialog();
+                if(connectionDetector.isConnectedToInternet()){
+                    mAnalyticsFirebase.customEvents("Touch","LoginActivityStep3","ButtonAutoWorkShop");
+                    new NewDialogsOTTAA(this).showAutoWorkshopDialog();
+                }else{
+                    CustomToast.getInstance(this).mostrarFrase(getResources().getText(R.string.problema_inet));
+                }
                 break;
             case R.id.buttonBookDemo:
-                mAnalyticsFirebase.customEvents("Touch","LoginActivityStep3","ButtonBookDemo");
-                new NewDialogsOTTAA(this).showBookDemoDialog();
+                if(connectionDetector.isConnectedToInternet()){
+                    mAnalyticsFirebase.customEvents("Touch","LoginActivityStep3","ButtonBookDemo");
+                    new NewDialogsOTTAA(this).showBookDemoDialog();
+                }else{
+                    CustomToast.getInstance(this).mostrarFrase(getResources().getText(R.string.problema_inet));
+                }
                 break;
         }
     }
