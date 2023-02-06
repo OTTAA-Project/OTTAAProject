@@ -116,10 +116,9 @@ public class CustomToast extends Application {
 
         public void prepareToast(){
             toast.setGravity(Gravity.BOTTOM, 0, 50);
-            //Set custom_toast duration
             toast.setDuration(Toast.LENGTH_LONG);
-            //Set the custom layout to Toast
-            toast.setView(layout);
+            if(toast.getView()== null|| toast.getView().getId()!= layout.getId())
+                toast.setView(layout);
         }
 
         public void showToast() {
@@ -145,5 +144,6 @@ public class CustomToast extends Application {
     public void onLowMemory() {
         super.onLowMemory();
         toast.cancel();
+
     }
 }
