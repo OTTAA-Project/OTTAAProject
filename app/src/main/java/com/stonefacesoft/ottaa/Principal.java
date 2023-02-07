@@ -1647,7 +1647,6 @@ public class Principal extends AppCompatActivity implements View
                 user.logOut();
                 break;
             case R.id.report:
-                //NOTA firebase analitycs
                 getAnalyticsFirebase().customEvents("Touch", "Principal", "Report");
                 if (sharedPrefsDefault.getInt("premium", 0) == 1) {
                     Intent i = new Intent(getApplicationContext(), ActivityInformes.class);
@@ -1658,7 +1657,6 @@ public class Principal extends AppCompatActivity implements View
                 }
                 break;
             case R.id.about:
-                //NOTA firebase analitycs
                 getAnalyticsFirebase().customEvents("Touch", "Principal", "About that");
                 Intent intent = new Intent(getApplicationContext(), AboutOttaa.class);
                 startActivity(intent);
@@ -2035,7 +2033,8 @@ public class Principal extends AppCompatActivity implements View
 //            mDatabaseBackupFrases = mDatabase.child("Usuarios").child(mAuth.getCurrentUser().getUid()).child("Backup").child(timeStamp).child("Backup_frases_" + sharedPrefsDefault.getString(getApplicationContext().getString(R.string.str_idioma), "en"));
 //            mDatabaseBackupFotos = mDatabase.child("Usuarios").child(mAuth.getCurrentUser().getUid()).child("Backup").child(timeStamp).child("Backup_fotos_" + sharedPrefsDefault.getString(getApplicationContext().getString(R.string.str_idioma), "en"));
 
-            /**Referencias database grupos pictos frases Archivos_Usuario*/
+            /**
+             * Referencias database grupos pictos frases Archivos_Usuario*/
             mPictosDatabaseRef = firebaseUtils.getmDatabase().child("Pictos").child(user.getmAuth().getCurrentUser().getUid()).child("URL_pictos_" + ConfigurarIdioma.getLanguaje());
             mFrasesDatabaseRef = firebaseUtils.getmDatabase().child("Frases").child(user.getmAuth().getCurrentUser().getUid()).child("URL_frases_" + ConfigurarIdioma.getLanguaje());
             mGruposDatabaseRef = firebaseUtils.getmDatabase().child("Grupos").child(user.getmAuth().getCurrentUser().getUid()).child("URL_grupos_" + ConfigurarIdioma.getLanguaje());
@@ -2148,7 +2147,6 @@ public class Principal extends AppCompatActivity implements View
     }
 
     private void initTTS() {
-        //  Vibrator vibe = (Vibrator) Principal.this.getSystemService(Context.VIBRATOR_SERVICE);
         try {
             if (resolveIntent(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA)) {
                 Intent checkTTSIntent = new Intent();
@@ -2245,7 +2243,6 @@ public class Principal extends AppCompatActivity implements View
                         mBajarJsonFirebase.bajarFrases(ConfigurarIdioma.getLanguaje(), rootPath, observableInteger);
                         break;
                 }
-                System.out.println("size:"+ size);
                 if (observableInteger.get() == size) {
                     getFirebaseDialog().destruirDialogo();
                     json.resetearError();
