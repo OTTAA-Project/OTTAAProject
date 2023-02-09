@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/WhiteSmoke">
+    <androidx.constraintlayout.widget.Placeholder
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:id="@+id/placeholder"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/constraint_orange"
+        app:layout_constraintVertical_weight="5" />
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:id="@+id/cardViewLogin"
+        app:cardCornerRadius="@dimen/fab_margin"
+        android:background="@color/White"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginVertical="@dimen/big_fat_margin"
+        app:layout_constraintDimensionRatio="1:1"
+        app:cardUseCompatPadding="true"
+        android:elevation="12dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:id="@+id/logoLogin"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/textViewSignIn"
+                android:layout_margin="@dimen/medium_margin"
+                app:layout_constraintVertical_weight="3"
+                android:src="@drawable/logo_ottaa"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:id="@+id/textViewSignIn"
+                app:layout_constraintTop_toBottomOf="@id/logoLogin"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/singInContainer"
+                android:textAlignment="center"
+                android:gravity="center"
+                app:layout_constraintVertical_weight="6"
+                android:textSize="20sp"
+                android:text="@string/hello_nplease_register_to_continue"/>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:id="@+id/singInContainer"
+                app:layout_constraintTop_toBottomOf="@+id/textViewSignIn"
+                app:layout_constraintBottom_toTopOf="@id/placeholderCardView"
+                android:layout_marginTop="@dimen/medium_margin"
+                android:layout_marginBottom="@dimen/medium_margin"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintVertical_weight="3"
+                >
+                <com.google.android.gms.common.SignInButton
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:id="@+id/sign_in_button"
+                    app:buttonSize="wide"
+                    android:tag="SingInButton"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+
+                    app:colorScheme="dark"
+                    app:layout_constraintWidth_default="wrap"
+                    app:layout_constraintHeight_default="wrap"
+                    />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+<!--            <com.google.android.gms.common.SignInButton-->
+<!--                android:layout_width="0dp"-->
+<!--                android:layout_height="0dp"-->
+<!--                android:id="@+id/googleSignInButton"-->
+<!--                app:buttonSize="wide"-->
+<!--                android:tag="SingInButton"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@+id/textViewSignIn"-->
+<!--                app:layout_constraintBottom_toTopOf="@id/placeholderCardView"-->
+<!--                android:layout_marginTop="@dimen/medium_margin"-->
+<!--                android:layout_marginBottom="@dimen/medium_margin"-->
+<!--                app:colorScheme="dark"-->
+<!--                app:layout_constraintWidth_default="wrap"-->
+<!--                app:layout_constraintHeight_default="wrap"-->
+<!--                app:layout_constraintVertical_weight="2"-->
+
+<!--                />-->
+
+            <androidx.constraintlayout.widget.Placeholder
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:id="@+id/placeholderCardView"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/singInContainer"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintVertical_weight="2"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:id="@+id/constraint_orange"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/placeholder"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintVertical_weight="3"
+        android:elevation="15dp">
+
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:id="@+id/orangeBanner"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:src="@drawable/ic_ola_naranja"
+            android:scaleType="fitXY"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:id="@+id/textLoginBig"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/textLoginSmall"
+            android:layout_marginStart="@dimen/medium_margin"
+            android:layout_marginTop="@dimen/medium_margin"
+            android:text="@string/bienvenido_nesto_es_ottaa"
+            android:gravity="bottom"
+            android:textColor="@color/White"
+            android:textSize="25sp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:id="@+id/textLoginSmall"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/placeholderBubas"
+            app:layout_constraintTop_toBottomOf="@id/textLoginBig"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginStart="@dimen/medium_margin"
+            android:layout_marginTop="@dimen/small_margin"
+            android:text="@string/we_are_helping_thousand_of_speech_impaired_children_to_communicate_improving_their_life_quality"
+            android:textColor="@color/White"
+            android:textSize="15sp"/>
+
+        <androidx.constraintlayout.widget.Placeholder
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:id="@+id/placeholderBubas"
+            app:layout_constraintStart_toEndOf="@id/textLoginSmall"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

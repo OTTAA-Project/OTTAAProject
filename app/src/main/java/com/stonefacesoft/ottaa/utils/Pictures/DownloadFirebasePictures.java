@@ -51,26 +51,29 @@ public class DownloadFirebasePictures {
 
     public void downloadFile() {
         showDismissDialog.sendMessage(1);
-        firebaseUtils.getmDatabase().child(Constants.FOTOSUSUARIO).child(firebaseUser.getUserUid()).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                int size = (int) dataSnapshot.getChildrenCount();
-                if (downloadDialog != null) {
-                    downloadDialog.setMax((int) dataSnapshot.getChildrenCount());
+        String uid = firebaseUser.getUserUid();
+        if(uid !=null ||uid.isEmpty()){
+            firebaseUtils.getmDatabase().child(Constants.FOTOSUSUARIO).child(firebaseUser.getUserUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    int size = (int) dataSnapshot.getChildrenCount();
+                    if (downloadDialog != null) {
+                        downloadDialog.setMax((int) dataSnapshot.getChildrenCount());
+                    }
+                    showDismissDialog.sendMessage(0);
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        String child = snapshot.getValue().toString();
+                        bajar.setFileDirectory(mDirectorio);
+                        bajar.bajarFoto(child, !dataSnapshot.getChildren().iterator().hasNext(),firebaseUtils);
+                    }
                 }
-                showDismissDialog.sendMessage(0);
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    String child = snapshot.getValue().toString();
-                    bajar.setFileDirectory(mDirectorio);
-                    bajar.bajarFoto(child, !dataSnapshot.getChildren().iterator().hasNext(),firebaseUtils);
-                }
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                showDismissDialog.sendMessage(0);
-            }
-        });
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    showDismissDialog.sendMessage(0);
+                }
+            });
+        }
     }
 
     public void requestPermission() {

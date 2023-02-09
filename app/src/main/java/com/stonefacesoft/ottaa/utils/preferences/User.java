@@ -141,7 +141,10 @@ public class User {
     }
 
     public String getUserUid(){
-        return mAuth.getCurrentUser().getUid();
+        if(mAuth!=null)
+            return mAuth.getCurrentUser().getUid();
+        else
+            return "";
     }
 
     public FirebaseUser getUser(){
