@@ -19,6 +19,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.stonefacesoft.ottaa.Interfaces.FirebaseSuccessListener;
 import com.stonefacesoft.ottaa.LoginActivity2;
 import com.stonefacesoft.ottaa.R;
+import com.stonefacesoft.pictogramslibrary.utils.ValidateContext;
 
 public class User {
     private Activity mActivity;
@@ -142,9 +143,9 @@ public class User {
 
     public String getUserUid(){
         if(mAuth!=null)
-            return mAuth.getCurrentUser().getUid();
-        else
-            return "";
+            if(ValidateContext.isValidContext(mActivity))
+                return mAuth.getCurrentUser().getUid();
+        return "";
     }
 
     public FirebaseUser getUser(){

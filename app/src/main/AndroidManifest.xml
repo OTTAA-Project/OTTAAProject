@@ -209,6 +209,9 @@
         <activity android:name=".Activities.Phrases.AllPhrases"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="sensorLandscape" />
+        <activity android:name=".LoginActivityEvaluationData"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="sensorLandscape" />
 
 
         <meta-data

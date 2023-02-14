@@ -15,9 +15,13 @@
 
     <dimen name="seleccion_margin">4dp</dimen>
 
-    <dimen name="textSizeTitulo">15sp</dimen>
-    <dimen name="textSizeChico">12sp</dimen>
+    <dimen name="textSizeTituloSmall">15sp</dimen>
+    <dimen name="textSizeTituloMedium">20sp</dimen>
+    <dimen name="textSizeTituloBig">30sp</dimen>
 
+    <dimen name="textSizeSmall">12sp</dimen>
+    <dimen name="textSizeMedium">20sp</dimen>
+    <dimen name="textSizeBig">25sp</dimen>
 
     <dimen name="sizeDialogHeigth">250dp</dimen>
     <dimen name="sizeDialogHeigthMax">350dp</dimen>

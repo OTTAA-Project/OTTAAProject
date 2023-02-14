@@ -81,6 +81,7 @@ import com.stonefacesoft.ottaa.Backup.BackupPictograms;
 import com.stonefacesoft.ottaa.Dialogos.DialogUtils.Progress_dialog_options;
 import com.stonefacesoft.ottaa.Dialogos.DialogUtils.Yes_noDialogs;
 import com.stonefacesoft.ottaa.Dialogos.newsDialog.NewDialogsOTTAA;
+import com.stonefacesoft.ottaa.Dialogos.newsDialog.TutorialDialog;
 import com.stonefacesoft.ottaa.FirebaseRequests.BajarJsonFirebase;
 import com.stonefacesoft.ottaa.FirebaseRequests.FirebaseUtils;
 import com.stonefacesoft.ottaa.FirebaseRequests.SubirArchivosFirebase;
@@ -1299,8 +1300,9 @@ public class Principal extends AppCompatActivity implements View
     private void consultarPago() {
         new LicenciaUsuario(getApplicationContext());
         final DatabaseReference pagoRef = firebaseUtils.getmDatabase();
-
-        pagoRef.child(Constants.PAGO).child(user.getUserUid()).addValueEventListener(new ValueEventListener() {
+        String uid = user.getUserUid();
+        if(uid != null){
+        pagoRef.child(Constants.PAGO).child(uid).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 try {
@@ -1328,7 +1330,8 @@ public class Principal extends AppCompatActivity implements View
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
-        });
+            });
+        }
     }
 
     @Override

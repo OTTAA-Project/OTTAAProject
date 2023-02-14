@@ -50,6 +50,7 @@ import com.stonefacesoft.ottaa.utils.Firebase.AnalyticsFirebase;
 import com.stonefacesoft.ottaa.utils.RemoteConfigUtils;
 import com.stonefacesoft.ottaa.utils.ReturnPositionItem;
 import com.stonefacesoft.ottaa.utils.exceptions.FiveMbException;
+import com.stonefacesoft.pictogramslibrary.utils.ValidateContext;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -567,7 +568,8 @@ public class NewDialogsOTTAA implements FirebaseSuccessListener {
                     url = remoteConfigUtils.getStringByName("capacitacion_ottaa");
                     Log.d(TAG, "onComplete: "+url);
                     Intent browse = new Intent( Intent.ACTION_VIEW , Uri.parse(url));
-                    mActivity.startActivity(Intent.createChooser(browse,"Browse With"));
+                    if(ValidateContext.isValidContext(mActivity))
+                        mActivity.startActivity(Intent.createChooser(browse,"Browse With"));
                 }
             }
         });
