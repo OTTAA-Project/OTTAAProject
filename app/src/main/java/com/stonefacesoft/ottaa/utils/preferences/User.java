@@ -43,7 +43,9 @@ public class User {
             _user = new User(mContext);
         return _user;
     }
-
+    public synchronized  static User getInstance(){
+        return _user;
+    }
 
     public User(Activity mContext){
         this.mActivity=mContext;
@@ -92,7 +94,7 @@ public class User {
 
     public  void disconnectClient(){
         if(mGoogleApiClient.isConnected())
-        mGoogleApiClient.disconnect();
+            mGoogleApiClient.disconnect();
     }
 
     public boolean isConnected(){
@@ -142,12 +144,20 @@ public class User {
     }
 
     public String getUserUid(){
-        if(mAuth!=null)
-            if(ValidateContext.isValidContext(mActivity))
-                return mAuth.getCurrentUser().getUid();
+        if(mAuth!=null){
+            return mAuth.getCurrentUser().getUid();
+        }
         return "";
     }
-
+    public String getUserUid(Context context){
+        String uid = "";
+       try{
+           uid = mAuth.getCurrentUser().getUid();
+        }catch (Exception ex){
+           uid = "";
+       }
+        return uid;
+    }
     public FirebaseUser getUser(){
         return mAuth.getCurrentUser();
     }

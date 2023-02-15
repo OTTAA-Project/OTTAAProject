@@ -220,7 +220,8 @@ public class MemoryGame extends GameViewSelectPictograms {
             ex.printStackTrace();
         }
         option.setVisibleText();
-        option.setCustom_Img(json.getIcono(pictogramas[model.getMatrixIdPictogram()[row][column]]));
+        if(model.getMatrixIdPictogram().length>0)
+            option.setCustom_Img(json.getIcono(pictogramas[model.getMatrixIdPictogram()[row][column]]));
     }
 
 
@@ -414,7 +415,6 @@ public class MemoryGame extends GameViewSelectPictograms {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (barridoPantalla.isBarridoActivado()) {
-
             if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT) {
                 event.startTracking();
                 return true;

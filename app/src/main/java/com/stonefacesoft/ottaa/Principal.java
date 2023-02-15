@@ -67,7 +67,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.database.annotations.Nullable;
-import com.google.firebase.inappmessaging.FirebaseInAppMessaging;
 import com.google.firebase.installations.FirebaseInstallations;
 import com.google.firebase.perf.metrics.AddTrace;
 import com.google.firebase.storage.FirebaseStorage;
@@ -81,7 +80,6 @@ import com.stonefacesoft.ottaa.Backup.BackupPictograms;
 import com.stonefacesoft.ottaa.Dialogos.DialogUtils.Progress_dialog_options;
 import com.stonefacesoft.ottaa.Dialogos.DialogUtils.Yes_noDialogs;
 import com.stonefacesoft.ottaa.Dialogos.newsDialog.NewDialogsOTTAA;
-import com.stonefacesoft.ottaa.Dialogos.newsDialog.TutorialDialog;
 import com.stonefacesoft.ottaa.FirebaseRequests.BajarJsonFirebase;
 import com.stonefacesoft.ottaa.FirebaseRequests.FirebaseUtils;
 import com.stonefacesoft.ottaa.FirebaseRequests.SubirArchivosFirebase;
@@ -113,6 +111,7 @@ import com.stonefacesoft.ottaa.utils.CustomToast;
 import com.stonefacesoft.ottaa.utils.EnumImageView;
 import com.stonefacesoft.ottaa.utils.Firebase.AnalyticsFirebase;
 import com.stonefacesoft.ottaa.utils.Firebase.CrashlyticsUtils;
+import com.stonefacesoft.ottaa.utils.HandlerComunicationClass;
 import com.stonefacesoft.ottaa.utils.InmersiveMode;
 import com.stonefacesoft.ottaa.utils.IntentCode;
 import com.stonefacesoft.ottaa.utils.JSONutils;
@@ -168,19 +167,15 @@ public class Principal extends AppCompatActivity implements View
 
     private static final String TAG = "Principal";
     public static boolean cerrarSession = false;// use this variable to notify when the session is closed
-    private static FirebaseSuccessListener mFirebaseSuccessListener;
 
     private final Handler handlerHablar = new Handler();
-    public Uri bajarGrupos;
     public volatile Json json;
-    public String dateStr;
     // JSONObject que usamoss
     JSONObject pictoPadre, opcion1, opcion2, opcion3, opcion4, onLongOpcion;
     SubirArchivosFirebase subirArchivos;
     String timeStamp;
     private Avatar avatar;
     private MovableFloatingActionButton movableFloatingActionButton;
-    private Button Registro;
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle toggle;
     private NavigationView navigationView;
@@ -195,34 +190,21 @@ public class Principal extends AppCompatActivity implements View
     private timer_pictogram_clicker Opcion2_clicker;
     private timer_pictogram_clicker Opcion3_clicker;
     private timer_pictogram_clicker Opcion4_clicker;
-    private boolean uploadFile = true;
 
     //Declaracion de variables del TTS
     private User user;
     private boolean isSettings;
-    private boolean mCerrarSesion;
-    private LinearLayout layout;
     private Button btnBarrido;
     private MenuItem locationItem;
     private ScrollFunctionMainActivity function_scroll;
     private FloatingActionButton talk;
     private BajarJsonFirebase mBajarJsonFirebase;
     private boolean mute; // this boolean show the sound status
-    /* Client used to interact with Google APIs. */
-    //Declaro el manejador de preferencia
     private SharedPreferences sharedPrefs, sharedPrefsDefault;
-    private boolean PrimerUso;
-    // Declaracion de Arraylist en el que se guardan los Picto viejos
-    //protected ArrayList<JSONObject> Historial;
     private Historial historial;
     private boolean doubleBackToExitPressedOnce = false;
-    private final boolean click = true;
-
-    //Idioma de la base de Datos
-    //String que carga el texto para el TTS
     private String Oracion = "";
-    private int versionCode, ultimaVersion;
-    private long primeraConexion;
+    private int versionCode;
     //Indica el proximo lugar en la seleccion
     private int CantClicks;
     //Handler para animar el Hablar cuando pasa cierto tiempo
@@ -234,23 +216,14 @@ public class Principal extends AppCompatActivity implements View
         }
     };
     private PictoView Agregar;
-    //InputStream
-    private FileInputStream pictos, grupos, frasesGuardadas;
-    private long networkTS;
-    // Editar picto
+
     private boolean editarPicto;
-    //Bool que indica si se est&aacute usando la agenda o no
-    private boolean boolAgenda;
-    private long Actual;
-    // cuanta de mas pictos
+
     private int cuentaMasPictos;
     private int placeTypeActual;
     private int placeActual;
     private boolean vibrar = false;
-    //Firebase Referencias
-    private DatabaseReference mDatabaseBackupPictos, mDatabaseBackupGrupos, mDatabaseBackupFrases, mDatabaseBackup, mDatabaseBackupFotos;
-    private StorageReference mStorageBackupPictos, mStorageBackupGrupos, mStorageBackupFrases;
-    private StorageReference mStorageRef, mStorageRefPictos, mStorageRefFrases, mStorageRefGrupos, mStorageBackupFotos;
+    private StorageReference mStorageRef;
     private DatabaseReference mDatabase, mPictosDatabaseRef, mFrasesDatabaseRef, mGruposDatabaseRef;
     private LottieAnimationView animationView;
     private textToSpeech myTTS;
@@ -277,8 +250,6 @@ public class Principal extends AppCompatActivity implements View
 
     private InmersiveMode inmersiveMode;
     private Gesture gesture;
-    //Bandera global del tutorial
-    //version 6.7.5
     private boolean TutoFlag;
     private ImageView menuAvatarIcon;
     private AvatarUtils avatarUtils;
@@ -289,21 +260,6 @@ public class Principal extends AppCompatActivity implements View
     private ImageButton resetButton;
 
 
-
-
-    public static byte[] getBytesFromInputStream(InputStream is) throws IOException {
-        try (ByteArrayOutputStream os = new ByteArrayOutputStream()) {
-            byte[] buffer = new byte[0xFFFF];
-            for (int len; (len = is.read(buffer)) != -1; )
-                os.write(buffer, 0, len);
-            os.flush();
-            return os.toByteArray();
-        }
-    }
-
-    public String getOracion() {
-        return Oracion;
-    }
 
     public void setOracion(String oracion) {
         this.Oracion = oracion;
@@ -454,7 +410,6 @@ public class Principal extends AppCompatActivity implements View
         dialogo1.setTitle(getResources().getString(R.string.pref_important_alert));
         dialogo1.setCancelable(false);
         dialogo1.setMessage(getResources().getString(R.string.pref_error_112));
-        //dialogo1.setCancelable(false);
         dialogo1.setPositiveButton(getResources().getString(R.string.pref_yes_alert), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialogo1, int id) {
                 finish();
@@ -612,87 +567,7 @@ public class Principal extends AppCompatActivity implements View
         backupPhotos.preparelocalBackup(timeStamp);
     }
 
-    private void subirBackupFirebase() {
 
-        if (mDatabaseBackup != null && user.getmAuth() != null) {
-            mDatabaseBackup.child("UltimoBackup").addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull final DataSnapshot UltimoBackupDataSnapshot) {
-
-                    final DatabaseReference ultimaConRef = FirebaseDatabase.getInstance().getReference().child("Usuarios").child(Objects.requireNonNull(user.getmAuth().getCurrentUser()).getUid()).child("UConexion");
-                    ultimaConRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot UltimaConexionDataSnapshot) {
-
-                            if (UltimaConexionDataSnapshot != null && UltimoBackupDataSnapshot != null) {
-
-                                try {
-
-                                    long ultimoBackup = java.lang.Long.parseLong(UltimoBackupDataSnapshot.getValue().toString());
-                                    long ultimaConexion = java.lang.Long.parseLong(UltimaConexionDataSnapshot.getValue().toString());
-                                    Log.d(TAG, "onDataChange: " + "UltimoBackup: " + ultimoBackup + "UltimaConexion: " + ultimaConexion);
-
-                                    if (ultimoBackup + Constants.UNA_SEMANA < ultimaConexion) {
-
-                                        mFirebaseBackup.subirGruposFirebase(mDatabaseBackupGrupos, mStorageBackupGrupos);
-                                        mFirebaseBackup.subirPictosFirebase(mDatabaseBackupPictos, mStorageBackupPictos);
-                                        mFirebaseBackup.subirFrasesFirebase(mDatabaseBackupFrases, mStorageBackupFrases);
-                                        mFirebaseBackup.subirFotosBackupFirebase(mDatabaseBackupFotos, mStorageBackupFotos);
-                                        mDatabaseBackup.child("UltimoBackup").setValue(timeStamp);
-
-                                    }
-                                } catch (NullPointerException e) {
-                                    Log.e(TAG, "onDataChange: Firebase Backup NPE" + e.getMessage());
-                                }
-                            }
-
-
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                        }
-
-                    });
-
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                }
-            });
-        } else {
-            Log.e(TAG, "subirBackupFirebase: " + "error al subir archivos");
-        }
-    }
-
-    /**
-     * Pone todos los botones del color original (Fondo Boton), o sea los inicializa para dsp cambiar el color del boton adecuado
-     */
-
-    public View vista(int v) {
-        return findViewById(v);
-    }
-
-    /**
-     * Traforma una fecha que esta en formato String en una fecha que esta en formato java.util.Date
-     *
-     * @param s (String)
-     * @return
-     */
-    private java.util.Date stringToDate(String s) {
-        String aux;
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
-        try {
-            aux = s.replaceAll("\\\\", "/");
-            return simpleDateFormat.parse(aux);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
 
     @Override
     protected void onStart() {
@@ -1025,18 +900,12 @@ public class Principal extends AppCompatActivity implements View
             @Override
             public void onClick(View v) {
                 try {
-                    //pregunto el tipo de usuario
                     if (sharedPrefsDefault.getBoolean("esmoderador", false)) {
-                        //
                         JSONArray pictosSugeridos = json.readJSONArrayFromFile(Constants.ARCHIVO_PICTOS_DATABASE);
-                        //pregunto por la posicion y el id
                         JSONutils.desvincularJson(pictosSugeridos.getJSONObject(pictoPadre.getInt("id")), pos);
-                        //
                         json.setmJSONArrayPictosSugeridos(pictosSugeridos);
-                        //guardo las opciones
                         if (!json.guardarJson(Constants.ARCHIVO_PICTOS_DATABASE))
                             Log.e(TAG, "onClick: eliminar: Error al guardar pictos sugeridos");
-                        //  CargarOpciones(json, pictoPadre, cuentaMasPictos);
                     }
 
                 } catch (JSONException | FiveMbException e) {
@@ -1343,9 +1212,13 @@ public class Principal extends AppCompatActivity implements View
                 Oracion = traducirfrase.getTexto();
                 compartirArchivos.seleccionarFormato(Oracion);
             }
-            traduccion = false;
-
         }
+    }
+
+    public void shareText(){
+        CompartirArchivos compartirArchivos = new CompartirArchivos(this, myTTS,this);
+        compartirArchivos.setHistorial(historial.getListadoPictos());
+        compartirArchivos.seleccionarFormato(Oracion);
     }
 
     @Override
@@ -1550,18 +1423,40 @@ public class Principal extends AppCompatActivity implements View
         Animation animation = AnimationUtils.loadAnimation(getApplicationContext(),
                 R.anim.alpha_dismiss);
 
-        if (opcion1 == null) {
-            setInvisibleOption(Opcion2,animation);
-            setInvisibleOption(Opcion3,animation);
-            setInvisibleOption(Opcion4,animation);
-        } else if (opcion2 == null && opcion1 != null) {
-            setInvisibleOption(Opcion3,animation);
-            setInvisibleOption(Opcion4,animation);
-        } else if (opcion3 == null && opcion2 != null) {
-            setInvisibleOption(Opcion4,animation);
-        } else if (opcion4 == null && opcion3 != null && Opcion3.getVisibility() == View.VISIBLE) {
-            Opcion4.setVisibility(View.VISIBLE);
+
+        if (isNullObject(opcion1)) {
+            hideAnimation(animation,1);
+        } else if (isNullObject(opcion2)) {
+            hideAnimation(animation,2);
+        } else if (isNullObject(opcion3)) {
+            hideAnimation(animation,3);
+        } else if (isNullObject(opcion4) && Opcion3.getVisibility() == View.VISIBLE) {
+            hideAnimation(animation,4);
         }
+    }
+
+    public void hideAnimation(Animation animation,int id){
+        switch (id){
+            case 1:
+                    setInvisibleOption(Opcion2,animation);
+                    setInvisibleOption(Opcion3,animation);
+                    setInvisibleOption(Opcion4,animation);
+                break;
+            case 2:
+                    setInvisibleOption(Opcion3,animation);
+                    setInvisibleOption(Opcion4,animation);
+                break;
+            case 3:
+                    setInvisibleOption(Opcion4,animation);
+                break;
+            case 4:
+                    Opcion4.setVisibility(View.VISIBLE);
+                break;
+        }
+    }
+
+    private boolean isNullObject(JSONObject object){
+        return object == null;
     }
 
     private void setInvisibleOption(PictoView option,Animation animation){
@@ -1680,7 +1575,7 @@ public class Principal extends AppCompatActivity implements View
             }else{
                 placesImplementation.locationRequest();
                 if(myTTS != null)
-                myTTS.mostrarAlerta(getResources().getString(R.string.no_location));
+                    myTTS.mostrarAlerta(getResources().getString(R.string.no_location));
             }
         }
     }
@@ -1780,9 +1675,15 @@ public class Principal extends AppCompatActivity implements View
                 if (Oracion.isEmpty() && historial.getListadoPictos().size() > 0)
                     CargarOracion(historial.getListadoPictos().get(0), sharedPrefsDefault.getString(getString(R.string.str_idioma), "en"));
                 Oracion = EjecutarNLG();
-                traducirfrase.traducirIdioma(this, Oracion, "en", sharedPrefsDefault.getString(getString(R.string.str_idioma), "en"), true);
+                if(sharedPrefsDefault.getString(getString(R.string.str_idioma), "en").equals("es")){
+                    processPhrase = new ProcessPhrase(this, sharedPrefsDefault, animationView, getApplicationContext(), Oracion, HandlerComunicationClass.SHAREACTION);
+                    processPhrase.setOracion(Oracion);
+                    processPhrase.execute(historial.nlgObject());
+
+                }else{
+                    traducirfrase.traducirIdioma(this, Oracion, "en", sharedPrefsDefault.getString(getString(R.string.str_idioma), "en"), true);
+                }
             }
-            // if(myTTS().devolverPathAudio().exists())
         }else{
             myTTS.mostrarAlerta(getResources().getString(R.string.createPhrasesAlert));
         }
@@ -2009,35 +1910,10 @@ public class Principal extends AppCompatActivity implements View
     private void firstUserAuthVerification() {
         if (user.getmAuth().getCurrentUser() != null) {
             subirArchivos = new SubirArchivosFirebase(this);
-            /**
-             * Referencias Storage grupos pictos frases
-             * */
-            /**
-             * Referencias database grupos pictos frases
-             */
             mPictosDatabaseRef = subirArchivos.getmDatabase(user.getmAuth(), "Pictos");
             mFrasesDatabaseRef = subirArchivos.getmDatabase(user.getmAuth(), "Frases");
             mGruposDatabaseRef = subirArchivos.getmDatabase(user.getmAuth(), "Grupos");
-            //    mStorageBackupGrupos = mStorageRef.child("Archivos_Usuarios").child("Backups").child(mAuth.getCurrentUser().getUid()).child(timeStamp).child("grupos_" + mAuth.getCurrentUser().getEmail() + "_" + sharedPrefsDefault.getString(getApplicationContext().getString(R.string.str_idioma), "en") + "." + "txt");
-            //     mStorageBackupPictos = mStorageRef.child("Archivos_Usuarios").child("Backups").child(mAuth.getCurrentUser().getUid()).child(timeStamp).child("pictos_" + mAuth.getCurrentUser().getEmail() + "_" + sharedPrefsDefault.getString(getApplicationContext().getString(R.string.str_idioma), "en") + "." + "txt");
-            //   mStorageBackupFrases = mStorageRef.child("Archivos_Usuarios").child("Backups").child(mAuth.getCurrentUser().getUid()).child(timeStamp).child("frases_" + mAuth.getCurrentUser().getEmail() + "_" + sharedPrefsDefault.getString(getApplicationContext().getString(R.string.str_idioma), "en") + "." + "txt");
-            //  mStorageBackupFotos = mStorageRef.child("Archivos_Usuarios").child("Backups").child(mAuth.getCurrentUser().getUid()).child(timeStamp).child("fotos_" + mAuth.getCurrentUser().getEmail() + "_" + sharedPrefsDefault.getString(getApplicationContext().getString(R.string.str_idioma), "en") + "." + "txt");
-
             mBajarJsonFirebase = new BajarJsonFirebase(sharedPrefsDefault, user.getmAuth(), getApplicationContext());
-//            File rootPath = new File(this.getCacheDir(), "Archivos_OTTAA");
-//            mBajarJsonFirebase.bajarDescripcionJuegos(sharedPrefsDefault.getString(getApplicationContext().getString(R.string.str_idioma), "en"),rootPath);
-
-            //chequearArchivoSugerencias();
-            /**Referencias database grupos pictos frases BACKUP*/
-
-//            mDatabaseBackup = mDatabase.child("Usuarios").child(mAuth.getCurrentUser().getUid()).child("Backup");
-//            mDatabaseBackupPictos = mDatabase.child("Usuarios").child(mAuth.getCurrentUser().getUid()).child("Backup").child(timeStamp).child("Backup_pictos_" + sharedPrefsDefault.getString(getApplicationContext().getString(R.string.str_idioma), "en"));
-//            mDatabaseBackupGrupos = mDatabase.child("Usuarios").child(mAuth.getCurrentUser().getUid()).child("Backup").child(timeStamp).child("Backup_grupos_" + sharedPrefsDefault.getString(getApplicationContext().getString(R.string.str_idioma), "en"));
-//            mDatabaseBackupFrases = mDatabase.child("Usuarios").child(mAuth.getCurrentUser().getUid()).child("Backup").child(timeStamp).child("Backup_frases_" + sharedPrefsDefault.getString(getApplicationContext().getString(R.string.str_idioma), "en"));
-//            mDatabaseBackupFotos = mDatabase.child("Usuarios").child(mAuth.getCurrentUser().getUid()).child("Backup").child(timeStamp).child("Backup_fotos_" + sharedPrefsDefault.getString(getApplicationContext().getString(R.string.str_idioma), "en"));
-
-            /**
-             * Referencias database grupos pictos frases Archivos_Usuario*/
             mPictosDatabaseRef = firebaseUtils.getmDatabase().child("Pictos").child(user.getmAuth().getCurrentUser().getUid()).child("URL_pictos_" + ConfigurarIdioma.getLanguaje());
             mFrasesDatabaseRef = firebaseUtils.getmDatabase().child("Frases").child(user.getmAuth().getCurrentUser().getUid()).child("URL_frases_" + ConfigurarIdioma.getLanguaje());
             mGruposDatabaseRef = firebaseUtils.getmDatabase().child("Grupos").child(user.getmAuth().getCurrentUser().getUid()).child("URL_grupos_" + ConfigurarIdioma.getLanguaje());
@@ -2310,7 +2186,7 @@ public class Principal extends AppCompatActivity implements View
             Oracion = EjecutarNLG();
             if (!sharedPrefsDefault.getString(getString(R.string.str_idioma), "en").equals("en")) {
                 if(sharedPrefsDefault.getString(getString(R.string.str_idioma), "en").equals("es")){
-                    processPhrase = new ProcessPhrase(this, sharedPrefsDefault, animationView, getApplicationContext(), Oracion);
+                    processPhrase = new ProcessPhrase(this, sharedPrefsDefault, animationView, getApplicationContext(), Oracion,HandlerComunicationClass.FraseTraducida);
                     processPhrase.setOracion(Oracion);
                     processPhrase.execute(historial.nlgObject());
 

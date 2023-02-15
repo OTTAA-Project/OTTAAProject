@@ -31,13 +31,16 @@ public class ProcessPhrase {
     private String Oracion = "";
     private final String traduccion = "";
     private final HandlerComunicationClass handlerComunicationClass;
+    private int option;
 
-    public ProcessPhrase(Principal principal, SharedPreferences sharedPreferences, LottieAnimationView animationView, Context mContext, String Oracion) {
+    public ProcessPhrase(Principal principal, SharedPreferences sharedPreferences, LottieAnimationView animationView, Context mContext, String Oracion,final int value) {
         this.mContext = mContext;
         this.sharedPrefsDefault = sharedPreferences;
         this.animationView = animationView;
         this.Oracion = Oracion;
+        this.option = value;
         handlerComunicationClass = new HandlerComunicationClass(principal);
+
 
     }
 
@@ -70,7 +73,7 @@ public class ProcessPhrase {
                         try {
                             Log.e(TAG, "execute: "+ jsonObject.toString());
                             Log.e(TAG, "execute: "+ response.toString());
-                            handlerComunicationClass.sendMessage(Message.obtain(handlerComunicationClass, HandlerComunicationClass.FraseTraducida, response.getString("sentence")));
+                            handlerComunicationClass.sendMessage(Message.obtain(handlerComunicationClass, option, response.getString("sentence")));
                             animationView.cancelAnimation();
                             animationView.setVisibility(View.GONE);
                         } catch (Exception e) {

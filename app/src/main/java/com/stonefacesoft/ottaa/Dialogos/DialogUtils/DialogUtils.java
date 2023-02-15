@@ -12,6 +12,7 @@ import com.stonefacesoft.ottaa.Dialogos.Dialog_abstract_class;
 import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.utils.ActivityUtilsEstatus;
 import com.stonefacesoft.ottaa.utils.Custom_button;
+import com.stonefacesoft.pictogramslibrary.utils.ValidateContext;
 
 public class DialogUtils extends Dialog_abstract_class {
     protected Context mContext;
@@ -41,7 +42,7 @@ public class DialogUtils extends Dialog_abstract_class {
 
 
     public void mostrarDialogo(){
-        if(activityUtilsEstatus.isValidContext(mContext)&&dialog!=null&&!dialog.isShowing()){
+        if(ValidateContext.isValidContext(mContext) &&dialog!=null&&!dialog.isShowing()){
             dialog.show();
         }
 
