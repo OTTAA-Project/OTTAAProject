@@ -165,6 +165,7 @@ public class viewpager_galeria_pictos {
             mActivity.startActivity(i);
         }
 
+
     }
 
 

@@ -83,8 +83,6 @@ public class BuscarArasaac {
 
     private void requestVolley(Context context,String request){
         RequestQueue requestQueue = Volley.newRequestQueue(context,new HurlStack());
-
-
         requestQueue.start();
         StringRequest stringRequest = new StringRequest(Request.Method.GET, request, new Response.Listener<String>() {
             @Override

@@ -35,9 +35,10 @@ public class Grupo_Recycler_View extends Custom_recyclerView implements  View.On
     private int mPosition=-1;
     private ItemTouchHelper mItemTouchHelper;
     private final String TAG = "Grupo_Recycler";
-
+    private boolean editarPicto;
     public Grupo_Recycler_View(AppCompatActivity mActivity, FirebaseAuth mAuth) {
         super(mActivity,mAuth);
+
         array=json.getmJSONArrayTodosLosGrupos();
         createRecyclerLayoutManager();
     }
@@ -128,36 +129,42 @@ public class Grupo_Recycler_View extends Custom_recyclerView implements  View.On
 
             @Override
             public void onLongClickListener(View view, int position) {
-                if (position != -1) {
-                    mPosition = position;
-                    PopupMenu.OnMenuItemClickListener listener = new PopupMenu.OnMenuItemClickListener() {
-                        @Override
-                        public boolean onMenuItemClick(MenuItem menuItem) {
-                            switch (menuItem.getItemId()) {
-                                case R.id.item_edit:
-                                    analyticsFirebase.customEvents("Touch","Galeria Grupos","Edit Group");
-                                    if (User.getInstance(mActivity).isPremium()) {
-                                        mActivity.startActivityForResult(startEditAction(), IntentCode.EDITARPICTO.getCode());
-                                    }
-                                    else{
-                                        mActivity.startActivity(startExpiredLicense());
-                                    }
-                                    return true;
-                                case R.id.item_delete:
-                                    analyticsFirebase.customEvents("Touch","Galeria Grupos","Delete Group");
-                                    try {
-                                        if(!(array.getJSONObject(mPosition).getJSONObject("texto").getString("en").equals("ALL") && array.getJSONObject(mPosition).getInt("id") == 24))
-                                            AlertBorrar();
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
-                                    return true;
+                editarPicto = sharedPrefsDefault.getBoolean(mActivity.getString(R.string.str_editar_picto), true);
+                if(editarPicto){
+                    if (position != -1) {
+                        mPosition = position;
+                        PopupMenu.OnMenuItemClickListener listener = new PopupMenu.OnMenuItemClickListener() {
+                            @Override
+                            public boolean onMenuItemClick(MenuItem menuItem) {
+                                switch (menuItem.getItemId()) {
+                                    case R.id.item_edit:
+                                        analyticsFirebase.customEvents("Touch","Galeria Grupos","Edit Group");
+                                        if (User.getInstance(mActivity).isPremium()) {
+                                            mActivity.startActivityForResult(startEditAction(), IntentCode.EDITARPICTO.getCode());
+                                        }
+                                        else{
+                                            mActivity.startActivity(startExpiredLicense());
+                                        }
+                                        return true;
+                                    case R.id.item_delete:
+                                        analyticsFirebase.customEvents("Touch","Galeria Grupos","Delete Group");
+                                        try {
+                                            if(!(array.getJSONObject(mPosition).getJSONObject("texto").getString("en").equals("ALL") && array.getJSONObject(mPosition).getInt("id") == 24))
+                                                AlertBorrar();
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        }
+                                        return true;
+                                }
+                                popupMenu.dismiss();
+                                return false;
                             }
-                            popupMenu.dismiss();
-                            return false;
-                        }
-                    };
-                new PopupMenuUtils(mActivity,view,listener);
+                        };
+                        new PopupMenuUtils(mActivity,view,listener);
+                    }
+                }
+                else{
+                    onItemClick(view,position);
                 }
             }
 

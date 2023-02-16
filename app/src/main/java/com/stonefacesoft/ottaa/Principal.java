@@ -1008,7 +1008,6 @@ public class Principal extends AppCompatActivity implements View
 
     @Override
     public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
-        //esto soluciona el error que salta en el nokia 8 por que si no elimina la vista
         super.onSaveInstanceState(outState, outPersistentState);
     }
 

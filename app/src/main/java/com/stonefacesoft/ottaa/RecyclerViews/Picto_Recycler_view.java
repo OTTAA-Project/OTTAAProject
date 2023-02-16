@@ -30,7 +30,7 @@ public class Picto_Recycler_view extends Custom_recyclerView {
     private GaleriaPictosAdapter galeriaPictos2;
     private int id=-1;
     private final String TAG="Picto_Recycler_View";
-
+    private boolean editarPicto;
 
     public Picto_Recycler_view(AppCompatActivity mActivity, FirebaseAuth mAuth) {
         super(mActivity, mAuth);
@@ -118,14 +118,20 @@ public class Picto_Recycler_view extends Custom_recyclerView {
             @Override
             public void onLongClickListener(View view, int position) {
                 int idPicto= 0;
-                try {
-                    idPicto = json.getId(galeriaPictos2.getmArrayPictos().getJSONObject(position));
-                    if(id!=idPicto){
-                        id=idPicto;
-                        myTTS.hablar(JSONutils.getNombre(galeriaPictos2.getmArrayPictos().getJSONObject(position),sharedPrefsDefault.getString(mActivity.getString(R.string.str_idioma), "en")));
-                        ShowpopMenu(view,position);}
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                editarPicto = sharedPrefsDefault.getBoolean(mActivity.getString(R.string.str_editar_picto), true);
+                if(editarPicto) {
+                    try {
+                        idPicto = json.getId(galeriaPictos2.getmArrayPictos().getJSONObject(position));
+                        if (id != idPicto) {
+                            id = idPicto;
+                            myTTS.hablar(JSONutils.getNombre(galeriaPictos2.getmArrayPictos().getJSONObject(position), sharedPrefsDefault.getString(mActivity.getString(R.string.str_idioma), "en")));
+                            ShowpopMenu(view, position);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }else{
+                    onItemClick(view,position);
                 }
             }
         } );
@@ -159,6 +165,7 @@ public class Picto_Recycler_view extends Custom_recyclerView {
                 return false;
             }
         });
+
     }
 
     @Override
