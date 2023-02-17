@@ -49,6 +49,7 @@ import com.stonefacesoft.ottaa.utils.Firebase.AnalyticsFirebase;
 import com.stonefacesoft.ottaa.utils.InmersiveMode;
 import com.stonefacesoft.ottaa.utils.IntentCode;
 import com.stonefacesoft.ottaa.utils.constants.Constants;
+import com.stonefacesoft.pictogramslibrary.utils.ValidateContext;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -182,22 +183,22 @@ public class LoginActivity2Avatar extends AppCompatActivity implements View.OnCl
                 Intent databack = new Intent();
                 if (comingFromMainActivity) {
                     setResult(IntentCode.AVATAR.getCode(), databack);
-                    finish();
+                    finishAfterTransition();
                 }
                 if (!comingFromMainActivity) {
                     mFirebaseAnalytics.customEvents("Touch", "LoginActivity2Avatar", "Next3");
                     Intent intent = new Intent(LoginActivity2Avatar.this, Principal.class);
                     startActivity(intent);
-                    finish();
+                    finishAfterTransition();
                 }
 
                 break;
-            case R.id.back_button:
+            case R.id.backButton:
                 if (!comingFromMainActivity) {
                     mFirebaseAnalytics.customEvents("Touch", "LoginActivity2Avatar", "Back3");
                     Intent intent2 = new Intent(LoginActivity2Avatar.this, LoginActivity2Step3.class);
                     startActivity(intent2);
-                    finish();
+                    finishAfterTransition();
                 }
                 break;
             case R.id.buttonSelectAvatarSource:
@@ -371,8 +372,10 @@ public class LoginActivity2Avatar extends AppCompatActivity implements View.OnCl
      * this method shows the avatar picture on the ImageViewAvatar
      */
     public void setAvatarByName(String name) {
-        Drawable drawable = LoginActivity2Avatar.this.getResources().getDrawable(LoginActivity2Avatar.this.getResources().getIdentifier(name, "drawable", LoginActivity2Avatar.this.getPackageName()));
-        Glide.with(LoginActivity2Avatar.this).load(drawable).into(imageViewAvatar);
+        if(ValidateContext.isValidContext(LoginActivity2Avatar.this)) {
+            Drawable drawable = LoginActivity2Avatar.this.getResources().getDrawable(LoginActivity2Avatar.this.getResources().getIdentifier(name, "drawable", LoginActivity2Avatar.this.getPackageName()));
+            Glide.with(LoginActivity2Avatar.this).load(drawable).into(imageViewAvatar);
+        }
     }
 
 

@@ -57,8 +57,11 @@ public class Json0Recover {
         if (object == null){
             object = createJson();
         }
-        FirebaseUtils.getInstance().getmDatabase().child("backupPictogramOrigin").child(User.getInstance(context).getUserUid()).child(ConfigurarIdioma.getLanguaje()).setValue(object.toString());
-        failReadPictogramOrigin.loadDialog();
+        String uid = User.getInstance(context).getUserUid();
+        if(uid!=null||uid.isEmpty()){
+            FirebaseUtils.getInstance().getmDatabase().child("backupPictogramOrigin").child(uid).child(ConfigurarIdioma.getLanguaje()).setValue(object.toString());
+            failReadPictogramOrigin.loadDialog();
+        }
     }
     public void restorePictogram0(Context mContext, FailReadPictogramOrigin failReadPictogramOrigin){
         if(ConnectionDetector.isNetworkAvailable(mContext))
@@ -68,7 +71,6 @@ public class Json0Recover {
                 JSONObject object = null;
                 try {
                     String value = snapshot.getValue(String.class);
-                    Log.e("JsonRecover","Json "+ value);
                     object = new JSONObject(snapshot.getValue(String.class));
                     failReadPictogramOrigin.setParent(object);
 

@@ -70,8 +70,8 @@ public class CustomFavoritePhrasesAdapter extends RecyclerView.Adapter<CustomFav
 
     @Override
     public void onBindViewHolder(@NonNull FavoritePhrases holder, int position) {
-       // loadObject(holder,position);
-       loadHolder(holder,position);
+        loadObject(holder,position);
+      // loadHolder(holder,position);
     }
 
     @Override

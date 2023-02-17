@@ -89,4 +89,8 @@ public class RemoteConfigUtils implements RemoteConfigListener.PriceListener,Rem
     public String getStringByName(String key){
         return mFirebaseRemoteConfig.getString(key);
     }
+
+    public boolean getBooleanByName(String key){
+        return mFirebaseRemoteConfig.getBoolean(key);
+    }
 }

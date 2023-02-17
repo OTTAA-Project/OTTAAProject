@@ -19,6 +19,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.stonefacesoft.ottaa.Interfaces.FirebaseSuccessListener;
 import com.stonefacesoft.ottaa.LoginActivity2;
 import com.stonefacesoft.ottaa.R;
+import com.stonefacesoft.pictogramslibrary.utils.ValidateContext;
 
 public class User {
     private Activity mActivity;
@@ -42,7 +43,9 @@ public class User {
             _user = new User(mContext);
         return _user;
     }
-
+    public synchronized  static User getInstance(){
+        return _user;
+    }
 
     public User(Activity mContext){
         this.mActivity=mContext;
@@ -91,7 +94,7 @@ public class User {
 
     public  void disconnectClient(){
         if(mGoogleApiClient.isConnected())
-        mGoogleApiClient.disconnect();
+            mGoogleApiClient.disconnect();
     }
 
     public boolean isConnected(){
@@ -141,9 +144,20 @@ public class User {
     }
 
     public String getUserUid(){
-        return mAuth.getCurrentUser().getUid();
+        if(mAuth!=null){
+            return mAuth.getCurrentUser().getUid();
+        }
+        return "";
     }
-
+    public String getUserUid(Context context){
+        String uid = "";
+       try{
+           uid = mAuth.getCurrentUser().getUid();
+        }catch (Exception ex){
+           uid = "";
+       }
+        return uid;
+    }
     public FirebaseUser getUser(){
         return mAuth.getCurrentUser();
     }

@@ -20,6 +20,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.stonefacesoft.ottaa.FirebaseRequests.FirebaseUtils;
 import com.stonefacesoft.ottaa.LoginActivity2;
 import com.stonefacesoft.ottaa.utils.constants.Constants;
+import com.stonefacesoft.ottaa.utils.preferences.User;
 
 
 import java.io.IOException;
@@ -39,9 +40,6 @@ import java.util.Locale;
  */
 public class LicenciaUsuario {
     private static final String TAG = "LicenciaUsuario";
-    private String pago;
-    private String FechaPago;
-    private boolean licenciaActivada;
     private final DatabaseReference databaseReference;
     private final FirebaseAuth mAuth;
     private final Context mContext;
@@ -62,7 +60,7 @@ public class LicenciaUsuario {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 if (firebaseAuth.getCurrentUser() != null) {
-                    new VerificarPagoUsuario(mAuth.getCurrentUser().getUid()).execute();
+                    new VerificarPagoUsuario(User.getInstance(mContext).getUserUid()).execute();
                 } else {
                     if (mContext != null) {
                         Intent intent = new Intent(mContext, LoginActivity2.class);
@@ -101,12 +99,15 @@ public class LicenciaUsuario {
                     Date startDate = df.parse(dateStr);
                     dateStr = String.valueOf(startDate.getTime() / 1000);
                     Long horaActual = java.lang.Long.parseLong(dateStr);
-                    if(mAuth != null) {
                         databaseReference.child(Constants.PAGO).addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                if(snapshot.hasChild(mAuth.getCurrentUser().getUid())){
-                                    snapshot.child(mAuth.getCurrentUser().getUid()).getRef().addValueEventListener(new ValueEventListener() {
+                                User user = User.getInstance();
+                                    if(user==null)
+                                        user = User.getInstance(mContext);
+                                String uid = User.getInstance().getUserUid(mContext);
+                                if(!uid.isEmpty()&&snapshot.hasChild(uid)){
+                                    snapshot.child(uid).getRef().addValueEventListener(new ValueEventListener() {
                                         @Override
                                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                             processDataSnapshot(dataSnapshot,horaActual);
@@ -125,11 +126,8 @@ public class LicenciaUsuario {
 
                             }
                         });
-
-                    }
                 } else {
                     //Closes the connection.
-
                     throw new IOException(urlConnection.getResponseMessage());
                 }
                 urlConnection.disconnect();
@@ -159,23 +157,37 @@ public class LicenciaUsuario {
     }
 
     private void snapshotIsEmpty(Long date){
-        databaseReference.child(Constants.PRIMERAULTIMACONEXION).child(mAuth.getCurrentUser().getUid()).addValueEventListener(new ValueEventListener() {
+        String uid = User.getInstance(mContext).getUserUid();
+        databaseReference.child(Constants.PRIMERACONEXION).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.hasChild(Constants.PRIMERACONEXION)) {
-                    Long primeraConexion = Long.parseLong(dataSnapshot.child(Constants.PRIMERACONEXION).getValue().toString());
-                    if (date.compareTo(primeraConexion) > 0) {
-                        changePremiumState(0 + "");
-                        databaseReference.child(Constants.PAGO).child(mAuth.getCurrentUser().getUid()).child(Constants.PAGO).getRef().setValue(0);
-                    }
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.hasChild(uid)){
+                    snapshot.child(uid).getRef().addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            if (snapshot.hasChild(Constants.PRIMERACONEXION)) {
+                                Long primeraConexion = Long.parseLong(snapshot.child(Constants.PRIMERACONEXION).getValue().toString());
+                                if (date.compareTo(primeraConexion) > 0) {
+                                    changePremiumState(0 + "");
+                                    databaseReference.child(Constants.PAGO).child(mAuth.getCurrentUser().getUid()).child(Constants.PAGO).getRef().setValue(0);
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
                 }
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+            public void onCancelled(@NonNull DatabaseError error) {
 
             }
         });
+
     }
 
     private void snapShotWithExpiredDate(DataSnapshot dataSnapshot,Long date){

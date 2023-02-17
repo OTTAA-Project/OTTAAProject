@@ -2,6 +2,7 @@ package com.stonefacesoft.ottaa;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Animation;
@@ -71,6 +72,9 @@ public class LoginActivity2Step3 extends AppCompatActivity implements View.OnCli
         buttonAutoworkshop.setOnClickListener(this);
         buttonBookDemo = findViewById(R.id.buttonBookDemo);
         buttonBookDemo.setOnClickListener(this);
+        if(comingFromMainActivity){
+            buttonPrevious.setVisibility(View.INVISIBLE);
+        }
 
         if(comingFromMainActivity){
             buttonPrevious.setVisibility(View.INVISIBLE);
@@ -87,17 +91,16 @@ public class LoginActivity2Step3 extends AppCompatActivity implements View.OnCli
                     mAnalyticsFirebase.customEvents("Touch","LoginActivityStep3","Next2");
                     Intent intent = new Intent(LoginActivity2Step3.this, LoginActivity2Avatar.class);
                     startActivity(intent);
+                    finishAfterTransition();
+                }else{
                     finish();
                 }
-                finish();
                 break;
-            case R.id.back_button:
-                if(!comingFromMainActivity){
-                    mAnalyticsFirebase.customEvents("Touch","LoginActivityStep3","Back2");
+            case R.id.backButton:
+                mAnalyticsFirebase.customEvents("Touch","LoginActivityStep3","Back2");
                     Intent intent2 = new Intent(LoginActivity2Step3.this, LoginActivity2Step2.class);
                     startActivity(intent2);
-                    finish();
-                }
+                    finishAfterTransition();
                 break;
             case R.id.buttonTutorial:
                 mAnalyticsFirebase.customEvents("Touch","LoginActivityStep3","ButtonTutorial");
