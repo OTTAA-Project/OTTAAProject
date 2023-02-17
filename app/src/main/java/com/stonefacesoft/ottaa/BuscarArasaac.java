@@ -66,7 +66,6 @@ public class BuscarArasaac {
     public void HacerBusqueda(String texto, String lang, Context context){
         String direction;
         String key = context.getResources().getString(R.string.galeria_araasac_api_key);
-
         String aux =texto.replaceAll(" ","_");
         String globalsymbol = "https://globalsymbols.com/api/v1/labels/search?query="+texto+"&symbolset=arasaac&language="+changeLanguage(lang)+"&limit=100";
         String araasac = "http://old.arasaac.org/api/index.php?callback=json&language="+lang+"&word="+aux+"%&catalog=colorpictos&thumbnailsize=150&TXTlocate=4&KEY="+key;

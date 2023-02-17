@@ -111,6 +111,7 @@ public class LoginActivity2Step2 extends AppCompatActivity implements View.OnCli
         buttonNext.setOnClickListener(this);
         buttonPrevious = findViewById(R.id.backButton);
         buttonPrevious.setOnClickListener(this);
+        buttonPrevious.setVisibility(View.INVISIBLE);
 
         editTextName = findViewById(R.id.editTextName);
         editTextName.setInputType(InputType.TYPE_NULL);
@@ -151,7 +152,7 @@ public class LoginActivity2Step2 extends AppCompatActivity implements View.OnCli
     @Override
     public void onClick(View view) {
         int id = view.getId();
-        switch (view.getId()) {
+        switch (id) {
             case R.id.nextButton:
                 if (availableUserData()) {
                     setUpUserData();
@@ -168,11 +169,13 @@ public class LoginActivity2Step2 extends AppCompatActivity implements View.OnCli
                     Toast.makeText(this, this.getResources().getText(R.string.prediction_data), Toast.LENGTH_LONG).show();
                 }
                 break;
-            case R.id.back_button:
+            case R.id.backButton:
+                /*
+                Log.e(TAG, "onClick: BackButton stept 1" );
                 mAnalyticsFirebase.customEvents("Touch", "LoginActivityStep2", "Back1");
                 Intent intent2 = new Intent(LoginActivity2Step2.this, LoginActivity2Step2.class);
                 startActivity(intent2);
-                finish();
+                finishAfterTransition();*/
                 break;
             case R.id.buttonCalendarDialog:
                 mAnalyticsFirebase.customEvents("Touch", "LoginActivityStep2", "calendarButton");
@@ -404,7 +407,7 @@ public class LoginActivity2Step2 extends AppCompatActivity implements View.OnCli
                 if(newValue == 1) {
                     Intent intent = new Intent(LoginActivity2Step2.this, LoginActivity2Step3.class);
                     startActivity(intent);
-                    finish();
+                    finishAfterTransition();
                     mAnalyticsFirebase.customEvents("Touch", "LoginActivityStep2", "Next1 ");
                 }
             }
