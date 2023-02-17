@@ -17,6 +17,7 @@ public class HandlerComunicationClass extends Handler {
     public static final int FraseTraducida = 4;
     public static final int TEXTONOTRADUCIDO = 5;
     public static final int INTENTARDENUEVO = 6;
+    public static final int SHAREACTION = 7;
 
     private  int fallasLeerJson=0;
     public HandlerComunicationClass(prefs preferences){
@@ -53,10 +54,13 @@ public class HandlerComunicationClass extends Handler {
                 break;
             case FraseTraducida:
                 if (principal != null) {
-                    //principal.setOracion((String) msg.obj);
                     principal.setOracion((String) msg.obj);
                     principal.speak();
                 }
+                break;
+            case SHAREACTION:
+                principal.setOracion((String) msg.obj);
+                principal.shareText();
                 break;
             case TEXTONOTRADUCIDO:
                 if (principal != null) {

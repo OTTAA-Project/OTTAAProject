@@ -49,6 +49,7 @@ import com.stonefacesoft.ottaa.utils.Firebase.AnalyticsFirebase;
 import com.stonefacesoft.ottaa.utils.InmersiveMode;
 import com.stonefacesoft.ottaa.utils.IntentCode;
 import com.stonefacesoft.ottaa.utils.constants.Constants;
+import com.stonefacesoft.pictogramslibrary.utils.ValidateContext;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -371,8 +372,10 @@ public class LoginActivity2Avatar extends AppCompatActivity implements View.OnCl
      * this method shows the avatar picture on the ImageViewAvatar
      */
     public void setAvatarByName(String name) {
-        Drawable drawable = LoginActivity2Avatar.this.getResources().getDrawable(LoginActivity2Avatar.this.getResources().getIdentifier(name, "drawable", LoginActivity2Avatar.this.getPackageName()));
-        Glide.with(LoginActivity2Avatar.this).load(drawable).into(imageViewAvatar);
+        if(ValidateContext.isValidContext(LoginActivity2Avatar.this)) {
+            Drawable drawable = LoginActivity2Avatar.this.getResources().getDrawable(LoginActivity2Avatar.this.getResources().getIdentifier(name, "drawable", LoginActivity2Avatar.this.getPackageName()));
+            Glide.with(LoginActivity2Avatar.this).load(drawable).into(imageViewAvatar);
+        }
     }
 
 

@@ -70,7 +70,7 @@ public class bajarFotos {
                     if(dataSnapshot.hasChild("nombre_foto"))
                         name=dataSnapshot.child("nombre_foto").getValue().toString();
                     if(!urlPhoto.isEmpty()&&!name.isEmpty())
-                    downloadUserImages(urlPhoto,name);
+                        downloadUserImages(urlPhoto,name);
                 }
             }
             @Override

@@ -113,7 +113,7 @@ public class MostUsedFavoritePhrasesAdapter extends RecyclerView.Adapter<MostUse
         protected void onPreExecute() {
             super.onPreExecute();
            if(progressBarListener!=null)
-           progressBarListener.initProgressDialog();
+            progressBarListener.initProgressDialog();
         }
 
         @Override

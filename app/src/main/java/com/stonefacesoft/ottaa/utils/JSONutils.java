@@ -181,7 +181,7 @@ public class JSONutils {
 
     public static String getStringByApi(JSONObject object) throws JSONException {
         if(useVolley){
-            return StringFormatter.decodeCharsUTF8(   object.getString("text"));
+            return StringFormatter.decodeCharsUTF8(  object.getString("text"));
         }
         else
             return object.getString("name");

@@ -22,6 +22,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
@@ -32,6 +33,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
@@ -41,6 +43,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.stonefacesoft.ottaa.FirebaseRequests.BajarJsonFirebase;
 import com.stonefacesoft.ottaa.FirebaseRequests.FirebaseDatabaseRequest;
+import com.stonefacesoft.ottaa.Interfaces.ActivityListener;
 import com.stonefacesoft.ottaa.Interfaces.FirebaseSuccessListener;
 import com.stonefacesoft.ottaa.idioma.ConfigurarIdioma;
 import com.stonefacesoft.ottaa.utils.CloudFunctionHTTPRequest;
@@ -48,6 +51,7 @@ import com.stonefacesoft.ottaa.utils.Firebase.AnalyticsFirebase;
 import com.stonefacesoft.ottaa.utils.InmersiveMode;
 import com.stonefacesoft.ottaa.utils.IntentCode;
 import com.stonefacesoft.ottaa.utils.ObservableInteger;
+import com.stonefacesoft.ottaa.utils.RemoteConfigUtils;
 
 import java.io.File;
 import java.util.Locale;
@@ -55,7 +59,7 @@ import java.util.Locale;
 //Code source https://developers.google.com/identity/sign-in/android/sign-in
 
 //merge with new design-doc and new design-avatar
-public class LoginActivity2 extends AppCompatActivity implements View.OnClickListener, FirebaseSuccessListener {
+public class LoginActivity2 extends AppCompatActivity implements View.OnClickListener, FirebaseSuccessListener, ActivityListener {
 
     private static final String TAG = "LoginActivity";
 
@@ -77,6 +81,7 @@ public class LoginActivity2 extends AppCompatActivity implements View.OnClickLis
     private String locale;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private AnalyticsFirebase mAnalyticsFirebase;
+    private RemoteConfigUtils remoteConfigUtils;
 
 
 
@@ -95,8 +100,8 @@ public class LoginActivity2 extends AppCompatActivity implements View.OnClickLis
 
         // Build a GoogleSignInClient with the options specified by gso.
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-
         mAuth = FirebaseAuth.getInstance();
+        remoteConfigUtils = RemoteConfigUtils.getInstance();
         setUpObservableInteger();
         sharedPrefsDefault= PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         dialog = new ProgressDialog(LoginActivity2.this);
@@ -279,9 +284,21 @@ public class LoginActivity2 extends AppCompatActivity implements View.OnClickLis
             public void onAnimationEnd(Animation animation) {
                 //With Firebase Auth is enough to get user data.
                 Log.d(TAG, "onAnimationEnd: Closing login screen");
-                Intent intent = new Intent(LoginActivity2.this, LoginActivity2Step2.class);
-                startActivity(intent);
-                finish();
+                remoteConfigUtils.setActivateDeactivateConfig(LoginActivity2.this, new OnCompleteListener() {
+                    @Override
+                    public void onComplete(@NonNull Task task) {
+                        if(task.isSuccessful()){
+                            if(remoteConfigUtils.getBooleanByName("showFreeModeMessage")){
+                                Intent intent = new Intent(LoginActivity2.this, LoginActivityEvaluationData.class);
+                                startMActivity(intent);
+                            }else{
+                                Intent intent = new Intent(LoginActivity2.this, LoginActivity2Step2.class);
+                                startMActivity(intent);
+                            }
+                        }
+                    }
+                });
+
             }
 
             @Override
@@ -391,6 +408,12 @@ public class LoginActivity2 extends AppCompatActivity implements View.OnClickLis
 
         };
 
+    }
+
+    @Override
+    public void startMActivity(Intent intent) {
+        startActivity(intent);
+        finish();
     }
 
     public class BackgroundTask extends AsyncTask<Void, Void, Void> {

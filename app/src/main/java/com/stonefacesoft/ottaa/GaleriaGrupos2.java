@@ -434,7 +434,7 @@ public class GaleriaGrupos2 extends AppCompatActivity implements OnStartDragList
             item.setVisible(true);
 
             item=menu.findItem(R.id.order_items);
-                item.setVisible(true);
+            item.setVisible(true);
 
             item=menu.findItem(R.id.tipe_view);
             item.setVisible(true);
@@ -693,8 +693,8 @@ public class GaleriaGrupos2 extends AppCompatActivity implements OnStartDragList
                 break;
             case R.id.btnTalk:
                 if(showViewPager){
-                if(barridoPantalla.isBarridoActivado())
-                    analyticsFirebase.customEvents("Accessibility","Galeria Grupos","Select Group");
+                    if(barridoPantalla.isBarridoActivado())
+                        analyticsFirebase.customEvents("Accessibility","Galeria Grupos","Select Group");
                     viewpager.OnClickItem();
                 }
                 break;

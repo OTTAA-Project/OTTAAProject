@@ -102,8 +102,11 @@ public class LicenciaUsuario {
                         databaseReference.child(Constants.PAGO).addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                String uid = User.getInstance(mContext).getUserUid();
-                                if(snapshot.hasChild(uid)){
+                                User user = User.getInstance();
+                                    if(user==null)
+                                        user = User.getInstance(mContext);
+                                String uid = User.getInstance().getUserUid(mContext);
+                                if(!uid.isEmpty()&&snapshot.hasChild(uid)){
                                     snapshot.child(uid).getRef().addValueEventListener(new ValueEventListener() {
                                         @Override
                                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
