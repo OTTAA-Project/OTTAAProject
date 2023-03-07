@@ -28,6 +28,7 @@ import com.stonefacesoft.ottaa.utils.JSONutils;
 import com.stonefacesoft.ottaa.utils.constants.ConstantsGroupGalery;
 import com.stonefacesoft.ottaa.utils.textToSpeech;
 import com.stonefacesoft.pictogramslibrary.Classes.Pictogram;
+import com.stonefacesoft.pictogramslibrary.utils.ValidateContext;
 import com.stonefacesoft.pictogramslibrary.view.PictoView;
 
 import org.json.JSONArray;
@@ -279,8 +280,10 @@ public class viewpager_galeria_pictos {
         @Override
         public void onDestroy() {
             super.onDestroy();
-            if(picto1 != null)
-                picto1.getGlideAttatcher().clearMemory();
+            if(picto1 != null){
+                if(ValidateContext.isValidContext(picto1.getContext()))
+                    picto1.getGlideAttatcher().clearMemory();
+            }
         }
 
 
