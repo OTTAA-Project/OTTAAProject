@@ -29,6 +29,7 @@ import com.stonefacesoft.ottaa.utils.FilesUtils;
 import com.stonefacesoft.ottaa.utils.ObservableInteger;
 import com.stonefacesoft.ottaa.utils.exceptions.FiveMbException;
 import com.stonefacesoft.ottaa.utils.preferences.User;
+import com.stonefacesoft.pictogramslibrary.utils.ValidateContext;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -168,16 +169,25 @@ public class BajarJsonFirebase implements OnFailureListener {
     }
 
     public void syncPictogramsandGroups() {
-        if (!mAuth.getCurrentUser().getUid().isEmpty()) {
+        String uid ="";
+         if(ValidateContext.isValidContext(mContext)){
+             try{
+                uid = mAuth.getCurrentUser().getUid();
+             }catch (Exception ex){
+                 uid = "";
+             }
+         }
+        if (!uid.isEmpty()) {
+            final String uidAux = uid;
             locale = Locale.getDefault().getLanguage();
             Log.e("BAF_descGYPN", "locale :" + locale);
-            mDatabase.child(Constants.Grupos).child(mAuth.getCurrentUser().getUid()).child("URL_grupos_" + sharedPrefsDefault.getString(mContext.getString(R.string.str_idioma), locale)).addListenerForSingleValueEvent(new ValueEventListener() {
+            mDatabase.child(Constants.Grupos).child(uid).child("URL_grupos_" + sharedPrefsDefault.getString(mContext.getString(R.string.str_idioma), locale)).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull final DataSnapshot dataSnapshotGrupos) {
-                    mDatabase.child(Constants.PICTOS).child(mAuth.getCurrentUser().getUid()).child("URL_pictos_" + sharedPrefsDefault.getString(mContext.getString(R.string.str_idioma), locale)).addListenerForSingleValueEvent(new ValueEventListener() {
+                    mDatabase.child(Constants.PICTOS).child(uidAux).child("URL_pictos_" + sharedPrefsDefault.getString(mContext.getString(R.string.str_idioma), locale)).addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshotPictos) {
-                            mDatabase.child(Constants.Frases).child(mAuth.getCurrentUser().getUid()).child("URL_frases_" + sharedPrefsDefault.getString(mContext.getString(R.string.str_idioma), locale)).addListenerForSingleValueEvent(new ValueEventListener() {
+                            mDatabase.child(Constants.Frases).child(uidAux).child("URL_frases_" + sharedPrefsDefault.getString(mContext.getString(R.string.str_idioma), locale)).addListenerForSingleValueEvent(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot dataSnapshotFrases) {
                                     Log.e("Descarga", "Existen Datos");

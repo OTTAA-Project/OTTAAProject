@@ -103,7 +103,14 @@ public class FirebaseDatabaseRequest {
 
    public void FillUserInformation(LoadUserInformation loadUserInformation){
         DataUser user = new DataUser();
-        mDatabase.child(Constants.USUARIOS).child(mAuth.getCurrentUser().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+        String uid = "";
+        try{
+            uid = mAuth.getCurrentUser().getUid();
+        }catch (Exception ex){
+            uid = "";
+        }
+        if(!uid.isEmpty())
+        mDatabase.child(Constants.USUARIOS).child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.hasChildren()){
