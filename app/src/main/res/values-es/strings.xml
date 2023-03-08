@@ -548,5 +548,6 @@
         \n\nEl origen de esta versión de la App se encuentra en la ética de impacto de la empresa evitando gastos innecesarios y maximizando el correcto uso de los recursos de las familias con discapacidad y demás instituciones relacionadas.
         \n\nPara más detalles no dudes en contactarte con nosotros.\n</string>
     <string name="understood">Entendido</string>
+    <string name="pref_summary_chatgpt">Permitir deshabilitar la opción ChatGPT.</string>
 
 </resources>

@@ -341,6 +341,21 @@
                     android:trackTint="@color/NaranjaOTTAA"
                     android:thumbTint="@color/Gray"
                     android:title="@string/pref_experimental" />
+                <PreferenceScreen
+                    android:title="ChatGPT"
+                    android:enabled="true"
+                    android:dependency="@string/mBoolModoExperimental"
+                    >
+                    <com.stonefacesoft.ottaa.utils.preferences.PersonalSwitchPreferences
+                        android:defaultValue="false"
+                        android:key="@string/mBoolChatGPT"
+                        android:summary="@string/pref_summary_chatgpt"
+                        android:switchTextOff="@string/pref_desactivado"
+                        android:switchTextOn="@string/pref_activado"
+                        android:trackTint="@color/NaranjaOTTAA"
+                        android:thumbTint="@color/Gray"
+                        android:title="ChatGPT" />
+                </PreferenceScreen>
 
             </PreferenceCategory>
         </PreferenceScreen>

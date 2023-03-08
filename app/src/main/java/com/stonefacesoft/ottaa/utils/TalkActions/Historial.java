@@ -4,7 +4,10 @@ import android.util.Log;
 
 import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.NLG;
+import com.stonefacesoft.ottaa.idioma.ConfigurarIdioma;
 import com.stonefacesoft.ottaa.utils.JSONutils;
+import com.stonefacesoft.ottaa.utils.preferences.DataUser;
+import com.stonefacesoft.ottaa.utils.preferences.User;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -84,10 +87,13 @@ public class Historial {
     public JSONObject nlgObject(){
         JSONObject object = new JSONObject();
         JSONArray word = new JSONArray(),types = new JSONArray();
+        StringBuilder text = new StringBuilder();
 
         for (int i = 0; i < listOfPictograms.size(); i++) {
             try {
-                word.put(i,JSONutils.getNombre(listOfPictograms.get(i),"es").toLowerCase());
+                String srcAux = JSONutils.getNombre(listOfPictograms.get(i),"es").toLowerCase();
+                text.append(srcAux+" ");
+                word.put(i,srcAux);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -97,6 +103,15 @@ public class Historial {
                 e.printStackTrace();
             }
         }
+        if(json.useChatGPT())
+            object = chatGptObject(word,text.toString());
+        else
+            object = viterbyObject(word,types);
+        return object;
+    }
+
+    private JSONObject viterbyObject(JSONArray word,JSONArray types){
+        JSONObject object= new JSONObject();
         try {
             object.put("words",word);
             object.put("types",types);
@@ -108,8 +123,18 @@ public class Historial {
         return object;
     }
 
-
-
+    private JSONObject chatGptObject(JSONArray word,String text){
+        JSONObject object= new JSONObject();
+        try {
+            object.put("model","text-davinci-001");
+            object.put("prompt","soy un "+json.obtenerEdad()+" "+json.obtenerSexo().toLowerCase().replace("nino","niño")+" y necesito aplicar nlg a la siguiente frase o palabra '"+text+"' una sola vez sin agregar palabras de màs,el resultado tiene que ser en español, primera persona, sin palabras de mas y lo mas preciso posible");
+            object.put("temperature",0);
+            object.put("max_tokens",word.length()*10);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return object;
+    }
 
 
 }

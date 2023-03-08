@@ -53,7 +53,58 @@ public class ProcessPhrase {
         animationView.playAnimation();
     }
 
-    public void execute(JSONObject jsonObject){
+    public void executeChatGPT(JSONObject jsonObject){
+        Executor executor = Executors.newSingleThreadExecutor();
+        onPreExecute();
+        executor.execute(() -> {
+            String url = "https://api.openai.com/v1/completions";
+            // Instantiate the RequestQueue.
+            RequestQueue queue = Volley.newRequestQueue(mContext);
+            final JSONObject jsonBody;
+
+
+            JsonObjectRequest myRequest = new JsonObjectRequest(
+                    Request.Method.POST,
+                    url,
+                    jsonObject,
+
+                    response -> {
+                        Log.d(TAG, "onResponse: " + response);
+                        try {
+                            Log.e(TAG, "execute: "+ jsonObject.toString());
+                            Log.e(TAG, "execute: "+ response.toString());
+                            handlerComunicationClass.sendMessage(Message.obtain(handlerComunicationClass, option, response.getJSONArray("choices").getJSONObject(0).getString("text").replaceAll("\n"," ")));
+                            animationView.cancelAnimation();
+                            animationView.setVisibility(View.GONE);
+                        } catch (Exception e) {
+                            animationView.cancelAnimation();
+                            animationView.setVisibility(View.GONE);
+                            Log.e(TAG, "onResponse: Error: " + e.getMessage());
+                            handlerComunicationClass.sendMessage(Message.obtain(handlerComunicationClass, HandlerComunicationClass.INTENTARDENUEVO));
+                        }
+
+                    },
+                    error -> {
+                        animationView.cancelAnimation();
+                        animationView.setVisibility(View.GONE);
+                        handlerComunicationClass.sendMessage(Message.obtain(handlerComunicationClass, HandlerComunicationClass.TEXTONOTRADUCIDO));
+                        Log.e(TAG, "onErrorResponse: Error " + error.getMessage());
+                    }) {
+
+                @Override
+                public Map<String, String> getHeaders() {
+                    HashMap<String, String> headers = new HashMap<>();
+                    headers.put("Content-Type", "application/json");
+                    headers.put("Authorization", "Bearer "+ mContext.getResources().getString(R.string.chatGPT_api_key));
+                    return headers;
+                }
+            };
+
+            queue.add(myRequest);
+
+        });
+    }
+    public void executeViterbi(JSONObject jsonObject){
         Executor executor = Executors.newSingleThreadExecutor();
         onPreExecute();
         executor.execute(() -> {
