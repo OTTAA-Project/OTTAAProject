@@ -52,6 +52,7 @@ import com.stonefacesoft.ottaa.utils.InmersiveMode;
 import com.stonefacesoft.ottaa.utils.IntentCode;
 import com.stonefacesoft.ottaa.utils.ObservableInteger;
 import com.stonefacesoft.ottaa.utils.RemoteConfigUtils;
+import com.stonefacesoft.pictogramslibrary.utils.ValidateContext;
 
 import java.io.File;
 import java.util.Locale;
@@ -419,7 +420,7 @@ public class LoginActivity2 extends AppCompatActivity implements View.OnClickLis
     public class BackgroundTask extends AsyncTask<Void, Void, Void> {
         @Override
         protected void onPreExecute() {
-            if (!LoginActivity2.this.isFinishing()) {
+            if (ValidateContext.isValidContext(LoginActivity2.this)) {
                 dialog.setMessage(getResources().getString(R.string.pref_login_wait));
                 dialog.setTitle(getResources().getString(R.string.pref_login_autentificando));
                 dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
