@@ -921,6 +921,8 @@ public class Principal extends AppCompatActivity implements View
 
                 } catch (JSONException e) {
                     e.printStackTrace();
+                }catch (Exception ex){
+
                 }
                 dialogs.cancelarDialogo();
                 loadOptions(json, pictoPadre);

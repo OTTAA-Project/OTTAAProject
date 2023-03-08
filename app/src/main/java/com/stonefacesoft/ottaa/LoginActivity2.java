@@ -394,7 +394,8 @@ public class LoginActivity2 extends AppCompatActivity implements View.OnClickLis
                 mBajarJsonFirebase = new BajarJsonFirebase(sharedPrefsDefault, mAuth, getApplicationContext());
                 mBajarJsonFirebase.setInterfaz(LoginActivity2.this);
                 locale = Locale.getDefault().getLanguage();
-                new CloudFunctionHTTPRequest(LoginActivity2.this,TAG).doHTTPRequest("https://us-central1-ottaa-project.cloudfunctions.net/add2listwelcome");
+                if(ValidateContext.isValidContext(this))
+                 new CloudFunctionHTTPRequest(LoginActivity2.this,TAG).doHTTPRequest("https://us-central1-ottaa-project.cloudfunctions.net/add2listwelcome");
                 new BackgroundTask().execute();
                 sharedPrefsDefault.edit().putBoolean("prediccion_usuario", false).apply();
                 FirebaseDatabaseRequest request = new FirebaseDatabaseRequest(getApplicationContext());

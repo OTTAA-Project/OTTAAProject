@@ -283,14 +283,17 @@ public class JSONutils {
     public static void desvincularJson(JSONObject padre, int id) {
         JSONArray jsonArray;
         JSONArray list = new JSONArray();
+
         try {
-            jsonArray = padre.getJSONArray("relacion");
-            for (int i = 0; i < jsonArray.length(); i++) {
-                //Excluding the item at position
-                JSONObject object = jsonArray.getJSONObject(i);
-                if (object.getInt("id") != id) {
-                    list.put(jsonArray.get(i));
-                }
+                if(padre.has("relacion")){
+                    jsonArray = padre.getJSONArray("relacion");
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                    //Excluding the item at position
+                        JSONObject object = jsonArray.getJSONObject(i);
+                        if (object.getInt("id") != id) {
+                            list.put(jsonArray.get(i));
+                        }
+                    }
             }
             padre.put("relacion", list);
         } catch (JSONException e) {

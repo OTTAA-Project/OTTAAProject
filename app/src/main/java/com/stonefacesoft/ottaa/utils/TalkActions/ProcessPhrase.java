@@ -40,8 +40,6 @@ public class ProcessPhrase {
         this.Oracion = Oracion;
         this.option = value;
         handlerComunicationClass = new HandlerComunicationClass(principal);
-
-
     }
 
 
