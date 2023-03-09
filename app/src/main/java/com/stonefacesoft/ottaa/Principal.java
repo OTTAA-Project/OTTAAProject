@@ -921,6 +921,8 @@ public class Principal extends AppCompatActivity implements View
 
                 } catch (JSONException e) {
                     e.printStackTrace();
+                }catch (Exception ex){
+
                 }
                 dialogs.cancelarDialogo();
                 loadOptions(json, pictoPadre);
@@ -1677,7 +1679,10 @@ public class Principal extends AppCompatActivity implements View
                 if(sharedPrefsDefault.getString(getString(R.string.str_idioma), "en").equals("es")){
                     processPhrase = new ProcessPhrase(this, sharedPrefsDefault, animationView, getApplicationContext(), Oracion, HandlerComunicationClass.SHAREACTION);
                     processPhrase.setOracion(Oracion);
-                    processPhrase.execute(historial.nlgObject());
+                    if(json.useChatGPT())
+                        processPhrase.executeChatGPT(historial.nlgObject());
+                    else
+                        processPhrase.executeViterbi(historial.nlgObject());
 
                 }else{
                     traducirfrase.traducirIdioma(this, Oracion, "en", sharedPrefsDefault.getString(getString(R.string.str_idioma), "en"), true);
@@ -2187,8 +2192,10 @@ public class Principal extends AppCompatActivity implements View
                 if(sharedPrefsDefault.getString(getString(R.string.str_idioma), "en").equals("es")){
                     processPhrase = new ProcessPhrase(this, sharedPrefsDefault, animationView, getApplicationContext(), Oracion,HandlerComunicationClass.FraseTraducida);
                     processPhrase.setOracion(Oracion);
-                    processPhrase.execute(historial.nlgObject());
-
+                    if(json.useChatGPT())
+                        processPhrase.executeChatGPT(historial.nlgObject());
+                    else
+                        processPhrase.executeViterbi(historial.nlgObject());
                 }else{
                     traducirFrase = new TraducirFrase(this, sharedPrefsDefault, animationView, getApplicationContext(), Oracion);
                     traducirFrase.setOracion(Oracion);

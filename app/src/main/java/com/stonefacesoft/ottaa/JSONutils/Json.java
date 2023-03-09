@@ -463,7 +463,7 @@ public class Json  {
 
     //TODO hasta aca revisado
 
-    private String obtenerSexo() {
+    public String obtenerSexo() {
         return sharedPrefsDefault.getString("prefSexo", "NotDefined");
     }
 
@@ -651,8 +651,12 @@ public class Json  {
         }
     }
 
-    private String obtenerEdad() {
+    public String obtenerEdad() {
         return sharedPrefsDefault.getString("prefEdad", "NINO");
+    }
+
+    public boolean useChatGPT() {
+        return sharedPrefsDefault.getBoolean("key_chat_gpt", false);
     }
 
     public int compareTo(double frec1, double frec2) {

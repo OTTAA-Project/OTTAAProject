@@ -484,5 +484,6 @@
     <string name="hola_nnos_conozcamos_un_poco">Hola, <br />Nos conozcamos un poco</string>
     <string name="give_me_the_link">¡Dame el enlace!</string>
     <string name="email_me">Email</string>
+    <string name="pref_summary_chatgpt">Permitir deshabilitar la opción ChatGPT.</string>
 
 </resources>

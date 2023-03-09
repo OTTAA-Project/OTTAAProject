@@ -58,6 +58,7 @@
     <string name="pref_summary_experimental">Use artificial intelligence to generate a richer sentence. You need a stable internet connection.</string>
     <string name="pref_editar">Edit Pictograms</string>
     <string name="pref_summary_editar">Allow to disable the function Edit Pictograms.</string>
+    <string name="pref_summary_chatgpt">Allow disabling the ChatGPT option.</string>
     <string name="pref_summary_double_click">This function available  the double click function to select a pictogram .</string>
     <string name="pref_open_editar">Opening pictogram editor.</string>
     <string name="pref_cual_es">What\'s the picto</string>
@@ -293,6 +294,7 @@
     <string name="porc_uso">PERCENTAGE OF USE</string>
     <string name="day_hour">DURING THE DAY AND THE HOUR</string>
     <string name="mBoolModoExperimental" translatable="false">mBoolModoExperimental</string>
+    <string name="mBoolChatGPT" translatable="false">key_chat_gpt</string>
     <string name="day_use" translatable="false">DURING THE DAY</string>
     <string name="str_pitch_tts" translatable="false">pitch_tts</string>
     <string name="str_velocidad_tts" translatable="false">velocidad_tts</string>
