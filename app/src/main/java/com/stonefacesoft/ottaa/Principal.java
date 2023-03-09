@@ -153,6 +153,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Objects;
 import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -227,16 +228,13 @@ public class Principal extends AppCompatActivity implements View
     private DatabaseReference mDatabase, mPictosDatabaseRef, mFrasesDatabaseRef, mGruposDatabaseRef;
     private LottieAnimationView animationView;
     private textToSpeech myTTS;
-    private ConnectionDetector connectionDetector;
     private SubirBackupFirebase mFirebaseBackup;
     private traducirTexto traducirfrase;
     private Toolbar toolbar;
     private int mCheckDescarga, mCheckDatos;
     private ConstraintLayout constraintBotonera;
     private LocationRequest mLastLocationRequest;
-    private Location mLastLocation;
     private BarridoPantalla barridoPantalla;
-    private VelocityTracker mVelocityTracker;
     private AnalyticsFirebase analitycsFirebase;
     private FirebaseUtils firebaseUtils;
     private TextView toolbarPlace;
@@ -912,7 +910,6 @@ public class Principal extends AppCompatActivity implements View
                     e.printStackTrace();
                 }
                 try {
-
                     JSONutils.desvincularJson(pictoPadre, pos);
                     JSONutils.setJsonEditado2(json.getmJSONArrayTodosLosPictos(), pictoPadre);
                     if (!json.guardarJson(Constants.ARCHIVO_PICTOS))
@@ -1572,6 +1569,7 @@ public class Principal extends AppCompatActivity implements View
                 String name = placesImplementation.getPlaceName(place);
                 String placeType = placesImplementation.getPlaceType(place);
                 locationItem.setTitle(name + " : " + placesImplementation.getPlaceName(placeType));
+              //  myTTS.hablar(name);
                 json.setPlaceName(placeType);
             }else{
                 placesImplementation.locationRequest();
@@ -1676,16 +1674,16 @@ public class Principal extends AppCompatActivity implements View
                 if (Oracion.isEmpty() && historial.getListadoPictos().size() > 0)
                     CargarOracion(historial.getListadoPictos().get(0), sharedPrefsDefault.getString(getString(R.string.str_idioma), "en"));
                 Oracion = EjecutarNLG();
-                if(sharedPrefsDefault.getString(getString(R.string.str_idioma), "en").equals("es")){
                     processPhrase = new ProcessPhrase(this, sharedPrefsDefault, animationView, getApplicationContext(), Oracion, HandlerComunicationClass.SHAREACTION);
                     processPhrase.setOracion(Oracion);
-                    if(json.useChatGPT())
-                        processPhrase.executeChatGPT(historial.nlgObject());
-                    else
+                if(json.useChatGPT())
+                    processPhrase.executeChatGPT(historial.nlgObject());
+                else{
+                    if(sharedPrefsDefault.getString(getString(R.string.str_idioma), "en").equals("es")){
                         processPhrase.executeViterbi(historial.nlgObject());
-
-                }else{
-                    traducirfrase.traducirIdioma(this, Oracion, "en", sharedPrefsDefault.getString(getString(R.string.str_idioma), "en"), true);
+                    }else{
+                        traducirfrase.traducirIdioma(this, Oracion, "en", sharedPrefsDefault.getString(getString(R.string.str_idioma), "en"), true);
+                    }
                 }
             }
         }else{
@@ -1852,6 +1850,7 @@ public class Principal extends AppCompatActivity implements View
         initBarrido();
         new initComponentsClass().execute();
 
+
     }
 
     private void initLocationIcon() {
@@ -1883,6 +1882,7 @@ public class Principal extends AppCompatActivity implements View
         cuentaMasPictos = 0;
         placeTypeActual = 0;
         placeActual = 0;
+        historial.downloadPromt();
     }
 
     private void initJson(Context context){
@@ -2070,7 +2070,6 @@ public class Principal extends AppCompatActivity implements View
     }
 
     private void uploadFiles() {
-        connectionDetector = new ConnectionDetector(getApplicationContext());
         if (subirArchivos != null) {
             subirArchivos.setInterfaz(this);
         }
@@ -2189,17 +2188,18 @@ public class Principal extends AppCompatActivity implements View
         if(ConnectionDetector.isNetworkAvailable(this)){
             Oracion = EjecutarNLG();
             if (!sharedPrefsDefault.getString(getString(R.string.str_idioma), "en").equals("en")) {
-                if(sharedPrefsDefault.getString(getString(R.string.str_idioma), "en").equals("es")){
                     processPhrase = new ProcessPhrase(this, sharedPrefsDefault, animationView, getApplicationContext(), Oracion,HandlerComunicationClass.FraseTraducida);
                     processPhrase.setOracion(Oracion);
-                    if(json.useChatGPT())
-                        processPhrase.executeChatGPT(historial.nlgObject());
-                    else
+                if(json.useChatGPT())
+                    processPhrase.executeChatGPT(historial.nlgObject());
+                else{
+                    if(sharedPrefsDefault.getString(getString(R.string.str_idioma), "en").equals("es")){
                         processPhrase.executeViterbi(historial.nlgObject());
-                }else{
-                    traducirFrase = new TraducirFrase(this, sharedPrefsDefault, animationView, getApplicationContext(), Oracion);
-                    traducirFrase.setOracion(Oracion);
-                    traducirFrase.execute();
+                    }else{
+                        traducirFrase = new TraducirFrase(this, sharedPrefsDefault, animationView, getApplicationContext(), Oracion);
+                        traducirFrase.setOracion(Oracion);
+                        traducirFrase.execute();
+                    }
                 }
             } else {
                 speak();
@@ -2289,33 +2289,38 @@ public class Principal extends AppCompatActivity implements View
         }
     }
 
-    public class loadPictograms extends AsyncTask<Void,Void,Void> implements FailReadPictogramOrigin {
+
+    public class loadPictograms implements FailReadPictogramOrigin {
         boolean used;
 
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
+        public void execute(){
+            ExecutorService executorService = Executors.newSingleThreadExecutor();
+            Handler handler = new Handler(Looper.getMainLooper());
+            executorService.execute(new Runnable() {
+                @Override
+                public void run() {
+                    if (json.getmJSONArrayTodosLosPictos() != null && json.getmJSONArrayTodosLosPictos().length() > 0) {
+                        pictoPadre = json.getPictoFromId2(0);
+                        if(pictoPadre != null)
+                            new Json0Recover().backupPictogram0(getApplicationContext(),pictoPadre,loadPictograms.this);
+                    }
+                    if(pictoPadre == null){
+                        new Json0Recover().restorePictogram0(getApplicationContext(),loadPictograms.this);
+                    }
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            if(used) {
+                                used = false;
+                                ResetSeleccion();
+                            }
+                        }
+                    });
+                }
+            });
         }
 
-        @Override
-        protected Void doInBackground(Void... voids) {
-            if (json.getmJSONArrayTodosLosPictos() != null && json.getmJSONArrayTodosLosPictos().length() > 0&& historial.getListadoPictos().isEmpty()) {
-               pictoPadre = json.getPictoFromId2(0);
-                new Json0Recover().backupPictogram0(getApplicationContext(),pictoPadre,this);
-            }
-            if(pictoPadre == null){
-                new Json0Recover().restorePictogram0(getApplicationContext(),this);
-            }
-            return null;
-        }
 
-        @Override
-        protected void onPostExecute(Void unused) {
-           if(used) {
-                used = false;
-               ResetSeleccion();
-           }
-        }
 
         @Override
         public void setParent(JSONObject parent) {

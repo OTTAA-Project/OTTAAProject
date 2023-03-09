@@ -9,10 +9,12 @@ import android.util.Log;
 import androidx.core.app.ActivityCompat;
 
 import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.Task;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.api.model.PlaceLikelihood;
 import com.google.android.libraries.places.api.net.FindCurrentPlaceRequest;
+import com.google.android.libraries.places.api.net.FindCurrentPlaceResponse;
 import com.google.android.libraries.places.api.net.PlacesClient;
 import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.utils.constants.ConstantsPlaces;
@@ -66,24 +68,29 @@ public class PlacesImplementation {
         positionPlace = -1;
         List<Place.Field> placeFields = Arrays.asList(Place.Field.NAME, Place.Field.TYPES, Place.Field.ADDRESS);
         places = new ArrayList<>();
+        FindCurrentPlaceRequest request = FindCurrentPlaceRequest.newInstance(placeFields);
 
-        FindCurrentPlaceRequest request = FindCurrentPlaceRequest.builder(placeFields).build();
         if (ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            client.findCurrentPlace(request).addOnSuccessListener(((response -> {
-                for (PlaceLikelihood placeLikelihood : response.getPlaceLikelihoods()) {
-                    Log.d(TAG, "locationRequest: " + placeLikelihood.getLikelihood() + " name :" + placeLikelihood.getPlace().getName());
-                    // add the place to the list
-                    double result = placeLikelihood.getLikelihood();
-                    if (result > 0.80 && result <= 1.0)
-                        places.add(placeLikelihood.getPlace());
-                }
-            }
-            ))).addOnFailureListener((exception) -> {
-                if (exception instanceof ApiException) {
-                    ApiException apiException = (ApiException) exception;
-                    Log.e(TAG, "Place not found: " + apiException.getStatusCode());
+            Task<FindCurrentPlaceResponse> placesResponses = client.findCurrentPlace(request);
+            placesResponses.addOnCompleteListener(task -> {
+                if(task.isSuccessful()){
+                    FindCurrentPlaceResponse response = task.getResult();
+                    for (PlaceLikelihood placeLikelihood : response.getPlaceLikelihoods()) {
+                        Log.d(TAG, "locationRequest: " + placeLikelihood.getLikelihood() + " name :" + placeLikelihood.getPlace().getName());
+                        // add the place to the list
+                        double result = placeLikelihood.getLikelihood();
+                        if (result > 0.70 && result <= 1.0)
+                            places.add(placeLikelihood.getPlace());
+                    }
+                }else {
+                    Exception exception = task.getException();
+                    if (exception instanceof ApiException) {
+                        ApiException apiException = (ApiException) exception;
+                        Log.e(TAG, "Place not found: " + apiException.getStatusCode());
+                    }
                 }
             });
+
         }
     }
 

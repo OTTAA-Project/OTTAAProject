@@ -56,4 +56,26 @@ public class ConfigurarIdioma {
     public static Locale getLocale() {
         return locale;
     }
+
+
+    public static String getNormalLanguage(){
+        switch (language){
+            case "es":
+                return "español";
+            case "pt":
+                return "portugues";
+            case "ca":
+                return "catalan";
+            case "fr":
+                return "frances";
+            case "it":
+                return "italiano";
+            case "ar":
+                return "arabe";
+            case "da":
+                return "danes";
+            default:
+                return "ingles";
+        }
+    }
 }

@@ -1305,4 +1305,8 @@ public class Json  {
             e.printStackTrace();
         }
     }
+
+    public Context getmContext() {
+        return mContext;
+    }
 }

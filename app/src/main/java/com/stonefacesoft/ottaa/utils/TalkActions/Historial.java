@@ -2,10 +2,19 @@ package com.stonefacesoft.ottaa.utils.TalkActions;
 
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
+import com.stonefacesoft.ottaa.FirebaseRequests.FirebaseUtils;
 import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.NLG;
 import com.stonefacesoft.ottaa.idioma.ConfigurarIdioma;
+import com.stonefacesoft.ottaa.utils.ConnectionDetector;
 import com.stonefacesoft.ottaa.utils.JSONutils;
+import com.stonefacesoft.ottaa.utils.RemoteConfigUtils;
 import com.stonefacesoft.ottaa.utils.preferences.DataUser;
 import com.stonefacesoft.ottaa.utils.preferences.User;
 
@@ -19,11 +28,14 @@ import java.util.ArrayList;
  */
 public class Historial {
 
+
+
     private ArrayList<JSONObject> listOfPictograms;
     private JSONObject father;
     private final Json json;
     private final NLG nlg;
     private final String TAG = "Historial";
+    private String chatGPTPrompt = "soy un {AGE} {SEX}  y necesito aplicar nlg a la siguiente frase o palabra '{PHRASE}' una sola vez sin agregar palabras de màs,el resultado tiene que ser en {LANG}, primera persona, sin palabras de mas y lo mas preciso posible";
 
 
     public Historial(Json json) {
@@ -91,7 +103,7 @@ public class Historial {
 
         for (int i = 0; i < listOfPictograms.size(); i++) {
             try {
-                String srcAux = JSONutils.getNombre(listOfPictograms.get(i),"es").toLowerCase();
+                String srcAux = JSONutils.getNombre(listOfPictograms.get(i),ConfigurarIdioma.getLanguaje()).toLowerCase();
                 text.append(srcAux+" ");
                 word.put(i,srcAux);
             } catch (JSONException e) {
@@ -126,14 +138,45 @@ public class Historial {
     private JSONObject chatGptObject(JSONArray word,String text){
         JSONObject object= new JSONObject();
         try {
-            object.put("model","text-davinci-001");
-            object.put("prompt","soy un "+json.obtenerEdad()+" "+json.obtenerSexo().toLowerCase().replace("nino","niño")+" y necesito aplicar nlg a la siguiente frase o palabra '"+text+"' una sola vez sin agregar palabras de màs,el resultado tiene que ser en español, primera persona, sin palabras de mas y lo mas preciso posible");
+
+            object.put("model","text-davinci-003");
+            object.put("prompt",chatGPTPrompt.replace("{AGE}",json.obtenerEdad().toLowerCase().replace("nino","Niño")).replace("{SEX}",json.obtenerSexo()).replace("{PHRASE}",text).replace("{LANG}",ConfigurarIdioma.getNormalLanguage()));
             object.put("temperature",0);
             object.put("max_tokens",word.length()*10);
         } catch (JSONException e) {
             e.printStackTrace();
         }
         return object;
+    }
+
+    public void downloadPromt(){
+        DatabaseReference ref = FirebaseUtils.getInstance().getmDatabase();
+        ref.child("ChatGPTPrompt").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.hasChild(ConfigurarIdioma.getLanguaje())){
+                snapshot.child(ConfigurarIdioma.getLanguaje()).getRef().addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        chatGPTPrompt = snapshot.getValue().toString();
+                        Log.e(TAG, "Download Prompt: "+ chatGPTPrompt );
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
 
