@@ -144,10 +144,14 @@ public class User {
     }
 
     public String getUserUid(){
-        if(mAuth!=null){
-            return mAuth.getCurrentUser().getUid();
+        String uid = "";
+        try{
+            uid= mAuth.getCurrentUser().getUid();
+
+        }catch (Exception ex){
+            uid = "";
         }
-        return "";
+        return uid;
     }
     public String getUserUid(Context context){
         String uid = "";

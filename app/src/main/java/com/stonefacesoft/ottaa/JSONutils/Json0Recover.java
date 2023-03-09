@@ -58,7 +58,7 @@ public class Json0Recover {
             object = createJson();
         }
         String uid = User.getInstance(context).getUserUid();
-        if(uid!=null||uid.isEmpty()){
+        if(!uid.isEmpty()){
             FirebaseUtils.getInstance().getmDatabase().child("backupPictogramOrigin").child(uid).child(ConfigurarIdioma.getLanguaje()).setValue(object.toString());
             failReadPictogramOrigin.loadDialog();
         }
