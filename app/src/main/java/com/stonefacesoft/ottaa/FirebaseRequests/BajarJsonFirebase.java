@@ -168,9 +168,11 @@ public class BajarJsonFirebase implements OnFailureListener {
     }
 
     public void syncPictogramsandGroups() {
+        
         if (!mAuth.getCurrentUser().getUid().isEmpty()) {
             locale = Locale.getDefault().getLanguage();
             Log.e("BAF_descGYPN", "locale :" + locale);
+
             mDatabase.child(Constants.Grupos).child(mAuth.getCurrentUser().getUid()).child("URL_grupos_" + sharedPrefsDefault.getString(mContext.getString(R.string.str_idioma), locale)).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull final DataSnapshot dataSnapshotGrupos) {
