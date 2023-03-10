@@ -360,8 +360,18 @@ public class LoginActivity2Avatar extends AppCompatActivity implements View.OnCl
     public void getFirebaseAvatar() {
         ConnectionDetector connectionDetector = new ConnectionDetector(this);
         if (connectionDetector.isConnectedToInternet()) {
-            childDatabase = FirebaseUtils.getInstance().getmDatabase().child(Constants.AVATAR).child(mAuth.getCurrentUser().getUid());
-            childDatabase.addListenerForSingleValueEvent(firebaseEventListener);
+            String uid = "";
+            if(ValidateContext.isValidContext(this)){
+                try{
+                    uid = mAuth.getCurrentUser().getUid();
+                }catch (Exception ex){
+                    uid ="";
+                }
+            }
+            if(!uid.isEmpty()){
+                childDatabase = FirebaseUtils.getInstance().getmDatabase().child(Constants.AVATAR).child(uid);
+                childDatabase.addListenerForSingleValueEvent(firebaseEventListener);
+            }
         } else {
             setAvatarByName("ic_avatar11");
         }
