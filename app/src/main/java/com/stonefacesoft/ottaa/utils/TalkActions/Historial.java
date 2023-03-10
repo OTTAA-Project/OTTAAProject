@@ -138,7 +138,6 @@ public class Historial {
     private JSONObject chatGptObject(JSONArray word,String text){
         JSONObject object= new JSONObject();
         try {
-
             object.put("model","text-davinci-003");
             object.put("prompt",chatGPTPrompt.replace("{AGE}",json.obtenerEdad().toLowerCase().replace("nino","Niño")).replace("{SEX}",json.obtenerSexo()).replace("{PHRASE}",text).replace("{LANG}",ConfigurarIdioma.getNormalLanguage()));
             object.put("temperature",0);
