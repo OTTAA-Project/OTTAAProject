@@ -56,6 +56,10 @@ public class Historial {
         }
     }
 
+    public boolean hasPictogram(JSONObject object){
+        return  listOfPictograms.contains(object);
+    }
+
 
     public void clear(){
         listOfPictograms=new ArrayList<>();

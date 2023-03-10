@@ -852,15 +852,16 @@ public class Principal extends AppCompatActivity implements View
     }
 
     private void click(JSONObject opcion) {
-        Log.d(TAG, "click: ");
         cuentaMasPictos = 0;
         if (opcion == null || pictoPadre == null) {
             Log.d(TAG, "click: Opcion es null");
             return;
         }
-        historial.addPictograma(opcion);
-        createRelationShip(opcion,this);
-        sayPictogramName(JSONutils.getNombre(opcion, sharedPrefsDefault.getString(getResources().getString(R.string.str_idioma), "en")));
+        if(!historial.hasPictogram(opcion)) {
+            historial.addPictograma(opcion);
+            createRelationShip(opcion, this);
+            sayPictogramName(JSONutils.getNombre(opcion, sharedPrefsDefault.getString(getResources().getString(R.string.str_idioma), "en")));
+        }
     }
 
     private void createRelationShip(JSONObject opcion,LoadPictograms loadPictograms){
