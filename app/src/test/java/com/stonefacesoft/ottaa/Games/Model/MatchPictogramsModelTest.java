@@ -4,11 +4,12 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 public class MatchPictogramsModelTest {
 
-    private MatchPictogramsModel matchPictogramsModel =  new MatchPictogramsModel();
+    private final MatchPictogramsModel matchPictogramsModel =  new MatchPictogramsModel();
 
 
 
@@ -23,6 +24,14 @@ public class MatchPictogramsModelTest {
         matchPictogramsModel.setCorrectValue(0,1);
         matchPictogramsModel.setCorrectValue(1,1);
         assertTrue(matchPictogramsModel.restartValue());
+    }
+    @Test
+    public void restartValueFalse() {
+        matchPictogramsModel.setSize(2);
+        matchPictogramsModel.createArray();
+        matchPictogramsModel.setCorrectValue(0,-1);
+        matchPictogramsModel.setCorrectValue(1,-1);
+        assertFalse(matchPictogramsModel.restartValue());
     }
 
     @Test

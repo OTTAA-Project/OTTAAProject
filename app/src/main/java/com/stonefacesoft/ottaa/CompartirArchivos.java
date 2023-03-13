@@ -44,10 +44,10 @@ public class CompartirArchivos {
     private File audio;
     private ArrayList<JSONObject> historial;
     private Bitmap imagen;
-    private boolean actionShare;
+    private final boolean actionShare;
     private File file;
-    private GlideAttatcher attatcher;
-    private AudioTransformationListener transformerListener;
+    private final GlideAttatcher attatcher;
+    private final AudioTransformationListener transformerListener;
 
 
 

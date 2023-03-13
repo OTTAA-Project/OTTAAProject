@@ -31,7 +31,7 @@ public class ProcessPhrase {
     private String Oracion = "";
     private final String traduccion = "";
     private final HandlerComunicationClass handlerComunicationClass;
-    private int option;
+    private final int option;
 
     public ProcessPhrase(Principal principal, SharedPreferences sharedPreferences, LottieAnimationView animationView, Context mContext, String Oracion,final int value) {
         this.mContext = mContext;

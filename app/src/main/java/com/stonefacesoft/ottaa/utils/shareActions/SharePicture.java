@@ -25,8 +25,8 @@ import java.util.ArrayList;
 
 public class SharePicture extends ShareAction{
 
-    private ArrayList<JSONObject> historial;
-    private GestionarBitmap gestionarBitmap;
+    private final ArrayList<JSONObject> historial;
+    private final GestionarBitmap gestionarBitmap;
     private Bitmap picture;
     private final Json json;
 

@@ -35,7 +35,7 @@ public class Historial {
     private final Json json;
     private final NLG nlg;
     private final String TAG = "Historial";
-    private String chatGPTPrompt = "soy un {AGE} {SEX}  y necesito aplicar nlg a la siguiente frase o palabra '{PHRASE}' una sola vez sin agregar palabras de màs,el resultado tiene que ser en {LANG}, primera persona, sin palabras de mas y lo mas preciso posible";
+    private String chatGPTPrompt = "I am an {AGE} {SEX} and I need to nlg the following phrase or word '{PHRASE}' once without adding extra words, the result has to be in {LANG}, first person, without extra words and as precise as possible";
 
 
     public Historial(Json json) {

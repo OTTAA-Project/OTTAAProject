@@ -46,12 +46,12 @@ public class CustomToast extends Application {
     }
 
     private CustomToast(Context context) {
-        this.mContext = context;
+        mContext = context;
         sharedPrefsDefault = PreferenceManager.getDefaultSharedPreferences(mContext.getApplicationContext());
         LayoutInflater inflater = LayoutInflater.from(context);
-        this.layout = inflater.inflate(R.layout.custom_toast, null);
-        this.layout.setAlpha((float) 0.85);
-        this.tv = layout.findViewById(R.id.text);
+        layout = inflater.inflate(R.layout.custom_toast, null);
+        layout.setAlpha((float) 0.85);
+        tv = layout.findViewById(R.id.text);
         this.imageView = layout.findViewById(R.id.imageViewAvatarToast);
         prepareToast(mContext);
     }

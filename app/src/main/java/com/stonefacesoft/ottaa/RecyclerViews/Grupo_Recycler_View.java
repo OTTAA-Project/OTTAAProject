@@ -217,7 +217,7 @@ public class Grupo_Recycler_View extends Custom_recyclerView implements  View.On
                 try {
                     int mPosition=getmPosition();
                     if(mPosition!=-1) {
-                        if (!(JSONutils.getNombre(array.getJSONObject(mPosition),sharedPrefsDefault.getString(mActivity.getString(R.string.str_idioma), "en")).toLowerCase().equals("all") &&json.getId(array.getJSONObject(mPosition)) == 24)) {
+                        if (!(JSONutils.getNombre(array.getJSONObject(mPosition),sharedPrefsDefault.getString(mActivity.getString(R.string.str_idioma), "en")).equalsIgnoreCase("all") &&json.getId(array.getJSONObject(mPosition)) == 24)) {
                             try {
 //                                final String pushKeyFoto = array.getJSONObject(mPosition).getJSONObject("imagen").getString("pushKey");
 //                                File f = new File(array.getJSONObject(mPosition).getJSONObject("imagen").getString("pictoEditado"));

@@ -21,6 +21,7 @@ import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.security.ProviderInstaller;
 import com.google.api.LogDescriptor;
 import com.stonefacesoft.ottaa.Interfaces.SearchAraasacPictogram;
+import com.stonefacesoft.ottaa.idioma.ConfigurarIdioma;
 import com.stonefacesoft.ottaa.utils.JSONutils;
 import com.stonefacesoft.ottaa.utils.StringFormatter;
 
@@ -67,7 +68,7 @@ public class BuscarArasaac {
         String direction;
         String key = context.getResources().getString(R.string.galeria_araasac_api_key);
         String aux =texto.replaceAll(" ","_");
-        String globalsymbol = "https://globalsymbols.com/api/v1/labels/search?query="+texto+"&symbolset=arasaac&language="+changeLanguage(lang)+"&limit=100";
+        String globalsymbol = "https://globalsymbols.com/api/v1/labels/search?query="+texto+"&symbolset=arasaac&language="+ ConfigurarIdioma.getLanguageIso6393(lang)+"&limit=100";
         String araasac = "http://old.arasaac.org/api/index.php?callback=json&language="+lang+"&word="+aux+"%&catalog=colorpictos&thumbnailsize=150&TXTlocate=4&KEY="+key;
         if(Build.VERSION.SDK_INT<= Build.VERSION_CODES.M){
             JSONutils.setUseVolley(false);
@@ -139,26 +140,6 @@ public class BuscarArasaac {
     }
 
 
-    private String changeLanguage(String lang){
-        String language = "eng";
-        switch (lang){
-            case "es":
-                return "spa";
-            case "pt":
-                return "por";
-            case "ca":
-                return "cat";
-            case "fr":
-                return "fra";
-            case "it":
-                return "ita";
-            case "ar":
-                return "ara";
-            case "da":
-                return "dan";
-            default:
-                return language;
-        }
-    }
+
 
 }

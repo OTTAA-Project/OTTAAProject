@@ -6,8 +6,8 @@ import com.stonefacesoft.ottaa.utils.textToSpeech;
 
 public class SayActivityName {
     private boolean isEnabled = true;
-    private textToSpeech myTTS;
-    private Context mContext;
+    private final textToSpeech myTTS;
+    private final Context mContext;
     private static SayActivityName _sayActivityName;
 
     private SayActivityName(Context mContext){

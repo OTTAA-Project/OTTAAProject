@@ -357,25 +357,6 @@ public class Principal extends AppCompatActivity implements View
 
     }
 
-    public void AlertCheckPlayService() {
-        AlertDialog.Builder dialogo1 = new AlertDialog.Builder(Principal.this);
-        dialogo1.setTitle(getResources().getString(R.string.pref_important_alert));
-        dialogo1.setMessage(getResources().getString(R.string.pref_error_312));
-        dialogo1.setCancelable(false);
-        dialogo1.setPositiveButton(getResources().getString(R.string.pref_yes_alert), new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialogo1, int id) {
-                String url = "https://play.google.com/store/apps/details?id=com.google.android.gms";
-                Intent i = new Intent(Intent.ACTION_VIEW);
-                i.setData(Uri.parse(url));
-                startActivity(i);
-                finish();
-            }
-        });
-        AlertDialog dialog = dialogo1.create();
-        dialog.show();
-    }
-
-
     @Override
     public void onDescargaCompleta(int termino) {
         mCheckDescarga += termino;
@@ -1284,6 +1265,7 @@ public class Principal extends AppCompatActivity implements View
 
     @Override
     public void onTrimMemory(int level) {
+        super.onTrimMemory(level);
         switch (level) {
             case Principal.TRIM_MEMORY_UI_HIDDEN:
                 break;

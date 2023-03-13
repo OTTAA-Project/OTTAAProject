@@ -22,7 +22,7 @@ import java.util.concurrent.Executors;
 
 public class traducirTexto {
 
-    private Context mContext;
+    private final Context mContext;
 
     private String texto="";
     private String mTarget="";
@@ -140,7 +140,7 @@ public class traducirTexto {
                                   Log.d("Principal_Trad_GTransOr",""+texto);
 
                               }catch (Exception e){
-                                  Log.e(TAG,"Principal_Trad_GTransOr : "+e.toString());
+                                  Log.e(TAG,"Principal_Trad_GTransOr : "+ e);
                                   //    Toast.makeText(Principal.this, R.string.tryAgain, Toast.LENGTH_SHORT).show();
                               }
 

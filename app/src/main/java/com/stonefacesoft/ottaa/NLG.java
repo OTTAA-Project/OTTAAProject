@@ -140,7 +140,7 @@ public class NLG {
                     return true;
                 case 1:
                     Log.d(TAG, "CargarFrase: Yellow 'Subject'");
-                    Log.d(TAG, "CargarFrase: Opcion: " + opcion.toString());
+                    Log.d(TAG, "CargarFrase: Opcion: " + opcion);
 
                     if (HayVerbo) {
                         HayObjeto = true;

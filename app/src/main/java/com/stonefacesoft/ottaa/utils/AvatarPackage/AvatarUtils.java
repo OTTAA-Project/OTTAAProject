@@ -23,13 +23,13 @@ import com.stonefacesoft.pictogramslibrary.utils.ValidateContext;
 import org.jetbrains.annotations.NotNull;
 
 public class AvatarUtils {
-    private String TAG ="AvatarUtils";
-    private ImageView imageViewAvatar;
-    private Context mContext;
+    private final String TAG ="AvatarUtils";
+    private final ImageView imageViewAvatar;
+    private final Context mContext;
     private DatabaseReference childDatabase;
-    private User user;
+    private final User user;
     private String name;
-    private GlideAttatcher glideAttatcher;
+    private final GlideAttatcher glideAttatcher;
 
 
 
@@ -41,7 +41,7 @@ public class AvatarUtils {
 
     }
 
-    private ValueEventListener firebaseChildEventListener = new ValueEventListener() {
+    private final ValueEventListener firebaseChildEventListener = new ValueEventListener() {
         @Override
         public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
             if (snapshot.hasChild("url_foto")) {

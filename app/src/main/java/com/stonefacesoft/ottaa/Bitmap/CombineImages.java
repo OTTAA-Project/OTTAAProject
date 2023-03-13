@@ -28,8 +28,8 @@ import java.util.ArrayList;
  */
 
 public class CombineImages implements DrawableInterface {
-    private ArrayList<Drawable> images;
-    private Context context;
+    private final ArrayList<Drawable> images;
+    private final Context context;
     private final String TAG = "CombineImages";
 
     public CombineImages(Context context) {

@@ -52,6 +52,7 @@ import org.json.JSONObject;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -341,7 +342,7 @@ public class ActivityInformes extends AppCompatActivity implements CloudFunction
             scoreHelper.setLast7DaysUsageJson(jsonObject.getJSONObject("frecLast7days"));
             cloudFunctionResponse.getCloudFunctionResponse(1);
         } catch (JSONException err) {
-            Log.e(TAG, "parseResponse: Error: " + err.toString());
+            Log.e(TAG, "parseResponse: Error: " + err);
         }
 
     }
@@ -381,6 +382,15 @@ public class ActivityInformes extends AppCompatActivity implements CloudFunction
         queue.add(stringRequest);
     }
 
+    public void setUpDateUser(long time){
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(time);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        int month = calendar.get(Calendar.MONTH)+1;
+        int year = calendar.get(Calendar.YEAR);
+
+    }
+
     private void parseReponse2(String response) {
         try {
             JSONObject jsonObject = new JSONObject(response);
@@ -413,7 +423,7 @@ public class ActivityInformes extends AppCompatActivity implements CloudFunction
             cloudFunctionResponse.getCloudFunctionResponse(2);
             Log.d(TAG, "parseResponse2: OK");
         } catch (JSONException err) {
-            Log.e(TAG, "parseResponse2: Error: " + err.toString());
+            Log.e(TAG, "parseResponse2: Error: " + err);
         }
 
     }

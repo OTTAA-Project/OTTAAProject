@@ -6,7 +6,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 public class GestionarBitmapTest  {
-    private GestionarBitmap gestionarBitmap = new GestionarBitmap(null);
+    private final GestionarBitmap gestionarBitmap = new GestionarBitmap(null);
 
     @Test
     public void setNombre(){

@@ -63,7 +63,7 @@ public class viewpager_galeria_grupo {
     private final ViewPager2 viewPager;
     private final ScreenSlidePagerAdapter pagerAdapter;
 
-    private SharedPreferences sharedPrefsDefault;
+    private final SharedPreferences sharedPrefsDefault;
 
 
     public viewpager_galeria_grupo(AppCompatActivity mActivity, textToSpeech myTTS) {

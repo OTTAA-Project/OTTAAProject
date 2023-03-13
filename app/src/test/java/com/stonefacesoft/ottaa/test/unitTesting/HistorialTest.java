@@ -14,8 +14,8 @@ import org.junit.Test;
 import java.util.ArrayList;
 
 public class HistorialTest  {
-    private Json json = Json.getInstance();
-    private Historial historial =  new Historial(Json.getInstance());
+    private final Json json = Json.getInstance();
+    private final Historial historial =  new Historial(Json.getInstance());
 
     @Test
     public void getListadoPictos() {

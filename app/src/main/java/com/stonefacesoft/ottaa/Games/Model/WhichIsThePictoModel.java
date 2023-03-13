@@ -17,7 +17,7 @@ public class WhichIsThePictoModel extends GameModel {
     }
 
     public boolean isTheWinnerPictogram(String name){
-        return winnerPictogramName.toLowerCase().equals(name.toLowerCase());
+        return winnerPictogramName.equalsIgnoreCase(name);
     }
 
     public void loadValue(int index,int value){

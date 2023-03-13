@@ -29,7 +29,7 @@ public class MostUsedFavoritePhrasesAdapter extends RecyclerView.Adapter<MostUse
     private final Context mContext;
     private final ArrayList<FavModel> mFavImagesArrayList;
     private textToSpeech myTTs;
-    private ProgressBarListener progressBarListener;
+    private final ProgressBarListener progressBarListener;
     private GestionarBitmap mGestionarBitmap;
 
 

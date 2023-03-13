@@ -94,7 +94,7 @@ public class Backup {
       final File backupFile = new File(myDir, name);
       try {
          if(file.length()>0)
-         FilesUtils.copyFile(file,backupFile);
+            FilesUtils.copyFile(file,backupFile);
       } catch (IOException e) {
          e.printStackTrace();
       }

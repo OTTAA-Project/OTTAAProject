@@ -7,7 +7,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class Custom_PictoTest  {
-    private Custom_Picto custom_picto = new Custom_Picto(null);
+    private final Custom_Picto custom_picto = new Custom_Picto(null);
 
     @Test
     public void setCustom_Color() {

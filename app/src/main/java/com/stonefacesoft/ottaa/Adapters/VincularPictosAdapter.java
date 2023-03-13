@@ -74,7 +74,7 @@ public class VincularPictosAdapter extends RecyclerView.Adapter<VincularPictosAd
         }
         int position =  Json.getInstance().getPosPictoBinarySearch(this.mVincularArray,0);
         if(position != -1)
-        this.mVincularArray.remove(0);
+            this.mVincularArray.remove(0);
     }
 
     public VincularPictosAdapter initGlideAttatcher() {

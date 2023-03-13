@@ -46,9 +46,9 @@ public class UtilsTTS {
     protected CustomToast alerta;
     protected boolean speak;
     private TTSListener ttsListener;
-    private String id="TTSOTTAAID";
+    private final String id="TTSOTTAAID";
     private static UtilsTTS _UtilsTTS;
-    private UtteranceProgressListener utteranceProgressListener = new UtteranceProgressListener() {
+    private final UtteranceProgressListener utteranceProgressListener = new UtteranceProgressListener() {
         @Override
         public void onStart(String utteranceId) {
 
@@ -56,7 +56,7 @@ public class UtilsTTS {
 
         @Override
         public void onDone(String utteranceId) {
-            if(utteranceId.toString().toLowerCase().equals(id.toLowerCase())&&ttsListener!=null){
+            if(utteranceId.equalsIgnoreCase(id)&&ttsListener!=null){
                 ttsListener.TTSonDone();
                 ttsListener= null;
             }

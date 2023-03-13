@@ -646,7 +646,7 @@ public class JSONutils {
     }
 
     private static int[] getArrayPosition(int position){
-        int value[] = new int[3];
+        int[] value = new int[3];
         for (int i = 0; i <3 ; i++) {
             if(i == position) {
                 value[i] = 1;
@@ -718,7 +718,7 @@ public class JSONutils {
             if(json.has(Constants.HORA)){
                 JSONArray array = json.getJSONArray(Constants.HORA);
                 for (int i = 0; i < array.length(); i++) {
-                    if (hora.toString().equals(array.get(i).toString())) {
+                    if (hora.equals(array.get(i).toString())) {
                         return 1;
                     }
                 }

@@ -34,12 +34,12 @@ import org.json.JSONObject;
 
 public class FindAllPictograms_Recycler_View extends Custom_recyclerView implements ItemTouchHelperAdapter, translateInterface {
 
-    private BuscarArasaac buscarArasaac;
+    private final BuscarArasaac buscarArasaac;
     private FindAllPictogramsAdapter findAllPictogramsAdapter;
     private JSONObject arasaac;
     private JSONArray arasaacPictogramsResult;
     private int id;
-    private Progress_dialog_options progress_dialog_options;
+    private final Progress_dialog_options progress_dialog_options;
     private JSONObject selectedObject;
     private com.stonefacesoft.ottaa.utils.traducirTexto traducirTexto;
     public FindAllPictograms_Recycler_View(AppCompatActivity appCompatActivity, FirebaseAuth mAuth) {

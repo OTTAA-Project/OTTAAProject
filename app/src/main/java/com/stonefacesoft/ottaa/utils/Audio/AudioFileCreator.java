@@ -19,7 +19,7 @@ import java.io.IOException;
 
 
 public class AudioFileCreator extends AppCompatActivity {
-    private Context mContext;
+    private final Context mContext;
     private File file = null;
     private File aux = null;
 

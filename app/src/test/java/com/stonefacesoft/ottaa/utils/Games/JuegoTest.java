@@ -9,7 +9,7 @@ import static org.junit.Assert.assertNotNull;
 
 public class JuegoTest {
 
-    private Juego juego = new Juego(null,1,1);
+    private final Juego juego = new Juego(null,1,1);
 
     @Test
     public void testStartUseTime() {

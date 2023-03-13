@@ -8,7 +8,7 @@ import static org.junit.Assert.*;
 
 public class MemoryGameModelModelTest  {
 
-    private MemoryGameModelModel model = new MemoryGameModelModel();
+    private final MemoryGameModelModel model = new MemoryGameModelModel();
 
     @Test
     public void getMatrixIdPictogram() {

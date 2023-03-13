@@ -262,7 +262,7 @@ public class Json  {
         for (int i = 0; i < aux.length(); i++) {
             try {
                 if(aux.getJSONObject(i).has("locale")){
-                    if(aux.getJSONObject(i).getString("locale").toLowerCase().equals(ConfigurarIdioma.getLanguaje().toLowerCase())) {
+                    if(aux.getJSONObject(i).getString("locale").equalsIgnoreCase(ConfigurarIdioma.getLanguaje())) {
                         result.put(aux.getJSONObject(i));
                     }
                 }
@@ -868,14 +868,14 @@ public class Json  {
                 }
                 fis.close();
             } catch (IOException e) {
-                Log.e(TAG, "readFromFile: " + e.toString());
+                Log.e(TAG, "readFromFile: " + e);
                 e.printStackTrace();
             } finally {
                 if (reader != null) {
                     try {
                         reader.close();
                     } catch (IOException e) {
-                        Log.e(TAG, "readFromFile: " + e.toString());
+                        Log.e(TAG, "readFromFile: " + e);
 
                     }
                 }

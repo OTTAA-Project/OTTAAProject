@@ -19,7 +19,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CloudFunctionHTTPRequest {
-    private Activity mActivity;
+    private final Activity mActivity;
     private String TAG ="";
     public CloudFunctionHTTPRequest(Activity mActivity,String tag){
         this.mActivity = mActivity;
@@ -62,7 +62,7 @@ public class CloudFunctionHTTPRequest {
             JSONObject jsonObject = new JSONObject(response);
 
         } catch (JSONException err) {
-            Log.e(TAG, "parseResponse: Error: " + err.toString());
+            Log.e(TAG, "parseResponse: Error: " + err);
         }
 
     }

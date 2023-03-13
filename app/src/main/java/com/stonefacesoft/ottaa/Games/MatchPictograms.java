@@ -130,7 +130,7 @@ public class MatchPictograms extends GameViewSelectPictograms {
             numeros.add(value);
             try {
                 pictogramas[pos] = hijos.getJSONObject(value);
-                if(!JSONutils.getNombre(pictogramas[pos], ConfigurarIdioma.getLanguaje()).toLowerCase().equals("error"))
+                if(!JSONutils.getNombre(pictogramas[pos], ConfigurarIdioma.getLanguaje()).equalsIgnoreCase("error"))
                 cargarOpcion(pos);
                 else
                     selectRandomPictogram(pos);

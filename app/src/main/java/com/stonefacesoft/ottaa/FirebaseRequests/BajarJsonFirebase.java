@@ -148,7 +148,7 @@ public class BajarJsonFirebase implements OnFailureListener {
                                 }
                             } catch (Exception e) {
                                 e.printStackTrace();
-                                Log.e("printStackTrace", "" + e.toString());
+                                Log.e("printStackTrace", "" + e);
                             }
                             Log.e("BAF_descGYPN", "gruposBajados2 : " + "true");
                             Log.e("BAF_descGYPN", "gruposBajados3 :" + "true");
@@ -239,7 +239,7 @@ public class BajarJsonFirebase implements OnFailureListener {
                                                             }
                                                         } catch (Exception e) {
                                                             e.printStackTrace();
-                                                            Log.e("printStackTrace", "" + e.toString());
+                                                            Log.e("printStackTrace", "" + e);
                                                         }
                                                         Log.e("BAF_descGYPN", "gruposBajados2 : " + "true");
                                                         Log.e("BAF_descGYPN", "gruposBajados3 :" + "true");
@@ -262,7 +262,7 @@ public class BajarJsonFirebase implements OnFailureListener {
                                                             }
                                                         } catch (Exception e) {
                                                             e.printStackTrace();
-                                                            Log.e("printStackTrace", "" + e.toString());
+                                                            Log.e("printStackTrace", "" + e);
                                                         }
                                                   }
                                                 });

@@ -11,7 +11,7 @@ import org.junit.Test;
 
 public class Item_adapterTest {
     private Dialog dialog;
-    private Item_adapter adapter=new Item_adapter(R.layout.custom_item_select,dialog);
+    private final Item_adapter adapter=new Item_adapter(R.layout.custom_item_select,dialog);
 
 
    @Test
@@ -57,13 +57,13 @@ public class Item_adapterTest {
     public void testGetmArrayListItemsnames() {
        String[] names = new String[]{"paul","john"};
        adapter.setmArrayListItemsNames(names);
-       assertEquals(names[1].toString(),adapter.getmArrayListItemsnames()[1].toString());
+       assertEquals(names[1], adapter.getmArrayListItemsnames()[1]);
     }
     @Test
     public void testGetmArrayListValues() {
         String[] names = new String[]{"paul","john","adrian"};
         adapter.setmArrayListValues(names);
-        assertEquals(names[2].toString(),adapter.getmArrayListValues()[2].toString());
+        assertEquals(names[2], adapter.getmArrayListValues()[2]);
     }
     @Test
     public void testDevolverPosition() {

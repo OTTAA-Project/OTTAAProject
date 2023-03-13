@@ -71,7 +71,7 @@ public class LoginActivity2Avatar extends AppCompatActivity implements View.OnCl
         public void onDataChange(@NonNull DataSnapshot snapshot) {
 
             if (snapshot.hasChild("url_foto")) {
-                Log.d(TAG, "onDataChange:" + snapshot.child("url_foto").toString());
+                Log.d(TAG, "onDataChange:" + snapshot.child("url_foto"));
                 Glide.with(getApplicationContext()).load(Uri.parse(snapshot.child("url_foto").getValue().toString())).into(imageViewAvatar);
             } else if (snapshot.exists()) {
                 String name = snapshot.getValue().toString();

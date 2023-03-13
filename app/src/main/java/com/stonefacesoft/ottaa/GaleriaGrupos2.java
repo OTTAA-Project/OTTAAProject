@@ -71,8 +71,6 @@ import org.json.JSONArray;
 import java.util.ArrayList;
 import java.util.Locale;
 
-;
-
 public class GaleriaGrupos2 extends AppCompatActivity implements OnStartDragListener,
         RecyclerViewItemClickInterface,
         FirebaseSuccessListener, FallanDatosDelUsuario, View.OnClickListener, View.OnTouchListener, Make_Click_At_Time {

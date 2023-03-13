@@ -433,7 +433,7 @@ public class Edit_Picto_Visual extends AppCompatActivity implements View.OnClick
             public void onTextChanged(CharSequence s, int start,
                                       int before, int count) {
                 if (s.length() != 0) {
-                    Log.d(TAG, "onTextChanged: " + s.toString());
+                    Log.d(TAG, "onTextChanged: " + s);
                     Picto.setCustom_Texto(s.toString());
                 }
             }

@@ -18,7 +18,7 @@ import java.io.IOException;
 public class FileEncoder {
 
     private Transformer transformer;
-    private  Context mContext;
+    private final Context mContext;
 
     public FileEncoder(Context mContext){
       this.mContext = mContext;

@@ -100,7 +100,7 @@ public class GaleriaJuegosAdapter extends RecyclerView.Adapter <GaleriaJuegosAda
 
     public class GruposViewHolder extends RecyclerView.ViewHolder {
 
-        private GameGroupView mGameGroupView;
+        private final GameGroupView mGameGroupView;
 
         public GruposViewHolder(View itemView) {
             super(itemView);
