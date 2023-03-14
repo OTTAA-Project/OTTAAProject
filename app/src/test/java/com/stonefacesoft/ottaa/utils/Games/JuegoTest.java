@@ -63,7 +63,46 @@ public class JuegoTest {
     }
 
     @Test
-    public void testDevolverCaritaInt() {
+    public void testDevolverCaritaInt0() {
+        juego.incrementCorrect();
+        juego.incrementCorrect();
+        juego.incrementWrong();
+        juego.incrementWrong();
+        juego.incrementWrong();
+        juego.incrementWrong();
+        juego.incrementWrong();
+        juego.incrementWrong();
+        juego.incrementWrong();
+        juego.incrementWrong();
+        juego.incrementWrong();
+        juego.incrementWrong();
+        juego.incrementWrong();
+        juego.incrementWrong();
+        juego.incrementWrong();
+        juego.incrementWrong();
+        juego.incrementWrong();
+        juego.incrementWrong();
+        juego.incrementWrong();
+        juego.incrementWrong();
+        System.out.println(" Return face nº :"+juego.getSmileyInteger());
+        assertEquals(juego.getSmiley(0),juego.getSmileyInteger());
+    }
+
+    @Test
+    public void testDevolverCaritaInt1() {
+        juego.incrementCorrect();
+        juego.incrementCorrect();
+        juego.incrementCorrect();
+        juego.incrementWrong();
+        juego.incrementWrong();
+        juego.incrementWrong();
+        juego.incrementWrong();
+        juego.incrementWrong();
+        juego.incrementWrong();
+        System.out.println(" Return face nº :"+juego.getSmileyInteger());
+        assertEquals(juego.getSmiley(1),juego.getSmileyInteger());
+    }  @Test
+    public void testDevolverCaritaInt2() {
         juego.incrementCorrect();
         juego.incrementCorrect();
         juego.incrementCorrect();
@@ -77,6 +116,45 @@ public class JuegoTest {
         juego.incrementWrong();
         System.out.println(" Return face nº :"+juego.getSmileyInteger());
         assertEquals(juego.getSmiley(2),juego.getSmileyInteger());
+    }
+    @Test
+    public void testDevolverCaritaInt3() {
+        juego.incrementCorrect();
+        juego.incrementCorrect();
+        juego.incrementCorrect();
+        juego.incrementCorrect();
+        juego.incrementCorrect();
+        juego.incrementCorrect();
+        juego.incrementCorrect();
+        juego.incrementCorrect();
+        juego.incrementWrong();
+        juego.incrementWrong();
+        juego.incrementWrong();
+        System.out.println(" Return face nº :"+juego.getSmileyInteger());
+        assertEquals(juego.getSmiley(3),juego.getSmileyInteger());
+    }
+    @Test
+    public void testDevolverCaritaInt4() {
+        juego.incrementCorrect();
+        juego.incrementCorrect();
+        juego.incrementCorrect();
+        juego.incrementCorrect();
+        juego.incrementCorrect();
+        juego.incrementCorrect();
+        juego.incrementCorrect();
+        juego.incrementCorrect();
+        juego.incrementCorrect();
+        juego.incrementCorrect();
+        juego.incrementCorrect();
+        juego.incrementCorrect();
+        juego.incrementCorrect();
+        juego.incrementCorrect();
+        juego.incrementCorrect();
+        juego.incrementCorrect();
+        juego.incrementCorrect();
+
+        System.out.println(" Return face nº :"+juego.getSmileyInteger());
+        assertEquals(juego.getSmiley(4),juego.getSmileyInteger());
     }
 
     public void testGetObject() {

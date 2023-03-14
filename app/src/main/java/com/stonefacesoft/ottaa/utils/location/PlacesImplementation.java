@@ -25,15 +25,19 @@ import java.util.Arrays;
 import java.util.List;
 
 public class PlacesImplementation {
-    private final Context mContext;
+    private Context mContext;
     private final String TAG = "PlacesImplementation";
-    private final LocationManager locationManager;
+    private LocationManager locationManager;
     private PlacesClient client;
     private ArrayList<Place> places;
     private int positionPlace = -1;
     private int positionType = -1;
     private boolean isStarted;
     private String nombreTraducido;
+
+    public PlacesImplementation(){
+        places = new ArrayList<>();
+    }
 
 
     public PlacesImplementation(Context mContext) {

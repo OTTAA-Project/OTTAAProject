@@ -181,9 +181,7 @@ public class Juego {
     }
     public int getSmileyInteger() {
        float result = score.getResult();
-        if(result<20)
-            return iconArrayActive[0];
-        else if(result>=20&& result<40)
+        if(result>=20&& result<40)
             return iconArrayActive[1];
         else if(result>=40&& result<60)
             return iconArrayActive[2];
@@ -191,7 +189,8 @@ public class Juego {
             return iconArrayActive[3];
         else if(result>=80&& result<=100)
             return iconArrayActive[4];
-        return iconArrayActive[0];
+        else
+            return iconArrayActive[0];
     }
 
 

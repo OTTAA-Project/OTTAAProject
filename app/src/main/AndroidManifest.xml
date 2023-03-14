@@ -49,7 +49,6 @@
         tools:targetApi="M">
 
 
-        <activity android:name=".view.ReportActivity" />
         <activity
             android:name=".ActivityInformes"
             android:label="@string/title_activity_informes"

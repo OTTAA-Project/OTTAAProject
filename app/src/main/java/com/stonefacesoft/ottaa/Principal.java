@@ -308,7 +308,6 @@ public class Principal extends AppCompatActivity implements View
             mCheckDatos = 0;
             try {
                 if (!this.isFinishing() && ConnectionDetector.isNetworkAvailable(this) && json.readJSONArrayFromFile(Constants.ARCHIVO_PICTOS).length() > 0) {
-
                     mBajarJsonFirebase.setInterfaz(this);
                     getFirebaseDialog().setTitle(getApplicationContext().getResources().getString(R.string.edit_sync)).setMessage(getApplicationContext().getResources().getString(R.string.edit_sync_pict)).setCancelable(false);
                     getFirebaseDialog().mostrarDialogo();
