@@ -168,6 +168,7 @@ public class BajarJsonFirebase implements OnFailureListener {
         }
     }
 
+    //todo optimize this method tomorrow 16/03/2023
     public void syncPictogramsandGroups() {
 
         String uid ="";

@@ -2,6 +2,7 @@ package com.stonefacesoft.ottaa.utils.Games;
 
 import com.stonefacesoft.ottaa.R;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -9,19 +10,20 @@ import static org.junit.Assert.assertNotNull;
 
 public class JuegoTest {
 
-    private final Juego juego = new Juego(null,1,1);
+    private  Juego juego;
+
+    @Before
+    public void setup(){
+        juego = new Juego(null,1,1);
+        juego.startUseTime();
+
+    }
 
     @Test
     public void testStartUseTime() {
-        juego.startUseTime();
         assertNotNull(juego.getChronometer().getHorainicio());
     }
 
-    @Test
-    public void testEndUseTime() {
-        juego.endUseTime();
-        assertNotNull(juego.getChronometer().getHorafin());
-    }
 
     @Test
     public void testIncrementCorrect() {
@@ -181,4 +183,11 @@ public class JuegoTest {
     public void testGetSmiley() {
         assertEquals(R.drawable.ic_sentiment_neutral_white_24dp,juego.getSmiley(2));
     }
+
+    @Test
+    public void testEndUseTime() {
+        juego.endUseTime();
+        assertNotNull(juego.getChronometer().getHorafin());
+    }
+
 }

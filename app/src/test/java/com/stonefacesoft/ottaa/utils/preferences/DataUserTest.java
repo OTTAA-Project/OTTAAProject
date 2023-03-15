@@ -12,7 +12,7 @@ public class DataUserTest {
 
     @Before
     public void setUp() throws Exception {
-        dataUser = new DataUser();
+        dataUser = new DataUser("Paul","Male",1000,"fake@mail.com");
     }
 
     @Test
@@ -30,7 +30,7 @@ public class DataUserTest {
 
     @Test
     public void getGenderEmpty() {
-
+        dataUser.setGender("");
         assertEquals("",dataUser.getGender());
     }
 
@@ -42,17 +42,19 @@ public class DataUserTest {
 
     @Test
     public void getFirstAndLastNameEmptyValue(){
+        dataUser.setFirstAndLastName("");
         assertEquals("",dataUser.getFirstAndLastName());
     }
 
     @Test
     public void getEmail() {
-        dataUser.setEmail("yo@gmail.com");
-        assertEquals("yo@gmail.com",dataUser.getEmail());
+        dataUser.setEmail("fake@gmail.com");
+        assertEquals("fake@gmail.com",dataUser.getEmail());
     }
 
     @Test
     public void getEmailEmptyValue(){
+        dataUser.setEmail("");
         assertEquals("",dataUser.getEmail());
     }
 

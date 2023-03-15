@@ -52,7 +52,6 @@ import org.json.JSONObject;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -90,7 +89,6 @@ public class ActivityInformes extends AppCompatActivity implements CloudFunction
             imageInternet.setVisibility(View.INVISIBLE);
             doHTTPRequestFirst();
             doHTTPRequestSecond();
-
             glideAttatcher = new GlideAttatcher(this);
 
             loadProfilePic();
@@ -382,15 +380,6 @@ public class ActivityInformes extends AppCompatActivity implements CloudFunction
         queue.add(stringRequest);
     }
 
-    public void setUpDateUser(long time){
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(time);
-        int day = calendar.get(Calendar.DAY_OF_MONTH);
-        int month = calendar.get(Calendar.MONTH)+1;
-        int year = calendar.get(Calendar.YEAR);
-
-    }
-
     private void parseReponse2(String response) {
         try {
             JSONObject jsonObject = new JSONObject(response);
@@ -418,6 +407,7 @@ public class ActivityInformes extends AppCompatActivity implements CloudFunction
             MyRunnable obj = new MyRunnable(mostUsedSentencesArray);
             handler.post(obj);
 
+            Log.d(TAG, "parseReponse2: "+groupUsageArray.toString());
             loadGroupUsage(groupUsageArray);
             scoreHelper.setGroupUsage(groupUsageArray);
             cloudFunctionResponse.getCloudFunctionResponse(2);
@@ -489,13 +479,12 @@ public class ActivityInformes extends AppCompatActivity implements CloudFunction
         });
 
         try {
-            //TODO falta poner el locale cuando carga el TextView
             loadAnimateProgressBar(progressBarVocabulario1, (float) jsonList.get(0).getDouble("percentage"));
-            loadAnimateTextView(textViewVocabulario1, jsonList.get(0).getJSONObject("name").getString("es"));
+            loadAnimateTextView(textViewVocabulario1, jsonList.get(0).getJSONObject("name").getString(ConfigurarIdioma.getLanguaje()));
             loadAnimateProgressBar(progressBarVocabulario2, (float) jsonList.get(1).getDouble("percentage"));
-            loadAnimateTextView(textViewVocabulario2, jsonList.get(1).getJSONObject("name").getString("es"));
+            loadAnimateTextView(textViewVocabulario2, jsonList.get(1).getJSONObject("name").getString(ConfigurarIdioma.getLanguaje()));
             loadAnimateProgressBar(progressBarVocabulario3, (float) jsonList.get(2).getDouble("percentage"));
-            loadAnimateTextView(textViewVocabulario3, jsonList.get(2).getJSONObject("name").getString("es"));
+            loadAnimateTextView(textViewVocabulario3, jsonList.get(2).getJSONObject("name").getString(ConfigurarIdioma.getLanguaje()));
         } catch (JSONException e) {
             e.printStackTrace();
         }
