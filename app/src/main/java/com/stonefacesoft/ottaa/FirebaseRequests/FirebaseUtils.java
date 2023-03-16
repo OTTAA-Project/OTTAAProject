@@ -10,6 +10,7 @@ public class FirebaseUtils {
     private DatabaseReference mDatabase;
     private Context mContext;
     private static FirebaseUtils myFirebaseUtils;
+    private volatile String Uid;
 
 
     public static FirebaseUtils getInstance() {
@@ -47,7 +48,11 @@ public class FirebaseUtils {
         return connectedRef;
     }
 
+    public void setUid(String uid){
+        this.Uid = uid;
+    }
 
-
-
+    public String getUid() {
+        return Uid;
+    }
 }

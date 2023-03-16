@@ -1,4 +1,4 @@
-package com.stonefacesoft.ottaa.FirebaseRequests.Files;
+package com.stonefacesoft.ottaa.FirebaseRequests.UploadFiles;
 
 import android.content.Context;
 
@@ -22,8 +22,8 @@ public class UploadFile {
         this.mDatabase=mDatabase;
         this.mStorageReference=mStorageReference;
     }
-    public void openFile(){}
-    public void closeFile(){}
+    protected void openFile(){}
+    protected void closeFile(){}
     public void uploadFile(){}
 
     public UploadFile setTAG(String TAG) {

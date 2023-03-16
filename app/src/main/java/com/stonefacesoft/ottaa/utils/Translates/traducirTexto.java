@@ -1,4 +1,4 @@
-package com.stonefacesoft.ottaa.utils;
+package com.stonefacesoft.ottaa.utils.Translates;
 
 import android.content.Context;
 import android.os.Handler;
@@ -10,6 +10,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.stonefacesoft.ottaa.Interfaces.translateInterface;
 import com.stonefacesoft.ottaa.R;
+import com.stonefacesoft.ottaa.utils.CustomToast;
 
 import org.json.JSONException;
 import org.json.JSONObject;

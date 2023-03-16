@@ -67,7 +67,7 @@ public final class Constants {
     //Constantes de datos enontrados
     public static final int PICTOS_ENCONTRADOS = 244;
     public static final int GRUPOS_ENCONTRADOS = 245;
-    public static final int FRASES_ENCTONRADOS = 246;
+    public static final int FRASES_ENCONTRADOS = 246;
     public static final int TODO_ENCONTRADO = 735;
     public static int FOTOS_DESCARGADOS = 124;
 

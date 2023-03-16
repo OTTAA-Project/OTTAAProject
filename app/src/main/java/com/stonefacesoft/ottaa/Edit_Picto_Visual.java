@@ -81,7 +81,7 @@ import com.stonefacesoft.ottaa.utils.JSONutils;
 import com.stonefacesoft.ottaa.utils.constants.Constants;
 import com.stonefacesoft.ottaa.utils.exceptions.FiveMbException;
 import com.stonefacesoft.ottaa.utils.textToSpeech;
-import com.stonefacesoft.ottaa.utils.traducirTexto;
+import com.stonefacesoft.ottaa.utils.Translates.traducirTexto;
 import com.stonefacesoft.pictogramslibrary.Classes.Group;
 import com.stonefacesoft.pictogramslibrary.Classes.Pictogram;
 import com.stonefacesoft.pictogramslibrary.view.PictoView;
@@ -310,7 +310,7 @@ public class Edit_Picto_Visual extends AppCompatActivity implements View.OnClick
             dialogs.setCancelable(false);
             dialogs.setMessage(getApplicationContext().getString(R.string.edit_sync_pict));
             dialogs.mostrarDialogo();
-            bajarJsonFirebase.syncPictogramsandGroups();
+            bajarJsonFirebase.syncFiles();
         }
     }
 

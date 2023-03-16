@@ -2,7 +2,6 @@ package com.stonefacesoft.ottaa.FirebaseRequests;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.Environment;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -10,6 +9,7 @@ import androidx.annotation.NonNull;
 import com.google.android.gms.tasks.OnCanceledListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.api.LogDescriptor;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -25,22 +25,20 @@ import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.idioma.ConfigurarIdioma;
 import com.stonefacesoft.ottaa.utils.Firebase.CrashlyticsUtils;
 import com.stonefacesoft.ottaa.utils.constants.Constants;
-import com.stonefacesoft.ottaa.utils.FilesUtils;
 import com.stonefacesoft.ottaa.utils.ObservableInteger;
 import com.stonefacesoft.ottaa.utils.exceptions.FiveMbException;
-import com.stonefacesoft.ottaa.utils.preferences.User;
 import com.stonefacesoft.pictogramslibrary.utils.ValidateContext;
 
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Locale;
+
+import io.reactivex.internal.operators.observable.ObservableNever;
 
 /**
  * Created by GastonSaillen on 10/5/2018.
@@ -58,9 +56,11 @@ public class BajarJsonFirebase implements OnFailureListener {
     private StorageReference mStorageRefGrupos, mStorageRefPictos, mStorageRefFrases, mStorageRefFrasesJuegos, mStorageRefDescJuegos;
     private final Json json;
     private final FirebaseUtils firebaseUtils;
-    //   private String uid;
+
+    private volatile String uid="";
     private FirebaseSuccessListener mFbSuccessListenerInterfaz;
     private SharedPreferences sharedPrefs;
+
 
     public BajarJsonFirebase(SharedPreferences sharedPrefsDefault, FirebaseAuth mAuth, Context mContext) {
 
@@ -75,11 +75,11 @@ public class BajarJsonFirebase implements OnFailureListener {
         firebaseUtils.setUpFirebaseDatabase();
         //this.json.leerPictosFrasesGrupos();
 
-
-
         this.mDatabase = firebaseUtils.getmDatabase();
+        this.uid = firebaseUtils.getUid();
         //  mAuth = FirebaseAuth.getInstance();
         //  uid = mAuth.getUid();
+
     }
 
 
@@ -168,140 +168,166 @@ public class BajarJsonFirebase implements OnFailureListener {
         }
     }
 
-    //todo optimize this method tomorrow 16/03/2023
-    public void syncPictogramsandGroups() {
-
-        String uid ="";
-         if(ValidateContext.isValidContext(mContext)){
-             try{
-                uid = mAuth.getCurrentUser().getUid();
-             }catch (Exception ex){
-                 uid = "";
-             }
-         }
+    public void syncFiles() {
         if (!uid.isEmpty()) {
-            final String uidAux = uid;
             locale = Locale.getDefault().getLanguage();
             Log.e("BAF_descGYPN", "locale :" + locale);
-            mDatabase.child(Constants.Grupos).child(uid).child("URL_grupos_" + sharedPrefsDefault.getString(mContext.getString(R.string.str_idioma), locale)).addListenerForSingleValueEvent(new ValueEventListener() {
+
+            final  File rootPath = new File(mContext.getCacheDir(), "Archivos_OTTAA");
+            if (!rootPath.exists()) {
+                rootPath.mkdirs();//si no existe el directorio lo creamos
+            }
+            ObservableInteger observableInteger = new ObservableInteger();
+            observableInteger.setOnIntegerChangeListener(new ObservableInteger.OnIntegerChangeListener() {
                 @Override
-                public void onDataChange(@NonNull final DataSnapshot dataSnapshotGrupos) {
-                    mDatabase.child(Constants.PICTOS).child(uidAux).child("URL_pictos_" + sharedPrefsDefault.getString(mContext.getString(R.string.str_idioma), locale)).addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshotPictos) {
-                            mDatabase.child(Constants.Frases).child(uidAux).child("URL_frases_" + sharedPrefsDefault.getString(mContext.getString(R.string.str_idioma), locale)).addListenerForSingleValueEvent(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(@NonNull DataSnapshot dataSnapshotFrases) {
-                                    Log.e("Descarga", "Existen Datos");
-                                    //Creamos donde se van a guardar los archivos, en este caso en cache momentaneo
-                                    File rootPath = new File(mContext.getCacheDir(), "Archivos_OTTAA");
-                                    if (!rootPath.exists()) {
-                                        rootPath.mkdirs();//si no existe el directorio lo creamos
-                                    }
-                                    mStorageRefGrupos = FirebaseStorage.getInstance().getReference().child("Archivos_Usuarios").child("Grupos").child("grupos_" + mAuth.getCurrentUser().getEmail() + "_" +ConfigurarIdioma.getLanguaje()+ "." + "txt");
-                                    mStorageRefPictos = FirebaseStorage.getInstance().getReference().child("Archivos_Usuarios").child("Pictos").child("pictos_" + mAuth.getCurrentUser().getEmail() + "_" +ConfigurarIdioma.getLanguaje()+ "." + "txt");
-                                    mStorageRefFrases = FirebaseStorage.getInstance().getReference().child("Archivos_Usuarios").child("Frases").child("frases_" + mAuth.getCurrentUser().getEmail() + "_" +ConfigurarIdioma.getLanguaje()+ "." + "txt");
-
-
-                                    //    mStorageRefFrasesJuegos=FirebaseStorage.getInstance().getReference().child("Archivos_Paises").child("frases-juegos").child("frases_"+sharedPrefsDefault.getString("idioma","es")+".txt");
-                                    final File pictosUsuarioFile = new File(rootPath, "pictos.txt");
-                                    final File gruposUsuarioFile = new File(rootPath, "grupos.txt");
-                                    final File frasesUsuarioFile = new File(rootPath, "frases.txt");
-                                    final File frasesJuegosPictos=new File(rootPath,"frasesjuegos.txt");
-                                    mStorageRefPictos.getFile(pictosUsuarioFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                                        @Override
-                                        public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                                            Log.d("BAF_descGYPN", "Tama&ntildeoArchivoPicto:" + taskSnapshot.getTotalByteCount());
-                                            Log.d("BAF_descGYPN", "NombreArchivo:" + pictosUsuarioFile);
-                                            Log.d("BAF_descGYPN", "Tama&ntildeoArchivoss :" + pictosUsuarioFile.length());
-                                            try {
-                                                if (pictosUsuarioFile.length() > 0 && !getStringFromFile
-                                                        (pictosUsuarioFile.getAbsolutePath()).equals("[]") &&
-                                                        getStringFromFile(pictosUsuarioFile.getAbsolutePath()
-                                                        ) != null) {
-                                                    json.setmJSONArrayTodosLosPictos(json.readJSONArrayFromFile(pictosUsuarioFile.getAbsolutePath()));
-                                                    if (!json.guardarJson(Constants.ARCHIVO_PICTOS))
-                                                        Log.e(TAG, "Error al guardar Json");
-                                                }
-                                                mStorageRefGrupos.getFile(gruposUsuarioFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                                                    @Override
-                                                    public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                                                        Log.d("BAF_descGYPN", "Tama&ntildeoArchivoGrupo :" + taskSnapshot.getTotalByteCount());
-                                                        Log.d("BAF_descGYPN", "NombreArchivo:" + gruposUsuarioFile);
-                                                        try {
-                                                            if (!getStringFromFile(gruposUsuarioFile
-                                                                    .getAbsolutePath()).equals("[]") &&
-                                                                    gruposUsuarioFile.length() > 0 &&
-                                                                    getStringFromFile(pictosUsuarioFile.getAbsolutePath()) != null) {
-                                                                json.setmJSONArrayTodosLosGrupos(json.readJSONArrayFromFile(gruposUsuarioFile.getAbsolutePath()));
-                                                                if (!json.guardarJson(Constants.ARCHIVO_GRUPOS))
-                                                                    Log.e(TAG, "Error al guardar Json");
-
-                                                            }
-                                                        } catch (Exception e) {
-                                                            e.printStackTrace();
-                                                            Log.e("printStackTrace", "" + e);
-                                                        }
-                                                        Log.e("BAF_descGYPN", "gruposBajados2 : " + "true");
-                                                        Log.e("BAF_descGYPN", "gruposBajados3 :" + "true");
-                                                        mFbSuccessListenerInterfaz.onDescargaCompleta(Constants.GRUPOS_DESCARGADOS);
-                                                    }
-                                                });
-
-                                                mStorageRefFrases.getFile(frasesUsuarioFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                                                    @Override
-                                                    public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-
-                                                        try {
-
-                                                            if (!getStringFromFile(frasesUsuarioFile.getAbsolutePath()).equals("[]") && frasesUsuarioFile.length() > 0) {
-
-                                                                json.setmJSONArrayTodasLasFrases(json.readJSONArrayFromFile(frasesUsuarioFile.getAbsolutePath()));
-                                                                json.guardarJson(Constants.ARCHIVO_FRASES);
-                                                                mFbSuccessListenerInterfaz.onDescargaCompleta(Constants.FRASES_DESCARGADOS);
-
-                                                            }
-                                                        } catch (Exception e) {
-                                                            e.printStackTrace();
-                                                            Log.e("printStackTrace", "" + e);
-                                                        }
-                                                  }
-                                                });
-                                                bajarFrasesFavoritas(locale,rootPath);
-                                                bajarJuego(locale,rootPath);
-                                            } catch (Exception e) {
-                                                e.printStackTrace();
-                                            }
-                                            mFbSuccessListenerInterfaz.onDescargaCompleta(Constants.PICTOS_DESCARGADOS);
-                                        }
-
-                                    });
-
-                                }
-
-                                @Override
-                                public void onCancelled(@NonNull DatabaseError databaseError) {
-                                    Log.e(TAG, "onCancelled: " + databaseError.getMessage());
-
-                                }
-                            });
-
-
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
-                            Log.e(TAG, "onCancelled: " + databaseError.getMessage());
-                        }
-                    });
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {
-                    Log.e(TAG, "onCancelled: " + databaseError.getMessage());
+                public void onIntegerChanged(int newValue) {
+                    Log.d(TAG, "onIntegerChanged: "+ newValue);
+                    switch (newValue){
+                        case 0:
+                            syncPictograms(rootPath,observableInteger);
+                        break;
+                        case 1:
+                            syncGroups(rootPath,observableInteger);
+                        break;
+                        case 2:
+                            syncPhrasesFiles(rootPath,observableInteger);
+                        break;
+                        case 3:
+                            bajarFrasesFavoritas(locale,rootPath,uid,observableInteger);
+                        break;
+                        case 4:
+                            bajarJuego(locale,rootPath,uid,observableInteger);
+                        default:
+                                mFbSuccessListenerInterfaz.onDescargaCompleta(Constants.TODO_DESCARGADO);
+                            break;
+                    }
                 }
             });
+                observableInteger.set(0);
+
+
+            }else{
+                Log.d(TAG, "syncPictogramsandGroups: problem UID is empty");
         }
+
+    }
+
+    private void syncPhrasesFiles(File rootPath,ObservableInteger observableInteger){
+        mDatabase.child(Constants.Frases).child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                String child = "URL_frases_" + sharedPrefsDefault.getString(mContext.getString(R.string.str_idioma), locale);
+                if(snapshot.hasChild(child)){
+                    StorageReference mStorageRefUsuariosFrases = FirebaseStorage.getInstance().getReference().child("Archivos_Usuarios").child(Constants.Frases).child(Constants.Frases.toLowerCase() + "_" + mAuth.getCurrentUser().getEmail() + "_" + locale + "." + "txt");
+                    final File frasesUsuarioFile = new File(rootPath, "frases.txt");
+                    mStorageRefUsuariosFrases.getFile(frasesUsuarioFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                            try {
+                                if (!getStringFromFile(frasesUsuarioFile.getAbsolutePath()).equals("[]") && frasesUsuarioFile.length() > 0) {
+
+                                    json.setmJSONArrayTodasLasFrases(json.readJSONArrayFromFile(frasesUsuarioFile.getAbsolutePath()));
+                                    json.guardarJson(Constants.ARCHIVO_FRASES);
+                                }
+                            } catch (JSONException | FiveMbException e) {
+                                e.printStackTrace();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                            observableInteger.incrementValue();
+
+                        }
+                    }).addOnFailureListener(BajarJsonFirebase.this);
+                }else{
+                    observableInteger.incrementValue();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    private void syncPictograms(File rootPath,ObservableInteger observableInteger){
+        mDatabase.child(Constants.PICTOS).child(uid).child("URL_pictos_" + sharedPrefsDefault.getString(mContext.getString(R.string.str_idioma), locale)).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                mStorageRefPictos = FirebaseStorage.getInstance().getReference().child("Archivos_Usuarios").child("Pictos").child("pictos_" + mAuth.getCurrentUser().getEmail() + "_" +ConfigurarIdioma.getLanguaje()+ "." + "txt");
+                final File pictosUsuarioFile = new File(rootPath, "pictos.txt");
+                mStorageRefPictos.getFile(pictosUsuarioFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                        Log.d("BAF_descGYPN", "Tama&ntildeoArchivoPicto:" + taskSnapshot.getTotalByteCount());
+                        Log.d("BAF_descGYPN", "NombreArchivo:" + pictosUsuarioFile);
+                        Log.d("BAF_descGYPN", "Tama&ntildeoArchivoss :" + pictosUsuarioFile.length());
+                        try {
+                            if (pictosUsuarioFile.length() > 0 && !getStringFromFile
+                                    (pictosUsuarioFile.getAbsolutePath()).equals("[]") &&
+                                    getStringFromFile(pictosUsuarioFile.getAbsolutePath()
+                                    ) != null) {
+                                json.setmJSONArrayTodosLosPictos(json.readJSONArrayFromFile(pictosUsuarioFile.getAbsolutePath()));
+                                if (!json.guardarJson(Constants.ARCHIVO_PICTOS))
+                                    Log.e(TAG, "Error al guardar Json");
+                            }
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        if(observableInteger.get()==0)
+                            observableInteger.incrementValue();
+                    }
+
+                });
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    private void syncGroups(File rootPath,ObservableInteger observableInteger){
+
+        final File gruposUsuarioFile = new File(rootPath, "grupos.txt");
+
+        mDatabase.child(Constants.Grupos).child(uid).child("URL_grupos_" + sharedPrefsDefault.getString(mContext.getString(R.string.str_idioma), locale)).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                mStorageRefGrupos = FirebaseStorage.getInstance().getReference().child("Archivos_Usuarios").child("Grupos").child("grupos_" + mAuth.getCurrentUser().getEmail() + "_" +ConfigurarIdioma.getLanguaje()+ "." + "txt");
+
+                mStorageRefGrupos.getFile(gruposUsuarioFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                        Log.d("BAF_descGYPN", "Tama&ntildeoArchivoGrupo :" + taskSnapshot.getTotalByteCount());
+                        Log.d("BAF_descGYPN", "NombreArchivo:" + gruposUsuarioFile);
+                        try {
+                            if (!getStringFromFile(gruposUsuarioFile
+                                    .getAbsolutePath()).equals("[]") &&
+                                    gruposUsuarioFile.length() > 0 ) {
+                                json.setmJSONArrayTodosLosGrupos(json.readJSONArrayFromFile(gruposUsuarioFile.getAbsolutePath()));
+                                if (!json.guardarJson(Constants.ARCHIVO_GRUPOS))
+                                    Log.e(TAG, "Error al guardar Json");
+
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            Log.e("printStackTrace", "" + e);
+                        }
+                        if(observableInteger.get()==1)
+                            observableInteger.incrementValue();
+                    }
+                });
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     public void descargarPictosDatabase(StorageReference mStorageReferencePictosDatabase) {
@@ -345,170 +371,6 @@ public class BajarJsonFirebase implements OnFailureListener {
 
     }
 
-    public void descargarFirebaseBackup(String mStorageReferencePictos, String mStorageReferenceGrupos, String mStorageReferenceFrases){
-        //Cuando clicamos el boton aceptar del dialog , va a traernos grupos y pictos del timestamp seleccionado, creamos donde se van a guardar.
-        File rootPath = new File(mContext.getCacheDir(),"Archivos_OTTAA");
-        if(!rootPath.exists()) {
-            rootPath.mkdirs();//si no existe el directorio lo creamos
-        }
-
-        //La referencia apunta al archivo que esta en el pictosDownloadDispacher
-        StorageReference backupPictosRef = FirebaseStorage.getInstance().getReferenceFromUrl(mStorageReferencePictos);
-        StorageReference backupGrupospRef = FirebaseStorage.getInstance().getReferenceFromUrl(mStorageReferenceGrupos);
-        StorageReference backupFrasespRef = FirebaseStorage.getInstance().getReferenceFromUrl(mStorageReferenceFrases);
-
-
-        final File pictosFile = new File(rootPath, Constants.ARCHIVO_PICTOS);
-        final File gruposFile = new File(rootPath, Constants.ARCHIVO_GRUPOS);
-        final File frasesFile = new File(rootPath, Constants.ARCHIVO_FRASES);
-
-        //Obtenemos ese archivo del dispacher y lo llamamos pictos.txt y lo ponemos en memoria interna
-        backupPictosRef.getFile(pictosFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                try {
-                    json.setmJSONArrayTodosLosPictos(json.readJSONArrayFromFile(pictosFile.getAbsolutePath()));
-                    if (!json.guardarJson(Constants.ARCHIVO_PICTOS))
-                        Log.e(TAG, "Error al guardar el Json");
-
-                } catch (Exception e1) {
-                    e1.printStackTrace();
-                }
-                mFbSuccessListenerInterfaz.onDescargaCompleta(Constants.PICTOS_DESCARGADOS);
-
-            }
-
-        });
-
-        backupGrupospRef.getFile(gruposFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                try {
-
-                    json.setmJSONArrayTodosLosGrupos(json.readJSONArrayFromFile(gruposFile.getAbsolutePath()));
-                    if (!json.guardarJson(Constants.ARCHIVO_GRUPOS))
-                        Log.e(TAG, "Error al guardar grupos");
-
-                } catch (JSONException | FiveMbException e) {
-                    e.printStackTrace();
-                }
-
-                mFbSuccessListenerInterfaz.onDescargaCompleta(Constants.GRUPOS_DESCARGADOS);
-
-            }
-        });
-
-        backupFrasespRef.getFile(frasesFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-
-                try {
-
-                    json.setmJSONArrayTodasLasFrases(json.readJSONArrayFromFile(frasesFile.getAbsolutePath()));
-                    if (!json.guardarJson(Constants.ARCHIVO_FRASES))
-                        Log.e(TAG, "Error al guardar Json");
-
-
-                } catch (JSONException | FiveMbException e) {
-                    e.printStackTrace();
-                }
-
-                mFbSuccessListenerInterfaz.onDescargaCompleta(Constants.FRASES_DESCARGADOS);
-
-
-            }
-
-        });
-
-
-
-
-
-    }
-    public void descargarFirebaseBackup(String mStorageReferenceFotos){
-
-
-        File rootPath = new File(mContext.getCacheDir(),"Archivos_OTTAA");
-        final File fotoBackupRootPath = new File(Environment.getExternalStorageDirectory().toString()+"/GcHgMf/Fotos/");
-        final File ottaaFotosFolder = new File(Environment.getExternalStorageDirectory()
-                + "/Android/data/"
-                + mContext.getPackageName()
-                + "/Files");
-
-
-        if(!rootPath.exists()) {
-            rootPath.mkdirs();//si no existe el directorio lo creamos
-        }
-
-        if(!fotoBackupRootPath.exists()){
-            fotoBackupRootPath.mkdirs();
-        }
-
-        if(!ottaaFotosFolder.exists()){
-            ottaaFotosFolder.mkdirs();
-        }
-
-
-        StorageReference backupFotospRef = FirebaseStorage.getInstance().getReferenceFromUrl(mStorageReferenceFotos);
-
-        final File fotosFile = new File(rootPath, Constants.ARCHIVO_FOTO_BACKUP);
-
-
-        backupFotospRef.getFile(fotosFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-
-                try {
-                    json.setmJSONArrayTodasLasFotosBackup(json.readJSONArrayFromFile(fotosFile.getAbsolutePath()));
-                    if (!json.guardarJson(Constants.ARCHIVO_FOTO_BACKUP))
-                        Log.e(TAG, "Error al guardar el Json");
-
-                } catch (JSONException | FiveMbException e) {
-                    e.printStackTrace();
-                }
-
-            }
-
-        });
-
-        try{
-
-            for(JSONObject jsonObject : json.getmArrayListTodasLasFotosBackup()) {
-                String storageUrl = null;
-                try {
-                    //Obtenemos los datos de la foto, en este caso la url y el path picto que tiene el nombre de la misma
-                    storageUrl = jsonObject.getString("urlFoto");
-                    String fotoName = jsonObject.getString("picto");
-                    //Ahora lo que necesitamos hacer es cortar la ultima parte de ese string del path de la foto para agarrar el nombre solo de la foto
-                    String fotoNameCut = fotoName.replace(ottaaFotosFolder.toString(),"");
-                    //Al obtener el nombre de la foto ya se la asignamos al path donde se tiene que guardar y con que nombre se tiene que guardar
-                    final File fotosBackupFile = new File(fotoBackupRootPath, fotoNameCut);
-                    Log.e("UrlFoto:",""+storageUrl);
-                    StorageReference bajarFotosBackup = FirebaseStorage.getInstance().getReferenceFromUrl(storageUrl);
-                    bajarFotosBackup.getFile(fotosBackupFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                            mFbSuccessListenerInterfaz.onFotoDescargada(Constants.FOTO_DESCARGADA);
-                            Log.e("Dir",""+taskSnapshot.getTotalByteCount());
-                            //Movemos el directorio de la foto de un lado al otro para generar el backup
-                            try {
-                                FilesUtils.copyDirectory(fotoBackupRootPath,ottaaFotosFolder);
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-
-                        }
-                    }).addOnFailureListener(this);
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-        } catch (ArrayIndexOutOfBoundsException | FiveMbException e) {
-            e.printStackTrace();
-        }
-
-    }
 
     public void bajarGrupos(String locale, File roothPath, ObservableInteger observableInteger) {
 
@@ -537,32 +399,8 @@ public class BajarJsonFirebase implements OnFailureListener {
                             } catch (Exception ex) {
                                 Log.e(TAG, "Fallo al guardar Grupo json 1" + ex.getMessage());
                                 CrashlyticsUtils.getInstance().getCrashlytics().log(ex.getMessage());
-                                //Todo add a backup interface
-                                /*mStorageRefGrupos = FirebaseStorage.getInstance().getReference().child("Archivos_Paises/grupos/" + "grupos_" + locale + "." + "txt");
-                                final File gruposUsuarioFile = new File(roothPath, Constants.ARCHIVO_GRUPOS);
-                                mStorageRefGrupos.getFile(gruposUsuarioFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                                    @Override
-                                    public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                                        try {
-                                            json.setmJSONArrayTodosLosGrupos(json.readJSONArrayFromFile(gruposUsuarioFile.getAbsolutePath()));
-                                            if (!json.guardarJson(Constants.ARCHIVO_GRUPOS)) {
-                                                Log.e(TAG, "Fallo al guardar json");
-                                            }else{
-                                                Log.e(TAG, "Grupo json");
-                                                gruposUsuarioFile.delete();
-                                            }
-                                            observableInteger.set(observableInteger.get() + 1);
-                                        } catch (Exception ex) {
-
-                                        }
-                                    }
-
-                                });*/
                             }
                         }
-
-
-
                     }).addOnFailureListener(BajarJsonFirebase.this);
 
                 }
@@ -637,9 +475,15 @@ public class BajarJsonFirebase implements OnFailureListener {
             }
         });
     }
-    public void bajarFrasesFavoritas(String locale, File roothPath) {
+
+    public void bajarFrasesFavoritas(String locale,File roothPath){
+        if(!uid.isEmpty())
+            bajarFrasesFavoritas( locale,  roothPath,uid,null);
+    }
+
+    public void bajarFrasesFavoritas(String locale, File roothPath,String uid,ObservableInteger observableInteger) {
         Log.e(TAG, "bajarFrases: " );
-        mDatabase.child(Constants.FrasesFavoritas).child(mAuth.getCurrentUser().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+        mDatabase.child(Constants.FrasesFavoritas).child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 String child = "URL_" + Constants.FrasesFavoritas.toLowerCase() + "_" + locale;
@@ -658,8 +502,13 @@ public class BajarJsonFirebase implements OnFailureListener {
                             } catch (JSONException | FiveMbException e) {
                                 e.printStackTrace();
                             }
+                            if(observableInteger!=null)
+                                observableInteger.incrementValue();
                         }
                     }).addOnFailureListener(BajarJsonFirebase.this);
+                }else{
+                    if(observableInteger!=null)
+                        observableInteger.incrementValue();
                 }
             }
             @Override
@@ -693,27 +542,6 @@ public class BajarJsonFirebase implements OnFailureListener {
                             } catch (Exception ex) {
                                 Log.e(TAG, "Fallo al guardar pictos json 1");
                                 CrashlyticsUtils.getInstance().getCrashlytics().log(ex.getMessage());
-                                //Todo add a backup interface
-                                /*
-
-                                mStorageRefPictos = FirebaseStorage.getInstance().getReference().child("Archivos_Paises/pictos/" + "pictos_" + locale + "." + "txt");
-                                final File pictosUsuariosFile = new File(roothPath, Constants.ARCHIVO_PICTOS);
-                                mStorageRefPictos.getFile(pictosUsuariosFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                                    @Override
-                                    public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                                        try {
-                                            json.setmJSONArrayTodosLosPictos(json.readJSONArrayFromFile(pictosUsuariosFile.getAbsolutePath()));
-                                            if (!json.guardarJson(Constants.ARCHIVO_PICTOS)) {
-                                                Log.e(TAG, "Fallo al guardar json");
-                                            }else
-                                                Log.e(TAG, "Pictos Usuarios json" );
-                                            observableInteger.set(observableInteger.get() + 1);
-                                        } catch (Exception ex) {
-                                            Log.e(TAG, ex.getMessage());
-                                        }
-                                    }
-
-                                });*/
 
                             }
                         }
@@ -810,10 +638,15 @@ public class BajarJsonFirebase implements OnFailureListener {
         });
     }
 
-    public void bajarJuego(String locale, File roothPath) {
+    public void bajarJuego(String locale,File roothPath){
+        if(!uid.isEmpty())
+            bajarJuego(locale,roothPath,uid,null);
+    }
+
+    public void bajarJuego(String locale, File roothPath,String uid,ObservableInteger observableInteger) {
 
         Log.e(TAG, "bajar juegos: " );
-        mDatabase.child(Constants.JUEGOS).child(mAuth.getCurrentUser().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+        mDatabase.child(Constants.JUEGOS).child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 String child = "URL_" + Constants.JUEGOS.toLowerCase() + "_" + locale;
@@ -833,9 +666,14 @@ public class BajarJsonFirebase implements OnFailureListener {
                             } catch (Exception ex) {
 
                             }
+                            if(observableInteger !=null)
+                                observableInteger.incrementValue();
                         }
 
                     }).addOnFailureListener(BajarJsonFirebase.this::onFailure);
+                }else{
+                    if(observableInteger!=null)
+                        observableInteger.incrementValue();
                 }
             }
 
@@ -844,6 +682,7 @@ public class BajarJsonFirebase implements OnFailureListener {
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 Log.e(TAG, "onCancelled: "+ databaseError.getMessage() );
+
 
             }
         });
