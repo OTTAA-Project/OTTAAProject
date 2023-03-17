@@ -1832,7 +1832,10 @@ public class Principal extends AppCompatActivity implements View
         firebaseUtils = FirebaseUtils.getInstance();
         firebaseUtils.setmContext(this);
         firebaseUtils.setUpFirebaseDatabase();
-        FirebaseUtils.getInstance().setUid(user.getUserUid());
+        if(firebaseUtils.getUid()==null)
+            firebaseUtils.setUid(user.getUserUid());
+        if(firebaseUtils.getEmail()==null)
+            firebaseUtils.setEmail(user.getEmail());
         mDatabase = firebaseUtils.getmDatabase();
         analitycsFirebase = new AnalyticsFirebase(this);
         CloudStorageManager.getInstance().setStorage(mStorageRef.getStorage());

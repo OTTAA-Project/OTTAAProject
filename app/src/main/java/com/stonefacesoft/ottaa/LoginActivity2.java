@@ -104,10 +104,12 @@ public class LoginActivity2 extends AppCompatActivity implements View.OnClickLis
         mAuth = FirebaseAuth.getInstance();
         remoteConfigUtils = RemoteConfigUtils.getInstance();
         setUpObservableInteger();
+
         sharedPrefsDefault= PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         dialog = new ProgressDialog(LoginActivity2.this);
         startmAuthListener();
         animateEntrance();
+
     }
 
     private void bindUI(){
@@ -122,9 +124,6 @@ public class LoginActivity2 extends AppCompatActivity implements View.OnClickLis
         orangeBanner = findViewById(R.id.orangeBanner);
         orangeBanner.setVisibility(View.INVISIBLE);
 
-//        TODO Dar margenes a OTTAA -Tablet10 OK -
-//        TODO Arreglar el tamano del texto "Hello" y hacer mas grande el boton de Login -Tablet10 OK -
-//        TODO agregar imagenes de Bubas
     }
 
     @Override
@@ -445,5 +444,27 @@ public class LoginActivity2 extends AppCompatActivity implements View.OnClickLis
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
         }
+    }
+
+    public String getUserUid(){
+        String uid = "";
+        try{
+            uid= mAuth.getCurrentUser().getUid();
+
+        }catch (Exception ex){
+            uid = "";
+        }
+        return uid;
+    }
+
+    public String getEmail(){
+        String email = "";
+        try{
+            email= mAuth.getCurrentUser().getEmail();
+
+        }catch (Exception ex){
+            email = "";
+        }
+        return email;
     }
 }

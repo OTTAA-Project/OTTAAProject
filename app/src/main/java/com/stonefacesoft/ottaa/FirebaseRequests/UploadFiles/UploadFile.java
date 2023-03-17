@@ -9,7 +9,7 @@ import java.io.File;
 import java.io.FileInputStream;
 
 public class UploadFile {
-    protected String filename;
+
     protected File file;
     protected FileInputStream fis;
     protected DatabaseReference mDatabase;

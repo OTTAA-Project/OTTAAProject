@@ -153,6 +153,17 @@ public class User {
         }
         return uid;
     }
+
+    public String getEmail(){
+        String email = "";
+        try{
+            email= mAuth.getCurrentUser().getEmail();
+
+        }catch (Exception ex){
+            email = "";
+        }
+        return email;
+    }
     public String getUserUid(Context context){
         String uid = "";
        try{

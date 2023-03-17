@@ -11,6 +11,7 @@ public class FirebaseUtils {
     private Context mContext;
     private static FirebaseUtils myFirebaseUtils;
     private volatile String Uid;
+    private volatile String email;
 
 
     public static FirebaseUtils getInstance() {
@@ -54,5 +55,13 @@ public class FirebaseUtils {
 
     public String getUid() {
         return Uid;
+    }
+
+    public void setEmail(String email){
+        this.email = email;
+    }
+
+    public String getEmail() {
+        return email;
     }
 }
