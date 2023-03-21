@@ -108,7 +108,7 @@ public class MovableFloatingActionButton extends LinearLayout implements View.On
     }
 
     public void setIcon(){
-        ImageView button =(ImageView) findViewById(R.id.buttonAvatar);
+        ImageView button = findViewById(R.id.buttonAvatar);
         new AvatarUtils(getContext(),button).getFirebaseAvatar();
     }
 

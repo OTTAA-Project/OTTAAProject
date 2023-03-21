@@ -1,4 +1,4 @@
-package com.stonefacesoft.ottaa.utils;
+package com.stonefacesoft.ottaa.utils.Translates;
 
 import android.content.Context;
 import android.os.Handler;
@@ -10,6 +10,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.stonefacesoft.ottaa.Interfaces.translateInterface;
 import com.stonefacesoft.ottaa.R;
+import com.stonefacesoft.ottaa.utils.CustomToast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -22,7 +23,7 @@ import java.util.concurrent.Executors;
 
 public class traducirTexto {
 
-    private Context mContext;
+    private final Context mContext;
 
     private String texto="";
     private String mTarget="";
@@ -140,7 +141,7 @@ public class traducirTexto {
                                   Log.d("Principal_Trad_GTransOr",""+texto);
 
                               }catch (Exception e){
-                                  Log.e(TAG,"Principal_Trad_GTransOr : "+e.toString());
+                                  Log.e(TAG,"Principal_Trad_GTransOr : "+ e);
                                   //    Toast.makeText(Principal.this, R.string.tryAgain, Toast.LENGTH_SHORT).show();
                               }
 

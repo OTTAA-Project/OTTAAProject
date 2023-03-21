@@ -179,16 +179,7 @@ public class AsignTags {
         }
     }
 
-    public void removeTagToPicto(JSONObject picto) {
-        if (picto.has("hora")) {
-            try {
-                JSONArray hora = picto.getJSONArray("hora");
-                picto.put("hora", hora);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-    }
+
 
 
 
@@ -200,7 +191,7 @@ public class AsignTags {
 
     private void setTagsToGrupo(JSONObject grupo, boolean esAgenda) throws FiveMbException {
         if(grupo!=null&&grupo.has("tags"))
-        grupo.remove("tags");
+            grupo.remove("tags");
         JSONArray todosLosPictos = null;
         try {
             todosLosPictos = json.readJSONArrayFromFile(Constants.ARCHIVO_PICTOS);

@@ -32,7 +32,7 @@ public class ConfigurarIdioma {
         Configuration config=new Configuration();
         Resources resources=context.getResources();
         config.locale=locale;
-        this.locale = locale;
+        ConfigurarIdioma.locale = locale;
        // context.getApplicationContext().getResources().updateConfiguration(config,context.getResources().getDisplayMetrics());
         this.mContex=context;
         resources.updateConfiguration(config, resources.getDisplayMetrics());
@@ -55,5 +55,49 @@ public class ConfigurarIdioma {
 
     public static Locale getLocale() {
         return locale;
+    }
+
+
+    public static String getNormalLanguage(){
+        switch (language){
+            case "es":
+                return "spanish";
+            case "pt":
+                return "portuguese";
+            case "ca":
+                return "catalan";
+            case "fr":
+                return "french";
+            case "it":
+                return "italian";
+            case "ar":
+                return "arabic";
+            case "da":
+                return "danish";
+            default:
+                return "english";
+        }
+    }
+
+    public static String getLanguageIso6393(String lang){
+        String language = "eng";
+        switch (lang){
+            case "es":
+                return "spa";
+            case "pt":
+                return "por";
+            case "ca":
+                return "cat";
+            case "fr":
+                return "fra";
+            case "it":
+                return "ita";
+            case "ar":
+                return "ara";
+            case "da":
+                return "dan";
+            default:
+                return language;
+        }
     }
 }

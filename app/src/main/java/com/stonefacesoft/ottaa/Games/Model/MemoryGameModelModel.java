@@ -2,8 +2,8 @@ package com.stonefacesoft.ottaa.Games.Model;
 
 public class MemoryGameModelModel extends GameModel {
     private String selectedPictogramName;
-    private int matrixIdPictogram[][] = new int[0][0];
-    private int controlIndexSelect[];
+    private int[][] matrixIdPictogram = new int[0][0];
+    private int[] controlIndexSelect;
     private String[] history;
 
 

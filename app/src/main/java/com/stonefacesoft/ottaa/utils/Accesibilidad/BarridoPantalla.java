@@ -52,7 +52,7 @@ public class BarridoPantalla {
     private Handler waitTime;//screenScanningRun,waitTime;
     private TimeToChange timeToChange;
     private ReturnPositionItem returnPositionItem;
-    private ScreenScanningSettings settings;
+    private final ScreenScanningSettings settings;
 
 
 

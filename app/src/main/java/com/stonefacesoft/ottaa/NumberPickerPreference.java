@@ -29,7 +29,7 @@ import com.stonefacesoft.ottaa.utils.Custom_button;
 
 public class NumberPickerPreference  implements View.OnClickListener , NumberPicker.OnScrollListener {
     private  NumberPicker mPicker;
-    private  Integer mNumber = 10;
+    private final Integer mNumber = 10;
     private Integer mNumberMin=0;
     private Integer mNumberMax=10;
     private  Context mContext;

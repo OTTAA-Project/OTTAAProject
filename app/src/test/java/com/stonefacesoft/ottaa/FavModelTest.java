@@ -9,7 +9,7 @@ import static org.junit.Assert.assertNotNull;
 
 public class FavModelTest {
 
-    private FavModel favModel =  new FavModel();
+    private final FavModel favModel =  new FavModel();
     @Test
     public void testGetTexto() {
         favModel.setTexto("hello");

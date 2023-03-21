@@ -262,7 +262,7 @@ public class Json  {
         for (int i = 0; i < aux.length(); i++) {
             try {
                 if(aux.getJSONObject(i).has("locale")){
-                    if(aux.getJSONObject(i).getString("locale").toLowerCase().equals(ConfigurarIdioma.getLanguaje().toLowerCase())) {
+                    if(aux.getJSONObject(i).getString("locale").equalsIgnoreCase(ConfigurarIdioma.getLanguaje())) {
                         result.put(aux.getJSONObject(i));
                     }
                 }
@@ -463,7 +463,7 @@ public class Json  {
 
     //TODO hasta aca revisado
 
-    private String obtenerSexo() {
+    public String obtenerSexo() {
         return sharedPrefsDefault.getString("prefSexo", "NotDefined");
     }
 
@@ -651,8 +651,12 @@ public class Json  {
         }
     }
 
-    private String obtenerEdad() {
+    public String obtenerEdad() {
         return sharedPrefsDefault.getString("prefEdad", "NINO");
+    }
+
+    public boolean useChatGPT() {
+        return sharedPrefsDefault.getBoolean("key_chat_gpt", false);
     }
 
     public int compareTo(double frec1, double frec2) {
@@ -864,14 +868,14 @@ public class Json  {
                 }
                 fis.close();
             } catch (IOException e) {
-                Log.e(TAG, "readFromFile: " + e.toString());
+                Log.e(TAG, "readFromFile: " + e);
                 e.printStackTrace();
             } finally {
                 if (reader != null) {
                     try {
                         reader.close();
                     } catch (IOException e) {
-                        Log.e(TAG, "readFromFile: " + e.toString());
+                        Log.e(TAG, "readFromFile: " + e);
 
                     }
                 }
@@ -1300,5 +1304,9 @@ public class Json  {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public Context getmContext() {
+        return mContext;
     }
 }

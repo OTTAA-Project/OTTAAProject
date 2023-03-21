@@ -78,8 +78,8 @@ public class DatosDeUso {
                 double frec1 = 0;
                 double frec2 = 0;
                 try {
-                    frec1 = ((double) json1.getInt("frecuencia"));
-                    frec2 = ((double) json2.getInt("frecuencia"));
+                    frec1 = json1.getInt("frecuencia");
+                    frec2 = json2.getInt("frecuencia");
                 } catch (Exception e) {
                     e.printStackTrace();
                     Log.e(TAG, "Error: " + json1.toString() + "\n" + json2.toString());
@@ -92,7 +92,7 @@ public class DatosDeUso {
     private void addPhrase(int i){
         try {
             if(frasesOrdenadas.getJSONObject(i).has("locale")){
-                if(frasesOrdenadas.getJSONObject(i).getString("locale").toLowerCase().equals(ConfigurarIdioma.getLanguaje().toLowerCase()))
+                if(frasesOrdenadas.getJSONObject(i).getString("locale").equalsIgnoreCase(ConfigurarIdioma.getLanguaje()))
                     frasesOrdenSort.add(frasesOrdenadas.getJSONObject(i));
             }else{
                 frasesOrdenSort.add(frasesOrdenadas.getJSONObject(i));
@@ -129,8 +129,8 @@ public class DatosDeUso {
                         double frec1 = 0;
                         double frec2 = 0;
                         try {
-                            frec1 = ((double) json1.getInt("frecuencia"));
-                            frec2 = ((double) json2.getInt("frecuencia"));
+                            frec1 = json1.getInt("frecuencia");
+                            frec2 = json2.getInt("frecuencia");
                         } catch (Exception e) {
 
                             e.printStackTrace();
@@ -145,8 +145,8 @@ public class DatosDeUso {
                         double frec1 = 0;
                         double frec2 = 0;
                         try {
-                            frec1 = ((double) json1.getInt("frecuencia"));
-                            frec2 = ((double) json2.getInt("frecuencia"));
+                            frec1 = json1.getInt("frecuencia");
+                            frec2 = json2.getInt("frecuencia");
                         } catch (Exception e) {
 
                             e.printStackTrace();

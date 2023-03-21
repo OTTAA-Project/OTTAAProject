@@ -11,10 +11,10 @@ import java.util.Calendar;
 
 public class DateTextWatcher  {
     private String current = "";
-    private String ddmmyyyy = "DDMMYYYY";
-    private Calendar cal = Calendar.getInstance();
-    private EditText input;
-    private CalendarChangeEvent calendarChangeEvent;
+    private final String ddmmyyyy = "DDMMYYYY";
+    private final Calendar cal = Calendar.getInstance();
+    private final EditText input;
+    private final CalendarChangeEvent calendarChangeEvent;
 
 
     public DateTextWatcher(EditText input, CalendarChangeEvent calendarChangeEvent) {
@@ -34,8 +34,8 @@ public class DateTextWatcher  {
 
 
     private void validateText(String s){
-        if (!s.toString().equals(current)) {
-            String clean = s.toString().replaceAll("[^\\d.]|\\.", "");
+        if (!s.equals(current)) {
+            String clean = s.replaceAll("[^\\d.]|\\.", "");
             String cleanC = current.replaceAll("[^\\d.]|\\.", "");
 
             int cl = clean.length();

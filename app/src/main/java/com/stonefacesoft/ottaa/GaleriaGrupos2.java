@@ -71,8 +71,6 @@ import org.json.JSONArray;
 import java.util.ArrayList;
 import java.util.Locale;
 
-;
-
 public class GaleriaGrupos2 extends AppCompatActivity implements OnStartDragListener,
         RecyclerViewItemClickInterface,
         FirebaseSuccessListener, FallanDatosDelUsuario, View.OnClickListener, View.OnTouchListener, Make_Click_At_Time {
@@ -677,7 +675,10 @@ public class GaleriaGrupos2 extends AppCompatActivity implements OnStartDragList
                 if(!isOrdenar){
                     if(showViewPager){
                         analyticsFirebase.customEvents("Touch","Galeria Grupos","Edit Group");
-                        viewpager.editItem(sharedPrefsDefault.getInt("premium", 0) == 1);
+                        if(editarPicto)
+                            viewpager.editItem(sharedPrefsDefault.getInt("premium", 0) == 1);
+                        else
+                            viewpager.editItem(false);
                     }else{
                         Intent intent=new Intent(this, FindAllPictograms.class);
                         intent.putExtra("isSearchingAll",true);

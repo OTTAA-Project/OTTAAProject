@@ -199,10 +199,15 @@ public class GestionarBitmap  {
         int mImagenFinalWidth, mImagenFinalHeight = 0;
 
         if (imagenes.size() > 0 && imagenes.get(0) != null) {
-
-            Bitmap mBufferPictos = Bitmap.createScaledBitmap(imagenes.get(0), 250, 250, false);
-            Bitmap logo=drawableToBitmap(mContext.getResources().getDrawable(R.drawable.logo_ottaa_dev));
             Bitmap nube=drawableToBitmap(mContext.getResources().getDrawable(R.drawable.ic_cloud_download_orange));
+            Bitmap bitmap = nube;
+            try {
+                bitmap = imagenes.get(0);
+            }catch (Exception ex){
+                bitmap = nube;
+            }
+            Bitmap mBufferPictos = Bitmap.createScaledBitmap(bitmap, 250, 250, false);
+            Bitmap logo=drawableToBitmap(mContext.getResources().getDrawable(R.drawable.logo_ottaa_dev));
             logo = Bitmap.createScaledBitmap(logo,75,75,true);
 
             mImagenFinalWidth = (mBufferPictos.getWidth()+mDeltax) * imagenes.size()+mDeltax;
@@ -400,7 +405,7 @@ public class GestionarBitmap  {
                     drawable = mCombineImages.loadPictogramsLogo(picto);
                 }
                 if(drawable !=null)
-                imagenes.add(drawableToBitmap(drawable));
+                    imagenes.add(drawableToBitmap(drawable));
             }
         } catch (JSONException e) {
             e.printStackTrace();

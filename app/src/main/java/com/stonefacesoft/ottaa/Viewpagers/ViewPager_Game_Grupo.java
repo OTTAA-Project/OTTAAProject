@@ -60,7 +60,7 @@ public class ViewPager_Game_Grupo {
     private final FloatingActionButton actionButton;
     private final ImageView editPicto;
     private static int positionItem;
-    private SharedPreferences sharedPrefsDefault;
+    private final SharedPreferences sharedPrefsDefault;
 
 
     public ViewPager_Game_Grupo(AppCompatActivity mActivity, textToSpeech myTTS, int id) {

@@ -104,7 +104,7 @@ public class Item_adapter extends RecyclerView.Adapter<Item_adapter.ItemAdapterV
     public void selecItem(Item_adapter.ItemAdapterViewHolder holder, int position) {
         if (defaultValue != null) {
             try {
-                holder.radioButton.setChecked(sharedPreferencesUtil.getStringValue(key, defaultValue).toLowerCase().equals(mArrayListValues[position].toLowerCase()));
+                holder.radioButton.setChecked(sharedPreferencesUtil.getStringValue(key, defaultValue).equalsIgnoreCase(mArrayListValues[position]));
             } catch (Exception ex) {
 
                 if (!sharedPreferencesUtil.getBooleanKey(key, false)) {

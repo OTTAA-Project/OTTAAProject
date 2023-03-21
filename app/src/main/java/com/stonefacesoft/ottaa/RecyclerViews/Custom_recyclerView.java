@@ -258,8 +258,7 @@ public abstract class Custom_recyclerView implements SearchView.OnQueryTextListe
 
     private boolean existRecyclerViewAndAdapter(){
         if(mRecyclerView!= null)
-            if(mRecyclerView.getAdapter()!=null)
-                return true;
+            return mRecyclerView.getAdapter() != null;
         return false;
     }
 
@@ -330,9 +329,7 @@ public abstract class Custom_recyclerView implements SearchView.OnQueryTextListe
     }
 
     protected int getNumberOfCells(int value,int result){
-        if(value!= result)
-            return result;
-        return  value;
+        return result;
     }
 
 }

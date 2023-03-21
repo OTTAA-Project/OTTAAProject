@@ -213,7 +213,7 @@ public class JSONutils {
         JSONArray arrayPosicion = new JSONArray();
         try {
             if(ob.has(Constants.UBICACION))
-            arrayPosicion = ob.getJSONArray(Constants.UBICACION);
+                arrayPosicion = ob.getJSONArray(Constants.UBICACION);
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -283,14 +283,17 @@ public class JSONutils {
     public static void desvincularJson(JSONObject padre, int id) {
         JSONArray jsonArray;
         JSONArray list = new JSONArray();
+
         try {
-            jsonArray = padre.getJSONArray("relacion");
-            for (int i = 0; i < jsonArray.length(); i++) {
-                //Excluding the item at position
-                JSONObject object = jsonArray.getJSONObject(i);
-                if (object.getInt("id") != id) {
-                    list.put(jsonArray.get(i));
-                }
+                if(padre.has("relacion")){
+                    jsonArray = padre.getJSONArray("relacion");
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                    //Excluding the item at position
+                        JSONObject object = jsonArray.getJSONObject(i);
+                        if (object.getInt("id") != id) {
+                            list.put(jsonArray.get(i));
+                        }
+                    }
             }
             padre.put("relacion", list);
         } catch (JSONException e) {
@@ -643,7 +646,7 @@ public class JSONutils {
     }
 
     private static int[] getArrayPosition(int position){
-        int value[] = new int[3];
+        int[] value = new int[3];
         for (int i = 0; i <3 ; i++) {
             if(i == position) {
                 value[i] = 1;
@@ -715,7 +718,7 @@ public class JSONutils {
             if(json.has(Constants.HORA)){
                 JSONArray array = json.getJSONArray(Constants.HORA);
                 for (int i = 0; i < array.length(); i++) {
-                    if (hora.toString().equals(array.get(i).toString())) {
+                    if (hora.equals(array.get(i).toString())) {
                         return 1;
                     }
                 }

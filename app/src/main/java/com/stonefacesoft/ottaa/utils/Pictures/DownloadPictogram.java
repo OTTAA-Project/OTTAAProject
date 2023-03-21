@@ -49,17 +49,17 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 public class DownloadPictogram extends DownloadTask {
-    private String TAG ="DownloadPictogram";
+    private final String TAG ="DownloadPictogram";
     private String title;
-    private JSONObject object;
-    private FirebaseAuth mAuth;
-    private String uid;
+    private final JSONObject object;
+    private final FirebaseAuth mAuth;
+    private final String uid;
     private String pushKey;
-    private DatabaseReference mDatabase;
-    private StorageReference mStorageRef;
+    private final DatabaseReference mDatabase;
+    private final StorageReference mStorageRef;
     private FirebaseUtils firebaseUtils;
 
-    private FindAllPictogramsInterface findAllPictogramsInterface;
+    private final FindAllPictogramsInterface findAllPictogramsInterface;
     public DownloadPictogram(AppCompatActivity context, String text, int tipo,JSONObject object,FindAllPictogramsInterface findAllPictogramsInterface) {
         super(context, text, tipo);
         this.object = object;

@@ -43,6 +43,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.stonefacesoft.ottaa.FirebaseRequests.BajarJsonFirebase;
 import com.stonefacesoft.ottaa.FirebaseRequests.FirebaseDatabaseRequest;
+import com.stonefacesoft.ottaa.FirebaseRequests.FirebaseUtils;
 import com.stonefacesoft.ottaa.Interfaces.ActivityListener;
 import com.stonefacesoft.ottaa.Interfaces.FirebaseSuccessListener;
 import com.stonefacesoft.ottaa.idioma.ConfigurarIdioma;
@@ -52,6 +53,7 @@ import com.stonefacesoft.ottaa.utils.InmersiveMode;
 import com.stonefacesoft.ottaa.utils.IntentCode;
 import com.stonefacesoft.ottaa.utils.ObservableInteger;
 import com.stonefacesoft.ottaa.utils.RemoteConfigUtils;
+import com.stonefacesoft.pictogramslibrary.utils.ValidateContext;
 
 import java.io.File;
 import java.util.Locale;
@@ -103,10 +105,12 @@ public class LoginActivity2 extends AppCompatActivity implements View.OnClickLis
         mAuth = FirebaseAuth.getInstance();
         remoteConfigUtils = RemoteConfigUtils.getInstance();
         setUpObservableInteger();
+
         sharedPrefsDefault= PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         dialog = new ProgressDialog(LoginActivity2.this);
         startmAuthListener();
         animateEntrance();
+
     }
 
     private void bindUI(){
@@ -121,9 +125,6 @@ public class LoginActivity2 extends AppCompatActivity implements View.OnClickLis
         orangeBanner = findViewById(R.id.orangeBanner);
         orangeBanner.setVisibility(View.INVISIBLE);
 
-//        TODO Dar margenes a OTTAA -Tablet10 OK -
-//        TODO Arreglar el tamano del texto "Hello" y hacer mas grande el boton de Login -Tablet10 OK -
-//        TODO agregar imagenes de Bubas
     }
 
     @Override
@@ -371,42 +372,45 @@ public class LoginActivity2 extends AppCompatActivity implements View.OnClickLis
         locale = Locale.getDefault().getLanguage();
         sharedPrefsDefault.edit().putString(getString(R.string.str_idioma), locale).apply();
         ConfigurarIdioma.setLanguage(sharedPrefsDefault.getString(getString(R.string.str_idioma),"en"));
-        File rootPath = new File(getApplicationContext().getCacheDir(), "Archivos_OTTAA");
-        if (!rootPath.exists()) {
-            rootPath.mkdirs();//si no existe el directorio lo creamos
-        }
+
         StorageReference mStorageRefUsuariosGruposOld = FirebaseStorage.getInstance().getReference().child("Archivos_Usuarios").child("grupos_" + mAuth.getCurrentUser().getEmail() + "." + "txt");
-        mBajarJsonFirebase.bajarGrupos(locale, rootPath, observableInteger);
-        mBajarJsonFirebase.bajarPictos(locale, rootPath, observableInteger);
-        mBajarJsonFirebase.bajarFrases(locale, rootPath, observableInteger);
+
+        mBajarJsonFirebase.bajarPictos(locale, observableInteger);
+        mBajarJsonFirebase.bajarGrupos(locale, observableInteger);
+        mBajarJsonFirebase.bajarFrases(locale, observableInteger);
 
     }
 
     private void startmAuthListener() {
-        mAuthListener = firebaseAuth -> {
+            mAuthListener = new FirebaseAuth.AuthStateListener() {
+                @Override
+                public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                    if(firebaseAuth.getCurrentUser()!=null) {
+                        Log.d(TAG, "onAuthStateChanged: currentUser not null");
+                        FirebaseUtils.getInstance().setUid(mAuth.getUid());
+                        FirebaseUtils.getInstance().setEmail(mAuth.getCurrentUser().getEmail());
+                        sharedPrefsDefault.edit().putString(getString(R.string.str_userMail), mAuth.getCurrentUser().getEmail()).apply();
+                        sharedPrefsDefault = getSharedPreferences(sharedPrefsDefault.getString(getString(R.string.str_userMail), "error"), Context.MODE_PRIVATE);
 
-            if(firebaseAuth.getCurrentUser()!=null) {
-                Log.d(TAG, "onAuthStateChanged: currentUser not null");
-                sharedPrefsDefault.edit().putString(getString(R.string.str_userMail), mAuth.getCurrentUser().getEmail()).apply();
-                sharedPrefsDefault = getSharedPreferences(sharedPrefsDefault.getString(getString(R.string.str_userMail), "error"), Context.MODE_PRIVATE);
+                        mBajarJsonFirebase = new BajarJsonFirebase(sharedPrefsDefault, mAuth, getApplicationContext());
+                        mBajarJsonFirebase.setInterfaz(LoginActivity2.this);
+                        locale = Locale.getDefault().getLanguage();
+                        if(ValidateContext.isValidContext(getApplicationContext()))
+                            new CloudFunctionHTTPRequest(LoginActivity2.this,TAG).doHTTPRequest("https://us-central1-ottaa-project.cloudfunctions.net/add2listwelcome");
+                        new BackgroundTask().execute();
+                        sharedPrefsDefault.edit().putBoolean("prediccion_usuario", false).apply();
+                        FirebaseDatabaseRequest request = new FirebaseDatabaseRequest(getApplicationContext());
+                        request.subirNombreUsuario(firebaseAuth);
+                        request.subirPago(firebaseAuth);
+                        request.subirEmail(firebaseAuth);
 
-                mBajarJsonFirebase = new BajarJsonFirebase(sharedPrefsDefault, mAuth, getApplicationContext());
-                mBajarJsonFirebase.setInterfaz(LoginActivity2.this);
-                locale = Locale.getDefault().getLanguage();
-                new CloudFunctionHTTPRequest(LoginActivity2.this,TAG).doHTTPRequest("https://us-central1-ottaa-project.cloudfunctions.net/add2listwelcome");
-                new BackgroundTask().execute();
-                sharedPrefsDefault.edit().putBoolean("prediccion_usuario", false).apply();
-                FirebaseDatabaseRequest request = new FirebaseDatabaseRequest(getApplicationContext());
-                request.subirNombreUsuario(firebaseAuth);
-                request.subirPago(firebaseAuth);
-                request.subirEmail(firebaseAuth);
                /*Intent mainIntent = new Intent().setClass(LoginActivity.this, Principal.class);
                 startActivity(mainIntent);*/
 
-            }
+                    }
+                }
 
-
-        };
+            };
 
     }
 
@@ -419,7 +423,7 @@ public class LoginActivity2 extends AppCompatActivity implements View.OnClickLis
     public class BackgroundTask extends AsyncTask<Void, Void, Void> {
         @Override
         protected void onPreExecute() {
-            if (!LoginActivity2.this.isFinishing()) {
+            if (ValidateContext.isValidContext(LoginActivity2.this)) {
                 dialog.setMessage(getResources().getString(R.string.pref_login_wait));
                 dialog.setTitle(getResources().getString(R.string.pref_login_autentificando));
                 dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
@@ -434,7 +438,7 @@ public class LoginActivity2 extends AppCompatActivity implements View.OnClickLis
             try {
                 downloadFiles();
             } catch (Exception e) {
-                Log.e(TAG, "doInBackground: You cannot download picto");
+                Log.e(TAG, "doInBackground: You cannot download picto" + e.getMessage());
             }
             return null;
         }
@@ -443,5 +447,27 @@ public class LoginActivity2 extends AppCompatActivity implements View.OnClickLis
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
         }
+    }
+
+    public String getUserUid(){
+        String uid = "";
+        try{
+            uid= mAuth.getCurrentUser().getUid();
+
+        }catch (Exception ex){
+            uid = "";
+        }
+        return uid;
+    }
+
+    public String getEmail(){
+        String email = "";
+        try{
+            email= mAuth.getCurrentUser().getEmail();
+
+        }catch (Exception ex){
+            email = "";
+        }
+        return email;
     }
 }

@@ -169,14 +169,14 @@ public class DialogUtils extends Dialog_abstract_class {
     @Override
     public Dialog_abstract_class settingButton( Custom_button v, int layout) {
         if(dialog!=null)
-            v=(Custom_button) dialog.findViewById(layout);
+            v= dialog.findViewById(layout);
         return this;
     }
 
     @Override
     public Dialog_abstract_class settingButton( TextView v, int layout) {
         if(dialog!=null)
-            v=(TextView) dialog.findViewById(layout);
+            v= dialog.findViewById(layout);
         return this;
     }
 

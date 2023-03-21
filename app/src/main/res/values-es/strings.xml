@@ -523,8 +523,10 @@
     <string name="book_a_demo_with_one_of_our_specialist_to_help_you_better_understand_our_aac">Reserve una demostración con uno de nuestros especialistas para ayudarlo a comprender mejor nuestra CAA</string>
     <string name="prediction_data">Estos datos son necesarios para la prediccion</string>
     <string name="whatareyoulooking">¿Qué estás buscando?</string>
+    <string name="repeat_pictogram_name_description">Puede usar un pictograma más de una vez al momento de armar una frase.</string>
     <string name="say_pictogram_name_tittle">Decir el pictograma</string>
     <string name="say_pictogram_name_description">OTTAA dice el nombre del pictograma al tocarlo</string>
+    <string name="repeat_pictogram_name_tittle">Repetir pictogramas</string>
     <string name="Iam">Hola soy</string>
     <string name="allphrases">Todas las frases</string>
     <string name="selectPhavoritePhrases">Seleccionar frases favoritas</string>
@@ -548,5 +550,7 @@
         \n\nEl origen de esta versión de la App se encuentra en la ética de impacto de la empresa evitando gastos innecesarios y maximizando el correcto uso de los recursos de las familias con discapacidad y demás instituciones relacionadas.
         \n\nPara más detalles no dudes en contactarte con nosotros.\n</string>
     <string name="understood">Entendido</string>
+    <string name="pref_summary_chatgpt">Permitir deshabilitar la opción ChatGPT.</string>
+    <string name="repeat_pictogram">Este pictograma ya está en la frase.</string>
 
 </resources>

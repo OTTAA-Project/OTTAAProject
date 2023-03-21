@@ -211,17 +211,21 @@ public class MemoryGame extends GameViewSelectPictograms {
 
 
     public void setOption(PictoView option, int row, int column) {
-        try {
-            if(model.getMatrixIdPictogram().length>0){
-                int value = model.getMatrixIdPictogram()[row][column];
-                option.setCustom_Texto(pictogramas[value].getJSONObject("texto").getString(ConfigurarIdioma.getLanguaje()));
-            }
+        int value;
+        try{
+            value = model.getMatrixIdPictogram()[row][column];
         }catch (Exception ex){
-            ex.printStackTrace();
+            value = -1;
         }
-        option.setVisibleText();
-        if(model.getMatrixIdPictogram().length>0)
-            option.setCustom_Img(json.getIcono(pictogramas[model.getMatrixIdPictogram()[row][column]]));
+        if(value!=-1){
+            try {
+                option.setCustom_Texto(pictogramas[value].getJSONObject("texto").getString(ConfigurarIdioma.getLanguaje()));
+            } catch (JSONException e) {
+                throw new RuntimeException(e);
+            }
+            option.setVisibleText();
+            option.setCustom_Img(json.getIcono(pictogramas[value]));
+        }
     }
 
 

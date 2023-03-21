@@ -26,7 +26,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         super.onMessageReceived(remoteMessage);
         if (remoteMessage.getData() != null) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                Log.d(TAG, "onMessageReceived: " + remoteMessage.getData().toString());
+                Log.d(TAG, "onMessageReceived: " + remoteMessage.getData());
                 //sendNotification(remoteMessage.getNotification().getTitle(),remoteMessage.getNotification().getBody());
             } else {
                 Log.d(TAG, "Enviado por :" + remoteMessage.getFrom());

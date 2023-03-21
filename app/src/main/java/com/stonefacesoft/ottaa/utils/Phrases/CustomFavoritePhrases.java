@@ -16,7 +16,7 @@ import java.io.IOException;
 
 public class CustomFavoritePhrases {
     private Context mContext;
-    private Json json;
+    private final Json json;
     private volatile JSONArray favoritePhrases;
     private static CustomFavoritePhrases customFavoritePhrases;
 
@@ -112,7 +112,7 @@ public class CustomFavoritePhrases {
          for (int i = 0; i < favoritePhrases.length(); i++) {
              try {
                  if (favoritePhrases.getJSONObject(i).has("locale")) {
-                     if (favoritePhrases.getJSONObject(i).getString("locale").toLowerCase().equals(ConfigurarIdioma.getLanguaje().toLowerCase()))
+                     if (favoritePhrases.getJSONObject(i).getString("locale").equalsIgnoreCase(ConfigurarIdioma.getLanguaje()))
                          phrasesAux.put(favoritePhrases.getJSONObject(i));
                  }
              } catch (JSONException e) {

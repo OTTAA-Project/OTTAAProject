@@ -31,8 +31,8 @@ public class ShareAudio extends ShareAction implements com.stonefacesoft.ottaa.I
     private final textToSpeech myTTS;
     private AudioFileCreator audioEncoder;
     private int result;
-    private AudioTransformationListener transformationListener;
-    private Dialog dialog;
+    private final AudioTransformationListener transformationListener;
+    private final Dialog dialog;
 
     public ShareAudio(Context mContext, String phrase, textToSpeech myTTS,AudioTransformationListener transformer,Dialog dialog) {
         super(mContext, phrase);

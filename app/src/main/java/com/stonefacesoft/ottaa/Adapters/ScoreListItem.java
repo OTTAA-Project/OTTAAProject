@@ -24,8 +24,8 @@ import org.json.JSONException;
 
 public class ScoreListItem extends RecyclerView.Adapter<ScoreListItem.ScoreViewHolder>{
     private int mLayoutResourceId;
-    private Context mContext;
-    private int id;
+    private final Context mContext;
+    private final int id;
     private Dialog dialogDismiss;
     private final textToSpeech myTTs;
     private final Json json;

@@ -9,10 +9,12 @@ import android.util.Log;
 import androidx.core.app.ActivityCompat;
 
 import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.Task;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.api.model.PlaceLikelihood;
 import com.google.android.libraries.places.api.net.FindCurrentPlaceRequest;
+import com.google.android.libraries.places.api.net.FindCurrentPlaceResponse;
 import com.google.android.libraries.places.api.net.PlacesClient;
 import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.utils.constants.ConstantsPlaces;
@@ -23,15 +25,19 @@ import java.util.Arrays;
 import java.util.List;
 
 public class PlacesImplementation {
-    private final Context mContext;
+    private Context mContext;
     private final String TAG = "PlacesImplementation";
-    private final LocationManager locationManager;
+    private LocationManager locationManager;
     private PlacesClient client;
     private ArrayList<Place> places;
     private int positionPlace = -1;
     private int positionType = -1;
     private boolean isStarted;
     private String nombreTraducido;
+
+    public PlacesImplementation(){
+        places = new ArrayList<>();
+    }
 
 
     public PlacesImplementation(Context mContext) {
@@ -66,24 +72,33 @@ public class PlacesImplementation {
         positionPlace = -1;
         List<Place.Field> placeFields = Arrays.asList(Place.Field.NAME, Place.Field.TYPES, Place.Field.ADDRESS);
         places = new ArrayList<>();
+        FindCurrentPlaceRequest request = FindCurrentPlaceRequest.newInstance(placeFields);
 
-        FindCurrentPlaceRequest request = FindCurrentPlaceRequest.builder(placeFields).build();
         if (ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            client.findCurrentPlace(request).addOnSuccessListener(((response -> {
-                for (PlaceLikelihood placeLikelihood : response.getPlaceLikelihoods()) {
-                    Log.d(TAG, "locationRequest: " + placeLikelihood.getLikelihood() + " name :" + placeLikelihood.getPlace().getName());
-                    // add the place to the list
-                    double result = placeLikelihood.getLikelihood();
-                    if (result > 0.80 && result <= 1.0)
-                        places.add(placeLikelihood.getPlace());
-                }
-            }
-            ))).addOnFailureListener((exception) -> {
-                if (exception instanceof ApiException) {
-                    ApiException apiException = (ApiException) exception;
-                    Log.e(TAG, "Place not found: " + apiException.getStatusCode());
+            Task<FindCurrentPlaceResponse> placesResponses = client.findCurrentPlace(request);
+            placesResponses.addOnCompleteListener(task -> {
+                if(task.isSuccessful()){
+                    FindCurrentPlaceResponse response = task.getResult();
+                    for (PlaceLikelihood placeLikelihood : response.getPlaceLikelihoods()) {
+                        Log.d(TAG, "locationRequest: " + placeLikelihood.getLikelihood() + " name :" + placeLikelihood.getPlace().getName() + "type" + placeLikelihood.getPlace().getTypes().get(0).name());
+                        List<Place.Type> placeList = placeLikelihood.getPlace().getTypes();
+                        for (int i = 0; i < placeList.size() -1; i++) {
+                            Log.d(TAG, "locationRequest: "+ placeList.get(i).name());
+                        }
+                        // add the place to the list
+                        double result = placeLikelihood.getLikelihood();
+                        if (result > 0.50 && result <= 1.0)
+                            places.add(placeLikelihood.getPlace());
+                    }
+                }else {
+                    Exception exception = task.getException();
+                    if (exception instanceof ApiException) {
+                        ApiException apiException = (ApiException) exception;
+                        Log.e(TAG, "Place not found: " + apiException.getStatusCode());
+                    }
                 }
             });
+
         }
     }
 
@@ -215,6 +230,8 @@ public class PlacesImplementation {
                 return mContext.getResources().getString(R.string.str_constant_church);
             case "CONVENIENCE_STORE":
                 return mContext.getResources().getString(R.string.str_constant_convenience_store);
+            case "HEALTH":
+                return mContext.getResources().getString(R.string.str_constant_hospital);
             default:
                 return mContext.getResources().getString(R.string.location);
 

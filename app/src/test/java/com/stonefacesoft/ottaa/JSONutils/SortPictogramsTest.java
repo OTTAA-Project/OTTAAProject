@@ -13,7 +13,7 @@ import org.junit.Test;
 import java.util.Random;
 
 public class SortPictogramsTest  {
-    private int size = 10000;
+    private final int size = 10000;
     @Test
     public void quickSortMinValue() {
         JSONArray array = null;

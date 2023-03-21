@@ -4,7 +4,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 public class NumberPickerPreferenceTest {
-    private NumberPickerPreference numberPickerPreference = new NumberPickerPreference();
+    private final NumberPickerPreference numberPickerPreference = new NumberPickerPreference();
 
    @Test
     public void setNumberPicker(){

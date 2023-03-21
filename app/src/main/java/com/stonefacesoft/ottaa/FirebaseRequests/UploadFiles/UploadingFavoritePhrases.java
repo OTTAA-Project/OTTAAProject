@@ -1,4 +1,4 @@
-package com.stonefacesoft.ottaa.FirebaseRequests.Files;
+package com.stonefacesoft.ottaa.FirebaseRequests.UploadFiles;
 
 import android.content.Context;
 import android.net.Uri;
@@ -24,7 +24,7 @@ public class UploadingFavoritePhrases extends UploadFile {
     }
 
     @Override
-    public void openFile() {
+    protected void openFile() {
         try {
             fis=mContext.openFileInput(Constants.ARCHIVO_FRASES_FAVORITAS);
         } catch (FileNotFoundException e) {
@@ -83,7 +83,7 @@ public class UploadingFavoritePhrases extends UploadFile {
     }
 
     @Override
-    public void closeFile() {
+    protected void closeFile() {
         try {
             fis.close();
         } catch (IOException e) {

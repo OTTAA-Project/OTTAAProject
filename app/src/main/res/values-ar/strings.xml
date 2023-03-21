@@ -197,6 +197,8 @@
     <string name="informaci_n_nimportante">معلومات مهمة</string>
     <string name="free_version_explanation">هذه نسخة تجريبية مجانية من برنامج الاتصال المعزز البديل الذي يتمثل هدفه الرئيسي في تمكين أسر الأشخاص ذوي الإعاقة والمهنيين والمرافقين من التحقق بشكل أولي مما إذا كانت هذه الأداة تعمل في حالة معينة أم لا ، قبل الاضطرار إلى شراء جهاز الاتصال. OTTAA Premium ، وهو غير مجاني وله العديد من الوظائف والخدمات الأساسية للوصول إلى أقصى إمكانات المستخدم.     بهذه الطريقة ، يمكن للمريض وأفراد أسرهم والمهنيين إجراء \"اختبار وظيفي\" باستخدام البرنامج المجاني. تم العثور على أصل هذا الإصدار من التطبيق في أخلاقيات التأثير للشركة ، وتجنب النفقات غير الضرورية وتعظيم الاستخدام الصحيح للموارد من قبل العائلات ذات الإعاقة والمؤسسات الأخرى ذات الصلة.  لمزيد من التفاصيل لا تتردد في الاتصال بنا</string>
     <string name="understood">يفهم</string>
+    <string name="pref_summary_chatgpt">السماح بتعطيل خيار ChatGPT.</string>
+    <string name="repeat_pictogram">هذا الرسم التخطيطي موجود بالفعل في الجملة</string>
     <string name="prompt_email">البريد الإلكتروني</string>
     <string name="prompt_password">كلمة المرور (اختياري)</string>
     <string name="repetir_semanalmente">كرر أسبوعيا</string>
@@ -489,8 +491,10 @@
     <string name="whatareyoulooking">عما تبحث؟</string>
     <string name="allphrases">كل العبارات</string>
     <string name="selectPhavoritePhrases">حدد العبارات المفضلة</string>
+    <string name="repeat_pictogram_name_description">يمكنك استخدام الرسم التخطيطي أكثر من مرة عند تجميع الجملة.</string>
     <string name="say_pictogram_name_tittle">قل الرسم التخطيطي</string>
     <string name="say_pictogram_name_description">OTTAA يقول اسم الرسم التخطيطي عند لمسه</string>
+    <string name="repeat_pictogram_name_tittle">كرر الرسوم التوضيحية</string>
     <string name="Iam">مرحبا أنا</string>
     <string name="FluidUser">مائع</string>
     <string name="createPhrasesAlert">من فضلك ، قم بإنشاء عبارة وحدد زر المشاركة</string>

@@ -21,11 +21,10 @@ import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.idioma.ConfigurarIdioma;
 import com.stonefacesoft.ottaa.utils.ConnectionDetector;
 import com.stonefacesoft.ottaa.utils.Pictures.DownloadPictogram;
-import com.stonefacesoft.ottaa.utils.StringFormatter;
 import com.stonefacesoft.ottaa.utils.constants.Constants;
 import com.stonefacesoft.ottaa.utils.IntentCode;
 import com.stonefacesoft.ottaa.utils.JSONutils;
-import com.stonefacesoft.ottaa.utils.traducirTexto;
+import com.stonefacesoft.ottaa.utils.Translates.traducirTexto;
 import com.stonefacesoft.pictogramslibrary.Classes.Pictogram;
 
 import org.json.JSONArray;
@@ -34,14 +33,14 @@ import org.json.JSONObject;
 
 public class FindAllPictograms_Recycler_View extends Custom_recyclerView implements ItemTouchHelperAdapter, translateInterface {
 
-    private BuscarArasaac buscarArasaac;
+    private final BuscarArasaac buscarArasaac;
     private FindAllPictogramsAdapter findAllPictogramsAdapter;
     private JSONObject arasaac;
     private JSONArray arasaacPictogramsResult;
     private int id;
-    private Progress_dialog_options progress_dialog_options;
+    private final Progress_dialog_options progress_dialog_options;
     private JSONObject selectedObject;
-    private com.stonefacesoft.ottaa.utils.traducirTexto traducirTexto;
+    private com.stonefacesoft.ottaa.utils.Translates.traducirTexto traducirTexto;
     public FindAllPictograms_Recycler_View(AppCompatActivity appCompatActivity, FirebaseAuth mAuth) {
         super(appCompatActivity, mAuth);
         buscarArasaac = new BuscarArasaac();

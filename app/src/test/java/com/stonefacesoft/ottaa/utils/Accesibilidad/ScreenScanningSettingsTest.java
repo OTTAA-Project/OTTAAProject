@@ -7,7 +7,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class ScreenScanningSettingsTest {
-    private ScreenScanningSettings settings =  new ScreenScanningSettings();
+    private final ScreenScanningSettings settings =  new ScreenScanningSettings();
     @Test
     public void setScreenScanning() {
         settings.setScreenScanning(false);

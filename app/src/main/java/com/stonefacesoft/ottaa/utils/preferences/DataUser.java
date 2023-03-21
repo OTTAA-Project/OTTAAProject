@@ -9,7 +9,7 @@ public class DataUser {
     private String firstAndLastName="";
     private String email="";
     private String devices ="";
-    //Todo add the user devices
+
 
     public DataUser(){}
 

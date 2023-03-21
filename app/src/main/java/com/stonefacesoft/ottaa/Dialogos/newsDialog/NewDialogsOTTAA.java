@@ -65,7 +65,7 @@ public class NewDialogsOTTAA implements FirebaseSuccessListener {
 
     private final Activity mActivity;
     private GestionarBitmap mGestionarBitmap;
-    private Dialog dialog;
+    private final Dialog dialog;
     private RecyclerView mRecyclerViewFrases, mRecyclerViewTags;
     private final ArrayList<FavModel> mArrayListFavoritos = new ArrayList<>();
     private TextView textViewNoData;

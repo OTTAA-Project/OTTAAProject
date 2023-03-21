@@ -6,6 +6,8 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import android.content.Context;
+
 import com.stonefacesoft.ottaa.Interfaces.DialogInterfaceTags;
 import com.stonefacesoft.ottaa.Interfaces.TagInterfazJson;
 import com.stonefacesoft.ottaa.JSONutils.Json;
@@ -14,14 +16,21 @@ import com.stonefacesoft.ottaa.utils.constants.Constants;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.internal.runners.statements.Fail;
+import org.mockito.Mockito;
 
 import java.util.ArrayList;
 
 public class AsignTagsTest implements DialogInterfaceTags, TagInterfazJson {
-    AsignTags asignTags = new AsignTags(null);
+    private AsignTags asignTags;
+    private Context context = Mockito.mock(Context.class);
 
+    @Before
+    public void setUp(){
+        asignTags = new AsignTags(context);
+    }
     @Test
     public void testSetInterfaz() {
         asignTags.setInterfaz(this::onTagAsignado);
@@ -78,6 +87,9 @@ public class AsignTagsTest implements DialogInterfaceTags, TagInterfazJson {
             asignTags.cargarTags(Constants.UBICACION);
             selectedTags.add(asignTags.getmArrayListTagsPorTipo().get(3));
             selectedTags.add(asignTags.getmArrayListTagsPorTipo().get(1));
+            asignTags.cargarTags(Constants.HORA);
+            selectedTags.add(asignTags.getmArrayListTagsPorTipo().get(3));
+            selectedTags.add(asignTags.getmArrayListTagsPorTipo().get(1));
             asignTags.setmArrayListSelectedTAGS(selectedTags);
             asignTags.setTagsToPicto(object);
             Json json =Json.getInstance();
@@ -103,8 +115,8 @@ public class AsignTagsTest implements DialogInterfaceTags, TagInterfazJson {
             selectedTags.add(asignTags.getmArrayListTagsPorTipo().get(1));
             asignTags.setmArrayListSelectedTAGS(selectedTags);
             asignTags.setTagsToPicto(object);
-            asignTags.removeTagToPicto(object);
-            assertFalse(object.has("hora"));
+            object.remove(Constants.UBICACION);
+            assertTrue(object.has(Constants.SEXO)&&object.has(Constants.EDAD)&&!object.has(Constants.UBICACION));
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -125,21 +137,18 @@ public class AsignTagsTest implements DialogInterfaceTags, TagInterfazJson {
             asignTags.cargarTags(Constants.UBICACION);
             selectedTags.add(asignTags.getmArrayListTagsPorTipo().get(3));
             selectedTags.add(asignTags.getmArrayListTagsPorTipo().get(1));
+            asignTags.cargarTags(Constants.HORA);
+            selectedTags.add(asignTags.getmArrayListTagsPorTipo().get(0));
+            selectedTags.add(asignTags.getmArrayListTagsPorTipo().get(1));
+            selectedTags.add(asignTags.getmArrayListTagsPorTipo().get(2));
             asignTags.setmArrayListSelectedTAGS(selectedTags);
             asignTags.setTagsToPicto(object);
-            assertFalse(object.has("hora"));
+            assertTrue(object.has("hora"));
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
-    @Test
-    public void testSetTagToGrupo() {
 
-    }
-
-    @Test
-    public void testTestSetTagsToPicto() {
-    }
 
     @Override
     public void onTagAsignado(String jsonStringTags) {

@@ -110,27 +110,27 @@ public class FirebaseDatabaseRequest {
             uid = "";
         }
         if(!uid.isEmpty())
-        mDatabase.child(Constants.USUARIOS).child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.hasChildren()){
-                  if(snapshot.hasChild(Constants.NOMBRE))
-                    user.setFirstAndLastName(String.valueOf( snapshot.child(Constants.NOMBRE).getValue()));
-                  if(snapshot.hasChild(Constants.FECHACUMPLE))
-                    user.setBirthDate(snapshot.child(Constants.FECHACUMPLE).getValue(Long.class));
-                  if(snapshot.hasChild(Constants.GENERO))
-                    user.setGender(snapshot.child(Constants.GENERO).getValue(String.class));
-                  else
-                   user.setGender("");
+            mDatabase.child(Constants.USUARIOS).child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if(snapshot.hasChildren()){
+                      if(snapshot.hasChild(Constants.NOMBRE))
+                        user.setFirstAndLastName(String.valueOf( snapshot.child(Constants.NOMBRE).getValue()));
+                      if(snapshot.hasChild(Constants.FECHACUMPLE))
+                        user.setBirthDate(snapshot.child(Constants.FECHACUMPLE).getValue(Long.class));
+                      if(snapshot.hasChild(Constants.GENERO))
+                        user.setGender(snapshot.child(Constants.GENERO).getValue(String.class));
+                      else
+                       user.setGender("");
+                    }
+                    loadUserInformation.getUserInformation(user);
                 }
-                loadUserInformation.getUserInformation(user);
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
 
-            }
-        });
+                }
+            });
    }
 
 

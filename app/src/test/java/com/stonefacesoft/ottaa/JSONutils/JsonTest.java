@@ -20,7 +20,7 @@ import java.util.Random;
 
 
 public class JsonTest {
-    private int size = 10000;
+    private final int size = 10000;
 
     @Test
     public void getInstance() {

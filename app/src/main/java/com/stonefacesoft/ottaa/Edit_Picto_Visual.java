@@ -81,7 +81,7 @@ import com.stonefacesoft.ottaa.utils.JSONutils;
 import com.stonefacesoft.ottaa.utils.constants.Constants;
 import com.stonefacesoft.ottaa.utils.exceptions.FiveMbException;
 import com.stonefacesoft.ottaa.utils.textToSpeech;
-import com.stonefacesoft.ottaa.utils.traducirTexto;
+import com.stonefacesoft.ottaa.utils.Translates.traducirTexto;
 import com.stonefacesoft.pictogramslibrary.Classes.Group;
 import com.stonefacesoft.pictogramslibrary.Classes.Pictogram;
 import com.stonefacesoft.pictogramslibrary.view.PictoView;
@@ -310,7 +310,7 @@ public class Edit_Picto_Visual extends AppCompatActivity implements View.OnClick
             dialogs.setCancelable(false);
             dialogs.setMessage(getApplicationContext().getString(R.string.edit_sync_pict));
             dialogs.mostrarDialogo();
-            bajarJsonFirebase.syncPictogramsandGroups();
+            bajarJsonFirebase.syncFiles();
         }
     }
 
@@ -433,7 +433,7 @@ public class Edit_Picto_Visual extends AppCompatActivity implements View.OnClick
             public void onTextChanged(CharSequence s, int start,
                                       int before, int count) {
                 if (s.length() != 0) {
-                    Log.d(TAG, "onTextChanged: " + s.toString());
+                    Log.d(TAG, "onTextChanged: " + s);
                     Picto.setCustom_Texto(s.toString());
                 }
             }

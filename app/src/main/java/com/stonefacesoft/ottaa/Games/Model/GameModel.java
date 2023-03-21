@@ -6,7 +6,7 @@ public class GameModel {
     protected String name;
     protected int level;
     protected int accuracy;
-    protected int valueIndex[] = new int[]{};
+    protected int[] valueIndex = new int[]{};
     protected int size;
     private Random random;
 

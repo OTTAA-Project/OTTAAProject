@@ -463,8 +463,10 @@
     <string name="prediction_data">Questi dati sono necessari per la previsione</string>
     <string name="whatareyoulooking">Che cosa sta cercando?</string>
     <string name="selectPhavoritePhrases">Seleziona Frasi Preferite</string>
+    <string name="repeat_pictogram_name_description">Puoi usare un pittogramma più di una volta quando componi una frase.</string>
     <string name="say_pictogram_name_tittle">dire il pittogramma</string>
     <string name="say_pictogram_name_description">OTTAA dice il nome del pittogramma al tocco</string>
+    <string name="repeat_pictogram_name_tittle">Ripeti pittogrammi</string>
     <string name="Iam">Ciao sono</string>
     <string name="FluidUser">Fluido</string>
     <string name="createPhrasesAlert">Per favore, crea una frase e seleziona il pulsante di condivisione</string>
@@ -481,4 +483,6 @@
     <string name="informaci_n_nimportante">Informazioni \nimportanti</string>
     <string name="free_version_explanation">Questa è una versione di prova gratuita del software alternativo di comunicazione aumentativa il cui obiettivo principale è quello di consentire alle famiglie di persone con disabilità e professionisti e accompagnatori, di verificare preliminarmente se questo strumento funziona o meno per il caso specifico prima di acquistare il comunicatore. OTTAA Premium non è gratuito e dispone di molteplici funzionalità e servizi essenziali per raggiungere il massimo potenziale dell\'utente.   In questo modo il paziente, i suoi familiari ei suoi professionisti possono effettuare un \"test funzionale\" con il software gratuito. L\'origine di questa versione dell\'App si trova nell\'etica dell\'impatto dell\'azienda, evitando spese inutili e massimizzando il corretto utilizzo delle risorse da parte delle famiglie con disabilità e altre istituzioni correlate.  Per maggiori dettagli non esitate a contattarci.</string>
     <string name="understood">Intendido</string>
+    <string name="pref_summary_chatgpt">Consenti la disabilitazione dell\'opzione ChatGPT.</string>
+    <string name="repeat_pictogram">Questo pittogramma è già nella frase</string>
 </resources>
