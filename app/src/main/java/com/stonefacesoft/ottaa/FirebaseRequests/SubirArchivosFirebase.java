@@ -21,7 +21,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.stonefacesoft.ottaa.FirebaseRequests.Files.UploadingFavoritePhrases;
+import com.stonefacesoft.ottaa.FirebaseRequests.UploadFiles.UploadGames;
+import com.stonefacesoft.ottaa.FirebaseRequests.UploadFiles.UploadPhrase;
+import com.stonefacesoft.ottaa.FirebaseRequests.UploadFiles.UploadingFavoritePhrases;
+import com.stonefacesoft.ottaa.FirebaseRequests.UploadFiles.UploadingGroups;
+import com.stonefacesoft.ottaa.FirebaseRequests.UploadFiles.UploadingPictos;
 import com.stonefacesoft.ottaa.Interfaces.FirebaseSuccessListener;
 import com.stonefacesoft.ottaa.Principal;
 import com.stonefacesoft.ottaa.R;
@@ -99,109 +103,36 @@ public class SubirArchivosFirebase {
 
     public void subirPictosFirebase(final DatabaseReference mDatabase, StorageReference mStorageRef) {
         //SAF_SGF_TAG : SubirArchivosFirebase_subirPictosFirebase_TAG
-
-        final StorageReference referenciaPictos = mStorageRef;
-
-        try {
-
-            pictos = mContext.openFileInput(Constants.ARCHIVO_PICTOS);
-            if (pictos.available() > 3) {
-                Log.e("subirArchivosLog", "subirGruposFirebase: " + pictos.available());
-
-                Log.e("Subir Archivos Firebase", "subirPictosFirebase: " + pictos.getChannel().size());
-                referenciaPictos.putStream(pictos).continueWithTask(task -> {
-                    if (!task.isSuccessful()) {
-                        throw task.getException();
-                    }
-                    return referenciaPictos.getDownloadUrl();
-                }).addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        Uri downloadUri = task.getResult();
-
-                        String urlPictoUpload = downloadUri.toString();
-
-
-                        mDatabase.setValue(urlPictoUpload, (databaseError, referenciaPictos1) -> {
-                            if (referenciaPictos1 != null) {
-                                Log.d("SAF_SPF_TAG", "Se guardo correctamente url Pictos");
-                                try {
-                                    pictos.close();
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
-                            } else {
-                                Log.d("SAF_SPF_TAG", "Error al subir url Pictos");
-                            }
-                        });
-
-                    } else {
-                        Log.e("error_SAF_SPF_TAG", "Subida fallida" + task.getException());
-
-                    }
-                }).addOnFailureListener(e -> Log.e("No se subio el archivo", "onFailure: subir archivos"));
-            }
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        new UploadingPictos(mContext,mDatabase,mStorageRef).uploadFile();
     }
 
     public void uploadFavoritePhrases(final DatabaseReference mDatabase,StorageReference mStorageRef){
         new UploadingFavoritePhrases(mContext,mDatabase,mStorageRef).uploadFile();
     }
 
-    public void userDataExists(DatabaseReference mDatabasePictos,
+    public void userDataExists(final DatabaseReference mDatabasePictos,
                                final DatabaseReference mDatabaseGrupos, final DatabaseReference
                                        mDatabaseFrases) {
+         userDataExistListener(mDatabasePictos,Constants.PICTOS_ENCONTRADOS);
+         userDataExistListener(mDatabaseGrupos,Constants.GRUPOS_ENCONTRADOS);
+         userDataExistListener(mDatabaseFrases,Constants.FRASES_ENCONTRADOS);
+    }
 
-        mDatabasePictos.addListenerForSingleValueEvent(new ValueEventListener() {
+    public void userDataExistListener(DatabaseReference mDatabase,int value){
+        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull final DataSnapshot pictosSnapshot) {
-                if (pictosSnapshot.exists()){
-                    mFbSuccessListenerInterfaz.onDatosEncontrados(Constants.PICTOS_ENCONTRADOS);
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()){
+                    mFbSuccessListenerInterfaz.onDatosEncontrados(value);
                 }
-                mDatabaseGrupos.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull final DataSnapshot gruposSnapshot) {
 
-                        if (gruposSnapshot.exists()){
-                            mFbSuccessListenerInterfaz.onDatosEncontrados(Constants.GRUPOS_ENCONTRADOS);
-                        }
-                        mDatabaseFrases.addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot frasesSnapshot) {
-
-                                if (frasesSnapshot.exists()){
-                                    mFbSuccessListenerInterfaz.onDatosEncontrados(Constants.FRASES_ENCTONRADOS);
-                                }
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                            }
-                        });
-
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                    }
-
-                });
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+            public void onCancelled(@NonNull DatabaseError error) {
 
             }
-
-
         });
-
     }
 
     public class getTiempoGoogle extends AsyncTask<Void, Void, Void> {
@@ -242,150 +173,20 @@ public class SubirArchivosFirebase {
         }
     }
 
-    public Boolean subirGruposFirebase(final DatabaseReference mDatabase, StorageReference mStorageRef) {
+    public void subirGruposFirebase(final DatabaseReference mDatabase, StorageReference mStorageRef) {
         //SAF_SGF_TAG : SubirArchivosFirebase_subirGruposFirebase_TAG
-        final StorageReference referenciaGrupos = mStorageRef;
-
-        try {
-            grupos = mContext.openFileInput(Constants.ARCHIVO_GRUPOS);
-            Log.e("subirArchivosLog", "subirGruposFirebase: " + grupos.available());
-
-            if (grupos.available() > 3) {
-                referenciaGrupos.putStream(grupos).continueWithTask(task -> {
-                    if (!task.isSuccessful()) {
-                        throw task.getException();
-                    }
-                    return referenciaGrupos.getDownloadUrl();
-                }).addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        Uri downloadUri = task.getResult();
-                        String urlGrupoUpload = downloadUri.toString();
-                        Log.e("SAF_SGF__down", "" + urlGrupoUpload);
-                        mDatabase.setValue(urlGrupoUpload, (databaseError, referenciaGrupos1) -> {
-                            if (referenciaGrupos1 != null) {
-                                Log.d("SAF_SGF_TAG", "Se guardo correctamente url Grupos");
-                                try {
-                                    grupos.close();
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
-                            } else {
-                                Log.d("SAF_SGF_TAG", "Error al subir url Grupos");
-                            }
-
-                        });
-
-                    } else {
-                        Log.e("SAF_SGF_TAG", "Subida fallida " + task.getException());
-                    }
-                });
-
-            }
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return false;
+        new UploadingGroups(mContext,mDatabase,mStorageRef).uploadFile();
     }
 
 
     public boolean subirFrasesFirebase(final DatabaseReference mDatabase, StorageReference mStorageRef) {
         //SAF_SGF_TAG : SubirArchivosFirebase_subirFrasesFirebase_TAG
-
-        final StorageReference referenciaFrases = mStorageRef;
-
-        try {
-            frasesGuardadas = mContext.openFileInput(Constants.ARCHIVO_FRASES);
-            if (frasesGuardadas.available() > 3) {
-                Log.e("subirArchivosLog", "subirGruposFirebase: " + frasesGuardadas.available());
-
-                referenciaFrases.putStream(frasesGuardadas).continueWithTask(task -> {
-                    if (!task.isSuccessful()) {
-                        throw task.getException();
-                    }
-                    return referenciaFrases.getDownloadUrl();
-                }).addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        Uri downloadUri = task.getResult();
-                        String urlFrasesUpload = downloadUri.toString();
-
-                        mDatabase.setValue(urlFrasesUpload, (databaseError, referenciaGrupos) -> {
-                            if (referenciaGrupos != null) {
-                                try {
-                                    frasesGuardadas.close();
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
-                                Log.d("SAF_SFF_TAG", "Se guardo correctamente url Frases");
-                            } else {
-                                Log.d("SAF_SFF_TAG", "Error al subir url Frases");
-                            }
-
-                        });
-
-                    } else {
-                        Log.d("SAF_SFF_TAG", "Error al subir url Frases");
-                        // Toast.makeText(MainActivity.this, "upload failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
-
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        new UploadPhrase(mContext,mDatabase,mStorageRef).uploadFile();
         return false;
     }
     public boolean subirJuegos(final DatabaseReference mDatabase, StorageReference mStorageRef) {
         //SAF_SGF_TAG : SubirArchivosFirebase_subirFrasesFirebase_TAG
-        final StorageReference referenciaJuegos = mStorageRef;
-        try {
-            Juegos = mContext.openFileInput(Constants.ARCHIVO_JUEGO);
-            if (Juegos.available() > 3) {
-                Log.e("subirArchivosLog", "subirGruposFirebase: " + Juegos.available());
-
-                referenciaJuegos.putStream(Juegos).continueWithTask(task -> {
-                    if (!task.isSuccessful()) {
-                        throw task.getException();
-                    }
-                    return referenciaJuegos.getDownloadUrl();
-                }).addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        Uri downloadUri = task.getResult();
-                        String urlFrasesUpload = downloadUri.toString();
-
-                        mDatabase.setValue(urlFrasesUpload, (databaseError, referenciaGrupos) -> {
-                            if (referenciaGrupos != null) {
-                                Log.d("SAF_SFF_TAG", "Se guardo correctamente url Juegos");
-                                try {
-                                    Juegos.close();
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
-                            } else {
-                                Log.d("SAF_SFF_TAG", "Error al subir url Juegos");
-                            }
-
-                        });
-
-                    } else {
-                        Log.d("SAF_SFF_TAG", "Error al subir url Juegos");
-                        // Toast.makeText(MainActivity.this, "upload failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
-
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        new UploadGames(mContext,mDatabase,mStorageRef).uploadFile();
         return false;
     }
 
@@ -488,6 +289,8 @@ public class SubirArchivosFirebase {
         return false;
 
     }
+
+
 
 
 

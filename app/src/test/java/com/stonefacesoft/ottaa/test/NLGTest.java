@@ -5,15 +5,20 @@ import com.stonefacesoft.ottaa.NLG;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
 public class NLGTest {
+    private NLG nlg;
+    @Before
+    public void setUp(){
+        nlg = new NLG();
+    }
 
     @Test
     public void nuevaFraseTest() {
-        NLG nlg = new NLG();
         nlg.NuevaFrase();
         String frase = nlg.ArmarFrase();
         assertEquals(frase,"");
@@ -21,7 +26,6 @@ public class NLGTest {
 
     @Test
     public void cargarFraseTest() {
-        NLG nlg = new NLG();
 
         JSONObject picto1 = null;
         assertFalse(nlg.CargarFrase(picto1, 3));
@@ -32,8 +36,7 @@ public class NLGTest {
     }
 
     @Test
-    public void armarFraseTest() {
-        NLG nlg = new NLG();
+    public void makePhraseTest() {
         nlg.NuevaFrase();
 
         JSONObject picto1 = createPictograms(643,"es","Yo","I",1);
@@ -63,6 +66,25 @@ public class NLGTest {
         assertEquals("I want to eat an apple and a strawberry.", actual);
 
     }
+
+    @Test
+    public void makeVerbPhrase() {
+        nlg.NuevaFrase();
+
+        JSONObject picto1 = createPictograms(643,"es","Yo","I",1);
+        JSONObject picto3 = createPictograms(819,"es","ir a","go to",3);
+        JSONObject picto4 = createPictograms(820,"es","doctor","doctor",1);
+
+        nlg.CargarFrase(picto1,1);
+        nlg.CargarFrase(picto3,3);
+        nlg.CargarFrase(picto4,1);
+
+        String actual = nlg.ArmarFrase();
+        System.out.println(actual);
+        assertEquals("I go to.", actual);
+
+    }
+
 
     public JSONObject createPictograms(int id, String locale, String localeName, String englishName, int tipo) {
 

@@ -2,6 +2,9 @@ package com.stonefacesoft.ottaa;
 
 import android.util.Log;
 
+import com.stonefacesoft.ottaa.JSONutils.Json;
+import com.stonefacesoft.ottaa.utils.JSONutils;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -35,6 +38,7 @@ public class NLG {
     private boolean HaySujeto1;
     private boolean HaySujeto2;
     private boolean HayObjeto1;
+    private boolean HayObjeto2;
     private String FraseSocial;
 
     private boolean CargarSujeto;
@@ -78,7 +82,7 @@ public class NLG {
     //Se carga cada palabra y se analiza que parte forma de una oracion simple, y se prepara para ser
     // procesada por el NLG, cuando se necesite la frase lista se llama a ArmarFrase que la frase lista.
     public boolean CargarFrase (JSONObject opcion, int tipo) {
-        try {
+        String pictogramName = JSONutils.getNombre(opcion,"en");
             if (opcion == null) {
                 return false;
             }
@@ -87,77 +91,35 @@ public class NLG {
                     Log.d(TAG, "CargarFrase: Green 'Actions'");
                     if (HayVerbo) {
                         //Significa que hay q poner el to o algo asi
-                        VPPhraseSpec verbo2 = nlgFactory.createVerbPhrase(opcion.getJSONObject("texto").getString("en"));
+                        processPhraseTipe3( pictogramName);
 
-                        switch (Verbo1.getVerb().toString()) {
-                            case "WordElement[want:VERB]":
-                                Log.d(TAG, "CargarFrase: Verbo: WANT");
-                                Verbo1 = nlgFactory.createVerbPhrase("want to " + opcion.getJSONObject("texto").getString("en"));
-                                    break;
-                                case "WordElement[need:VERB]":
-                                    Log.d(TAG, "CargarFrase: Verbo: NEED");
-                                    Verbo1 = nlgFactory.createVerbPhrase("need to " + opcion.getJSONObject("texto").getString("en"));
-                                    break;
-                                case "WordElement[go:VERB]":
-                                    if (verbo2.getVerb().toString().equals("WordElement[walk:VERB]") ||
-                                            verbo2.getVerb().toString().equals("WordElement[swim:VERB]") ||
-                                            verbo2.getVerb().toString().equals("WordElement[drive:VERB]")) {
-                                        Verbo1 = nlgFactory.createVerbPhrase("go for a " + opcion.getJSONObject("texto").getString("en"));
-                                        break;
-                                    } else if (verbo2.getVerb().toString().equals("WordElement[shop:VERB]") ||
-                                            verbo2.getVerb().toString().equals("WordElement[camp:VERB]") ||
-                                            verbo2.getVerb().toString().equals("WordElement[dance:VERB]") ||
-                                            verbo2.getVerb().toString().equals("WordElement[fish:VERB]") ||
-                                            verbo2.getVerb().toString().equals("WordElement[sail:VERB]")) {
-                                        verbo2.setFeature(Feature.PROGRESSIVE, true);
-                                        //TODO HECTOR Ver como solucionar esto
-                                        Verbo1 = nlgFactory.createVerbPhrase("go " + opcion.getJSONObject("texto").getString("en"));
-                                        break;
-                                    } else {
-
-                                        Verbo1 = nlgFactory.createVerbPhrase("go to " + opcion.getJSONObject("texto").getString("en"));
-
-                                        break;
-                                    }
-                                case "WordElement[have:VERB]":
-                                    Log.d(TAG, "CargarFrase: Verbo: HAVE");
-                                    Verbo1 = nlgFactory.createVerbPhrase("have to " + opcion.getJSONObject("texto").getString("en"));
-                                    break;
-                                case "WordElement[be:VERB]":
-                                    Log.d(TAG, "CargarFrase: Verbo: BE");
-                                    Verbo1 = nlgFactory.createVerbPhrase(opcion.getJSONObject("texto").getString("en"));
-                                    HayProgressive = true;
-                                    break;
-                                default:
-                                    Verbo1.addModifier(opcion.getJSONObject("texto").getString("en"));
-                                    break;
-                        }
                     } else {
                         Log.d(TAG, "CargarFrase: No hay verbo");
                         HayVerbo = true;
-                        Verbo1 = nlgFactory.createVerbPhrase(opcion.getJSONObject("texto").getString("en"));
+                        Verbo1 =  createVerbPhrase("",pictogramName);
                     }
                     return true;
                 case 1:
                     Log.d(TAG, "CargarFrase: Yellow 'Subject'");
                     Log.d(TAG, "CargarFrase: Opcion: " + opcion);
 
-                    if (HayVerbo) {
-                        HayObjeto = true;
+                        if (HayVerbo) {
+                            HayObjeto = true;
                         //Add objeto
-                        if (HayObjeto1) {
-                            Object2 = nlgFactory.createNounPhrase(opcion.getJSONObject("texto").getString("en"));
-                        } else {
-                            Object1 = nlgFactory.createNounPhrase(opcion.getJSONObject("texto").getString("en"));
-                            HayObjeto1 = true;
-                        }
+                            if (HayObjeto1) {
+                                Object2 = nlgFactory.createNounPhrase(pictogramName);
+                                HayObjeto2 = true;
+                            } else {
+                                Object1 = nlgFactory.createNounPhrase(pictogramName);
+                                HayObjeto1 = true;
+                            }
                         } else {
                             //Add sujeto
                             if (HaySujeto1) {
-                                Subject2 = nlgFactory.createNounPhrase(opcion.getJSONObject("texto").getString("en"));
+                                Subject2 = nlgFactory.createNounPhrase(pictogramName);
                                 CargarSujeto = true;
                             } else {
-                                Subject1 = nlgFactory.createNounPhrase(opcion.getJSONObject("texto").getString("en"));
+                                Subject1 = nlgFactory.createNounPhrase(pictogramName);
                                 HaySujeto1 = true;
                                 CargarSujeto = true;
                             }
@@ -166,15 +128,15 @@ public class NLG {
                     case 2:
                         Log.d(TAG, "CargarFrase: Orange 'Object'");
                         if (HayVerbo) {
-                            VPPhraseSpec verbo2 = nlgFactory.createVerbPhrase(opcion.getJSONObject("texto").getString("en"));
+                            VPPhraseSpec verbo2 = nlgFactory.createVerbPhrase(pictogramName);
 
                             HayObjeto = true;
                             //Add objeto
                             if (HayObjeto1) {
-                                Object2 = nlgFactory.createNounPhrase(opcion.getJSONObject("texto").getString("en"));
+                                Object2 = nlgFactory.createNounPhrase(pictogramName);
                                 Object2.setDeterminer("a");
                             } else {
-                                Object1 = nlgFactory.createNounPhrase(opcion.getJSONObject("texto").getString("en"));
+                                Object1 = nlgFactory.createNounPhrase(pictogramName);
                                 Object1.setDeterminer("a");
                                 HayObjeto1 = true;
                                 CargaObjeto = true;
@@ -182,10 +144,10 @@ public class NLG {
                         } else {
                             //Add sujeto
                             if (HaySujeto1) {
-                                Subject2 = nlgFactory.createNounPhrase(opcion.getJSONObject("texto").getString("en"));
+                                Subject2 = nlgFactory.createNounPhrase(pictogramName);
                                 Subject2.setDeterminer("the");
                             } else {
-                                Subject1 = nlgFactory.createNounPhrase(opcion.getJSONObject("texto").getString("en"));
+                                Subject1 = nlgFactory.createNounPhrase(pictogramName);
                                 Subject1.setDeterminer("the");
                                 HaySujeto1 = true;
                                 CargarSujeto = true;
@@ -198,32 +160,30 @@ public class NLG {
                         if (HayVerbo) {
                             if (HayObjeto) {
                                 //Add modifier al objeto
-                                if (HayObjeto1){
-                                    Object1.addModifier(opcion.getJSONObject("texto").getString("en"));
-                                }
-                                else
-                                    Object1.addModifier(opcion.getJSONObject("texto").getString("en"));
+                                addModifierObject(Object1,HayObjeto1,pictogramName);
+                                addModifierObject(Object2,HayObjeto2,pictogramName);
+
                             } else {
                                 //Add modifier al verbo
-                                Verbo1.addModifier(opcion.getJSONObject("texto").getString("en"));
+                                Verbo1.addModifier(pictogramName);
                             }
                         } else {
                             //TODO HECTOR no funcion bien con unfriendly o confused, hay q agregar
                         // entradas al lexicon
                             //Add modifier al sujeto
                             if (HaySujeto1 && Subject2 != null)
-                                Subject2.addModifier(opcion.getJSONObject("texto").getString("en"));
+                                Subject2.addModifier(pictogramName);
                             else {
                                 //By shadaf
                                 if (Subject1 == null) {
-                                    Subject1 = nlgFactory.createNounPhrase(opcion.getJSONObject("texto").getString("en"));
+                                    Subject1 = nlgFactory.createNounPhrase(pictogramName);
 
                                     Subject1.setDeterminer("the");
                                     HaySujeto1 = true;
                                     CargarSujeto = true;
 
                                 } else {
-                                    Subject1.addModifier(opcion.getJSONObject("texto").getString("en"));
+                                    Subject1.addModifier(pictogramName);
                                 }
                             }
                         }
@@ -231,28 +191,17 @@ public class NLG {
                     case 5:
                         Log.d(TAG, "CargarFrase: Violet 'Social Interaction'");
                         HaySocial = true;
-                        FraseSocial = FraseSocial + " " + opcion.getJSONObject("texto").getString("en");
+                        FraseSocial = FraseSocial + " " + pictogramName;
                         return true;
                     case 6:
                         Log.d(TAG, "CargarFrase: Black 'Miscellanea'");
-                        //Chekear si hay pasado o futuro
-                        //if (HayPasado)
-                        if (opcion.getJSONObject("texto").getString("en").equals("yesterday") ||
-                                opcion.getJSONObject("texto").getString("en").equals("before"))
-                            HayPasado = true;
-                        if (opcion.getJSONObject("texto").getString("en").equals("tomorrow") ||
-                                opcion.getJSONObject("texto").getString("en").equals("after"))
-                            HayFuturo = true;
+                        checkTimePhrase(pictogramName);
                         return true;
                     default:
                         Log.e(TAG, "CargarFrase: Error");
                         return false;
                 }
-            } catch (JSONException e) {
-            Log.e(TAG, "CargarFrase: Error: " + e.getMessage());
-            }
 
-        return false;
     }
 
     public String ArmarFrase(){
@@ -295,5 +244,72 @@ public class NLG {
         Log.d(TAG, "ArmarFrase: realiser: " + StringFrase);
 
         return FraseSocial + StringFrase;
+    }
+
+    public void processPhraseTipe3(String phrase){
+        VPPhraseSpec verbo2 = createVerbPhrase("",phrase);
+        switch (Verbo1.getVerb().toString()) {
+            case "WordElement[want:VERB]":
+                Log.d(TAG, "CargarFrase: Verbo: WANT");
+                Verbo1 = createVerbPhrase("want to ", phrase);
+                break;
+            case "WordElement[need:VERB]":
+                Log.d(TAG, "CargarFrase: Verbo: NEED");
+                Verbo1 = createVerbPhrase("need to ",phrase);
+                break;
+            case "WordElement[go:VERB]":
+                if (verbo2.getVerb().toString().equals("WordElement[walk:VERB]") ||
+                        verbo2.getVerb().toString().equals("WordElement[swim:VERB]") ||
+                        verbo2.getVerb().toString().equals("WordElement[drive:VERB]")) {
+                    Verbo1 = createVerbPhrase("go for a ",phrase);
+                    break;
+                } else if (verbo2.getVerb().toString().equals("WordElement[shop:VERB]") ||
+                        verbo2.getVerb().toString().equals("WordElement[camp:VERB]") ||
+                        verbo2.getVerb().toString().equals("WordElement[dance:VERB]") ||
+                        verbo2.getVerb().toString().equals("WordElement[fish:VERB]") ||
+                        verbo2.getVerb().toString().equals("WordElement[sail:VERB]")) {
+                    verbo2.setFeature(Feature.PROGRESSIVE, true);
+                    //TODO HECTOR Ver como solucionar esto
+                    Verbo1 = createVerbPhrase("go ",phrase);;
+                    break;
+                } else {
+
+                    Verbo1 = createVerbPhrase("go to ",phrase);
+
+                    break;
+                }
+            case "WordElement[have:VERB]":
+                Log.d(TAG, "CargarFrase: Verbo: HAVE");
+                Verbo1 = createVerbPhrase("have to " ,phrase);
+                break;
+            case "WordElement[be:VERB]":
+                Log.d(TAG, "CargarFrase: Verbo: BE");
+                Verbo1 = createVerbPhrase("",phrase);
+                HayProgressive = true;
+                break;
+            default:
+                Verbo1.addModifier(phrase);
+                break;
+        }
+    }
+
+    public VPPhraseSpec createVerbPhrase(String word,String phrase){
+        VPPhraseSpec aux = nlgFactory.createVerbPhrase(word+phrase);
+        return aux;
+    }
+
+    public void checkTimePhrase(String value){
+        if (value.toLowerCase().equals("yesterday") ||value.toLowerCase().equals("before"))
+            HayPasado = true;
+        if (value.toLowerCase().equals("tomorrow") ||value.toLowerCase().equals("after"))
+            HayFuturo = true;
+    }
+
+    public void addModifierObject(NPPhraseSpec mObject,boolean value,String pictogramName){
+        if (value){
+            mObject.addModifier(pictogramName);
+        }
+        else
+            mObject.addModifier(pictogramName);
     }
 }

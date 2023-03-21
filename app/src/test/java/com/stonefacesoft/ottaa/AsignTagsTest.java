@@ -6,6 +6,8 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import android.content.Context;
+
 import com.stonefacesoft.ottaa.Interfaces.DialogInterfaceTags;
 import com.stonefacesoft.ottaa.Interfaces.TagInterfazJson;
 import com.stonefacesoft.ottaa.JSONutils.Json;
@@ -14,14 +16,21 @@ import com.stonefacesoft.ottaa.utils.constants.Constants;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.internal.runners.statements.Fail;
+import org.mockito.Mockito;
 
 import java.util.ArrayList;
 
 public class AsignTagsTest implements DialogInterfaceTags, TagInterfazJson {
-    AsignTags asignTags = new AsignTags(null);
+    private AsignTags asignTags;
+    private Context context = Mockito.mock(Context.class);
 
+    @Before
+    public void setUp(){
+        asignTags = new AsignTags(context);
+    }
     @Test
     public void testSetInterfaz() {
         asignTags.setInterfaz(this::onTagAsignado);
@@ -139,14 +148,7 @@ public class AsignTagsTest implements DialogInterfaceTags, TagInterfazJson {
             e.printStackTrace();
         }
     }
-    @Test
-    public void testSetTagToGrupo() {
 
-    }
-
-    @Test
-    public void testTestSetTagsToPicto() {
-    }
 
     @Override
     public void onTagAsignado(String jsonStringTags) {

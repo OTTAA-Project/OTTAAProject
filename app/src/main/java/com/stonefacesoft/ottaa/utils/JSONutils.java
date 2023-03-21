@@ -213,7 +213,7 @@ public class JSONutils {
         JSONArray arrayPosicion = new JSONArray();
         try {
             if(ob.has(Constants.UBICACION))
-            arrayPosicion = ob.getJSONArray(Constants.UBICACION);
+                arrayPosicion = ob.getJSONArray(Constants.UBICACION);
         } catch (JSONException e) {
             e.printStackTrace();
         }

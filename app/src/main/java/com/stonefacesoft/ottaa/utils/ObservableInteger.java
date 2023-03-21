@@ -20,7 +20,6 @@ public class ObservableInteger {
 
     public void set(int value) {
         this.value = value;
-
         if (listener != null) {
             listener.onIntegerChanged(value);
         }
@@ -32,5 +31,11 @@ public class ObservableInteger {
 
     public OnIntegerChangeListener getListener() {
         return listener;
+    }
+
+    public void incrementValue(){
+        value++;
+        if(listener!=null)
+            listener.onIntegerChanged(value);
     }
 }

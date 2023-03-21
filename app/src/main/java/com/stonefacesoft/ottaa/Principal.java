@@ -13,7 +13,6 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.content.res.Configuration;
 import android.graphics.drawable.Drawable;
-import android.location.Location;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -29,7 +28,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
-import android.view.VelocityTracker;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -38,7 +36,6 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.PopupMenu.OnMenuItemClickListener;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -64,7 +61,6 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.database.annotations.Nullable;
 import com.google.firebase.installations.FirebaseInstallations;
@@ -122,7 +118,7 @@ import com.stonefacesoft.ottaa.utils.ObservableInteger;
 import com.stonefacesoft.ottaa.utils.PopupMenuUtils;
 import com.stonefacesoft.ottaa.utils.RemoteConfigUtils;
 import com.stonefacesoft.ottaa.utils.TalkActions.Historial;
-import com.stonefacesoft.ottaa.utils.TraducirFrase;
+import com.stonefacesoft.ottaa.utils.Translates.TraducirFrase;
 import com.stonefacesoft.ottaa.utils.constants.Constants;
 import com.stonefacesoft.ottaa.utils.constants.ConstantsAnalyticsValues;
 import com.stonefacesoft.ottaa.utils.constants.ConstantsMainActivity;
@@ -131,7 +127,7 @@ import com.stonefacesoft.ottaa.utils.location.PlacesImplementation;
 import com.stonefacesoft.ottaa.utils.preferences.User;
 import com.stonefacesoft.ottaa.utils.textToSpeech;
 import com.stonefacesoft.ottaa.utils.timer_pictogram_clicker;
-import com.stonefacesoft.ottaa.utils.traducirTexto;
+import com.stonefacesoft.ottaa.utils.Translates.traducirTexto;
 import com.stonefacesoft.pictogramslibrary.Classes.Pictogram;
 import com.stonefacesoft.pictogramslibrary.CloudStorageManager;
 import com.stonefacesoft.pictogramslibrary.utils.GlideAttatcher;
@@ -142,13 +138,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Objects;
@@ -225,7 +215,6 @@ public class Principal extends AppCompatActivity implements View
     private int placeActual;
     private boolean vibrar = false;
     private StorageReference mStorageRef;
-    private DatabaseReference mDatabase, mPictosDatabaseRef, mFrasesDatabaseRef, mGruposDatabaseRef;
     private LottieAnimationView animationView;
     private textToSpeech myTTS;
     private SubirBackupFirebase mFirebaseBackup;
@@ -304,14 +293,16 @@ public class Principal extends AppCompatActivity implements View
     public void onDatosEncontrados(int datosEncontrados) {
         mCheckDatos += datosEncontrados;
         Log.d(TAG, "onDatosEncontrados: " + mCheckDatos);
+
         if (mCheckDatos == Constants.TODO_ENCONTRADO) {
+            Log.d(TAG, "Todo Encontrado: "+ mCheckDatos);
             mCheckDatos = 0;
             try {
                 if (!this.isFinishing() && ConnectionDetector.isNetworkAvailable(this) && json.readJSONArrayFromFile(Constants.ARCHIVO_PICTOS).length() > 0) {
                     mBajarJsonFirebase.setInterfaz(this);
                     getFirebaseDialog().setTitle(getApplicationContext().getResources().getString(R.string.edit_sync)).setMessage(getApplicationContext().getResources().getString(R.string.edit_sync_pict)).setCancelable(false);
                     getFirebaseDialog().mostrarDialogo();
-                    mBajarJsonFirebase.syncPictogramsandGroups();
+                    mBajarJsonFirebase.syncFiles();
                 }
             } catch (JSONException e) {
                 Log.e(TAG, "onDatosEncontrados: "+e.getMessage() );
@@ -323,8 +314,6 @@ public class Principal extends AppCompatActivity implements View
                 Log.e(TAG, "onDatosEncontrados: "+exe.getMessage() );
                 exe.printStackTrace();
             }
-        } else {
-            Log.e(TAG, "onDatosEncontrados: No existen datos");
         }
     }
 
@@ -358,16 +347,13 @@ public class Principal extends AppCompatActivity implements View
 
     @Override
     public void onDescargaCompleta(int termino) {
-        mCheckDescarga += termino;
-        Log.d(TAG, "onDescargaCompleta: " + mCheckDescarga);
-
-        if (mCheckDescarga == Constants.TODO_DESCARGADO) {
+        if (termino == Constants.TODO_DESCARGADO) {
             mCheckDescarga = 0;
             json.refreshJsonArrays();
             initFirstPictograms();
-
         }
         getFirebaseDialog().destruirDialogo();
+
 
     }
 
@@ -1845,7 +1831,6 @@ public class Principal extends AppCompatActivity implements View
         firebaseUtils = FirebaseUtils.getInstance();
         firebaseUtils.setmContext(this);
         firebaseUtils.setUpFirebaseDatabase();
-        mDatabase = firebaseUtils.getmDatabase();
         analitycsFirebase = new AnalyticsFirebase(this);
         CloudStorageManager.getInstance().setStorage(mStorageRef.getStorage());
     }
@@ -1894,15 +1879,9 @@ public class Principal extends AppCompatActivity implements View
     }
 
     private void firstUserAuthVerification() {
-        if (user.getmAuth().getCurrentUser() != null) {
+        if (!user.getUserUid().isEmpty()) {
             subirArchivos = new SubirArchivosFirebase(this);
-            mPictosDatabaseRef = subirArchivos.getmDatabase(user.getmAuth(), "Pictos");
-            mFrasesDatabaseRef = subirArchivos.getmDatabase(user.getmAuth(), "Frases");
-            mGruposDatabaseRef = subirArchivos.getmDatabase(user.getmAuth(), "Grupos");
             mBajarJsonFirebase = new BajarJsonFirebase(sharedPrefsDefault, user.getmAuth(), getApplicationContext());
-            mPictosDatabaseRef = firebaseUtils.getmDatabase().child("Pictos").child(user.getmAuth().getCurrentUser().getUid()).child("URL_pictos_" + ConfigurarIdioma.getLanguaje());
-            mFrasesDatabaseRef = firebaseUtils.getmDatabase().child("Frases").child(user.getmAuth().getCurrentUser().getUid()).child("URL_frases_" + ConfigurarIdioma.getLanguaje());
-            mGruposDatabaseRef = firebaseUtils.getmDatabase().child("Grupos").child(user.getmAuth().getCurrentUser().getUid()).child("URL_grupos_" + ConfigurarIdioma.getLanguaje());
             consultarPago();
             subirArchivos.subirFotosOffline();
 
@@ -2055,8 +2034,10 @@ public class Principal extends AppCompatActivity implements View
         if (subirArchivos != null) {
             subirArchivos.setInterfaz(this);
         }
-        if (user.getmAuth().getCurrentUser() != null && subirArchivos != null) {
-            subirArchivos.userDataExists(subirArchivos.getmDatabase(user.getmAuth(), "Pictos"), subirArchivos.getmDatabase(user.getmAuth(), "Grupos"), subirArchivos.getmDatabase(user.getmAuth(), "Frases"));
+        if(ConnectionDetector.isNetworkAvailable(this)){
+            if (user.getmAuth().getCurrentUser() != null && subirArchivos != null) {
+                subirArchivos.userDataExists(subirArchivos.getmDatabase(user.getmAuth(), "Pictos"), subirArchivos.getmDatabase(user.getmAuth(), "Grupos"), subirArchivos.getmDatabase(user.getmAuth(), "Frases"));
+            }
         }
     }
 
@@ -2084,27 +2065,26 @@ public class Principal extends AppCompatActivity implements View
         getFirebaseDialog().setTitle(getApplicationContext().getResources().getString(R.string.edit_sync));
         getFirebaseDialog().setMessage(getApplicationContext().getResources().getString(R.string.edit_sync_pict));
         getFirebaseDialog().mostrarDialogo();
-        File rootPath = new File(this.getCacheDir(), "Archivos_OTTAA");
-        ObservableInteger observableInteger = loadObservableInteger(size,rootPath);
+        ObservableInteger observableInteger = loadObservableInteger(size);
         observableInteger.set(0);
-        mBajarJsonFirebase.bajarJuego(ConfigurarIdioma.getLanguaje(), rootPath);
-        mBajarJsonFirebase.bajarFrasesFavoritas(ConfigurarIdioma.getLanguaje(), rootPath);
+        mBajarJsonFirebase.bajarJuego(ConfigurarIdioma.getLanguaje());
+        mBajarJsonFirebase.bajarFrasesFavoritas(ConfigurarIdioma.getLanguaje());
     }
 
-    public ObservableInteger loadObservableInteger(int size,File rootPath) {
+    public ObservableInteger loadObservableInteger(int size) {
         ObservableInteger observableInteger = new ObservableInteger();
         observableInteger.setOnIntegerChangeListener(new ObservableInteger.OnIntegerChangeListener() {
             @Override
             public void onIntegerChanged(int newValue) {
                 switch (newValue){
                     case 0:
-                        mBajarJsonFirebase.bajarPictos(ConfigurarIdioma.getLanguaje(), rootPath, observableInteger);
+                        mBajarJsonFirebase.bajarPictos(ConfigurarIdioma.getLanguaje(), observableInteger);
                         break;
                     case 1:
-                        mBajarJsonFirebase.bajarGrupos(ConfigurarIdioma.getLanguaje(), rootPath, observableInteger);
+                        mBajarJsonFirebase.bajarGrupos(ConfigurarIdioma.getLanguaje(), observableInteger);
                         break;
                     case 2:
-                        mBajarJsonFirebase.bajarFrases(ConfigurarIdioma.getLanguaje(), rootPath, observableInteger);
+                        mBajarJsonFirebase.bajarFrases(ConfigurarIdioma.getLanguaje(), observableInteger);
                         break;
                 }
                 if (observableInteger.get() == size) {
