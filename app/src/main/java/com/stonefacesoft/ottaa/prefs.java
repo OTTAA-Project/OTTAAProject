@@ -101,6 +101,7 @@ public class prefs extends PreferenceActivity implements SharedPreferences.OnSha
     public static String BOOL_SAY_PICTOGRAM;
 
     public static String CHATGPT;
+    public static String REPEATPHRASE;
     int permission = 0;
     DownloadFilesTask downloadFilesTask;
     private String strIdioma_original;
@@ -120,6 +121,7 @@ public class prefs extends PreferenceActivity implements SharedPreferences.OnSha
     private PersonalSwitchPreferences mBoolSipAndPuff;
     private PersonalSwitchPreferences mBoolSayPictogram;
     private PersonalSwitchPreferences mBoolChatGPT;
+    private PersonalSwitchPreferences mBoolRepeatPhrase;
     private StorageReference mStorageRef;
     // private ProgressDialog progressDialog,dialog;
     private Progress_dialog_options firebaseDialog;
@@ -229,6 +231,7 @@ public class prefs extends PreferenceActivity implements SharedPreferences.OnSha
         STR_SIP_AND_PUFF = getResources().getString(R.string.sip_and_puff);
         BOOL_SAY_PICTOGRAM = getResources().getString(R.string.say_pictogram_name_key);
         CHATGPT =getResources().getString(R.string.mBoolChatGPT);
+        REPEATPHRASE = getResources().getString(R.string.repeat_pictogram_name_key);
 
 
         //PersonalSwitchPreference
@@ -249,6 +252,7 @@ public class prefs extends PreferenceActivity implements SharedPreferences.OnSha
         mBoolSipAndPuff = (PersonalSwitchPreferences) findPreference(STR_SIP_AND_PUFF);
         mBoolSayPictogram = (PersonalSwitchPreferences) findPreference(BOOL_SAY_PICTOGRAM);
         mBoolChatGPT = (PersonalSwitchPreferences) findPreference(CHATGPT);
+        mBoolRepeatPhrase = (PersonalSwitchPreferences) findPreference(CHATGPT);
 
         // preference
         mNumTono = findPreference(NUM_Tono);
@@ -399,6 +403,8 @@ public class prefs extends PreferenceActivity implements SharedPreferences.OnSha
             boolean b = sharedPrefs.getBoolean(key, false);
         }else if(CHATGPT.equals(key)){
             boolean b = sharedPrefs.getBoolean(key, false);
+        }else if(REPEATPHRASE.equals(key)){
+            boolean b = sharedPrefs.getBoolean(key, true);
         }
     }
 

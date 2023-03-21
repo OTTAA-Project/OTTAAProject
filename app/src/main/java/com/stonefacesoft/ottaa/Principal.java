@@ -823,11 +823,23 @@ public class Principal extends AppCompatActivity implements View
             Log.d(TAG, "click: Opcion es null");
             return;
         }
-        if(!historial.hasPictogram(opcion)) {
-            historial.addPictograma(opcion);
-            createRelationShip(opcion, this);
-            sayPictogramName(JSONutils.getNombre(opcion, sharedPrefsDefault.getString(getResources().getString(R.string.str_idioma), "en")));
+
+        if(sharedPrefsDefault.getBoolean(getResources().getString(R.string.repeat_pictogram_name_key),false)){
+            addPictogramToPhrase(opcion);
+        }else {
+            if(!historial.hasPictogram(opcion)){
+                addPictogramToPhrase(opcion);
+            }else{
+                myTTS.mostrarAlerta(getString(R.string.repeat_pictogram));
+            }
         }
+
+    }
+
+    private void addPictogramToPhrase(JSONObject opcion){
+        historial.addPictograma(opcion);
+        createRelationShip(opcion, this);
+        sayPictogramName(JSONutils.getNombre(opcion, sharedPrefsDefault.getString(getResources().getString(R.string.str_idioma), "en")));
     }
 
     private void createRelationShip(JSONObject opcion,LoadPictograms loadPictograms){

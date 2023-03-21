@@ -49,6 +49,16 @@
                     android:outlineSpotShadowColor="@color/NaranjaOTTAA"
                     android:title="@string/say_pictogram_name_tittle" />
             </PreferenceCategory>
+            <PreferenceCategory android:title="@string/repeat_pictogram_name_tittle">
+                <com.stonefacesoft.ottaa.utils.preferences.PersonalSwitchPreferences
+                    android:defaultValue="true"
+                    android:key="@string/repeat_pictogram_name_key"
+                    android:summary="@string/repeat_pictogram_name_description"
+                    android:switchTextOff="@string/pref_desactivado"
+                    android:switchTextOn="@string/pref_activado"
+                    android:outlineSpotShadowColor="@color/NaranjaOTTAA"
+                    android:title="@string/repeat_pictogram_name_tittle" />
+            </PreferenceCategory>
 
         </PreferenceScreen>
 
