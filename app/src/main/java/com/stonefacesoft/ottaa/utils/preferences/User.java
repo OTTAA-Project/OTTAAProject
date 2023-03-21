@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 
@@ -16,6 +17,7 @@ import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.stonefacesoft.ottaa.FirebaseRequests.FirebaseUtils;
 import com.stonefacesoft.ottaa.Interfaces.FirebaseSuccessListener;
 import com.stonefacesoft.ottaa.LoginActivity2;
 import com.stonefacesoft.ottaa.R;
@@ -31,6 +33,8 @@ public class User {
     private final FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private static User _user;
+
+    private String TAG ="User";
 
     public synchronized  static User getInstance(Activity mActivity){
         if(_user ==  null)
@@ -56,7 +60,7 @@ public class User {
         mGoogleApiClient = new GoogleApiClient.Builder(mContext)
                 .addApi(Auth.GOOGLE_SIGN_IN_API,gso)
                 .build();
-       mAuth=FirebaseAuth.getInstance();
+       mAuth = FirebaseAuth.getInstance();
 
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -68,6 +72,10 @@ public class User {
                     mContext.startActivity(mainIntent);
                     mContext.finish();
 
+                }
+                else{
+                    FirebaseUtils.getInstance().setEmail(firebaseAuth.getCurrentUser().getEmail());
+                    FirebaseUtils.getInstance().setUid(firebaseAuth.getUid());
                 }
 
             }
@@ -109,7 +117,6 @@ public class User {
             Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(new ResultCallback<Status>() {
                 @Override
                 public void onResult(@NonNull Status status) {
-
                     disconnectClient();
                     FirebaseAuth.getInstance().signOut();
                     mActivity.finish();

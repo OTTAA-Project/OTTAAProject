@@ -80,10 +80,14 @@ public class PlacesImplementation {
                 if(task.isSuccessful()){
                     FindCurrentPlaceResponse response = task.getResult();
                     for (PlaceLikelihood placeLikelihood : response.getPlaceLikelihoods()) {
-                        Log.d(TAG, "locationRequest: " + placeLikelihood.getLikelihood() + " name :" + placeLikelihood.getPlace().getName());
+                        Log.d(TAG, "locationRequest: " + placeLikelihood.getLikelihood() + " name :" + placeLikelihood.getPlace().getName() + "type" + placeLikelihood.getPlace().getTypes().get(0).name());
+                        List<Place.Type> placeList = placeLikelihood.getPlace().getTypes();
+                        for (int i = 0; i < placeList.size() -1; i++) {
+                            Log.d(TAG, "locationRequest: "+ placeList.get(i).name());
+                        }
                         // add the place to the list
                         double result = placeLikelihood.getLikelihood();
-                        if (result > 0.70 && result <= 1.0)
+                        if (result > 0.50 && result <= 1.0)
                             places.add(placeLikelihood.getPlace());
                     }
                 }else {
@@ -226,6 +230,8 @@ public class PlacesImplementation {
                 return mContext.getResources().getString(R.string.str_constant_church);
             case "CONVENIENCE_STORE":
                 return mContext.getResources().getString(R.string.str_constant_convenience_store);
+            case "HEALTH":
+                return mContext.getResources().getString(R.string.str_constant_hospital);
             default:
                 return mContext.getResources().getString(R.string.location);
 

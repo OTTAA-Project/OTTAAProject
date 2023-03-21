@@ -23,42 +23,49 @@ import com.stonefacesoft.ottaa.utils.constants.Constants;
 import java.io.File;
 
 public class DownloadPictograms extends DownloadFile implements OnFailureListener {
-    public DownloadPictograms(Context mContext, DatabaseReference mDatabase, StorageReference mStorageReference, SharedPreferences sharedPreferences, ObservableInteger observableInteger) {
-        super(mContext, mDatabase, mStorageReference,sharedPreferences,observableInteger);
+    public DownloadPictograms(Context mContext, DatabaseReference mDatabase, StorageReference mStorageReference, SharedPreferences sharedPreferences, ObservableInteger observableInteger,String locale) {
+        super(mContext, mDatabase, mStorageReference,sharedPreferences,observableInteger,locale);
+        TAG ="DownloadPictograms";
+
     }
 
-    public void syncPictograms(File rootPath) {
-        mDatabase.child(Constants.PICTOS).child(uid).child("URL_pictos_" +locale).addListenerForSingleValueEvent(new ValueEventListener() {
+    public void syncPictograms() {
+        mDatabase.child(Constants.PICTOS).child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                mStorageReference = FirebaseStorage.getInstance().getReference().child("Archivos_Usuarios").child("Pictos").child("pictos_" +email + "_" + ConfigurarIdioma.getLanguaje()+ "." + "txt");
-                final File pictosUsuarioFile = new File(rootPath,Constants.ARCHIVO_PICTOS);
-                mStorageReference.getFile(pictosUsuarioFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                        Log.d("BAF_descGYPN", "Tama&ntildeoArchivoPicto:" + taskSnapshot.getTotalByteCount());
-                        Log.d("BAF_descGYPN", "NombreArchivo:" + pictosUsuarioFile);
-                        Log.d("BAF_descGYPN", "Tama&ntildeoArchivoss :" + pictosUsuarioFile.length());
-                        try {
-                            if (pictosUsuarioFile.length() > 0 && !getStringFromFile
-                                    (pictosUsuarioFile.getAbsolutePath()).equals("[]") &&
-                                    getStringFromFile(pictosUsuarioFile.getAbsolutePath()
-                                    ) != null) {
-                                json.setmJSONArrayTodosLosPictos(json.readJSONArrayFromFile(pictosUsuarioFile.getAbsolutePath()));
-                                if (!json.guardarJson(Constants.ARCHIVO_PICTOS))
-                                    Log.e(TAG, "Error al guardar Json");
-                            }
-                            if(observableInteger.get()==0)
+                String child = "URL_pictos_"+locale;
+                if(snapshot.hasChild(child)){;
+                    final File pictosUsuarioFile = new File(rootPath,Constants.ARCHIVO_PICTOS);
+                    mStorageReference = FirebaseStorage.getInstance().getReference().child("Archivos_Usuarios").child(Constants.PICTOS).child(Constants.PICTOS.toLowerCase() + "_" + email+ "_" + locale + "." + "txt");
+                    mStorageReference.getFile(pictosUsuarioFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                            Log.d("BAF_descGYPN", "Tama&ntildeoArchivoPicto:" + taskSnapshot.getTotalByteCount());
+                            Log.d("BAF_descGYPN", "NombreArchivo:" + pictosUsuarioFile);
+                            Log.d("BAF_descGYPN", "Tama&ntildeoArchivoss :" + pictosUsuarioFile.length());
+                            try {
+                                if (pictosUsuarioFile.length() > 0 && !getStringFromFile
+                                        (pictosUsuarioFile.getAbsolutePath()).equals("[]") &&
+                                        getStringFromFile(pictosUsuarioFile.getAbsolutePath()
+                                        ) != null) {
+                                    json.setmJSONArrayTodosLosPictos(json.readJSONArrayFromFile(pictosUsuarioFile.getAbsolutePath()));
+                                    if (!json.guardarJson(Constants.ARCHIVO_PICTOS))
+                                        Log.e(TAG, "Error al guardar Json");
+                                    else {
+                                        Log.d(TAG, "Pictogram Saved");
+                                    }
+                                }
                                 observableInteger.incrementValue();
-                        } catch (Exception e) {
-                            Log.d(TAG, "onSuccess: " + e.getMessage());
-                            e.printStackTrace();
+                            } catch (Exception e) {
+                                Log.d(TAG, "onSuccess: " + e.getMessage());
+                                e.printStackTrace();
+                            }
+
                         }
 
-                    }
+                    });
 
-                }).addOnFailureListener(DownloadPictograms.super::onFailure);
-
+                }
             }
 
             @Override
@@ -66,18 +73,22 @@ public class DownloadPictograms extends DownloadFile implements OnFailureListene
 
             }
         });
+
+
     }
 
-    public void downloadPictogramsWithNullOption(File roothPath){
-        Log.e(TAG, "bajar Pictos: " );
+    public void downloadPictogramsWithNullOption(){
         mDatabase.child(Constants.PICTOS).child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 String child = "URL_" + Constants.PICTOS.toLowerCase() + "_" + locale;
+                Log.e(TAG, "bajar Pictos: "+ child );
+
                 if (dataSnapshot.hasChild(child)) {
+                    Log.e(TAG, "bajar Pictos: Has child" );
                     mStorageReference = FirebaseStorage.getInstance().getReference().child("Archivos_Usuarios").child(Constants.PICTOS).child(Constants.PICTOS.toLowerCase() + "_" + email+ "_" + locale + "." + "txt");
 
-                    final File pictosUsuariosFile = new File(roothPath, Constants.ARCHIVO_PICTOS);
+                    final File pictosUsuariosFile = new File(rootPath, Constants.ARCHIVO_PICTOS);
                     mStorageReference.getFile(pictosUsuariosFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
@@ -87,12 +98,13 @@ public class DownloadPictograms extends DownloadFile implements OnFailureListene
                                     Log.e(TAG, "Fallo al guardar json");
                                 }else
                                     Log.e(TAG, "Pictos Usuarios json");
-                                observableInteger.set(observableInteger.get() + 1);
+
                             } catch (Exception ex) {
                                 Log.e(TAG, "Fallo al guardar pictos json 1");
                                 CrashlyticsUtils.getInstance().getCrashlytics().log(ex.getMessage());
 
                             }
+                         observableInteger.set(observableInteger.get() + 1);
                         }
 
                     }).addOnFailureListener(DownloadPictograms.super::onFailure);
@@ -103,7 +115,7 @@ public class DownloadPictograms extends DownloadFile implements OnFailureListene
                     if(locale.equals("es"))
                         mStorageReference = FirebaseStorage.getInstance().getReference().child("Archivos_Paises/pictos/es/pictos_es_"+gender+".txt");
 
-                    final File pictosUsuariosFile = new File(roothPath, Constants.ARCHIVO_PICTOS);
+                    final File pictosUsuariosFile = new File(rootPath, Constants.ARCHIVO_PICTOS);
                     mStorageReference.getFile(pictosUsuariosFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
@@ -112,6 +124,8 @@ public class DownloadPictograms extends DownloadFile implements OnFailureListene
                                 json.setmJSONArrayTodosLosPictos(json.readJSONArrayFromFile(pictosUsuariosFile.getAbsolutePath()));
                                 if (!json.guardarJson(Constants.ARCHIVO_PICTOS)) {
                                     Log.e(TAG, "Fallo al guardar json");
+                                }else{
+                                    Log.d(TAG,"Pictogram Saved");
                                 }
                                 observableInteger.set(observableInteger.get() + 1);
                             } catch (Exception ex) {

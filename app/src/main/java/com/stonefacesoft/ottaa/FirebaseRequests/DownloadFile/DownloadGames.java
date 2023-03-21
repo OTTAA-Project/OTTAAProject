@@ -20,13 +20,16 @@ import com.stonefacesoft.ottaa.utils.ObservableInteger;
 import com.stonefacesoft.ottaa.utils.constants.Constants;
 
 import java.io.File;
+import java.util.Locale;
 
 public class DownloadGames extends DownloadFile{
-    public DownloadGames(Context mContext, DatabaseReference mDatabase, StorageReference mStorageReference, SharedPreferences sharedPreferences, ObservableInteger observableInteger) {
-        super(mContext, mDatabase, mStorageReference, sharedPreferences, observableInteger);
+    public DownloadGames(Context mContext, DatabaseReference mDatabase, StorageReference mStorageReference, SharedPreferences sharedPreferences, ObservableInteger observableInteger, String locale) {
+        super(mContext, mDatabase, mStorageReference, sharedPreferences, observableInteger,locale);
+        TAG ="DownloadGames";
+
     }
 
-    public void downloadGame(File rootPath) {
+    public void downloadGame() {
         Log.e(TAG, "bajar juegos: ");
 
         mDatabase.child(Constants.JUEGOS).child(uid).addListenerForSingleValueEvent(new ValueEventListener() {

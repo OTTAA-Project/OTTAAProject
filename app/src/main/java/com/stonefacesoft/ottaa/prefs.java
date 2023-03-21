@@ -476,12 +476,9 @@ public class prefs extends PreferenceActivity implements SharedPreferences.OnSha
             config.setLocale(Locale.forLanguageTag(sharedPrefsDefault.getString(getString(R.string.str_idioma), "en")));
         }
         Log.d(TAG, "DescargarArchivosPais: Locale: " + locale);
-        File rootPath = new File(getApplicationContext().getCacheDir(), "Archivos_OTTAA");
-        if (!rootPath.exists()) {
-            rootPath.mkdirs();//si no existe el directorio lo creamos
-        }
-        bajarJsonFirebase.bajarGrupos(s, rootPath, obsInt);
-        bajarJsonFirebase.bajarPictos(s, rootPath, obsInt);
+
+        bajarJsonFirebase.bajarGrupos(s, obsInt);
+        bajarJsonFirebase.bajarPictos(s, obsInt);
         sharedPrefsDefault.edit().putString(getString(R.string.str_idioma), locale).apply();
 
     }

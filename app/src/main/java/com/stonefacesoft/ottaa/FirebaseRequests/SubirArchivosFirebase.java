@@ -110,7 +110,7 @@ public class SubirArchivosFirebase {
         new UploadingFavoritePhrases(mContext,mDatabase,mStorageRef).uploadFile();
     }
 
-    public void userDataExists(DatabaseReference mDatabasePictos,
+    public void userDataExists(final DatabaseReference mDatabasePictos,
                                final DatabaseReference mDatabaseGrupos, final DatabaseReference
                                        mDatabaseFrases) {
          userDataExistListener(mDatabasePictos,Constants.PICTOS_ENCONTRADOS);
@@ -125,6 +125,7 @@ public class SubirArchivosFirebase {
                 if (snapshot.exists()){
                     mFbSuccessListenerInterfaz.onDatosEncontrados(value);
                 }
+
             }
 
             @Override

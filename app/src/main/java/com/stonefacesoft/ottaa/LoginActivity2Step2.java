@@ -412,7 +412,7 @@ public class LoginActivity2Step2 extends AppCompatActivity implements View.OnCli
                 }
             }
         });
-        mBajarJsonFirebase.bajarPictos(locale, rootPath, observableInteger);
+        mBajarJsonFirebase.bajarPictos(locale, observableInteger);
 
 
     }

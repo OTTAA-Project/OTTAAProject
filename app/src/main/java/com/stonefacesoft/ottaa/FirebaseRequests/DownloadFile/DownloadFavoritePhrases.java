@@ -21,13 +21,15 @@ import com.stonefacesoft.ottaa.utils.exceptions.FiveMbException;
 import org.json.JSONException;
 
 import java.io.File;
+import java.util.Locale;
 
 public class DownloadFavoritePhrases extends DownloadFile{
-    public DownloadFavoritePhrases(Context mContext, DatabaseReference mDatabase, StorageReference mStorageReference, SharedPreferences sharedPreferences, ObservableInteger observableInteger) {
-        super(mContext, mDatabase, mStorageReference, sharedPreferences, observableInteger);
+    public DownloadFavoritePhrases(Context mContext, DatabaseReference mDatabase, StorageReference mStorageReference, SharedPreferences sharedPreferences, ObservableInteger observableInteger, String locale) {
+        super(mContext, mDatabase, mStorageReference, sharedPreferences, observableInteger,locale);
+        TAG ="DownloadFavoritePhrase";
     }
 
-    public void DownloadFavoritePhrases(File rootPath){
+    public void DownloadFavoritePhrases(){
         Log.e(TAG, "bajarFrases: " );
         mDatabase.child(Constants.FrasesFavoritas).child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

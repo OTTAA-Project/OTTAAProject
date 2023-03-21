@@ -10,6 +10,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.storage.StorageException;
 import com.google.firebase.storage.StorageReference;
+import com.stonefacesoft.ottaa.FirebaseRequests.FirebaseUtils;
 import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.utils.ObservableInteger;
@@ -31,16 +32,23 @@ public class DownloadFile implements OnFailureListener {
     protected Context mContext;
     protected Json json;
     protected String locale;
-    protected String email;
-    protected String uid;
-    public DownloadFile(Context mContext,DatabaseReference mDatabase,StorageReference mStorageReference,SharedPreferences sharedPreferences,ObservableInteger observableInteger){
+    protected String email="";
+    protected String uid ="";
+    protected File rootPath;
+    public DownloadFile(Context mContext,DatabaseReference mDatabase,StorageReference mStorageReference,SharedPreferences sharedPreferences,ObservableInteger observableInteger,String  locale){
         this.mContext = mContext;
         this.mDatabase = mDatabase;
         this.mStorageReference = mStorageReference;
         this.sharedPrefsDefault = sharedPreferences;
         this.observableInteger = observableInteger;
         this.json = Json.getInstance();
-        this.locale = sharedPrefsDefault.getString(mContext.getString(R.string.str_idioma), Locale.getDefault().getLanguage());
+        this.locale = sharedPrefsDefault.getString(mContext.getString(R.string.str_idioma), locale);
+        this.uid = FirebaseUtils.getInstance().getUid();
+        this.email = FirebaseUtils.getInstance().getEmail();
+        rootPath = new File(this.mContext.getCacheDir(), "Archivos_OTTAA");
+        if (!rootPath.exists()) {
+            rootPath.mkdirs();//si no existe el directorio lo creamos
+        }
     }
 
 

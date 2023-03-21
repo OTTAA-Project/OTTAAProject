@@ -10,11 +10,11 @@ public class FirebaseUtils {
     private DatabaseReference mDatabase;
     private Context mContext;
     private static FirebaseUtils myFirebaseUtils;
-    private volatile String Uid;
-    private volatile String email;
+    private volatile String Uid="";
+    private volatile String email="";
 
 
-    public static FirebaseUtils getInstance() {
+    public synchronized static FirebaseUtils getInstance() {
         if(myFirebaseUtils==null)
             myFirebaseUtils=new FirebaseUtils();
         return myFirebaseUtils;

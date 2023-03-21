@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.preference.PreferenceManager;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -14,13 +15,26 @@ import com.stonefacesoft.ottaa.idioma.ConfigurarIdioma;
 import com.stonefacesoft.ottaa.utils.ConnectionDetector;
 import com.stonefacesoft.ottaa.utils.JSONutils;
 import com.stonefacesoft.ottaa.utils.exceptions.FiveMbException;
+import com.stonefacesoft.ottaa.utils.preferences.PreferencesUtil;
 import com.stonefacesoft.ottaa.utils.preferences.User;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+
+import io.grpc.internal.JsonUtil;
+
 public class Json0Recover {
+    private String TAG = "JSONRECOVER";
     private JSONObject parent;
     public JSONObject createJson(){
         parent = new JSONObject();
@@ -54,10 +68,8 @@ public class Json0Recover {
 
     public void backupPictogram0(Context context,JSONObject parent,FailReadPictogramOrigin failReadPictogramOrigin){
         JSONObject object = parent;
-        if (object == null){
-            object = createJson();
-        }
         String uid = User.getInstance(context).getUserUid();
+        saveFile(context,parent);
         if(!uid.isEmpty()){
             FirebaseUtils.getInstance().getmDatabase().child("backupPictogramOrigin").child(uid).child(ConfigurarIdioma.getLanguaje()).setValue(object.toString());
             failReadPictogramOrigin.loadDialog();
@@ -85,10 +97,51 @@ public class Json0Recover {
             }
         });
         else{
-            JSONObject aux = createJson();
+            JSONObject aux = recoverFile(mContext);
             failReadPictogramOrigin.setParent(aux);
         }
 
+    }
+
+    public void saveFile(Context mContext,JSONObject object){
+        FileOutputStream outputStream;
+        try {
+            outputStream = mContext.openFileOutput("backupPictogram0.txt", Context.MODE_PRIVATE);
+            outputStream.write(object.toString().getBytes());
+            outputStream.close();
+        } catch (IOException e) {
+           Log.e(TAG,"IOException"+ e.getMessage());
+        }
+    }
+
+    public JSONObject recoverFile(Context mContext){
+        BufferedReader reader = null;
+        StringBuilder builder = new StringBuilder();
+        FileInputStream fis = null;
+        File archivo = new File(mContext.getFilesDir(), "backupPictogram0.txt");
+        try {
+            fis = new FileInputStream(archivo);
+            reader = new BufferedReader(new InputStreamReader(fis, StandardCharsets.UTF_8));
+            String line;
+
+            while ((line = reader.readLine()) != null) {
+                builder.append(line);
+            }
+            fis.close();
+        } catch (FileNotFoundException e) {
+            Log.e(TAG, "File not exist : "+ e.getMessage() );
+        } catch (IOException e) {
+            Log.e(TAG,"File not readen :"+ e.getMessage());
+        }
+
+
+        JSONObject object = null;
+        try {
+            object = new JSONObject(builder.toString());
+        } catch (JSONException e) {
+           object = createJson();
+        }
+        return object;
     }
 
 }

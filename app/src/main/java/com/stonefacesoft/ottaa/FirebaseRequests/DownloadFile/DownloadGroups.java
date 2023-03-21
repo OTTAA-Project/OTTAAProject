@@ -24,12 +24,14 @@ import com.stonefacesoft.ottaa.utils.constants.Constants;
 import java.io.File;
 
 public class DownloadGroups extends DownloadFile{
-    public DownloadGroups(Context mContext, DatabaseReference mDatabase, StorageReference mStorageReference, SharedPreferences sharedPreferences, ObservableInteger observableInteger) {
-        super(mContext, mDatabase, mStorageReference, sharedPreferences, observableInteger);
+    public DownloadGroups(Context mContext, DatabaseReference mDatabase, StorageReference mStorageReference, SharedPreferences sharedPreferences, ObservableInteger observableInteger,String locale) {
+        super(mContext, mDatabase, mStorageReference, sharedPreferences, observableInteger,locale);
+        TAG ="DownloadGroups";
+
     }
 
-    public void syncGroups(File roothPath){
-        final File gruposUsuarioFile = new File(roothPath, Constants.ARCHIVO_GRUPOS);
+    public void syncGroups(){
+        final File gruposUsuarioFile = new File(rootPath, Constants.ARCHIVO_GRUPOS);
 
         mDatabase.child(Constants.Grupos).child(uid).child("URL_grupos_" + sharedPrefsDefault.getString(mContext.getString(R.string.str_idioma), locale)).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -57,7 +59,7 @@ public class DownloadGroups extends DownloadFile{
                         if(observableInteger.get()==1)
                             observableInteger.incrementValue();
                     }
-                }).addOnFailureListener(DownloadGroups.super::onFailure);
+                });
             }
 
             @Override
@@ -67,7 +69,7 @@ public class DownloadGroups extends DownloadFile{
         });
     }
 
-    public void downloadOldOrNewGroups(File roothPath){
+    public void downloadOldOrNewGroups(){
         mDatabase.child(Constants.Grupos).child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -76,7 +78,7 @@ public class DownloadGroups extends DownloadFile{
                 if (dataSnapshot.hasChild(child)) {
                     mStorageReference = FirebaseStorage.getInstance().getReference().child("Archivos_Usuarios").child(Constants.Grupos).child(Constants.Grupos.toLowerCase() + "_" +email + "_" + locale + "." + "txt");
 
-                    final File gruposUsuarioFile = new File(roothPath, Constants.ARCHIVO_GRUPOS);
+                    final File gruposUsuarioFile = new File(rootPath, Constants.ARCHIVO_GRUPOS);
                     mStorageReference.getFile(gruposUsuarioFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
@@ -85,7 +87,7 @@ public class DownloadGroups extends DownloadFile{
                                 if (!json.guardarJson(Constants.ARCHIVO_GRUPOS)) {
                                     Log.e(TAG, "Fallo al guardar json");
                                 }else{
-                                    Log.e(TAG, "Grupo json");
+                                    Log.e(TAG, "Groups saved");
                                     gruposUsuarioFile.delete();
                                 }
 
@@ -100,7 +102,7 @@ public class DownloadGroups extends DownloadFile{
                 }
                 else {
                     mStorageReference = FirebaseStorage.getInstance().getReference().child("Archivos_Paises/grupos/" + "grupos_" + locale + "." + "txt");
-                    final File gruposUsuarioFile = new File(roothPath, Constants.ARCHIVO_GRUPOS);
+                    final File gruposUsuarioFile = new File(rootPath, Constants.ARCHIVO_GRUPOS);
                     mStorageReference.getFile(gruposUsuarioFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {

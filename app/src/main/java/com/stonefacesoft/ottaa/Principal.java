@@ -215,7 +215,6 @@ public class Principal extends AppCompatActivity implements View
     private int placeActual;
     private boolean vibrar = false;
     private StorageReference mStorageRef;
-    private DatabaseReference mDatabase, mPictosDatabaseRef, mFrasesDatabaseRef, mGruposDatabaseRef;
     private LottieAnimationView animationView;
     private textToSpeech myTTS;
     private SubirBackupFirebase mFirebaseBackup;
@@ -295,7 +294,7 @@ public class Principal extends AppCompatActivity implements View
         mCheckDatos += datosEncontrados;
         Log.d(TAG, "onDatosEncontrados: " + mCheckDatos);
 
-        if (mCheckDatos == (Constants.PICTOS_ENCONTRADOS+Constants.GRUPOS_ENCONTRADOS)) {
+        if (mCheckDatos == Constants.TODO_ENCONTRADO) {
             Log.d(TAG, "Todo Encontrado: "+ mCheckDatos);
             mCheckDatos = 0;
             try {
@@ -1832,11 +1831,6 @@ public class Principal extends AppCompatActivity implements View
         firebaseUtils = FirebaseUtils.getInstance();
         firebaseUtils.setmContext(this);
         firebaseUtils.setUpFirebaseDatabase();
-        if(firebaseUtils.getUid()==null)
-            firebaseUtils.setUid(user.getUserUid());
-        if(firebaseUtils.getEmail()==null)
-            firebaseUtils.setEmail(user.getEmail());
-        mDatabase = firebaseUtils.getmDatabase();
         analitycsFirebase = new AnalyticsFirebase(this);
         CloudStorageManager.getInstance().setStorage(mStorageRef.getStorage());
     }
@@ -1885,15 +1879,9 @@ public class Principal extends AppCompatActivity implements View
     }
 
     private void firstUserAuthVerification() {
-        if (user.getmAuth().getCurrentUser() != null) {
+        if (!user.getUserUid().isEmpty()) {
             subirArchivos = new SubirArchivosFirebase(this);
-            mPictosDatabaseRef = subirArchivos.getmDatabase(user.getmAuth(), "Pictos");
-            mFrasesDatabaseRef = subirArchivos.getmDatabase(user.getmAuth(), "Frases");
-            mGruposDatabaseRef = subirArchivos.getmDatabase(user.getmAuth(), "Grupos");
             mBajarJsonFirebase = new BajarJsonFirebase(sharedPrefsDefault, user.getmAuth(), getApplicationContext());
-            mPictosDatabaseRef = firebaseUtils.getmDatabase().child("Pictos").child(user.getmAuth().getCurrentUser().getUid()).child("URL_pictos_" + ConfigurarIdioma.getLanguaje());
-            mFrasesDatabaseRef = firebaseUtils.getmDatabase().child("Frases").child(user.getmAuth().getCurrentUser().getUid()).child("URL_frases_" + ConfigurarIdioma.getLanguaje());
-            mGruposDatabaseRef = firebaseUtils.getmDatabase().child("Grupos").child(user.getmAuth().getCurrentUser().getUid()).child("URL_grupos_" + ConfigurarIdioma.getLanguaje());
             consultarPago();
             subirArchivos.subirFotosOffline();
 
@@ -2046,8 +2034,10 @@ public class Principal extends AppCompatActivity implements View
         if (subirArchivos != null) {
             subirArchivos.setInterfaz(this);
         }
-        if (user.getmAuth().getCurrentUser() != null && subirArchivos != null) {
-            subirArchivos.userDataExists(subirArchivos.getmDatabase(user.getmAuth(), "Pictos"), subirArchivos.getmDatabase(user.getmAuth(), "Grupos"), subirArchivos.getmDatabase(user.getmAuth(), "Frases"));
+        if(ConnectionDetector.isNetworkAvailable(this)){
+            if (user.getmAuth().getCurrentUser() != null && subirArchivos != null) {
+                subirArchivos.userDataExists(subirArchivos.getmDatabase(user.getmAuth(), "Pictos"), subirArchivos.getmDatabase(user.getmAuth(), "Grupos"), subirArchivos.getmDatabase(user.getmAuth(), "Frases"));
+            }
         }
     }
 
@@ -2075,27 +2065,26 @@ public class Principal extends AppCompatActivity implements View
         getFirebaseDialog().setTitle(getApplicationContext().getResources().getString(R.string.edit_sync));
         getFirebaseDialog().setMessage(getApplicationContext().getResources().getString(R.string.edit_sync_pict));
         getFirebaseDialog().mostrarDialogo();
-        File rootPath = new File(this.getCacheDir(), "Archivos_OTTAA");
-        ObservableInteger observableInteger = loadObservableInteger(size,rootPath);
+        ObservableInteger observableInteger = loadObservableInteger(size);
         observableInteger.set(0);
-        mBajarJsonFirebase.bajarJuego(ConfigurarIdioma.getLanguaje(), rootPath);
-        mBajarJsonFirebase.bajarFrasesFavoritas(ConfigurarIdioma.getLanguaje(), rootPath);
+        mBajarJsonFirebase.bajarJuego(ConfigurarIdioma.getLanguaje());
+        mBajarJsonFirebase.bajarFrasesFavoritas(ConfigurarIdioma.getLanguaje());
     }
 
-    public ObservableInteger loadObservableInteger(int size,File rootPath) {
+    public ObservableInteger loadObservableInteger(int size) {
         ObservableInteger observableInteger = new ObservableInteger();
         observableInteger.setOnIntegerChangeListener(new ObservableInteger.OnIntegerChangeListener() {
             @Override
             public void onIntegerChanged(int newValue) {
                 switch (newValue){
                     case 0:
-                        mBajarJsonFirebase.bajarPictos(ConfigurarIdioma.getLanguaje(), rootPath, observableInteger);
+                        mBajarJsonFirebase.bajarPictos(ConfigurarIdioma.getLanguaje(), observableInteger);
                         break;
                     case 1:
-                        mBajarJsonFirebase.bajarGrupos(ConfigurarIdioma.getLanguaje(), rootPath, observableInteger);
+                        mBajarJsonFirebase.bajarGrupos(ConfigurarIdioma.getLanguaje(), observableInteger);
                         break;
                     case 2:
-                        mBajarJsonFirebase.bajarFrases(ConfigurarIdioma.getLanguaje(), rootPath, observableInteger);
+                        mBajarJsonFirebase.bajarFrases(ConfigurarIdioma.getLanguaje(), observableInteger);
                         break;
                 }
                 if (observableInteger.get() == size) {

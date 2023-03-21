@@ -56,11 +56,10 @@ public class BajarJsonFirebase {
     private final Context mContext;
     private StorageReference mStorageRefGrupos, mStorageRefPictos, mStorageRefFrases, mStorageRefFrasesJuegos, mStorageRefDescJuegos;
     private final Json json;
-    private final FirebaseUtils firebaseUtils;
+    private  FirebaseUtils firebaseUtils;
 
     private volatile String uid="";
     private FirebaseSuccessListener mFbSuccessListenerInterfaz;
-    private volatile String email="";
 
 
     public BajarJsonFirebase(SharedPreferences sharedPrefsDefault, FirebaseAuth mAuth, Context mContext) {
@@ -71,16 +70,20 @@ public class BajarJsonFirebase {
         this.mContext = mContext;
         Json.getInstance().setmContext(mContext);
         this.json = Json.getInstance();
-        firebaseUtils=FirebaseUtils.getInstance();
-        firebaseUtils.setmContext(this.mContext);
-        firebaseUtils.setUpFirebaseDatabase();
+        setupFirebase();
         //this.json.leerPictosFrasesGrupos();
         this.mDatabase = firebaseUtils.getmDatabase();
-        this.uid = firebaseUtils.getUid();
-        this.email = firebaseUtils.getEmail();
-        //  mAuth = FirebaseAuth.getInstance();
-        //  uid = mAuth.getUid();
 
+
+        //  mAuth = FirebaseAuth.getInstance();
+
+    }
+
+    private void setupFirebase() {
+        firebaseUtils= FirebaseUtils.getInstance();
+        firebaseUtils.setmContext(mContext);
+        firebaseUtils.setUpFirebaseDatabase();
+        uid = firebaseUtils.getUid();
     }
 
 
@@ -170,14 +173,11 @@ public class BajarJsonFirebase {
     }
 
     public void syncFiles() {
-        if (!uid.isEmpty()) {
+        if (!FirebaseUtils.getInstance().getUid().isEmpty()) {
             locale = Locale.getDefault().getLanguage();
             Log.e("BAF_descGYPN", "locale :" + locale);
 
-            final  File rootPath = new File(mContext.getCacheDir(), "Archivos_OTTAA");
-            if (!rootPath.exists()) {
-                rootPath.mkdirs();//si no existe el directorio lo creamos
-            }
+
             ObservableInteger observableInteger = new ObservableInteger();
             observableInteger.setOnIntegerChangeListener(new ObservableInteger.OnIntegerChangeListener() {
                 @Override
@@ -185,19 +185,19 @@ public class BajarJsonFirebase {
                     Log.d(TAG, "onIntegerChanged: "+ newValue);
                     switch (newValue){
                         case 0:
-                            syncPictograms(rootPath,observableInteger);
+                            syncPictograms(observableInteger);
                         break;
                         case 1:
-                            syncGroups(rootPath,observableInteger);
+                            syncGroups(observableInteger);
                         break;
                         case 2:
-                            syncPhrasesFiles(rootPath,observableInteger);
+                            syncPhrasesFiles(observableInteger);
                         break;
                         case 3:
-                            bajarFrasesFavoritas(locale,rootPath,uid,observableInteger);
+                            bajarFrasesFavoritas(locale,uid,observableInteger);
                         break;
                         case 4:
-                            bajarJuego(locale,rootPath,uid,observableInteger);
+                            bajarJuego(locale,uid,observableInteger);
                         default:
                             mFbSuccessListenerInterfaz.onDescargaCompleta(Constants.TODO_DESCARGADO);
                             break;
@@ -213,69 +213,53 @@ public class BajarJsonFirebase {
 
     }
 
-    private void syncPhrasesFiles(File rootPath,ObservableInteger observableInteger){
-        if(!uid.isEmpty())
-            new DownloadPhrases(mContext,mDatabase,mStorageRefFrases,sharedPrefsDefault,observableInteger).syncPhrases(rootPath,uid,mAuth.getCurrentUser().getEmail());
+    private void syncPhrasesFiles(ObservableInteger observableInteger){
+        new DownloadPhrases(mContext,mDatabase,mStorageRefFrases,sharedPrefsDefault,observableInteger,ConfigurarIdioma.getLanguaje()).syncPhrases();
     }
 
-    private void syncPictograms(File rootPath,ObservableInteger observableInteger){
-       if(!uid.isEmpty())
-           new DownloadPictograms(mContext,mDatabase,mStorageRefPictos,sharedPrefsDefault,observableInteger).syncPictograms(rootPath);
+    private void syncPictograms(ObservableInteger observableInteger){
+        new DownloadPictograms(mContext,mDatabase,mStorageRefPictos,sharedPrefsDefault,observableInteger,ConfigurarIdioma.getLanguaje()).syncPictograms();
     }
 
-    private void syncGroups(File rootPath,ObservableInteger observableInteger){
-        if(!uid.isEmpty())
-            new DownloadGroups(mContext,mDatabase,mStorageRefGrupos,sharedPrefsDefault,observableInteger).syncGroups(rootPath);
+    private void syncGroups(ObservableInteger observableInteger){
+        new DownloadGroups(mContext,mDatabase,mStorageRefGrupos,sharedPrefsDefault,observableInteger,ConfigurarIdioma.getLanguaje()).syncGroups();
     }
 
     public void descargarPictosDatabase(StorageReference mStorageReferencePictosDatabase) {
-
-        File rootPath = new File(mContext.getCacheDir(), "Archivos_OTTAA");
-        if (!rootPath.exists()) {
-            rootPath.mkdirs();//si no existe el directorio lo creamos
-        }
-        if(!uid.isEmpty())
-            new DownloadPredictionsPictograms(mContext,mDatabase,mStorageReferencePictosDatabase,sharedPrefsDefault,null).downloadPictograms(rootPath,mFbSuccessListenerInterfaz);
+        new DownloadPredictionsPictograms(mContext,mDatabase,mStorageReferencePictosDatabase,sharedPrefsDefault,null,ConfigurarIdioma.getLanguaje()).downloadPictograms(mFbSuccessListenerInterfaz);
     }
 
 
-    public void bajarGrupos(String locale, File roothPath, ObservableInteger observableInteger) {
-        if(!uid.isEmpty())
-            new DownloadGroups(mContext,mDatabase,mStorageRefGrupos,sharedPrefsDefault,observableInteger).downloadOldOrNewGroups(roothPath);
+    public void bajarGrupos(String locale, ObservableInteger observableInteger) {
+        new DownloadGroups(mContext,mDatabase,mStorageRefGrupos,sharedPrefsDefault,observableInteger,locale).downloadOldOrNewGroups();
     }
 
 
-    public void bajarFrases(String locale, File roothPath, ObservableInteger observableInteger) {
-        if(!uid.isEmpty())
-            new DownloadPhrases(mContext,mDatabase,mStorageRefGrupos,sharedPrefsDefault,observableInteger).downloadPhrases(roothPath);
+    public void bajarFrases(String locale, ObservableInteger observableInteger) {
+        new DownloadPhrases(mContext,mDatabase,mStorageRefGrupos,sharedPrefsDefault,observableInteger,locale).downloadPhrases();
     }
 
-    public void bajarFrasesFavoritas(String locale,File roothPath){
-        if(!uid.isEmpty())
-            bajarFrasesFavoritas( locale,  roothPath,uid,null);
+    public void bajarFrasesFavoritas(String locale){
+        bajarFrasesFavoritas( locale,uid,null);
     }
 
-    public void bajarFrasesFavoritas(String locale, File roothPath,String uid,ObservableInteger observableInteger) {
-        if(!uid.isEmpty())
-            new DownloadFavoritePhrases(mContext,mDatabase,mStorageRefPictos,sharedPrefsDefault,observableInteger).DownloadFavoritePhrases(roothPath);
+    public void bajarFrasesFavoritas(String locale,String uid,ObservableInteger observableInteger) {
+        new DownloadFavoritePhrases(mContext,mDatabase,mStorageRefPictos,sharedPrefsDefault,observableInteger,locale).DownloadFavoritePhrases();
     }
 
-    public void bajarPictos(String locale, File roothPath, ObservableInteger observableInteger) {
-        if(!uid.isEmpty())
-        new DownloadPictograms(mContext,mDatabase,mStorageRefPictos,sharedPrefsDefault,observableInteger).downloadPictogramsWithNullOption(roothPath);
+    public void bajarPictos(String locale, ObservableInteger observableInteger) {
+        new DownloadPictograms(mContext,mDatabase,mStorageRefPictos,sharedPrefsDefault,observableInteger,locale).downloadPictogramsWithNullOption();
     }
 
 
 
 
 
-    public void bajarJuego(String locale,File roothPath){
-        if(!uid.isEmpty())
-            bajarJuego(locale,roothPath,uid,null);
+    public void bajarJuego(String locale){
+            bajarJuego(locale,uid,null);
     }
 
-    public void bajarJuego(String locale, File roothPath,String uid,ObservableInteger observableInteger) {
-        if(!uid.isEmpty())
-            new DownloadGames(mContext,mDatabase,mStorageRefDescJuegos,sharedPrefsDefault,observableInteger).downloadGame(roothPath);
+    public void bajarJuego(String locale,String uid,ObservableInteger observableInteger) {
+            new DownloadGames(mContext,mDatabase,mStorageRefDescJuegos,sharedPrefsDefault,observableInteger,locale).downloadGame();
     }
 }

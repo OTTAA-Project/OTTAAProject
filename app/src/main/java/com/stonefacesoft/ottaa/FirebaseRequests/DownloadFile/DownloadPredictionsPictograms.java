@@ -16,11 +16,13 @@ import com.stonefacesoft.ottaa.utils.constants.Constants;
 import java.io.File;
 
 public class DownloadPredictionsPictograms extends DownloadFile{
-    public DownloadPredictionsPictograms(Context mContext, DatabaseReference mDatabase, StorageReference mStorageReference, SharedPreferences sharedPreferences, ObservableInteger observableInteger) {
-        super(mContext, mDatabase, mStorageReference, sharedPreferences, observableInteger);
+    public DownloadPredictionsPictograms(Context mContext, DatabaseReference mDatabase, StorageReference mStorageReference, SharedPreferences sharedPreferences, ObservableInteger observableInteger,String locate) {
+        super(mContext, mDatabase, mStorageReference, sharedPreferences, observableInteger,locate);
+        TAG ="DownloadPredictionsPictograms";
+
     }
 
-    public void downloadPictograms(File rootPath, FirebaseSuccessListener successListener){
+    public void downloadPictograms(FirebaseSuccessListener successListener){
         File pictosDatabaseFile = new File(rootPath, Constants.ARCHIVO_PICTOS_DATABASE);
         mStorageReference.getFile(pictosDatabaseFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
             @Override
