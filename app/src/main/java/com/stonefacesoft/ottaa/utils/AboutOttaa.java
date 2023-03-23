@@ -188,7 +188,8 @@ public class AboutOttaa extends AppCompatActivity {
     private String prepareDataToSend(){
         StringBuilder builder=new StringBuilder();
         builder.append("Email: "+textViewUserEmail.getText()).append("\n");
-        builder.append("Version de la aplicacion:"+versionApp.getText()).append("\n");
+        builder.append(versionApp.getText()).append("\n");
+        builder.append(versionServer.getText()).append("\n");
         builder.append("Tipo de cuenta:"+textViewAccountType.getText()).append("\n");
         builder.append("Nombre del dispositivo:"+deviceName.getText()).append("\n");
         return builder.toString();
