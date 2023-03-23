@@ -44,7 +44,7 @@ public class AboutOttaa extends AppCompatActivity {
 
     private static final String TAG = "AboutOTTAA";
     private String uid;
-    private TextView textViewUserEmail,textViewAccountType,versionServer,versionApp,deviceName;
+    private TextView textViewUserEmail,textViewAccountType,accountType,versionServer,versionApp,deviceName,textViewDeviceName;
     private DatabaseReference mDatabase;
     private int versionCode;
     private Button buttonContactSupport;
@@ -62,11 +62,13 @@ public class AboutOttaa extends AppCompatActivity {
         mAnalyticsFirebase=new AnalyticsFirebase(this);
 
         buttonContactSupport = findViewById(R.id.buttonContactSupport);
-        textViewAccountType =findViewById(R.id.accountType);
+        accountType =findViewById(R.id.accountType);
+        textViewAccountType = findViewById(R.id.textViewAccountType);
         versionServer = findViewById(R.id.versionServer);
         versionApp= findViewById(R.id.versionApp);
         deviceName=findViewById(R.id.deviceName);
         textViewUserEmail = findViewById(R.id.userEmail);
+        textViewDeviceName = findViewById(R.id.textViewDeviceName);
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
@@ -75,7 +77,7 @@ public class AboutOttaa extends AppCompatActivity {
         getVersion();
         getUserMail();
         getDeviceName();
-        textViewAccountType.setText(getKindOfUser());
+        accountType.setText(getKindOfUser());
         buttonContactSupport.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -173,7 +175,7 @@ public class AboutOttaa extends AppCompatActivity {
         Intent mail=new Intent(Intent.ACTION_SEND);
         mail.setType("message/rfc822");
         mail.putExtra(Intent.EXTRA_EMAIL, new String[]{ "support@ottaaproject.com"});
-        mail.putExtra(Intent.EXTRA_SUBJECT,textViewAccountType.getText());
+        mail.putExtra(Intent.EXTRA_SUBJECT,accountType.getText());
         mail.putExtra(Intent.EXTRA_TEXT,prepareDataToSend());
 
         startActivity(Intent.createChooser(mail,"Send mail ..."));
@@ -190,8 +192,8 @@ public class AboutOttaa extends AppCompatActivity {
         builder.append("Email: "+textViewUserEmail.getText()).append("\n");
         builder.append(versionApp.getText()).append("\n");
         builder.append(versionServer.getText()).append("\n");
-        builder.append("Tipo de cuenta:"+textViewAccountType.getText()).append("\n");
-        builder.append("Nombre del dispositivo:"+deviceName.getText()).append("\n");
+        builder.append(textViewAccountType.getText().toString()+" "+accountType.getText()).append("\n");
+        builder.append(textViewDeviceName.getText().toString()+" "+deviceName.getText()).append("\n");
         return builder.toString();
     }
 
