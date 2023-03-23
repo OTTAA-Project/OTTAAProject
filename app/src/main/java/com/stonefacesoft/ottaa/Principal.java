@@ -2161,7 +2161,6 @@ public class Principal extends AppCompatActivity implements View
     public void nlgTalkAction(){
         if(ConnectionDetector.isNetworkAvailable(this)){
             Oracion = EjecutarNLG();
-            if (!sharedPrefsDefault.getString(getString(R.string.str_idioma), "en").equals("en")) {
                     processPhrase = new ProcessPhrase(this, sharedPrefsDefault, animationView, getApplicationContext(), Oracion,HandlerComunicationClass.FraseTraducida);
                     processPhrase.setOracion(Oracion);
                 if(json.useChatGPT())
@@ -2175,9 +2174,6 @@ public class Principal extends AppCompatActivity implements View
                         traducirFrase.execute();
                     }
                 }
-            } else {
-                speak();
-            }
         }else{
             speak();
         }
