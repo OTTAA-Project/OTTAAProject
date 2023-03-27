@@ -160,8 +160,10 @@ public class NLG {
                         if (HayVerbo) {
                             if (HayObjeto) {
                                 //Add modifier al objeto
-                                addModifierObject(Object1,HayObjeto1,pictogramName);
-                                addModifierObject(Object2,HayObjeto2,pictogramName);
+                                if(Object1!=null)
+                                    addModifierObject(Object1,HayObjeto1,pictogramName);
+                                if(Object2!=null)
+                                    addModifierObject(Object2,HayObjeto2,pictogramName);
 
                             } else {
                                 //Add modifier al verbo
