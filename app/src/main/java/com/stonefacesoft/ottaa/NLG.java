@@ -156,7 +156,6 @@ public class NLG {
                         return true;
                     case 4:
                         Log.d(TAG, "CargarFrase: Blue 'Adjective'");
-                        //TODO mejorar y poner el modificador en el segundo objeto an vez del verbo
                         if (HayVerbo) {
                             if (HayObjeto) {
                                 //Add modifier al objeto
