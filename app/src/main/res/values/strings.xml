@@ -256,7 +256,7 @@
     <string name="bienvenido">Great to have you here!</string>
 
     <string name="licencia_expirada2">To purchase a subscription please click on Purchase Subscription</string>
-    <string name="btn_renovar_licencia">Purchase Subscription</string>
+    <string name="btn_renovar_licencia">ContactUs</string>
 
     <string name="btn_volver_ingresar">Login</string>
     <string name="problema_sign_in">There was a problem Signing in , try again.</string>
@@ -390,7 +390,7 @@
     <string name="datos_locales_backup" translatable="false"> [Datos Locales]</string>
     <string name="datos_online_backup" translatable="false"> [Datos online]</string>
     <string name="please_select_date">"Please select a Date "</string>
-    <string name="licencia_expirada1">Get access today to all the useful features that OTTAA Premium has to offer for only 9 USD per month</string>
+    <string name="licencia_expirada1">Your license has expired, contact us by mail at info@ottaaproject.com or by wsp +54 9 3518 10-2353</string>
     <string name="download_photos">Download Photos</string>
     <string name="download_photos_explicit">This function allows you to synchronize images</string>
     <string name="string_sugerencias_dialog">Now you will find suggested pictograms as transparent pictos, use them to create images with more ease.</string>

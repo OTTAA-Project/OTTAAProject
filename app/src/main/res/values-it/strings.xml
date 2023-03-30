@@ -173,9 +173,9 @@
     <string name="vincular_con_ubicacion">Link with Location</string>
     <string name="youAreNotUpdatedTitle">Aggiornamento disponibile</string>
     <string name="bienvenido">Bello averti qui!</string>
-    <string name="licencia_expirada1">Ottieni l\'accesso oggi a tutte le utili funzionalità che OTTAA Premium ha da offrire a soli 9 USD al mese</string>
+    <string name="licencia_expirada1">La tua licenza è scaduta, contattaci via mail a info@ottaaproject.com o via wsp +54 9 3518 10-2353</string>
     <string name="licencia_expirada2">To purchase a subscription please click on Purchase Subscription</string>
-    <string name="btn_renovar_licencia">Acquista un abbonamento</string>
+    <string name="btn_renovar_licencia">Contattaci</string>
     <string name="btn_volver_ingresar">Accesso</string>
     <string name="cambiar_cuenta">Change accounts</string>
     <string name="title_activity_licencia_expirada">Periodo di prova terminato</string>

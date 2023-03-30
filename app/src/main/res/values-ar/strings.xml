@@ -245,8 +245,8 @@
     <string name="my_own_message">إذا كنت تتمتع باستخدام أوتا يرجى معدل لنا، من شأنها أن تساعدنا على تحسين.</string>
     <string name="youAreNotUpdatedTitle">Update available</string>
     <string name="bienvenido">Great to have you here!</string>
-    <string name="licencia_expirada1">احصل اليوم على جميع الميزات المفيدة التي يقدمها OTTAA Premium مقابل 9 دولارات أمريكية فقط شهريًا</string>
-    <string name="btn_renovar_licencia">اشتراك الشراء</string>
+    <string name="licencia_expirada1">انتهت صلاحية ترخيصك ، اتصل بنا عبر البريد الإلكتروني على info@ottaaproject.com أو عن طريق wsp +54 9 3518 10-2353</string>
+    <string name="btn_renovar_licencia">اتصل بنا</string>
     <string name="cambiar_cuenta">تغيير الحسابات</string>
     <string name="title_activity_licencia_expirada">انتهت الفترة التجريبية</string>
     <string name="problema_sign_in">" حدثت مشكلة أثناء تسجيل الدخول، أعد المحاولة."</string>

@@ -22,6 +22,7 @@ import com.google.android.gms.security.ProviderInstaller;
 import com.google.api.LogDescriptor;
 import com.stonefacesoft.ottaa.Interfaces.SearchAraasacPictogram;
 import com.stonefacesoft.ottaa.idioma.ConfigurarIdioma;
+import com.stonefacesoft.ottaa.utils.HttpsTrustManager;
 import com.stonefacesoft.ottaa.utils.JSONutils;
 import com.stonefacesoft.ottaa.utils.StringFormatter;
 
@@ -68,16 +69,17 @@ public class BuscarArasaac {
         String direction;
         String key = context.getResources().getString(R.string.galeria_araasac_api_key);
         String aux =texto.replaceAll(" ","_");
-        String globalsymbol = "https://globalsymbols.com/api/v1/labels/search?query="+texto+"&symbolset=arasaac&language="+ ConfigurarIdioma.getLanguageIso6393(lang)+"&limit=100";
+        String globalsymbol = "https://globalsymbols.com/api/v1/labels/search?query="+texto+"&symbolset=arasaac&language="+ ConfigurarIdioma.getLanguageIso6393(lang);
         String araasac = "http://old.arasaac.org/api/index.php?callback=json&language="+lang+"&word="+aux+"%&catalog=colorpictos&thumbnailsize=150&TXTlocate=4&KEY="+key;
-        if(Build.VERSION.SDK_INT<= Build.VERSION_CODES.M){
+        /*if(Build.VERSION.SDK_INT<= Build.VERSION_CODES.M){
             JSONutils.setUseVolley(false);
             requestHttp(araasac);
         }
-        else{
-            JSONutils.setUseVolley(true);
-            requestVolley(context,globalsymbol);
-        }
+        else{*/
+        HttpsTrustManager.allowAllSSL();
+        JSONutils.setUseVolley(true);
+        requestVolley(context,globalsymbol);
+        //}
     }
 
 

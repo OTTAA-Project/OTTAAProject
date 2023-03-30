@@ -249,7 +249,10 @@ public class Principal extends AppCompatActivity implements View
 
 
     public void setOracion(String oracion) {
-        this.Oracion = oracion;
+        if(oracion.startsWith("."))
+          this.Oracion = oracion.replaceFirst(".","");
+        else
+            this.Oracion = oracion;
     }
 
     @Override

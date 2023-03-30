@@ -69,7 +69,7 @@ public class RemoteConfigUtils implements RemoteConfigListener.PriceListener,Rem
 
     @Override
     public String paymentUtri() {
-        return mFirebaseRemoteConfig.getString("payment_uri");
+        return mFirebaseRemoteConfig.getString("contactUs");
     }
     @Override
     public String paymentUtriPremium() {
@@ -92,5 +92,9 @@ public class RemoteConfigUtils implements RemoteConfigListener.PriceListener,Rem
 
     public boolean getBooleanByName(String key){
         return mFirebaseRemoteConfig.getBoolean(key);
+    }
+
+    public FirebaseRemoteConfig getmFirebaseRemoteConfig() {
+        return mFirebaseRemoteConfig;
     }
 }
