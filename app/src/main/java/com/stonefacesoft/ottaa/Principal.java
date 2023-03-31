@@ -1656,15 +1656,15 @@ public class Principal extends AppCompatActivity implements View
                 traducirfrase = new traducirTexto(getApplication());
                 if (Oracion.isEmpty() && historial.getListadoPictos().size() > 0)
                     CargarOracion(historial.getListadoPictos().get(0), sharedPrefsDefault.getString(getString(R.string.str_idioma), "en"));
-                Oracion = EjecutarNLG();
-                    processPhrase = new ProcessPhrase(this, sharedPrefsDefault, animationView, getApplicationContext(), Oracion, HandlerComunicationClass.SHAREACTION);
-                    processPhrase.setOracion(Oracion);
+                processPhrase = new ProcessPhrase(this, sharedPrefsDefault, animationView, getApplicationContext(), Oracion, HandlerComunicationClass.SHAREACTION);
+                processPhrase.setOracion(Oracion);
                 if(json.useChatGPT())
                     processPhrase.executeChatGPT(historial.nlgObject());
                 else{
                     if(sharedPrefsDefault.getString(getString(R.string.str_idioma), "en").equals("es")){
                         processPhrase.executeViterbi(historial.nlgObject());
                     }else{
+                        Oracion = EjecutarNLG();
                         traducirfrase.traducirIdioma(this, Oracion, "en", sharedPrefsDefault.getString(getString(R.string.str_idioma), "en"), true);
                     }
                 }
@@ -2163,7 +2163,6 @@ public class Principal extends AppCompatActivity implements View
 
     public void nlgTalkAction(){
         if(ConnectionDetector.isNetworkAvailable(this)){
-            Oracion = EjecutarNLG();
                     processPhrase = new ProcessPhrase(this, sharedPrefsDefault, animationView, getApplicationContext(), Oracion,HandlerComunicationClass.FraseTraducida);
                     processPhrase.setOracion(Oracion);
                 if(json.useChatGPT())
@@ -2172,6 +2171,7 @@ public class Principal extends AppCompatActivity implements View
                     if(sharedPrefsDefault.getString(getString(R.string.str_idioma), "en").equals("es")){
                         processPhrase.executeViterbi(historial.nlgObject());
                     }else{
+                        Oracion = EjecutarNLG();
                         traducirFrase = new TraducirFrase(this, sharedPrefsDefault, animationView, getApplicationContext(), Oracion);
                         traducirFrase.setOracion(Oracion);
                         traducirFrase.execute();
