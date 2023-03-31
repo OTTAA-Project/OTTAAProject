@@ -247,9 +247,9 @@
     <string name="youAreNotUpdatedMessage">A new version of OTTAA is available. Please update to the lastest version to get all the new cool features.</string>
     <string name="vincular_con_calendario">Link with Calendar</string>
     <string name="my_own_message">If you enjoy using OTTAA please rate us , that will help us improve.</string>
-    <string name="licencia_expirada1">Get access today to all the useful features that OTTAA Premium has to offer for only 9 USD per month</string>
+    <string name="licencia_expirada1">Your license has expired, contact us by mail at info@ottaaproject.com or by wsp +54 9 3518 10-2353</string>
     <string name="licencia_expirada2">To purchase a subscription please click on Purchase Subscription</string>
-    <string name="btn_renovar_licencia">Purchase Subscription</string>
+    <string name="btn_renovar_licencia">ContactUs</string>
     <string name="btn_volver_ingresar">Login</string>
     <string name="cambiar_cuenta">Change accounts</string>
     <string name="title_activity_licencia_expirada">Trial period ended</string>

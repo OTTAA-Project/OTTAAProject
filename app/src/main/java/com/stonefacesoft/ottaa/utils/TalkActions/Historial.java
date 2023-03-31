@@ -142,8 +142,10 @@ public class Historial {
     private JSONObject chatGptObject(JSONArray word,String text){
         JSONObject object= new JSONObject();
         try {
+            String promt=chatGPTPrompt.replace("{AGE}",json.obtenerEdad().toLowerCase().replace("nino","Niño")).replace("{SEX}",json.obtenerSexo()).replace("{PHRASE}",text).replace("{LANG}",ConfigurarIdioma.getNormalLanguage());
+            Log.d(TAG, "chatGptObject: "+ promt);
             object.put("model","text-davinci-003");
-            object.put("prompt",chatGPTPrompt.replace("{AGE}",json.obtenerEdad().toLowerCase().replace("nino","Niño")).replace("{SEX}",json.obtenerSexo()).replace("{PHRASE}",text).replace("{LANG}",ConfigurarIdioma.getNormalLanguage()));
+            object.put("prompt",promt);
             object.put("temperature",0);
             object.put("max_tokens",word.length()*10);
         } catch (JSONException e) {
@@ -153,6 +155,8 @@ public class Historial {
     }
 
     public void downloadPromt(){
+       // chatGPTPrompt = RemoteConfigUtils.getInstance().getmFirebaseRemoteConfig().getString("ChatGPTPrompt");
+        Log.d(TAG, "downloadPromt: "+ chatGPTPrompt);
         DatabaseReference ref = FirebaseUtils.getInstance().getmDatabase();
         ref.child("ChatGPTPrompt").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
