@@ -30,7 +30,7 @@ public class Historial {
 
 
 
-    private ArrayList<JSONObject> listOfPictograms;
+    private ArrayList<JSONObject> listOfPictograms = new ArrayList<>();
     private JSONObject father;
     private final Json json;
     private final NLG nlg;
@@ -57,7 +57,7 @@ public class Historial {
     }
 
     public boolean hasPictogram(JSONObject object){
-        return  listOfPictograms.contains(object);
+        return listOfPictograms.toString().contains(object.toString());
     }
 
 
@@ -174,8 +174,6 @@ public class Historial {
 
                     }
                 });
-
-
                 }
             }
 

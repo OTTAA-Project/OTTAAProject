@@ -694,6 +694,7 @@ public class Principal extends AppCompatActivity implements View
     private void loadOptions(Json json, JSONObject padre) {
         Animation alphaAnimation = AnimationUtils.loadAnimation(getApplicationContext(),
                 R.anim.alpha_show);
+
         Opcion1.setEnabled(true);
         Opcion2.setEnabled(true);
         Opcion3.setEnabled(true);
@@ -702,13 +703,16 @@ public class Principal extends AppCompatActivity implements View
             loadChilds(padre, alphaAnimation);
        if(json.getCantFallas()<4 && json.getCantFallas()>0)
            downloadFailedFile(3);
+
     }
 
     public void loadChildOption(JSONArray opciones, int index, Animation alphaAnimation) {
         try {
             if (opciones.getJSONObject(index).getInt("id") != -1) {
+                Log.d(TAG, "loadChildOption: Value"+index);
                 selectJsonOption(index, opciones.getJSONObject(index), alphaAnimation);
             } else {
+                Log.d(TAG, "loadChildOption: null ");
                 loadOptionValue(index, null);
                 addOpcionNull(returnOption(index), alphaAnimation);
             }
@@ -826,23 +830,29 @@ public class Principal extends AppCompatActivity implements View
             Log.d(TAG, "click: Opcion es null");
             return;
         }
+        addPictogramToPhrase(opcion);
 
-        if(sharedPrefsDefault.getBoolean(getResources().getString(R.string.repeat_pictogram_name_key),false)){
-            addPictogramToPhrase(opcion);
-        }else {
-            if(!historial.hasPictogram(opcion)){
-                addPictogramToPhrase(opcion);
-            }else{
-                myTTS.mostrarAlerta(getString(R.string.repeat_pictogram));
-            }
-        }
 
     }
 
     private void addPictogramToPhrase(JSONObject opcion){
-        historial.addPictograma(opcion);
-        createRelationShip(opcion, this);
-        sayPictogramName(JSONutils.getNombre(opcion, sharedPrefsDefault.getString(getResources().getString(R.string.str_idioma), "en")));
+        boolean addPicto = false;
+        boolean hasPicto = historial.hasPictogram(opcion);
+        if(sharedPrefsDefault.getBoolean(getResources().getString(R.string.repeat_pictogram_name_key),false)){
+            addPicto = true;
+        }else {
+            if(hasPicto){
+                addPicto = false;
+                myTTS.mostrarAlerta(getString(R.string.repeat_pictogram));
+            }else{
+                addPicto = true;
+            }
+        }
+        if(addPicto) {
+            historial.addPictograma(opcion);
+            createRelationShip(opcion, this);
+            sayPictogramName(JSONutils.getNombre(opcion, sharedPrefsDefault.getString(getResources().getString(R.string.str_idioma), "en")));
+        }
     }
 
     private void createRelationShip(JSONObject opcion,LoadPictograms loadPictograms){
@@ -2308,7 +2318,8 @@ public class Principal extends AppCompatActivity implements View
         @Override
         public void loadDialog() {
             if (pictoPadre != null) {
-                loadOptions(json, pictoPadre);   // y despues cargamos las opciones con el orden correspondiente
+                if(historial==null)
+                    loadOptions(json, pictoPadre);   // y despues cargamos las opciones con el orden correspondiente
                 used = true;
             }
         }

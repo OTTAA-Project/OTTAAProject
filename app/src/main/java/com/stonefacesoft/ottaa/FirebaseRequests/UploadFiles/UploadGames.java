@@ -28,7 +28,9 @@ public class UploadGames extends UploadFile{
 
     @Override
     public void uploadFile() {
+
         try {
+            openFile();
             if (fis.available() > 3) {
                 Log.e("subirArchivosLog", "subirGruposFirebase: " + fis.available());
 

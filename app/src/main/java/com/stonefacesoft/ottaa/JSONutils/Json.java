@@ -1044,6 +1044,8 @@ public class Json  {
 
     }
 
+
+
     /**
      * Este metodo se encarga de buscar los pictos relacionados en sugerencia con un picto determinado
      *
