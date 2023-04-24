@@ -264,6 +264,7 @@
     <string name="geofences_removed">GeoLocation deactivated</string>
     <string name="geofences_added">GeoLocation activated</string>
     <string name="title_activity_licencia_expirada">Trial period ended</string>
+    <string name="title_tell_A_Story">Tell a Story</string>
     <string name="cambiar_cuenta">Change accounts</string>
     <string name="edit_menu_grupo">Edit</string>
     <string name="lanzar_juego_menu_grupo">Launch Game</string>

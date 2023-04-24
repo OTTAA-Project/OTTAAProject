@@ -101,7 +101,7 @@ public class GaleriaGrupos2 extends AppCompatActivity implements OnStartDragList
     private boolean isCargando = true;
     private FloatingActionButton btnTalk;
 
-    private textToSpeech myTTS;
+    protected textToSpeech myTTS;
 
 
     private int progresoDeDescarga = 0;
@@ -116,15 +116,15 @@ public class GaleriaGrupos2 extends AppCompatActivity implements OnStartDragList
 
 
     private BarridoPantalla barridoPantalla;
-    private viewpager_galeria_grupo viewpager;
-    private Grupo_Recycler_View recycler_view_grupo;
-    private Grupo_Recycler_View_Sort recycler_view_sort_grupo;
-    private boolean showViewPager;
-    private boolean isOrdenar;
+    protected viewpager_galeria_grupo viewpager;
+    protected Grupo_Recycler_View recycler_view_grupo;
+    protected Grupo_Recycler_View_Sort recycler_view_sort_grupo;
+    protected boolean showViewPager;
+    protected boolean isOrdenar;
     private ScrollFunctionGaleriaGrupos function_scroll;
     private AnalyticsFirebase analyticsFirebase;
     private FirebaseUtils firebaseUtils;
-    private GaleriaGruposControls deviceControl;
+    protected GaleriaGruposControls deviceControl;
     private DownloadFirebasePictures downloadFirebasePictures;
     private boolean editarPicto;
 
@@ -235,7 +235,18 @@ public class GaleriaGrupos2 extends AppCompatActivity implements OnStartDragList
         deviceControl=new GaleriaGruposControls(this);
     }
 
-    private void crearRecyclerView(){
+    protected void initViewPager(){
+        iniciarBarrido();
+        crearRecyclerView();
+        changeEditButtonIcon();
+        viewpager=new viewpager_galeria_grupo(this,myTTS);
+
+        viewpager.showViewPager(showViewPager);
+        //showView(editButton,showViewPager);
+        deviceControl=new GaleriaGruposControls(this);
+    }
+
+    protected void crearRecyclerView(){
         if(!isOrdenar){
             recycler_view_grupo=new Grupo_Recycler_View(this,mAuth);
             recycler_view_grupo.setUploadFirebaseFile(uploadFirebaseFile);
@@ -256,7 +267,7 @@ public class GaleriaGrupos2 extends AppCompatActivity implements OnStartDragList
     /**
      * Prepare the screen-Scanning
      * */
-    private void iniciarBarrido() {
+    protected void iniciarBarrido() {
         ArrayList<View> listadoObjetosBarrido = new ArrayList<>();
         listadoObjetosBarrido.add(previous);
         listadoObjetosBarrido.add(exit);
@@ -895,7 +906,7 @@ public class GaleriaGrupos2 extends AppCompatActivity implements OnStartDragList
         view.setImageDrawable(drawable);
     }
 
-    private void changeEditButtonIcon(){
+    protected void changeEditButtonIcon(){
         if(showViewPager){
             setButtonIcon(editButton,getResources().getDrawable(R.drawable.ic_edit_white_24dp));
         }else if(isOrdenar) {

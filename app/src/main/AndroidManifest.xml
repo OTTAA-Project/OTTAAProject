@@ -141,8 +141,19 @@
         <activity
             android:name=".Games.WhichIsThePicto"
             android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/whichpictogram"
+            android:screenOrientation="sensorLandscape" />
+        <activity
+            android:name=".Games.TellAStory"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_licencia_expirada"
             android:screenOrientation="sensorLandscape" />
+        <activity
+            android:name=".Games.Story.GalleryGroupsChooser"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_licencia_expirada"
+            android:screenOrientation="sensorLandscape" />
+
         <activity
             android:name=".GaleriaGrupos2"
             android:configChanges="orientation|keyboardHidden|screenSize"
@@ -158,7 +169,7 @@
             android:label="@string/title_activity_about_ottaa"
             android:screenOrientation="sensorLandscape" />
         <activity
-            android:name=".Games.MatchPictograms"
+            android:name=".Views.MatchPictograms"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="sensorLandscape" />
         <activity

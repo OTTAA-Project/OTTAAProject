@@ -34,4 +34,5 @@ public class GroupManagerClass {
     public synchronized JSONArray getmGroup() {
         return mGroup;
     }
+
 }

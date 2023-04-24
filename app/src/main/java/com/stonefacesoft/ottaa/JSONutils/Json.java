@@ -247,6 +247,10 @@ public class Json  {
         return GroupManagerClass.getInstance().getmGroup();
     }
 
+    public JSONArray getmJSonArrayGroupsGame(){
+        return GroupManagerClass.getInstance().getmGroup();
+    }
+
     public  void setmJSONArrayTodosLosGrupos(JSONArray mJSONArrayTodosLosGrupos) {
         this.mJSONArrayTodosLosGrupos = mJSONArrayTodosLosGrupos;
         GroupManagerClass.getInstance().setmGroup(this.mJSONArrayTodosLosGrupos);

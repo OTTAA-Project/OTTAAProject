@@ -1,4 +1,4 @@
-package com.stonefacesoft.ottaa.Games;
+package com.stonefacesoft.ottaa.Views;
 
 
 import android.content.Intent;

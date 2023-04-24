@@ -35,6 +35,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.google.firebase.perf.metrics.AddTrace;
 import com.stonefacesoft.ottaa.Dialogos.DialogUtils.DialogGameProgressInform;
+import com.stonefacesoft.ottaa.Views.Games.GameViewSelectPictogramsFourOptions;
 import com.stonefacesoft.ottaa.idioma.ConfigurarIdioma;
 import com.stonefacesoft.ottaa.utils.Games.GamesSettings;
 import com.stonefacesoft.ottaa.Games.Model.WhichIsThePictoModel;
@@ -64,8 +65,7 @@ import java.util.ArrayList;
 
 
 //Merge realizado
-public class WhichIsThePicto extends AppCompatActivity implements View
-        .OnClickListener, Toolbar.OnMenuItemClickListener, Lock_Unlocked_Pictograms, Make_Click_At_Time, View.OnTouchListener {
+public class WhichIsThePicto extends GameViewSelectPictogramsFourOptions {
 
     private static final String TAG = "WhichIsThePicto";
     //Handler para animar la respuesat correcta luego de un tiempo si no se presiona
@@ -78,15 +78,9 @@ public class WhichIsThePicto extends AppCompatActivity implements View
     private TextToSpeech mTTS;
     private UtilsGamesTTS mUtilsTTS;
     //Question Button
-    private PictoView Seleccion1;
     //Winner imageview
-    private ImageView mAnimationWin;
-    private Context context;
     // Answer button
-    private PictoView Opcion1;
-    private PictoView Opcion2;
-    private PictoView Opcion3;
-    private PictoView Opcion4;
+
 
 
     //Pistas
@@ -96,8 +90,6 @@ public class WhichIsThePicto extends AppCompatActivity implements View
     //RatingStar
     private RatingBar Puntaje;
     //Declaramos el media player
-    private MediaPlayerAudio mediaPlayer, music;
-    //View para animar respuesta correcta en niveles
     private PictoView viewGanador;
     private final Runnable animarHablar = new Runnable() {
         @Override
@@ -107,7 +99,6 @@ public class WhichIsThePicto extends AppCompatActivity implements View
                 handlerHablar.postDelayed(this, 4000);
         }
     };
-    private ImageButton imageButton;
     private final Runnable talkGanador = new Runnable() {
         @Override
         public void run() {
@@ -116,13 +107,12 @@ public class WhichIsThePicto extends AppCompatActivity implements View
     };
     //Pictos en juego
     private int[] pictos;
-    private int mPositionPadre;
+
     //Jsons
     private Json json;
     private JSONArray mJsonArrayTodosLosPictos;
     private JSONArray mJsonArrayTodosLosGrupos;
     // Datos que le paso por el intent!!!
-    private int PictoID;                // picto actual
     //Handler para animar el Hablar cuando pasa cierto tiempo
     private int cantVecInc;
     private Toolbar toolbar;
@@ -138,8 +128,7 @@ public class WhichIsThePicto extends AppCompatActivity implements View
         }
     };
     private ImageView imageView;
-    private AnalyticsFirebase analitycsFirebase;
-    private Button btnBarrido;
+
     private BarridoPantalla barridoPantalla;
     private ScrollFuntionGames function_scroll;
 
@@ -176,30 +165,15 @@ public class WhichIsThePicto extends AppCompatActivity implements View
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         //Ocultamos la barra de notificaciones
-        Intent intent = getIntent();
-        PictoID = intent.getIntExtra("PictoID", 0);
-        mPositionPadre = intent.getIntExtra("PositionPadre", 0);
+        super.onCreate(savedInstanceState);
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        initComponents();
         model = new WhichIsThePictoModel();
         dialogo = CustomToast.getInstance(this);
-        mediaPlayer = new MediaPlayerAudio(this);
-        music = new MediaPlayerAudio(this);
-        mediaPlayer.setVolumenAudio(0.15f);
-        music.setVolumenAudio(0.05f);
-        boolean status_bar = intent.getBooleanExtra("status_bar", false);
-        if (!status_bar) {
-            supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
-            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        }
-        toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
-        super.onCreate(savedInstanceState);
-        analitycsFirebase = new AnalyticsFirebase(this);
-        setContentView(R.layout.activity_noti_games);
-        Toolbar toolbar = findViewById(R.id.toolbar);
 
-        toolbar.setTitle(getResources().getString(R.string.whichpictogram));
-        setSupportActionBar(toolbar);
+        setToolbarName(toolbar,R.string.whichpictogram);
         context = this;
         primerUso = true;
         //Implemento el manejador de preferencias
@@ -212,35 +186,12 @@ public class WhichIsThePicto extends AppCompatActivity implements View
         }
         music.playMusic();
         //Declaramos el boton para que reproduzca el tts con lo que tiene que decir
-        imageButton = findViewById(R.id.ttsJuego);
-        imageButton.setOnClickListener(this);
 
-        mAnimationWin = findViewById(R.id.ganarImagen);
-        mAnimationWin.setImageAlpha(230);
-        mAnimationWin.setVisibility(View.INVISIBLE);
         TextView mSeleccion = findViewById(R.id.SeleccioneEste);
 
         //Implementacion de los botones de la pregunta
-        Seleccion1 = findViewById(R.id.Seleccion1);
-        Seleccion1.goneCustomTexto();
-        Seleccion1.setOnClickListener(this);
-
-        //Pistas
 
 
-        //Implementacion de los botones con las respuestas
-        Opcion1 = findViewById(R.id.Option1);
-        Opcion1.setOnClickListener(this);
-        Opcion2 = findViewById(R.id.Option2);
-        Opcion2.setOnClickListener(this);
-        Opcion3 = findViewById(R.id.Option3);
-        Opcion3.setOnClickListener(this);
-        Opcion4 = findViewById(R.id.Option4);
-        Opcion4.setOnClickListener(this);
-        btnBarrido = findViewById(R.id.btnBarrido);
-        btnBarrido.setOnTouchListener(this);
-        btnBarrido.setOnClickListener(this);
-        //Json para todx el juego
         Json.getInstance().setmContext(this);
         json = Json.getInstance();
 
@@ -374,24 +325,7 @@ public class WhichIsThePicto extends AppCompatActivity implements View
     }
 
     //Carga el color correspondienta a cada picto
-    private Integer cargarColor(int tipo) {
-        switch (tipo) {
-            case 1:
-                return getResources().getColor(R.color.Yellow);
-            case 2:
-                return getResources().getColor(R.color.Orange);
-            case 3:
-                return getResources().getColor(R.color.YellowGreen);
-            case 4:
-                return getResources().getColor(R.color.DodgerBlue);
-            case 5:
-                return getResources().getColor(R.color.Magenta);
-            case 6:
-                return getResources().getColor(R.color.Black);
-            default:
-                return getResources().getColor(R.color.Black);
-        }
-    }
+
 
     //private void cargarPictos(int picto1,int picto2,int picto3,int picto4){
     private void cargarPictos() {

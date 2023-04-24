@@ -5,7 +5,7 @@ import android.os.Message;
 import androidx.annotation.NonNull;
 
 import com.stonefacesoft.ottaa.Games.GameSelector;
-import com.stonefacesoft.ottaa.Games.MatchPictograms;
+import com.stonefacesoft.ottaa.Views.MatchPictograms;
 import com.stonefacesoft.ottaa.Games.WhichIsThePicto;
 import com.stonefacesoft.ottaa.MainJuegos;
 import com.stonefacesoft.ottaa.Views.Games.GameViewSelectPictograms;

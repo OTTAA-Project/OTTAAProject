@@ -92,7 +92,7 @@ public class MainJuegos extends AppCompatActivity implements View.OnClickListene
         json.setmContext(this);
         inmersiveMode=new InmersiveMode(this);
         initComponents();
-        view_game.setUpPositionItem(3);
+        view_game.setUpPositionItem(4);
     }
 
     @Override

@@ -17,6 +17,7 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.stonefacesoft.ottaa.Games.GameCard;
 import com.stonefacesoft.ottaa.Games.GameSelector;
+import com.stonefacesoft.ottaa.Games.TellAStory;
 import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.utils.IntentCode;
@@ -61,7 +62,7 @@ public class viewpager_galeria_juegos {
 
         @Override
         public int getItemCount() {
-                return 3;
+                return 4;
         }
     }
 
@@ -121,6 +122,10 @@ public class viewpager_galeria_juegos {
                     card.prepareCardView(R.string.memory_game, R.string.memory_game_string, R.drawable.memory_game, createOnClickListener(mActivity, GameSelector.class, "descripciones"));
                     card.setmTxtScore(json.devolverCantidadGruposUsados(2)+"/"+json.getmJSONArrayTodosLosGrupos().length());//todo in recycler fill with the position
                     break;
+                case 3:
+                    card.prepareCardView(R.string.memory_game, R.string.memory_game_string, R.drawable.frame_949, createOnClickListener(mActivity, TellAStory.class, "history"));
+                    card.setmTxtScore(json.devolverCantidadGruposUsados(2)+"/"+json.getmJSONArrayTodosLosGrupos().length());//todo in recycler fill with the position
+                    break;
             }
         }
         private View.OnClickListener createOnClickListener(Context context,Class clase,String value){
@@ -171,6 +176,10 @@ public class viewpager_galeria_juegos {
                  intent=new Intent(mActivity, GameSelector.class);
                  intent.putExtra("name_game","descripciones");
                 break;
+             case 3:
+                 intent=new Intent(mActivity, TellAStory.class);
+                 intent.putExtra("name_game","history");
+                 break;
              default:
                  intent=new Intent(mActivity,GameSelector.class);
                  intent.putExtra("name_game","notigames");

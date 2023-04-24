@@ -51,19 +51,19 @@ import java.io.File;
  * */
 public class viewpager_galeria_grupo {
 
-    private static final String TAG = "viewpager_GG";
-    private static AppCompatActivity mActivity;
-    private static final float MIN_SCALE = 0.85f;
-    private static Json json;
-    private int positionObject;
-    private static final float MIN_ALPHA = 0.5f;
-    private static final boolean edit = false;
-    private static textToSpeech myTTS;
-    private static JSONArray array;
-    private final ViewPager2 viewPager;
-    private final ScreenSlidePagerAdapter pagerAdapter;
+    protected static  String TAG = "viewpager_GG";
+    protected static AppCompatActivity mActivity;
+    protected static  float MIN_SCALE = 0.85f;
+    protected static Json json;
+    protected int positionObject;
+    protected static  float MIN_ALPHA = 0.5f;
+    protected static  boolean edit = false;
+    protected static textToSpeech myTTS;
+    protected static JSONArray array;
+    protected  ViewPager2 viewPager;
+    protected  ScreenSlidePagerAdapter pagerAdapter;
 
-    private final SharedPreferences sharedPrefsDefault;
+    protected  SharedPreferences sharedPrefsDefault;
 
 
     public viewpager_galeria_grupo(AppCompatActivity mActivity, textToSpeech myTTS) {
@@ -72,7 +72,7 @@ public class viewpager_galeria_grupo {
         this.viewPager = viewpager_galeria_grupo.mActivity.findViewById(R.id.viewPager_groups);
         json = Json.getInstance();
         json.setmContext(mActivity);
-        array = json.getmJSONArrayTodosLosGrupos();
+        initArray();
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         pagerAdapter = new ScreenSlidePagerAdapter(viewpager_galeria_grupo.mActivity);
         viewPager.setAdapter(pagerAdapter);
@@ -82,6 +82,10 @@ public class viewpager_galeria_grupo {
 
         sharedPrefsDefault = PreferenceManager.getDefaultSharedPreferences(mActivity);
 
+    }
+
+    protected void initArray(){
+        array = json.getmJSONArrayTodosLosGrupos();
     }
 
 
