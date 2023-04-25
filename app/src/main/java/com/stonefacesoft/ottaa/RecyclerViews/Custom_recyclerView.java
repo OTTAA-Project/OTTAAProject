@@ -331,5 +331,15 @@ public abstract class Custom_recyclerView implements SearchView.OnQueryTextListe
     protected int getNumberOfCells(int value,int result){
         return result;
     }
-
+    protected void saidPhrase(int position){
+        try {
+            if (myTTS != null && array.getJSONObject(position).getJSONObject("texto").getString((sharedPrefsDefault.getString(mActivity.getString(R.string
+                    .str_idioma), "en"))) != null) {
+                myTTS.hablar(array.getJSONObject(position).getJSONObject("texto").getString((sharedPrefsDefault.getString(mActivity.getString(R.string
+                        .str_idioma), "en"))));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
 }

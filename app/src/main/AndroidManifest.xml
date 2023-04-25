@@ -149,7 +149,7 @@
             android:label="@string/title_activity_licencia_expirada"
             android:screenOrientation="sensorLandscape" />
         <activity
-            android:name=".Games.Story.GalleryGroupsChooser"
+            android:name=".Activities.Groups_TellStory"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_licencia_expirada"
             android:screenOrientation="sensorLandscape" />

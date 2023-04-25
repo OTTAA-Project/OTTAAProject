@@ -93,7 +93,7 @@ public class viewpager_galeria_grupo {
         return viewPager;
     }
 
-    private class ScreenSlidePagerAdapter extends FragmentStateAdapter {
+    protected class ScreenSlidePagerAdapter extends FragmentStateAdapter {
         public ScreenSlidePagerAdapter(FragmentActivity fa) {
             super(fa);
         }

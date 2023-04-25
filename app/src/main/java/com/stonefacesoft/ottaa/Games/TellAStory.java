@@ -1,6 +1,6 @@
 package com.stonefacesoft.ottaa.Games;
 
-import com.stonefacesoft.ottaa.Games.Story.GalleryGroupsChooser;
+import com.stonefacesoft.ottaa.Activities.Groups_TellStory;
 import com.stonefacesoft.ottaa.R;
 
 import android.content.Intent;
@@ -10,8 +10,9 @@ import android.view.View;
 
 import androidx.annotation.Nullable;
 
-import com.stonefacesoft.ottaa.Views.Games.GameViewSelectPictograms;
 import com.stonefacesoft.ottaa.Views.Games.GameViewSelectPictogramsFourOptions;
+import com.stonefacesoft.ottaa.utils.Games.TellAStoryUtils;
+
 /***
  *  Option one show : People,Animals , food,games
  *  Option two show : Colours,adjetives and feelings
@@ -27,7 +28,11 @@ public class TellAStory extends GameViewSelectPictogramsFourOptions {
         initComponents();
         Seleccion1.setVisibility(View.INVISIBLE);
         mAnimationWin.setVisibility(View.GONE);
-        hideAllViews();
+        Opcion1.setCustom_Texto("Personaje");
+        Opcion2.setCustom_Texto("Color");
+        Opcion3.setCustom_Texto("Accion");
+        Opcion4.setCustom_Texto("Lugar");
+        //  hideAllViews();
 
     }
 
@@ -35,18 +40,16 @@ public class TellAStory extends GameViewSelectPictogramsFourOptions {
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.Option1:
-                showIcon();
-                Intent intent = new Intent(this, GalleryGroupsChooser.class);
-                startActivity(intent);
+                showIcon(0);
                 break;
             case R.id.Option2:
-                showIcon();
+                showIcon(1);
                 break;
             case R.id.Option3:
-                showIcon();
+                showIcon(2);
                 break;
             case R.id.Option4:
-                showIcon();
+                showIcon(3);
                 break;
         }
         super.onClick(v);
@@ -59,9 +62,10 @@ public class TellAStory extends GameViewSelectPictogramsFourOptions {
         return super.onTouch(v, event);
     }
 
-    private void showIcon(){
-        flag++;
-        showViews(flag);
+    private void showIcon(int position){
+        TellAStoryUtils.getInstance().setPictoPosition(position);
+        Intent intent = new Intent(this, Groups_TellStory.class);
+        startActivity(intent);
     }
 
     public void showViews(int flag){

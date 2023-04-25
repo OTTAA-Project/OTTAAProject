@@ -38,7 +38,6 @@ public class Grupo_Recycler_View extends Custom_recyclerView implements  View.On
     private boolean editarPicto;
     public Grupo_Recycler_View(AppCompatActivity mActivity, FirebaseAuth mAuth) {
         super(mActivity,mAuth);
-
         array=json.getmJSONArrayTodosLosGrupos();
         createRecyclerLayoutManager();
     }
@@ -70,22 +69,15 @@ public class Grupo_Recycler_View extends Custom_recyclerView implements  View.On
             public void onItemClick(View v, final int position) {
                 if (v != null) {
                     if (position != -1) {
-                        try {
-                            if (myTTS != null && array.getJSONObject(position).getJSONObject("texto").getString((sharedPrefsDefault.getString(mActivity.getString(R.string
-                                    .str_idioma), "en"))) != null) {
-                                myTTS.hablar(array.getJSONObject(position).getJSONObject("texto").getString((sharedPrefsDefault.getString(mActivity.getString(R.string
-                                        .str_idioma), "en"))));
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
 
+                        saidPhrase(position);
                         /*Llamando a la misma Activity podemos pasarle un putExtra que despues el getIntent del setDialog va a tomar
                          * de esta forma podemos pasar la posicion del boton que clicamos y el nombre*/
 
                         //no tiene message
                         Intent intent2 = new Intent(mActivity, GaleriaPictos3.class);
                         intent2.putExtra("Boton", position);
+
                         try {
                             intent2.putExtra("Nombre", JSONutils.getNombre(array.getJSONObject(position),sharedPrefsDefault.getString(mActivity.getString(R.string.str_idioma), "en")));
                         } catch (JSONException e) {
@@ -97,17 +89,8 @@ public class Grupo_Recycler_View extends Custom_recyclerView implements  View.On
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                        try {
-                            (array.getJSONObject(position)).put("frecuencia", (array.getJSONObject(position)).getInt("frecuencia") + 1);
+                        incrementFrecuency(position);
 
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                            try {
-                                (array.getJSONObject(position)).put("frecuencia", 1);
-                            } catch (JSONException e1) {
-                                e1.printStackTrace();
-                            }
-                        }
                         json.setmJSONArrayTodosLosGrupos(array);
                         if (!json.guardarJson(Constants.ARCHIVO_GRUPOS)) {
                             Log.d(TAG, "File warning");
@@ -119,6 +102,22 @@ public class Grupo_Recycler_View extends Custom_recyclerView implements  View.On
                     }
                 }
             }
+
+            private void incrementFrecuency(int position){
+                try {
+                    (array.getJSONObject(position)).put("frecuencia", (array.getJSONObject(position)).getInt("frecuencia") + 1);
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    try {
+                        (array.getJSONObject(position)).put("frecuencia", 1);
+                    } catch (JSONException e1) {
+                        e1.printStackTrace();
+                    }
+                }
+            }
+
+
 
 
             @Override
@@ -136,28 +135,9 @@ public class Grupo_Recycler_View extends Custom_recyclerView implements  View.On
                         PopupMenu.OnMenuItemClickListener listener = new PopupMenu.OnMenuItemClickListener() {
                             @Override
                             public boolean onMenuItemClick(MenuItem menuItem) {
-                                switch (menuItem.getItemId()) {
-                                    case R.id.item_edit:
-                                        analyticsFirebase.customEvents("Touch","Galeria Grupos","Edit Group");
-                                        if (User.getInstance(mActivity).isPremium()) {
-                                            mActivity.startActivityForResult(startEditAction(), IntentCode.EDITARPICTO.getCode());
-                                        }
-                                        else{
-                                            mActivity.startActivity(startExpiredLicense());
-                                        }
-                                        return true;
-                                    case R.id.item_delete:
-                                        analyticsFirebase.customEvents("Touch","Galeria Grupos","Delete Group");
-                                        try {
-                                            if(!(array.getJSONObject(mPosition).getJSONObject("texto").getString("en").equals("ALL") && array.getJSONObject(mPosition).getInt("id") == 24))
-                                                AlertBorrar();
-                                        } catch (JSONException e) {
-                                            e.printStackTrace();
-                                        }
-                                        return true;
-                                }
+                                boolean result = getValue(menuItem.getItemId());
                                 popupMenu.dismiss();
-                                return false;
+                                return result;
                             }
                         };
                         new PopupMenuUtils(mActivity,view,listener);
@@ -170,6 +150,31 @@ public class Grupo_Recycler_View extends Custom_recyclerView implements  View.On
 
 
         });
+    }
+
+    private boolean getValue(int id){
+        switch (id) {
+            case R.id.item_edit:
+                analyticsFirebase.customEvents("Touch","Galeria Grupos","Edit Group");
+                if (User.getInstance(mActivity).isPremium()) {
+                    mActivity.startActivityForResult(startEditAction(), IntentCode.EDITARPICTO.getCode());
+                }
+                else{
+                    mActivity.startActivity(startExpiredLicense());
+                }
+                return true;
+            case R.id.item_delete:
+                analyticsFirebase.customEvents("Touch","Galeria Grupos","Delete Group");
+                try {
+                    if(!(array.getJSONObject(mPosition).getJSONObject("texto").getString("en").equals("ALL") && array.getJSONObject(mPosition).getInt("id") == 24))
+                        AlertBorrar();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                return true;
+            default:
+                return false;
+        }
     }
 
 
