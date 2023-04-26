@@ -29,6 +29,7 @@ import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.utils.Accesibilidad.BarridoPantalla;
 import com.stonefacesoft.ottaa.utils.Accesibilidad.devices.GaleriaGruposControls;
 import com.stonefacesoft.ottaa.utils.Accesibilidad.scrollActions.ScrollFunctionGaleriaGrupos;
+import com.stonefacesoft.ottaa.utils.IntentCode;
 import com.stonefacesoft.ottaa.utils.textToSpeech;
 
 import java.util.ArrayList;
@@ -216,5 +217,18 @@ public class GroupGalleryNavigator extends AppCompatActivity implements OnStartD
     protected void crearRecyclerView(){
 
 
+    }
+
+    protected final void returnData(Intent data,IntentCode code){
+        if(data != null){
+            if (data.getExtras() != null) {
+                Bundle extras = data.getExtras();
+                int Picto = extras.getInt("ID");
+                if (Picto != 0 && Picto != -1) {
+                    setResult(code.getCode(), new Intent().putExtra("ID",Picto));
+                    finish();
+                }
+            }
+        }
     }
 }

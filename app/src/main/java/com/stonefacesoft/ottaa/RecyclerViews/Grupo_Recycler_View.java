@@ -98,6 +98,7 @@ public class Grupo_Recycler_View extends Custom_recyclerView implements  View.On
 
                         //NOTA: hay  que tener en cuenta que cuando se hace de manera local esto funciona de una ,para la sincronizacion esto puede pisar los datos cuando sea en simultaneo
                         uploadFirebaseFile.subirGruposFirebase(uploadFirebaseFile.getmDatabase(mAuth, Constants.Grupos), uploadFirebaseFile.getmStorageRef(mAuth, Constants.Grupos));
+
                         mActivity.startActivityForResult(intent2, IntentCode.GALERIA_PICTOS.getCode());
                     }
                 }

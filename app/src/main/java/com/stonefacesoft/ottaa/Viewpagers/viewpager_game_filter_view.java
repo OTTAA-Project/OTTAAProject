@@ -74,8 +74,7 @@ public class viewpager_game_filter_view {
         viewPager.setAdapter(pagerAdapter);
         viewPager.setCurrentItem(0);
         viewPager.canScrollVertically(View.SCROLL_INDICATOR_BOTTOM);
-        viewPager.setPageTransformer(new ViewPagerTransformationEffects(0));
-
+        viewPager.setPageTransformer(new ViewPagerTransformationEffects(1));
         sharedPrefsDefault = PreferenceManager.getDefaultSharedPreferences(mActivity);
 
     }
@@ -182,11 +181,19 @@ public class viewpager_game_filter_view {
 
     public void OnClickItem() {
         Intent intent = new Intent(mActivity, GaleriaPictos3.class);
-        intent.putExtra("Boton", viewPager.getCurrentItem());
+        JSONObject object = null;
         try {
-            myTTS.hablarSinMostrarFrase(JSONutils.getNombre(array.getJSONObject(viewPager.getCurrentItem()),sharedPrefsDefault.getString(mActivity.getString(R.string.str_idioma), "en")));
+             object = array.getJSONObject(viewPager.getCurrentItem());
         } catch (JSONException e) {
-            Log.e(TAG, "OnClickItem: Error:" + e.getMessage());
+           e.printStackTrace();
+        }
+        if(object!=null) {
+            try {
+                intent.putExtra("Boton", json.getPosPicto(json.getmJSONArrayTodosLosGrupos(), json.getId(object)));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            myTTS.hablarSinMostrarFrase(JSONutils.getNombre(object, sharedPrefsDefault.getString(mActivity.getString(R.string.str_idioma), "en")));
         }
         mActivity.startActivityForResult(intent, IntentCode.GALERIA_PICTOS.getCode());
     }
@@ -252,14 +259,19 @@ public class viewpager_game_filter_view {
                 view.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        JSONObject object = aux;
+
                         Intent intent=new Intent(view.getContext(), GaleriaPictos3.class);
-                        intent.putExtra("Boton", position);
-                        try {
-                            myTTS.hablarSinMostrarFrase(JSONutils.getNombre(array.getJSONObject(position),sharedPrefsDefault.getString(mActivity.getString(R.string.str_idioma), "en")));
-                        } catch (JSONException e) {
-                            Log.e(TAG, "onClick: Error: " + e.getMessage());
+                        if(object!=null) {
+                            try {
+                                intent.putExtra("Boton", json.getPosPicto(json.getmJSONArrayTodosLosGrupos(),json.getId(object)));
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                            myTTS.hablarSinMostrarFrase(JSONutils.getNombre(object, sharedPrefsDefault.getString(mActivity.getString(R.string.str_idioma), "en")));
+                            intent.putExtra("Nombre", JSONutils.getNombre(object, sharedPrefsDefault.getString(mActivity.getString(R.string.str_idioma), "en")));
+                            mActivity.startActivityForResult(intent, IntentCode.GALERIA_PICTOS.getCode());
                         }
-                        mActivity.startActivityForResult(intent,IntentCode.GALERIA_PICTOS.getCode());
                     }
                 });
             } catch (JSONException e) {

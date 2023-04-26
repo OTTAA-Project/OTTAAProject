@@ -11,10 +11,10 @@ public class TellAStoryUtils {
 
     public enum FilterGroups{
         Position0(new int[]{2,17,3,12}),Position1(new int[]{6,1,20}),Position2(new int[]{0}),Position3(new int[]{13,21});
-        private int[] options;
+        private final int[] options;
         FilterGroups(int[] list){
             this.options = list;
-        };
+        }
 
         public int[] getOptions() {
             return options;
@@ -22,12 +22,16 @@ public class TellAStoryUtils {
     };
 
     public FilterGroups getItem(){
-        if(pictoPosition>=FilterGroups.values().length-1)
+        if(pictoPosition>FilterGroups.values().length-1)
             pictoPosition = FilterGroups.values().length-1;
         return FilterGroups.values()[pictoPosition];
     }
 
     public void setPictoPosition(int pictoPosition) {
         this.pictoPosition = pictoPosition;
+    }
+
+    public int getPictoPosition() {
+        return pictoPosition;
     }
 }

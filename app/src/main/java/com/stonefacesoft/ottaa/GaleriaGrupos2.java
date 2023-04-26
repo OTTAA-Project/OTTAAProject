@@ -173,6 +173,7 @@ public class GaleriaGrupos2 extends GroupGalleryNavigator implements  FirebaseSu
        initViewPager();
     }
 
+    @Override
     protected void initViewPager(){
         iniciarBarrido();
         crearRecyclerView();
@@ -239,7 +240,7 @@ public class GaleriaGrupos2 extends GroupGalleryNavigator implements  FirebaseSu
                     if(recycler_view_grupo != null)
                         recycler_view_grupo.setGrupos();
                 }
-                returnData(data);
+                returnData(data,IntentCode.GALERIA_GRUPOS);
                 break;
             case ConstantsMainActivity
                     .EDITARPICTO :
@@ -250,10 +251,10 @@ public class GaleriaGrupos2 extends GroupGalleryNavigator implements  FirebaseSu
                 break;
             case ConstantsGroupGalery.SEARCH_ALL_PICTOGRAMS:
                 loadData();
-                returnData(data);
+                returnData(data,IntentCode.GALERIA_GRUPOS);
             break;
             case ConstantsGroupGalery.RETURNGALERIAPICTOSDATA:
-                returnData(data);
+                returnData(data,IntentCode.GALERIA_GRUPOS);
                 break;
         }
 
@@ -287,18 +288,7 @@ public class GaleriaGrupos2 extends GroupGalleryNavigator implements  FirebaseSu
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    private final void returnData(Intent data){
-        if(data != null){
-            if (data.getExtras() != null) {
-                Bundle extras = data.getExtras();
-                int Picto = extras.getInt("ID");
-                if (Picto != 0 && Picto != -1) {
-                    setResult(IntentCode.GALERIA_GRUPOS.getCode(), new Intent().putExtra("ID",Picto));
-                    finish();
-                }
-            }
-        }
-    }
+
 
     private void loadData(){
         if(recycler_view_grupo!=null){

@@ -1,5 +1,6 @@
 package com.stonefacesoft.ottaa.Activities;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -18,16 +19,21 @@ import com.stonefacesoft.ottaa.RecyclerViews.Grupo_Recycler_View_Game;
 import com.stonefacesoft.ottaa.Viewpagers.viewpager_game_filter_view;
 import com.stonefacesoft.ottaa.Views.GroupGalleryNavigator;
 import com.stonefacesoft.ottaa.utils.Accesibilidad.devices.GaleriaGruposControls;
+import com.stonefacesoft.ottaa.utils.Games.TellAStoryUtils;
+import com.stonefacesoft.ottaa.utils.IntentCode;
+import com.stonefacesoft.ottaa.utils.constants.ConstantsGroupGalery;
 
 
 public class Groups_TellStory extends GroupGalleryNavigator {
 
     private Grupo_Recycler_View_Game recycler_view_grupo;
     private viewpager_game_filter_view viewpager;
+    private int boton;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Bundle extras = getIntent().getExtras();
         sharedPrefsDefault = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         showViewPager = sharedPrefsDefault.getBoolean("showViewPager", false);
         mAuthListener = new FirebaseAuth.AuthStateListener() {
@@ -47,12 +53,12 @@ public class Groups_TellStory extends GroupGalleryNavigator {
 
             }
         };
-        iniciarBarrido();
         initViewPager();
     }
 
     @Override
     protected void initViewPager() {
+        iniciarBarrido();
         crearRecyclerView();
         viewpager = new viewpager_game_filter_view(this,myTTS);
         viewpager.showViewPager(showViewPager);
@@ -64,7 +70,6 @@ public class Groups_TellStory extends GroupGalleryNavigator {
     protected void crearRecyclerView() {
         recycler_view_grupo = new Grupo_Recycler_View_Game(this,mAuth);
         recycler_view_grupo.setMyTTS(myTTS);
-        recycler_view_grupo.cargarGrupo();
         recycler_view_grupo.setSharedPrefsDefault(sharedPrefsDefault);
         recycler_view_grupo.showRecyclerView(showViewPager);
     }
@@ -123,6 +128,34 @@ public class Groups_TellStory extends GroupGalleryNavigator {
     @Override
     public boolean onTouch(View view, MotionEvent event) {
         return deviceControl.makeClick(event);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case ConstantsGroupGalery
+                    .GALERIAPICTOS:
+                boton = data.getIntExtra("Boton",0);
+                returnData(data, IntentCode.TELL_A_STORY);
+                break;
+        }
+    }
+
+
+    @Override
+    public void onBackPressed() {
+
+        //Uso este boolean para prevenir que se haga atras antes que se carguen los pictos, de esta forma prevenimos que se reemplaze
+        //el grupo por ningun valor y borre to do;
+
+            Intent databack = new Intent();
+            databack.putExtra("ID", 0);
+            databack.putExtra("Boton", boton);
+            setResult(3, databack);
+            finish();
+
+
     }
 
 }

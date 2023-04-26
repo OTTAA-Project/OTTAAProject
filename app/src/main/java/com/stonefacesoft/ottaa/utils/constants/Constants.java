@@ -164,6 +164,7 @@ public final class Constants {
     public static final int TYPE_TAXI_STAND = 91;
     public static final int TYPE_TRAIN_STATION = 92;
     public static final int TYPE_ZOO = 96;
+    public static final int TELL_A_STORY = 21;
 
     //Salud,Recreacion,Transporte,Tienda,Establecimiento,Colegio,Juegos,Restaurant,Carniceria,Verduleria,Estadio,Cine,Ma&nacuteana,Mediodia,Tarde,Noche
 

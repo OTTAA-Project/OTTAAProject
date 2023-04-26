@@ -1,6 +1,7 @@
 package com.stonefacesoft.ottaa.RecyclerViews;
 
 import android.content.Intent;
+import android.util.Log;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,12 +12,15 @@ import com.stonefacesoft.ottaa.Adapters.GaleriaGruposAdapter;
 import com.stonefacesoft.ottaa.GaleriaPictos3;
 import com.stonefacesoft.ottaa.Helper.RecyclerItemClickListener;
 import com.stonefacesoft.ottaa.R;
+import com.stonefacesoft.ottaa.utils.Firebase.CrashlyticsUtils;
 import com.stonefacesoft.ottaa.utils.Games.TellAStoryUtils;
 import com.stonefacesoft.ottaa.utils.IntentCode;
 import com.stonefacesoft.ottaa.utils.JSONutils;
+import com.stonefacesoft.ottaa.utils.constants.Constants;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 public class Grupo_Recycler_View_Game extends Custom_recyclerView implements View.OnClickListener{
     private GaleriaGruposAdapter mGaleriaGruposAdapter;
@@ -34,24 +38,43 @@ public class Grupo_Recycler_View_Game extends Custom_recyclerView implements Vie
         DefaultItemAnimator itemAnimator = new DefaultItemAnimator();
         mRecyclerView.setItemAnimator(itemAnimator);
         mRecyclerView.setAdapter(mGaleriaGruposAdapter);
-        mRecyclerView.addOnItemTouchListener(recyclerItemClickListener());
-        initArray();
         mGaleriaGruposAdapter.setmArrayGrupos(array);
+        mRecyclerView.addOnItemTouchListener(recyclerItemClickListener());
     }
 
     private RecyclerItemClickListener recyclerItemClickListener(){
-        return new RecyclerItemClickListener(mActivity, new RecyclerItemClickListener.OnItemClickListener() {
+        return new RecyclerItemClickListener(mRecyclerView,mActivity, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                saidPhrase(position);
-                Intent intent2 = new Intent(mActivity, GaleriaPictos3.class);
-                try {
-                    intent2.putExtra("Nombre", JSONutils.getNombre(array.getJSONObject(position),sharedPrefsDefault.getString(mActivity.getString(R.string.str_idioma), "en")));
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                JSONObject object = null;
+                if (view != null) {
+                    if (position != -1) {
+
+                        saidPhrase(position);
+                        /*Llamando a la misma Activity podemos pasarle un putExtra que despues el getIntent del setDialog va a tomar
+                         * de esta forma podemos pasar la posicion del boton que clicamos y el nombre*/
+
+                        //no tiene message
+                        try {
+                           object = array.getJSONObject(position);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        Intent intent2 = new Intent(mActivity, GaleriaPictos3.class);
+                        if(object!=null) {
+                            try {
+                                intent2.putExtra("Boton", json.getPosPicto(json.getmJSONArrayTodosLosGrupos(), json.getId(object)));
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                            intent2.putExtra("Nombre", JSONutils.getNombre(object, sharedPrefsDefault.getString(mActivity.getString(R.string.str_idioma), "en")));
+                            CrashlyticsUtils.getInstance().getCrashlytics().setCustomKey("Grupo Usado", JSONutils.getNombre(object, sharedPrefsDefault.getString(mActivity.getString(R.string.str_idioma), "en")));
+                        }
+                        //NOTA: hay  que tener en cuenta que cuando se hace de manera local esto funciona de una ,para la sincronizacion esto puede pisar los datos cuando sea en simultaneo
+                        mActivity.startActivityForResult(intent2, IntentCode.TELL_A_STORY.getCode());
+                    }
+
                 }
-                intent2.putExtra("Boton", position);
-                mActivity.startActivityForResult(intent2, IntentCode.GALERIA_PICTOS.getCode());
             }
 
             @Override
@@ -90,6 +113,12 @@ public class Grupo_Recycler_View_Game extends Custom_recyclerView implements Vie
     @Override
     public void onPictosNoFiltrados() {
 
+    }
+
+    public GaleriaGruposAdapter  getmGaleriaGruposAdapter(){
+        if(mGaleriaGruposAdapter == null)
+            mGaleriaGruposAdapter = new GaleriaGruposAdapter(mActivity, R.layout.grid_group_layout_2, mAuth);
+        return  mGaleriaGruposAdapter;
     }
 
 
