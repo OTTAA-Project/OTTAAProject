@@ -19,6 +19,7 @@ import com.stonefacesoft.ottaa.RecyclerViews.Grupo_Recycler_View_Game;
 import com.stonefacesoft.ottaa.Viewpagers.viewpager_game_filter_view;
 import com.stonefacesoft.ottaa.Views.GroupGalleryNavigator;
 import com.stonefacesoft.ottaa.utils.Accesibilidad.devices.GaleriaGruposControls;
+import com.stonefacesoft.ottaa.utils.Accesibilidad.devices.GaleriaPictosControls;
 import com.stonefacesoft.ottaa.utils.Games.TellAStoryUtils;
 import com.stonefacesoft.ottaa.utils.IntentCode;
 import com.stonefacesoft.ottaa.utils.constants.ConstantsGroupGalery;
@@ -136,7 +137,6 @@ public class Groups_TellStory extends GroupGalleryNavigator {
         switch (requestCode) {
             case ConstantsGroupGalery
                     .GALERIAPICTOS:
-                boton = data.getIntExtra("Boton",0);
                 returnData(data, IntentCode.TELL_A_STORY);
                 break;
         }

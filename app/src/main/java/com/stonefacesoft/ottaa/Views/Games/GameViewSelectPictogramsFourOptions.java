@@ -11,6 +11,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,6 +22,7 @@ import com.stonefacesoft.ottaa.Interfaces.Make_Click_At_Time;
 import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.utils.Audio.MediaPlayerAudio;
 import com.stonefacesoft.ottaa.utils.Firebase.AnalyticsFirebase;
+import com.stonefacesoft.ottaa.utils.textToSpeech;
 import com.stonefacesoft.pictogramslibrary.view.PictoView;
 
 public class GameViewSelectPictogramsFourOptions extends AppCompatActivity implements View
@@ -45,6 +47,10 @@ public class GameViewSelectPictogramsFourOptions extends AppCompatActivity imple
 
     protected int PictoID;                // picto actual
     protected int mPositionPadre;                // picto actual
+
+    protected textToSpeech myTTS;
+
+    protected TextView mSeleccion;
 
 
 
@@ -99,6 +105,7 @@ public class GameViewSelectPictogramsFourOptions extends AppCompatActivity imple
     }
 
     protected void initComponents(){
+        mSeleccion = findViewById(R.id.SeleccioneEste);
         mAnimationWin = findViewById(R.id.ganarImagen);
         mAnimationWin.setImageAlpha(230);
         mAnimationWin.setVisibility(View.INVISIBLE);

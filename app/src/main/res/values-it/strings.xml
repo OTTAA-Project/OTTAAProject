@@ -485,4 +485,6 @@
     <string name="understood">Intendido</string>
     <string name="pref_summary_chatgpt">Consenti la disabilitazione dell\'opzione ChatGPT.</string>
     <string name="repeat_pictogram">Questo pittogramma è già nella frase</string>
+    <string name="TellStory">Raccontare una storia</string>
+    <string name="TellStory_Description">Ascolta il racconto</string>
 </resources>

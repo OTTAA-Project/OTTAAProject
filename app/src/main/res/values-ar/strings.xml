@@ -508,5 +508,7 @@
     <string name="created_phrases_in_the_last_7_days">خلق العبارات في الأيام السبعة الماضية</string>
     <string name="ottaa_score_is_a_measure_of_the_app_s_general_use_using_data_such_as_the_use_of_the_last_days_and_the_average_pictograms_by_phrase">OTTAA-Score عبارة عن مقياس للاستخدام العام للتطبيق ، باستخدام بيانات مثل استخدام الأيام الأخيرة ومتوسط الصور التوضيحية حسب العبارة.</string>
     <string name="most_used_groups">المجموعات الأكثر استخدامًا</string>
+    <string name="TellStory">أخبر قصة</string>
+    <string name="TellStory_Description">استمع إلى الحكاية</string>
 
 </resources>

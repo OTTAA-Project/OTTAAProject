@@ -123,7 +123,7 @@ public class viewpager_galeria_juegos {
                     card.setmTxtScore(json.devolverCantidadGruposUsados(2)+"/"+json.getmJSONArrayTodosLosGrupos().length());//todo in recycler fill with the position
                     break;
                 case 3:
-                    card.prepareCardView(R.string.memory_game, R.string.memory_game_string, R.drawable.frame_949, createOnClickListener(mActivity, TellAStory.class, "history"));
+                    card.prepareCardView(R.string.TellStory, R.string.TellStory_Description, R.drawable.frame_949, createOnClickListener(mActivity, TellAStory.class, "history"));
                     card.setmTxtScore(json.devolverCantidadGruposUsados(2)+"/"+json.getmJSONArrayTodosLosGrupos().length());//todo in recycler fill with the position
                     break;
             }

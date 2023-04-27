@@ -40,7 +40,7 @@
             android:textColor="@color/White"
             android:textSize="25sp"
             android:gravity="center"
-            app:layout_constraintBottom_toBottomOf="@id/Seleccion1"
+            app:layout_constraintBaseline_toBottomOf="@id/ttsJuego"
             app:layout_constraintEnd_toStartOf="@id/ttsJuego"
             app:layout_constraintHorizontal_weight="1"
             app:layout_constraintStart_toStartOf="parent"

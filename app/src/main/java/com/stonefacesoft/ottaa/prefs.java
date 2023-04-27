@@ -44,7 +44,7 @@ import com.stonefacesoft.ottaa.idioma.ConfigurarIdioma;
 import com.stonefacesoft.ottaa.idioma.myContextWrapper;
 import com.stonefacesoft.ottaa.utils.Accesibilidad.ControlFacial;
 import com.stonefacesoft.ottaa.utils.Firebase.AnalyticsFirebase;
-import com.stonefacesoft.ottaa.utils.HandlerComunicationClass;
+import com.stonefacesoft.ottaa.utils.Handlers.HandlerComunicationClass;
 import com.stonefacesoft.ottaa.utils.IntentCode;
 import com.stonefacesoft.ottaa.utils.ObservableInteger;
 import com.stonefacesoft.ottaa.utils.constants.Constants;
@@ -52,7 +52,6 @@ import com.stonefacesoft.ottaa.utils.constants.ConstantsAnalyticsValues;
 import com.stonefacesoft.ottaa.utils.preferences.PersonalSwitchPreferences;
 import com.stonefacesoft.ottaa.utils.textToSpeech;
 
-import java.io.File;
 import java.util.Locale;
 
 /**

@@ -165,7 +165,18 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/Option1"
             app:layout_constraintTop_toTopOf="parent" />
-
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/lottieAnimationView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:visibility="gone"
+            app:lottie_colorFilter="@color/NaranjaOTTAA"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginTop="100dp"
+            app:lottie_fileName="circle_loader.json"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
     <Button
         android:id="@+id/btnBarrido"

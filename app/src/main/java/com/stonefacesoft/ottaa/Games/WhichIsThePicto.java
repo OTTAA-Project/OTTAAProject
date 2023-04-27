@@ -187,7 +187,6 @@ public class WhichIsThePicto extends GameViewSelectPictogramsFourOptions {
         music.playMusic();
         //Declaramos el boton para que reproduzca el tts con lo que tiene que decir
 
-        TextView mSeleccion = findViewById(R.id.SeleccioneEste);
 
         //Implementacion de los botones de la pregunta
 
