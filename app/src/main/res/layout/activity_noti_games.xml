@@ -31,6 +31,16 @@
         app:layout_constraintTop_toBottomOf="@+id/toolbar"
         app:layout_constraintEnd_toEndOf="parent">
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:id="@+id/container0"
+            app:layout_constraintBottom_toTopOf="@id/container"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_weight="2"
+            >
         <TextView
             android:id="@+id/SeleccioneEste"
             android:layout_width="0dp"
@@ -40,12 +50,12 @@
             android:text="@string/whichpictogram"
             android:textColor="@color/White"
             android:textSize="25sp"
-            app:layout_constraintBottom_toBottomOf="@id/Seleccion1"
+            app:layout_constraintBottom_toBottomOf="@id/ttsJuego"
             app:layout_constraintEnd_toStartOf="@id/ttsJuego"
             app:layout_constraintHorizontal_weight="1"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.32" />
+            app:layout_constraintTop_toTopOf="@id/ttsJuego"
+             />
 
         <ImageButton
             android:id="@+id/ttsJuego"
@@ -74,18 +84,46 @@
             android:scaleType="fitXY"
             android:src="@drawable/amistad"
             android:layout_margin="@dimen/small_margin"
-            app:layout_constraintBottom_toTopOf="@id/Option1"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:visibility="invisible"
+
             app:layout_constraintHorizontal_bias="0.60"
             app:layout_constraintDimensionRatio="1:1"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_weight="1"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintVertical_weight="2" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:id="@+id/story"
+                android:scrollbars="vertical"
+                android:visibility="gone"
+                android:scrollbarFadeDuration="0"
+                android:scrollbarAlwaysDrawVerticalTrack="true"
+                android:layout_marginEnd="@dimen/medium_margin"
+                android:layout_marginStart="@dimen/medium_margin"
+                app:layout_constraintDimensionRatio="5:3"
+                app:layout_constraintVertical_weight="2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                />
 
 
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:id="@+id/container"
+            app:layout_constraintTop_toBottomOf="@id/container0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintVertical_weight="4"
+            >
 
         <com.stonefacesoft.pictogramslibrary.view.PictoView
             android:id="@+id/Option1"
@@ -97,10 +135,10 @@
             android:layout_marginTop="@dimen/activity_horizontal_margin"
             android:layout_marginStart="@dimen/activity_horizontal_margin"
             android:layout_marginEnd="@dimen/interpicto_margin"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/Option2"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/Seleccion1"
             app:layout_constraintVertical_weight="4">
         </com.stonefacesoft.pictogramslibrary.view.PictoView>
 
@@ -148,6 +186,8 @@
             app:layout_constraintStart_toEndOf="@id/Option3"
             app:layout_constraintTop_toTopOf="@id/Option1">
         </com.stonefacesoft.pictogramslibrary.view.PictoView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
         <ImageView
             android:id="@+id/ganarImagen"
             android:layout_width="100dp"
@@ -156,7 +196,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/Option1"/>
+            app:layout_constraintTop_toTopOf="@id/container"/>
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/lottieAnimationView"
             android:layout_width="0dp"

@@ -2,6 +2,7 @@ package com.stonefacesoft.ottaa.Views.Games;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -21,7 +22,9 @@ import com.stonefacesoft.ottaa.Interfaces.Lock_Unlocked_Pictograms;
 import com.stonefacesoft.ottaa.Interfaces.Make_Click_At_Time;
 import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.utils.Audio.MediaPlayerAudio;
+import com.stonefacesoft.ottaa.utils.CustomToast;
 import com.stonefacesoft.ottaa.utils.Firebase.AnalyticsFirebase;
+import com.stonefacesoft.ottaa.utils.Ttsutils.UtilsGamesTTS;
 import com.stonefacesoft.ottaa.utils.textToSpeech;
 import com.stonefacesoft.pictogramslibrary.view.PictoView;
 
@@ -52,6 +55,13 @@ public class GameViewSelectPictogramsFourOptions extends AppCompatActivity imple
 
     protected TextView mSeleccion;
 
+    protected CustomToast dialogo;
+
+    protected UtilsGamesTTS mUtilsTTS;
+
+    protected SharedPreferences sharedPrefsDefault;
+
+
 
 
     @Override
@@ -67,6 +77,7 @@ public class GameViewSelectPictogramsFourOptions extends AppCompatActivity imple
         mPositionPadre = intent.getIntExtra("PositionPadre", 0);
         analitycsFirebase = new AnalyticsFirebase(this);
         setContentView(R.layout.activity_noti_games);
+
     }
 
     @Override
@@ -129,6 +140,11 @@ public class GameViewSelectPictogramsFourOptions extends AppCompatActivity imple
         Seleccion1 = findViewById(R.id.Seleccion1);
         Seleccion1.goneCustomTexto();
         Seleccion1.setOnClickListener(this);
+    }
 
+    protected void initUtilsTTS(SharedPreferences sharedPreferences){
+        if (mUtilsTTS == null) {
+            mUtilsTTS = new UtilsGamesTTS(this, myTTS.getTTS(), dialogo, sharedPreferences, this);
+        }
     }
 }

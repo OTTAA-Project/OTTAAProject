@@ -28,19 +28,13 @@ public class Grupo_Recycler_View_Game extends Custom_recyclerView implements Vie
 
     public Grupo_Recycler_View_Game(AppCompatActivity mActivity, FirebaseAuth mAuth) {
         super(mActivity, mAuth);
+        this.mActivity = mActivity;
         initArray();
         createRecyclerLayoutManager();
         cargarGrupo();
     }
 
-    public void cargarGrupo(){
-        mGaleriaGruposAdapter = new GaleriaGruposAdapter(mActivity, R.layout.grid_group_layout_2, mAuth);
-        DefaultItemAnimator itemAnimator = new DefaultItemAnimator();
-        mRecyclerView.setItemAnimator(itemAnimator);
-        mRecyclerView.setAdapter(mGaleriaGruposAdapter);
-        mGaleriaGruposAdapter.setmArrayGrupos(array);
-        mRecyclerView.addOnItemTouchListener(recyclerItemClickListener());
-    }
+
 
     private RecyclerItemClickListener recyclerItemClickListener(){
         return new RecyclerItemClickListener(mRecyclerView,mActivity, new RecyclerItemClickListener.OnItemClickListener() {
@@ -70,8 +64,8 @@ public class Grupo_Recycler_View_Game extends Custom_recyclerView implements Vie
                             intent2.putExtra("Nombre", JSONutils.getNombre(object, sharedPrefsDefault.getString(mActivity.getString(R.string.str_idioma), "en")));
                             CrashlyticsUtils.getInstance().getCrashlytics().setCustomKey("Grupo Usado", JSONutils.getNombre(object, sharedPrefsDefault.getString(mActivity.getString(R.string.str_idioma), "en")));
                         }
+                        mActivity.startActivityForResult(intent2, IntentCode.GALERIA_PICTOS.getCode());
                         //NOTA: hay  que tener en cuenta que cuando se hace de manera local esto funciona de una ,para la sincronizacion esto puede pisar los datos cuando sea en simultaneo
-                        mActivity.startActivityForResult(intent2, IntentCode.TELL_A_STORY.getCode());
                     }
 
                 }
@@ -87,6 +81,16 @@ public class Grupo_Recycler_View_Game extends Custom_recyclerView implements Vie
 
             }
         });
+    }
+
+
+    public void cargarGrupo(){
+        mGaleriaGruposAdapter = new GaleriaGruposAdapter(mActivity, R.layout.grid_group_layout_2, mAuth);
+        DefaultItemAnimator itemAnimator = new DefaultItemAnimator();
+        mRecyclerView.setItemAnimator(itemAnimator);
+        mRecyclerView.setAdapter(mGaleriaGruposAdapter);
+        mGaleriaGruposAdapter.setmArrayGrupos(array);
+        mRecyclerView.addOnItemTouchListener(recyclerItemClickListener());
     }
 
     private void initArray(){

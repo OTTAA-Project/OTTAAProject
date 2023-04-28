@@ -1,14 +1,23 @@
 package com.stonefacesoft.ottaa.Games;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 import com.stonefacesoft.ottaa.Activities.Groups_TellStory;
+import com.stonefacesoft.ottaa.FirebaseRequests.FirebaseUtils;
 import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.R;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.stonefacesoft.ottaa.Views.Games.GameViewSelectPictogramsFourOptions;
@@ -18,6 +27,7 @@ import com.stonefacesoft.ottaa.utils.Games.TellAStoryUtils;
 import com.stonefacesoft.ottaa.utils.Handlers.HandlerComunicationClass;
 import com.stonefacesoft.ottaa.utils.Handlers.HandlerUtils;
 import com.stonefacesoft.ottaa.utils.IntentCode;
+import com.stonefacesoft.ottaa.utils.RemoteConfigUtils;
 import com.stonefacesoft.ottaa.utils.TalkActions.ProcessPhrase;
 import com.stonefacesoft.ottaa.utils.TalkActions.TellStoryPhrase;
 import com.stonefacesoft.ottaa.utils.constants.Constants;
@@ -33,15 +43,18 @@ import com.stonefacesoft.pictogramslibrary.view.PictoView;
  *  Option four show: Places and Stores
  * */
 public class TellAStory extends GameViewSelectPictogramsFourOptions {
-    private String promptChatGpt ="Act as a kindergarten teacher and tell me a story in "+ConfigurarIdioma.getNormalLanguage()+" for kids using the following words. The story should be short, one paragraph, and funny.{option1},{option2},{option3},{option4}:";
-    private String promptChatGptAux ="Act as a kindergarten teacher and tell me a story in "+ConfigurarIdioma.getNormalLanguage()+" for kids using the following words. The story should be short, one paragraph, and funny.{option1},{option2},{option3},{option4}:";
+    private String promptChatGpt ="Act as a kindergarten teacher and tell me a story in {language} for kids using the following words :{option1},{option2},{option3},{option4}. The story should be short, one paragraph, and funny";
+    private String promptChatGptAux ="";
     private int flag;
     private Json json;
     private GlideAttatcher glideAttatcher;
 
     private String story="";
     private TellStoryPhrase tellStoryPhrase;
-    private boolean updatePrompt;
+
+    private boolean executeChatGPT = true;
+
+    private TextView textView;
 
 
 
@@ -51,17 +64,22 @@ public class TellAStory extends GameViewSelectPictogramsFourOptions {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initComponents();
+        textView = findViewById(R.id.story);
+        textView.setVisibility(View.VISIBLE);
+        sharedPrefsDefault = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         mSeleccion.setText(R.string.TellStory_Description);
         myTTS = textToSpeech.getInstance(this);
         lottieAnimationView = findViewById(R.id.lottieAnimationView);
         Seleccion1.setVisibility(View.INVISIBLE);
         mAnimationWin.setVisibility(View.GONE);
-        Opcion1.setCustom_Texto("Personaje");
-        Opcion2.setCustom_Texto("Color");
-        Opcion3.setCustom_Texto("Accion");
-        Opcion4.setCustom_Texto("Lugar");
         tellStoryPhrase = new TellStoryPhrase(this,lottieAnimationView,this,promptChatGpt, HandlerUtils.TRANSLATEDPHRASE);
-
+        if(json==null) {
+            json = Json.getInstance();
+        }
+        initUtilsTTS(sharedPrefsDefault);
+        json.setmJSONArrayTodosLosPictos(Json.getInstance().getmJSONArrayTodosLosPictos());
+        downloadPromt();
+        initPictograms();
         //  hideAllViews();
 
     }
@@ -87,7 +105,11 @@ public class TellAStory extends GameViewSelectPictogramsFourOptions {
         }
     }
 
-
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Json.getInstance().setmContext(this);
+    }
 
     private void showIcon(int position){
         TellAStoryUtils.getInstance().setPictoPosition(position);
@@ -95,28 +117,8 @@ public class TellAStory extends GameViewSelectPictogramsFourOptions {
         startActivityForResult(intent, IntentCode.TELL_A_STORY.getCode());
     }
 
-    public void showViews(int flag){
-        switch (flag){
-            case 1:
-                Opcion2.setVisibility(View.VISIBLE);
-            break;
-            case 2:
-                Opcion3.setVisibility(View.VISIBLE);
-            break;
-            case 3:
-                Opcion4.setVisibility(View.VISIBLE);
-            break;
-            default:
-                Opcion1.setVisibility(View.VISIBLE);
-            break;
-        }
-    }
 
-    public void hideAllViews(){
-        Opcion2.setVisibility(View.INVISIBLE);
-        Opcion3.setVisibility(View.INVISIBLE);
-        Opcion4.setVisibility(View.INVISIBLE);
-    }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -131,10 +133,7 @@ public class TellAStory extends GameViewSelectPictogramsFourOptions {
 
     private void galeriaGruposResult(Intent data) {
         if (data != null) {
-            if(json==null) {
-                json = Json.getInstance();
-            }
-            json.setmJSONArrayTodosLosPictos(Json.getInstance().getmJSONArrayTodosLosPictos());
+
             Bundle extras = data.getExtras();
             if (extras != null) {
                 int Picto = extras.getInt("ID");
@@ -146,41 +145,100 @@ public class TellAStory extends GameViewSelectPictogramsFourOptions {
     }
 
     private void loadPictogram(int picto){
+        executeChatGPT = true;
         if(glideAttatcher == null)
             glideAttatcher = new GlideAttatcher(getApplicationContext());
         switch (TellAStoryUtils.getInstance().getPictoPosition()){
             case 0:
-                loadDataPictoView(picto,Opcion1);
+                loadDataPictoView(picto,Opcion1,false);
                 break;
             case 1:
-                loadDataPictoView(picto,Opcion2);
+                loadDataPictoView(picto,Opcion2,false);
                 break;
             case 2:
-                loadDataPictoView(picto,Opcion3);
+                loadDataPictoView(picto,Opcion3,false);
                 break;
             case 3:
-                loadDataPictoView(picto,Opcion4);
+                loadDataPictoView(picto,Opcion4,false);
                 break;
         }
     }
 
-    private void loadDataPictoView(int id, PictoView option){
+    private void loadDataPictoView(int id, PictoView option,boolean group){
         option.setUpContext(this);
         option.setUpGlideAttatcher(this);
-        option.setPictogramsLibraryPictogram(new Pictogram(json.getPictoFromId2(id), ConfigurarIdioma.getLanguaje()));
+        if(!group)
+            option.setPictogramsLibraryPictogram(new Pictogram(Json.getInstance().getPictoFromId2(id), ConfigurarIdioma.getLanguaje()));
+        else
+            option.setPictogramsLibraryPictogram(new Pictogram(Json.getInstance().getGrupoFromId(id), ConfigurarIdioma.getLanguaje()));
     }
 
     public void executeChatGpt(){
-        promptChatGptAux = promptChatGpt.replace("{option1}",Opcion1.getCustom_Texto()).replace("{option2}",Opcion2.getCustom_Texto()).replace("{option3}",Opcion3.getCustom_Texto()).replace("{option4}",Opcion4.getCustom_Texto());
-        tellStoryPhrase.executeChatGpt(promptChatGptAux);
+        if(executeChatGPT){
+            executeChatGPT = false;
+            promptChatGptAux = promptChatGpt.replace("{language}",ConfigurarIdioma.getNormalLanguage()).replace("{option1}",Opcion1.getCustom_Texto()).replace("{option2}",Opcion2.getCustom_Texto()).replace("{option3}",Opcion3.getCustom_Texto()).replace("{option4}",Opcion4.getCustom_Texto());
+            tellStoryPhrase.executeChatGpt(promptChatGptAux);
+        }else{
+            talkAction();
+        }
     }
 
     public void talkAction(){
         if(!story.isEmpty())
-            myTTS.hablar(story);
+            mUtilsTTS.hablar(story);
     }
 
     public void setStory(String story) {
         this.story = story;
+    }
+
+
+
+    private void initPictograms(){
+        loadDataPictoView(17,Opcion1,true);
+        loadDataPictoView(1,Opcion2,true);
+        loadDataPictoView(0,Opcion3,true);
+        loadDataPictoView(21,Opcion4,true);
+    }
+
+    public void downloadPromt(){
+        promptChatGpt = RemoteConfigUtils.getInstance().getmFirebaseRemoteConfig().getString("tellStoryChatGPT");
+        Log.d("ChatGPT", "downloadPromt: "+ promptChatGpt);
+    /*    DatabaseReference ref = FirebaseUtils.getInstance().getmDatabase();
+        ref.child("ChatGPTPrompt").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.hasChild(ConfigurarIdioma.getLanguaje())){
+                    snapshot.child(ConfigurarIdioma.getLanguaje()).getRef().addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            promptChatGpt = snapshot.getValue().toString();
+                            Log.e(TAG, "Download Prompt: "+ chatGPTPrompt );
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });*/
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mUtilsTTS.stop();
+    }
+
+    public void setText(){
+       if(!story.isEmpty())
+            textView.setText(story);
     }
 }

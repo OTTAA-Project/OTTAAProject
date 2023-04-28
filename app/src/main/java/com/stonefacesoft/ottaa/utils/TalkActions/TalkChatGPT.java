@@ -2,6 +2,8 @@ package com.stonefacesoft.ottaa.utils.TalkActions;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
 
@@ -35,6 +37,7 @@ public class TalkChatGPT extends TalkAction{
     public void executeChatGPT(JSONObject jsonObject, int option) {
 
         Executor executor = Executors.newSingleThreadExecutor();
+        Handler handler = new Handler(Looper.getMainLooper());
 
             onPreExecute();
         executor.execute(()->{
@@ -55,6 +58,9 @@ public class TalkChatGPT extends TalkAction{
                         }finally {
                            finishAnimationView();
                        }
+                        handler.post(()->{
+                            handlerComunicationClass.sendMessage(Message.obtain(handlerComunicationClass,HandlerUtils.SHOWTEXT));
+                        });
                     },
                     error -> {
                         Log.e(TAG, "onErrorResponse: Error " + error.getMessage());
@@ -72,6 +78,7 @@ public class TalkChatGPT extends TalkAction{
             };
             request.setRetryPolicy(new DefaultRetryPolicy(10000,DefaultRetryPolicy.DEFAULT_MAX_RETRIES,DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
             queue.add(request);
+
         });
 
     }

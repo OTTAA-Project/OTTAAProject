@@ -9,6 +9,7 @@ public class HandlerUtils extends Handler {
 
     public static final int SHOWDIALOG=0;
     public static final int DISMISSDIALOG=1;
+    public static final int SHOWTEXT=35;
 
 
 }

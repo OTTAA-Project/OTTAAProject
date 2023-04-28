@@ -29,11 +29,12 @@ public class TalkAction {
     }
 
     protected void onPreExecute() {
-
-            animationView.setVisibility(View.VISIBLE);
-            animationView.setAnimation("circle_loader.json");
-            animationView.loop(true);
-            animationView.playAnimation();
+          if(animationView!=null){
+             animationView.setVisibility(View.VISIBLE);
+             animationView.setAnimation("circle_loader.json");
+             animationView.loop(true);
+             animationView.playAnimation();
+          }
         }
 
         public void executeChatGPT(JSONObject jsonObject){
@@ -53,9 +54,10 @@ public class TalkAction {
         }
 
         protected void finishAnimationView(){
-         if(animationView.isAnimating())
+         if(animationView!=null&& animationView.isAnimating()){
             animationView.cancelAnimation();
             animationView.setVisibility(View.GONE);
+          }
         }
 
     public String getOracion() {

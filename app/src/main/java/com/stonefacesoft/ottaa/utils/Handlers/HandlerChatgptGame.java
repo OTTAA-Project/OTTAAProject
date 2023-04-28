@@ -23,9 +23,11 @@ public class HandlerChatgptGame extends HandlerUtils{
                 tellAStory.setStory((String) msg.obj);
                 tellAStory.talkAction();
                 break;
+            case SHOWTEXT:
+                tellAStory.setText();
+                break;
             default:
                 Log.d("TellStory", "handleMessage: "+(String) msg.obj);
-                tellAStory.setStory((String) msg.obj);
         }
     }
 }

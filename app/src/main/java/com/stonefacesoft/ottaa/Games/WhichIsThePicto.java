@@ -71,12 +71,9 @@ public class WhichIsThePicto extends GameViewSelectPictogramsFourOptions {
     //Handler para animar la respuesat correcta luego de un tiempo si no se presiona
     private final Handler handlerHablar = new Handler();
     private final Handler decirPicto = new Handler();
-    private SharedPreferences sharedPrefsDefault;
     //
-    private CustomToast dialogo;
     //Declaracion de variables del TTS
     private TextToSpeech mTTS;
-    private UtilsGamesTTS mUtilsTTS;
     //Question Button
     //Winner imageview
     // Answer button
@@ -178,12 +175,10 @@ public class WhichIsThePicto extends GameViewSelectPictogramsFourOptions {
         primerUso = true;
         //Implemento el manejador de preferencias
         sharedPrefsDefault = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        initUtilsTTS(sharedPrefsDefault);
         gamesSettings = new GamesSettings();
         gamesSettings.enableSound(sharedPrefsDefault.getBoolean("muteSound", false)).enableHelpFunction(sharedPrefsDefault.getBoolean(getString(R.string.str_pistas), true));
         music.setMuted(gamesSettings.isSoundOn());
-        if (mUtilsTTS == null) {
-            mUtilsTTS = new UtilsGamesTTS(this, mTTS, dialogo, sharedPrefsDefault, this);
-        }
         music.playMusic();
         //Declaramos el boton para que reproduzca el tts con lo que tiene que decir
 

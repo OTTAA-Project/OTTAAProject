@@ -20,6 +20,7 @@ import com.stonefacesoft.ottaa.Games.GameSelector;
 import com.stonefacesoft.ottaa.Games.TellAStory;
 import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.R;
+import com.stonefacesoft.ottaa.utils.ConnectionDetector;
 import com.stonefacesoft.ottaa.utils.IntentCode;
 import com.stonefacesoft.ottaa.utils.ReturnPositionItem;
 
@@ -40,9 +41,13 @@ public class viewpager_galeria_juegos {
     private JSONObject gameData;
     private ReturnPositionItem positionItem;
 
+    private int size = 4;
+
 
     public viewpager_galeria_juegos(AppCompatActivity mActivity) {
         viewpager_galeria_juegos.mActivity = mActivity;
+        if(!ConnectionDetector.isNetworkAvailable(mActivity))
+            size = 3;
         json = Json.getInstance();
         json.setmContext(viewpager_galeria_juegos.mActivity);
         viewPager = mActivity.findViewById(R.id.viewpager);
@@ -62,7 +67,7 @@ public class viewpager_galeria_juegos {
 
         @Override
         public int getItemCount() {
-                return 4;
+                return size;
         }
     }
 
@@ -123,7 +128,7 @@ public class viewpager_galeria_juegos {
                     card.setmTxtScore(json.devolverCantidadGruposUsados(2)+"/"+json.getmJSONArrayTodosLosGrupos().length());//todo in recycler fill with the position
                     break;
                 case 3:
-                    card.prepareCardView(R.string.TellStory, R.string.TellStory_Description, R.drawable.frame_949, createOnClickListener(mActivity, TellAStory.class, "history"));
+                    card.prepareCardView(R.string.TellStory, R.string.TellStory_Description, R.drawable.cuento, createOnClickListener(mActivity, TellAStory.class, "history"));
                     card.setmTxtScore(json.devolverCantidadGruposUsados(2)+"/"+json.getmJSONArrayTodosLosGrupos().length());//todo in recycler fill with the position
                     break;
             }

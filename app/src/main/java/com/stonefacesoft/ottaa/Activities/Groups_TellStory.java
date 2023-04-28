@@ -27,8 +27,8 @@ import com.stonefacesoft.ottaa.utils.constants.ConstantsGroupGalery;
 
 public class Groups_TellStory extends GroupGalleryNavigator {
 
-    private Grupo_Recycler_View_Game recycler_view_grupo;
-    private viewpager_game_filter_view viewpager;
+    protected Grupo_Recycler_View_Game recycler_view_grupo;
+    protected viewpager_game_filter_view viewpager;
     private int boton;
 
     @Override
@@ -73,6 +73,7 @@ public class Groups_TellStory extends GroupGalleryNavigator {
         recycler_view_grupo.setMyTTS(myTTS);
         recycler_view_grupo.setSharedPrefsDefault(sharedPrefsDefault);
         recycler_view_grupo.showRecyclerView(showViewPager);
+
     }
 
     private void navigateButtonAction(boolean next,String actionName){
@@ -131,15 +132,15 @@ public class Groups_TellStory extends GroupGalleryNavigator {
         return deviceControl.makeClick(event);
     }
 
-    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case ConstantsGroupGalery
                     .GALERIAPICTOS:
                 returnData(data, IntentCode.TELL_A_STORY);
                 break;
         }
+        super.onActivityResult(requestCode, resultCode, data);
+
     }
 
 

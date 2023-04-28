@@ -181,7 +181,7 @@ public class GaleriaGrupos2 extends GroupGalleryNavigator implements  FirebaseSu
         viewpager=new viewpager_galeria_grupo(this,myTTS);
 
         viewpager.showViewPager(showViewPager);
-        //showView(editButton,showViewPager);
+         //showView(editButton,showViewPager);
         deviceControl=new GaleriaGruposControls(this);
     }
 
