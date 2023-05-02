@@ -12,13 +12,24 @@ import com.stonefacesoft.ottaa.R;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Display;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.stonefacesoft.ottaa.Views.Games.GameViewSelectPictogramsFourOptions;
 import com.stonefacesoft.ottaa.idioma.ConfigurarIdioma;
@@ -54,8 +65,17 @@ public class TellAStory extends GameViewSelectPictogramsFourOptions {
 
     private boolean executeChatGPT = true;
 
-    private TextView textView;
+    private ImageView textView;
+    private TextView textViewStory;
 
+    private ConstraintLayout menu_game;
+    private ConstraintLayout gallery_navigator;
+
+    private boolean tablet;
+
+    private Menu mMenu;
+
+    private MenuItem scoreItem;
 
 
     private LottieAnimationView lottieAnimationView;
@@ -63,20 +83,27 @@ public class TellAStory extends GameViewSelectPictogramsFourOptions {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setToolbarName(toolbar,R.string.TellStory);
         initComponents();
+        tablet = isTablet();
+        menu_game = findViewById(R.id.container1);
+        gallery_navigator = findViewById(R.id.container);
         textView = findViewById(R.id.story);
+        textViewStory = findViewById(R.id.storyText);
         textView.setVisibility(View.VISIBLE);
+        textView.setOnClickListener(this);
         sharedPrefsDefault = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         mSeleccion.setText(R.string.TellStory_Description);
         myTTS = textToSpeech.getInstance(this);
         lottieAnimationView = findViewById(R.id.lottieAnimationView);
-        Seleccion1.setVisibility(View.INVISIBLE);
+        Seleccion1.setVisibility(View.GONE);
         mAnimationWin.setVisibility(View.GONE);
         tellStoryPhrase = new TellStoryPhrase(this,lottieAnimationView,this,promptChatGpt, HandlerUtils.TRANSLATEDPHRASE);
         if(json==null) {
             json = Json.getInstance();
         }
-        initUtilsTTS(sharedPrefsDefault);
+       // initUtilsTTS(sharedPrefsDefault);
         json.setmJSONArrayTodosLosPictos(Json.getInstance().getmJSONArrayTodosLosPictos());
         downloadPromt();
         initPictograms();
@@ -102,6 +129,10 @@ public class TellAStory extends GameViewSelectPictogramsFourOptions {
             case R.id.ttsJuego:
                 executeChatGpt();
                 break;
+            case R.id.story:
+                    showOrHidePictograms();
+                break;
+
         }
     }
 
@@ -167,10 +198,12 @@ public class TellAStory extends GameViewSelectPictogramsFourOptions {
     private void loadDataPictoView(int id, PictoView option,boolean group){
         option.setUpContext(this);
         option.setUpGlideAttatcher(this);
-        if(!group)
-            option.setPictogramsLibraryPictogram(new Pictogram(Json.getInstance().getPictoFromId2(id), ConfigurarIdioma.getLanguaje()));
+        if(group) {
+            Pictogram pictogram = new Pictogram(Json.getInstance().getGrupoFromId(id), ConfigurarIdioma.getLanguaje());
+            option.setCustom_Texto(pictogram.getObjectName());
+        }
         else
-            option.setPictogramsLibraryPictogram(new Pictogram(Json.getInstance().getGrupoFromId(id), ConfigurarIdioma.getLanguaje()));
+            option.setPictogramsLibraryPictogram(new Pictogram(Json.getInstance().getPictoFromId2(id), ConfigurarIdioma.getLanguaje()));
     }
 
     public void executeChatGpt(){
@@ -185,7 +218,7 @@ public class TellAStory extends GameViewSelectPictogramsFourOptions {
 
     public void talkAction(){
         if(!story.isEmpty())
-            mUtilsTTS.hablar(story);
+            myTTS.hablar(story);
     }
 
     public void setStory(String story) {
@@ -234,11 +267,65 @@ public class TellAStory extends GameViewSelectPictogramsFourOptions {
     @Override
     protected void onStop() {
         super.onStop();
-        mUtilsTTS.stop();
+      myTTS.getTTS().stop();
     }
 
     public void setText(){
-       if(!story.isEmpty())
-            textView.setText(story);
+        textViewStory.setText(story);
+
     }
+
+    private boolean isTablet() {
+        // Get the screen size of the device
+        Display display = getWindowManager().getDefaultDisplay();
+        DisplayMetrics metrics = new DisplayMetrics();
+        display.getMetrics(metrics);
+        float widthInches = metrics.widthPixels / metrics.xdpi;
+        float heightInches = metrics.heightPixels / metrics.ydpi;
+        double diagonalInches = Math.sqrt(Math.pow(widthInches, 2) + Math.pow(heightInches, 2));
+
+        // Check if the screen size is greater than or equal to 7 inches
+        return diagonalInches >= 7;
+    }
+
+    private void showOrHidePictograms(){
+        int drawable= R.drawable.baseline_visibility_off_24;
+        int view =  menu_game.getVisibility();
+            if(view==View.GONE){
+                menu_game.setVisibility(View.VISIBLE);
+                drawable = R.drawable.baseline_visibility_off_24;
+                if(!isTablet())
+                    gallery_navigator.setVisibility(View.GONE);
+            }
+            else if(view== View.VISIBLE){
+                menu_game.setVisibility(View.GONE);
+                if(!isTablet())
+                    gallery_navigator.setVisibility(View.VISIBLE);
+                drawable = R.drawable.baseline_visibility_24;
+
+            }
+
+        textView.setImageDrawable(getResources().getDrawable(drawable));
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        mMenu = menu;
+        inflater.inflate(R.menu.action_bar_game, mMenu);
+        // mMenu = menu;
+        scoreItem = menu.findItem(R.id.score);
+        // animGameScore.setMenuView(mMenu);
+        mMenu.getItem(0).setVisible(true);
+        menu.getItem(2).setVisible(false);
+        mMenu.getItem(0).setOnMenuItemClickListener(this::onMenuItemClick);
+        mMenu.getItem(1).setOnMenuItemClickListener(this::onMenuItemClick);
+        mMenu.getItem(3).setOnMenuItemClickListener(this::onMenuItemClick);
+
+        setIcon(mMenu.getItem(3),false, R.drawable.ic_volume_off_white_24dp, R.drawable.ic_volume_up_white_24dp);
+        setIcon(mMenu.getItem(1),false, R.drawable.ic_live_help_white_24dp, R.drawable.ic_unhelp);
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
 }

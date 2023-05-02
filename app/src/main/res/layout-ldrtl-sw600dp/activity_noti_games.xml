@@ -62,20 +62,21 @@
             android:layout_toEndOf="@+id/SeleccioneEste"
             android:background="@color/colorTransparent"
             android:contentDescription="Touch to read outloud"
-            android:scaleType="fitCenter"
+            android:scaleType="centerInside"
             android:src="@drawable/icono_ottaa"
             android:layout_margin="@dimen/small_margin"
-            app:layout_constraintBottom_toBottomOf="@id/Seleccion1"
-            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="h"
             app:layout_constraintHorizontal_weight="1"
             app:layout_constraintEnd_toStartOf="@+id/Seleccion1"
             app:layout_constraintStart_toEndOf="@id/SeleccioneEste"
-            app:layout_constraintTop_toTopOf="@id/Seleccion1"
+            app:layout_constraintTop_toTopOf="parent"
             />
-            <TextView
+            <ImageView
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:id="@+id/story"
+                android:src="@drawable/baseline_visibility_24"
                 android:scrollbars="vertical"
                 android:scrollbarFadeDuration="0"
                 android:scrollbarAlwaysDrawVerticalTrack="true"
@@ -83,7 +84,7 @@
                 android:visibility="gone"
                 android:textColor="@color/White"
                 android:layout_marginStart="@dimen/medium_margin"
-                app:layout_constraintDimensionRatio="5:4"
+                app:layout_constraintDimensionRatio="1:1"
                 app:layout_constraintVertical_weight="2"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -116,93 +117,31 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <include
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:id="@+id/container"
+            layout="@layout/pictos_container"
             app:layout_constraintTop_toBottomOf="@id/container0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/container1"
+            app:layout_constraintVertical_weight="4"
+            >
+        </include>
+        <include
+            layout="@layout/menu_games"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:id="@+id/container1"
+            app:layout_constraintTop_toBottomOf="@id/container"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintVertical_weight="4"
-            >
+            android:visibility="gone"
 
-
-        <com.stonefacesoft.pictogramslibrary.view.PictoView
-            android:id="@+id/Option1"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:padding="5dp"
-            app:Imagen="2"
-            app:Texto="Hola"
-            android:layout_marginTop="@dimen/activity_horizontal_margin"
-            android:layout_marginStart="@dimen/activity_horizontal_margin"
-            android:layout_marginEnd="@dimen/interpicto_margin"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/Option2"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_weight="4">
-        </com.stonefacesoft.pictogramslibrary.view.PictoView>
-
-        <com.stonefacesoft.pictogramslibrary.view.PictoView
-            android:id="@+id/Option2"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:padding="5dp"
-            app:Imagen="2"
-            app:Texto="Hola"
-            android:layout_marginStart="@dimen/interpicto_margin"
-            android:layout_marginEnd="@dimen/interpicto_margin"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/Option3"
-            app:layout_constraintStart_toEndOf="@id/Option1"
-            app:layout_constraintTop_toTopOf="@id/Option1">
-        </com.stonefacesoft.pictogramslibrary.view.PictoView>
-
-        <com.stonefacesoft.pictogramslibrary.view.PictoView
-            android:id="@+id/Option3"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:padding="5dp"
-            app:Imagen="2"
-            app:Texto="Hola"
-            android:layout_marginStart="@dimen/interpicto_margin"
-            android:layout_marginEnd="@dimen/interpicto_margin"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/Option4"
-            app:layout_constraintStart_toEndOf="@id/Option2"
-            app:layout_constraintTop_toTopOf="@id/Option1">
-        </com.stonefacesoft.pictogramslibrary.view.PictoView>
-
-
-        <com.stonefacesoft.pictogramslibrary.view.PictoView
-            android:id="@+id/Option4"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:padding="5dp"
-            app:Imagen="2"
-            app:Texto="Hola"
-            android:layout_marginStart="@dimen/interpicto_margin"
-            android:layout_marginEnd="@dimen/activity_horizontal_margin"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/Option3"
-            app:layout_constraintTop_toTopOf="@id/Option1">
-        </com.stonefacesoft.pictogramslibrary.view.PictoView>
-
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-        <ImageView
-            android:id="@+id/ganarImagen"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:src="@drawable/checkjuego"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@id/container"
-            app:layout_constraintTop_toTopOf="parent" />
-
+            ></include>
 
 
         <com.airbnb.lottie.LottieAnimationView

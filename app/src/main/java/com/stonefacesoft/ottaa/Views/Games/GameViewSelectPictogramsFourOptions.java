@@ -147,4 +147,12 @@ public class GameViewSelectPictogramsFourOptions extends AppCompatActivity imple
             mUtilsTTS = new UtilsGamesTTS(this, myTTS.getTTS(), dialogo, sharedPreferences, this);
         }
     }
+
+    protected void setIcon(MenuItem item, boolean status, int dEnabled, int dDisabled) {
+        if (status) {
+            item.setIcon(getResources().getDrawable(dEnabled));
+        } else {
+            item.setIcon(getResources().getDrawable(dDisabled));
+        }
+    }
 }

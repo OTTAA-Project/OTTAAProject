@@ -55,6 +55,7 @@ import com.stonefacesoft.ottaa.utils.Games.Juego;
 import com.stonefacesoft.ottaa.utils.JSONutils;
 import com.stonefacesoft.ottaa.utils.Ttsutils.UtilsGamesTTS;
 import com.stonefacesoft.ottaa.utils.exceptions.FiveMbException;
+import com.stonefacesoft.ottaa.utils.textToSpeech;
 import com.stonefacesoft.pictogramslibrary.Classes.Pictogram;
 import com.stonefacesoft.pictogramslibrary.view.PictoView;
 
@@ -165,17 +166,16 @@ public class WhichIsThePicto extends GameViewSelectPictogramsFourOptions {
         super.onCreate(savedInstanceState);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
-        initComponents();
-        model = new WhichIsThePictoModel();
         dialogo = CustomToast.getInstance(this);
-
-
+        sharedPrefsDefault = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        initComponents();
+        myTTS = textToSpeech.getInstance(this);
+        initUtilsTTS(sharedPrefsDefault);
+        model = new WhichIsThePictoModel();
         setToolbarName(toolbar,R.string.whichpictogram);
         context = this;
         primerUso = true;
         //Implemento el manejador de preferencias
-        sharedPrefsDefault = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        initUtilsTTS(sharedPrefsDefault);
         gamesSettings = new GamesSettings();
         gamesSettings.enableSound(sharedPrefsDefault.getBoolean("muteSound", false)).enableHelpFunction(sharedPrefsDefault.getBoolean(getString(R.string.str_pistas), true));
         music.setMuted(gamesSettings.isSoundOn());
@@ -599,13 +599,7 @@ public class WhichIsThePicto extends GameViewSelectPictogramsFourOptions {
         return false;
     }
 
-    private void setIcon(MenuItem item, boolean status, int dEnabled, int dDisabled) {
-        if (status) {
-            item.setIcon(getResources().getDrawable(dEnabled));
-        } else {
-            item.setIcon(getResources().getDrawable(dDisabled));
-        }
-    }
+
 
     @Override
     public void lockPictogram(boolean isSpeaking) {
