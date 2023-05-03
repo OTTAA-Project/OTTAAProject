@@ -127,7 +127,6 @@ public class WhichIsThePicto extends GameViewSelectPictogramsFourOptions {
     };
     private ImageView imageView;
 
-    private BarridoPantalla barridoPantalla;
     private ScrollFuntionGames function_scroll;
 
     //  private FirebaseAnalytics firebaseAnalytics;
@@ -553,7 +552,7 @@ public class WhichIsThePicto extends GameViewSelectPictogramsFourOptions {
         // animGameScore.setMenuView(mMenu);
         setMenuScoreIcon();
         mMenu.getItem(0).setVisible(true);
-        menu.getItem(2).setVisible(false);
+        mMenu.getItem(2).setVisible(false);
         setMenuScoreIcon();
         mMenu.getItem(0).setOnMenuItemClickListener(this::onMenuItemClick);
         mMenu.getItem(1).setOnMenuItemClickListener(this::onMenuItemClick);

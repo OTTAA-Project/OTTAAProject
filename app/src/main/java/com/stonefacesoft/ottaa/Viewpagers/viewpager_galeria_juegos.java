@@ -120,7 +120,7 @@ public class viewpager_galeria_juegos {
                     card.setmTxtScore(json.devolverCantidadGruposUsados(0)+"/"+json.getmJSONArrayTodosLosGrupos().length());
                 break;
                 case 1:
-                    card.prepareCardView( R.string.join_pictograms, R.string.join_pictograms_description, R.drawable.match_picto, createOnClickListener(mActivity, GameSelector.class, "seleccionar_palabras"));
+                    card.prepareCardView( R.string.join_pictograms, R.string.join_pictograms_description, R.drawable.join_pictograms, createOnClickListener(mActivity, GameSelector.class, "seleccionar_palabras"));
                     card.setmTxtScore(json.devolverCantidadGruposUsados(1)+"/"+json.getmJSONArrayTodosLosGrupos().length());//todo in recycler fill with the position
                     break;
                 case 2:
@@ -128,7 +128,7 @@ public class viewpager_galeria_juegos {
                     card.setmTxtScore(json.devolverCantidadGruposUsados(2)+"/"+json.getmJSONArrayTodosLosGrupos().length());//todo in recycler fill with the position
                     break;
                 case 3:
-                    card.prepareCardView(R.string.TellStory, R.string.TellStory_Description, R.drawable.cuento, createOnClickListener(mActivity, TellAStory.class, "history"));
+                    card.prepareCardView(R.string.TellStory, R.string.TellStory_Description, R.drawable.tell_story, createOnClickListener(mActivity, TellAStory.class, "history"));
                     card.setmTxtScore(json.devolverCantidadGruposUsados(2)+"/"+json.getmJSONArrayTodosLosGrupos().length());//todo in recycler fill with the position
                     break;
             }

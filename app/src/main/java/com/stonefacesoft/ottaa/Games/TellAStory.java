@@ -1,12 +1,16 @@
 package com.stonefacesoft.ottaa.Games;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.google.android.exoplayer2.transformer.Transformer;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 import com.stonefacesoft.ottaa.Activities.Groups_TellStory;
+import com.stonefacesoft.ottaa.CompartirArchivos;
+import com.stonefacesoft.ottaa.Dialogos.DialogUtils.DialogGameProgressInform;
 import com.stonefacesoft.ottaa.FirebaseRequests.FirebaseUtils;
+import com.stonefacesoft.ottaa.Interfaces.AudioTransformationListener;
 import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.R;
 
@@ -23,6 +27,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -33,6 +38,8 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.stonefacesoft.ottaa.Views.Games.GameViewSelectPictogramsFourOptions;
 import com.stonefacesoft.ottaa.idioma.ConfigurarIdioma;
+import com.stonefacesoft.ottaa.utils.Accesibilidad.BarridoPantalla;
+import com.stonefacesoft.ottaa.utils.Audio.FileEncoder;
 import com.stonefacesoft.ottaa.utils.CustomToast;
 import com.stonefacesoft.ottaa.utils.Games.TellAStoryUtils;
 import com.stonefacesoft.ottaa.utils.Handlers.HandlerComunicationClass;
@@ -47,13 +54,17 @@ import com.stonefacesoft.pictogramslibrary.Classes.Pictogram;
 import com.stonefacesoft.pictogramslibrary.utils.GlideAttatcher;
 import com.stonefacesoft.pictogramslibrary.view.PictoView;
 
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+
 /***
  *  Option one show : People,Animals , food,games
  *  Option two show : Colours,adjetives and feelings
  *  Option three show: Actions
  *  Option four show: Places and Stores
  * */
-public class TellAStory extends GameViewSelectPictogramsFourOptions {
+public class TellAStory extends GameViewSelectPictogramsFourOptions implements AudioTransformationListener {
     private String promptChatGpt ="Act as a kindergarten teacher and tell me a story in {language} for kids using the following words :{option1},{option2},{option3},{option4}. The story should be short, one paragraph, and funny";
     private String promptChatGptAux ="";
     private int flag;
@@ -71,7 +82,7 @@ public class TellAStory extends GameViewSelectPictogramsFourOptions {
     private ConstraintLayout menu_game;
     private ConstraintLayout gallery_navigator;
 
-    private boolean tablet;
+    private boolean showStory;
 
     private Menu mMenu;
 
@@ -80,18 +91,25 @@ public class TellAStory extends GameViewSelectPictogramsFourOptions {
 
     private LottieAnimationView lottieAnimationView;
 
+    private ArrayList<JSONObject> pictograms;
+    private ImageButton shareStory;
+
+
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setToolbarName(toolbar,R.string.TellStory);
         initComponents();
-        tablet = isTablet();
+        shareStory = findViewById(R.id.shareAction);
+        shareStory.setVisibility(View.GONE);
+        shareStory.setOnClickListener(this);
         menu_game = findViewById(R.id.container1);
         gallery_navigator = findViewById(R.id.container);
         textView = findViewById(R.id.story);
         textViewStory = findViewById(R.id.storyText);
-        textView.setVisibility(View.VISIBLE);
+        textView.setVisibility(View.GONE);
         textView.setOnClickListener(this);
         sharedPrefsDefault = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         mSeleccion.setText(R.string.TellStory_Description);
@@ -107,6 +125,7 @@ public class TellAStory extends GameViewSelectPictogramsFourOptions {
         json.setmJSONArrayTodosLosPictos(Json.getInstance().getmJSONArrayTodosLosPictos());
         downloadPromt();
         initPictograms();
+        iniciarBarrido();
         //  hideAllViews();
 
     }
@@ -115,24 +134,29 @@ public class TellAStory extends GameViewSelectPictogramsFourOptions {
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.Option1:
-                showIcon(0);
+                    showIcon(0);
                 break;
             case R.id.Option2:
-                showIcon(1);
+                    showIcon(1);
                 break;
             case R.id.Option3:
-                showIcon(2);
+                    showIcon(2);
                 break;
             case R.id.Option4:
-                showIcon(3);
+                    showIcon(3);
                 break;
             case R.id.ttsJuego:
-                executeChatGpt();
+                    executeChatGpt();
                 break;
             case R.id.story:
                     showOrHidePictograms();
                 break;
-
+            case R.id.shareAction:
+                    shareAStory();
+                break;
+            case R.id.btnBarrido:
+                    onClick(barridoPantalla.getmListadoVistas().get(barridoPantalla.getPosicionBarrido()));
+                break;
         }
     }
 
@@ -182,15 +206,22 @@ public class TellAStory extends GameViewSelectPictogramsFourOptions {
         switch (TellAStoryUtils.getInstance().getPictoPosition()){
             case 0:
                 loadDataPictoView(picto,Opcion1,false);
+                addPictogramAddPosition(0,picto);
                 break;
             case 1:
                 loadDataPictoView(picto,Opcion2,false);
+                addPictogramAddPosition(1,picto);
+
                 break;
             case 2:
                 loadDataPictoView(picto,Opcion3,false);
+                addPictogramAddPosition(2,picto);
+
                 break;
             case 3:
                 loadDataPictoView(picto,Opcion4,false);
+                addPictogramAddPosition(3,picto);
+
                 break;
         }
     }
@@ -202,8 +233,16 @@ public class TellAStory extends GameViewSelectPictogramsFourOptions {
             Pictogram pictogram = new Pictogram(Json.getInstance().getGrupoFromId(id), ConfigurarIdioma.getLanguaje());
             option.setCustom_Texto(pictogram.getObjectName());
         }
-        else
+        else{
             option.setPictogramsLibraryPictogram(new Pictogram(Json.getInstance().getPictoFromId2(id), ConfigurarIdioma.getLanguaje()));
+        }
+    }
+
+    private void addPictogramAddPosition(int position,int id){
+        if(pictograms == null){
+            pictograms = new ArrayList<>();
+        }
+        pictograms.add(position,Json.getInstance().getPictoFromId2(id));
     }
 
     public void executeChatGpt(){
@@ -275,18 +314,6 @@ public class TellAStory extends GameViewSelectPictogramsFourOptions {
 
     }
 
-    private boolean isTablet() {
-        // Get the screen size of the device
-        Display display = getWindowManager().getDefaultDisplay();
-        DisplayMetrics metrics = new DisplayMetrics();
-        display.getMetrics(metrics);
-        float widthInches = metrics.widthPixels / metrics.xdpi;
-        float heightInches = metrics.heightPixels / metrics.ydpi;
-        double diagonalInches = Math.sqrt(Math.pow(widthInches, 2) + Math.pow(heightInches, 2));
-
-        // Check if the screen size is greater than or equal to 7 inches
-        return diagonalInches >= 7;
-    }
 
     private void showOrHidePictograms(){
         int drawable= R.drawable.baseline_visibility_off_24;
@@ -294,18 +321,18 @@ public class TellAStory extends GameViewSelectPictogramsFourOptions {
             if(view==View.GONE){
                 menu_game.setVisibility(View.VISIBLE);
                 drawable = R.drawable.baseline_visibility_off_24;
-                if(!isTablet())
-                    gallery_navigator.setVisibility(View.GONE);
+                gallery_navigator.setVisibility(View.GONE);
+                showStory = true;
             }
             else if(view== View.VISIBLE){
                 menu_game.setVisibility(View.GONE);
-                if(!isTablet())
-                    gallery_navigator.setVisibility(View.VISIBLE);
+                gallery_navigator.setVisibility(View.VISIBLE);
                 drawable = R.drawable.baseline_visibility_24;
+                showStory = false;
 
             }
 
-        textView.setImageDrawable(getResources().getDrawable(drawable));
+      //  textView.setImageDrawable(getResources().getDrawable(drawable));
     }
 
     @Override
@@ -316,16 +343,74 @@ public class TellAStory extends GameViewSelectPictogramsFourOptions {
         // mMenu = menu;
         scoreItem = menu.findItem(R.id.score);
         // animGameScore.setMenuView(mMenu);
-        mMenu.getItem(0).setVisible(true);
-        menu.getItem(2).setVisible(false);
-        mMenu.getItem(0).setOnMenuItemClickListener(this::onMenuItemClick);
+        mMenu.getItem(0).setVisible(false);
+        mMenu.getItem(1).setVisible(true);
+        mMenu.getItem(2).setVisible(false);
         mMenu.getItem(1).setOnMenuItemClickListener(this::onMenuItemClick);
         mMenu.getItem(3).setOnMenuItemClickListener(this::onMenuItemClick);
 
-        setIcon(mMenu.getItem(3),false, R.drawable.ic_volume_off_white_24dp, R.drawable.ic_volume_up_white_24dp);
-        setIcon(mMenu.getItem(1),false, R.drawable.ic_live_help_white_24dp, R.drawable.ic_unhelp);
+        setIcon(mMenu.getItem(3),false, R.drawable.baseline_wallpaper_24, R.drawable.baseline_text_snippet_24);
+        setIcon(mMenu.getItem(1),false, R.drawable.ic_share_black_24dp, R.drawable.ic_share_black_24dp);
 
         return super.onCreateOptionsMenu(menu);
     }
 
+
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.action_parar:
+                  showOrHidePictograms();
+                  setIcon(item, showStory, R.drawable.baseline_wallpaper_24, R.drawable.baseline_text_snippet_24);
+                break;
+            case R.id.check:
+                    shareAStory();
+                break;
+        }
+        return false;
+    }
+
+    private void shareAStory(){
+        if(!story.isEmpty()&&pictograms!=null) {
+            CompartirArchivos compartirArchivos = new CompartirArchivos(this, myTTS, this);
+            compartirArchivos.setHistorial(pictograms);
+            compartirArchivos.seleccionarFormato(story);
+        }
+    }
+
+    @Override
+    public void startAudioTransformation(Transformer.Listener listener, String filePath, String locationPath) {
+        new FileEncoder(this).encodeAudioFile(listener,filePath,locationPath);
+
+    }
+
+    private void iniciarBarrido() {
+        ArrayList<View> listadoObjetosBarrido = new ArrayList<>();
+        listadoObjetosBarrido.add(imageButton);
+        listadoObjetosBarrido.add(Opcion1);
+        listadoObjetosBarrido.add(Opcion2);
+        listadoObjetosBarrido.add(Opcion3);
+        listadoObjetosBarrido.add(Opcion4);
+
+        //  listadoObjetosBarrido.add(editButton);
+        barridoPantalla = new BarridoPantalla(this, listadoObjetosBarrido);
+        if (barridoPantalla.isBarridoActivado() && barridoPantalla.devolverpago()) {
+            runOnUiThread(new Runnable() {
+
+                @Override
+                public void run() {
+                    // Stuff that updates the UI
+                    btnBarrido.setVisibility(View.VISIBLE);
+                }
+            });
+        } else {
+            btnBarrido.setVisibility(View.GONE);
+        }
+
+
+    }
+
+    public void setExecuteChatGPT(boolean executeChatGPT) {
+        this.executeChatGPT = executeChatGPT;
+    }
 }

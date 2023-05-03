@@ -42,11 +42,13 @@ public class AudioFileCreator extends AppCompatActivity {
     public void createFile(String name){
         try {
             file = getFile(name,".wav");
+            file.deleteOnExit();
         } catch (IOException e) {
             e.printStackTrace();
         }
         try {
             aux = getFile(name,".ogg");
+            aux.deleteOnExit();
         } catch (IOException e) {
             e.printStackTrace();
         }

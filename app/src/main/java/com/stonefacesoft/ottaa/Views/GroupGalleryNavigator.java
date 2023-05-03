@@ -192,7 +192,6 @@ public class GroupGalleryNavigator extends AppCompatActivity implements OnStartD
         listadoObjetosBarrido.add(foward);
         //  listadoObjetosBarrido.add(editButton);
         barridoPantalla = new BarridoPantalla(this, listadoObjetosBarrido);
-        btnBarrido.setBackgroundColor(Color.RED);
         if (barridoPantalla.isBarridoActivado() && barridoPantalla.devolverpago()) {
             runOnUiThread(new Runnable() {
 

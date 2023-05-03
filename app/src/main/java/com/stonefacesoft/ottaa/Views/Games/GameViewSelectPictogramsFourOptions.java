@@ -21,6 +21,7 @@ import androidx.appcompat.widget.Toolbar;
 import com.stonefacesoft.ottaa.Interfaces.Lock_Unlocked_Pictograms;
 import com.stonefacesoft.ottaa.Interfaces.Make_Click_At_Time;
 import com.stonefacesoft.ottaa.R;
+import com.stonefacesoft.ottaa.utils.Accesibilidad.BarridoPantalla;
 import com.stonefacesoft.ottaa.utils.Audio.MediaPlayerAudio;
 import com.stonefacesoft.ottaa.utils.CustomToast;
 import com.stonefacesoft.ottaa.utils.Firebase.AnalyticsFirebase;
@@ -60,6 +61,8 @@ public class GameViewSelectPictogramsFourOptions extends AppCompatActivity imple
     protected UtilsGamesTTS mUtilsTTS;
 
     protected SharedPreferences sharedPrefsDefault;
+
+    protected BarridoPantalla barridoPantalla;
 
 
 
