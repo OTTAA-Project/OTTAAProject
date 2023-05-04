@@ -155,6 +155,7 @@ public class GameViewSelectPictograms extends AppCompatActivity implements View.
         hijos=json.getHijosGrupo2(mPositionPadre);
         numeros=new ArrayList<>();
         animGameScore = new AnimGameScore(this, mAnimationWin);
+
     }
 
     /**

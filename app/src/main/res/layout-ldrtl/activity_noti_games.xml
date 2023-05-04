@@ -30,6 +30,16 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar"
         app:layout_constraintEnd_toEndOf="parent">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:id="@+id/container0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/container"
+            app:layout_constraintVertical_weight="2"
+            >
 
         <TextView
             android:id="@+id/SeleccioneEste"
@@ -40,11 +50,11 @@
             android:textColor="@color/White"
             android:textSize="25sp"
             android:gravity="center"
-            app:layout_constraintBottom_toBottomOf="@id/Seleccion1"
-            app:layout_constraintEnd_toStartOf="@id/Seleccion1"
+            app:layout_constraintBottom_toBottomOf="@id/ttsJuego"
+            app:layout_constraintEnd_toStartOf="@id/ttsJuego"
             app:layout_constraintHorizontal_weight="1"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="@id/ttsJuego"/>
 
         <ImageButton
             android:id="@+id/ttsJuego"
@@ -53,16 +63,34 @@
             android:layout_toEndOf="@+id/SeleccioneEste"
             android:background="@color/colorTransparent"
             android:contentDescription="Touch to read outloud"
-            android:scaleType="fitCenter"
+            android:scaleType="centerInside"
             android:src="@drawable/icono_ottaa"
             android:layout_margin="@dimen/small_margin"
-            app:layout_constraintBottom_toBottomOf="@id/Seleccion1"
-            app:layout_constraintDimensionRatio="1:1"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintDimensionRatio="h"
+            app:layout_constraintHorizontal_weight="1"
             app:layout_constraintEnd_toStartOf="@+id/Seleccion1"
             app:layout_constraintStart_toEndOf="@id/SeleccioneEste"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             />
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:id="@+id/story"
+                android:scrollbars="vertical"
+                android:scrollbarFadeDuration="0"
+                android:scrollbarAlwaysDrawVerticalTrack="true"
+                android:layout_marginEnd="@dimen/medium_margin"
+                android:layout_marginStart="@dimen/medium_margin"
+                android:visibility="gone"
+                android:src="@drawable/baseline_visibility_24"
+                android:textColor="@color/White"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintVertical_weight="2"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                />
 
 
         <com.stonefacesoft.pictogramslibrary.view.PictoView
@@ -74,19 +102,28 @@
             android:scaleType="fitXY"
             android:src="@drawable/amistad"
             android:layout_margin="@dimen/small_margin"
-            app:layout_constraintBottom_toTopOf="@id/Option1"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintHorizontal_bias="0.40"
             app:layout_constraintHorizontal_weight="1"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_weight="2"
-            app:layout_constraintStart_toEndOf="@id/SeleccioneEste"
-            app:layout_constraintEnd_toStartOf="@id/ttsJuego"
+            app:layout_constraintStart_toEndOf="@id/ttsJuego"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+
             />
 
-
-
-
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:id="@+id/container"
+            app:layout_constraintTop_toBottomOf="@id/container0"
+            app:layout_constraintBottom_toBottomOf="@id/container1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintVertical_weight="4"
+            >
 
 
 
@@ -104,7 +141,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@id/Option2"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/Seleccion1"
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_weight="4">
         </com.stonefacesoft.pictogramslibrary.view.PictoView>
 
@@ -153,18 +190,36 @@
             app:layout_constraintTop_toTopOf="@id/Option1">
         </com.stonefacesoft.pictogramslibrary.view.PictoView>
 
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-
-        <ImageView
-            android:id="@+id/ganarImagen"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:src="@drawable/checkjuego"
-            app:layout_constraintBottom_toBottomOf="parent"
+        <include
+            layout="@layout/menu_games"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:id="@+id/container1"
+            app:layout_constraintTop_toBottomOf="@id/container"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="@id/Option1"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintVertical_weight="4"
+            android:visibility="gone"
+
+            ></include>
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/lottieAnimationView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:visibility="gone"
+            app:lottie_colorFilter="@color/NaranjaOTTAA"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginTop="100dp"
+            app:lottie_fileName="circle_loader.json"/>
+
+
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
     <Button

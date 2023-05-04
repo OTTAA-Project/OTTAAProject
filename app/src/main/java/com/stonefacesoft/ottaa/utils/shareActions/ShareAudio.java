@@ -34,6 +34,8 @@ public class ShareAudio extends ShareAction implements com.stonefacesoft.ottaa.I
     private final AudioTransformationListener transformationListener;
     private final Dialog dialog;
 
+    private String shareAudio ="shareAudio";
+
     public ShareAudio(Context mContext, String phrase, textToSpeech myTTS,AudioTransformationListener transformer,Dialog dialog) {
         super(mContext, phrase);
         this.myTTS = myTTS;
@@ -52,9 +54,9 @@ public class ShareAudio extends ShareAction implements com.stonefacesoft.ottaa.I
             audioEncoder = new AudioFileCreator(mContext);
         String aux  = phrase;
         try{
-            audioEncoder.createFile(phrase.trim());
+            audioEncoder.createFile(shareAudio);
         }catch (Exception ex){
-            audioEncoder.createFile(phrase);
+            audioEncoder.createFile(shareAudio);
         }
 
 
@@ -66,7 +68,7 @@ public class ShareAudio extends ShareAction implements com.stonefacesoft.ottaa.I
         params.putInt(TextToSpeech.Engine.KEY_PARAM_STREAM,AudioManager.STREAM_DTMF);
         params.putFloat(TextToSpeech.Engine.KEY_PARAM_VOLUME,1.0f);
         params.putFloat(TextToSpeech.Engine.KEY_PARAM_PAN,0.5f);
-        params.putInt(TextToSpeech.Engine.KEY_FEATURE_NETWORK_TIMEOUT_MS,1000);
+        params.putInt(TextToSpeech.Engine.KEY_FEATURE_NETWORK_TIMEOUT_MS,10000);
         result = myTTS.getTTS().setOnUtteranceProgressListener(new UtteranceProgressListener() {
             boolean isFinish;
             @Override

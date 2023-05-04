@@ -247,6 +247,10 @@ public class Json  {
         return GroupManagerClass.getInstance().getmGroup();
     }
 
+    public JSONArray getmJSonArrayGroupsGame(){
+        return GroupManagerClass.getInstance().getmGroup();
+    }
+
     public  void setmJSONArrayTodosLosGrupos(JSONArray mJSONArrayTodosLosGrupos) {
         this.mJSONArrayTodosLosGrupos = mJSONArrayTodosLosGrupos;
         GroupManagerClass.getInstance().setmGroup(this.mJSONArrayTodosLosGrupos);
@@ -1241,7 +1245,7 @@ public class Json  {
     public JSONObject getObjectPuntaje(JSONObject object) {
         try {
             if(object.has("puntaje"))
-            return object.getJSONObject("puntaje");
+                return object.getJSONObject("puntaje");
         } catch (JSONException e) {
             e.printStackTrace();
         }

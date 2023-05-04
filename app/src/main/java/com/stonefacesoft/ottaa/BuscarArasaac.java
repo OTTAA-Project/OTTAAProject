@@ -51,7 +51,6 @@ import javax.net.ssl.SSLSession;
 import javax.net.ssl.SSLSocketFactory;
 import javax.net.ssl.TrustManagerFactory;
 
-import kotlin.Result;
 
 /**
  * Created by Cristian on 21/6/2016.

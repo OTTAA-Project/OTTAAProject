@@ -35,6 +35,7 @@ import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.RecyclerViews.Game_Recyler_View;
 import com.stonefacesoft.ottaa.Viewpagers.ViewPager_Game_Grupo;
+import com.stonefacesoft.ottaa.Views.MatchPictograms;
 import com.stonefacesoft.ottaa.utils.Accesibilidad.BarridoPantalla;
 import com.stonefacesoft.ottaa.utils.Accesibilidad.devices.GameControl;
 import com.stonefacesoft.ottaa.utils.Accesibilidad.scrollActions.ScrollFuntionGames;
@@ -275,6 +276,9 @@ public class GameSelector extends AppCompatActivity implements View.OnClickListe
                             case "descripciones":
                                 intent=new Intent(GameSelector.this,MemoryGame.class);
                                 break;
+                            case "history":
+                                 intent = new Intent(GameSelector.this,TellAStory.class);
+                                break;
                         }
 
                         try {
@@ -313,6 +317,8 @@ public class GameSelector extends AppCompatActivity implements View.OnClickListe
                 return 1;
             case "descripciones":
                 return 2;
+            case "history":
+                return 3;
         }
         return 0;
     }

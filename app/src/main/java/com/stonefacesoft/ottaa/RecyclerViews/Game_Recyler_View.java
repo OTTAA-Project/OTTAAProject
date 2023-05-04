@@ -7,7 +7,7 @@ import android.view.View;
 import com.google.firebase.auth.FirebaseAuth;
 import com.stonefacesoft.ottaa.Adapters.GaleriaJuegosAdapter;
 //import com.stonefacesoft.ottaa.Games.DescribirPictograma;
-import com.stonefacesoft.ottaa.Games.MatchPictograms;
+import com.stonefacesoft.ottaa.Views.MatchPictograms;
 import com.stonefacesoft.ottaa.Games.WhichIsThePicto;
 import com.stonefacesoft.ottaa.Helper.RecyclerItemClickListener;
 import com.stonefacesoft.ottaa.R;

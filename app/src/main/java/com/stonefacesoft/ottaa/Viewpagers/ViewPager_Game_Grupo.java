@@ -21,7 +21,7 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
-import com.stonefacesoft.ottaa.Games.MatchPictograms;
+import com.stonefacesoft.ottaa.Views.MatchPictograms;
 import com.stonefacesoft.ottaa.Games.MemoryGame;
 import com.stonefacesoft.ottaa.Games.WhichIsThePicto;
 import com.stonefacesoft.ottaa.JSONutils.Json;
@@ -59,8 +59,8 @@ public class ViewPager_Game_Grupo {
     private static int id;
     private final FloatingActionButton actionButton;
     private final ImageView editPicto;
-    private static int positionItem;
-    private final SharedPreferences sharedPrefsDefault;
+    protected static int positionItem;
+    protected  SharedPreferences sharedPrefsDefault;
 
 
     public ViewPager_Game_Grupo(AppCompatActivity mActivity, textToSpeech myTTS, int id) {
