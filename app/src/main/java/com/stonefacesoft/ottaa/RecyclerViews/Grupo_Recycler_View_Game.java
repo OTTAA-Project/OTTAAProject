@@ -57,7 +57,9 @@ public class Grupo_Recycler_View_Game extends Custom_recyclerView implements Vie
                         Intent intent2 = new Intent(mActivity, GaleriaPictos3.class);
                         if(object!=null) {
                             try {
-                                intent2.putExtra("Boton", json.getPosPicto(json.getmJSONArrayTodosLosGrupos(), json.getId(object)));
+                                int id = json.getId(object);
+                                TellAStoryUtils.getInstance().setGame(mActivity,id);
+                                intent2.putExtra("Boton", json.getPosPicto(json.getmJSONArrayTodosLosGrupos(), id));
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }

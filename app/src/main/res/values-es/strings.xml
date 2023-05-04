@@ -554,6 +554,7 @@
     <string name="pref_summary_chatgpt">Permitir deshabilitar la opción ChatGPT.</string>
     <string name="repeat_pictogram">Este pictograma ya está en la frase.</string>
     <string name="TellStory">Contar una historia</string>
-    <string name="TellStory_Description">Escucha el cuento</string>
+    <string name="TellStory_Description">Elige los pictogramas que más te gusten y con la ayuda de Chatgpt crearás una historia.</string>
+    <string name="TellTheStory">Cuenta la historia</string>
 
 </resources>

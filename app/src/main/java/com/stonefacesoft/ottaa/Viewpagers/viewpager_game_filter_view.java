@@ -189,6 +189,8 @@ public class viewpager_game_filter_view {
         }
         if(object!=null) {
             try {
+                int id = json.getId(object);
+                TellAStoryUtils.getInstance().setGame(mActivity,id);
                 intent.putExtra("Boton", json.getPosPicto(json.getmJSONArrayTodosLosGrupos(), json.getId(object)));
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -264,7 +266,9 @@ public class viewpager_game_filter_view {
                         Intent intent=new Intent(view.getContext(), GaleriaPictos3.class);
                         if(object!=null) {
                             try {
-                                intent.putExtra("Boton", json.getPosPicto(json.getmJSONArrayTodosLosGrupos(),json.getId(object)));
+                                int id = json.getId(object);
+                                TellAStoryUtils.getInstance().setGame(mActivity,id);
+                                intent.putExtra("Boton", json.getPosPicto(json.getmJSONArrayTodosLosGrupos(),id));
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }

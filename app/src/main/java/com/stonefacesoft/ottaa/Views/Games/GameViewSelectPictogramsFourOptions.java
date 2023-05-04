@@ -25,6 +25,7 @@ import com.stonefacesoft.ottaa.utils.Accesibilidad.BarridoPantalla;
 import com.stonefacesoft.ottaa.utils.Audio.MediaPlayerAudio;
 import com.stonefacesoft.ottaa.utils.CustomToast;
 import com.stonefacesoft.ottaa.utils.Firebase.AnalyticsFirebase;
+import com.stonefacesoft.ottaa.utils.Games.Juego;
 import com.stonefacesoft.ottaa.utils.Ttsutils.UtilsGamesTTS;
 import com.stonefacesoft.ottaa.utils.textToSpeech;
 import com.stonefacesoft.pictogramslibrary.view.PictoView;
@@ -64,6 +65,7 @@ public class GameViewSelectPictogramsFourOptions extends AppCompatActivity imple
 
     protected BarridoPantalla barridoPantalla;
 
+    protected Juego game;
 
 
 
@@ -157,5 +159,10 @@ public class GameViewSelectPictogramsFourOptions extends AppCompatActivity imple
         } else {
             item.setIcon(getResources().getDrawable(dDisabled));
         }
+    }
+
+    protected  void setUpGame(int id,int parent){
+        game=new Juego(this,id,parent);
+        game.startUseTime();
     }
 }

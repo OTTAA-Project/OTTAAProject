@@ -1,8 +1,12 @@
 package com.stonefacesoft.ottaa.utils.Games;
 
+import android.content.Context;
+
 public class TellAStoryUtils {
     private int pictoPosition;
     private static TellAStoryUtils _TellAStoryUtils;
+
+    private Juego game;
     public static synchronized TellAStoryUtils getInstance(){
         if(_TellAStoryUtils == null)
             _TellAStoryUtils = new TellAStoryUtils();
@@ -19,6 +23,8 @@ public class TellAStoryUtils {
         public int[] getOptions() {
             return options;
         }
+
+
     };
 
     public FilterGroups getItem(){
@@ -33,5 +39,21 @@ public class TellAStoryUtils {
 
     public int getPictoPosition() {
         return pictoPosition;
+    }
+
+    public int  getChildCounts(){
+        int size = 0;
+        for (int i = 0; i <FilterGroups.values().length ; i++) {
+            size+= FilterGroups.values()[i].getOptions().length;
+        }
+        return size;
+    }
+
+    public void setGame(Context context,int option){
+        game = new Juego(context,3,option);
+        game.startUseTime();
+        game.endUseTime();
+        game.saveJsonObjects();
+        game.uploadFirebaseGameData();
     }
 }

@@ -829,7 +829,8 @@
     <string name="free_version_explanation">This is a free trial version of the alternative augmentative communication software whose main objective is to enable families of people with disabilities and professionals and companions, to preliminarily check whether or not this tool works for the particular case before purchasing the communicator.   OTTAA Premium isn\'t free and has multiple functionalities and essential services to reach the maximum potential of the user.   This way, the patient, their family members and their professionals can carry out a \"functional test\" with the free software. The origin of this version of the App is found in the company\'s ethics of impact, avoiding unnecessary expenses and maximizing the correct use of resources by families with disabilities and other related institutions.    For more details do not hesitate to contact us.</string>
     <string name="repeat_pictogram">This pictogram is already in the sentence</string>
     <string name="TellStory">Tell A Story</string>
-    <string name="TellStory_Description">Listen to the tale</string>
+    <string name="TellStory_Description">Choose the pictograms you like the most, and with the help of Chatgpt, you will create a story.</string>
+    <string name="TellTheStory">Tell the story</string>
 
 
 </resources>

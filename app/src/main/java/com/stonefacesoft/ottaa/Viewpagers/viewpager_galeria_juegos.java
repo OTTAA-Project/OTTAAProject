@@ -21,6 +21,7 @@ import com.stonefacesoft.ottaa.Games.TellAStory;
 import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.utils.ConnectionDetector;
+import com.stonefacesoft.ottaa.utils.Games.TellAStoryUtils;
 import com.stonefacesoft.ottaa.utils.IntentCode;
 import com.stonefacesoft.ottaa.utils.ReturnPositionItem;
 
@@ -129,10 +130,12 @@ public class viewpager_galeria_juegos {
                     break;
                 case 3:
                     card.prepareCardView(R.string.TellStory, R.string.TellStory_Description, R.drawable.tell_story, createOnClickListener(mActivity, TellAStory.class, "history"));
-                    card.setmTxtScore(json.devolverCantidadGruposUsados(2)+"/"+json.getmJSONArrayTodosLosGrupos().length());//todo in recycler fill with the position
+                    card.setmTxtScore(json.devolverCantidadGruposUsados(3)+"/"+ TellAStoryUtils.getInstance().getChildCounts());//todo in recycler fill with the position
                     break;
             }
         }
+
+
         private View.OnClickListener createOnClickListener(Context context,Class clase,String value){
             return new View.OnClickListener() {
                 @Override
@@ -190,8 +193,6 @@ public class viewpager_galeria_juegos {
                  intent.putExtra("name_game","notigames");
                  break;
          }
-
-
         mActivity.startActivityForResult(intent, IntentCode.NOTIGAMES.getCode());
     }
 

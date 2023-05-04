@@ -1245,7 +1245,7 @@ public class Json  {
     public JSONObject getObjectPuntaje(JSONObject object) {
         try {
             if(object.has("puntaje"))
-            return object.getJSONObject("puntaje");
+                return object.getJSONObject("puntaje");
         } catch (JSONException e) {
             e.printStackTrace();
         }

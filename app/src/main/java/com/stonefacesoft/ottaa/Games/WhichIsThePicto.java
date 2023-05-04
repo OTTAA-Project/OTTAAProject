@@ -117,7 +117,7 @@ public class WhichIsThePicto extends GameViewSelectPictogramsFourOptions {
     private AnimGameScore animGameScore;
     private Menu mMenu;
     private MenuItem scoreItem;
-    private Juego game;
+
     //Handler para animar el Hablar cuando pasa cierto tiempo
     private final Runnable animarGano = new Runnable() {
         @Override
@@ -193,11 +193,10 @@ public class WhichIsThePicto extends GameViewSelectPictogramsFourOptions {
             int id = json.getId(mJsonArrayTodosLosGrupos.getJSONObject(mPositionPadre));
             analitycsFirebase.levelNameGame(TAG + "_" + JSONutils.getNombre(mJsonArrayTodosLosGrupos.getJSONObject(mPositionPadre),sharedPrefsDefault.getString(getString(R.string.str_idioma), "en")));
 
-            game = new Juego(this, 0, id);
+            setUpGame(0,id);
             game.setGamelevel(sharedPrefsDefault.getInt("whichIsThePictoLevel",0));
             game.setMaxStreak(20);
             game.setMaxLevel(2);
-            game.startUseTime();
             loadLevel();
         } catch (JSONException | FiveMbException e) {
             e.printStackTrace();

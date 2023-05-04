@@ -112,7 +112,7 @@ public class TellAStory extends GameViewSelectPictogramsFourOptions implements A
         textView.setVisibility(View.GONE);
         textView.setOnClickListener(this);
         sharedPrefsDefault = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        mSeleccion.setText(R.string.TellStory_Description);
+        mSeleccion.setText(R.string.TellTheStory);
         myTTS = textToSpeech.getInstance(this);
         lottieAnimationView = findViewById(R.id.lottieAnimationView);
         Seleccion1.setVisibility(View.GONE);

@@ -199,6 +199,7 @@
     <string name="understood">يفهم</string>
     <string name="pref_summary_chatgpt">السماح بتعطيل خيار ChatGPT.</string>
     <string name="repeat_pictogram">هذا الرسم التخطيطي موجود بالفعل في الجملة</string>
+    <string name="TellTheStory">اروي القصة</string>
     <string name="prompt_email">البريد الإلكتروني</string>
     <string name="prompt_password">كلمة المرور (اختياري)</string>
     <string name="repetir_semanalmente">كرر أسبوعيا</string>
@@ -509,6 +510,6 @@
     <string name="ottaa_score_is_a_measure_of_the_app_s_general_use_using_data_such_as_the_use_of_the_last_days_and_the_average_pictograms_by_phrase">OTTAA-Score عبارة عن مقياس للاستخدام العام للتطبيق ، باستخدام بيانات مثل استخدام الأيام الأخيرة ومتوسط الصور التوضيحية حسب العبارة.</string>
     <string name="most_used_groups">المجموعات الأكثر استخدامًا</string>
     <string name="TellStory">أخبر قصة</string>
-    <string name="TellStory_Description">استمع إلى الحكاية</string>
+    <string name="TellStory_Description">اختر الصور التوضيحية التي تعجبك أكثر ، وبمساعدة Chatgpt ، ستنشئ قصة.</string>
 
 </resources>
