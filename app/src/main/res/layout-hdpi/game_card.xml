@@ -23,7 +23,7 @@
             android:layout_marginStart="@dimen/default_gap"
             android:layout_marginTop="@dimen/default_gap"
             android:layout_marginEnd="@dimen/default_gap"
-            android:scaleType="centerCrop"
+            android:scaleType="fitCenter"
             android:src="@drawable/match_picto" />
 
         <ImageView

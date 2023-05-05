@@ -20,6 +20,7 @@ import com.stonefacesoft.ottaa.utils.Accesibilidad.BarridoPantalla;
 import com.stonefacesoft.ottaa.utils.Accesibilidad.SayActivityName;
 import com.stonefacesoft.ottaa.utils.IntentCode;
 import com.stonefacesoft.ottaa.utils.constants.Constants;
+import com.stonefacesoft.ottaa.utils.textToSpeech;
 
 import java.util.ArrayList;
 
@@ -37,6 +38,10 @@ public class FavoritePhrases extends PhrasesView {
     public void initComponents() {
         super.initComponents();
         favorite_phrases_recycler_view = new Favorite_Phrases_recycler_view(this,firebaseUser.getmAuth());
+        favorite_phrases_recycler_view.setMyTTS(textToSpeech.getInstance(this));
+        if(favorite_phrases_recycler_view.getArray().length()==0){
+            favorite_phrases_recycler_view.talkAtPosition();
+        }
         this.setTitle(getResources().getString(R.string.favorite_phrases));
         if(barridoPantalla.isBarridoActivado())
             favorite_phrases_recycler_view.setScrollVertical(false);

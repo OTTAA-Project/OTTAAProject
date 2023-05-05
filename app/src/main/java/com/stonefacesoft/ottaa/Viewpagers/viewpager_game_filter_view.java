@@ -27,6 +27,7 @@ import com.stonefacesoft.ottaa.GaleriaPictos3;
 import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.LicenciaExpirada;
 import com.stonefacesoft.ottaa.R;
+import com.stonefacesoft.ottaa.Views.PictogramsGalleryGames;
 import com.stonefacesoft.ottaa.idioma.ConfigurarIdioma;
 import com.stonefacesoft.ottaa.utils.Games.TellAStoryUtils;
 import com.stonefacesoft.ottaa.utils.IntentCode;
@@ -180,7 +181,7 @@ public class viewpager_game_filter_view {
     }
 
     public void OnClickItem() {
-        Intent intent = new Intent(mActivity, GaleriaPictos3.class);
+        Intent intent = new Intent(mActivity, PictogramsGalleryGames.class);
         JSONObject object = null;
         try {
              object = array.getJSONObject(viewPager.getCurrentItem());
@@ -263,7 +264,7 @@ public class viewpager_game_filter_view {
                     public void onClick(View view) {
                         JSONObject object = aux;
 
-                        Intent intent=new Intent(view.getContext(), GaleriaPictos3.class);
+                        Intent intent=new Intent(view.getContext(), PictogramsGalleryGames.class);
                         if(object!=null) {
                             try {
                                 int id = json.getId(object);

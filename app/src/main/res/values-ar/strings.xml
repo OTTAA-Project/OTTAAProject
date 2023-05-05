@@ -511,5 +511,6 @@
     <string name="most_used_groups">المجموعات الأكثر استخدامًا</string>
     <string name="TellStory">أخبر قصة</string>
     <string name="TellStory_Description">اختر الصور التوضيحية التي تعجبك أكثر ، وبمساعدة Chatgpt ، ستنشئ قصة.</string>
+    <string name="str_favorite_phrases_empty">الرجاء إضافة عبارة مفضلة عن طريق اختيار زر التحرير.</string>
 
 </resources>

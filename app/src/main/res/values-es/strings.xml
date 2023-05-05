@@ -556,5 +556,6 @@
     <string name="TellStory">Contar una historia</string>
     <string name="TellStory_Description">Elige los pictogramas que más te gusten y con la ayuda de Chatgpt crearás una historia.</string>
     <string name="TellTheStory">Cuenta la historia</string>
+    <string name="str_favorite_phrases_empty">Agregue una frase favorita eligiendo el botón editar.</string>
 
 </resources>

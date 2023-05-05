@@ -198,7 +198,7 @@ public class BarridoPantalla {
             activarBarrido();
         else {
             if(button.getVisibility()==View.VISIBLE)
-            changeButtonVisibility();
+                changeButtonVisibility();
         }
 
     }
