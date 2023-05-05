@@ -2060,7 +2060,7 @@ public class Principal extends AppCompatActivity implements View
             subirArchivos.setInterfaz(this);
         }
         if(ConnectionDetector.isNetworkAvailable(this)){
-            if (user.getmAuth().getCurrentUser() != null && subirArchivos != null) {
+            if (subirArchivos != null) {
                 subirArchivos.userDataExists(subirArchivos.getmDatabase(user.getmAuth(), "Pictos"), subirArchivos.getmDatabase(user.getmAuth(), "Grupos"), subirArchivos.getmDatabase(user.getmAuth(), "Frases"));
             }
         }

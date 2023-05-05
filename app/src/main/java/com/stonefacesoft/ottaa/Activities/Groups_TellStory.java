@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
@@ -12,7 +14,11 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
+import com.stonefacesoft.ottaa.Edit_Picto_Visual;
+import com.stonefacesoft.ottaa.GaleriaGrupos2;
+import com.stonefacesoft.ottaa.LicenciaExpirada;
 import com.stonefacesoft.ottaa.LoginActivity2;
 import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.RecyclerViews.Grupo_Recycler_View_Game;
@@ -36,7 +42,10 @@ public class Groups_TellStory extends GroupGalleryNavigator {
         super.onCreate(savedInstanceState);
         Bundle extras = getIntent().getExtras();
         sharedPrefsDefault = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        showViewPager = sharedPrefsDefault.getBoolean("showViewPager", false);
+        showViewPager = sharedPrefsDefault.getBoolean("showViewPagerGame", false);
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        editButton.setVisibility(View.INVISIBLE);
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
@@ -158,5 +167,59 @@ public class Groups_TellStory extends GroupGalleryNavigator {
 
 
     }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+
+        getMenuInflater().inflate(R.menu.menu_galeria_pictos, menu);
+            item = menu.findItem(R.id.vincular);
+            item.setVisible(false);
+         /*   item = menu.findItem(R.id.listo);
+            item.setVisible(false);*/
+            menu.getItem(0).setVisible(false);
+            menu.getItem(1).setVisible(false);
+            menu.getItem(2).setVisible(false);
+            menu.getItem(3).setVisible(false);
+            menu.getItem(4).setVisible(false);
+            menu.getItem(5).setVisible(false);
+            menu.getItem(6).setVisible(false);
+            item=menu.findItem(R.id.tipe_view);
+            item.setVisible(true);
+
+
+            if(!showViewPager)
+                item.setIcon(R.drawable.ic_baseline_view_carousel_white_24);
+            else
+                item.setIcon(R.drawable.ic_baseline_apps_white_24);
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        super.onOptionsItemSelected(item);
+        /*Obtenemos el id del item del menu para luego usarlo para hacer alguna accion*/
+        int id = item.getItemId();
+
+        switch (id) {
+            case R.id.tipe_view:
+                showViewPager=!showViewPager;
+                if(!showViewPager)
+                    item.setIcon(R.drawable.ic_baseline_view_carousel_white_24);
+                else
+                    item.setIcon(R.drawable.ic_baseline_apps_white_24);
+                sharedPrefsDefault.edit().putBoolean("showViewPagerGame",showViewPager).apply();
+                viewpager.showViewPager(showViewPager);
+                recycler_view_grupo.showRecyclerView(showViewPager);
+                // showView(editButton,showViewPager);
+                break;
+        }
+
+        return true;
+    }
+
 
 }

@@ -4,19 +4,23 @@ package com.stonefacesoft.ottaa.Views;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.InputDevice;
 import android.view.KeyEvent;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -52,6 +56,9 @@ public class GroupGalleryNavigator extends AppCompatActivity implements OnStartD
 
     protected GaleriaGruposControls deviceControl;
     protected SharedPreferences sharedPrefsDefault;
+    protected MenuItem item;
+    protected Toolbar toolbar;
+
 
 
 
@@ -230,4 +237,6 @@ public class GroupGalleryNavigator extends AppCompatActivity implements OnStartD
             }
         }
     }
+
+
 }

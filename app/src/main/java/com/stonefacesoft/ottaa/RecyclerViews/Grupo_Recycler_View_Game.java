@@ -12,6 +12,7 @@ import com.stonefacesoft.ottaa.Adapters.GaleriaGruposAdapter;
 import com.stonefacesoft.ottaa.GaleriaPictos3;
 import com.stonefacesoft.ottaa.Helper.RecyclerItemClickListener;
 import com.stonefacesoft.ottaa.R;
+import com.stonefacesoft.ottaa.Views.PictogramsGalleryGames;
 import com.stonefacesoft.ottaa.utils.Firebase.CrashlyticsUtils;
 import com.stonefacesoft.ottaa.utils.Games.TellAStoryUtils;
 import com.stonefacesoft.ottaa.utils.IntentCode;
@@ -54,7 +55,7 @@ public class Grupo_Recycler_View_Game extends Custom_recyclerView implements Vie
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                        Intent intent2 = new Intent(mActivity, GaleriaPictos3.class);
+                        Intent intent2 = new Intent(mActivity, PictogramsGalleryGames.class);
                         if(object!=null) {
                             try {
                                 int id = json.getId(object);

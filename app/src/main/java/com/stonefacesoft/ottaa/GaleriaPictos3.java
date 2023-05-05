@@ -60,21 +60,21 @@ public class GaleriaPictos3 extends AppCompatActivity implements View.OnClickLis
     private boolean isSorter;
     private SharedPreferences sharedPrefsDefault;
     private Toolbar toolbar;
-    private MenuItem menuItem;
-    private Menu menu;
+    protected MenuItem menuItem;
+    protected Menu menu;
     private MenuItem item;
     private FirebaseAnalytics mFirebaseAnalytics;
 
     //TextToSpeech
     private textToSpeech myTTS;
     //RecyclerViewComponents
-    private Picto_Vincular_Recycler_View mVincularRecyclerView;
-    private Picto_Recycler_view mPictoRecyclerView;
-    private Picto_Recycler_View_Sort mPictoSortRecyclerView;
+    protected Picto_Vincular_Recycler_View mVincularRecyclerView;
+    protected Picto_Recycler_view mPictoRecyclerView;
+    protected Picto_Recycler_View_Sort mPictoSortRecyclerView;
     private JSONArray pictosDelGrupoFiltrado;
     private JSONArray pictosDelGrupo;
     //ViewPager
-    private viewpager_galeria_pictos viewpager_galeria_pictos;
+    protected viewpager_galeria_pictos viewpager_galeria_pictos;
     //ShowViewPager
     //Menu
 
@@ -86,7 +86,7 @@ public class GaleriaPictos3 extends AppCompatActivity implements View.OnClickLis
     private Button btnBarrido;
     private FloatingActionButton btnTalk;
     private BarridoPantalla barridoPantalla;
-    private ScrollFunctionGaleriaPictos function_scroll;
+    protected ScrollFunctionGaleriaPictos function_scroll;
     private AnalyticsFirebase analyticsFirebase;
     private GaleriaPictosControls navigationControl;
     private boolean editarPicto;

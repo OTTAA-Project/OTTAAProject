@@ -55,6 +55,7 @@ public class DownloadGroups extends DownloadFile{
                         } catch (Exception e) {
                             e.printStackTrace();
                             Log.e("printStackTrace", "" + e);
+
                         }
                         if(observableInteger.get()==1)
                             observableInteger.incrementValue();

@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.stonefacesoft.ottaa.Adapters.CustomFavoritePhrasesAdapter;
+import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.utils.Phrases.CustomFavoritePhrases;
 
 public class Favorite_Phrases_recycler_view extends Custom_recyclerView {
@@ -81,6 +82,11 @@ public class Favorite_Phrases_recycler_view extends Custom_recyclerView {
                 adapter.getMyTTs().hablar(adapter.getPhrases().getPhrases().getJSONObject(getPositionItem.getPosition()).getString("frase"));
         } catch (Exception e) {
             e.printStackTrace();
+            myTTS.mostrarAlerta(mActivity.getResources().getString(R.string.str_favorite_phrases_empty));
         }
+
     }
+
+
+
 }

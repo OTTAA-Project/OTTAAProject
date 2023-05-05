@@ -130,6 +130,7 @@ public class TellAStory extends GameViewSelectPictogramsFourOptions implements A
 
     }
 
+
     @Override
     public void onClick(View v) {
         switch (v.getId()){
@@ -320,12 +321,14 @@ public class TellAStory extends GameViewSelectPictogramsFourOptions implements A
         int view =  menu_game.getVisibility();
             if(view==View.GONE){
                 menu_game.setVisibility(View.VISIBLE);
+                hideORShowALLOptions(View.GONE);
                 drawable = R.drawable.baseline_visibility_off_24;
                 gallery_navigator.setVisibility(View.GONE);
                 showStory = true;
             }
             else if(view== View.VISIBLE){
                 menu_game.setVisibility(View.GONE);
+                hideORShowALLOptions(View.VISIBLE);
                 gallery_navigator.setVisibility(View.VISIBLE);
                 drawable = R.drawable.baseline_visibility_24;
                 showStory = false;
@@ -351,6 +354,9 @@ public class TellAStory extends GameViewSelectPictogramsFourOptions implements A
 
         setIcon(mMenu.getItem(3),false, R.drawable.baseline_wallpaper_24, R.drawable.baseline_text_snippet_24);
         setIcon(mMenu.getItem(1),false, R.drawable.ic_share_black_24dp, R.drawable.ic_share_black_24dp);
+        if(barridoPantalla!=null&&barridoPantalla.isBarridoActivado()){
+            mMenu.getItem(1).setVisible(false);
+        }
 
         return super.onCreateOptionsMenu(menu);
     }
@@ -375,6 +381,8 @@ public class TellAStory extends GameViewSelectPictogramsFourOptions implements A
             CompartirArchivos compartirArchivos = new CompartirArchivos(this, myTTS, this);
             compartirArchivos.setHistorial(pictograms);
             compartirArchivos.seleccionarFormato(story);
+        }else{
+            myTTS.mostrarAlerta(getApplicationContext().getString(R.string.createPhrasesAlert));
         }
     }
 
@@ -401,6 +409,7 @@ public class TellAStory extends GameViewSelectPictogramsFourOptions implements A
                 public void run() {
                     // Stuff that updates the UI
                     btnBarrido.setVisibility(View.VISIBLE);
+
                 }
             });
         } else {
@@ -412,5 +421,12 @@ public class TellAStory extends GameViewSelectPictogramsFourOptions implements A
 
     public void setExecuteChatGPT(boolean executeChatGPT) {
         this.executeChatGPT = executeChatGPT;
+    }
+
+    private void hideORShowALLOptions(int value){
+        Opcion1.setVisibility(value);
+        Opcion2.setVisibility(value);
+        Opcion3.setVisibility(value);
+        Opcion4.setVisibility(value);
     }
 }

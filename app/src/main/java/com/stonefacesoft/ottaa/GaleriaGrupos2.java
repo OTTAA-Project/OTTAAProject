@@ -72,7 +72,6 @@ public class GaleriaGrupos2 extends GroupGalleryNavigator implements  FirebaseSu
 
     protected PopupMenu popupMenu;
     private static Context mContext;
-    private MenuItem item;
     int mPermission = 0; //variable para saber si el permiso esta activado o no
     private static boolean updateAdapter;
     protected static SubirArchivosFirebase uploadFirebaseFile;
@@ -83,7 +82,6 @@ public class GaleriaGrupos2 extends GroupGalleryNavigator implements  FirebaseSu
 
     private int progresoDeDescarga = 0;
     public int mState = 1;
-    private Toolbar toolbar;
     private CargarGruposJson cargarGruposJson;
     private FallanDatosDelUsuario fallanDatosDelUsuario;
     public static Progress_dialog_options downloadDialog;
@@ -783,10 +781,6 @@ public class GaleriaGrupos2 extends GroupGalleryNavigator implements  FirebaseSu
             view.setVisibility(View.INVISIBLE);
     }
 
-    private void setButtonIcon(ImageView view, Drawable drawable){
-        view.setImageDrawable(drawable);
-    }
-
     protected void changeEditButtonIcon(){
         if(showViewPager){
             setButtonIcon(editButton,getResources().getDrawable(R.drawable.ic_edit_white_24dp));
@@ -798,6 +792,12 @@ public class GaleriaGrupos2 extends GroupGalleryNavigator implements  FirebaseSu
             setButtonIcon(editButton,getResources().getDrawable(R.drawable.ic_baseline_search_24));
         }
     }
+
+    protected void setButtonIcon(ImageView view, Drawable drawable){
+        view.setImageDrawable(drawable);
+    }
+
+
 
 }
 
