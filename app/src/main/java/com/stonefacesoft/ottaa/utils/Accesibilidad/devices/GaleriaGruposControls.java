@@ -5,13 +5,14 @@ import android.view.InputDevice;
 import android.view.MotionEvent;
 
 import com.stonefacesoft.ottaa.GaleriaGrupos2;
+import com.stonefacesoft.ottaa.Views.GroupGalleryNavigator;
 
 import androidx.core.view.MotionEventCompat;
 
 public class GaleriaGruposControls extends Controls {
-    private final GaleriaGrupos2 galeriaGrupos;
+    private final GroupGalleryNavigator galeriaGrupos;
     private final String TAG="GaleriaGroupsControls";
-    public GaleriaGruposControls(GaleriaGrupos2 galeriaGrupos2) {
+    public GaleriaGruposControls(GroupGalleryNavigator galeriaGrupos2) {
         super(galeriaGrupos2);
         this.galeriaGrupos=galeriaGrupos2;
     }

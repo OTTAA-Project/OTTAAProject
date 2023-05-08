@@ -107,7 +107,7 @@ import com.stonefacesoft.ottaa.utils.CustomToast;
 import com.stonefacesoft.ottaa.utils.EnumImageView;
 import com.stonefacesoft.ottaa.utils.Firebase.AnalyticsFirebase;
 import com.stonefacesoft.ottaa.utils.Firebase.CrashlyticsUtils;
-import com.stonefacesoft.ottaa.utils.HandlerComunicationClass;
+import com.stonefacesoft.ottaa.utils.Handlers.HandlerComunicationClass;
 import com.stonefacesoft.ottaa.utils.InmersiveMode;
 import com.stonefacesoft.ottaa.utils.IntentCode;
 import com.stonefacesoft.ottaa.utils.JSONutils;
@@ -2060,7 +2060,7 @@ public class Principal extends AppCompatActivity implements View
             subirArchivos.setInterfaz(this);
         }
         if(ConnectionDetector.isNetworkAvailable(this)){
-            if (user.getmAuth().getCurrentUser() != null && subirArchivos != null) {
+            if (subirArchivos != null) {
                 subirArchivos.userDataExists(subirArchivos.getmDatabase(user.getmAuth(), "Pictos"), subirArchivos.getmDatabase(user.getmAuth(), "Grupos"), subirArchivos.getmDatabase(user.getmAuth(), "Frases"));
             }
         }
@@ -2173,7 +2173,7 @@ public class Principal extends AppCompatActivity implements View
 
     public void nlgTalkAction(){
         if(ConnectionDetector.isNetworkAvailable(this)){
-                    processPhrase = new ProcessPhrase(this, sharedPrefsDefault, animationView, getApplicationContext(), Oracion,HandlerComunicationClass.FraseTraducida);
+                    processPhrase = new ProcessPhrase(this, sharedPrefsDefault, animationView, getApplicationContext(), Oracion,HandlerComunicationClass.TRANSLATEDPHRASE);
                     processPhrase.setOracion(Oracion);
                 if(json.useChatGPT())
                     processPhrase.executeChatGPT(historial.nlgObject());

@@ -1,5 +1,7 @@
 package com.stonefacesoft.ottaa.utils;
 
+import com.stonefacesoft.ottaa.Games.TellAStory;
+
 /**
  * Created by Cristian on 3/4/2016.
  */
@@ -24,9 +26,11 @@ public enum IntentCode {
     PICK_IMAGE(17),
     SEARCH_ALL_PICTOGRAMS(18),
     AVATAR(19),
-    VINCULAR_FRASES(20);
+    VINCULAR_FRASES(20),
+    TELL_A_STORY(21);
 
     private final int code;
+
 
     IntentCode(int code) {
         this.code = code;

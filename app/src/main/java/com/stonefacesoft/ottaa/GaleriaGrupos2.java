@@ -13,16 +13,10 @@ import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
 import android.util.Log;
-import android.view.InputDevice;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.ProgressBar;
@@ -30,11 +24,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.perf.metrics.AddTrace;
@@ -44,20 +36,16 @@ import com.stonefacesoft.ottaa.Activities.FindAllPictograms;
 import com.stonefacesoft.ottaa.Dialogos.DialogUtils.Progress_dialog_options;
 import com.stonefacesoft.ottaa.FirebaseRequests.FirebaseUtils;
 import com.stonefacesoft.ottaa.FirebaseRequests.SubirArchivosFirebase;
-import com.stonefacesoft.ottaa.Helper.OnStartDragListener;
-import com.stonefacesoft.ottaa.Helper.RecyclerViewItemClickInterface;
 import com.stonefacesoft.ottaa.Interfaces.FallanDatosDelUsuario;
 import com.stonefacesoft.ottaa.Interfaces.FirebaseSuccessListener;
-import com.stonefacesoft.ottaa.Interfaces.Make_Click_At_Time;
 import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.RecyclerViews.Grupo_Recycler_View;
 import com.stonefacesoft.ottaa.RecyclerViews.Grupo_Recycler_View_Sort;
 import com.stonefacesoft.ottaa.Viewpagers.viewpager_galeria_grupo;
+import com.stonefacesoft.ottaa.Views.GroupGalleryNavigator;
 import com.stonefacesoft.ottaa.idioma.ConfigurarIdioma;
 import com.stonefacesoft.ottaa.idioma.myContextWrapper;
-import com.stonefacesoft.ottaa.utils.Accesibilidad.BarridoPantalla;
 import com.stonefacesoft.ottaa.utils.Accesibilidad.devices.GaleriaGruposControls;
-import com.stonefacesoft.ottaa.utils.Accesibilidad.scrollActions.ScrollFunctionGaleriaGrupos;
 import com.stonefacesoft.ottaa.utils.constants.Constants;
 import com.stonefacesoft.ottaa.utils.Firebase.AnalyticsFirebase;
 import com.stonefacesoft.ottaa.utils.IntentCode;
@@ -68,12 +56,9 @@ import com.stonefacesoft.ottaa.utils.textToSpeech;
 
 import org.json.JSONArray;
 
-import java.util.ArrayList;
 import java.util.Locale;
 
-public class GaleriaGrupos2 extends AppCompatActivity implements OnStartDragListener,
-        RecyclerViewItemClickInterface,
-        FirebaseSuccessListener, FallanDatosDelUsuario, View.OnClickListener, View.OnTouchListener, Make_Click_At_Time {
+public class GaleriaGrupos2 extends GroupGalleryNavigator implements  FirebaseSuccessListener{
 
     private static final String TAG = "GaleriaGrupos2";
     //   private Menu menu;
@@ -84,47 +69,30 @@ public class GaleriaGrupos2 extends AppCompatActivity implements OnStartDragList
 
     private StorageReference mStorageRef;
 
-    private FirebaseAuth mAuth;
-    private static String uid;
 
-    private PopupMenu popupMenu;
+    protected PopupMenu popupMenu;
     private static Context mContext;
-    SharedPreferences sharedPrefsDefault;
-    private MenuItem item;
     int mPermission = 0; //variable para saber si el permiso esta activado o no
     private static boolean updateAdapter;
-    private static SubirArchivosFirebase uploadFirebaseFile;
+    protected static SubirArchivosFirebase uploadFirebaseFile;
     private Json json;
     private JSONArray mJSONArrayBackupFotos;
-    private ProgressBar mProgressBar;
     private TextView mTextViewCargandoGrupos;
     private boolean isCargando = true;
-    private FloatingActionButton btnTalk;
-
-    private textToSpeech myTTS;
-
 
     private int progresoDeDescarga = 0;
-    private FirebaseAuth.AuthStateListener mAuthListener;
     public int mState = 1;
-    private Toolbar toolbar;
     private CargarGruposJson cargarGruposJson;
     private FallanDatosDelUsuario fallanDatosDelUsuario;
     public static Progress_dialog_options downloadDialog;
-    private ImageButton previous, foward,editButton, exit;
-    private Button btnBarrido;
 
 
-    private BarridoPantalla barridoPantalla;
-    private viewpager_galeria_grupo viewpager;
-    private Grupo_Recycler_View recycler_view_grupo;
-    private Grupo_Recycler_View_Sort recycler_view_sort_grupo;
-    private boolean showViewPager;
-    private boolean isOrdenar;
-    private ScrollFunctionGaleriaGrupos function_scroll;
+    protected viewpager_galeria_grupo viewpager;
+    protected Grupo_Recycler_View recycler_view_grupo;
+    protected Grupo_Recycler_View_Sort recycler_view_sort_grupo;
+    protected boolean isOrdenar;
     private AnalyticsFirebase analyticsFirebase;
     private FirebaseUtils firebaseUtils;
-    private GaleriaGruposControls deviceControl;
     private DownloadFirebasePictures downloadFirebasePictures;
     private boolean editarPicto;
 
@@ -134,21 +102,13 @@ public class GaleriaGrupos2 extends AppCompatActivity implements OnStartDragList
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         /*Obtenemos extras del intent*/
-        Intent intento = getIntent();
-        /*Quitamos la barra de navegacion y la ponemos en naranja y la default de ottaa*/
-        boolean status_bar = intento.getBooleanExtra("status_bar", false);
-        if (!status_bar) {
-            supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
-            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        }
+
         super.onCreate(savedInstanceState);
-        firebaseUtils=FirebaseUtils.getInstance();
+        firebaseUtils = FirebaseUtils.getInstance();
         firebaseUtils.setmContext(this);
         firebaseUtils.setUpFirebaseDatabase();
-        setContentView(R.layout.activity_galeria_grupos2);
         mContext = getApplicationContext();
-        myTTS = textToSpeech.getInstance(this);
-        analyticsFirebase=new AnalyticsFirebase(this);
+        analyticsFirebase = new AnalyticsFirebase(this);
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         mProgressBar = findViewById(R.id.progressBar);
@@ -156,32 +116,30 @@ public class GaleriaGrupos2 extends AppCompatActivity implements OnStartDragList
         fallanDatosDelUsuario = this;
         cargarGruposJson = new CargarGruposJson(mProgressBar, mTextViewCargandoGrupos, GaleriaGrupos2.this);
         cargarGruposJson.execute();
-        function_scroll=new ScrollFunctionGaleriaGrupos(this,this);
-        showDismissDialog=new ShowDismissDialog();
+        showDismissDialog = new ShowDismissDialog();
         editarPicto = sharedPrefsDefault.getBoolean(getString(R.string.str_editar_picto), true);
 
         /*Manejo de preferencias de cada usuario**/
         sharedPrefsDefault = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         //sharedPrefs = getSharedPreferences(sharedPrefsDefault.getString(getString(R.string.str_userMail), "error"), Context.MODE_PRIVATE);
-        showViewPager=sharedPrefsDefault.getBoolean("showViewPager",false);
+        showViewPager = sharedPrefsDefault.getBoolean("showViewPager", false);
 
         //Referencias principales a la database
         mStorageRef = FirebaseStorage.getInstance().getReference();
-        mAuth = FirebaseAuth.getInstance();
         setTitle(R.string.title_activity_galeria_grupos2);
 
         //**Recycler View*//*
 
         Bundle extras = getIntent().getExtras();
-        showViewPager=sharedPrefsDefault.getBoolean("showViewPager",false);
-        if (extras!= null) {
-            isOrdenar=extras.getBoolean("esOrdenar",false);
-            if(isOrdenar)
-                showViewPager=false;
+        showViewPager = sharedPrefsDefault.getBoolean("showViewPager", false);
+        if (extras != null) {
+            isOrdenar = extras.getBoolean("esOrdenar", false);
+            if (isOrdenar)
+                showViewPager = false;
         }
         //Sacamos el de bajarJsonFirebase que tardaba para entrar a grupo y no se estaba usando en ningun lado
         uploadFirebaseFile = new SubirArchivosFirebase(mContext);
-        downloadDialog =new Progress_dialog_options(this);
+        downloadDialog = new Progress_dialog_options(this);
         downloadDialog.setTitle(getApplicationContext().getResources().getString(R.string.downloadingFoto));
         downloadDialog.setMessage(getApplicationContext().getResources().getString(R.string.downLoadFotos));
         downloadDialog.setCancelable(false);
@@ -192,13 +150,12 @@ public class GaleriaGrupos2 extends AppCompatActivity implements OnStartDragList
         /*Si el usuario no entro nunca a la galeria pictos se hace un prompt del tutorial*/
 
 
-
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 if (firebaseAuth.getCurrentUser() == null) {
                     Intent mainIntent = new Intent().setClass(
-                        GaleriaGrupos2.this, LoginActivity2.class);
+                            GaleriaGrupos2.this, LoginActivity2.class);
                     startActivity(mainIntent);
                     Toast.makeText(GaleriaGrupos2.this, R.string.expired_sesions, Toast.LENGTH_SHORT).show();
                     finish();
@@ -210,32 +167,24 @@ public class GaleriaGrupos2 extends AppCompatActivity implements OnStartDragList
 
             }
         };
-        btnBarrido =findViewById(R.id.btnBarrido);
-        previous =findViewById(R.id.up_button);
-        foward =findViewById(R.id.down_button);
-        exit =findViewById(R.id.back_button);
-         editButton=findViewById(R.id.edit_button);
-        btnTalk=findViewById(R.id.btnTalk);
-        btnBarrido.setOnClickListener(this);
-        btnBarrido.setOnTouchListener(this);
-        editButton.setOnClickListener(this);
-        previous.setOnClickListener(this);
-        foward.setOnClickListener(this);
-        exit.setOnClickListener(this);
-        btnTalk.setOnClickListener(this);
 
+       initViewPager();
+    }
 
+    @Override
+    protected void initViewPager(){
         iniciarBarrido();
         crearRecyclerView();
         changeEditButtonIcon();
         viewpager=new viewpager_galeria_grupo(this,myTTS);
 
         viewpager.showViewPager(showViewPager);
-        //showView(editButton,showViewPager);
+         //showView(editButton,showViewPager);
         deviceControl=new GaleriaGruposControls(this);
     }
 
-    private void crearRecyclerView(){
+    @Override
+    protected void crearRecyclerView(){
         if(!isOrdenar){
             recycler_view_grupo=new Grupo_Recycler_View(this,mAuth);
             recycler_view_grupo.setUploadFirebaseFile(uploadFirebaseFile);
@@ -256,30 +205,7 @@ public class GaleriaGrupos2 extends AppCompatActivity implements OnStartDragList
     /**
      * Prepare the screen-Scanning
      * */
-    private void iniciarBarrido() {
-        ArrayList<View> listadoObjetosBarrido = new ArrayList<>();
-        listadoObjetosBarrido.add(previous);
-        listadoObjetosBarrido.add(exit);
-        listadoObjetosBarrido.add(btnTalk);
-        listadoObjetosBarrido.add(foward);
-        //  listadoObjetosBarrido.add(editButton);
-        barridoPantalla = new BarridoPantalla(this, listadoObjetosBarrido);
-        if (barridoPantalla.isBarridoActivado() && barridoPantalla.devolverpago()) {
-            runOnUiThread(new Runnable() {
 
-                @Override
-                public void run() {
-                    // Stuff that updates the UI
-                    showViewPager=true;
-                    btnBarrido.setVisibility(View.VISIBLE);
-                    if(barridoPantalla.isAvanzarYAceptar())
-                        barridoPantalla.changeButtonVisibility();
-                }
-            });
-        }else{
-            btnBarrido.setVisibility(View.GONE);
-        }
-    }
 
     @Override
     public void onBackPressed() {
@@ -312,7 +238,7 @@ public class GaleriaGrupos2 extends AppCompatActivity implements OnStartDragList
                     if(recycler_view_grupo != null)
                         recycler_view_grupo.setGrupos();
                 }
-                returnData(data);
+                returnData(data,IntentCode.GALERIA_GRUPOS);
                 break;
             case ConstantsMainActivity
                     .EDITARPICTO :
@@ -323,10 +249,10 @@ public class GaleriaGrupos2 extends AppCompatActivity implements OnStartDragList
                 break;
             case ConstantsGroupGalery.SEARCH_ALL_PICTOGRAMS:
                 loadData();
-                returnData(data);
+                returnData(data,IntentCode.GALERIA_GRUPOS);
             break;
             case ConstantsGroupGalery.RETURNGALERIAPICTOSDATA:
-                returnData(data);
+                returnData(data,IntentCode.GALERIA_GRUPOS);
                 break;
         }
 
@@ -360,18 +286,7 @@ public class GaleriaGrupos2 extends AppCompatActivity implements OnStartDragList
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    private final void returnData(Intent data){
-        if(data != null){
-            if (data.getExtras() != null) {
-                Bundle extras = data.getExtras();
-                int Picto = extras.getInt("ID");
-                if (Picto != 0 && Picto != -1) {
-                    setResult(IntentCode.GALERIA_GRUPOS.getCode(), new Intent().putExtra("ID",Picto));
-                    finish();
-                }
-            }
-        }
-    }
+
 
     private void loadData(){
         if(recycler_view_grupo!=null){
@@ -647,22 +562,10 @@ public class GaleriaGrupos2 extends AppCompatActivity implements OnStartDragList
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.up_button:
-               if(showViewPager)
-               viewpager.scrollPosition(false);
-               else  if(recycler_view_grupo!=null&&!showViewPager)
-                   recycler_view_grupo.scrollTo(false);
-               if(barridoPantalla.isBarridoActivado()){
-                   analyticsFirebase.customEvents("Accessibility","Galeria Grupos","Previous Button");
-               }
+                navigateButtonAction(false,"Previous Button");
                 break;
             case R.id.down_button:
-                if(showViewPager)
-                    viewpager.scrollPosition(true);
-                else  if(recycler_view_grupo!=null&&!showViewPager)
-                    recycler_view_grupo.scrollTo(true);
-                if(barridoPantalla.isBarridoActivado()){
-                    analyticsFirebase.customEvents("Accessibility","Galeria Grupos","Next Button");
-                }
+                navigateButtonAction(true,"Next Button" );
                 break;
             case R.id.back_button:
                 if(barridoPantalla.isBarridoActivado()){
@@ -710,6 +613,16 @@ public class GaleriaGrupos2 extends AppCompatActivity implements OnStartDragList
                 break;
             default:
 
+        }
+    }
+
+    private void navigateButtonAction(boolean next,String actionName){
+        if(showViewPager)
+            viewpager.scrollPosition(next);
+        else  if(recycler_view_grupo!=null&&!showViewPager)
+            recycler_view_grupo.scrollTo(next);
+        if(barridoPantalla.isBarridoActivado()){
+            analyticsFirebase.customEvents("Accessibility","Galeria Grupos",actionName);
         }
     }
 
@@ -816,30 +729,7 @@ public class GaleriaGrupos2 extends AppCompatActivity implements OnStartDragList
         }
     }
 
-    @Override
-    public boolean onGenericMotionEvent(MotionEvent event) {
-        if (0 != (event.getSource() & InputDevice.SOURCE_CLASS_POINTER)) {
-            switch (event.getAction()) {
-                case MotionEvent.ACTION_SCROLL:
 
-                    if(barridoPantalla.isScrollMode()||barridoPantalla.isScrollModeClicker()){
-                        if(event.getAxisValue(MotionEvent.AXIS_VSCROLL)<0.0f){
-                            if(barridoPantalla.isScrollMode())
-                                function_scroll.HacerClickEnTiempo();
-                            barridoPantalla.avanzarBarrido();
-                        }
-                        else{
-                            if(barridoPantalla.isScrollMode())
-                                function_scroll.HacerClickEnTiempo();
-                            barridoPantalla.volverAtrasBarrido();
-
-                        }
-                    }
-                    return true;
-            }
-        }
-        return super.onGenericMotionEvent(event);
-    }
 
    public class ShowDismissDialog extends Handler {
         private int position=-1;
@@ -891,11 +781,7 @@ public class GaleriaGrupos2 extends AppCompatActivity implements OnStartDragList
             view.setVisibility(View.INVISIBLE);
     }
 
-    private void setButtonIcon(ImageView view, Drawable drawable){
-        view.setImageDrawable(drawable);
-    }
-
-    private void changeEditButtonIcon(){
+    protected void changeEditButtonIcon(){
         if(showViewPager){
             setButtonIcon(editButton,getResources().getDrawable(R.drawable.ic_edit_white_24dp));
         }else if(isOrdenar) {
@@ -907,41 +793,11 @@ public class GaleriaGrupos2 extends AppCompatActivity implements OnStartDragList
         }
     }
 
-    public BarridoPantalla getBarridoPantalla() {
-        return barridoPantalla;
+    protected void setButtonIcon(ImageView view, Drawable drawable){
+        view.setImageDrawable(drawable);
     }
 
-    public ScrollFunctionGaleriaGrupos getFunction_scroll(){
-        return function_scroll;
-    }
 
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (barridoPantalla.isBarridoActivado()) {
 
-            if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT) {
-                event.startTracking();
-                return true;
-            } else if (keyCode == KeyEvent.KEYCODE_DPAD_LEFT) {
-                event.startTracking();
-                return true;
-            } else if (keyCode == KeyEvent.KEYCODE_DPAD_UP) {
-                event.startTracking();
-                return true;
-            } else if (keyCode == KeyEvent.KEYCODE_DPAD_DOWN) {
-                event.startTracking();
-                return true;
-            }
-            if(keyCode == KeyEvent.KEYCODE_BACK){
-                if(event.getSource() == InputDevice.SOURCE_MOUSE)
-                    barridoPantalla.getmListadoVistas().get(barridoPantalla.getPosicionBarrido()).callOnClick();
-                else
-                    onBackPressed();
-                return true;
-            }
-
-        }
-        return false;
-    }
 }
 

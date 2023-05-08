@@ -485,4 +485,8 @@
     <string name="understood">Intendido</string>
     <string name="pref_summary_chatgpt">Consenti la disabilitazione dell\'opzione ChatGPT.</string>
     <string name="repeat_pictogram">Questo pittogramma è già nella frase</string>
+    <string name="TellStory">Raccontare una storia</string>
+    <string name="TellStory_Description">Scegli i pittogrammi che ti piacciono di più e, con l\'aiuto di Chatgpt, creerai una storia.</string>
+    <string name="TellTheStory">Racconta la storia</string>
+    <string name="str_favorite_phrases_empty">Aggiungi una frase preferita scegliendo il pulsante Modifica.</string>
 </resources>

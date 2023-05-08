@@ -13,7 +13,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.stonefacesoft.ottaa.Principal;
 import com.stonefacesoft.ottaa.R;
-import com.stonefacesoft.ottaa.utils.HandlerComunicationClass;
+import com.stonefacesoft.ottaa.utils.Handlers.HandlerComunicationClass;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -75,7 +75,7 @@ public class TraducirFrase {
                             try {
                                 Log.e("Principal_Trad_GTransO1", "" + traduccion);
                                 Log.d(TAG, "onResponse: Traduccion: " + traduccion);
-                                handlerComunicationClass.sendMessage(Message.obtain(handlerComunicationClass, HandlerComunicationClass.FraseTraducida, response.getJSONObject("data").getJSONArray
+                                handlerComunicationClass.sendMessage(Message.obtain(handlerComunicationClass, HandlerComunicationClass.TRANSLATEDPHRASE, response.getJSONObject("data").getJSONArray
                                         ("translations").getJSONObject(0).getString("translatedText")));
                                 animationView.cancelAnimation();
                                 animationView.setVisibility(View.GONE);
@@ -83,14 +83,14 @@ public class TraducirFrase {
                                 animationView.cancelAnimation();
                                 animationView.setVisibility(View.GONE);
                                 Log.e(TAG, "onResponse: Error: " + e.getMessage());
-                                handlerComunicationClass.sendMessage(Message.obtain(handlerComunicationClass, HandlerComunicationClass.INTENTARDENUEVO));
+                                handlerComunicationClass.sendMessage(Message.obtain(handlerComunicationClass, HandlerComunicationClass.TRYAGAIN));
                             }
 
                         },
                         error -> {
                             animationView.cancelAnimation();
                             animationView.setVisibility(View.GONE);
-                            handlerComunicationClass.sendMessage(Message.obtain(handlerComunicationClass, HandlerComunicationClass.TEXTONOTRADUCIDO));
+                            handlerComunicationClass.sendMessage(Message.obtain(handlerComunicationClass, HandlerComunicationClass.TEXTNOTTRANSLATED));
                             Log.e(TAG, "onErrorResponse: Error " + error.getMessage());
                         }) {
 

@@ -17,8 +17,11 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.stonefacesoft.ottaa.Games.GameCard;
 import com.stonefacesoft.ottaa.Games.GameSelector;
+import com.stonefacesoft.ottaa.Games.TellAStory;
 import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.R;
+import com.stonefacesoft.ottaa.utils.ConnectionDetector;
+import com.stonefacesoft.ottaa.utils.Games.TellAStoryUtils;
 import com.stonefacesoft.ottaa.utils.IntentCode;
 import com.stonefacesoft.ottaa.utils.ReturnPositionItem;
 
@@ -39,9 +42,13 @@ public class viewpager_galeria_juegos {
     private JSONObject gameData;
     private ReturnPositionItem positionItem;
 
+    private int size = 4;
+
 
     public viewpager_galeria_juegos(AppCompatActivity mActivity) {
         viewpager_galeria_juegos.mActivity = mActivity;
+        if(!ConnectionDetector.isNetworkAvailable(mActivity))
+            size = 3;
         json = Json.getInstance();
         json.setmContext(viewpager_galeria_juegos.mActivity);
         viewPager = mActivity.findViewById(R.id.viewpager);
@@ -61,7 +68,7 @@ public class viewpager_galeria_juegos {
 
         @Override
         public int getItemCount() {
-                return 3;
+                return size;
         }
     }
 
@@ -114,15 +121,21 @@ public class viewpager_galeria_juegos {
                     card.setmTxtScore(json.devolverCantidadGruposUsados(0)+"/"+json.getmJSONArrayTodosLosGrupos().length());
                 break;
                 case 1:
-                    card.prepareCardView( R.string.join_pictograms, R.string.join_pictograms_description, R.drawable.match_picto, createOnClickListener(mActivity, GameSelector.class, "seleccionar_palabras"));
+                    card.prepareCardView( R.string.join_pictograms, R.string.join_pictograms_description, R.drawable.join_pictograms, createOnClickListener(mActivity, GameSelector.class, "seleccionar_palabras"));
                     card.setmTxtScore(json.devolverCantidadGruposUsados(1)+"/"+json.getmJSONArrayTodosLosGrupos().length());//todo in recycler fill with the position
                     break;
                 case 2:
                     card.prepareCardView(R.string.memory_game, R.string.memory_game_string, R.drawable.memory_game, createOnClickListener(mActivity, GameSelector.class, "descripciones"));
                     card.setmTxtScore(json.devolverCantidadGruposUsados(2)+"/"+json.getmJSONArrayTodosLosGrupos().length());//todo in recycler fill with the position
                     break;
+                case 3:
+                    card.prepareCardView(R.string.TellStory, R.string.TellStory_Description, R.drawable.tell_story, createOnClickListener(mActivity, TellAStory.class, "history"));
+                    card.setmTxtScore(json.devolverCantidadGruposUsados(3)+"/"+ TellAStoryUtils.getInstance().getChildCounts());//todo in recycler fill with the position
+                    break;
             }
         }
+
+
         private View.OnClickListener createOnClickListener(Context context,Class clase,String value){
             return new View.OnClickListener() {
                 @Override
@@ -171,13 +184,15 @@ public class viewpager_galeria_juegos {
                  intent=new Intent(mActivity, GameSelector.class);
                  intent.putExtra("name_game","descripciones");
                 break;
+             case 3:
+                 intent=new Intent(mActivity, TellAStory.class);
+                 intent.putExtra("name_game","history");
+                 break;
              default:
                  intent=new Intent(mActivity,GameSelector.class);
                  intent.putExtra("name_game","notigames");
                  break;
          }
-
-
         mActivity.startActivityForResult(intent, IntentCode.NOTIGAMES.getCode());
     }
 

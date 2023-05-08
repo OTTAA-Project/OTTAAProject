@@ -44,6 +44,7 @@ import com.google.firebase.storage.StorageReference;
 import com.stonefacesoft.ottaa.FirebaseRequests.BajarJsonFirebase;
 import com.stonefacesoft.ottaa.FirebaseRequests.FirebaseDatabaseRequest;
 import com.stonefacesoft.ottaa.FirebaseRequests.FirebaseUtils;
+import com.stonefacesoft.ottaa.FirebaseRequests.SubirArchivosFirebase;
 import com.stonefacesoft.ottaa.Interfaces.ActivityListener;
 import com.stonefacesoft.ottaa.Interfaces.FirebaseSuccessListener;
 import com.stonefacesoft.ottaa.idioma.ConfigurarIdioma;
@@ -53,6 +54,8 @@ import com.stonefacesoft.ottaa.utils.InmersiveMode;
 import com.stonefacesoft.ottaa.utils.IntentCode;
 import com.stonefacesoft.ottaa.utils.ObservableInteger;
 import com.stonefacesoft.ottaa.utils.RemoteConfigUtils;
+import com.stonefacesoft.ottaa.utils.constants.Constants;
+import com.stonefacesoft.ottaa.welcome.SplashActivity;
 import com.stonefacesoft.pictogramslibrary.utils.ValidateContext;
 
 import java.io.File;
@@ -308,7 +311,6 @@ public class LoginActivity2 extends AppCompatActivity implements View.OnClickLis
             }
         });
         cardViewLogin.startAnimation(translateAnimation);
-
         TranslateAnimation translateAnimation2 = new TranslateAnimation(0, 0, 0, 900);
         translateAnimation2.setRepeatMode(Animation.ABSOLUTE);
         translateAnimation2.setInterpolator(new AccelerateDecelerateInterpolator());
@@ -334,11 +336,21 @@ public class LoginActivity2 extends AppCompatActivity implements View.OnClickLis
             if (observableInteger.get() == 2) {
                 Log.d(TAG, "onIntegerChanged: obsInt 2");
                 Log.d(TAG, "onIntegerChanged: Se bajo grupos");
+                uploadFiles();
                 dialog.dismiss();
                 animateTransition();
                 // chequearArchivoSugerencias();
             }
         });
+    }
+
+    private void uploadFiles(){
+        try{
+            SubirArchivosFirebase subirArchivosFirebase = new SubirArchivosFirebase(LoginActivity2.this);
+            subirArchivosFirebase.subirPictosFirebase(subirArchivosFirebase.getmDatabase(mAuth, Constants.PICTOS), subirArchivosFirebase.getmStorageRef(mAuth, Constants.PICTOS));
+            subirArchivosFirebase.subirGruposFirebase(subirArchivosFirebase.getmDatabase(mAuth, Constants.Grupos), subirArchivosFirebase.getmStorageRef(mAuth, Constants.Grupos));
+
+        }catch (Exception ex){}
     }
 
     @Override

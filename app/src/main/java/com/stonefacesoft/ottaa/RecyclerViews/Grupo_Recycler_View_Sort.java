@@ -13,9 +13,9 @@ import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.utils.constants.Constants;
 
 public class Grupo_Recycler_View_Sort extends Custom_recyclerView {
-    private static final String TAG ="Grupo_R_V_sort" ;
-    private GaleriaGruposAdapter mGaleriaGruposAdapter;
-    private final int mPosition = -1;
+    protected static final String TAG ="Grupo_R_V_sort" ;
+    protected GaleriaGruposAdapter mGaleriaGruposAdapter;
+    protected final int mPosition = -1;
     public Grupo_Recycler_View_Sort(AppCompatActivity mActivity, FirebaseAuth mAuth) {
         super(mActivity, mAuth);
         array=json.getmJSONArrayTodosLosGrupos();

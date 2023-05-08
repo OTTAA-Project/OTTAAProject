@@ -14,11 +14,13 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.stonefacesoft.ottaa.Dialogos.newsDialog.NewDialogsOTTAA;
+import com.stonefacesoft.ottaa.FirebaseRequests.FirebaseUtils;
 import com.stonefacesoft.ottaa.Viewpagers.Viewpager_tutorial;
 import com.stonefacesoft.ottaa.utils.ConnectionDetector;
 import com.stonefacesoft.ottaa.utils.CustomToast;
 import com.stonefacesoft.ottaa.utils.Firebase.AnalyticsFirebase;
 import com.stonefacesoft.ottaa.utils.InmersiveMode;
+import com.stonefacesoft.ottaa.utils.RemoteConfigUtils;
 
 public class LoginActivity2Step3 extends AppCompatActivity implements View.OnClickListener {
 
@@ -71,6 +73,11 @@ public class LoginActivity2Step3 extends AppCompatActivity implements View.OnCli
         buttonAutoworkshop = findViewById(R.id.buttonAutoWorkshop);
         buttonAutoworkshop.setOnClickListener(this);
         buttonBookDemo = findViewById(R.id.buttonBookDemo);
+        buttonBookDemo.setVisibility(View.GONE);
+        boolean book = RemoteConfigUtils.getInstance().getBooleanByName("BookADemo");
+        if(book){
+            buttonBookDemo.setVisibility(View.VISIBLE);
+        }
         buttonBookDemo.setOnClickListener(this);
         if(comingFromMainActivity){
             buttonPrevious.setVisibility(View.INVISIBLE);
@@ -91,7 +98,7 @@ public class LoginActivity2Step3 extends AppCompatActivity implements View.OnCli
                     mAnalyticsFirebase.customEvents("Touch","LoginActivityStep3","Next2");
                     Intent intent = new Intent(LoginActivity2Step3.this, LoginActivity2Avatar.class);
                     startActivity(intent);
-                    finishAfterTransition();
+                    finish();
                 }else{
                     finish();
                 }
@@ -100,7 +107,7 @@ public class LoginActivity2Step3 extends AppCompatActivity implements View.OnCli
                 mAnalyticsFirebase.customEvents("Touch","LoginActivityStep3","Back2");
                     Intent intent2 = new Intent(LoginActivity2Step3.this, LoginActivity2Step2.class);
                     startActivity(intent2);
-                    finishAfterTransition();
+                    finish();
                 break;
             case R.id.buttonTutorial:
                 mAnalyticsFirebase.customEvents("Touch","LoginActivityStep3","ButtonTutorial");

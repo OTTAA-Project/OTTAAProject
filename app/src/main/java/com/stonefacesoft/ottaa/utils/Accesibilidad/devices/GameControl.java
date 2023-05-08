@@ -7,7 +7,7 @@ import android.view.MotionEvent;
 import androidx.core.view.MotionEventCompat;
 
 import com.stonefacesoft.ottaa.Games.GameSelector;
-import com.stonefacesoft.ottaa.Games.MatchPictograms;
+import com.stonefacesoft.ottaa.Views.MatchPictograms;
 import com.stonefacesoft.ottaa.Games.WhichIsThePicto;
 import com.stonefacesoft.ottaa.MainJuegos;
 import com.stonefacesoft.ottaa.utils.Accesibilidad.BarridoPantalla;

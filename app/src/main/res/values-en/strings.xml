@@ -507,4 +507,8 @@
     <string name="understood">Understood</string>
     <string name="pref_summary_chatgpt">Allow disabling the ChatGPT option.</string>
     <string name="repeat_pictogram">This pictogram is already in the sentence</string>
+    <string name="TellStory">Tell A Story</string>
+    <string name="TellStory_Description">Choose the pictograms you like the most, and with the help of Chatgpt, you will create a story.</string>
+    <string name="TellTheStory">Tell the story</string>
+    <string name="str_favorite_phrases_empty">Please add a favourite phrase by choosing the edit button.</string>
 </resources>
