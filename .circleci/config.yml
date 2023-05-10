@@ -77,7 +77,9 @@ references:
   android_config: &android_config
     working_directory: *workspace
     environment:
-      JVM_OPTS: -Xmx4096m -XX:MaxPermSize=512m
+      JVM_OPTS: -Xmx4096m
+      GRADLE_OPTS: '-Dorg.gradle.jvmargs="-Xmx4096m" -XX:+HeapDumpOnOutOfMemoryError -Dorg.gradle.daemon=false'
+
 
 
   gcloud_config: &gcloud_config
