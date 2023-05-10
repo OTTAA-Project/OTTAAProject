@@ -5,6 +5,7 @@ import android.os.Message;
 import androidx.annotation.NonNull;
 
 import com.stonefacesoft.ottaa.Games.GameSelector;
+import com.stonefacesoft.ottaa.Games.TellAStory;
 import com.stonefacesoft.ottaa.Views.MatchPictograms;
 import com.stonefacesoft.ottaa.Games.WhichIsThePicto;
 import com.stonefacesoft.ottaa.MainJuegos;
@@ -13,6 +14,8 @@ import com.stonefacesoft.ottaa.Views.Games.GameViewSelectPictograms;
 public class ScrollFuntionGames extends ScrollFunction{
     private MainJuegos mainJuegos;
     private WhichIsThePicto whichIsThePicto ;
+
+    private TellAStory tellAStory;
     private MatchPictograms matchPictograms;
     private GameSelector gameSelector;
     private GameViewSelectPictograms gameViewSelectPictograms;
@@ -38,6 +41,12 @@ public class ScrollFuntionGames extends ScrollFunction{
         super(mainJuegos);
         this.gameViewSelectPictograms=mainJuegos;
     }
+
+    public ScrollFuntionGames(TellAStory mainJuegos) {
+        super(mainJuegos);
+        this.tellAStory=mainJuegos;
+    }
+
     @Override
     public void handleMessage(@NonNull Message msg) {
         switch (msg.what){
@@ -60,5 +69,7 @@ public class ScrollFuntionGames extends ScrollFunction{
             matchPictograms.OnClickBarrido();
         else if(gameViewSelectPictograms!=null)
             gameViewSelectPictograms.OnClickBarrido();
+        else if(tellAStory!=null)
+            tellAStory.OnClickBarrido();
     }
 }

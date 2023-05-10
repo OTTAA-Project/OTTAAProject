@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.view.View;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.utils.Handlers.HandlerUtils;
 
 import org.json.JSONObject;
@@ -18,12 +19,13 @@ public class TalkAction {
     protected String Oracion = "";
     protected  String traduccion = "";
     protected volatile HandlerUtils handlerComunicationClass;
-    protected String openAiURL = "https://api.openai.com/v1/completions";
+    protected String openAiURL = "";
     protected String viterviurl = "https://us-central1-ottaaproject-flutter.cloudfunctions.net/realiser/realise?PERSON=yo";
 
     public TalkAction(LottieAnimationView animationView, Context mContext, String oracion, String traduccion) {
         this.animationView = animationView;
         this.mContext = mContext;
+        openAiURL = mContext.getString(R.string.chatGPT_api_key);
         Oracion = oracion;
         this.traduccion = traduccion;
     }

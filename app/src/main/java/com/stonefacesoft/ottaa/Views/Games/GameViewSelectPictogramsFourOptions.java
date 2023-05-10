@@ -22,6 +22,8 @@ import com.stonefacesoft.ottaa.Interfaces.Lock_Unlocked_Pictograms;
 import com.stonefacesoft.ottaa.Interfaces.Make_Click_At_Time;
 import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.utils.Accesibilidad.BarridoPantalla;
+import com.stonefacesoft.ottaa.utils.Accesibilidad.devices.GameControl;
+import com.stonefacesoft.ottaa.utils.Accesibilidad.scrollActions.ScrollFuntionGames;
 import com.stonefacesoft.ottaa.utils.Audio.MediaPlayerAudio;
 import com.stonefacesoft.ottaa.utils.CustomToast;
 import com.stonefacesoft.ottaa.utils.Firebase.AnalyticsFirebase;
@@ -66,6 +68,9 @@ public class GameViewSelectPictogramsFourOptions extends AppCompatActivity imple
     protected BarridoPantalla barridoPantalla;
 
     protected Juego game;
+
+    protected ScrollFuntionGames function_scroll;
+    protected GameControl gameControl;
 
 
 
@@ -165,4 +170,9 @@ public class GameViewSelectPictogramsFourOptions extends AppCompatActivity imple
         game=new Juego(this,id,parent);
         game.startUseTime();
     }
+
+    public BarridoPantalla getBarridoPantalla() {
+        return barridoPantalla;
+    }
+
 }

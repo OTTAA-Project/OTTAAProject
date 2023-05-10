@@ -63,6 +63,11 @@ public class HandlerComunicationClass extends HandlerUtils {
                     principal.mostrarMensajeSinConexionInternet();
                 }
                 break;
+            case CHATGPTERROR:{
+                if(principal!=null)
+                    principal.chatGptError();
+                }
+            break;
             case TRYAGAIN:
                 if (principal != null) {
                     principal.intentarDeNuevo();

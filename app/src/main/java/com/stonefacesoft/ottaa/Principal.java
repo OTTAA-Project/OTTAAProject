@@ -1355,6 +1355,12 @@ public class Principal extends AppCompatActivity implements View
                 .show();
     }
 
+    public void chatGptError() {
+        Toast.makeText(this, "Chat GPT Error", Toast
+                .LENGTH_SHORT)
+                .show();
+    }
+
     public void intentarDeNuevo() {
         Toast.makeText(this, R.string.tryAgain, Toast.LENGTH_SHORT).show();
     }

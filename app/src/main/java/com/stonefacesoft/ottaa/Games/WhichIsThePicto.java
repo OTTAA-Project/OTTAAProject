@@ -127,10 +127,8 @@ public class WhichIsThePicto extends GameViewSelectPictogramsFourOptions {
     };
     private ImageView imageView;
 
-    private ScrollFuntionGames function_scroll;
 
     //  private FirebaseAnalytics firebaseAnalytics;
-    private GameControl gameControl;
     private GamesSettings gamesSettings;
     private boolean mTutorialFlag = true;
 
@@ -649,6 +647,8 @@ public class WhichIsThePicto extends GameViewSelectPictogramsFourOptions {
         return gameControl.makeClick(event);
     }
 
+
+
     @Override
     public boolean onGenericMotionEvent(MotionEvent event) {
         if (0 != (event.getSource() & InputDevice.SOURCE_CLASS_POINTER)) {
@@ -678,9 +678,6 @@ public class WhichIsThePicto extends GameViewSelectPictogramsFourOptions {
         return gameControl.makeClick(event);
     }
 
-    public BarridoPantalla getBarridoPantalla() {
-        return barridoPantalla;
-    }
 
     private void setMenuScoreIcon() {
         Drawable drawable = null;

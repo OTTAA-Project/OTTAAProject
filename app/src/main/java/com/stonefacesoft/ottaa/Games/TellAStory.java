@@ -23,9 +23,11 @@ import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
+import android.view.InputDevice;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -39,6 +41,8 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import com.stonefacesoft.ottaa.Views.Games.GameViewSelectPictogramsFourOptions;
 import com.stonefacesoft.ottaa.idioma.ConfigurarIdioma;
 import com.stonefacesoft.ottaa.utils.Accesibilidad.BarridoPantalla;
+import com.stonefacesoft.ottaa.utils.Accesibilidad.devices.GameControl;
+import com.stonefacesoft.ottaa.utils.Accesibilidad.scrollActions.ScrollFuntionGames;
 import com.stonefacesoft.ottaa.utils.Audio.FileEncoder;
 import com.stonefacesoft.ottaa.utils.CustomToast;
 import com.stonefacesoft.ottaa.utils.Games.TellAStoryUtils;
@@ -125,7 +129,9 @@ public class TellAStory extends GameViewSelectPictogramsFourOptions implements A
         json.setmJSONArrayTodosLosPictos(Json.getInstance().getmJSONArrayTodosLosPictos());
         downloadPromt();
         initPictograms();
+        function_scroll = new ScrollFuntionGames(this);
         iniciarBarrido();
+        gameControl = new GameControl(this);
         //  hideAllViews();
 
     }
@@ -156,7 +162,13 @@ public class TellAStory extends GameViewSelectPictogramsFourOptions implements A
                     shareAStory();
                 break;
             case R.id.btnBarrido:
+                if (barridoPantalla.isBarridoActivado() && barridoPantalla.isAvanzarYAceptar()) {
                     onClick(barridoPantalla.getmListadoVistas().get(barridoPantalla.getPosicionBarrido()));
+                } else if (barridoPantalla.isBarridoActivado() && !barridoPantalla.isAvanzarYAceptar()) {
+                    int posicion = barridoPantalla.getPosicionBarrido();
+                    if (posicion != -1)
+                        barridoPantalla.getmListadoVistas().get(barridoPantalla.getPosicionBarrido()).callOnClick();
+                }
                 break;
         }
     }
@@ -429,4 +441,46 @@ public class TellAStory extends GameViewSelectPictogramsFourOptions implements A
         Opcion3.setVisibility(value);
         Opcion4.setVisibility(value);
     }
+
+    @Override
+    public void OnClickBarrido() {
+      if(function_scroll.isClickEnabled()&&barridoPantalla.getmListadoVistas().get(barridoPantalla.getPosicionBarrido()).getId()==R.id.btnTodosLosPictos)
+            onClick(barridoPantalla.getmListadoVistas().get(barridoPantalla.getPosicionBarrido()));
+        else if(!function_scroll.isClickEnabled()){
+            onClick(barridoPantalla.getmListadoVistas().get(barridoPantalla.getPosicionBarrido()));
+        }
+    }
+
+    @Override
+    public boolean onGenericMotionEvent(MotionEvent event) {
+        if (0 != (event.getSource() & InputDevice.SOURCE_CLASS_POINTER)) {
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_SCROLL:
+
+                    if (barridoPantalla.isScrollMode() || barridoPantalla.isScrollModeClicker()) {
+                        if (event.getAxisValue(MotionEvent.AXIS_VSCROLL) < 0.0f) {
+                            if (barridoPantalla.isScrollMode())
+                                function_scroll.HacerClickEnTiempo();
+                            barridoPantalla.avanzarBarrido();
+                        } else {
+                            if (barridoPantalla.isScrollMode())
+                                function_scroll.HacerClickEnTiempo();
+                            barridoPantalla.volverAtrasBarrido();
+
+                        }
+                    }
+                    return true;
+            }
+        }
+        return super.onGenericMotionEvent(event);
+    }
+
+    public boolean onTouch(View v, MotionEvent event) {
+        return gameControl.makeClick(event);
+    }
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        return gameControl.makeClick(event);
+    }
+
 }

@@ -52,13 +52,13 @@ public class GaleriaPictos3 extends AppCompatActivity implements View.OnClickLis
     public int mState = 1;
     protected SearchView mSearchView;
     //Common Objects
-    private Json json;
+    protected Json json;
     private FirebaseAuth mAuth;
     private SubirArchivosFirebase uploadFile;
-    private boolean esVincular;
-    private boolean showViewPager;
-    private boolean isSorter;
-    private SharedPreferences sharedPrefsDefault;
+    protected boolean esVincular;
+    protected boolean showViewPager;
+    protected boolean isSorter;
+    protected SharedPreferences sharedPrefsDefault;
     private Toolbar toolbar;
     protected MenuItem menuItem;
     protected Menu menu;
@@ -66,7 +66,7 @@ public class GaleriaPictos3 extends AppCompatActivity implements View.OnClickLis
     private FirebaseAnalytics mFirebaseAnalytics;
 
     //TextToSpeech
-    private textToSpeech myTTS;
+    protected textToSpeech myTTS;
     //RecyclerViewComponents
     protected Picto_Vincular_Recycler_View mVincularRecyclerView;
     protected Picto_Recycler_view mPictoRecyclerView;
@@ -79,8 +79,8 @@ public class GaleriaPictos3 extends AppCompatActivity implements View.OnClickLis
     //Menu
 
     //Id Grupo Padre
-    private int boton;
-    private String nombre;
+    protected int boton;
+    protected String nombre;
     //ImageButton
     private ImageButton previous, foward, exit, edit_button;
     private Button btnBarrido;
@@ -109,6 +109,9 @@ public class GaleriaPictos3 extends AppCompatActivity implements View.OnClickLis
         editarPicto = sharedPrefsDefault.getBoolean(getString(R.string.str_editar_picto), true);
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        setUpViewPager();
+        initButtons();
         initComponents();
         navigationControl = new GaleriaPictosControls(this);
     }
@@ -343,12 +346,49 @@ public class GaleriaPictos3 extends AppCompatActivity implements View.OnClickLis
         }
     }
 
-    private void initComponents() {
+    protected void initComponents() {
         mAuth = FirebaseAuth.getInstance();
         uploadFile = new SubirArchivosFirebase(getApplicationContext());
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
         json = Json.getInstance();
         json.setmContext(this);
+
+
+
+
+
+        if (esVincular || isSorter) {
+            edit_button.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_save_white_24));
+        }
+
+        function_scroll = new ScrollFunctionGaleriaPictos(this, this);
+        iniciarBarrido();
+        viewpager_galeria_pictos.showViewPager(showViewPager);
+        cargarAdapter();
+        showView(edit_button, showViewPager);
+
+    }
+    
+    protected void initButtons(){
+        previous = findViewById(R.id.down_button);
+        foward = findViewById(R.id.up_button);
+        exit = findViewById(R.id.back_button);
+        edit_button = findViewById(R.id.edit_button);
+        btnTalk = findViewById(R.id.btnTalk);
+        btnBarrido = findViewById(R.id.btnBarrido);
+        btnBarrido.setVisibility(View.GONE);
+        btnBarrido.setOnClickListener(this);
+        btnBarrido.setOnTouchListener(this);
+        previous.setOnClickListener(this);
+        exit.setOnClickListener(this);
+        edit_button.setOnClickListener(this);
+        btnTalk.setOnClickListener(this);
+        foward.setOnClickListener(this);
+    }
+
+    protected void setUpViewPager(){
+        myTTS = textToSpeech.getInstance(this);
+        viewpager_galeria_pictos = new viewpager_galeria_pictos(this, myTTS, boton);
         Bundle extras = getIntent().getExtras();
         showViewPager = sharedPrefsDefault.getBoolean("showViewPager_pictos", false);
         if (extras != null) {
@@ -359,33 +399,6 @@ public class GaleriaPictos3 extends AppCompatActivity implements View.OnClickLis
             if (esVincular || isSorter )
                 showViewPager = false;
         }
-        myTTS = textToSpeech.getInstance(this);
-        viewpager_galeria_pictos = new viewpager_galeria_pictos(this, myTTS, boton);
-        
-        previous = findViewById(R.id.down_button);
-        foward = findViewById(R.id.up_button);
-        exit = findViewById(R.id.back_button);
-        edit_button = findViewById(R.id.edit_button);
-        btnTalk = findViewById(R.id.btnTalk);
-        btnBarrido = findViewById(R.id.btnBarrido);
-        btnBarrido.setVisibility(View.GONE);
-
-        if (esVincular || isSorter) {
-            edit_button.setImageDrawable(getResources().getDrawable(R.drawable.ic_baseline_save_white_24));
-        }
-        btnBarrido.setOnClickListener(this);
-        btnBarrido.setOnTouchListener(this);
-        previous.setOnClickListener(this);
-        exit.setOnClickListener(this);
-        edit_button.setOnClickListener(this);
-        btnTalk.setOnClickListener(this);
-        foward.setOnClickListener(this);
-        function_scroll = new ScrollFunctionGaleriaPictos(this, this);
-        iniciarBarrido();
-        viewpager_galeria_pictos.showViewPager(showViewPager);
-        cargarAdapter();
-        showView(edit_button, showViewPager);
-
     }
 
     private void guardarVincular() {

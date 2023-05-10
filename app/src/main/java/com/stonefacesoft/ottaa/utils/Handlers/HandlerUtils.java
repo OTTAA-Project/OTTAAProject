@@ -11,5 +11,6 @@ public class HandlerUtils extends Handler {
     public static final int DISMISSDIALOG=1;
     public static final int SHOWTEXT=35;
 
+    public static final int CHATGPTERROR = 37;
 
 }

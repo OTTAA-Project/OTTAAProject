@@ -1,5 +1,6 @@
 package com.stonefacesoft.ottaa.utils.Accesibilidad.devices;
 
+import android.content.Context;
 import android.util.Log;
 import android.view.InputDevice;
 import android.view.MotionEvent;
@@ -7,6 +8,7 @@ import android.view.MotionEvent;
 import androidx.core.view.MotionEventCompat;
 
 import com.stonefacesoft.ottaa.Games.GameSelector;
+import com.stonefacesoft.ottaa.Games.TellAStory;
 import com.stonefacesoft.ottaa.Views.MatchPictograms;
 import com.stonefacesoft.ottaa.Games.WhichIsThePicto;
 import com.stonefacesoft.ottaa.MainJuegos;
@@ -19,6 +21,7 @@ public class GameControl extends Controls{
     private MatchPictograms matchPictograms;
     private GameSelector gameSelector;
     private GameViewSelectPictograms gameViewSelectPictograms;
+    private TellAStory tellAStory;
     private final String TAG="GameControl";
 
 
@@ -42,6 +45,11 @@ public class GameControl extends Controls{
     public GameControl(GameViewSelectPictograms gameSelector){
         super(gameSelector);
         this.gameViewSelectPictograms=gameSelector;
+    }
+
+    public GameControl( TellAStory gameSelector) {
+        super(gameSelector);
+        this.tellAStory = gameSelector;
     }
 
     @Override
@@ -124,6 +132,8 @@ public class GameControl extends Controls{
             return gameSelector.getBarridoPantalla();
         else if(gameViewSelectPictograms!=null)
             return gameViewSelectPictograms.getBarridoPantalla();
+        else if(tellAStory!=null)
+            return tellAStory.getBarridoPantalla();
         return null;
     }
 
@@ -138,6 +148,8 @@ public class GameControl extends Controls{
              gameSelector.OnClickBarrido();
         else if(gameViewSelectPictograms!=null)
              gameViewSelectPictograms.OnClickBarrido();
+        else if(tellAStory!=null)
+            tellAStory.OnClickBarrido();
     }
     private void selectSippAndPuff(){
         if(mainJuegos!=null)
@@ -150,6 +162,8 @@ public class GameControl extends Controls{
             gameSelector.OnClickBarrido();
         else if(gameViewSelectPictograms!=null)
             gameViewSelectPictograms.OnClickBarrido();
+        else if(tellAStory!=null)
+            tellAStory.OnClickBarrido();
     }
     private void  makeOnClick(){
         if(mainJuegos!=null)
@@ -162,7 +176,8 @@ public class GameControl extends Controls{
             gameSelector.onClick(getBarridoPantalla().getmListadoVistas().get(getBarridoPantalla().getPosicionBarrido()));
         else if(gameViewSelectPictograms!=null)
             gameViewSelectPictograms.onClick(getBarridoPantalla().getmListadoVistas().get(getBarridoPantalla().getPosicionBarrido()));
-
+        else if(tellAStory!=null)
+            tellAStory.onClick(getBarridoPantalla().getmListadoVistas().get(getBarridoPantalla().getPosicionBarrido()));
     }
     @Override
     public boolean pressBackButton() {

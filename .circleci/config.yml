@@ -1,7 +1,7 @@
 version: 2.1
 orbs:
-  gradle: circleci/gradle@2.2.0
-  android: circleci/android@2.0.2
+  gradle: circleci/gradle@3.0.0
+  android: circleci/android@2.3.0
 
 workflows:
   main:
@@ -20,6 +20,7 @@ workflows:
               only:
                 - circleciSettings
                 - master
+                - dev
 
 #      - TestProject:
 #          filters:
@@ -225,7 +226,7 @@ jobs:
   unitTesting:
     <<: *android_config
     docker:
-      - image: cimg/android:2022.03
+      - image: cimg/android:2023.05
         auth:
           username: $DOCKER_USER
           password: $DOCKER_PASSWORD
@@ -246,7 +247,7 @@ jobs:
   InstrumentationTest:
     <<: *android_config
     docker:
-      - image: circleci/android:api-29
+      - image: cimg/android:2023.05
         auth:
           username: $DOCKER_USER
           password: $DOCKER_PASSWORD

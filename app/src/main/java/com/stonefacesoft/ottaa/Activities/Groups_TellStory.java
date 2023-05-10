@@ -46,6 +46,7 @@ public class Groups_TellStory extends GroupGalleryNavigator {
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         editButton.setVisibility(View.INVISIBLE);
+        setTitle(R.string.title_activity_galeria_grupos2);
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
