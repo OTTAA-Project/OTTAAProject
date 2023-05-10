@@ -77,7 +77,7 @@ references:
   android_config: &android_config
     working_directory: *workspace
     environment:
-      JVM_OPTS: -Xmx4096m
+      JVM_OPTS: '-XX:MaxPermSize=512m -XX:+HeapDumpOnOutOfMemoryError -XX:+UseParallelGC'
       GRADLE_OPTS: '-XX:MaxPermSize=512m -XX:+HeapDumpOnOutOfMemoryError -XX:+UseParallelGC'
 
 
@@ -87,7 +87,7 @@ references:
     docker:
       - image: google/cloud-sdk:latest
     environment:
-      JVM_OPTS: -Xmx4096m
+      JVM_OPTS: '-XX:MaxPermSize=512m -XX:+HeapDumpOnOutOfMemoryError -XX:+UseParallelGC'
       GRADLE_OPTS: '-XX:MaxPermSize=512m -XX:+HeapDumpOnOutOfMemoryError -XX:+UseParallelGC'
 
 
