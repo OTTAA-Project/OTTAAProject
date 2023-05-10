@@ -1,7 +1,304 @@
+##version: 2.1
+##orbs:
+##  gradle: circleci/gradle@3.0.0
+##  android: circleci/android@2.3.0
+##
+##workflows:
+##  main:
+##    jobs:
+##      - unitTesting:
+##          filters:
+##            branches:
+##              only:
+##                - dev
+##                - hotfix
+##                - master
+##                - circleciSettings
+##      - InstrumentationTest:
+##          filters:
+##            branches:
+##              only:
+##                - circleciSettings
+##                - master
+##                - dev
+#
+##      - TestProject:
+##          filters:
+##            branches:
+##              only:
+##                - circleciSettings
+#
+#references:
+#  # cache
+#  cache_key: &cache_key
+#    key: jars-{{ checksum "build.gradle" }}-{{ checksum "app/build.gradle" }}
+#  restore_cache: &restore_cache
+#    <<: *cache_key
+#
+#  clean_cache: &clean_cache
+#    run:
+#      name: clean cache
+#      command: ./gradlew clean
+#  #workspace
+#  workspace: &workspace ~/src
+#  mobile_path: &mobile_build_path
+#    - src/build/
+#  mobile_output: &mobile_build_path_output
+#    - src/build/outputs
+#  workspace_production: &workspace_production
+#    attach_workspace:
+#      at: *workspace
+#  workspace_debug: &workspace_debug
+#    attach_workspace:
+#      at: *workspace
+#  persist_production_workspace:
+#    persist_to_workspace:
+#      root: *workspace
+#      paths:
+#        - *mobile_build_path
+#  persist_debug_workspace: &persist_debug_workspace
+#    persist_to_workspace:
+#      root: *workspace
+#      paths:
+#        - src/build
+#        - src/build/outputs/androidTest-results
+#        - src/build/outputs/apk
+#        - src/build/outputs/code-coverage
+#        - src/build/outputs/test-results
+#  attach_firebase_workspace: &attach_firebase_workspace
+#    attach_workspace:
+#      at: *workspace
+#
+#  persist_firebase_workspace: &persist_firebase_workspace
+#    root: *workspace
+#    paths:
+#      - firebase
+#
+#  android_config: &android_config
+#    working_directory: *workspace
+#    environment:
+#      JVM_OPTS: -Xmx4096m
+#      GRADLE_OPTS: '-Dorg.gradle.jvmargs="-Xmx4096m" -XX:+HeapDumpOnOutOfMemoryError -Dorg.gradle.daemon=true'
+#
+#
+#
+#  gcloud_config: &gcloud_config
+#    working_directory: *workspace
+#    docker:
+#      - image: google/cloud-sdk:latest
+#    environment:
+#      JVM_OPTS: -Xmx4096m
+#      GRADLE_OPTS: '-Dorg.gradle.jvmargs="-Xmx4096m" -XX:+HeapDumpOnOutOfMemoryError -Dorg.gradle.daemon=true'
+#
+#
+#  #Encoding and getting files
+#  export_google_services_json: &export_google_services_json
+#    run:
+#      name: export google services Json
+#      command: echo 'export GOOGLE_SERVICES_JSON="$GOOGLE_SERVICES_JSON"' >> $BASH_ENV
+#  decode_google_services_json: &get_google_services_json
+#    run:
+#      name: Decode Google Services Json
+#      command: echo $GOOGLE_SERVICES_JSON | base64 -di > app/google-services.json
+#
+#  export_file: &prepare_file
+#    run:
+#      name: get api keys
+#      command: echo 'export api_keys="$API_KEYS"' >> $BASH_ENV
+#
+#  decode_file: &decode_file
+#    run:
+#      name: decode File
+#      command: echo $API_KEYS | base64 -di > app/src/main/res/values/api_keys.xml
+#
+#  run_testing: &run_testing
+#    run:
+#      name: run test
+#      command: ./gradlew test
+#
+#  run_lint_testing: &run_lint_test
+#    run:
+#      name: run lint test
+#      command: ./gradlew lint test
+#
+#  chmod_change_setup: &chmodGradle
+#    run:
+#      name: Chmod Permission
+#      command: sudo chmod +x ./gradlew
+#
+#  run_instrumentation_test: &run_integration_test
+#    run:
+#      name: instrumentation test
+#      command: ./gradlew /connectedAndroidTest
+#
+#  run_gcloudservice: &run_gcloudservice
+#    run: |
+#      echo $GCLOUD_SERVICE_KEY | gcloud auth activate-service-account --key-file=-
+#      gcloud --quiet config set project ${GOOGLE_PROJECT_ID}
+#      gcloud --quiet config set compute/zone ${GOOGLE_COMPUTE_ZONE}
+#
+#  disable_predex: &disablepredexing
+#    run:
+#      name: Disable predex
+#      command: ./gradlew -PdisablePreDex
+#
+#  store_test_result: &store_test_result
+#    store_test_results:
+#      path: app/build/test-results
+#  prepare_test_result: &prepare_test_result
+#    run:
+#      name: Save test results
+#      command: |
+#        mkdir -p ~/test-results/junit/
+#        find . -type f -regex ".*/build/test-results/.*xml" -exec cp {} ~/test-results/junit/ \;
+#      when: always
+#  store_artifacts: &store_artifacts
+#    store_artifacts:
+#      path: app/build/reports
+#      destination: reports
+#  build_apk_debug_release: &build_apk_debug_release
+#    run:
+#      name: Build Debug Apk and Release Apk
+#      command: |
+#        ./gradlew :app:assembleDebug
+#        ./gradlew :app:assembleDebugAndroidTest
+#  store_google_account: &store_google_account
+#    run:
+#      name: Store Google Service Account
+#      command: echo $GCLOUD_SERVICE_KEY > ${HOME}/gcloud-service-key.json
+#
+#
+#  authorize_gcloud_and_set_default: &authorize_gcloud
+#    run:
+#      name: Authorize gcloud and set config defaults
+#      command: |
+#        sudo gcloud auth activate-service-account --key-file=${HOME}/gcloud-service-key.json
+#        sudo gcloud --quiet config set project ${GOOGLE_PROJECT_ID}
+#  run_firebase_test_lab: &run_firebase_test_lab
+#    run:
+#      name: Test with firebase test lab
+#      command: >
+#        sudo gcloud firebase test android run \
+#          --app app/build/outputs/apk/debug/app-debug.apk \
+#          --test app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk \
+#          --results-bucket cloud-test-${GOOGLE_PROJECT_ID}
+#  run_install_pip: &run_install_pip
+#    run:
+#      name: Install pip
+#      command: |
+#        sudo apt-get update && sudo apt-get install python-pip -y
+#  run_install_gsutil: &run_install_gsutil
+#    run:
+#      name: Install GsUtils
+#      command: |
+#        echo "deb http://packages.cloud.google.com/apt cloud-sdk main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
+#        curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+#        sudo apt-get update && sudo apt-get install google-cloud-sdk -y
+#
+#  install_gsutil_dependency: &install_gsutil_dependency
+#    run:
+#      name: Install gsutil dependency and copy test results data
+#      command: |
+#        sudo pip install -U crcmod
+#        sudo gsutil -m cp -r -U `sudo gsutil ls gs://cloud-test-ottaa-project | tail -1`* ${CIRCLE_ARTIFACTS}/ | true
+#
+#  install_jdk_11: &install_jdk_11
+#    run:
+#      name: Update dependencies and Install Jdk 18
+#      command: |
+#        sudo apt-get  -y update
+#        sudo apt install -y openjdk-18-jdk
+#        java -version
+#
+#  update_grandlew_code: &update_gradlew_code
+#    run:
+#      name: Build the code with test project
+#      command: |
+#        chmod +x gradlew
+#        ./gradlew build -x test
+#
+#  start_test_project_agent: &start_test_project_agent
+#    run:
+#      name: Start Agent and Wait for agent to register
+#      command: |
+#        set -x
+#        docker-compose up -d
+#        trap 'kill $(jobs -p)' EXIT
+#        attempt_counter=0
+#        max_attempts=45
+#        mkdir -p build/reports/agent
+#        docker-compose -f docker-compose.yml logs -f | tee build/reports/agent/log.txt&
+#        until curl -s http://localhost:8585/api/status | jq '.registered' | grep true; do
+#          if [ ${attempt_counter} -eq ${max_attempts} ]; then
+#            echo "Agent failed to register. Terminating..."
+#            exit 1
+#          fi
+#          attempt_counter=$(($attempt_counter+1))
+#          sleep 1
+#        done
+#
+#
+#
+#jobs:
+#  unitTesting:
+#    <<: *android_config
+#    docker:
+#      - image: cimg/android:2023.05
+#        auth:
+#          username: $DOCKER_USER
+#          password: $DOCKER_PASSWORD
+#    steps:
+#      - checkout
+#      - restore_cache: *cache_key
+#      - *chmodGradle
+#      - *export_google_services_json
+#      - *get_google_services_json
+#      - *prepare_file
+#      - *decode_file
+#      - *run_testing
+#      - *prepare_test_result
+#      - *run_lint_test
+#      - *prepare_test_result
+#      - *store_artifacts
+#      - *store_test_result
+#  InstrumentationTest:
+#    <<: *android_config
+#    docker:
+#      - image: cimg/android:2023.05
+#        auth:
+#          username: $DOCKER_USER
+#          password: $DOCKER_PASSWORD
+#    steps:
+#      - checkout
+#      - restore_cache: *cache_key
+#      - *chmodGradle
+#      - *export_google_services_json
+#      - *get_google_services_json
+#      - *prepare_file
+#      - *decode_file
+#      - *disablepredexing
+#      - *build_apk_debug_release
+#      - *store_google_account
+#      - *authorize_gcloud
+#      - *run_firebase_test_lab
+#      - *run_install_pip
+#      - *run_install_gsutil
+#      - *install_gsutil_dependency
+##  TestProject:
+##    <<: *android_config
+##    machine:
+##      image: ubuntu-2004:202010-01
+##    steps:
+##      - checkout
+##      - *install_jdk_11
+##      - *update_gradlew_code
+##      - *start_test_project_agent
+##      - *run_testing
+
 version: 2.1
 orbs:
-  gradle: circleci/gradle@3.0.0
-  android: circleci/android@2.3.0
+  gradle: circleci/gradle@2.2.0
+  android: circleci/android@2.0.2
 
 workflows:
   main:
@@ -20,7 +317,6 @@ workflows:
               only:
                 - circleciSettings
                 - master
-                - dev
 
 #      - TestProject:
 #          filters:
@@ -77,9 +373,7 @@ references:
   android_config: &android_config
     working_directory: *workspace
     environment:
-      JVM_OPTS: -Xmx4096m
-      GRADLE_OPTS: '-Dorg.gradle.jvmargs="-Xmx4096m" -XX:+HeapDumpOnOutOfMemoryError -Dorg.gradle.daemon=true'
-
+      JVM_OPTS: -Xmx3200m
 
 
   gcloud_config: &gcloud_config
@@ -87,9 +381,7 @@ references:
     docker:
       - image: google/cloud-sdk:latest
     environment:
-      JVM_OPTS: -Xmx4096m
-      GRADLE_OPTS: '-Dorg.gradle.jvmargs="-Xmx4096m" -XX:+HeapDumpOnOutOfMemoryError -Dorg.gradle.daemon=true'
-
+      JVM_OPTS: -Xmx3200m
 
   #Encoding and getting files
   export_google_services_json: &export_google_services_json
@@ -167,7 +459,6 @@ references:
       name: Store Google Service Account
       command: echo $GCLOUD_SERVICE_KEY > ${HOME}/gcloud-service-key.json
 
-
   authorize_gcloud_and_set_default: &authorize_gcloud
     run:
       name: Authorize gcloud and set config defaults
@@ -182,18 +473,6 @@ references:
           --app app/build/outputs/apk/debug/app-debug.apk \
           --test app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk \
           --results-bucket cloud-test-${GOOGLE_PROJECT_ID}
-  run_install_pip: &run_install_pip
-    run:
-      name: Install pip
-      command: |
-        sudo apt-get update && sudo apt-get install python-pip -y
-  run_install_gsutil: &run_install_gsutil
-    run:
-      name: Install GsUtils
-      command: |
-        echo "deb http://packages.cloud.google.com/apt cloud-sdk main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
-        curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
-        sudo apt-get update && sudo apt-get install google-cloud-sdk -y
 
   install_gsutil_dependency: &install_gsutil_dependency
     run:
@@ -204,10 +483,10 @@ references:
 
   install_jdk_11: &install_jdk_11
     run:
-      name: Update dependencies and Install Jdk 18
+      name: Update dependencies and Install Jdk 11
       command: |
         sudo apt-get  -y update
-        sudo apt install -y openjdk-18-jdk
+        sudo apt install -y openjdk-11-jdk
         java -version
 
   update_grandlew_code: &update_gradlew_code
@@ -243,7 +522,7 @@ jobs:
   unitTesting:
     <<: *android_config
     docker:
-      - image: cimg/android:2023.05
+      - image: cimg/android:2022.03
         auth:
           username: $DOCKER_USER
           password: $DOCKER_PASSWORD
@@ -264,7 +543,7 @@ jobs:
   InstrumentationTest:
     <<: *android_config
     docker:
-      - image: cimg/android:2023.05
+      - image: circleci/android:api-29
         auth:
           username: $DOCKER_USER
           password: $DOCKER_PASSWORD
@@ -281,8 +560,6 @@ jobs:
       - *store_google_account
       - *authorize_gcloud
       - *run_firebase_test_lab
-      - *run_install_pip
-      - *run_install_gsutil
       - *install_gsutil_dependency
 #  TestProject:
 #    <<: *android_config
