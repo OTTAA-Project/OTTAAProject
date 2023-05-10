@@ -186,7 +186,7 @@ references:
     run:
       name: Install gsutil dependency and copy test results data
       command: |
-        sudo pip install -U crcmod
+        sudo pip3 install -U crcmod
         sudo gsutil -m cp -r -U `sudo gsutil ls gs://cloud-test-ottaa-project | tail -1`* ${CIRCLE_ARTIFACTS}/ | true
 
   install_jdk_11: &install_jdk_11
