@@ -191,10 +191,10 @@ references:
 
   install_jdk_11: &install_jdk_11
     run:
-      name: Update dependencies and Install Jdk 11
+      name: Update dependencies and Install Jdk 18
       command: |
         sudo apt-get  -y update
-        sudo apt install -y openjdk-11-jdk
+        sudo apt install -y openjdk-18-jdk
         java -version
 
   update_grandlew_code: &update_gradlew_code
