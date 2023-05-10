@@ -181,12 +181,17 @@ references:
           --app app/build/outputs/apk/debug/app-debug.apk \
           --test app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk \
           --results-bucket cloud-test-${GOOGLE_PROJECT_ID}
+  run_install_pip: &run_install_pip
+    run:
+      name: Install pip
+      command: |
+        sudo apt-get update && sudo apt-get install python-pip -y 
 
   install_gsutil_dependency: &install_gsutil_dependency
     run:
       name: Install gsutil dependency and copy test results data
       command: |
-        sudo pip3 install -U crcmod
+        sudo pip install -U crcmod
         sudo gsutil -m cp -r -U `sudo gsutil ls gs://cloud-test-ottaa-project | tail -1`* ${CIRCLE_ARTIFACTS}/ | true
 
   install_jdk_11: &install_jdk_11
@@ -268,6 +273,7 @@ jobs:
       - *store_google_account
       - *authorize_gcloud
       - *run_firebase_test_lab
+      - *run_install_pip
       - *install_gsutil_dependency
 #  TestProject:
 #    <<: *android_config
