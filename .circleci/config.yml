@@ -185,7 +185,14 @@ references:
     run:
       name: Install pip
       command: |
-        sudo apt-get update && sudo apt-get install python-pip -y 
+        sudo apt-get update && sudo apt-get install python-pip -y
+  run_install_gsutil: &run_install_gsutil
+    run:
+      name: Install GsUtils
+      command: |
+        echo "deb http://packages.cloud.google.com/apt cloud-sdk main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
+        curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+        sudo apt-get update && sudo apt-get install google-cloud-sdk -y
 
   install_gsutil_dependency: &install_gsutil_dependency
     run:
@@ -268,12 +275,13 @@ jobs:
       - *get_google_services_json
       - *prepare_file
       - *decode_file
+      - *run_install_pip
+      - *run_firebase_test_lab
       - *disablepredexing
       - *build_apk_debug_release
       - *store_google_account
       - *authorize_gcloud
-      - *run_firebase_test_lab
-      - *run_install_pip
+      - *run_install_gsutil
       - *install_gsutil_dependency
 #  TestProject:
 #    <<: *android_config
