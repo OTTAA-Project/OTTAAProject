@@ -77,8 +77,8 @@ references:
   android_config: &android_config
     working_directory: *workspace
     environment:
-      JVM_OPTS: '-XX:MaxPermSize=512m -XX:+HeapDumpOnOutOfMemoryError -XX:+UseParallelGC'
-      GRADLE_OPTS: '-XX:MaxPermSize=512m -XX:+HeapDumpOnOutOfMemoryError -XX:+UseParallelGC'
+      JVM_OPTS: -Xmx4096m
+      GRADLE_OPTS: '-Dorg.gradle.jvmargs="-Xmx4096m" -XX:+HeapDumpOnOutOfMemoryError -Dorg.gradle.daemon=true'
 
 
 
@@ -87,8 +87,8 @@ references:
     docker:
       - image: google/cloud-sdk:latest
     environment:
-      JVM_OPTS: '-XX:MaxPermSize=512m -XX:+HeapDumpOnOutOfMemoryError -XX:+UseParallelGC'
-      GRADLE_OPTS: '-XX:MaxPermSize=512m -XX:+HeapDumpOnOutOfMemoryError -XX:+UseParallelGC'
+      JVM_OPTS: -Xmx4096m
+      GRADLE_OPTS: '-Dorg.gradle.jvmargs="-Xmx4096m" -XX:+HeapDumpOnOutOfMemoryError -Dorg.gradle.daemon=true'
 
 
   #Encoding and getting files
