@@ -272,8 +272,6 @@ jobs:
       - checkout
       - restore_cache: *cache_key
       - *chmodGradle
-      - *run_install_pip
-      - *run_install_gsutil
       - *export_google_services_json
       - *get_google_services_json
       - *prepare_file
@@ -283,6 +281,8 @@ jobs:
       - *store_google_account
       - *authorize_gcloud
       - *run_firebase_test_lab
+      - *run_install_pip
+      - *run_install_gsutil
       - *install_gsutil_dependency
 #  TestProject:
 #    <<: *android_config
