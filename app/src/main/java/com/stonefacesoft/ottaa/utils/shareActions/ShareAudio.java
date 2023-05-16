@@ -11,6 +11,7 @@ import android.speech.tts.TextToSpeech;
 import android.speech.tts.UtteranceProgressListener;
 import android.util.Log;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 
 
@@ -22,6 +23,7 @@ import com.stonefacesoft.ottaa.BuildConfig;
 import com.stonefacesoft.ottaa.Interfaces.AudioTransformationListener;
 import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.utils.Audio.AudioFileCreator;
+import com.stonefacesoft.ottaa.utils.IntentCode;
 import com.stonefacesoft.ottaa.utils.textToSpeech;
 
 import java.util.Random;
@@ -36,7 +38,7 @@ public class ShareAudio extends ShareAction implements com.stonefacesoft.ottaa.I
 
     private String shareAudio ="shareAudio";
 
-    public ShareAudio(Context mContext, String phrase, textToSpeech myTTS,AudioTransformationListener transformer,Dialog dialog) {
+    public ShareAudio(AppCompatActivity mContext, String phrase, textToSpeech myTTS, AudioTransformationListener transformer, Dialog dialog) {
         super(mContext, phrase);
         this.myTTS = myTTS;
         this.transformationListener = transformer;

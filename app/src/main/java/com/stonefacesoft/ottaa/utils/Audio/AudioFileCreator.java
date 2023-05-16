@@ -56,7 +56,7 @@ public class AudioFileCreator extends AppCompatActivity {
     }
 
     public File getFile(String name,String suffix) throws IOException {
-        return File.createTempFile(name,suffix);
+        return File.createTempFile(name,suffix,mContext.getExternalCacheDir());
     }
 
     public Context getmContext() {

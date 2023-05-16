@@ -762,7 +762,6 @@ public class WhichIsThePicto extends GameViewSelectPictogramsFourOptions {
                 return true;
             }
         }
-
         return false;
     }
 

@@ -988,7 +988,7 @@ public class Principal extends AppCompatActivity implements View
     }
 
     public void hablarModoExperimental() {
-        if (sharedPrefsDefault.getBoolean(getString(R.string.mBoolModoExperimental), false)) {
+        if (sharedPrefsDefault.getBoolean(getString(R.string.mBoolModoExperimental), false)&&!Oracion.isEmpty()) {
             getAnalyticsFirebase().customEvents("Talk", "Principal", "Phrase With NLG");
             nlgTalkAction();
         } else {
@@ -1664,7 +1664,7 @@ public class Principal extends AppCompatActivity implements View
         if (historial.getListadoPictos().size() > 0) {
             if (!sharedPrefsDefault.getBoolean(getString(R.string.mBoolModoExperimental), false)) {
                 if (myTTS != null) {
-                    CompartirArchivos compartirArchivos = new CompartirArchivos(getContext(), myTTS,this);
+                    CompartirArchivos compartirArchivos = new CompartirArchivos(this, myTTS,this);
                     compartirArchivos.setHistorial(historial.getListadoPictos());
                     compartirArchivos.seleccionarFormato(Oracion);
                 }
