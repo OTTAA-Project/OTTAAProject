@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.util.Log;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 
 import com.stonefacesoft.ottaa.Bitmap.CombineImages;
@@ -31,7 +32,7 @@ public class SharePicture extends ShareAction{
     private final Json json;
 
 
-    public SharePicture(Context mContext, String phrase,ArrayList<JSONObject> historial) {
+    public SharePicture(AppCompatActivity mContext, String phrase, ArrayList<JSONObject> historial) {
         super(mContext, phrase);
         this.historial = historial;
         this.gestionarBitmap = new GestionarBitmap(mContext);

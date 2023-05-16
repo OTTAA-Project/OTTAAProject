@@ -10,6 +10,8 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.stonefacesoft.ottaa.Interfaces.AudioTransformationListener;
 import com.stonefacesoft.ottaa.JSONutils.Json;
 import com.stonefacesoft.ottaa.utils.exceptions.FiveMbException;
@@ -35,7 +37,7 @@ import java.util.ArrayList;
  */
 
 public class CompartirArchivos {
-    private final Context mContext;
+    private final AppCompatActivity mContext;
     //   private Dialog dialog;
 
     private final textToSpeech myTTS;
@@ -51,7 +53,7 @@ public class CompartirArchivos {
 
 
 
-    public CompartirArchivos(Context context1, textToSpeech myTTS, AudioTransformationListener transformerListener) {
+    public CompartirArchivos(AppCompatActivity context1, textToSpeech myTTS, AudioTransformationListener transformerListener) {
         this.transformerListener = transformerListener;
         this.mContext = context1;
         actionShare = true;

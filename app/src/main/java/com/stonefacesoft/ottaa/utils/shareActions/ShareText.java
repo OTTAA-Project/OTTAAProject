@@ -3,10 +3,12 @@ package com.stonefacesoft.ottaa.utils.shareActions;
 import android.content.Context;
 import android.content.Intent;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.stonefacesoft.ottaa.R;
 
 public class ShareText extends ShareAction{
-    public ShareText(Context mContext, String phrase) {
+    public ShareText(AppCompatActivity mContext, String phrase) {
         super(mContext, phrase);
     }
 

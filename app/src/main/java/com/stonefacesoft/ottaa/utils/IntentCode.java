@@ -27,7 +27,9 @@ public enum IntentCode {
     SEARCH_ALL_PICTOGRAMS(18),
     AVATAR(19),
     VINCULAR_FRASES(20),
-    TELL_A_STORY(21);
+    TELL_A_STORY(21),
+
+    SHAREACTION(25);
 
     private final int code;
 

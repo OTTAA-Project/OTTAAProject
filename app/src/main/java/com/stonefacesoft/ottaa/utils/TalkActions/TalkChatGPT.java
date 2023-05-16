@@ -38,6 +38,8 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
+import io.opencensus.internal.StringUtils;
+
 public class TalkChatGPT extends TalkAction{
     private String TAG ="TALKCHATGPT";
 
@@ -62,9 +64,16 @@ public class TalkChatGPT extends TalkAction{
                 }else{
 
                     try{
-                        HashMap hashMap = (HashMap)task.getResult();
-                        JSONObject result = new JSONObject(hashMap);
-                        handlerComunicationClass.sendMessage(Message.obtain(handlerComunicationClass, option, result.getJSONArray("choices").getJSONObject(0).getString("text")));
+                        Log.d(TAG, "onComplete: "+task.getResult());
+                        String result = (String) task.getResult();
+                        String aux =result;
+                        try {
+                            result = aux.trim();
+                        }catch (Exception ex){
+
+                        }
+                        handlerComunicationClass.sendMessage(Message.obtain(handlerComunicationClass, option,result));
+
                     }catch (Exception ex){
                         Log.e(TAG, "onComplete error: "+ex.getMessage() );
                     }finally {
@@ -149,7 +158,7 @@ public class TalkChatGPT extends TalkAction{
         } catch (JSONException e) {
         }
         data.put("push", true);
-        return mFunctions.getHttpsCallable("openai").withTimeout(10, TimeUnit.SECONDS).call(object).continueWith(new Continuation<HttpsCallableResult, Object>() {
+        return mFunctions.getHttpsCallable("openai").call(object).continueWith(new Continuation<HttpsCallableResult, Object>() {
             @Override
             public Object then(@NonNull Task<HttpsCallableResult> task) throws Exception {
 
