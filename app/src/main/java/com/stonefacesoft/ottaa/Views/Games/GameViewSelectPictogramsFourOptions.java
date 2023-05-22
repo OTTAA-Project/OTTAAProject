@@ -35,10 +35,10 @@ import com.stonefacesoft.pictogramslibrary.view.PictoView;
 public class GameViewSelectPictogramsFourOptions extends AppCompatActivity implements View
         .OnClickListener, Toolbar.OnMenuItemClickListener, Lock_Unlocked_Pictograms, Make_Click_At_Time, View.OnTouchListener {
 
-    protected PictoView Opcion1;
-    protected PictoView Opcion2;
-    protected PictoView Opcion3;
-    protected PictoView Opcion4;
+    protected static PictoView Opcion1;
+    protected static PictoView Opcion2;
+    protected static PictoView Opcion3;
+    protected static PictoView Opcion4;
 
     protected Context context;
 

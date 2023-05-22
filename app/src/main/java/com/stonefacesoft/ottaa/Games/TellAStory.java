@@ -219,22 +219,19 @@ public class TellAStory extends GameViewSelectPictogramsFourOptions implements A
         switch (TellAStoryUtils.getInstance().getPictoPosition()){
             case 0:
                 loadDataPictoView(picto,Opcion1,false);
-                addPictogramAddPosition(0,picto);
+                Options.EOPTION1.setOption(Opcion1);
                 break;
             case 1:
                 loadDataPictoView(picto,Opcion2,false);
-                addPictogramAddPosition(1,picto);
-
+                Options.EOPTION2.setOption(Opcion2);
                 break;
             case 2:
                 loadDataPictoView(picto,Opcion3,false);
-                addPictogramAddPosition(2,picto);
-
+                Options.EOPTION3.setOption(Opcion3);
                 break;
             case 3:
                 loadDataPictoView(picto,Opcion4,false);
-                addPictogramAddPosition(3,picto);
-
+                Options.EOPTION4.setOption(Opcion4);
                 break;
         }
     }
@@ -252,10 +249,8 @@ public class TellAStory extends GameViewSelectPictogramsFourOptions implements A
     }
 
     private void addPictogramAddPosition(int position,int id){
-        if(pictograms == null){
-            pictograms = new ArrayList<>();
-        }
-        pictograms.add(position,Json.getInstance().getPictoFromId2(id));
+        pictograms.add(position, Json.getInstance().getPictoFromId2(id));
+
     }
 
     public void executeChatGpt(){
@@ -389,7 +384,16 @@ public class TellAStory extends GameViewSelectPictogramsFourOptions implements A
     }
 
     private void shareAStory(){
-        if(!story.isEmpty()&&pictograms!=null) {
+        if(!story.isEmpty()) {
+            pictograms = new ArrayList<>();
+            for (int i = 0; i < 4; i++) {
+                try{
+                    int id = Options.values()[i].getOption().getIdPictogram();
+                    addPictogramAddPosition(pictograms.size(),id);
+                }catch (Exception ex){
+
+                }
+            }
             CompartirArchivos compartirArchivos = new CompartirArchivos(this, myTTS, this);
             compartirArchivos.setHistorial(pictograms);
             compartirArchivos.seleccionarFormato(story);
@@ -482,5 +486,21 @@ public class TellAStory extends GameViewSelectPictogramsFourOptions implements A
     public boolean onTouchEvent(MotionEvent event) {
         return gameControl.makeClick(event);
     }
+
+    public enum Options{
+        EOPTION1(),EOPTION2(),EOPTION3(),EOPTION4();
+        private PictoView Option;
+        private Options(){
+
+        }
+
+        public void setOption(PictoView option) {
+            Option = option;
+        }
+
+        public PictoView getOption() {
+            return Option;
+        }
+    };
 
 }
