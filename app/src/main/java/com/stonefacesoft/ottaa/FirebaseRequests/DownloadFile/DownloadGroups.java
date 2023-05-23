@@ -21,7 +21,12 @@ import com.stonefacesoft.ottaa.utils.Firebase.CrashlyticsUtils;
 import com.stonefacesoft.ottaa.utils.ObservableInteger;
 import com.stonefacesoft.ottaa.utils.constants.Constants;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
 import java.io.File;
+import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 
 public class DownloadGroups extends DownloadFile{
     public DownloadGroups(Context mContext, DatabaseReference mDatabase, StorageReference mStorageReference, SharedPreferences sharedPreferences, ObservableInteger observableInteger,String locale) {
@@ -38,27 +43,42 @@ public class DownloadGroups extends DownloadFile{
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 mStorageReference = FirebaseStorage.getInstance().getReference().child("Archivos_Usuarios").child("Grupos").child("grupos_" + email + "_" + ConfigurarIdioma.getLanguaje()+ "." + "txt");
 
+
                 mStorageReference.getFile(gruposUsuarioFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
                         Log.d("BAF_descGYPN", "Tama&ntildeoArchivoGrupo :" + taskSnapshot.getTotalByteCount());
                         Log.d("BAF_descGYPN", "NombreArchivo:" + gruposUsuarioFile);
+
+                        boolean areSamefile = false;
                         try {
-                            if (!getStringFromFile(gruposUsuarioFile
-                                    .getAbsolutePath()).equals("[]") &&
-                                    gruposUsuarioFile.length() > 0 ) {
-                                json.setmJSONArrayTodosLosGrupos(json.readJSONArrayFromFile(gruposUsuarioFile.getAbsolutePath()));
-                                if (!json.guardarJson(Constants.ARCHIVO_GRUPOS))
-                                    Log.e(TAG, "Error al guardar Json");
+                            areSamefile = json.verifyFiles(Constants.ARCHIVO_GRUPOS,gruposUsuarioFile);
+                            Log.d(TAG, "onSuccess: are the same file"+areSamefile);
 
-                            }
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                            Log.e("printStackTrace", "" + e);
-
+                        } catch (Exception ex){
+                            Log.d(TAG, "error: "+ex.getMessage());
                         }
-                        if(observableInteger.get()==1)
+                        if(areSamefile){
                             observableInteger.incrementValue();
+                        }else{
+                            try {
+                                if (!getStringFromFile(gruposUsuarioFile
+                                        .getAbsolutePath()).equals("[]") &&
+                                        gruposUsuarioFile.length() > 0 ) {
+                                    json.setmJSONArrayTodosLosGrupos(json.readJSONArrayFromFile(gruposUsuarioFile.getAbsolutePath()));
+                                    if (!json.guardarJson(Constants.ARCHIVO_GRUPOS))
+                                        Log.e(TAG, "Error al guardar Json");
+                                }
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                                Log.e("printStackTrace", "" + e);
+
+                            }finally {
+                                observableInteger.incrementValue();
+                            }
+                        }
+
+
                     }
                 });
             }

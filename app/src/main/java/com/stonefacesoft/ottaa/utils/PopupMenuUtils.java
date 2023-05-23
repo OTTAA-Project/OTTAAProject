@@ -12,10 +12,16 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
 public class PopupMenuUtils {
-    public PopupMenuUtils(Context context, View view, PopupMenu.OnMenuItemClickListener listener){
-      if(ValidateContext.isValidContext(context)){
-        PopupMenu popupMenu = new PopupMenu(context, view);
-        popupMenu.setOnMenuItemClickListener(listener);
+
+    private PopupMenu popupMenu;
+    private Context mContext;
+
+    public  PopupMenuUtils(Context context,View view){
+        this.mContext = context;
+        popupMenu = new PopupMenu(mContext,view);
+    }
+
+    public void inflateIt(){
         try {
             Field[] fields = popupMenu.getClass().getDeclaredFields();
             for (Field field : fields) {
@@ -32,10 +38,25 @@ public class PopupMenuUtils {
             e.printStackTrace();
         }
         popupMenu.getMenuInflater().inflate(R.menu.popup_menu,popupMenu.getMenu());
-        if (!User.getInstance(context).isPremium()) {
+        if (!User.getInstance(mContext).isPremium()) {
             popupMenu.getMenu().getItem(0).setIcon(R.drawable.ic_padlock);
         }
         popupMenu.show();
-      }
+    }
+
+    public PopupMenuUtils addClickListener(PopupMenu.OnMenuItemClickListener listener){
+        popupMenu.setOnMenuItemClickListener(listener);
+        return this;
+    }
+
+    public PopupMenu getPopupMenu() {
+        return popupMenu;
+    }
+
+    public void dismissPopupMenu() {
+        // If the PopupMenu object is not null, then dismiss it
+        if (popupMenu != null) {
+            popupMenu.dismiss();
+        }
     }
 }

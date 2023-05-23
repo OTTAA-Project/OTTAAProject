@@ -2075,7 +2075,9 @@ public class Principal extends AppCompatActivity implements View
     private void longClick(PictoView pictoView, JSONObject json) {
         onLongOpcion = json;
         if (pictoView.getAlpha() != (0.65) || sharedPrefsDefault.getBoolean(getString(R.string.ismoderator), false)) {
-            new PopupMenuUtils(this, pictoView, this);
+            PopupMenuUtils menuUtils = new PopupMenuUtils(this,pictoView);
+            menuUtils.addClickListener(this);
+            menuUtils.inflateIt();
         }
     }
 

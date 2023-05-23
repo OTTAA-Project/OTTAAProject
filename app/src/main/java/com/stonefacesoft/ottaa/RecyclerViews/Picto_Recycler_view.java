@@ -138,8 +138,8 @@ public class Picto_Recycler_view extends Custom_recyclerView {
     }
 
     public void ShowpopMenu(View view,int position) {
-        new PopupMenuUtils(mActivity,view,
-        new PopupMenu.OnMenuItemClickListener() {
+        PopupMenuUtils popupMenuUtils = new PopupMenuUtils(mActivity,view);
+        popupMenuUtils.addClickListener( new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
 
@@ -149,11 +149,11 @@ public class Picto_Recycler_view extends Custom_recyclerView {
                             // JSONObject aux = pictosDelGrupo.get(position);
                             analyticsFirebase.customEvents("Touch","Galeria Pictos","Edit Pictogram");
                             if (id != -1) {
-                              if(User.getInstance(mActivity).isPremium()){
-                                  mActivity.startActivityForResult(startEditAction(position), IntentCode.EDITARPICTO.getCode());
-                              }else {
-                                  mActivity.startActivity(startExpiredLicense());
-                              }
+                                if(User.getInstance(mActivity).isPremium()){
+                                    mActivity.startActivityForResult(startEditAction(position), IntentCode.EDITARPICTO.getCode());
+                                }else {
+                                    mActivity.startActivity(startExpiredLicense());
+                                }
                             }
                         }
                         return true;
@@ -165,6 +165,7 @@ public class Picto_Recycler_view extends Custom_recyclerView {
                 return false;
             }
         });
+        popupMenuUtils.inflateIt();
 
     }
 

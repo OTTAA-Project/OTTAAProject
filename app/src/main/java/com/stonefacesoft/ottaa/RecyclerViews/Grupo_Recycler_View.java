@@ -132,16 +132,17 @@ public class Grupo_Recycler_View extends Custom_recyclerView implements  View.On
                 editarPicto = sharedPrefsDefault.getBoolean(mActivity.getString(R.string.str_editar_picto), true);
                 if(editarPicto){
                     if (position != -1) {
+                        PopupMenuUtils menuUtils = new PopupMenuUtils(mActivity,view);
                         mPosition = position;
                         PopupMenu.OnMenuItemClickListener listener = new PopupMenu.OnMenuItemClickListener() {
                             @Override
                             public boolean onMenuItemClick(MenuItem menuItem) {
                                 boolean result = getValue(menuItem.getItemId());
-                                popupMenu.dismiss();
                                 return result;
                             }
                         };
-                        new PopupMenuUtils(mActivity,view,listener);
+                        menuUtils.addClickListener(listener);
+                        menuUtils.inflateIt();
                     }
                 }
                 else{

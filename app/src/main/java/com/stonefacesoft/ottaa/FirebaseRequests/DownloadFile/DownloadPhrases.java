@@ -45,18 +45,26 @@ public class DownloadPhrases extends DownloadFile{
                         @Override
                         public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
                             Log.e(TAG, "bajarFrases: "+ child );
+                            boolean areTheSameFile = false;
+                            try{
+                                 areTheSameFile = json.verifyFiles(Constants.ARCHIVO_FRASES,frasesUsuarioFile);
+                            }catch (Exception ex){
 
-                            try {
-                                if (!getStringFromFile(frasesUsuarioFile.getAbsolutePath()).equals("[]") && frasesUsuarioFile.length() > 0) {
-
-                                    json.setmJSONArrayTodasLasFrases(json.readJSONArrayFromFile(frasesUsuarioFile.getAbsolutePath()));
-                                    json.guardarJson(Constants.ARCHIVO_FRASES);
-                                }
-                            } catch (JSONException | FiveMbException e) {
-                                e.printStackTrace();
-                            } catch (Exception e) {
-                                e.printStackTrace();
                             }
+                            if(!areTheSameFile){
+                                try {
+                                    if (!getStringFromFile(frasesUsuarioFile.getAbsolutePath()).equals("[]") && frasesUsuarioFile.length() > 0) {
+
+                                        json.setmJSONArrayTodasLasFrases(json.readJSONArrayFromFile(frasesUsuarioFile.getAbsolutePath()));
+                                        json.guardarJson(Constants.ARCHIVO_FRASES);
+                                    }
+                                } catch (JSONException | FiveMbException e) {
+                                    e.printStackTrace();
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                    }
+                            }
+
                             observableInteger.incrementValue();
 
                         }

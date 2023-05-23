@@ -35,6 +35,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -42,6 +43,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -98,6 +101,9 @@ public class Json  {
     private String mListPlaceName = "";
     private ArrayList<Place> placesNames;
     private int cantFallas;
+
+    private static final String MD5_ALGORITHM = "MD5";
+
     //JSONArray
 
 
@@ -888,6 +894,74 @@ public class Json  {
         }
         return null;
     }
+
+    public byte[] readFromFileBytes(String fileName) {
+        // Create a BufferedInputStream object to read the file.
+        BufferedInputStream reader = null;
+
+        try {
+            FileInputStream fis;
+
+            if (fileName.equals(Constants.ARCHIVO_PICTOS) || fileName.equals(Constants.ARCHIVO_GRUPOS) || fileName.equals(Constants.ARCHIVO_FRASES) || fileName.equals(Constants.ARCHIVO_PICTOS_DATABASE) || fileName.equals(Constants.ARCHIVO_FRASES_JUEGOS) || fileName.equals(Constants.ARCHIVO_JUEGO) || fileName.equals(Constants.ARCHIVO_JUEGO_DESCRIPCION) || fileName.equals(Constants.ARCHIVO_FRASES_FAVORITAS))
+                fis = mContext.openFileInput(fileName);
+            else
+                fis = new FileInputStream(new File(fileName));
+            // Open the file for reading.
+            reader = new BufferedInputStream(fis);
+
+            // Read the contents of the file into a byte array.
+            byte[] contents = new byte[reader.available()];
+            reader.read(contents);
+
+            // Close the file.
+            reader.close();
+
+            // Return the contents of the file.
+            return contents;
+        } catch (IOException e) {
+            // Handle the exception.
+            e.printStackTrace();
+        } finally {
+            // Close the reader, if it is not null.
+            if (reader != null) {
+                try {
+                    reader.close();
+                } catch (IOException e) {
+                    // Handle the exception.
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        return null;
+
+    }
+
+    public boolean verifyFiles(String file1, File file2) throws IOException, NoSuchAlgorithmException {
+        MessageDigest md = MessageDigest.getInstance(MD5_ALGORITHM);
+
+        byte[] bytes1 = new byte[1024];
+        int numBytesRead1;
+        try (FileInputStream fis1 = mContext.openFileInput(file1)) {
+            while ((numBytesRead1 = fis1.read(bytes1)) != -1) {
+                md.update(bytes1, 0, numBytesRead1);
+            }
+        }
+
+        byte[] bytes2 = new byte[1024];
+        int numBytesRead2;
+        try (FileInputStream fis2 = new FileInputStream(file2)) {
+            while ((numBytesRead2 = fis2.read(bytes2)) != -1) {
+                md.update(bytes2, 0, numBytesRead2);
+            }
+        }
+
+        byte[] hash1 = md.digest();
+        byte[] hash2 = md.digest();
+
+        return Arrays.equals(hash1, hash2);
+    }
+
 
     //Ya esta hecho
     public JSONObject getJsonObjectFromTexto(ArrayList<JSONObject> arrayList, String stringABuscar) {
