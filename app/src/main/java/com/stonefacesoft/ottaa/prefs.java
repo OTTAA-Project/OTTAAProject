@@ -47,6 +47,7 @@ import com.stonefacesoft.ottaa.utils.Firebase.AnalyticsFirebase;
 import com.stonefacesoft.ottaa.utils.Handlers.HandlerComunicationClass;
 import com.stonefacesoft.ottaa.utils.IntentCode;
 import com.stonefacesoft.ottaa.utils.ObservableInteger;
+import com.stonefacesoft.ottaa.utils.RequestPersmissionClass;
 import com.stonefacesoft.ottaa.utils.constants.Constants;
 import com.stonefacesoft.ottaa.utils.constants.ConstantsAnalyticsValues;
 import com.stonefacesoft.ottaa.utils.preferences.PersonalSwitchPreferences;
@@ -156,6 +157,8 @@ public class prefs extends PreferenceActivity implements SharedPreferences.OnSha
     private String message = "";
     private FirebaseUtils firebaseUtils;
 
+    private RequestPersmissionClass requestPersmissionClass;
+
 
 
     @Override
@@ -163,6 +166,7 @@ public class prefs extends PreferenceActivity implements SharedPreferences.OnSha
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.preferences);
         analyticsFirebase = new AnalyticsFirebase(this);
+        requestPersmissionClass = new RequestPersmissionClass();
         initComponents();
         isConnected();
         habilitarFuncionesPremiun(sharedPrefsDefault.getInt("premium", 0));
@@ -362,12 +366,8 @@ public class prefs extends PreferenceActivity implements SharedPreferences.OnSha
             boolean b = sharedPrefs.getBoolean(key, false);
             if (b && mBoolUbicacion.getSummary() == getResources().getString(R.string.pref_desactivado)) {
                 //Check si tenemoslos permisos necesarios para ejecutar el calendario.
+                if (!requestPersmissionClass.requestLocationPermission(getApplicationContext())) {
 
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && ContextCompat
-                        .checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION)
-                        != PackageManager.PERMISSION_GRANTED && ContextCompat
-                        .checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION)
-                        != PackageManager.PERMISSION_GRANTED) {
                     requestPermissions(new String[]{
                             //Permisos para poder leer y escribir el calendar
                             Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission

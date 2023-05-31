@@ -714,7 +714,13 @@ public class Principal extends AppCompatActivity implements View
             } else {
                 Log.d(TAG, "loadChildOption: null ");
                 loadOptionValue(index, null);
-                addOpcionNull(returnOption(index), alphaAnimation);
+                Handler handler = new Handler(Looper.getMainLooper());
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        addOpcionNull(returnOption(index), alphaAnimation);
+                    }
+                });
             }
         } catch (JSONException e) {
             e.printStackTrace();
@@ -1341,8 +1347,7 @@ public class Principal extends AppCompatActivity implements View
                 if (pictoPadre == null || pictoPadre.getInt("id") == 0)
                     pictoPadre = json.getPictoFromId2(0);
                 cuentaMasPictos = 0;
-                if(pictoPadre != null)
-                    loadOptions(json, pictoPadre);
+                loadOptions(json, pictoPadre);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -1396,15 +1401,22 @@ public class Principal extends AppCompatActivity implements View
     }
 
     private void addOption(JSONObject opcion, PictoView picto, Animation animation) {
-        if(ValidateContext.isValidContext(this)){
-            Pictogram pictogram = new Pictogram(opcion, ConfigurarIdioma.getLanguaje());
-            picto.setUpGlideAttatcher(this);
-            picto.setUpContext(this);
-            picto.setPictogramsLibraryPictogram(pictogram);
-            picto.setVisibility(View.VISIBLE);
-            formatoTransparencia(picto, opcion);
-            picto.startAnimation(animation);
-        }
+        Handler handler = new Handler(Looper.getMainLooper());
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                if(ValidateContext.isValidContext(getContext())){
+                    Pictogram pictogram = new Pictogram(opcion, ConfigurarIdioma.getLanguaje());
+                    picto.setUpGlideAttatcher(getContext());
+                    picto.setUpContext(getContext());
+                    picto.setPictogramsLibraryPictogram(pictogram);
+                    picto.setVisibility(View.VISIBLE);
+                    formatoTransparencia(picto, opcion);
+                    picto.startAnimation(animation);
+                }
+            }
+        });
+
     }
 
     /**
@@ -2069,6 +2081,8 @@ public class Principal extends AppCompatActivity implements View
             if (subirArchivos != null) {
                 subirArchivos.userDataExists(subirArchivos.getmDatabase(user.getmAuth(), "Pictos"), subirArchivos.getmDatabase(user.getmAuth(), "Grupos"), subirArchivos.getmDatabase(user.getmAuth(), "Frases"));
             }
+        }else{
+            initFirstPictograms();
         }
     }
 
@@ -2216,8 +2230,8 @@ public class Principal extends AppCompatActivity implements View
     @Override
     public void pictogramsAreSorted(JSONArray array) {
         JSONArray opciones = array;
-        Handler handler = new Handler(Looper.getMainLooper());
-        handler.post(new Runnable() {
+        ExecutorService executorService = Executors.newSingleThreadExecutor();
+        Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
                 Animation alphaAnimation = AnimationUtils.loadAnimation(getApplicationContext(),
@@ -2228,6 +2242,8 @@ public class Principal extends AppCompatActivity implements View
                 loadChildOption(opciones, 3, alphaAnimation);
             }
         });
+        executorService.execute(thread);
+
 
     }
 
@@ -2264,7 +2280,6 @@ public class Principal extends AppCompatActivity implements View
         protected void onPostExecute(Void unused) {
             super.onPostExecute(unused);
             user.connectClient();
-            initFirstPictograms();
             uploadFiles();
             initPlaceImplementationClass();
             showMenu();
@@ -2287,7 +2302,8 @@ public class Principal extends AppCompatActivity implements View
         public void execute(){
             ExecutorService executorService = Executors.newSingleThreadExecutor();
             Handler handler = new Handler(Looper.getMainLooper());
-            executorService.execute(new Runnable() {
+
+            Thread thread = new Thread(new Runnable() {
                 @Override
                 public void run() {
                     if (json.getmJSONArrayTodosLosPictos() != null && json.getmJSONArrayTodosLosPictos().length() > 0) {
@@ -2309,6 +2325,7 @@ public class Principal extends AppCompatActivity implements View
                     });
                 }
             });
+            executorService.execute(thread);
         }
 
 
@@ -2326,7 +2343,6 @@ public class Principal extends AppCompatActivity implements View
         @Override
         public void loadDialog() {
             if (pictoPadre != null) {
-                if(historial==null)
                     loadOptions(json, pictoPadre);   // y despues cargamos las opciones con el orden correspondiente
                 used = true;
             }

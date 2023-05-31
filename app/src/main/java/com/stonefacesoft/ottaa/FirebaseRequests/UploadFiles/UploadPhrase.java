@@ -22,7 +22,6 @@ public class UploadPhrase extends UploadFile{
             openFile();
             if (fis.available() > 3) {
                 Log.e("subirArchivosLog", "subirGruposFirebase: " + fis.available());
-
                 mStorageReference.putStream(fis).continueWithTask(task -> {
                     if (!task.isSuccessful()) {
                         throw task.getException();
@@ -49,8 +48,6 @@ public class UploadPhrase extends UploadFile{
                     }
                 });
             }
-
-
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {

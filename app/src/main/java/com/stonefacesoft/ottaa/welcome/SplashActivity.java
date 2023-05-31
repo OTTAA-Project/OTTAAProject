@@ -231,7 +231,7 @@ public class SplashActivity extends Activity {
         public void execute(){
             Executor executor = Executors.newSingleThreadExecutor();
             Handler handler = new Handler(Looper.getMainLooper());
-            executor.execute(() -> {
+            Thread thread = new Thread(()->{
                 borrarPictosViejos();
                 handler.post(() -> {
                     mProgressBar.setVisibility(View.GONE);
@@ -240,20 +240,20 @@ public class SplashActivity extends Activity {
                     finish();
                 });
             });
+            executor.execute(thread);
         }
 
     }
 
     public class preLoadSplashScreen {
-
-
         public void execute(){
             Executor executor = Executors.newSingleThreadExecutor();
             Handler handler = new Handler(Looper.getMainLooper());
-            executor.execute(() -> {
+            Thread thread = new Thread(()->{
                 Json.getInstance().setmContext(getApplicationContext()).initJsonArrays();
                 handler.post(SplashActivity.this::accessDashboard);
             });
+            executor.execute(thread);
         }
     }
 
@@ -283,7 +283,7 @@ public class SplashActivity extends Activity {
         public void execute(){
             Executor executor = Executors.newSingleThreadExecutor();
             Handler handler = new Handler(Looper.getMainLooper());
-            executor.execute(() -> {
+            Thread thread = new Thread(()->{
                 sharedPrefsDefault = PreferenceManager.getDefaultSharedPreferences(mContext);
                 if (sharedPrefsDefault.getString(getApplicationContext().getResources().getString(R.string.str_idioma), "en").contains("mainTable")) {
                     sharedPrefsDefault.edit().putString(getString(R.string.str_idioma), Locale.getDefault().getLanguage()).apply();
@@ -300,6 +300,7 @@ public class SplashActivity extends Activity {
                 changeName.cambiarPosicion();
                 handler.post(() -> cargarDatos());
             });
+            executor.execute(thread);
         }
     }
 
@@ -356,6 +357,6 @@ public class SplashActivity extends Activity {
     }
     public void setVisibleButton(){
         if(txtCargando.getVisibility()==View.INVISIBLE||txtCargando.getVisibility()==View.GONE)
-        txtCargando.setVisibility(View.VISIBLE);
+            txtCargando.setVisibility(View.VISIBLE);
     }
 }

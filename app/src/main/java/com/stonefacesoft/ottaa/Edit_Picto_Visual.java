@@ -1,6 +1,5 @@
 package com.stonefacesoft.ottaa;
 
-import android.Manifest;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -11,7 +10,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.ParcelFileDescriptor;
@@ -21,9 +19,7 @@ import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -40,7 +36,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
-import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
 import com.canhub.cropper.CropImage;
@@ -78,6 +73,7 @@ import com.stonefacesoft.ottaa.utils.Custom_button;
 import com.stonefacesoft.ottaa.utils.Firebase.AnalyticsFirebase;
 import com.stonefacesoft.ottaa.utils.IntentCode;
 import com.stonefacesoft.ottaa.utils.JSONutils;
+import com.stonefacesoft.ottaa.utils.RequestPersmissionClass;
 import com.stonefacesoft.ottaa.utils.constants.Constants;
 import com.stonefacesoft.ottaa.utils.exceptions.FiveMbException;
 import com.stonefacesoft.ottaa.utils.textToSpeech;
@@ -699,26 +695,7 @@ public class Edit_Picto_Visual extends AppCompatActivity implements View.OnClick
 
 
     public void showCustomAlert(CharSequence Testo) {
-        //Retrieve the layout inflator
-        LayoutInflater inflater = getLayoutInflater();
-        //Assign the custom layout to view
-        //Parameter 1 - Custom layout XML
-        //Parameter 2 - Custom layout ID present in linearlayout tag of XML
-        View layout = inflater.inflate(R.layout.custom_toast, findViewById(R.id.toast_layout_root));
-        TextView tv = layout.findViewById(R.id.text);
-        tv.setTextSize(sharedPrefsDefault.getInt("subtitulo_tamanio", 25));
-        tv.setText(Testo);
-        //Return the application mContext
-        Toast toast = new Toast(getApplicationContext());
-        //Set custom_toast gravity to bottom
-        toast.setGravity(Gravity.BOTTOM, 0, 50);
-        //Set custom_toast duration
-        toast.setDuration(Toast.LENGTH_SHORT);
-        //Set the custom layout to Toast
-        toast.setView(layout);
-        //Display custom_toast
-        toast.show();
-
+        myTTS.mostrarAlerta(Testo.toString());
     }
 
     //------------------------------------------------------------------------------------
@@ -758,18 +735,10 @@ public class Edit_Picto_Visual extends AppCompatActivity implements View.OnClick
             case R.id.ElPicto:
 
                 //Pido los permisos para escribir en memoria externa
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && ContextCompat
-                        .checkSelfPermission(getApplicationContext(), Manifest
-                                .permission.WRITE_EXTERNAL_STORAGE)
-                        != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission
-                        (getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE)
-                        != PackageManager.PERMISSION_GRANTED) {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                        requestPermissions(new String[]{
-                                //Ver a donde hay q pasarlo, posiblemente Galeria Pictos
-                                android.Manifest.permission.WRITE_EXTERNAL_STORAGE
-                        }, Constants.EXTERNAL_STORAGE);
-                    }
+                RequestPersmissionClass requestPersmissionClass = new RequestPersmissionClass();
+                boolean requestPermission = requestPersmissionClass.requestImagePermission(this);
+                if(!requestPermission){
+                    requestPersmissionClass.makeRequestImagePermission(requestPermission,this);
                 } else
                     SelectorFuente();
                 break;
@@ -1184,6 +1153,7 @@ public class Edit_Picto_Visual extends AppCompatActivity implements View.OnClick
                     SelectorFuente();
                 } else {
                     //permission granted
+
                     showCustomAlert(getString(R.string.edit_permisos_archivos));
                 }
         }

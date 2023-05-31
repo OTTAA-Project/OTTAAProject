@@ -12,6 +12,9 @@
     <uses-permission
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"
         android:maxSdkVersion="33" />
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
         />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -20,8 +23,7 @@
 
     <queries>
         <intent>
-            <action
-                android:name="android.intent.action.TTS_SERVICE" />
+            <action android:name="android.intent.action.TTS_SERVICE" />
         </intent>
         <intent>
             <action android:name="android.media.action.IMAGE_CAPTURE" />
@@ -29,7 +31,6 @@
         <intent>
             <action android:name="android.intent.action.MEDIA_SHARED"/>
         </intent>
-
     </queries>
 
     <application

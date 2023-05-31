@@ -81,7 +81,7 @@ public class DownloadPhrases extends DownloadFile{
         });
     }
 
-    public void downloadPhrases(){
+    public  void downloadPhrases(){
         Log.e(TAG, "bajarFrases: " );
         mDatabase.child(Constants.Frases).child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

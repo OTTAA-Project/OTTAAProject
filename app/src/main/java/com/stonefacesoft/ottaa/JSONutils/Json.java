@@ -284,7 +284,7 @@ public class Json  {
         return result;
     }
 
-    public void setmJSONArrayTodasLasFrases(JSONArray mJSONArrayTodasLasFrases) {
+    public synchronized void setmJSONArrayTodasLasFrases(JSONArray mJSONArrayTodasLasFrases) {
         this.mJSONArrayTodasLasFrases = mJSONArrayTodasLasFrases;
     }
 

@@ -35,7 +35,7 @@ public class DownloadGroups extends DownloadFile{
 
     }
 
-    public void syncGroups(){
+    public  void syncGroups(){
         final File gruposUsuarioFile = new File(rootPath, Constants.ARCHIVO_GRUPOS);
 
         mDatabase.child(Constants.Grupos).child(uid).child("URL_grupos_" + sharedPrefsDefault.getString(mContext.getString(R.string.str_idioma), locale)).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -69,12 +69,13 @@ public class DownloadGroups extends DownloadFile{
                                     if (!json.guardarJson(Constants.ARCHIVO_GRUPOS))
                                         Log.e(TAG, "Error al guardar Json");
                                 }
+                                observableInteger.incrementValue();
                             } catch (Exception e) {
                                 e.printStackTrace();
                                 Log.e("printStackTrace", "" + e);
 
                             }finally {
-                                observableInteger.incrementValue();
+
                             }
                         }
 
