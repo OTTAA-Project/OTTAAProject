@@ -14,7 +14,7 @@ public class TellAStoryUtils {
     };
 
     public enum FilterGroups{
-        Position0(new int[]{2,17,3,12}),Position1(new int[]{6,1,16,20}),Position2(new int[]{0,24}),Position3(new int[]{4,13,21});
+        Position0(new int[]{2,17,3,12,24}),Position1(new int[]{6,1,16,20,24}),Position2(new int[]{0,24}),Position3(new int[]{4,13,21,24});
         private final int[] options;
         FilterGroups(int[] list){
             this.options = list;

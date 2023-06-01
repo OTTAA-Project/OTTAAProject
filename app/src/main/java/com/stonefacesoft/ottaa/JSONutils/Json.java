@@ -683,11 +683,9 @@ public class Json  {
     public JSONObject getGrupoFromId(int idABuscar) {
         for (int i = 0; i < GroupManagerClass.getInstance().getmGroup().length(); i++) {
             try {
-
                 if (GroupManagerClass.getInstance().getmGroup().getJSONObject(i).getInt("id") == idABuscar) {
                     return GroupManagerClass.getInstance().getmGroup().getJSONObject(i);
                 }
-
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -987,29 +985,19 @@ public class Json  {
 
     private JSONArray elegirHijos2(JSONObject padre, boolean esSugerencia) throws JSONException {
             JSONArray array = padre.getJSONArray("relacion");
-          //  new SortArraysByScore().quickSort(array,0,array.length()-1);
             ArrayList<JSONObject> relacion = new ArrayList<>();
             for (int i = 0; i < array.length(); i++) {
-                relacion.add(array.getJSONObject(i));
+                JSONObject object = array.getJSONObject(i);
+                if(object!=null)
+                    relacion.add(object);
             }
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                relacion.sort(new Comparator<JSONObject>() {
-                    @Override
-                    public int compare(JSONObject json1, JSONObject json2) {
-                        return compareValues(json1,json2,esSugerencia);
-                    }
-                });
-            } else {
-                Collections.sort(relacion, new Comparator<JSONObject>() {
-                    @Override
-                    public int compare(JSONObject json1, JSONObject json2) {
-                      return compareValues(json1,json2,esSugerencia);
-                    }
-                });
-            }
-            Log.d(TAG, "elegirHijos2: Ordenado");
-            return new JSONArray(relacion.toString());
-
+            relacion.sort(new Comparator<JSONObject>() {
+                @Override
+                public int compare(JSONObject json1, JSONObject json2) {
+                    return compareValues(json1,json2,esSugerencia);
+                }
+            });
+            return new JSONArray(relacion);
         //return array;
     }
 
@@ -1105,17 +1093,17 @@ public class Json  {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-             try {
+              try {
                  if (!consultarPago())
                      sharedPrefsDefault.edit().putBoolean("bool_sugerencias", consultarPago()).apply();
                  JSONArray relacion = elegirHijos2(padre, false); //selecciono el picto padre
-                JSONArray jsonElegidos = new JSONArray();
-                int ultimaPosicion = cuentaMasPictos * 4; //posicion del picto
-                loadPictogramsInsideArray(padre,jsonElegidos,relacion,ultimaPosicion);
-                sortPictograms.pictogramsAreSorted(jsonElegidos);
-            }catch (JSONException ex){
+                 JSONArray jsonElegidos = new JSONArray();
+                 int ultimaPosicion = cuentaMasPictos * 4; //posicion del picto
+                 loadPictogramsInsideArray(padre,jsonElegidos,relacion,ultimaPosicion);
+                 sortPictograms.pictogramsAreSorted(jsonElegidos);
+               }catch (JSONException ex){
                  Log.e(TAG, "exception: "+ ex.getMessage() );
-             }
+              }
             }
         });
         thread.start();

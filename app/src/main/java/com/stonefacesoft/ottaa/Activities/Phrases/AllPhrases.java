@@ -8,14 +8,20 @@ import android.view.View;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
 
+import com.google.android.exoplayer2.transformer.Transformer;
+import com.stonefacesoft.ottaa.CompartirArchivos;
+import com.stonefacesoft.ottaa.Interfaces.AudioTransformationListener;
 import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.RecyclerViews.AllPhrasesRecyclerView;
 import com.stonefacesoft.ottaa.Views.Phrases.PhrasesView;
+import com.stonefacesoft.ottaa.utils.Audio.FileEncoder;
 import com.stonefacesoft.ottaa.utils.textToSpeech;
 
-public class AllPhrases extends PhrasesView {
+public class AllPhrases extends PhrasesView implements AudioTransformationListener {
     private AllPhrasesRecyclerView allPhrasesRecyclerView;
     private textToSpeech myTTS;
+
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -29,7 +35,8 @@ public class AllPhrases extends PhrasesView {
         super.initComponents();
         allPhrasesRecyclerView = new AllPhrasesRecyclerView(this,firebaseUser.getmAuth());
         myTTS = textToSpeech.getInstance(this);
-        btnEditar.setVisibility(View.INVISIBLE);
+        btnEditar.setVisibility(View.VISIBLE);
+        btnEditar.setImageDrawable(getResources().getDrawable(R.drawable.ic_share_black_24dp));
         allPhrasesRecyclerView.setMyTTS(myTTS);
         allPhrasesRecyclerView.setOnClickListener();
         if(barridoPantalla.isBarridoActivado())
@@ -56,7 +63,8 @@ public class AllPhrases extends PhrasesView {
                 onBackPressed();
                 break;
             case R.id.edit_button:
-
+                CompartirArchivos compartirArchivos = new CompartirArchivos(this, myTTS,this);
+                allPhrasesRecyclerView.shareAudio(compartirArchivos);
                 break;
             case R.id.btnTalk:
                 mAnalyticsFirebase.customEvents("Touch","AllPhrases","All Phrases Talk action");
@@ -90,5 +98,10 @@ public class AllPhrases extends PhrasesView {
     }
     public void setmSearchView(SearchView searchView) {
             allPhrasesRecyclerView.setSearchView(searchView);
+    }
+
+    @Override
+    public void startAudioTransformation(Transformer.Listener listener, String pathFile, String locationPath) {
+        new FileEncoder(this).encodeAudioFile(listener,pathFile,locationPath);
     }
 }

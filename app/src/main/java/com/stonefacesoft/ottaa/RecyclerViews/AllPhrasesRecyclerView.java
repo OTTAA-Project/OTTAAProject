@@ -1,5 +1,6 @@
 package com.stonefacesoft.ottaa.RecyclerViews;
 
+import android.graphics.drawable.Drawable;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -7,9 +8,15 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.stonefacesoft.ottaa.Adapters.PhrasesAdapter;
+import com.stonefacesoft.ottaa.Bitmap.GestionarBitmap;
+import com.stonefacesoft.ottaa.CompartirArchivos;
 import com.stonefacesoft.ottaa.R;
 
+import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 public class AllPhrasesRecyclerView extends Custom_recyclerView {
     private PhrasesAdapter adapter;
@@ -112,6 +119,39 @@ public class AllPhrasesRecyclerView extends Custom_recyclerView {
             e.printStackTrace();
         }
     }
+
+    public void shareAudio(CompartirArchivos compartirArchivos){
+        try {
+            if(createReturnPositionItem()){
+                int value = getPositionItem.getPosition();
+                if(validatePosition(value)) {
+                    GestionarBitmap gestionarBitmap = new GestionarBitmap(mActivity);
+                    JSONArray child =gestionarBitmap.getJsonArray(adapter.getUserPhrases().getJSONObject(value));
+                    compartirArchivos.setHistorial(getJSonObjectList(child));
+                    compartirArchivos.seleccionarFormato(adapter.getUserPhrases().getJSONObject(value).getString("frase"));
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private ArrayList<JSONObject> getJSonObjectList(JSONArray array){
+        ArrayList<JSONObject> pictograms = new ArrayList<>();
+        try {
+            for (int i = 0; i <= array.length()-1; i++) {
+                JSONObject picto = json.getPictoFromId2(array.getJSONObject(i).getInt("id"));
+                if(picto!=null){
+                    pictograms.add(picto);
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return pictograms;
+    }
+
+
 
 
 }

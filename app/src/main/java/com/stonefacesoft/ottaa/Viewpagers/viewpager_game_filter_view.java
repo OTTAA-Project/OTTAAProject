@@ -84,7 +84,9 @@ public class viewpager_game_filter_view {
         array= new JSONArray();
         int[] idPictos = TellAStoryUtils.getInstance().getItem().getOptions();
         for (int i = 0; i < idPictos.length; i++) {
-            array.put(json.getGrupoFromId(idPictos[i]));
+            JSONObject group = json.getGrupoFromId(idPictos[i]);
+            if(group!=null)
+                array.put(group);
         }
 
     }
@@ -176,7 +178,9 @@ public class viewpager_game_filter_view {
         array= new JSONArray();
         int[] idPictos = TellAStoryUtils.getInstance().getItem().getOptions();
         for (int i = 0; i < idPictos.length; i++) {
-            array.put(json.getGrupoFromId(idPictos[i]));
+            JSONObject object = json.getGrupoFromId(idPictos[i]);
+            if(object!=null)
+                array.put(object);
         }
     }
 
