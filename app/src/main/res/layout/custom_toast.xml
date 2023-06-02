@@ -6,37 +6,36 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:maxHeight="100dp"
-    android:minHeight="100dp"
     android:background="@drawable/toast_shape">
+        <ImageView
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:id="@+id/imageViewAvatarToast"
+                android:layout_marginStart="@dimen/small_margin"
+                android:layout_marginTop="@dimen/small_margin"
+                android:layout_marginBottom="@dimen/small_margin"
+                app:layout_constraintDimensionRatio="1:1"
+                android:maxHeight="100dp"
+                android:maxWidth="100dp"
 
-    <ImageView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:id="@+id/imageViewAvatarToast"
-        android:layout_marginStart="@dimen/small_margin"
-        android:layout_marginTop="@dimen/small_margin"
-        android:layout_marginBottom="@dimen/small_margin"
-        app:layout_constraintDimensionRatio="1:1"
-        android:maxHeight="100dp"
-        android:maxWidth="200dp"
-        android:minHeight="100dp"
-        android:minWidth="100dp"
-        android:src="@drawable/ic_avatar35"/>
+                android:src="@drawable/ic_avatar35"/>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:minWidth="100dp"
-        android:maxWidth="500dp"
-        android:id="@+id/text"
-        android:layout_marginStart="@dimen/activity_horizontal_margin"
-        android:layout_marginEnd="@dimen/activity_horizontal_margin"
-        android:text="Texto de prueba"
-        android:gravity="center"
-        android:layout_gravity="center"
-        android:textAlignment="center"
-        android:textSize="18sp"
-        android:textColor="#FFF"/>
+            <TextView
+                android:id="@+id/text"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="@dimen/small_margin"
+                android:layout_marginStart="@dimen/medium_margin"
+                android:layout_marginEnd="@dimen/medium_margin"
+                android:layout_marginBottom="@dimen/small_margin"
+                android:text="Texto de prueba"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:textAlignment="center"
+                android:textSize="18sp"
+                android:textColor="#FFF"
+
+                />
+
 
 </LinearLayout>

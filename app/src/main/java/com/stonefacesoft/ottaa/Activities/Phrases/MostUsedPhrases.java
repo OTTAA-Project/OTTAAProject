@@ -88,6 +88,9 @@ public class MostUsedPhrases extends PhrasesView {
         MenuItem menuItem =menu.findItem(R.id.vincular);
         menuItem.setIcon(getResources().getDrawable(R.drawable.ic_star_black_24dp));
         menuItem.setVisible(true);
+        MenuItem menuItem1 =menu.findItem(R.id.action_search);
+        menuItem1.setIcon(getResources().getDrawable(R.drawable.ic_share_black_24dp));
+        menuItem1.setVisible(true);
         return true;
     }
 

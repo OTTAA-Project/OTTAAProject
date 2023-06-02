@@ -67,7 +67,7 @@
                     android:switchTextOff="@string/pref_desactivado"
                     android:switchTextOn="@string/pref_activado"
                     android:outlineSpotShadowColor="@color/NaranjaOTTAA"
-                    android:title="@string/say_pictogram_name_tittle" />
+                    android:title="@string/share_phrases_tittle" />
             </PreferenceCategory>
         </PreferenceScreen>
 
