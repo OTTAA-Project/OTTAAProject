@@ -105,6 +105,8 @@ import com.stonefacesoft.ottaa.utils.AvatarPackage.AvatarUtils;
 import com.stonefacesoft.ottaa.utils.ConnectionDetector;
 import com.stonefacesoft.ottaa.utils.CustomToast;
 import com.stonefacesoft.ottaa.utils.EnumImageView;
+import com.stonefacesoft.ottaa.utils.EnumPictoOptions;
+import com.stonefacesoft.ottaa.utils.EnumPictoView;
 import com.stonefacesoft.ottaa.utils.Firebase.AnalyticsFirebase;
 import com.stonefacesoft.ottaa.utils.Firebase.CrashlyticsUtils;
 import com.stonefacesoft.ottaa.utils.Handlers.HandlerComunicationClass;
@@ -162,7 +164,6 @@ public class Principal extends AppCompatActivity implements View
     private final Handler handlerHablar = new Handler();
     public volatile Json json;
     // JSONObject que usamoss
-    JSONObject pictoPadre, opcion1, opcion2, opcion3, opcion4, onLongOpcion;
     SubirArchivosFirebase subirArchivos;
     String timeStamp;
     private Avatar avatar;
@@ -173,10 +174,8 @@ public class Principal extends AppCompatActivity implements View
     private PrincipalControls navigationControls;
     //Declaracion de los botones
 
-    private PictoView Opcion1;
-    private PictoView Opcion2;
-    private PictoView Opcion3;
-    private PictoView Opcion4;
+
+
     private timer_pictogram_clicker Opcion1_clicker;
     private timer_pictogram_clicker Opcion2_clicker;
     private timer_pictogram_clicker Opcion3_clicker;
@@ -404,20 +403,20 @@ public class Principal extends AppCompatActivity implements View
             case R.id.item_edit:
                 getAnalyticsFirebase().customEvents("Touch", "Principal", "Edit Pictogram");
                 if (user.isPremium()) {
-                    if (onLongOpcion == null) {
+                    if (EnumPictoOptions.onLongOpcion.getObject() == null) {
                         return true;
                     }
                     Intent intent = new Intent(Principal.this, Edit_Picto_Visual.class);
                     intent.putExtra("principal", true);
                     try {
-                        intent.putExtra("PictoID", json.getId(onLongOpcion));
+                        intent.putExtra("PictoID", json.getId(EnumPictoOptions.onLongOpcion.getObject()));
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
-                    intent.putExtra("Texto", JSONutils.getNombre(onLongOpcion, sharedPrefsDefault.getString(getString(R.string.str_idioma), "en")));
+                    intent.putExtra("Texto", JSONutils.getNombre(EnumPictoOptions.onLongOpcion.getObject(), sharedPrefsDefault.getString(getString(R.string.str_idioma), "en")));
                     intent.putExtra("Sel", 1);
-                    intent.putExtra("Nombre", JSONutils.getNombre(onLongOpcion, sharedPrefsDefault.getString(getString(R.string.str_idioma), "en")));
-                    intent.putExtra("Color", cargarColor(JSONutils.getTipo(onLongOpcion)));
+                    intent.putExtra("Nombre", JSONutils.getNombre(EnumPictoOptions.onLongOpcion.getObject(), sharedPrefsDefault.getString(getString(R.string.str_idioma), "en")));
+                    intent.putExtra("Color", cargarColor(JSONutils.getTipo(EnumPictoOptions.onLongOpcion.getObject())));
                     myTTS.hablar(getString(R.string.editar_pictogram));
 
                     //Abrir pantalla de edicion de pictograma
@@ -431,8 +430,8 @@ public class Principal extends AppCompatActivity implements View
             case R.id.item_delete:
                 getAnalyticsFirebase().customEvents("Touch", "Principal", "Delete Pictogram");
                 try {
-                    if (onLongOpcion != null)
-                        AlertBorrar(json.getId(onLongOpcion));
+                    if (EnumPictoOptions.onLongOpcion.getObject() != null)
+                        AlertBorrar(json.getId(EnumPictoOptions.onLongOpcion.getObject()));
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -695,10 +694,10 @@ public class Principal extends AppCompatActivity implements View
         Animation alphaAnimation = AnimationUtils.loadAnimation(getApplicationContext(),
                 R.anim.alpha_show);
 
-        Opcion1.setEnabled(true);
-        Opcion2.setEnabled(true);
-        Opcion3.setEnabled(true);
-        Opcion4.setEnabled(true);
+        EnumPictoView.OPCION1.getPictoView().setEnabled(true);
+        EnumPictoView.OPCION2.getPictoView().setEnabled(true);
+        EnumPictoView.OPCION3.getPictoView().setEnabled(true);
+        EnumPictoView.OPCION4.getPictoView().setEnabled(true);
         if (json.getCantFallas() ==0)
             loadChilds(padre, alphaAnimation);
        if(json.getCantFallas()<4 && json.getCantFallas()>0)
@@ -731,16 +730,16 @@ public class Principal extends AppCompatActivity implements View
         loadOptionValue(position, object);
         switch (position) {
             case 0:
-                addOption(opcion1, returnOption(position), alphaAnimation);
+                addOption(EnumPictoOptions.opcion1.getObject(), returnOption(position), alphaAnimation);
                 break;
             case 1:
-                addOption(opcion2, returnOption(position), alphaAnimation);
+                addOption(EnumPictoOptions.opcion2.getObject(), returnOption(position), alphaAnimation);
                 break;
             case 2:
-                addOption(opcion3, returnOption(position), alphaAnimation);
+                addOption(EnumPictoOptions.opcion3.getObject(), returnOption(position), alphaAnimation);
                 break;
             case 3:
-                addOption(opcion4, returnOption(position), alphaAnimation);
+                addOption(EnumPictoOptions.opcion4.getObject(), returnOption(position), alphaAnimation);
                 break;
         }
     }
@@ -748,31 +747,31 @@ public class Principal extends AppCompatActivity implements View
     private PictoView returnOption(int position) {
         switch (position) {
             case 0:
-                return Opcion1;
+                return EnumPictoView.OPCION1.getPictoView();
             case 1:
-                return Opcion2;
+                return EnumPictoView.OPCION2.getPictoView();
             case 2:
-                return Opcion3;
+                return EnumPictoView.OPCION3.getPictoView();
             case 3:
-                return Opcion4;
+                return EnumPictoView.OPCION4.getPictoView();
             default:
-                return Opcion1;
+                return EnumPictoView.OPCION1.getPictoView();
         }
     }
 
     private void loadOptionValue(int position, JSONObject value) {
         switch (position) {
             case 0:
-                opcion1 = value;
+                EnumPictoOptions.opcion1.setObject(value);
                 break;
             case 1:
-                opcion2 = value;
+                EnumPictoOptions.opcion2.setObject(value);
                 break;
             case 2:
-                opcion3 = value;
+                EnumPictoOptions.opcion3.setObject(value);
                 break;
             case 3:
-                opcion4 = value;
+                EnumPictoOptions.opcion4.setObject(value);
                 break;
         }
     }
@@ -798,10 +797,10 @@ public class Principal extends AppCompatActivity implements View
 
     //Esta funcion vuelve al estado inicial
     private void Reset() {
-        pictoPadre = historial.removePictograms(true);
+        EnumPictoOptions.pictoPadre.setObject(historial.removePictograms(true));
         ResetSeleccion();
         cuentaMasPictos = 0;
-        loadOptions(json, pictoPadre);
+        loadOptions(json, EnumPictoOptions.pictoPadre.getObject());
     }
 
     public void ResetSeleccion() {
@@ -820,19 +819,19 @@ public class Principal extends AppCompatActivity implements View
 
 
     private void volver() {
-        pictoPadre = historial.removePictograms(false);
+        EnumPictoOptions.pictoPadre.setObject(historial.removePictograms(false));
         ResetSeleccion();
         cuentaMasPictos = 0;
         for (int i = 0; i < historial.getListadoPictos().size(); i++) {
             CargarSeleccion(historial.getListadoPictos().get(i));
             CantClicks++;
         }
-        loadOptions(json, pictoPadre);
+        loadOptions(json, EnumPictoOptions.pictoPadre.getObject());
     }
 
     private void click(JSONObject opcion) {
         cuentaMasPictos = 0;
-        if (opcion == null || pictoPadre == null) {
+        if (opcion == null || EnumPictoOptions.pictoPadre.getObject() == null) {
             Log.d(TAG, "click: Opcion es null");
             return;
         }
@@ -863,18 +862,18 @@ public class Principal extends AppCompatActivity implements View
 
     private void createRelationShip(JSONObject opcion,LoadPictograms loadPictograms){
         try {
-            int pos = JSONutils.getPositionPicto2(json.getmJSONArrayTodosLosPictos(), pictoPadre.getInt("id"));
+            int pos = JSONutils.getPositionPicto2(json.getmJSONArrayTodosLosPictos(), EnumPictoOptions.pictoPadre.getObject().getInt("id"));
             if(pos != -1) {
-                JSONutils.aumentarFrec(pictoPadre, opcion);
-                json.getmJSONArrayTodosLosPictos().put(pos, pictoPadre);
+                JSONutils.aumentarFrec(EnumPictoOptions.pictoPadre.getObject(), opcion);
+                json.getmJSONArrayTodosLosPictos().put(pos, EnumPictoOptions.pictoPadre.getObject());
                 json.guardarJson(Constants.ARCHIVO_PICTOS);
                 json.setmJSONArrayTodosLosPictos(json.getmJSONArrayTodosLosPictos());
             }
         } catch (JSONException e) {
             CrashlyticsUtils.getInstance().getCrashlytics().recordException(e.getCause());
         }
-        pictoPadre = opcion;
-        loadPictograms.loadSelection(pictoPadre);
+        EnumPictoOptions.pictoPadre.setObject(opcion);
+        loadPictograms.loadSelection(EnumPictoOptions.pictoPadre.getObject());
     }
 
     private void cargarMasPictos() {
@@ -882,7 +881,7 @@ public class Principal extends AppCompatActivity implements View
         if (cuentaMasPictos > Constants.VUELTAS_CARRETE) {
             cuentaMasPictos = 0;
         }
-        loadOptions(json, pictoPadre);
+        loadOptions(json, EnumPictoOptions.pictoPadre.getObject());
     }
 
     public void AlertBorrar(final int pos) {
@@ -898,7 +897,7 @@ public class Principal extends AppCompatActivity implements View
                 try {
                     if (sharedPrefsDefault.getBoolean("esmoderador", false)) {
                         JSONArray pictosSugeridos = json.readJSONArrayFromFile(Constants.ARCHIVO_PICTOS_DATABASE);
-                        JSONutils.desvincularJson(pictosSugeridos.getJSONObject(pictoPadre.getInt("id")), pos);
+                        JSONutils.desvincularJson(pictosSugeridos.getJSONObject(EnumPictoOptions.pictoPadre.getObject().getInt("id")), pos);
                         json.setmJSONArrayPictosSugeridos(pictosSugeridos);
                         if (!json.guardarJson(Constants.ARCHIVO_PICTOS_DATABASE))
                             Log.e(TAG, "onClick: eliminar: Error al guardar pictos sugeridos");
@@ -908,8 +907,8 @@ public class Principal extends AppCompatActivity implements View
                     e.printStackTrace();
                 }
                 try {
-                    JSONutils.desvincularJson(pictoPadre, pos);
-                    JSONutils.setJsonEditado2(json.getmJSONArrayTodosLosPictos(), pictoPadre);
+                    JSONutils.desvincularJson(EnumPictoOptions.pictoPadre.getObject(), pos);
+                    JSONutils.setJsonEditado2(json.getmJSONArrayTodosLosPictos(), EnumPictoOptions.pictoPadre.getObject());
                     if (!json.guardarJson(Constants.ARCHIVO_PICTOS))
                         Log.e(TAG, "onClick: Error al guardar pictos sugeridos");
                     cargarMasPictos();
@@ -920,7 +919,7 @@ public class Principal extends AppCompatActivity implements View
 
                 }
                 dialogs.cancelarDialogo();
-                loadOptions(json, pictoPadre);
+                loadOptions(json, EnumPictoOptions.pictoPadre.getObject());
             }
         });
 
@@ -961,16 +960,16 @@ public class Principal extends AppCompatActivity implements View
         if (editarPicto) {
             switch (v.getId()) {
                 case R.id.Option1:
-                    longClick(Opcion1, opcion1);
+                    longClick(EnumPictoView.OPCION1.getPictoView(), EnumPictoOptions.opcion1.getObject());
                     break;
                 case R.id.Option2:
-                    longClick(Opcion2, opcion2);
+                    longClick(EnumPictoView.OPCION2.getPictoView(), EnumPictoOptions.opcion2.getObject());
                     break;
                 case R.id.Option3:
-                    longClick(Opcion3, opcion3);
+                    longClick(EnumPictoView.OPCION3.getPictoView(), EnumPictoOptions.opcion3.getObject());
                     break;
                 case R.id.Option4:
-                    longClick(Opcion4, opcion4);
+                    longClick(EnumPictoView.OPCION4.getPictoView(), EnumPictoOptions.opcion4.getObject());
                     break;
                 default:
                     onClick(v);
@@ -1046,16 +1045,16 @@ public class Principal extends AppCompatActivity implements View
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.Option1:
-                onClickOption(opcion1, Opcion1_clicker);
+                onClickOption(EnumPictoOptions.opcion1.getObject(), Opcion1_clicker);
                 break;
             case R.id.Option2:
-                onClickOption(opcion2, Opcion2_clicker);
+                onClickOption(EnumPictoOptions.opcion2.getObject(), Opcion2_clicker);
                 break;
             case R.id.Option3:
-                onClickOption(opcion3, Opcion3_clicker);
+                onClickOption(EnumPictoOptions.opcion3.getObject(), Opcion3_clicker);
                 break;
             case R.id.Option4:
-                onClickOption(opcion4, Opcion4_clicker);
+                onClickOption(EnumPictoOptions.opcion4.getObject(), Opcion4_clicker);
                 break;
             case R.id.btnFavoritos:
                 startFavoritePhrases();
@@ -1324,10 +1323,10 @@ public class Principal extends AppCompatActivity implements View
     }
 
     private ArrayList<View> addObjects(ArrayList<View> listadoObjetosBarrido){
-        listadoObjetosBarrido.add(Opcion1);
-        listadoObjetosBarrido.add(Opcion2);
-        listadoObjetosBarrido.add(Opcion3);
-        listadoObjetosBarrido.add(Opcion4);
+        listadoObjetosBarrido.add(EnumPictoView.OPCION1.getPictoView());
+        listadoObjetosBarrido.add(EnumPictoView.OPCION2.getPictoView());
+        listadoObjetosBarrido.add(EnumPictoView.OPCION3.getPictoView());
+        listadoObjetosBarrido.add(EnumPictoView.OPCION4.getPictoView());
         listadoObjetosBarrido.add(botonFavoritos);
         listadoObjetosBarrido.add(borrar);
         listadoObjetosBarrido.add(talk);
@@ -1344,10 +1343,10 @@ public class Principal extends AppCompatActivity implements View
 
         if (json.getmJSONArrayTodosLosPictos() != null && json.getmJSONArrayTodosLosPictos().length() > 0) {
             try {
-                if (pictoPadre == null || pictoPadre.getInt("id") == 0)
-                    pictoPadre = json.getPictoFromId2(0);
+                if (EnumPictoOptions.pictoPadre.getObject() == null || EnumPictoOptions.pictoPadre.getObject().getInt("id") == 0)
+                    EnumPictoOptions.pictoPadre.setObject( json.getPictoFromId2(0));
                 cuentaMasPictos = 0;
-                loadOptions(json, pictoPadre);
+                loadOptions(json, EnumPictoOptions.pictoPadre.getObject());
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -1433,13 +1432,13 @@ public class Principal extends AppCompatActivity implements View
                 R.anim.alpha_dismiss);
 
 
-        if (isNullObject(opcion1)) {
+        if (isNullObject(EnumPictoOptions.opcion1.getObject())) {
             hideAnimation(animation,1);
-        } else if (isNullObject(opcion2)) {
+        } else if (isNullObject(EnumPictoOptions.opcion2.getObject())) {
             hideAnimation(animation,2);
-        } else if (isNullObject(opcion3)) {
+        } else if (isNullObject(EnumPictoOptions.opcion3.getObject())) {
             hideAnimation(animation,3);
-        } else if (isNullObject(opcion4) && Opcion3.getVisibility() == View.VISIBLE) {
+        } else if (isNullObject(EnumPictoOptions.opcion4.getObject()) && EnumPictoView.OPCION3.getPictoView().getVisibility() == View.VISIBLE) {
             hideAnimation(animation,4);
         }
     }
@@ -1447,19 +1446,19 @@ public class Principal extends AppCompatActivity implements View
     public void hideAnimation(Animation animation,int id){
         switch (id){
             case 1:
-                    setInvisibleOption(Opcion2,animation);
-                    setInvisibleOption(Opcion3,animation);
-                    setInvisibleOption(Opcion4,animation);
+                    setInvisibleOption(EnumPictoView.OPCION2.getPictoView(), animation);
+                    setInvisibleOption(EnumPictoView.OPCION3.getPictoView(), animation);
+                    setInvisibleOption(EnumPictoView.OPCION4.getPictoView(), animation);
                 break;
             case 2:
-                    setInvisibleOption(Opcion3,animation);
-                    setInvisibleOption(Opcion4,animation);
+                    setInvisibleOption(EnumPictoView.OPCION3.getPictoView(), animation);
+                    setInvisibleOption(EnumPictoView.OPCION4.getPictoView(), animation);
                 break;
             case 3:
-                    setInvisibleOption(Opcion4,animation);
+                    setInvisibleOption(EnumPictoView.OPCION4.getPictoView(), animation);
                 break;
             case 4:
-                    Opcion4.setVisibility(View.VISIBLE);
+                    EnumPictoView.OPCION4.getPictoView().setVisibility(View.VISIBLE);
                 break;
         }
     }
@@ -1784,7 +1783,7 @@ public class Principal extends AppCompatActivity implements View
 
     private void editPictoResult(Intent data) {
         try {
-            loadOptions(json, pictoPadre);
+            loadOptions(json, EnumPictoOptions.pictoPadre.getObject());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -1986,10 +1985,10 @@ public class Principal extends AppCompatActivity implements View
         setClickLongListener(resetButton);
         setClickLongListener(btn_share);
         setClickOnTouchListener(btnBarrido);
-        setClickLongListener(Opcion1);
-        setClickLongListener(Opcion2);
-        setClickLongListener(Opcion3);
-        setClickLongListener(Opcion4);
+        setClickLongListener(EnumPictoView.OPCION1.getPictoView());
+        setClickLongListener(EnumPictoView.OPCION2.getPictoView());
+        setClickLongListener(EnumPictoView.OPCION3.getPictoView());
+        setClickLongListener(EnumPictoView.OPCION4.getPictoView());
     }
 
     private void initActionButtons() {
@@ -2006,10 +2005,11 @@ public class Principal extends AppCompatActivity implements View
     }
 
     private void initPictograms() {
-        Opcion1 = findViewById(R.id.Option1);
-        Opcion2 = findViewById(R.id.Option2);
-        Opcion3 = findViewById(R.id.Option3);
-        Opcion4 = findViewById(R.id.Option4);
+        EnumPictoView.OPCION1.setPictoView(findViewById(R.id.Option1));
+        EnumPictoView.OPCION2.setPictoView(findViewById(R.id.Option2));
+        EnumPictoView.OPCION3.setPictoView(findViewById(R.id.Option3));
+        EnumPictoView.OPCION4.setPictoView(findViewById(R.id.Option4));
+
         Agregar = new PictoView(this);
         Agregar.setCustom_Color(R.color.Black);
         Agregar.setCustom_Texto("");
@@ -2087,7 +2087,7 @@ public class Principal extends AppCompatActivity implements View
     }
 
     private void longClick(PictoView pictoView, JSONObject json) {
-        onLongOpcion = json;
+        EnumPictoOptions.onLongOpcion.setObject(json);
         if (pictoView.getAlpha() != (0.65) || sharedPrefsDefault.getBoolean(getString(R.string.ismoderator), false)) {
             PopupMenuUtils menuUtils = new PopupMenuUtils(this,pictoView);
             menuUtils.addClickListener(this);
@@ -2307,11 +2307,12 @@ public class Principal extends AppCompatActivity implements View
                 @Override
                 public void run() {
                     if (json.getmJSONArrayTodosLosPictos() != null && json.getmJSONArrayTodosLosPictos().length() > 0) {
-                        pictoPadre = json.getPictoFromId2(0);
-                        if(pictoPadre != null)
-                            new Json0Recover().backupPictogram0(getApplicationContext(),pictoPadre,loadPictograms.this);
+
+                        EnumPictoOptions.pictoPadre.setObject(json.getPictoFromId2(0));
+                        if(EnumPictoOptions.pictoPadre.getObject() != null)
+                            new Json0Recover().backupPictogram0(getApplicationContext(),EnumPictoOptions.pictoPadre.getObject(),loadPictograms.this);
                     }
-                    if(pictoPadre == null){
+                    if(EnumPictoOptions.pictoPadre.getObject() == null){
                         new Json0Recover().restorePictogram0(getApplicationContext(),loadPictograms.this);
                     }
                     handler.post(new Runnable() {
@@ -2336,14 +2337,14 @@ public class Principal extends AppCompatActivity implements View
             json.setmJSONArrayTodosLosPictos(json.getmJSONArrayTodosLosPictos());
             json.guardarJson(Constants.ARCHIVO_PICTOS);
             json.refreshJsonArrays();
-            pictoPadre =  json.getPictoFromId2(0);
+            EnumPictoOptions.pictoPadre.setObject(json.getPictoFromId2(0));
             loadDialog();
         }
 
         @Override
         public void loadDialog() {
-            if (pictoPadre != null) {
-                    loadOptions(json, pictoPadre);   // y despues cargamos las opciones con el orden correspondiente
+            if (EnumPictoOptions.pictoPadre.getObject() != null) {
+                    loadOptions(json, EnumPictoOptions.pictoPadre.getObject());   // y despues cargamos las opciones con el orden correspondiente
                 used = true;
             }
         }
@@ -2387,4 +2388,6 @@ public class Principal extends AppCompatActivity implements View
             return aux.getImageview();
         return null;
     }
+
+
 }

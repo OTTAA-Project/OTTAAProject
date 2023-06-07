@@ -13,20 +13,29 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.google.android.exoplayer2.transformer.Transformer;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.stonefacesoft.ottaa.CompartirArchivos;
+import com.stonefacesoft.ottaa.Interfaces.AudioTransformationListener;
 import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.RecyclerViews.Favorite_Phrases_recycler_view;
 import com.stonefacesoft.ottaa.Views.Phrases.PhrasesView;
 import com.stonefacesoft.ottaa.utils.Accesibilidad.BarridoPantalla;
 import com.stonefacesoft.ottaa.utils.Accesibilidad.SayActivityName;
+import com.stonefacesoft.ottaa.utils.Audio.FileEncoder;
 import com.stonefacesoft.ottaa.utils.IntentCode;
 import com.stonefacesoft.ottaa.utils.constants.Constants;
 import com.stonefacesoft.ottaa.utils.textToSpeech;
 
 import java.util.ArrayList;
 
-public class FavoritePhrases extends PhrasesView {
-
+public class FavoritePhrases extends PhrasesView implements AudioTransformationListener {
     private Favorite_Phrases_recycler_view favorite_phrases_recycler_view;
+    private FloatingActionButton shareFloattingButton;
+
+    private textToSpeech myTTS;
+
+    private boolean shareAction;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -37,12 +46,21 @@ public class FavoritePhrases extends PhrasesView {
     @Override
     public void initComponents() {
         super.initComponents();
+        sharedPrefsDefault = androidx.preference.PreferenceManager.getDefaultSharedPreferences(this);
+        shareAction = sharedPrefsDefault.getBoolean(getString(R.string.enable_share_phrases),false);
         favorite_phrases_recycler_view = new Favorite_Phrases_recycler_view(this,firebaseUser.getmAuth());
         favorite_phrases_recycler_view.setMyTTS(textToSpeech.getInstance(this));
         if(favorite_phrases_recycler_view.getArray().length()==0){
             favorite_phrases_recycler_view.talkAtPosition();
         }
+        shareFloattingButton = findViewById(R.id.floatting_button_share);
+        shareFloattingButton.setOnClickListener(this::onClick);
         this.setTitle(getResources().getString(R.string.favorite_phrases));
+        myTTS = textToSpeech.getInstance(this);
+        if(shareAction)
+            shareFloattingButton.setVisibility(View.VISIBLE);
+        else
+            shareFloattingButton.setVisibility(View.GONE);
         if(barridoPantalla.isBarridoActivado())
             favorite_phrases_recycler_view.setScrollVertical(false);
   //      most_used_recycler_view = new MostUsedPhrases_Recycler_View(this,firebaseUser.getmAuth());
@@ -69,6 +87,10 @@ public class FavoritePhrases extends PhrasesView {
                 mAnalyticsFirebase.customEvents("Touch","FavoritePhrases","Favorite Phrases EditButton");
                 Intent intent=new Intent(this, VincularFrases.class);
                 startActivityForResult(intent, IntentCode.CUSTOMPHRASES.getCode());
+                break;
+            case R.id.floatting_button_share:
+                  CompartirArchivos compartirArchivos = new CompartirArchivos(this, myTTS,this);
+                     favorite_phrases_recycler_view.shareAudio(compartirArchivos);
                 break;
             case R.id.btnTalk:
                 mAnalyticsFirebase.customEvents("Touch","FavoritePhrases","Favorite Phrases TalkAction");
@@ -148,5 +170,11 @@ public class FavoritePhrases extends PhrasesView {
         }else{
             btnBarrido.setVisibility(View.GONE);
         }
+    }
+
+    @Override
+    public void startAudioTransformation(Transformer.Listener listener, String filePath, String locationPath) {
+        new FileEncoder(this).encodeAudioFile(listener,filePath,locationPath);
+
     }
 }

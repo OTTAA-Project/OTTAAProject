@@ -510,7 +510,7 @@
     <string name="str_constant_taxi_stand" translatable="false">Taxi Stand</string>
     <string name="talk_erase" translatable="false">hablar_borrar</string>
     <string name="say_pictogram_name_key" translatable="false">say_pictogram_name</string>
-    <string name="enable_share_action" translatable="false">enable_share_action</string>
+    <string name="enable_share_phrases" translatable="false">enable_share_action</string>
     <string name="repeat_pictogram_name_key" translatable="false">repeat_pictogram_key</string>
     <string name="usar_scroll" translatable="false">bool_scroll</string>
     <string name="usar_scroll_click" translatable="false">bool_scroll_click</string>
@@ -783,7 +783,7 @@
     <string name="allphrases">All phrases</string>
     <string name="selectPhavoritePhrases">Select Favorite Phrases</string>
     <string name="say_pictogram_name_description"> OTTAA says the pictogram name at the touch it </string>
-    <string name="share_pictogram_description"> Share Created Phrases.</string>
+    <string name="share_pictogram_description">If this function is enabled, you can share your created phrases.</string>
     <string name="repeat_pictogram_name_description">You can use a pictogram more than once when putting together a sentence.</string>
     <string name="say_pictogram_name_tittle">Say the pictogram</string>
     <string name="share_phrases_tittle">Share Phrases</string>

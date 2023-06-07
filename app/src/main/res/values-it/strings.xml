@@ -463,9 +463,11 @@
     <string name="prediction_data">Questi dati sono necessari per la previsione</string>
     <string name="whatareyoulooking">Che cosa sta cercando?</string>
     <string name="selectPhavoritePhrases">Seleziona Frasi Preferite</string>
+    <string name="share_pictogram_description">Se questa funzione è abilitata, puoi condividere le tue frasi create.</string>
     <string name="repeat_pictogram_name_description">Puoi usare un pittogramma più di una volta quando componi una frase.</string>
     <string name="say_pictogram_name_tittle">dire il pittogramma</string>
     <string name="say_pictogram_name_description">OTTAA dice il nome del pittogramma al tocco</string>
+    <string name="share_phrases_tittle">Condividi frasi</string>
     <string name="repeat_pictogram_name_tittle">Ripeti pittogrammi</string>
     <string name="Iam">Ciao sono</string>
     <string name="FluidUser">Fluido</string>
