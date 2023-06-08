@@ -28,6 +28,7 @@ import com.stonefacesoft.ottaa.Prediction.Sexo;
 import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.idioma.ConfigurarIdioma;
 import com.stonefacesoft.ottaa.utils.JSONutils;
+import com.stonefacesoft.ottaa.utils.PictogramPositionCounter;
 import com.stonefacesoft.ottaa.utils.constants.Constants;
 import com.stonefacesoft.ottaa.utils.exceptions.FiveMbException;
 
@@ -1034,16 +1035,15 @@ public class Json  {
                 int lastLocation = position - array.length()+i;
                 if(getValueBiggerOrEquals0(lastLocation)){
                     if(itIsASuggestedLanguage()){
-                        if(mostrarSugerencias(father,lastLocation,array)){
+                        if(!mostrarSugerencias(father,lastLocation,array)){
                             int posPadre = getPosPictoBinarySearch(getmJSONArrayPictosSugeridos(),getId(father));
-                            upgradeIndexOfLoadOptions((relationShip.length() + mJSONArrayPictosSugeridos.getJSONObject(posPadre).getJSONArray("relacion").length()) / 4);
+                           // upgradeIndexOfLoadOptions((relationShip.length() + mJSONArrayPictosSugeridos.getJSONObject(posPadre).getJSONArray("relacion").length()) / 4);
                         }else{
                             array.put(i,createAnEmptyObject());
-                            upgradeIndexOfLoadOptions(Constants.VUELTAS_CARRETE+1);
                         }
                     }else{
                         array.put(i,createAnEmptyObject());
-                        upgradeIndexOfLoadOptions(Constants.VUELTAS_CARRETE+1);
+
                     }
                 }else{
                    addChildrenToArray(array,relationShip,position,false);
@@ -1098,6 +1098,7 @@ public class Json  {
                      sharedPrefsDefault.edit().putBoolean("bool_sugerencias", consultarPago()).apply();
                  JSONArray relacion = elegirHijos2(padre, false); //selecciono el picto padre
                  JSONArray jsonElegidos = new JSONArray();
+                  PictogramPositionCounter.getInstance().setLimit(relacion.length());
                  int ultimaPosicion = cuentaMasPictos * 4; //posicion del picto
                  loadPictogramsInsideArray(padre,jsonElegidos,relacion,ultimaPosicion);
                  sortPictograms.pictogramsAreSorted(jsonElegidos);

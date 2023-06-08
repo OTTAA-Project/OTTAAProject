@@ -2,8 +2,8 @@ package com.stonefacesoft.ottaa.utils;
 
 import org.json.JSONObject;
 
-public enum EnumPictoOptions {
-     pictoPadre, opcion1, opcion2, opcion3, opcion4, onLongOpcion;
+public class EnumPictoOptions {
+    public static JSONObject pictoPadre, opcion1, opcion2, opcion3, opcion4, onLongOpcion;
 
      private JSONObject object;
 
