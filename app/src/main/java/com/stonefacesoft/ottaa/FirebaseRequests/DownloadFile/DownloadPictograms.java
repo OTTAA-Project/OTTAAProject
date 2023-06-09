@@ -49,13 +49,9 @@ public class DownloadPictograms extends DownloadFile implements OnFailureListene
                             Log.d("BAF_descGYPN", "NombreArchivo:" + pictosUsuarioFile);
                             Log.d("BAF_descGYPN", "Tama&ntildeoArchivoss :" + pictosUsuarioFile.length());
                             boolean aresamefile = false;
-                            try {
-                                 aresamefile = json.verifyFiles(Constants.ARCHIVO_PICTOS,pictosUsuarioFile);
-                            } catch (Exception e) {
-                                Log.d(TAG, "onSuccess: " + e.getMessage());
-                                e.printStackTrace();
-                            }
-                            if(aresamefile){
+                            File file = new File(mContext.getFilesDir(), Constants.ARCHIVO_PICTOS);
+
+                            if(!json.downloadFile(file,pictosUsuarioFile)){
                                 observableInteger.incrementValue();
                             }else{
                                 try{

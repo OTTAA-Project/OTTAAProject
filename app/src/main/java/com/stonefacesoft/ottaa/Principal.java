@@ -685,7 +685,8 @@ public class Principal extends AppCompatActivity implements View
         Animation alphaAnimation = AnimationUtils.loadAnimation(getApplicationContext(),
                 R.anim.alpha_show);
         for (int i = 0; i <Options.length ; i++) {
-            Options[i].setEnabled(true);
+            if(Options[i]!=null)
+                Options[i].setEnabled(true);
         }
         if (json.getCantFallas() ==0)
             loadChilds(padre, alphaAnimation);
@@ -866,7 +867,6 @@ public class Principal extends AppCompatActivity implements View
     }
 
     private void cargarMasPictos() {
-        PictogramPositionCounter.getInstance().incrementPosition();
         if (PictogramPositionCounter.getInstance().getPosChild() > PictogramPositionCounter.getInstance().getLimit()) {
             PictogramPositionCounter.getInstance().resetPosition();
         }
@@ -888,6 +888,7 @@ public class Principal extends AppCompatActivity implements View
                         JSONArray pictosSugeridos = json.readJSONArrayFromFile(Constants.ARCHIVO_PICTOS_DATABASE);
                         JSONutils.desvincularJson(pictosSugeridos.getJSONObject(pictoPadre.getInt("id")), pos);
                         json.setmJSONArrayPictosSugeridos(pictosSugeridos);
+
                         if (!json.guardarJson(Constants.ARCHIVO_PICTOS_DATABASE))
                             Log.e(TAG, "onClick: eliminar: Error al guardar pictos sugeridos");
                     }
@@ -896,10 +897,12 @@ public class Principal extends AppCompatActivity implements View
                     e.printStackTrace();
                 }
                 try {
+                    Json.getInstance().setNullParent();
                     JSONutils.desvincularJson(pictoPadre, pos);
                     JSONutils.setJsonEditado2(json.getmJSONArrayTodosLosPictos(), pictoPadre);
                     if (!json.guardarJson(Constants.ARCHIVO_PICTOS))
                         Log.e(TAG, "onClick: Error al guardar pictos sugeridos");
+                    PictogramPositionCounter.getInstance().incrementPosition();
                     cargarMasPictos();
 
                 } catch (JSONException e) {
@@ -1062,6 +1065,7 @@ public class Principal extends AppCompatActivity implements View
                 break;
             case R.id.btnMasPictos:
                 analyticsAction(ConstantsAnalyticsValues.ACCESSIBILITY, ConstantsAnalyticsValues.TOUCH, "Principal", ConstantsAnalyticsValues.MOREOPTIONS);
+                PictogramPositionCounter.getInstance().incrementPosition();
                 cargarMasPictos();
                 break;
             case R.id.action_reiniciar:

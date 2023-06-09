@@ -105,6 +105,10 @@ public class Json  {
 
     private static final String MD5_ALGORITHM = "MD5";
 
+    private JSONObject parent;
+
+    private JSONArray child;
+
     //JSONArray
 
 
@@ -936,6 +940,13 @@ public class Json  {
 
     }
 
+    public boolean downloadFile(File file1,File file2){
+        if(file1.lastModified()>file2.lastModified())
+            return false;
+        else
+            return true;
+    }
+
     public boolean verifyFiles(String file1, File file2) throws IOException, NoSuchAlgorithmException {
         MessageDigest md = MessageDigest.getInstance(MD5_ALGORITHM);
 
@@ -1035,15 +1046,16 @@ public class Json  {
                 int lastLocation = position - array.length()+i;
                 if(getValueBiggerOrEquals0(lastLocation)){
                     if(itIsASuggestedLanguage()){
-                        if(!mostrarSugerencias(father,lastLocation,array)){
+                        if(mostrarSugerencias(father,lastLocation,array)){
                             int posPadre = getPosPictoBinarySearch(getmJSONArrayPictosSugeridos(),getId(father));
-                           // upgradeIndexOfLoadOptions((relationShip.length() + mJSONArrayPictosSugeridos.getJSONObject(posPadre).getJSONArray("relacion").length()) / 4);
+                            PictogramPositionCounter.getInstance().setLimit(child.length()+ mJSONArrayPictosSugeridos.getJSONObject(posPadre).getJSONArray("relacion").length());
                         }else{
                             array.put(i,createAnEmptyObject());
+                            PictogramPositionCounter.getInstance().setLimit(child.length());
                         }
                     }else{
                         array.put(i,createAnEmptyObject());
-
+                        PictogramPositionCounter.getInstance().setLimit(child.length());
                     }
                 }else{
                    addChildrenToArray(array,relationShip,position,false);
@@ -1096,11 +1108,11 @@ public class Json  {
               try {
                  if (!consultarPago())
                      sharedPrefsDefault.edit().putBoolean("bool_sugerencias", consultarPago()).apply();
-                 JSONArray relacion = elegirHijos2(padre, false); //selecciono el picto padre
+                 loadChild(padre);
                  JSONArray jsonElegidos = new JSONArray();
-                  PictogramPositionCounter.getInstance().setLimit(relacion.length());
                  int ultimaPosicion = cuentaMasPictos * 4; //posicion del picto
-                 loadPictogramsInsideArray(padre,jsonElegidos,relacion,ultimaPosicion);
+                 if(child!=null)
+                    loadPictogramsInsideArray(parent,jsonElegidos,child,ultimaPosicion);
                  sortPictograms.pictogramsAreSorted(jsonElegidos);
                }catch (JSONException ex){
                  Log.e(TAG, "exception: "+ ex.getMessage() );
@@ -1377,5 +1389,21 @@ public class Json  {
 
     public Context getmContext() {
         return mContext;
+    }
+
+    public void loadChild(JSONObject padre){
+        if(parent ==  null||! parent.toString().equals(padre.toString())) {
+            parent = padre;
+            try {
+                child = elegirHijos2(parent, false); //selecciono el picto padre
+                PictogramPositionCounter.getInstance().setLimit(child.length());
+            } catch (JSONException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+    public void setNullParent(){
+        parent = null;
     }
 }

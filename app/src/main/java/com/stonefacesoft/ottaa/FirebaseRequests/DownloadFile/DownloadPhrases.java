@@ -54,7 +54,6 @@ public class DownloadPhrases extends DownloadFile{
                             if(!areTheSameFile){
                                 try {
                                     if (!getStringFromFile(frasesUsuarioFile.getAbsolutePath()).equals("[]") && frasesUsuarioFile.length() > 0) {
-
                                         json.setmJSONArrayTodasLasFrases(json.readJSONArrayFromFile(frasesUsuarioFile.getAbsolutePath()));
                                         json.guardarJson(Constants.ARCHIVO_FRASES);
                                     }
@@ -64,7 +63,6 @@ public class DownloadPhrases extends DownloadFile{
                                     e.printStackTrace();
                                     }
                             }
-
                             observableInteger.incrementValue();
 
                         }
