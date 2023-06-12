@@ -6,6 +6,7 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -15,6 +16,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageMetadata;
 import com.google.firebase.storage.StorageReference;
 import com.stonefacesoft.ottaa.idioma.ConfigurarIdioma;
 import com.stonefacesoft.ottaa.utils.Firebase.CrashlyticsUtils;
@@ -41,40 +43,50 @@ public class DownloadPictograms extends DownloadFile implements OnFailureListene
                 if(snapshot.hasChild(child)){;
                     final File pictosUsuarioFile = new File(rootPath,Constants.ARCHIVO_PICTOS);
                     mStorageReference = FirebaseStorage.getInstance().getReference().child("Archivos_Usuarios").child(Constants.PICTOS).child(Constants.PICTOS.toLowerCase() + "_" + email+ "_" + locale + "." + "txt");
-                    mStorageReference.getFile(pictosUsuarioFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                     mStorageReference.getMetadata().addOnCompleteListener(new OnCompleteListener<StorageMetadata>() {
                         @Override
-                        public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                        public void onComplete(@NonNull Task<StorageMetadata> task) {
+                            if(task.isSuccessful()){
+                               long time = task.getResult().getUpdatedTimeMillis();
 
-                            Log.d("BAF_descGYPN", "Tama&ntildeoArchivoPicto:" + taskSnapshot.getTotalByteCount());
-                            Log.d("BAF_descGYPN", "NombreArchivo:" + pictosUsuarioFile);
-                            Log.d("BAF_descGYPN", "Tama&ntildeoArchivoss :" + pictosUsuarioFile.length());
-                            boolean aresamefile = false;
-                            File file = new File(mContext.getFilesDir(), Constants.ARCHIVO_PICTOS);
+                                boolean downloadFile = json.downloadFileLongTime(TAG,Constants.ARCHIVO_PICTOS,time);
+                                Log.d(TAG, "download file : "+ downloadFile);
+                                if(downloadFile) {
+                                    mStorageReference.getFile(pictosUsuarioFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                                        @Override
+                                        public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
 
-                            if(!json.downloadFile(file,pictosUsuarioFile)){
-                                observableInteger.incrementValue();
-                            }else{
-                                try{
-                                    if (pictosUsuarioFile.length() > 0 && !getStringFromFile
-                                            (pictosUsuarioFile.getAbsolutePath()).equals("[]") &&
-                                            getStringFromFile(pictosUsuarioFile.getAbsolutePath()
-                                            ) != null) {
-                                        json.setmJSONArrayTodosLosPictos(json.readJSONArrayFromFile(pictosUsuarioFile.getAbsolutePath()));
-                                        if (!json.guardarJson(Constants.ARCHIVO_PICTOS))
-                                            Log.e(TAG, "Error al guardar Json");
-                                        else {
-                                            Log.d(TAG, "Pictogram Saved");
+                                            Log.d("BAF_descGYPN", "Tama&ntildeoArchivoPicto:" + taskSnapshot.getTotalByteCount());
+                                            Log.d("BAF_descGYPN", "NombreArchivo:" + pictosUsuarioFile);
+                                            Log.d("BAF_descGYPN", "Tama&ntildeoArchivoss :" + pictosUsuarioFile.length());
+                                            try {
+                                                if (pictosUsuarioFile.length() > 0 && !getStringFromFile
+                                                        (pictosUsuarioFile.getAbsolutePath()).equals("[]") &&
+                                                        getStringFromFile(pictosUsuarioFile.getAbsolutePath()
+                                                        ) != null) {
+                                                    json.setmJSONArrayTodosLosPictos(json.readJSONArrayFromFile(pictosUsuarioFile.getAbsolutePath()));
+                                                    if (!json.guardarJson(Constants.ARCHIVO_PICTOS))
+                                                        Log.e(TAG, "Error al guardar Json");
+                                                    else {
+                                                        Log.d(TAG, "Pictogram Saved");
+                                                    }
+                                                }
+                                                observableInteger.incrementValue();
+                                            } catch (Exception ex) {
+
+                                            }
                                         }
-                                    }
-                                    observableInteger.incrementValue();
-                                }catch (Exception ex){
 
+
+                                    });
+                                }else {
+                                    observableInteger.incrementValue();
                                 }
                             }
 
                         }
-
                     });
+
 
                 }
             }

@@ -93,6 +93,9 @@ public class Json  {
     private JSONArray mJSONArrayTodosLosGrupos;
     private JSONArray mJSONArrayTodasLasFrases;
     private JSONArray mJSONArrayTodosLosPictos;
+
+
+
     private JSONArray mJSONArrayTodasLasFotosBackup;
     private JSONArray mJSonArrayJuegos;
     private JSONArray mJSonArrayFrasesFavoritas;
@@ -755,6 +758,9 @@ public class Json  {
                         outputStream = mContext.openFileOutput(archivo, Context.MODE_PRIVATE);
                         outputStream.write(jsonArrayAGuardar.toString().getBytes());
                         outputStream.close();
+                        if(mContext!=null){
+                            sharedPrefsDefault.edit().putLong("last_modified_file_"+archivo,System.currentTimeMillis()).apply();
+                        }
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -942,6 +948,18 @@ public class Json  {
 
     public boolean downloadFile(File file1,File file2){
         if(file1.lastModified()>file2.lastModified())
+            return false;
+        else
+            return true;
+    }
+
+    public boolean downloadFileLongTime(String tag,String file,long time){
+        long lastModified = -1;
+        if(sharedPrefsDefault!=null)
+            lastModified = sharedPrefsDefault.getLong("last_modified_file_"+file,-1);
+        Log.d(TAG, "downloadFileLongTime file: "+ lastModified);
+        Log.d(TAG, "downloadFileLongTime firebase file: "+ time);
+        if(lastModified<=time)
             return false;
         else
             return true;

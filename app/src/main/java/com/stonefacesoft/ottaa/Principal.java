@@ -684,14 +684,24 @@ public class Principal extends AppCompatActivity implements View
     private void loadOptions(Json json, JSONObject padre) {
         Animation alphaAnimation = AnimationUtils.loadAnimation(getApplicationContext(),
                 R.anim.alpha_show);
-        for (int i = 0; i <Options.length ; i++) {
-            if(Options[i]!=null)
-                Options[i].setEnabled(true);
-        }
-        if (json.getCantFallas() ==0)
-            loadChilds(padre, alphaAnimation);
-       if(json.getCantFallas()<4 && json.getCantFallas()>0)
-           downloadFailedFile(3);
+        Executor executor = Executors.newSingleThreadExecutor();
+        Handler handler = new Handler(Looper.getMainLooper());
+        executor.execute(() -> {
+
+            handler.post(() -> {
+                    for (int i = 0; i <Options.length ; i++) {
+                        if(Options[i]!=null)
+                            Options[i].setEnabled(true);
+                    }
+                    if (json.getCantFallas() ==0)
+                        loadChilds(padre, alphaAnimation);
+                    if(json.getCantFallas()<4 && json.getCantFallas()>0)
+                        downloadFailedFile(3);
+                }
+            );
+        });
+
+
 
     }
 
@@ -702,12 +712,12 @@ public class Principal extends AppCompatActivity implements View
                 selectJsonOption(index, opciones.getJSONObject(index), alphaAnimation);
             } else {
                 Log.d(TAG, "loadChildOption: null ");
-                loadOptionValue(index, null);
                 Handler handler = new Handler(Looper.getMainLooper());
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
-                        addOpcionNull(returnOption(index), alphaAnimation);
+                         loadOptionValue(index, null);
+                         addOpcionNull(returnOption(index), alphaAnimation);
                     }
                 });
             }
@@ -902,7 +912,7 @@ public class Principal extends AppCompatActivity implements View
                     JSONutils.setJsonEditado2(json.getmJSONArrayTodosLosPictos(), pictoPadre);
                     if (!json.guardarJson(Constants.ARCHIVO_PICTOS))
                         Log.e(TAG, "onClick: Error al guardar pictos sugeridos");
-                    PictogramPositionCounter.getInstance().incrementPosition();
+                    PictogramPositionCounter.getInstance().getPosChild();
                     cargarMasPictos();
 
                 } catch (JSONException e) {
@@ -1415,24 +1425,26 @@ public class Principal extends AppCompatActivity implements View
      * use custom_picto opcion , animation alphaAnimation
      */
     private void addOpcionNull(PictoView Opcion, Animation alphaAnimation) {
-        Opcion.setCustom_Img(getResources().getDrawable(R.drawable.ic_agregar_nuevo));
-        Opcion.setCustom_Texto(getResources().getString(R.string.agregar_picto));
-        Opcion.setCustom_Color(getResources().getColor(R.color.Black));
-        Opcion.startAnimation(alphaAnimation);
-        Opcion.setAlpha((float) 1);
-        PictogramPositionCounter.getInstance().setlessone();
-        Animation animation = AnimationUtils.loadAnimation(getApplicationContext(),
-                R.anim.alpha_dismiss);
+        if(Opcion!=null){
+            Opcion.setCustom_Img(getResources().getDrawable(R.drawable.ic_agregar_nuevo));
+            Opcion.setCustom_Texto(getResources().getString(R.string.agregar_picto));
+            Opcion.setCustom_Color(getResources().getColor(R.color.Black));
+            Opcion.startAnimation(alphaAnimation);
+            Opcion.setAlpha((float) 1);
+            PictogramPositionCounter.getInstance().setlessone();
+            Animation animation = AnimationUtils.loadAnimation(getApplicationContext(),
+                    R.anim.alpha_dismiss);
 
 
-        if (isNullObject(childOptions[0])) {
-            hideAnimation(animation,1);
-        } else if (isNullObject(childOptions[1])) {
-            hideAnimation(animation,2);
-        } else if (isNullObject(childOptions[2])) {
-            hideAnimation(animation,3);
-        } else if (isNullObject(childOptions[3]) && Options[3].getVisibility() == View.VISIBLE) {
-            hideAnimation(animation,4);
+            if (isNullObject(childOptions[0])) {
+                hideAnimation(animation,1);
+            } else if (isNullObject(childOptions[1])) {
+                hideAnimation(animation,2);
+            } else if (isNullObject(childOptions[2])) {
+                hideAnimation(animation,3);
+            } else if (isNullObject(childOptions[3]) && Options[3].getVisibility() == View.VISIBLE) {
+                hideAnimation(animation,4);
+            }
         }
     }
 

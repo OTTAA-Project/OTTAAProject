@@ -76,26 +76,27 @@ public class Json0Recover {
         }
     }
     public void restorePictogram0(Context mContext, FailReadPictogramOrigin failReadPictogramOrigin){
-        if(ConnectionDetector.isNetworkAvailable(mContext))
-        FirebaseUtils.getInstance().getmDatabase().child("backupPictogramOrigin").child(User.getInstance(mContext).getUserUid()).child(ConfigurarIdioma.getLanguaje()).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                JSONObject object = null;
-                try {
-                    String value = snapshot.getValue(String.class);
-                    object = new JSONObject(snapshot.getValue(String.class));
-                    failReadPictogramOrigin.setParent(object);
+        if(ConnectionDetector.isNetworkAvailable(mContext)){
+            FirebaseUtils.getInstance().getmDatabase().child("backupPictogramOrigin").child(User.getInstance(mContext).getUserUid()).child(ConfigurarIdioma.getLanguaje()).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    JSONObject object = null;
+                    try {
+                        String value = snapshot.getValue(String.class);
+                        object = new JSONObject(snapshot.getValue(String.class));
+                        failReadPictogramOrigin.setParent(object);
 
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
                 }
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
 
-            }
-        });
+                }
+            });
+        }
         else{
             JSONObject aux = recoverFile(mContext);
             failReadPictogramOrigin.setParent(aux);

@@ -533,8 +533,10 @@ public class Edit_Picto_Visual extends AppCompatActivity implements View.OnClick
         if (requestCode == IntentCode.GALERIA.getCode() && resultCode == RESULT_OK) {
             selectedImageUri = data.getData();
             imageBitmap = decodeUri(selectedImageUri);
+
             storeImage(imageBitmap, "Fotos");
             storeOffline(imageBitmap);
+
             Drawable d = new BitmapDrawable(getResources(), imageBitmap);
             Picto.getGlideAttatcher().loadDrawable(d,Picto.getImageView());
             formato = ".jpg";
