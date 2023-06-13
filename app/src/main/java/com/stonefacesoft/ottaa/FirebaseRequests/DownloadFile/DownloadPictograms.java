@@ -43,50 +43,22 @@ public class DownloadPictograms extends DownloadFile implements OnFailureListene
                 if(snapshot.hasChild(child)){;
                     final File pictosUsuarioFile = new File(rootPath,Constants.ARCHIVO_PICTOS);
                     mStorageReference = FirebaseStorage.getInstance().getReference().child("Archivos_Usuarios").child(Constants.PICTOS).child(Constants.PICTOS.toLowerCase() + "_" + email+ "_" + locale + "." + "txt");
-                     mStorageReference.getMetadata().addOnCompleteListener(new OnCompleteListener<StorageMetadata>() {
+                    mStorageReference.getFile(pictosUsuarioFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
                         @Override
-                        public void onComplete(@NonNull Task<StorageMetadata> task) {
-                            if(task.isSuccessful()){
-                               long time = task.getResult().getUpdatedTimeMillis();
+                        public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                            try {
+                                if (pictosUsuarioFile.length() > 0 && !getStringFromFile
+                                        (pictosUsuarioFile.getAbsolutePath()).equals("[]") &&
+                                        getStringFromFile(pictosUsuarioFile.getAbsolutePath()
+                                        ) != null) {
 
-                                boolean downloadFile = json.downloadFileLongTime(TAG,Constants.ARCHIVO_PICTOS,time);
-                                Log.d(TAG, "download file : "+ downloadFile);
-                                if(downloadFile) {
-                                    mStorageReference.getFile(pictosUsuarioFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                                        @Override
-                                        public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-
-                                            Log.d("BAF_descGYPN", "Tama&ntildeoArchivoPicto:" + taskSnapshot.getTotalByteCount());
-                                            Log.d("BAF_descGYPN", "NombreArchivo:" + pictosUsuarioFile);
-                                            Log.d("BAF_descGYPN", "Tama&ntildeoArchivoss :" + pictosUsuarioFile.length());
-                                            try {
-                                                if (pictosUsuarioFile.length() > 0 && !getStringFromFile
-                                                        (pictosUsuarioFile.getAbsolutePath()).equals("[]") &&
-                                                        getStringFromFile(pictosUsuarioFile.getAbsolutePath()
-                                                        ) != null) {
-                                                    json.setmJSONArrayTodosLosPictos(json.readJSONArrayFromFile(pictosUsuarioFile.getAbsolutePath()));
-                                                    if (!json.guardarJson(Constants.ARCHIVO_PICTOS))
-                                                        Log.e(TAG, "Error al guardar Json");
-                                                    else {
-                                                        Log.d(TAG, "Pictogram Saved");
-                                                    }
-                                                }
-                                                observableInteger.incrementValue();
-                                            } catch (Exception ex) {
-
-                                            }
-                                        }
-
-
-                                    });
-                                }else {
-                                    observableInteger.incrementValue();
                                 }
+                                observableInteger.incrementValue();
+                            } catch (Exception ex) {
+
                             }
-
                         }
-                    });
-
+                    }) ;
 
                 }
             }

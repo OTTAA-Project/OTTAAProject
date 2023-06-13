@@ -45,38 +45,30 @@ public class DownloadPhrases extends DownloadFile{
                     mStorageReference = FirebaseStorage.getInstance().getReference().child("Archivos_Usuarios").child(Constants.Frases).child(Constants.Frases.toLowerCase() + "_" + email + "_" + locale + "." + "txt");
                     final File frasesUsuarioFile = new File(rootPath, "frases.txt");
 
-                    mStorageReference.getMetadata().addOnCompleteListener(new OnCompleteListener<StorageMetadata>() {
-                        @Override
-                        public void onComplete(@NonNull Task<StorageMetadata> task) {
-                            if(task.isSuccessful()){
-                                long time = task.getResult().getUpdatedTimeMillis();
-                                boolean downloadFile = json.downloadFileLongTime(TAG,Constants.ARCHIVO_FRASES,time);
-                                if(downloadFile){
-                                    mStorageReference.getFile(frasesUsuarioFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                                        @Override
-                                        public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                                            try {
-                                                if (!getStringFromFile(frasesUsuarioFile.getAbsolutePath()).equals("[]") && frasesUsuarioFile.length() > 0) {
-                                                    json.setmJSONArrayTodasLasFrases(json.readJSONArrayFromFile(frasesUsuarioFile.getAbsolutePath()));
-                                                    json.guardarJson(Constants.ARCHIVO_FRASES);
-                                                }
-                                            } catch (JSONException | FiveMbException e) {
-                                                e.printStackTrace();
-                                            } catch (Exception e) {
-                                                e.printStackTrace();
-                                            }
-                                            observableInteger.incrementValue();
-                                        }
-                                    });
-                                }else {
-                                    observableInteger.incrementValue();
-                                }
-                            }
-                        }
-                    });
+                     mStorageReference.getFile(frasesUsuarioFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                         @Override
+                         public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                             try {
+                                 if (!getStringFromFile(frasesUsuarioFile.getAbsolutePath()).equals("[]") && frasesUsuarioFile.length() > 0) {
+                                     json.setmJSONArrayTodasLasFrases(json.readJSONArrayFromFile(frasesUsuarioFile.getAbsolutePath()));
+                                     json.guardarJson(Constants.ARCHIVO_FRASES);
+                                 }
+                             } catch (JSONException | FiveMbException e) {
+                                 e.printStackTrace();
+                             } catch (Exception e) {
+                                 e.printStackTrace();
+                             }
+                             observableInteger.incrementValue();
+                         }
+                     });
+                   }else {
+                     observableInteger.incrementValue();
+                   }
 
-                }
+
+
             }
+
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {

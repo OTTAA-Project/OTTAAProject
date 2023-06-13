@@ -45,45 +45,33 @@ public class DownloadGroups extends DownloadFile{
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 mStorageReference = FirebaseStorage.getInstance().getReference().child("Archivos_Usuarios").child("Grupos").child("grupos_" + email + "_" + ConfigurarIdioma.getLanguaje()+ "." + "txt");
-                mStorageReference.getMetadata().addOnCompleteListener(new OnCompleteListener<StorageMetadata>() {
-                    @Override
-                    public void onComplete(@NonNull Task<StorageMetadata> task) {
-                        if(task.isSuccessful()){
-                            long time = task.getResult().getUpdatedTimeMillis();
-                            boolean downloadFile = json.downloadFileLongTime(TAG,Constants.ARCHIVO_GRUPOS,time);
-                            if(downloadFile){
-                                mStorageReference.getFile(gruposUsuarioFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                                    @Override
-                                    public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                                        Log.d("BAF_descGYPN", "Tama&ntildeoArchivoGrupo :" + taskSnapshot.getTotalByteCount());
-                                        Log.d("BAF_descGYPN", "NombreArchivo:" + gruposUsuarioFile);
 
-                                        try {
-                                            if (!getStringFromFile(gruposUsuarioFile
-                                                    .getAbsolutePath()).equals("[]") &&
-                                                    gruposUsuarioFile.length() > 0 ) {
-                                                json.setmJSONArrayTodosLosGrupos(json.readJSONArrayFromFile(gruposUsuarioFile.getAbsolutePath()));
-                                                if (!json.guardarJson(Constants.ARCHIVO_GRUPOS))
-                                                    Log.e(TAG, "Error al guardar Json");
-                                            }
-                                            observableInteger.incrementValue();
-                                        } catch (Exception e) {
-                                            e.printStackTrace();
-                                            Log.e("printStackTrace", "" + e);
+                 mStorageReference.getFile(gruposUsuarioFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                     @Override
+                     public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                         Log.d("BAF_descGYPN", "Tama&ntildeoArchivoGrupo :" + taskSnapshot.getTotalByteCount());
+                         Log.d("BAF_descGYPN", "NombreArchivo:" + gruposUsuarioFile);
 
-                                        }
-                                    }
+                         try {
+                             if (!getStringFromFile(gruposUsuarioFile
+                                     .getAbsolutePath()).equals("[]") &&
+                                     gruposUsuarioFile.length() > 0 ) {
+                                 json.setmJSONArrayTodosLosGrupos(json.readJSONArrayFromFile(gruposUsuarioFile.getAbsolutePath()));
+                                 if (!json.guardarJson(Constants.ARCHIVO_GRUPOS))
+                                     Log.e(TAG, "Error al guardar Json");
+                             }
+                             observableInteger.incrementValue();
+                         } catch (Exception e) {
+                             e.printStackTrace();
+                             Log.e("printStackTrace", "" + e);
+
+                         }
+                     }
 
 
 
-                                });
-                            }else{
-                                observableInteger.incrementValue();
-                            }
+                 });
 
-                        }
-                    }
-                });
 
 
             }
