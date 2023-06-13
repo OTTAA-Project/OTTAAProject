@@ -706,24 +706,34 @@ public class Principal extends AppCompatActivity implements View
     }
 
     public void loadChildOption(JSONArray opciones, int index, Animation alphaAnimation) {
+        int option = -1;
         try {
-            if (opciones.getJSONObject(index).getInt("id") != -1) {
-                Log.d(TAG, "loadChildOption: Value"+index);
-                selectJsonOption(index, opciones.getJSONObject(index), alphaAnimation);
-            } else {
-                Log.d(TAG, "loadChildOption: null ");
-                Handler handler = new Handler(Looper.getMainLooper());
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                         loadOptionValue(index, null);
-                         addOpcionNull(returnOption(index), alphaAnimation);
-                    }
-                });
-            }
+            option= opciones.getJSONObject(index).getInt("id");
         } catch (JSONException e) {
+            Log.d(TAG, "loadChildOption: exception at main");
             e.printStackTrace();
         }
+        if ( option!= -1) {
+            Log.d(TAG, "loadChildOption: Value"+index);
+            try {
+                selectJsonOption(index, opciones.getJSONObject(index), alphaAnimation);
+            } catch (JSONException e) {
+                Log.d(TAG, "loadChildOption: exception at main");
+                e.printStackTrace();            }
+        } else {
+
+            Handler handler = new Handler(Looper.getMainLooper());
+            handler.post(new Runnable() {
+                @Override
+                public void run() {
+                    loadOptionValue(index, null);
+                    addOpcionNull(returnOption(index), alphaAnimation);
+                }
+            });
+
+
+        }
+
     }
 
     public void selectJsonOption(int position, JSONObject object, Animation alphaAnimation) {
@@ -894,24 +904,11 @@ public class Principal extends AppCompatActivity implements View
             @Override
             public void onClick(View v) {
                 try {
-                    if (sharedPrefsDefault.getBoolean("esmoderador", false)) {
-                        JSONArray pictosSugeridos = json.readJSONArrayFromFile(Constants.ARCHIVO_PICTOS_DATABASE);
-                        JSONutils.desvincularJson(pictosSugeridos.getJSONObject(pictoPadre.getInt("id")), pos);
-                        json.setmJSONArrayPictosSugeridos(pictosSugeridos);
-
-                        if (!json.guardarJson(Constants.ARCHIVO_PICTOS_DATABASE))
-                            Log.e(TAG, "onClick: eliminar: Error al guardar pictos sugeridos");
-                    }
-
-                } catch (JSONException | FiveMbException e) {
-                    e.printStackTrace();
-                }
-                try {
-                    Json.getInstance().setNullParent();
                     JSONutils.desvincularJson(pictoPadre, pos);
                     JSONutils.setJsonEditado2(json.getmJSONArrayTodosLosPictos(), pictoPadre);
                     if (!json.guardarJson(Constants.ARCHIVO_PICTOS))
                         Log.e(TAG, "onClick: Error al guardar pictos sugeridos");
+                    json.setRefreshChild();
                     PictogramPositionCounter.getInstance().getPosChild();
                     cargarMasPictos();
 
@@ -1426,6 +1423,7 @@ public class Principal extends AppCompatActivity implements View
      */
     private void addOpcionNull(PictoView Opcion, Animation alphaAnimation) {
         if(Opcion!=null){
+            Log.d(TAG, "loadChildOption: null ");
             Opcion.setCustom_Img(getResources().getDrawable(R.drawable.ic_agregar_nuevo));
             Opcion.setCustom_Texto(getResources().getString(R.string.agregar_picto));
             Opcion.setCustom_Color(getResources().getColor(R.color.Black));
@@ -1863,6 +1861,7 @@ public class Principal extends AppCompatActivity implements View
         initAvatar();
         initTTS();
         initBarrido();
+
         new initComponentsClass().execute();
 
 
@@ -2239,6 +2238,7 @@ public class Principal extends AppCompatActivity implements View
             public void run() {
                 Animation alphaAnimation = AnimationUtils.loadAnimation(getApplicationContext(),
                         R.anim.alpha_show);
+                
                 loadChildOption(opciones, 0, alphaAnimation);
                 loadChildOption(opciones, 1, alphaAnimation);
                 loadChildOption(opciones, 2, alphaAnimation);
@@ -2390,5 +2390,7 @@ public class Principal extends AppCompatActivity implements View
             return aux.getImageview();
         return null;
     }
+
+
     
 }
