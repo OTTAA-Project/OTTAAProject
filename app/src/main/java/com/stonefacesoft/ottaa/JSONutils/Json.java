@@ -52,6 +52,8 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * @author morro
@@ -1065,7 +1067,7 @@ public class Json  {
     public void loadPictogramsInsideArray(JSONObject father,JSONArray array,JSONArray relationShip,int lasPosition,int pos)throws JSONException  {
             int position = pos+lasPosition;
             if(isLessThanArray(relationShip,position)){
-                    addChildrenToArray(array,relationShip,position,false);
+                addChildrenToArray(array,relationShip,position,false);
             }else{
                 int lastLocation = position - array.length()+pos;
                 if(getValueBiggerOrEquals0(lastLocation)){
@@ -1077,18 +1079,20 @@ public class Json  {
                         }else{
                             Log.d(TAG, "load PictogramsInsideArray: Option3");
                             array.put(pos,createAnEmptyObject());
-                            PictogramPositionCounter.getInstance().setLimit(Constants.VUELTAS_CARRETE+1);
+                            PictogramPositionCounter.getInstance().setLimit(relationShip.length());
                         }
                     }else{
                         Log.d(TAG, "load PictogramsInsideArray: Option4");
                         array.put(pos,createAnEmptyObject());
-                        PictogramPositionCounter.getInstance().setLimit(Constants.VUELTAS_CARRETE+1);
+                        PictogramPositionCounter.getInstance().setLimit(relationShip.length());
                     }
                 }else{
                     Log.d(TAG, "load PictogramsInsideArray: Option5");
                     addChildrenToArray(array,relationShip,position,false);
                 }
             }
+
+
 
 
 
@@ -1107,10 +1111,8 @@ public class Json  {
     }
 
     public void addChildrenToArray(JSONArray array, JSONArray relationShip, int position,boolean isSuggested) throws JSONException {
-        if(position<relationShip.length()&&position>-1){
             array.put(getPictoFromId2(relationShip.getJSONObject(position).getInt("id")));
             array.getJSONObject(array.length() - 1).put("esSugerencia", isSuggested);
-        }
     }
 
     public boolean itIsASuggestedLanguage(){
@@ -1133,37 +1135,24 @@ public class Json  {
      *
      * */
     public void cargarOpciones(JSONObject padre, int cuentaMasPictos, SortPictogramsInterface sortPictograms) {
-        //mJSONArrayTodosLosPictos = readJSONArrayFromFile(Constants.ARCHIVO_PICTOS);// leo los pictos
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                    if (!consultarPago())
-                        sharedPrefsDefault.edit().putBoolean("bool_sugerencias", consultarPago()).apply();
-                    loadChild(padre);
-                    JSONArray jsonElegidos = new JSONArray();
-                    int ultimaPosicion = cuentaMasPictos * 4; //posicion del picto
-                    if(child!=null){
-                        try {
-                            loadPictogramsInsideArray(parent,jsonElegidos,child,ultimaPosicion,0);
-                        } catch (JSONException e) {
-                        }
-                        try {
-                            loadPictogramsInsideArray(parent,jsonElegidos,child,ultimaPosicion,1);
-                        } catch (JSONException e) {
-                        }
-                        try {
-                            loadPictogramsInsideArray(parent,jsonElegidos,child,ultimaPosicion,2);
-                        } catch (JSONException e) {
-                        }
-                        try {
-                            loadPictogramsInsideArray(parent,jsonElegidos,child,ultimaPosicion,3);
-                        } catch (JSONException e) {
-                        }
+        //mJSONArrayTodosLosPictos = readJSONArrayFromFile(Constants.ARCHIVO_PICTOS);// leo los
+        ExecutorService executorService = Executors.newFixedThreadPool(1);
+        if (!consultarPago())
+            sharedPrefsDefault.edit().putBoolean("bool_sugerencias", consultarPago()).apply();
+        loadChild(padre);
+        JSONArray jsonElegidos = new JSONArray();
+        int position = cuentaMasPictos*4;
+        executorService.submit(()->{
+            for (int i = 0; i < 4; i++) {
+                    int pos = i;
+                    try {
+                        loadPictogramsInsideArray(padre,jsonElegidos,child,position,pos);
+                    } catch (JSONException e) {
+
                     }
-                    sortPictograms.pictogramsAreSorted(jsonElegidos);
-            }
+                }
+            sortPictograms.pictogramsAreSorted(jsonElegidos);
         });
-        thread.start();
 
     }
 
@@ -1441,7 +1430,7 @@ public class Json  {
             try {
                 refreshChild = false;
                 child = elegirHijos2(parent, false); //selecciono el picto padre
-                PictogramPositionCounter.getInstance().setLimit(child.length());
+              //  PictogramPositionCounter.getInstance().setLimit(child.length());
             } catch (JSONException e) {
                 Log.e(TAG, "loadChild error 2022: "+ e.getMessage() );
             }
