@@ -1430,7 +1430,6 @@ public class Json  {
             try {
                 refreshChild = false;
                 child = elegirHijos2(parent, false); //selecciono el picto padre
-              //  PictogramPositionCounter.getInstance().setLimit(child.length());
             } catch (JSONException e) {
                 Log.e(TAG, "loadChild error 2022: "+ e.getMessage() );
             }

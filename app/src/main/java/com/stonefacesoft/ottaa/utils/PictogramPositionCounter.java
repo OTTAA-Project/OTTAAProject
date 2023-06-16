@@ -3,13 +3,13 @@ package com.stonefacesoft.ottaa.utils;
 import com.stonefacesoft.ottaa.utils.constants.Constants;
 
 public class PictogramPositionCounter {
-    private int posChild;
-    private  int limit= 5;
+    private volatile int posChild;
+    private  int limit= Constants.VUELTAS_CARRETE;
 
-    private boolean useLimit;
+    private boolean useLimit = true;
 
     private static PictogramPositionCounter _pictogramPositionCounter;
-    public static PictogramPositionCounter getInstance(){
+    public synchronized static PictogramPositionCounter getInstance(){
         if(_pictogramPositionCounter==null)
             _pictogramPositionCounter = new PictogramPositionCounter();
         return _pictogramPositionCounter;

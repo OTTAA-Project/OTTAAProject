@@ -51,7 +51,6 @@ public class DownloadGroups extends DownloadFile{
                      public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
                          Log.d("BAF_descGYPN", "Tama&ntildeoArchivoGrupo :" + taskSnapshot.getTotalByteCount());
                          Log.d("BAF_descGYPN", "NombreArchivo:" + gruposUsuarioFile);
-
                          try {
                              if (!getStringFromFile(gruposUsuarioFile
                                      .getAbsolutePath()).equals("[]") &&

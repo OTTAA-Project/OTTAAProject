@@ -156,7 +156,7 @@ public class Principal extends AppCompatActivity implements View
         .OnClickListener,
         View.OnLongClickListener,
         OnMenuItemClickListener,
-        FirebaseSuccessListener, NavigationView.OnNavigationItemSelectedListener, PlaceSuccessListener, ConnectionCallbacks, translateInterface, View.OnTouchListener, Make_Click_At_Time , SortPictogramsInterface, LoadPictograms, AudioTransformationListener {
+        FirebaseSuccessListener, NavigationView.OnNavigationItemSelectedListener, PlaceSuccessListener, ConnectionCallbacks, translateInterface, View.OnTouchListener, Make_Click_At_Time, SortPictogramsInterface, LoadPictograms, AudioTransformationListener, FailReadPictogramOrigin {
 
     private static final String TAG = "Principal";
     public static boolean cerrarSession = false;// use this variable to notify when the session is closed
@@ -661,11 +661,11 @@ public class Principal extends AppCompatActivity implements View
      */
     private void CargarSeleccion(JSONObject opcion) {
         Pictogram pictogram = new Pictogram(opcion, ConfigurarIdioma.getLanguaje());
-        int value = ClickCounter.getInstance().getClickCounter()+1;
-        if(ClickCounter.getInstance().getClickCounter()<=9){
-            loadDrawable( pictogram, ClickCounter.getInstance().getClickCounter());
-             ImageView aux = getImageView(value);
-             if(aux != null)
+        int cantClicks = ClickCounter.getInstance().getClickCounter();
+        if(cantClicks<=9){
+            loadDrawable( pictogram, cantClicks);
+            ImageView aux = getImageView(cantClicks+1);
+            if(aux != null)
                 aux.setImageDrawable(getResources().getDrawable(R.drawable.icono_ottaa));
         }
     }
@@ -887,7 +887,8 @@ public class Principal extends AppCompatActivity implements View
     }
 
     private void cargarMasPictos() {
-        if (PictogramPositionCounter.getInstance().getPosChild() >= PictogramPositionCounter.getInstance().getLimit()) {
+        PictogramPositionCounter.getInstance().incrementPosition();
+        if (PictogramPositionCounter.getInstance().getPosChild() > PictogramPositionCounter.getInstance().getLimit()) {
             PictogramPositionCounter.getInstance().resetPosition();
         }
         try {
@@ -984,8 +985,9 @@ public class Principal extends AppCompatActivity implements View
     }
 
     private void AnimarHablar() {
-        if(ClickCounter.getInstance().getClickCounter()<9){
-            getImageView(ClickCounter.getInstance().getClickCounter()).startAnimation(AnimationUtils.loadAnimation(this, R.anim.shake));
+        int cantClicks = ClickCounter.getInstance().getClickCounter();
+        if(cantClicks<9){
+            getImageView(cantClicks).startAnimation(AnimationUtils.loadAnimation(this, R.anim.shake));
         }
     }
 
@@ -1070,7 +1072,6 @@ public class Principal extends AppCompatActivity implements View
                 break;
             case R.id.btnMasPictos:
                 analyticsAction(ConstantsAnalyticsValues.ACCESSIBILITY, ConstantsAnalyticsValues.TOUCH, "Principal", ConstantsAnalyticsValues.MOREOPTIONS);
-                PictogramPositionCounter.getInstance().incrementPosition();
                 cargarMasPictos();
                 break;
             case R.id.action_reiniciar:
@@ -1341,16 +1342,20 @@ public class Principal extends AppCompatActivity implements View
         loadJson();
     }
 
-    private void loadJson(){
+    public void loadJson(){
         if (json.getmJSONArrayTodosLosPictos() != null && json.getmJSONArrayTodosLosPictos().length() > 0) {
-            try {
-                if (pictoPadre == null || pictoPadre.getInt("id") == 0)
-                    pictoPadre = json.getPictoFromId2(0);
-            } catch (JSONException e) {
-
+            if(pictoPadre == null ){
+                pictoPadre = json.getPictoFromId2(0);
+            }
+            if(historial ==  null)
+                historial = new Historial(json);
+            if (pictoPadre != null ){
+                new Json0Recover().backupPictogram0(this,pictoPadre,this);
+            }else{
+                new Json0Recover().restorePictogram0(this,this);
             }
             PictogramPositionCounter.getInstance().resetPosition();
-                loadOptions(json, pictoPadre);
+            loadOptions(json, pictoPadre);
 
         }
     }
@@ -1434,7 +1439,6 @@ public class Principal extends AppCompatActivity implements View
             PictogramPositionCounter.getInstance().setlessone();
             Animation animation = AnimationUtils.loadAnimation(getApplicationContext(),
                     R.anim.alpha_dismiss);
-
 
             if (isNullObject(option1)) {
                 hideAnimation(animation,1);
@@ -1888,7 +1892,7 @@ public class Principal extends AppCompatActivity implements View
         ConfigurarIdioma.setLanguage(sharedPrefsDefault.getString(getString(R.string.str_idioma), "en"));
         Log.d(TAG, "ConfigurarIdioma : " + ConfigurarIdioma.getLanguaje());
         new ConfigurarIdioma(getApplicationContext(), ConfigurarIdioma.getLanguaje());
-        initJson(context);
+        initJson();
         json.initSharedPrefs();
         Log.d(TAG, "hashCode: " + json.hashCode());
         timeStamp = getTimeStamp();
@@ -1898,15 +1902,12 @@ public class Principal extends AppCompatActivity implements View
         historial.downloadPromt();
     }
 
-    private void initJson(Context context){
-        Json.getInstance().setmContext(context);
-        json = Json.getInstance();
-    }
-
     private void initJson(){
         Json.getInstance().setmContext(this);
         json = Json.getInstance();
     }
+
+
 
     private void initFlags() {
         sharedPrefs = getSharedPreferences(sharedPrefsDefault.getString(getString(R.string.str_userMail), "error"), Context.MODE_PRIVATE);
@@ -2131,13 +2132,13 @@ public class Principal extends AppCompatActivity implements View
             public void onIntegerChanged(int newValue) {
                 switch (newValue){
                     case 0:
-                        mBajarJsonFirebase.bajarPictos(ConfigurarIdioma.getLanguaje(), observableInteger);
+                            mBajarJsonFirebase.bajarPictos(ConfigurarIdioma.getLanguaje(), observableInteger);
                         break;
                     case 1:
-                        mBajarJsonFirebase.bajarGrupos(ConfigurarIdioma.getLanguaje(), observableInteger);
+                            mBajarJsonFirebase.bajarGrupos(ConfigurarIdioma.getLanguaje(), observableInteger);
                         break;
                     case 2:
-                        mBajarJsonFirebase.bajarFrases(ConfigurarIdioma.getLanguaje(), observableInteger);
+                            mBajarJsonFirebase.bajarFrases(ConfigurarIdioma.getLanguaje(), observableInteger);
                         break;
                 }
                 if (observableInteger.get() == size) {
@@ -2265,6 +2266,25 @@ public class Principal extends AppCompatActivity implements View
     @Override
     public void startAudioTransformation(Transformer.Listener listener, String pathFile, String locationPath) {
         new FileEncoder(this).encodeAudioFile(listener,pathFile,locationPath);
+    }
+
+    @Override
+    public void setParent(JSONObject parent) {
+        json.getmJSONArrayTodosLosPictos().put(parent);
+        json.setmJSONArrayTodosLosPictos(json.getmJSONArrayTodosLosPictos());
+        json.guardarJson(Constants.ARCHIVO_PICTOS);
+        json.refreshJsonArrays();
+        pictoPadre =  json.getPictoFromId2(0);
+        loadDialog();
+    }
+
+    @Override
+    public void loadDialog() {
+        if (pictoPadre != null) {
+            if(historial==null)
+                loadOptions(json, pictoPadre);   // y despues cargamos las opciones con el orden correspondiente
+        }
+        ResetSeleccion();
     }
 
     public class initComponentsClass extends AsyncTask<Void,Void,Void>{
