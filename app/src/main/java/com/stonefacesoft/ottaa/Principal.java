@@ -102,7 +102,6 @@ import com.stonefacesoft.ottaa.utils.Accesibilidad.scrollActions.ScrollFunctionM
 import com.stonefacesoft.ottaa.utils.Audio.FileEncoder;
 import com.stonefacesoft.ottaa.utils.AvatarPackage.Avatar;
 import com.stonefacesoft.ottaa.utils.AvatarPackage.AvatarUtils;
-import com.stonefacesoft.ottaa.utils.ClickCounter;
 import com.stonefacesoft.ottaa.utils.ConnectionDetector;
 import com.stonefacesoft.ottaa.utils.CustomToast;
 import com.stonefacesoft.ottaa.utils.EnumImageView;
@@ -235,6 +234,9 @@ public class Principal extends AppCompatActivity implements View
     private ImageButton todosLosPictos;
     private ImageButton resetButton;
     private timer_pictogram_clicker[] timer_pictogram_clickers ;
+
+    private int CantClicks;
+
 
 
 
@@ -660,15 +662,63 @@ public class Principal extends AppCompatActivity implements View
      * @param opcion
      */
     private void CargarSeleccion(JSONObject opcion) {
+        GlideAttatcher attatcher = new GlideAttatcher(this);
         Pictogram pictogram = new Pictogram(opcion, ConfigurarIdioma.getLanguaje());
-        int cantClicks = ClickCounter.getInstance().getClickCounter();
-        if(cantClicks<=9){
-            loadDrawable( pictogram, cantClicks);
-            ImageView aux = getImageView(cantClicks+1);
-            if(aux != null)
-                aux.setImageDrawable(getResources().getDrawable(R.drawable.icono_ottaa));
+        switch (CantClicks) {
+            case 0:
+                loadDrawable(attatcher, pictogram, getImageView(0));
+                getImageView(0).startAnimation(AnimationUtils.loadAnimation(this, R.anim.overshoot_arriba));
+                getImageView(1).setImageDrawable(getResources().getDrawable(R.drawable.icono_ottaa));
+                break;
+            case 1:
+                loadDrawable(attatcher, pictogram, getImageView(1));
+                getImageView(1).startAnimation(AnimationUtils.loadAnimation(this, R.anim.overshoot_arriba));
+                getImageView(2).setImageDrawable(getResources().getDrawable(R.drawable.icono_ottaa));
+                break;
+            case 2:
+                loadDrawable(attatcher, pictogram, getImageView(2));
+                getImageView(2).startAnimation(AnimationUtils.loadAnimation(this, R.anim.overshoot_arriba));
+                getImageView(3).setImageDrawable(getResources().getDrawable(R.drawable.icono_ottaa));
+                break;
+            case 3:
+                loadDrawable(attatcher, pictogram, getImageView(3));
+                getImageView(3).startAnimation(AnimationUtils.loadAnimation(this, R.anim.overshoot_arriba));
+                getImageView(4).setImageDrawable(getResources().getDrawable(R.drawable.icono_ottaa));
+                break;
+            case 4:
+                loadDrawable(attatcher, pictogram, getImageView(5));
+                getImageView(5).startAnimation(AnimationUtils.loadAnimation(this, R.anim.overshoot_arriba));
+                getImageView(6).setImageDrawable(getResources().getDrawable(R.drawable.icono_ottaa));
+                break;
+            case 5:
+                loadDrawable(attatcher, pictogram, getImageView(6));
+                getImageView(6).startAnimation(AnimationUtils.loadAnimation(this, R.anim.overshoot_arriba));
+                getImageView(7).setImageDrawable(getResources().getDrawable(R.drawable.icono_ottaa));
+                break;
+            case 6:
+                loadDrawable(attatcher, pictogram, getImageView(7));
+                getImageView(7).startAnimation(AnimationUtils.loadAnimation(this, R.anim.overshoot_arriba));
+                getImageView(8).setImageDrawable(getResources().getDrawable(R.drawable.icono_ottaa));
+                break;
+            case 7:
+                loadDrawable(attatcher, pictogram, getImageView(8));
+                getImageView(8).startAnimation(AnimationUtils.loadAnimation(this, R.anim.overshoot_arriba));
+                getImageView(9).setImageDrawable(getResources().getDrawable(R.drawable.icono_ottaa));
+                break;
+            case 8:
+                loadDrawable(attatcher, pictogram, getImageView(8));
+                getImageView(8).setImageDrawable(getResources().getDrawable(R.drawable.icono_ottaa));
+                getImageView(9).startAnimation(AnimationUtils.loadAnimation(this, R.anim.overshoot_arriba));
+            case 9:
+                loadDrawable(attatcher, pictogram, getImageView(9));
+                getImageView(9).startAnimation(AnimationUtils.loadAnimation(this, R.anim.overshoot_arriba));
+                break;
         }
+
+
     }
+
+
 
     /**
      * Inicializa la barra de seleccion poniendo la imagen por defecto
@@ -817,7 +867,7 @@ public class Principal extends AppCompatActivity implements View
         Log.d(TAG, "ResetSeleccion: ");
         Oracion = "";
         int situacionActual = 0;
-        ClickCounter.getInstance().resetCounter();
+        CantClicks = 0;
         inicializar_seleccion();
         if (!historial.getListadoPictos().isEmpty()) {
             for (int i = 0; i < historial.getListadoPictos().size(); i++) {
@@ -834,7 +884,7 @@ public class Principal extends AppCompatActivity implements View
         PictogramPositionCounter.getInstance().resetPosition();
         for (int i = 0; i < historial.getListadoPictos().size(); i++) {
             CargarSeleccion(historial.getListadoPictos().get(i));
-            ClickCounter.getInstance().incrementValue();
+            CantClicks++;
         }
         loadOptions(json, pictoPadre);
     }
@@ -985,9 +1035,9 @@ public class Principal extends AppCompatActivity implements View
     }
 
     private void AnimarHablar() {
-        int cantClicks = ClickCounter.getInstance().getClickCounter();
-        if(cantClicks<9){
-            getImageView(cantClicks).startAnimation(AnimationUtils.loadAnimation(this, R.anim.shake));
+
+        if(CantClicks<9){
+            getImageView(CantClicks).startAnimation(AnimationUtils.loadAnimation(this, R.anim.shake));
         }
     }
 
@@ -1608,24 +1658,22 @@ public class Principal extends AppCompatActivity implements View
         return function_scroll;
     }
 
-    public void loadDrawable( Pictogram pictogram,int position) {
-        GlideAttatcher attatcher = new GlideAttatcher(this);
+    public void loadDrawable( GlideAttatcher attatcher,Pictogram pictogram,ImageView aux) {
         if (pictogram.getEditedPictogram().isEmpty()) {
             if(!pictogram.getPictogram().startsWith("https://")){
                 Drawable drawable = Json.getInstance().getIcono(pictogram.getObject());
                 if(drawable != null)
-                    attatcher.UseCornerRadius(true).loadDrawable(drawable, getImageView(position));
+                    attatcher.UseCornerRadius(true).loadDrawable(drawable, aux);
             }else{
-                attatcher.UseCornerRadius(true).loadDrawable(Uri.parse(pictogram.getPictogram()), getImageView(position));
+                attatcher.UseCornerRadius(true).loadDrawable(Uri.parse(pictogram.getPictogram()), aux);
             }
         } else {
             File picto = new File(pictogram.getEditedPictogram());
             if (picto.exists())
-                attatcher.UseCornerRadius(true).loadDrawable(picto, getImageView(position));
+                attatcher.UseCornerRadius(true).loadDrawable(picto, aux);
             else
-                attatcher.UseCornerRadius(true).loadDrawable(Uri.parse(pictogram.getUrl()), getImageView(position));
+                attatcher.UseCornerRadius(true).loadDrawable(Uri.parse(pictogram.getUrl()),aux);
         }
-        getImageView(position).startAnimation(AnimationUtils.loadAnimation(this, R.anim.overshoot_arriba));
     }
 
     public void showAvatar() {
@@ -1970,11 +2018,13 @@ public class Principal extends AppCompatActivity implements View
 
 
     private void initSelectionComponents() {
+        
         for (int i = 0; i < 10; i++) {
             int id = getResources().getIdentifier("Seleccion"+(i+1),"id",getPackageName());
-            getSelectedImage(i).setImageview(findViewById(id));
+            setImageView(id,i);
             AjustarAncho(id);
         }
+
     }
 
     @AddTrace(name = "setOnLongClickListener", enabled = true /* optional */)
@@ -2259,8 +2309,8 @@ public class Principal extends AppCompatActivity implements View
     public void loadSelection(JSONObject jsonObject) {
         CargarOracion(jsonObject, sharedPrefsDefault.getString(getString(R.string.str_idioma), "en"));
         CargarSeleccion(jsonObject);
-        ClickCounter.getInstance().incrementValue();
         loadOptions(json, jsonObject);
+        CantClicks++;
     }
 
     @Override
@@ -2330,39 +2380,14 @@ public class Principal extends AppCompatActivity implements View
         return false;
     }
 
-    private EnumImageView getSelectedImage(int option){
-        switch (option){
-            case 0:
-                return EnumImageView.ImageView1;
-            case 1:
-                return EnumImageView.ImageView2;
-            case 2:
-                return EnumImageView.ImageView3;
-            case 3:
-                return EnumImageView.ImageView4;
-            case 4:
-                return EnumImageView.ImageView5;
-            case 5:
-                return EnumImageView.ImageView6;
-            case 6:
-                return EnumImageView.ImageView7;
-            case 7:
-                return EnumImageView.ImageView8;
-            case 8:
-                return EnumImageView.ImageView9;
-            case 9:
-                return EnumImageView.ImageView10;
-            default:
-                return null;
-        }
-    }
+
     private ImageView getImageView(int position){
-        EnumImageView aux = getSelectedImage(position);
-        if(aux != null)
-            return aux.getImageview();
-        return null;
+            return EnumImageView.getInstance().getImageview()[position];
     }
 
+    private void setImageView(int id,int pos){
+        EnumImageView.getInstance().setImageview(findViewById(id),pos);
+    }
 
     
 }
