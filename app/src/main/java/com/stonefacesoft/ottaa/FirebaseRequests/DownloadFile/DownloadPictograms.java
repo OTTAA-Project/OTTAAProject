@@ -51,6 +51,8 @@ public class DownloadPictograms extends DownloadFile implements OnFailureListene
                                         (pictosUsuarioFile.getAbsolutePath()).equals("[]") &&
                                         getStringFromFile(pictosUsuarioFile.getAbsolutePath()
                                         ) != null) {
+                                    json.setmJSONArrayTodosLosPictos(json.readJSONArrayFromFile(pictosUsuarioFile.getAbsolutePath()));
+                                    json.guardarJson(Constants.ARCHIVO_PICTOS);
 
                                 }
                                 observableInteger.incrementValue();

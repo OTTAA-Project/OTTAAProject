@@ -11,7 +11,7 @@ public class ClickCounter {
     }
 
     public void incrementValue(){
-        clickCounter++;
+        clickCounter=clickCounter+1;
     }
 
     public void decrementValue(){
