@@ -28,6 +28,7 @@ import com.stonefacesoft.ottaa.Prediction.Sexo;
 import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.idioma.ConfigurarIdioma;
 import com.stonefacesoft.ottaa.utils.JSONutils;
+import com.stonefacesoft.ottaa.utils.PictogramPositionCounter;
 import com.stonefacesoft.ottaa.utils.constants.Constants;
 import com.stonefacesoft.ottaa.utils.exceptions.FiveMbException;
 
@@ -51,6 +52,8 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * @author morro
@@ -92,6 +95,9 @@ public class Json  {
     private JSONArray mJSONArrayTodosLosGrupos;
     private JSONArray mJSONArrayTodasLasFrases;
     private JSONArray mJSONArrayTodosLosPictos;
+
+
+
     private JSONArray mJSONArrayTodasLasFotosBackup;
     private JSONArray mJSonArrayJuegos;
     private JSONArray mJSonArrayFrasesFavoritas;
@@ -103,6 +109,18 @@ public class Json  {
     private int cantFallas;
 
     private static final String MD5_ALGORITHM = "MD5";
+
+    private JSONObject parent;
+
+    private volatile JSONArray child;
+
+    private boolean refreshChild;
+
+
+
+    public enum saveFile{
+        SUCCESS,ERROR
+    }
 
     //JSONArray
 
@@ -935,6 +953,27 @@ public class Json  {
 
     }
 
+    public boolean downloadFile(File file1,File file2){
+        if(file1.lastModified()>file2.lastModified())
+            return false;
+        else
+            return true;
+    }
+
+    public boolean downloadFileLongTime(String tag,String file,long time){
+        File files = mContext.getExternalFilesDir(file);
+
+        // Get the file's last modified time.
+        long lastModified = files.lastModified();
+
+        Log.d(TAG, "downloadFileLongTime file: "+ lastModified);
+        Log.d(TAG, "downloadFileLongTime firebase file: "+ time);
+        if(lastModified<=time)
+            return false;
+        else
+            return true;
+    }
+
     public boolean verifyFiles(String file1, File file2) throws IOException, NoSuchAlgorithmException {
         MessageDigest md = MessageDigest.getInstance(MD5_ALGORITHM);
 
@@ -1025,31 +1064,38 @@ public class Json  {
         return null;
     }
 
-    public void loadPictogramsInsideArray(JSONObject father,JSONArray array,JSONArray relationShip,int lasPosition) throws JSONException {
-        for (int i = 0; i <4 ; i++) {
-            int position = i+lasPosition;
+    public void loadPictogramsInsideArray(JSONObject father,JSONArray array,JSONArray relationShip,int lasPosition,int pos)throws JSONException  {
+            int position = pos+lasPosition;
             if(isLessThanArray(relationShip,position)){
                 addChildrenToArray(array,relationShip,position,false);
             }else{
-                int lastLocation = position - array.length()+i;
+                int lastLocation = position - array.length()+pos;
                 if(getValueBiggerOrEquals0(lastLocation)){
                     if(itIsASuggestedLanguage()){
                         if(mostrarSugerencias(father,lastLocation,array)){
+                            Log.d(TAG, "load PictogramsInsideArray: Option2");
                             int posPadre = getPosPictoBinarySearch(getmJSONArrayPictosSugeridos(),getId(father));
-                            upgradeIndexOfLoadOptions((relationShip.length() + mJSONArrayPictosSugeridos.getJSONObject(posPadre).getJSONArray("relacion").length()) / 4);
+                            PictogramPositionCounter.getInstance().setLimit((relationShip.length() + mJSONArrayPictosSugeridos.getJSONObject(posPadre).getJSONArray("relacion").length()) / 4);
                         }else{
-                            array.put(i,createAnEmptyObject());
-                            upgradeIndexOfLoadOptions(Constants.VUELTAS_CARRETE+1);
+                            Log.d(TAG, "load PictogramsInsideArray: Option3");
+                            array.put(pos,createAnEmptyObject());
+                            PictogramPositionCounter.getInstance().setLimit(relationShip.length());
                         }
                     }else{
-                        array.put(i,createAnEmptyObject());
-                        upgradeIndexOfLoadOptions(Constants.VUELTAS_CARRETE+1);
+                        Log.d(TAG, "load PictogramsInsideArray: Option4");
+                        array.put(pos,createAnEmptyObject());
+                        PictogramPositionCounter.getInstance().setLimit(relationShip.length());
                     }
                 }else{
-                   addChildrenToArray(array,relationShip,position,false);
+                    Log.d(TAG, "load PictogramsInsideArray: Option5");
+                    addChildrenToArray(array,relationShip,position,false);
                 }
             }
-        }
+
+
+
+
+
     }
 
     public void upgradeIndexOfLoadOptions(int value){
@@ -1065,8 +1111,8 @@ public class Json  {
     }
 
     public void addChildrenToArray(JSONArray array, JSONArray relationShip, int position,boolean isSuggested) throws JSONException {
-        array.put(getPictoFromId2(relationShip.getJSONObject(position).getInt("id")));
-        array.getJSONObject(array.length() - 1).put("esSugerencia", isSuggested);
+            array.put(getPictoFromId2(relationShip.getJSONObject(position).getInt("id")));
+            array.getJSONObject(array.length() - 1).put("esSugerencia", isSuggested);
     }
 
     public boolean itIsASuggestedLanguage(){
@@ -1089,24 +1135,24 @@ public class Json  {
      *
      * */
     public void cargarOpciones(JSONObject padre, int cuentaMasPictos, SortPictogramsInterface sortPictograms) {
-        //mJSONArrayTodosLosPictos = readJSONArrayFromFile(Constants.ARCHIVO_PICTOS);// leo los pictos
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-              try {
-                 if (!consultarPago())
-                     sharedPrefsDefault.edit().putBoolean("bool_sugerencias", consultarPago()).apply();
-                 JSONArray relacion = elegirHijos2(padre, false); //selecciono el picto padre
-                 JSONArray jsonElegidos = new JSONArray();
-                 int ultimaPosicion = cuentaMasPictos * 4; //posicion del picto
-                 loadPictogramsInsideArray(padre,jsonElegidos,relacion,ultimaPosicion);
-                 sortPictograms.pictogramsAreSorted(jsonElegidos);
-               }catch (JSONException ex){
-                 Log.e(TAG, "exception: "+ ex.getMessage() );
-              }
-            }
+        //mJSONArrayTodosLosPictos = readJSONArrayFromFile(Constants.ARCHIVO_PICTOS);// leo los
+        ExecutorService executorService = Executors.newFixedThreadPool(1);
+        if (!consultarPago())
+            sharedPrefsDefault.edit().putBoolean("bool_sugerencias", consultarPago()).apply();
+        loadChild(padre);
+        JSONArray jsonElegidos = new JSONArray();
+        int position = cuentaMasPictos*4;
+        executorService.submit(()->{
+            for (int i = 0; i < 4; i++) {
+                    int pos = i;
+                    try {
+                        loadPictogramsInsideArray(padre,jsonElegidos,child,position,pos);
+                    } catch (JSONException e) {
+
+                    }
+                }
+            sortPictograms.pictogramsAreSorted(jsonElegidos);
         });
-        thread.start();
 
     }
 
@@ -1377,4 +1423,22 @@ public class Json  {
     public Context getmContext() {
         return mContext;
     }
+
+    public void loadChild(JSONObject padre){
+        if(parent ==  null||! parent.toString().equals(padre.toString())|| refreshChild) {
+            parent = padre;
+            try {
+                refreshChild = false;
+                child = elegirHijos2(parent, false); //selecciono el picto padre
+            } catch (JSONException e) {
+                Log.e(TAG, "loadChild error 2022: "+ e.getMessage() );
+            }
+        }
+    }
+
+    public void  setRefreshChild(){
+        refreshChild = true;
+    }
+
+
 }

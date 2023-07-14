@@ -6,13 +6,16 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageMetadata;
 import com.google.firebase.storage.StorageReference;
 import com.stonefacesoft.ottaa.FirebaseRequests.BajarJsonFirebase;
 import com.stonefacesoft.ottaa.R;
@@ -43,45 +46,33 @@ public class DownloadGroups extends DownloadFile{
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 mStorageReference = FirebaseStorage.getInstance().getReference().child("Archivos_Usuarios").child("Grupos").child("grupos_" + email + "_" + ConfigurarIdioma.getLanguaje()+ "." + "txt");
 
+                 mStorageReference.getFile(gruposUsuarioFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                     @Override
+                     public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                         Log.d("BAF_descGYPN", "Tama&ntildeoArchivoGrupo :" + taskSnapshot.getTotalByteCount());
+                         Log.d("BAF_descGYPN", "NombreArchivo:" + gruposUsuarioFile);
+                         try {
+                             if (!getStringFromFile(gruposUsuarioFile
+                                     .getAbsolutePath()).equals("[]") &&
+                                     gruposUsuarioFile.length() > 0 ) {
+                                 json.setmJSONArrayTodosLosGrupos(json.readJSONArrayFromFile(gruposUsuarioFile.getAbsolutePath()));
+                                 if (!json.guardarJson(Constants.ARCHIVO_GRUPOS))
+                                     Log.e(TAG, "Error al guardar Json");
+                             }
+                             observableInteger.incrementValue();
+                         } catch (Exception e) {
+                             e.printStackTrace();
+                             Log.e("printStackTrace", "" + e);
 
-                mStorageReference.getFile(gruposUsuarioFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                        Log.d("BAF_descGYPN", "Tama&ntildeoArchivoGrupo :" + taskSnapshot.getTotalByteCount());
-                        Log.d("BAF_descGYPN", "NombreArchivo:" + gruposUsuarioFile);
-
-                        boolean areSamefile = false;
-                        try {
-                            areSamefile = json.verifyFiles(Constants.ARCHIVO_GRUPOS,gruposUsuarioFile);
-                            Log.d(TAG, "onSuccess: are the same file"+areSamefile);
-
-                        } catch (Exception ex){
-                            Log.d(TAG, "error: "+ex.getMessage());
-                        }
-                        if(areSamefile){
-                            observableInteger.incrementValue();
-                        }else{
-                            try {
-                                if (!getStringFromFile(gruposUsuarioFile
-                                        .getAbsolutePath()).equals("[]") &&
-                                        gruposUsuarioFile.length() > 0 ) {
-                                    json.setmJSONArrayTodosLosGrupos(json.readJSONArrayFromFile(gruposUsuarioFile.getAbsolutePath()));
-                                    if (!json.guardarJson(Constants.ARCHIVO_GRUPOS))
-                                        Log.e(TAG, "Error al guardar Json");
-                                }
-                                observableInteger.incrementValue();
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                                Log.e("printStackTrace", "" + e);
-
-                            }finally {
-
-                            }
-                        }
+                         }
+                     }
 
 
-                    }
-                });
+
+                 });
+
+
+
             }
 
             @Override

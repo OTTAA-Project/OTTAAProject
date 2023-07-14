@@ -11,16 +11,25 @@ import android.view.View;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.google.android.exoplayer2.transformer.Transformer;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.stonefacesoft.ottaa.CompartirArchivos;
+import com.stonefacesoft.ottaa.Interfaces.AudioTransformationListener;
 import com.stonefacesoft.ottaa.R;
 import com.stonefacesoft.ottaa.RecyclerViews.MostUsedPhrases_Recycler_View;
 import com.stonefacesoft.ottaa.Views.Phrases.PhrasesView;
 import com.stonefacesoft.ottaa.utils.Accesibilidad.SayActivityName;
+import com.stonefacesoft.ottaa.utils.Audio.FileEncoder;
 import com.stonefacesoft.ottaa.utils.textToSpeech;
 
-public class MostUsedPhrases extends PhrasesView {
+public class MostUsedPhrases extends PhrasesView implements AudioTransformationListener {
 
     private MostUsedPhrases_Recycler_View most_used_recycler_view;
     private textToSpeech myTTS;
+    private FloatingActionButton shareFloattingButton;
+
+    private boolean shareAction;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -32,6 +41,8 @@ public class MostUsedPhrases extends PhrasesView {
     public void initComponents() {
         super.initComponents();
         this.setTitle(getResources().getString(R.string.frases_musadas));
+        sharedPrefsDefault = androidx.preference.PreferenceManager.getDefaultSharedPreferences(this);
+        shareAction = sharedPrefsDefault.getBoolean(getString(R.string.enable_share_phrases),false);
         most_used_recycler_view = new MostUsedPhrases_Recycler_View(this, firebaseUser.getmAuth());
         myTTS = textToSpeech.getInstance(this);
         most_used_recycler_view.setMyTTS(myTTS);
@@ -39,6 +50,13 @@ public class MostUsedPhrases extends PhrasesView {
         btnEditar.setImageDrawable(getResources().getDrawable(R.drawable.ic_search));
         if(barridoPantalla.isBarridoActivado())
             most_used_recycler_view.setScrollVertical(false);
+
+        shareFloattingButton = findViewById(R.id.floatting_button_share);
+        shareFloattingButton.setOnClickListener(this::onClick);
+        if(shareAction)
+            shareFloattingButton.setVisibility(View.VISIBLE);
+        else
+            shareFloattingButton.setVisibility(View.GONE);
         //      most_used_recycler_view = new MostUsedPhrases_Recycler_View(this,firebaseUser.getmAuth());
     }
 
@@ -62,6 +80,10 @@ public class MostUsedPhrases extends PhrasesView {
                 mAnalyticsFirebase.customEvents("Touch","MostUsedPhrases","All Phrases");
                 SayActivityName.getInstance(this).sayTitle("Todas las frases");
                 startActivity(new Intent(this,AllPhrases.class));
+                break;
+            case R.id.floatting_button_share:
+                    CompartirArchivos compartirArchivos = new CompartirArchivos(this, myTTS,this);
+                      most_used_recycler_view.shareAudio(compartirArchivos);
                 break;
             case R.id.btnTalk:
                 mAnalyticsFirebase.customEvents("Touch","MostUsedPhrases","Talk Action");
@@ -88,9 +110,6 @@ public class MostUsedPhrases extends PhrasesView {
         MenuItem menuItem =menu.findItem(R.id.vincular);
         menuItem.setIcon(getResources().getDrawable(R.drawable.ic_star_black_24dp));
         menuItem.setVisible(true);
-        MenuItem menuItem1 =menu.findItem(R.id.action_search);
-        menuItem1.setIcon(getResources().getDrawable(R.drawable.ic_share_black_24dp));
-        menuItem1.setVisible(true);
         return true;
     }
 
@@ -104,5 +123,10 @@ public class MostUsedPhrases extends PhrasesView {
             finish();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void startAudioTransformation(Transformer.Listener listener, String filePath, String locationPath) {
+        new FileEncoder(this).encodeAudioFile(listener,filePath,locationPath);
     }
 }

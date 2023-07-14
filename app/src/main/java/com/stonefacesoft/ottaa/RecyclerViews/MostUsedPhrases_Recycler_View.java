@@ -1,11 +1,22 @@
 package com.stonefacesoft.ottaa.RecyclerViews;
 
+import android.util.Log;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.google.api.LogDescriptor;
 import com.google.firebase.auth.FirebaseAuth;
 import com.stonefacesoft.ottaa.Adapters.MostUsedFavoritePhrasesAdapter;
+import com.stonefacesoft.ottaa.Bitmap.GestionarBitmap;
+import com.stonefacesoft.ottaa.CompartirArchivos;
 import com.stonefacesoft.ottaa.Interfaces.ProgressBarListener;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 public class MostUsedPhrases_Recycler_View extends Custom_recyclerView {
     private MostUsedFavoritePhrasesAdapter mostUsedFavoritePhrasesAdapter;
@@ -86,6 +97,38 @@ public class MostUsedPhrases_Recycler_View extends Custom_recyclerView {
             if (validatePosition(value))
                 mostUsedFavoritePhrasesAdapter.getMyTTs().hablar(mostUsedFavoritePhrasesAdapter.getmFavImagesArrayList().get(value).getTexto());
         }
+    }
+
+    public void shareAudio(CompartirArchivos compartirArchivos){
+       try {
+            if(createReturnPositionItem()){
+                int value = getPositionItem.getPosition();
+                if(validatePosition(value)) {
+                    GestionarBitmap gestionarBitmap = new GestionarBitmap(mActivity);
+                    JSONObject result = mostUsedFavoritePhrasesAdapter.getmFavImagesArrayList().get(value).getPictogram();
+                    JSONArray child =gestionarBitmap.getJsonArray(result);
+                    compartirArchivos.setHistorial(getJSonObjectList(child));
+                    compartirArchivos.seleccionarFormato(mostUsedFavoritePhrasesAdapter.getmFavImagesArrayList().get(value).getTexto());
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private ArrayList<JSONObject> getJSonObjectList(JSONArray array){
+        ArrayList<JSONObject> pictograms = new ArrayList<>();
+        try {
+            for (int i = 0; i <= array.length()-1; i++) {
+                JSONObject picto = json.getPictoFromId2(array.getJSONObject(i).getInt("id"));
+                if(picto!=null){
+                    pictograms.add(picto);
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return pictograms;
     }
 
 }

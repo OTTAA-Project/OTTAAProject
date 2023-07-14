@@ -6,13 +6,16 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageMetadata;
 import com.google.firebase.storage.StorageReference;
 import com.stonefacesoft.ottaa.FirebaseRequests.BajarJsonFirebase;
 import com.stonefacesoft.ottaa.R;
@@ -41,38 +44,31 @@ public class DownloadPhrases extends DownloadFile{
 
                     mStorageReference = FirebaseStorage.getInstance().getReference().child("Archivos_Usuarios").child(Constants.Frases).child(Constants.Frases.toLowerCase() + "_" + email + "_" + locale + "." + "txt");
                     final File frasesUsuarioFile = new File(rootPath, "frases.txt");
-                    mStorageReference.getFile(frasesUsuarioFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                            Log.e(TAG, "bajarFrases: "+ child );
-                            boolean areTheSameFile = false;
-                            try{
-                                 areTheSameFile = json.verifyFiles(Constants.ARCHIVO_FRASES,frasesUsuarioFile);
-                            }catch (Exception ex){
 
-                            }
-                            if(!areTheSameFile){
-                                try {
-                                    if (!getStringFromFile(frasesUsuarioFile.getAbsolutePath()).equals("[]") && frasesUsuarioFile.length() > 0) {
+                     mStorageReference.getFile(frasesUsuarioFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                         @Override
+                         public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                             try {
+                                 if (!getStringFromFile(frasesUsuarioFile.getAbsolutePath()).equals("[]") && frasesUsuarioFile.length() > 0) {
+                                     json.setmJSONArrayTodasLasFrases(json.readJSONArrayFromFile(frasesUsuarioFile.getAbsolutePath()));
+                                     json.guardarJson(Constants.ARCHIVO_FRASES);
+                                 }
+                             } catch (JSONException | FiveMbException e) {
+                                 e.printStackTrace();
+                             } catch (Exception e) {
+                                 e.printStackTrace();
+                             }
+                             observableInteger.incrementValue();
+                         }
+                     });
+                   }else {
+                     observableInteger.incrementValue();
+                   }
 
-                                        json.setmJSONArrayTodasLasFrases(json.readJSONArrayFromFile(frasesUsuarioFile.getAbsolutePath()));
-                                        json.guardarJson(Constants.ARCHIVO_FRASES);
-                                    }
-                                } catch (JSONException | FiveMbException e) {
-                                    e.printStackTrace();
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                    }
-                            }
 
-                            observableInteger.incrementValue();
 
-                        }
-                    });
-                }else{
-                    observableInteger.incrementValue();
-                }
             }
+
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {

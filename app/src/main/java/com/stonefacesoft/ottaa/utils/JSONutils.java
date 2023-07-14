@@ -284,6 +284,7 @@ public class JSONutils {
         JSONArray jsonArray;
         JSONArray list = new JSONArray();
 
+
         try {
                 if(padre.has("relacion")){
                     jsonArray = padre.getJSONArray("relacion");

@@ -183,7 +183,7 @@ public class DialogUtils extends Dialog_abstract_class {
     @Override
     public Dialog_abstract_class setOnClick( View v,View.OnClickListener clickListener) {
         if(v!=null)
-        v.setOnClickListener(clickListener);
+            v.setOnClickListener(clickListener);
         return this;
     }
 
@@ -208,7 +208,7 @@ public class DialogUtils extends Dialog_abstract_class {
     private void prepareDialog(int layout){
         setLayout(layout);
         if(layout==R.layout.dialog_yes_no_cancel)
-        prepareDataDialog();
+            prepareDataDialog();
         activityUtilsEstatus=new ActivityUtilsEstatus();
     }
 
