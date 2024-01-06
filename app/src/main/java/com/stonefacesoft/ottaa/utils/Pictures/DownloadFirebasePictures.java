@@ -3,7 +3,6 @@ package com.stonefacesoft.ottaa.utils.Pictures;
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Build;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,6 +16,7 @@ import com.stonefacesoft.ottaa.Bitmap.bajarFotos;
 import com.stonefacesoft.ottaa.FirebaseRequests.FirebaseUtils;
 import com.stonefacesoft.ottaa.GaleriaGrupos2;
 import com.stonefacesoft.ottaa.Interfaces.FirebaseSuccessListener;
+import com.stonefacesoft.ottaa.utils.RequestPersmissionClass;
 import com.stonefacesoft.ottaa.utils.constants.Constants;
 import com.stonefacesoft.ottaa.utils.preferences.User;
 
@@ -80,8 +80,6 @@ public class DownloadFirebasePictures {
         bajar = new bajarFotos();
         bajar.setInterfaz(mFbSuccessListenerInterfaz);
         mDirectorio = new UriFiles(mActivity.getApplicationContext()).dir();
-        String[] text = new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE};
-        requestActivityPermission();
     }
 
     public void setUpDirectory() {
@@ -100,20 +98,6 @@ public class DownloadFirebasePictures {
         return bajar;
     }
 
-    public void requestActivityPermission() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && ContextCompat
-                .checkSelfPermission(mActivity.getApplicationContext(), android.Manifest
-                        .permission.WRITE_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission
-                (mActivity.getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                mActivity.requestPermissions(new String[]{
-                        android.Manifest.permission.WRITE_EXTERNAL_STORAGE
-                }, Constants.EXTERNAL_STORAGE);
 
-            }
-        }
-    }
 
 }

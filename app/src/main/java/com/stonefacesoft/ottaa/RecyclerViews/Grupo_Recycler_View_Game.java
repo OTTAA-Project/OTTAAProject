@@ -100,7 +100,9 @@ public class Grupo_Recycler_View_Game extends Custom_recyclerView implements Vie
         array= new JSONArray();
         int[] idPictos = TellAStoryUtils.getInstance().getItem().getOptions();
         for (int i = 0; i < idPictos.length; i++) {
-            array.put(json.getGrupoFromId(idPictos[i]));
+            JSONObject group = json.getGrupoFromId(idPictos[i]);
+            if(group!=null)
+                array.put(group);
         }
         arrayAux = array;
     }

@@ -184,60 +184,18 @@
         android:layout_marginTop="@dimen/activity_vertical_margin"
         android:id="@+id/constraintPictos">
 
-        <com.stonefacesoft.pictogramslibrary.view.PictoView
-            android:id="@+id/Option1"
+        <include
             android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginEnd="@dimen/interpicto_margin"
-            custom:Imagen="2"
-            custom:Texto="Hola"
-            android:contentDescription="Picto"
-            custom:layout_constraintBottom_toBottomOf="parent"
-            custom:layout_constraintEnd_toStartOf="@id/Option2"
-            custom:layout_constraintStart_toStartOf="parent"
-            custom:layout_constraintTop_toTopOf="parent" />
-
-        <com.stonefacesoft.pictogramslibrary.view.PictoView
-            android:id="@+id/Option2"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginStart="@dimen/interpicto_margin"
-            android:layout_marginEnd="@dimen/interpicto_margin"
-            custom:Imagen="2"
-            custom:Texto="Hola"
-            android:contentDescription="Picto"
-            custom:layout_constraintBottom_toBottomOf="parent"
-            custom:layout_constraintEnd_toStartOf="@id/Option3"
-            custom:layout_constraintStart_toEndOf="@id/Option1"
-            custom:layout_constraintTop_toTopOf="parent" />
-
-        <com.stonefacesoft.pictogramslibrary.view.PictoView
-            android:id="@+id/Option3"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            custom:Imagen="2"
-            custom:Texto="Hola"
-            android:layout_marginStart="@dimen/interpicto_margin"
-            custom:layout_constraintBottom_toBottomOf="parent"
-            custom:layout_constraintEnd_toStartOf="@id/Option4"
-            custom:layout_constraintStart_toEndOf="@id/Option2"
-            custom:layout_constraintTop_toTopOf="parent"
-            android:layout_marginEnd="@dimen/interpicto_margin"
-            android:contentDescription="Picto" />
-
-        <com.stonefacesoft.pictogramslibrary.view.PictoView
-            android:id="@+id/Option4"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginStart="@dimen/interpicto_margin"
-            custom:Imagen="2"
-            custom:Texto="Hola"
-            android:contentDescription="Picto"
-            custom:layout_constraintBottom_toBottomOf="parent"
-            custom:layout_constraintEnd_toEndOf="parent"
-            custom:layout_constraintStart_toEndOf="@id/Option3"
-            custom:layout_constraintTop_toTopOf="parent"
-            custom:layout_constraintVertical_bias="0.5" />
+            android:layout_height="0dp"
+            android:id="@+id/container"
+            layout="@layout/pictos_container"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintVertical_weight="4"
+            app:layout_constraintBottom_toBottomOf="parent"
+            >
+        </include>
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/lottieAnimationView"

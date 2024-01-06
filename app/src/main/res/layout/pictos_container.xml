@@ -12,14 +12,13 @@
         android:padding="5dp"
         app:Imagen="2"
         app:Texto="Hola"
-        android:layout_marginTop="@dimen/activity_horizontal_margin"
-        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:layout_marginStart="@dimen/interpicto_margin"
         android:layout_marginEnd="@dimen/interpicto_margin"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/Option2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_weight="4">
+        app:layout_constraintBottom_toBottomOf="parent"
+        >
     </com.stonefacesoft.pictogramslibrary.view.PictoView>
 
     <com.stonefacesoft.pictogramslibrary.view.PictoView
@@ -31,10 +30,10 @@
         app:Texto="Hola"
         android:layout_marginStart="@dimen/interpicto_margin"
         android:layout_marginEnd="@dimen/interpicto_margin"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/Option3"
         app:layout_constraintStart_toEndOf="@id/Option1"
-        app:layout_constraintTop_toTopOf="@id/Option1">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
     </com.stonefacesoft.pictogramslibrary.view.PictoView>
 
     <com.stonefacesoft.pictogramslibrary.view.PictoView
@@ -46,10 +45,11 @@
         app:Texto="Hola"
         android:layout_marginStart="@dimen/interpicto_margin"
         android:layout_marginEnd="@dimen/interpicto_margin"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/Option4"
         app:layout_constraintStart_toEndOf="@id/Option2"
-        app:layout_constraintTop_toTopOf="@id/Option1">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        >
     </com.stonefacesoft.pictogramslibrary.view.PictoView>
 
 
@@ -61,11 +61,12 @@
         app:Imagen="2"
         app:Texto="Hola"
         android:layout_marginStart="@dimen/interpicto_margin"
-        android:layout_marginEnd="@dimen/activity_horizontal_margin"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginEnd="@dimen/interpicto_margin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/Option3"
-        app:layout_constraintTop_toTopOf="@id/Option1">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        >
     </com.stonefacesoft.pictogramslibrary.view.PictoView>
     <ImageView
         android:id="@+id/ganarImagen"
@@ -76,6 +77,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

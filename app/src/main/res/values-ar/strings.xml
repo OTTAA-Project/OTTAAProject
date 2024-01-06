@@ -492,9 +492,11 @@
     <string name="whatareyoulooking">عما تبحث؟</string>
     <string name="allphrases">كل العبارات</string>
     <string name="selectPhavoritePhrases">حدد العبارات المفضلة</string>
+    <string name="share_pictogram_description">إذا تم تمكين هذه الوظيفة ، يمكنك مشاركة العبارات التي تم إنشاؤها.</string>
     <string name="repeat_pictogram_name_description">يمكنك استخدام الرسم التخطيطي أكثر من مرة عند تجميع الجملة.</string>
     <string name="say_pictogram_name_tittle">قل الرسم التخطيطي</string>
     <string name="say_pictogram_name_description">OTTAA يقول اسم الرسم التخطيطي عند لمسه</string>
+    <string name="share_phrases_tittle">شارك العبارات</string>
     <string name="repeat_pictogram_name_tittle">كرر الرسوم التوضيحية</string>
     <string name="Iam">مرحبا أنا</string>
     <string name="FluidUser">مائع</string>

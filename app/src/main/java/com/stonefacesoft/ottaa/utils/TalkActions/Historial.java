@@ -144,7 +144,7 @@ public class Historial {
         try {
             String promt=chatGPTPrompt.replace("{AGE}",json.obtenerEdad().toLowerCase().replace("nino","Niño")).replace("{SEX}",json.obtenerSexo()).replace("{PHRASE}",text).replace("{LANG}",ConfigurarIdioma.getNormalLanguage());
             Log.d(TAG, "chatGptObject: "+ promt);
-            object.put("model","text-davinci-003");
+            object.put("model","gpt-3.5-turbo-instruct");
             object.put("prompt",promt);
             object.put("temperature",0);
             object.put("max_tokens",word.length()*10);

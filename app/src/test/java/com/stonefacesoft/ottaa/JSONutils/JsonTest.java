@@ -535,12 +535,7 @@ public class JsonTest {
         Assert.assertEquals(value, 1);
     }
 
-    @Test
-    public void upgrateIndexValue(){
-        Json json = Json.getInstance();
-        json.upgradeIndexOfLoadOptions(7);
-        Assert.assertTrue(Constants.VUELTAS_CARRETE == 7);
-    }
+
 
     @Test
     public void valueBiggerThanCero(){

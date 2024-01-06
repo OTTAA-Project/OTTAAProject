@@ -193,11 +193,9 @@ public class GestionarBitmap  {
     /**
      * Combine image method
      * */
-    public Bitmap combineImages(int mDeltax,int mDeltay) {
+    public Bitmap combineImages(int mDeltax,int mDeltay)throws Exception {
         Bitmap mImagenFinal = null;
-
         int mImagenFinalWidth, mImagenFinalHeight = 0;
-
         if (imagenes.size() > 0 && imagenes.get(0) != null) {
             Bitmap nube=drawableToBitmap(mContext.getResources().getDrawable(R.drawable.ic_cloud_download_orange));
             Bitmap bitmap = nube;
@@ -232,7 +230,7 @@ public class GestionarBitmap  {
             mPosicionLogoY = mImagenFinalHeight-mDeltay-logo.getHeight();
             comboImage.drawBitmap(logo,mPosicionLogoX,mPosicionLogoY,pinturas);
         }
-        return mImagenFinal;
+        return  mImagenFinal;
     }
 
 
@@ -306,7 +304,11 @@ public class GestionarBitmap  {
 
     //metodo para armar las imagenes
     public void createImage(LoadOnlinePictograms loadOnlinePictograms) {
-        storeImage(combineImages(25,25),loadOnlinePictograms);
+        try {
+            storeImage(combineImages(25,25),loadOnlinePictograms);
+        } catch (Exception e) {
+
+        }
     }
 
 
@@ -359,8 +361,14 @@ public class GestionarBitmap  {
     public void getBitmapDeFrase(JSONObject frase,LoadOnlinePictograms loadOnlinePictograms) {
         preparePhrase(frase,loadOnlinePictograms);
         Bitmap bitmap = null;
-        if(combineImages(20, 20) != null ) {
-            bitmap = getRoundedCornerBitmap(combineImages(20, 2), 20);
+        Bitmap combineImages = null;
+        try {
+            combineImages = combineImages(20, 20);
+        }catch (Exception ex){
+            combineImages = null;
+        }
+        if(combineImages != null ) {
+            bitmap = getRoundedCornerBitmap(combineImages, 20);
             loadOnlinePictograms.loadPictograms(bitmap);
         }else{
             Log.d(TAG, "getBitmapDeFrase: "+ "Combine Images Error");

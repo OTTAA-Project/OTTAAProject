@@ -137,7 +137,7 @@ public class textToSpeech {
 
     public void synthesizeToFile(String Oracion, Bundle params,File file,String id){
         if(prepare.getmTTS()!=null)
-        getTTS().synthesizeToFile(Oracion,params,file,id);
+            getTTS().synthesizeToFile(Oracion,params,file,id);
     }
 
     public void shutdownTTS(){

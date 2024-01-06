@@ -6,6 +6,7 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -15,6 +16,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FileDownloadTask;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageMetadata;
 import com.google.firebase.storage.StorageReference;
 import com.stonefacesoft.ottaa.idioma.ConfigurarIdioma;
 import com.stonefacesoft.ottaa.utils.Firebase.CrashlyticsUtils;
@@ -44,41 +46,21 @@ public class DownloadPictograms extends DownloadFile implements OnFailureListene
                     mStorageReference.getFile(pictosUsuarioFile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-
-                            Log.d("BAF_descGYPN", "Tama&ntildeoArchivoPicto:" + taskSnapshot.getTotalByteCount());
-                            Log.d("BAF_descGYPN", "NombreArchivo:" + pictosUsuarioFile);
-                            Log.d("BAF_descGYPN", "Tama&ntildeoArchivoss :" + pictosUsuarioFile.length());
-                            boolean aresamefile = false;
                             try {
-                                 aresamefile = json.verifyFiles(Constants.ARCHIVO_PICTOS,pictosUsuarioFile);
-                            } catch (Exception e) {
-                                Log.d(TAG, "onSuccess: " + e.getMessage());
-                                e.printStackTrace();
-                            }
-                            if(aresamefile){
-                                observableInteger.incrementValue();
-                            }else{
-                                try{
-                                    if (pictosUsuarioFile.length() > 0 && !getStringFromFile
-                                            (pictosUsuarioFile.getAbsolutePath()).equals("[]") &&
-                                            getStringFromFile(pictosUsuarioFile.getAbsolutePath()
-                                            ) != null) {
-                                        json.setmJSONArrayTodosLosPictos(json.readJSONArrayFromFile(pictosUsuarioFile.getAbsolutePath()));
-                                        if (!json.guardarJson(Constants.ARCHIVO_PICTOS))
-                                            Log.e(TAG, "Error al guardar Json");
-                                        else {
-                                            Log.d(TAG, "Pictogram Saved");
-                                        }
-                                    }
-                                    observableInteger.incrementValue();
-                                }catch (Exception ex){
+                                if (pictosUsuarioFile.length() > 0 && !getStringFromFile
+                                        (pictosUsuarioFile.getAbsolutePath()).equals("[]") &&
+                                        getStringFromFile(pictosUsuarioFile.getAbsolutePath()
+                                        ) != null) {
+                                    json.setmJSONArrayTodosLosPictos(json.readJSONArrayFromFile(pictosUsuarioFile.getAbsolutePath()));
+                                    json.guardarJson(Constants.ARCHIVO_PICTOS);
 
                                 }
+                                observableInteger.incrementValue();
+                            } catch (Exception ex) {
+
                             }
-
                         }
-
-                    });
+                    }) ;
 
                 }
             }

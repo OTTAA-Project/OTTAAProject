@@ -47,6 +47,7 @@ import com.stonefacesoft.ottaa.utils.Firebase.AnalyticsFirebase;
 import com.stonefacesoft.ottaa.utils.Handlers.HandlerComunicationClass;
 import com.stonefacesoft.ottaa.utils.IntentCode;
 import com.stonefacesoft.ottaa.utils.ObservableInteger;
+import com.stonefacesoft.ottaa.utils.RequestPersmissionClass;
 import com.stonefacesoft.ottaa.utils.constants.Constants;
 import com.stonefacesoft.ottaa.utils.constants.ConstantsAnalyticsValues;
 import com.stonefacesoft.ottaa.utils.preferences.PersonalSwitchPreferences;
@@ -99,6 +100,8 @@ public class prefs extends PreferenceActivity implements SharedPreferences.OnSha
     public static String STR_SIP_AND_PUFF;
     public static String BOOL_SAY_PICTOGRAM;
 
+    public static String ENABLE_SHARE_PHRASES;
+
     public static String CHATGPT;
     public static String REPEATPHRASE;
     int permission = 0;
@@ -121,6 +124,7 @@ public class prefs extends PreferenceActivity implements SharedPreferences.OnSha
     private PersonalSwitchPreferences mBoolSayPictogram;
     private PersonalSwitchPreferences mBoolChatGPT;
     private PersonalSwitchPreferences mBoolRepeatPhrase;
+    private PersonalSwitchPreferences mBoolSharePhrase;
     private StorageReference mStorageRef;
     // private ProgressDialog progressDialog,dialog;
     private Progress_dialog_options firebaseDialog;
@@ -156,6 +160,8 @@ public class prefs extends PreferenceActivity implements SharedPreferences.OnSha
     private String message = "";
     private FirebaseUtils firebaseUtils;
 
+    private RequestPersmissionClass requestPersmissionClass;
+
 
 
     @Override
@@ -163,6 +169,7 @@ public class prefs extends PreferenceActivity implements SharedPreferences.OnSha
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.preferences);
         analyticsFirebase = new AnalyticsFirebase(this);
+        requestPersmissionClass = new RequestPersmissionClass();
         initComponents();
         isConnected();
         habilitarFuncionesPremiun(sharedPrefsDefault.getInt("premium", 0));
@@ -231,6 +238,7 @@ public class prefs extends PreferenceActivity implements SharedPreferences.OnSha
         BOOL_SAY_PICTOGRAM = getResources().getString(R.string.say_pictogram_name_key);
         CHATGPT =getResources().getString(R.string.mBoolChatGPT);
         REPEATPHRASE = getResources().getString(R.string.repeat_pictogram_name_key);
+        ENABLE_SHARE_PHRASES = getResources().getString(R.string.enable_share_phrases);
 
 
         //PersonalSwitchPreference
@@ -252,6 +260,7 @@ public class prefs extends PreferenceActivity implements SharedPreferences.OnSha
         mBoolSayPictogram = (PersonalSwitchPreferences) findPreference(BOOL_SAY_PICTOGRAM);
         mBoolChatGPT = (PersonalSwitchPreferences) findPreference(CHATGPT);
         mBoolRepeatPhrase = (PersonalSwitchPreferences) findPreference(CHATGPT);
+        mBoolSharePhrase = (PersonalSwitchPreferences) findPreference(ENABLE_SHARE_PHRASES);
 
         // preference
         mNumTono = findPreference(NUM_Tono);
@@ -362,12 +371,8 @@ public class prefs extends PreferenceActivity implements SharedPreferences.OnSha
             boolean b = sharedPrefs.getBoolean(key, false);
             if (b && mBoolUbicacion.getSummary() == getResources().getString(R.string.pref_desactivado)) {
                 //Check si tenemoslos permisos necesarios para ejecutar el calendario.
+                if (!requestPersmissionClass.requestLocationPermission(getApplicationContext())) {
 
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && ContextCompat
-                        .checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_FINE_LOCATION)
-                        != PackageManager.PERMISSION_GRANTED && ContextCompat
-                        .checkSelfPermission(getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION)
-                        != PackageManager.PERMISSION_GRANTED) {
                     requestPermissions(new String[]{
                             //Permisos para poder leer y escribir el calendar
                             Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission
@@ -404,6 +409,8 @@ public class prefs extends PreferenceActivity implements SharedPreferences.OnSha
             boolean b = sharedPrefs.getBoolean(key, false);
         }else if(REPEATPHRASE.equals(key)){
             boolean b = sharedPrefs.getBoolean(key, true);
+        }else if(ENABLE_SHARE_PHRASES.equals(key)){
+            boolean b = sharedPrefs.getBoolean(key, false);
         }
     }
 
@@ -428,6 +435,7 @@ public class prefs extends PreferenceActivity implements SharedPreferences.OnSha
         onSharedPreferenceChanged(sharedPrefsDefault, STR_SCROLL_FUNCTION);
         onSharedPreferenceChanged(sharedPrefsDefault, "hablar_borrar");
         onSharedPreferenceChanged(sharedPrefsDefault,CHATGPT);
+        onSharedPreferenceChanged(sharedPrefsDefault,ENABLE_SHARE_PHRASES);
 
 
         sharedPrefsDefault.registerOnSharedPreferenceChangeListener(this);

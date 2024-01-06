@@ -2,6 +2,8 @@ package com.stonefacesoft.ottaa;
 
 import android.graphics.Bitmap;
 
+import androidx.annotation.NonNull;
+
 import org.json.JSONObject;
 
 public class FavModel {
@@ -44,5 +46,12 @@ public class FavModel {
 
     public int getPosition() {
         return position;
+    }
+
+    @NonNull
+    @Override
+    public String toString() {
+
+        return pictogram.toString();
     }
 }

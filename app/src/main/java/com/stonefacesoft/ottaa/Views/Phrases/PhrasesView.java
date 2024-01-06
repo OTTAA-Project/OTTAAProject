@@ -1,6 +1,7 @@
 package com.stonefacesoft.ottaa.Views.Phrases;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.InputDevice;
@@ -50,6 +51,7 @@ public class PhrasesView extends AppCompatActivity implements View.OnClickListen
     protected String TAG="PhraseView";
     protected AnalyticsFirebase mAnalyticsFirebase;
 
+    protected SharedPreferences sharedPrefsDefault;
 
 
     @Override
