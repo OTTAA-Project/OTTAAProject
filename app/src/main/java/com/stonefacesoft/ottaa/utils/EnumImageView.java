@@ -1,14 +1,19 @@
 package com.stonefacesoft.ottaa.utils;
 
+import android.widget.ImageButton;
 import android.widget.ImageView;
 
-public enum EnumImageView {
-    ImageView1,ImageView2,ImageView3,ImageView4,ImageView5,ImageView6,ImageView7,ImageView8,ImageView9,ImageView10;
-    private ImageView imageview;
-    public ImageView getImageview() {
-        return imageview;
+public class EnumImageView {
+    public  ImageButton[] imageView = new ImageButton[10];
+    public static EnumImageView _EnumImageView;
+    public static EnumImageView getInstance(){
+        if(_EnumImageView == null)
+            _EnumImageView = new EnumImageView();
+        return _EnumImageView;
     }
-    public void setImageview(ImageView imageview) {
-        this.imageview =imageview ;
+    public ImageButton[] getImageview() {
+        return imageView;
+    }
+    public void setImageview( ImageButton imgView,int child) {imageView[child] = imgView ;
     }
 }

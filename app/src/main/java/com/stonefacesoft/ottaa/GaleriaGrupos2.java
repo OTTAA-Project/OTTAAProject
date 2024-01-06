@@ -46,6 +46,8 @@ import com.stonefacesoft.ottaa.Views.GroupGalleryNavigator;
 import com.stonefacesoft.ottaa.idioma.ConfigurarIdioma;
 import com.stonefacesoft.ottaa.idioma.myContextWrapper;
 import com.stonefacesoft.ottaa.utils.Accesibilidad.devices.GaleriaGruposControls;
+import com.stonefacesoft.ottaa.utils.ConnectionDetector;
+import com.stonefacesoft.ottaa.utils.RequestPersmissionClass;
 import com.stonefacesoft.ottaa.utils.constants.Constants;
 import com.stonefacesoft.ottaa.utils.Firebase.AnalyticsFirebase;
 import com.stonefacesoft.ottaa.utils.IntentCode;
@@ -382,7 +384,17 @@ public class GaleriaGrupos2 extends GroupGalleryNavigator implements  FirebaseSu
                 Bundle bundle = new Bundle();
                 bundle.putString(FirebaseAnalytics.Param.ACHIEVEMENT_ID, "Bajar pictogramas");
                 analyticsFirebase.customEvents("Touch", "Galeria Grupos", "Download Pictograms");
-                accionBajarFoto();
+                if(ConnectionDetector.isNetworkAvailable(this)){
+                    RequestPersmissionClass requestPersmissionClass = new RequestPersmissionClass();
+                    boolean result = requestPersmissionClass.requestImagePermission(this);
+                    if(!result){
+                        requestPersmissionClass.makeRequestImagePermission(result,this);
+                    }else{
+                        accionBajarFoto();
+                    }
+                }
+                else
+                    myTTS.mostrarAlerta(getString(R.string.problema_inet));
                 // subirTodasLasFotos();
                 return true;
 
@@ -526,16 +538,16 @@ public class GaleriaGrupos2 extends GroupGalleryNavigator implements  FirebaseSu
                 if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
                     //permission not granted
                     mPermission = PackageManager.PERMISSION_DENIED;
-
                 } else if (grantResults[i] == PackageManager.PERMISSION_GRANTED) {
                     //permission granted
                     mPermission = PackageManager.PERMISSION_GRANTED;
-                    accionBajarFoto();
                 }
             }
+
             if (mPermission == PackageManager.PERMISSION_GRANTED) {
                accionBajarFoto();
             } else if (mPermission == PackageManager.PERMISSION_DENIED) {
+                showDismissDialog.sendMessage(0);
                 myTTS.mostrarAlerta(getString(R.string.permisos_fotos_denegados));
 
             }

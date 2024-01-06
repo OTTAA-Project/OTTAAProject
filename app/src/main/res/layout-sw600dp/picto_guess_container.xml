@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/game_container"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <com.stonefacesoft.pictogramslibrary.view.PictoView
+        android:id="@+id/Guess1"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:layout_marginEnd="@dimen/interpicto_margin"
+        android:padding="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/Guess2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/placeHolderHorizontal"
+        app:layout_constraintVertical_weight="5"
+        app:layout_constraintDimensionRatio="1:1"
+        app:Imagen="1"
+        app:Texto="Hola"
+        android:tag="Guess1"
+        >
+
+    </com.stonefacesoft.pictogramslibrary.view.PictoView>
+
+    <com.stonefacesoft.pictogramslibrary.view.PictoView
+        android:id="@+id/Guess2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="@dimen/interpicto_margin"
+        android:padding="5dp"
+        app:layout_constraintBottom_toBottomOf="@id/Guess1"
+        android:layout_marginStart="@dimen/interpicto_margin"
+        app:layout_constraintEnd_toStartOf="@id/Guess3"
+        app:layout_constraintStart_toEndOf="@id/Guess1"
+        app:layout_constraintTop_toTopOf="@id/Guess1"
+        app:Imagen="1"
+        app:layout_constraintDimensionRatio="1:1"
+        app:Texto="Hola"
+        android:tag="Guess2"
+        >
+
+    </com.stonefacesoft.pictogramslibrary.view.PictoView>
+
+    <com.stonefacesoft.pictogramslibrary.view.PictoView
+        android:id="@+id/Guess3"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:padding="5dp"
+        app:Imagen="1"
+        app:Texto="Hola"
+        android:layout_marginStart="@dimen/interpicto_margin"
+        android:layout_marginEnd="@dimen/interpicto_margin"
+        app:layout_constraintBottom_toBottomOf="@id/Guess1"
+        app:layout_constraintEnd_toStartOf="@id/Guess4"
+        app:layout_constraintStart_toEndOf="@id/Guess2"
+        app:layout_constraintTop_toTopOf="@id/Guess1"
+        app:layout_constraintDimensionRatio="1:1"
+        android:tag="Guess3"
+        >
+
+    </com.stonefacesoft.pictogramslibrary.view.PictoView>
+    <com.stonefacesoft.pictogramslibrary.view.PictoView
+        android:id="@+id/Guess4"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:padding="5dp"
+        android:layout_marginStart="@dimen/interpicto_margin"
+        android:layout_marginEnd="@dimen/activity_horizontal_margin"
+        app:layout_constraintBottom_toBottomOf="@id/Guess1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/Guess3"
+        app:layout_constraintTop_toTopOf="@id/Guess1"
+        app:Imagen="1"
+        app:layout_constraintDimensionRatio="1:1"
+        app:Texto="Hola"
+        android:tag="Guess4"
+        >
+
+    </com.stonefacesoft.pictogramslibrary.view.PictoView>
+
+    <androidx.constraintlayout.widget.Placeholder
+        android:id="@+id/placeHolderHorizontal"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/Guess1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/Option1"
+        app:layout_constraintVertical_weight="0" />
+
+    <com.stonefacesoft.pictogramslibrary.view.PictoView
+        android:id="@+id/Option1"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        app:Texto="Hola"
+        android:layout_marginEnd="@dimen/interpicto_margin"
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
+        android:padding="5dp"
+        app:layout_constraintBottom_toTopOf="@id/placeHolderHorizontal"
+        app:layout_constraintEnd_toStartOf="@id/Option2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_weight="5"
+        app:Imagen="1"
+        app:layout_constraintDimensionRatio="1:1"
+        android:tag="Option1"
+        >
+
+    </com.stonefacesoft.pictogramslibrary.view.PictoView>
+
+    <com.stonefacesoft.pictogramslibrary.view.PictoView
+        android:id="@+id/Option2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:padding="5dp"
+        app:Imagen="2"
+        app:Texto="Hola"
+        android:layout_marginStart="@dimen/interpicto_margin"
+        android:layout_marginEnd="@dimen/interpicto_margin"
+        app:layout_constraintBottom_toBottomOf="@id/Option1"
+        app:layout_constraintEnd_toStartOf="@id/Option3"
+        app:layout_constraintStart_toEndOf="@id/Option1"
+        app:layout_constraintDimensionRatio="1:1"
+
+        app:layout_constraintTop_toTopOf="@id/Option1"
+        android:tag="Option2"
+        >
+
+    </com.stonefacesoft.pictogramslibrary.view.PictoView>
+
+    <com.stonefacesoft.pictogramslibrary.view.PictoView
+        android:id="@+id/Option3"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="@dimen/interpicto_margin"
+        android:layout_marginEnd="@dimen/interpicto_margin"
+        android:padding="5dp"
+        app:layout_constraintBottom_toBottomOf="@id/Option1"
+        app:layout_constraintEnd_toStartOf="@id/Option4"
+        app:layout_constraintStart_toEndOf="@id/Option2"
+        app:layout_constraintTop_toTopOf="@id/Option1"
+        app:layout_constraintDimensionRatio="1:1"
+
+        app:Imagen="2"
+        app:Texto="Hola"
+        android:tag="Option3"
+        >
+
+    </com.stonefacesoft.pictogramslibrary.view.PictoView>
+    <com.stonefacesoft.pictogramslibrary.view.PictoView
+        android:id="@+id/Option4"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:padding="5dp"
+        app:Imagen="2"
+        app:Texto="Hola"
+        android:layout_marginStart="@dimen/interpicto_margin"
+        android:layout_marginEnd="@dimen/activity_horizontal_margin"
+        app:layout_constraintBottom_toBottomOf="@id/Option1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/Option3"
+        app:layout_constraintTop_toTopOf="@id/Option1"
+        app:layout_constraintDimensionRatio="1:1"
+        android:tag="Option4"
+        >
+
+    </com.stonefacesoft.pictogramslibrary.view.PictoView>
+
+    <ImageView
+        android:id="@+id/ganarImagen"
+        android:layout_width="@dimen/game_picto_size"
+        android:layout_height="@dimen/game_picto_size"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+    <ImageView
+        android:id="@+id/ganarImagen2"
+        android:layout_width="@dimen/game_picto_size"
+        android:layout_height="@dimen/game_picto_size"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -86,7 +86,7 @@ public final class Constants {
     public static final String ARCHIVO_JUEGO_DESCRIPCION="juegos_desc.txt";
 
     public static int TODO_DESCARGADO = 366;
-    public static int VUELTAS_CARRETE = 5;
+    public static int VUELTAS_CARRETE = 10;
 
     //Tipo de tags
     public static final String HORA = "hora";

@@ -133,6 +133,7 @@ public class ShareAudio extends ShareAction implements com.stonefacesoft.ottaa.I
             else
                 sentMessage.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(audioEncoder.getAux()));
             sentMessage.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
             mContext.startActivity(Intent.createChooser(sentMessage,mContext.getResources().getString(R.string.pref_enviar)));
         }else{
             myTTS.mostrarAlerta(mContext.getString(R.string.error_tts));

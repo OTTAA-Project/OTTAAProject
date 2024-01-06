@@ -126,6 +126,7 @@ public class MostUsedFavoritePhrasesAdapter extends RecyclerView.Adapter<MostUse
                 List frases = mDatosDeUso.getArrayListFrasesMasUsadas(4);
                 for (int i = 0; i < frases.size(); i++) {
                     FavModel model = new FavModel();
+                    model.setPictogram(mDatosDeUso.getFrasesOrdenadas().get(i));
                         mGestionarBitmap.getBitmapDeFrase(mDatosDeUso.getFrasesOrdenadas().get(i),new LoadOnlinePictograms() {
                             @Override
                             public void preparePictograms() {

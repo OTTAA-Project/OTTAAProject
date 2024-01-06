@@ -40,7 +40,7 @@ public class TellStoryPhrase {
         try {
             String promt= text;
             Log.d(TAG, "chatGptObject: "+ promt);
-            object.put("model","text-davinci-003");
+            object.put("model","gpt-3.5-turbo-instruct");
             object.put("prompt",promt);
             object.put("temperature",0.7);
             object.put("max_tokens",1000);

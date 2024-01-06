@@ -78,7 +78,7 @@ public class custom_dialog_option_item  {
 
     public void DissmisDialog(){
         if(dialog.isShowing())
-        dialog.dismiss();
+            dialog.dismiss();
     }
 
 

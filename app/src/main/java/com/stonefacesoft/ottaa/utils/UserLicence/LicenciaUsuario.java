@@ -60,7 +60,7 @@ public class LicenciaUsuario {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 if (firebaseAuth.getCurrentUser() != null) {
-                    new VerificarPagoUsuario(User.getInstance(mContext).getUserUid()).execute();
+                    new VerificarPagoUsuario(firebaseAuth.getUid()).execute();
                 } else {
                     if (mContext != null) {
                         Intent intent = new Intent(mContext, LoginActivity2.class);
@@ -168,8 +168,8 @@ public class LicenciaUsuario {
                             if (snapshot.hasChild(Constants.PRIMERACONEXION)) {
                                 Long primeraConexion = Long.parseLong(snapshot.child(Constants.PRIMERACONEXION).getValue().toString());
                                 if (date.compareTo(primeraConexion) > 0) {
-                                    changePremiumState(0 + "");
-                                    databaseReference.child(Constants.PAGO).child(mAuth.getCurrentUser().getUid()).child(Constants.PAGO).getRef().setValue(0);
+                                    changePremiumState(1 + "");
+                                    databaseReference.child(Constants.PAGO).child(mAuth.getCurrentUser().getUid()).child(Constants.PAGO).getRef().setValue(1);
                                 }
                             }
                         }
@@ -199,15 +199,15 @@ public class LicenciaUsuario {
                 int result = date.compareTo(tiempoPago);
                 if(dataSnapshot.hasChild(Constants.PAGO)){
                     if(result >0 || dataSnapshot.child(Constants.PAGO).getValue().toString().contains("0")){
-                        dataSnapshot.child(Constants.PAGO).getRef().setValue(0);
-                        changePremiumState(0+"");
+                        dataSnapshot.child(Constants.PAGO).getRef().setValue(1);
+                        changePremiumState(1+"");
                     }
                     else if(dataSnapshot.child(Constants.PAGO).getValue().toString().contains("1")){
                         changePremiumState(1+"");
                     }
                 }else{
-                    dataSnapshot.child(Constants.PAGO).getRef().setValue(0);
-                    changePremiumState(0+"");
+                    dataSnapshot.child(Constants.PAGO).getRef().setValue(1);
+                    changePremiumState(1+"");
                 }
             }
 
@@ -227,14 +227,14 @@ public class LicenciaUsuario {
                 int result = date.compareTo(tiempoPago + Constants.UN_ANIO);
                 if(dataSnapshot.hasChild(Constants.PAGO)){
                     if (result > 0 || dataSnapshot.child(Constants.PAGO).getValue().toString().contains("0")) {
-                        dataSnapshot.child(Constants.PAGO).getRef().setValue(0);
-                        changePremiumState(0 + "");
+                        dataSnapshot.child(Constants.PAGO).getRef().setValue(1);
+                        changePremiumState(1 + "");
                     } else if (dataSnapshot.child(Constants.PAGO).getValue().toString().contains("1")) {
                         changePremiumState(1 + "");
                     }
                 }else{
-                    dataSnapshot.child(Constants.PAGO).getRef().setValue(0);
-                    changePremiumState(0+"");
+                    dataSnapshot.child(Constants.PAGO).getRef().setValue(1);
+                    changePremiumState(1+"");
                 }
             }
 
